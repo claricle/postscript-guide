@@ -1,0 +1,207 @@
+= PostScript Language Reference Guide
+:description: Comprehensive reference documentation for the PostScript programming language
+:keywords: postscript, programming, language, reference, documentation
+:page-layout: home
+:toc: left
+:toclevels: 2
+:sectanchors:
+
+[.lead]
+A comprehensive, searchable reference guide for the PostScript programming language, covering operators, syntax, language levels, and practical usage patterns.
+
+== Welcome
+
+PostScript is a page description language developed by Adobe Systems. It is a dynamically typed, concatenative programming language and was the first device-independent page description language. This reference guide provides detailed documentation for PostScript operators, syntax rules, and practical programming techniques.
+
+== What is PostScript?
+
+PostScript is a stack-based, interpreted programming language created by Adobe Systems in 1984. It was designed to describe the layout and graphics of a page in a device-independent way, making it the foundation for desktop publishing and electronic document distribution.
+
+=== Key Features
+
+* **Device Independence**: PostScript programs produce the same output on any PostScript-compatible device
+* **Stack-Based Architecture**: Operations work with a last-in-first-out stack model
+* **Turing Complete**: Full programming language with control structures, procedures, and data types
+* **Vector Graphics**: Native support for scalable vector graphics and typography
+* **Imaging Model**: Sophisticated graphics model supporting paths, fills, strokes, and clipping
+
+=== History
+
+[cols="1,4"]
+|===
+|Year |Milestone
+
+|1984
+|PostScript Level 1 released by Adobe Systems
+
+|1990
+|PostScript Level 2 introduced color extensions and improved performance
+
+|1996
+|PostScript 3 (Level 3) added advanced features including smooth shading and better PDF integration
+
+|1993-Present
+|PDF (Portable Document Format) emerges as a derivative of PostScript for document exchange
+|===
+
+== Documentation Sections
+
+=== xref:levels/index.adoc[PostScript Levels]
+
+Learn about the evolution of PostScript through its three major versions:
+
+* xref:levels/level-1.adoc[PostScript Level 1] - The original specification
+* xref:levels/level-2.adoc[PostScript Level 2] - Color and composite fonts
+* xref:levels/level-3.adoc[PostScript Level 3] - Advanced imaging features
+* xref:levels/comparison.adoc[Version Comparison] - Feature comparison across levels
+
+=== xref:syntax/index.adoc[Language Syntax]
+
+Understanding PostScript's unique syntax and data structures:
+
+* xref:syntax/tokens.adoc[Tokens] - Basic lexical elements
+* xref:syntax/objects.adoc[Objects] - Data types and object model
+* xref:syntax/operators.adoc[Operators] - Built-in operations
+* xref:syntax/procedures.adoc[Procedures] - Executable arrays and user-defined functions
+* xref:syntax/arrays.adoc[Arrays] - Ordered collections
+* xref:syntax/dictionaries.adoc[Dictionaries] - Key-value associations
+* xref:syntax/strings.adoc[Strings] - Text and binary data
+* xref:syntax/data-types.adoc[Data Types] - Complete type system
+
+=== xref:usage/index.adoc[Usage Guides]
+
+==== xref:usage/basic/index.adoc[Basic Usage]
+
+Essential concepts for PostScript programming:
+
+* xref:usage/basic/stack-operations.adoc[Stack Operations] - Working with the operand stack
+* xref:usage/basic/coordinate-systems.adoc[Coordinate Systems] - User space and device space
+* xref:usage/basic/graphics-state.adoc[Graphics State] - Managing rendering parameters
+* xref:usage/basic/path-construction.adoc[Path Construction] - Building vector shapes
+* xref:usage/basic/painting.adoc[Painting Operations] - Filling and stroking paths
+
+==== xref:usage/advanced/index.adoc[Advanced Usage]
+
+Advanced features and techniques:
+
+* xref:usage/advanced/fonts-text.adoc[Fonts and Text] - Typography and text rendering
+* xref:usage/advanced/color-spaces.adoc[Color Spaces] - Color models and management
+* xref:usage/advanced/patterns.adoc[Patterns] - Tiling patterns and textures
+* xref:usage/advanced/forms.adoc[Forms] - Cached graphical objects
+* xref:usage/advanced/images.adoc[Images] - Raster image handling
+* xref:usage/advanced/device-control.adoc[Device Control] - Output device management
+* xref:usage/advanced/file-operations.adoc[File Operations] - File I/O and streams
+* xref:usage/advanced/error-handling.adoc[Error Handling] - Exception management
+* xref:usage/advanced/resource-management.adoc[Resource Management] - Memory and resources
+
+=== xref:commands/index.adoc[Command Reference]
+
+Complete reference for all PostScript operators, organized by category:
+
+* xref:commands/stack-manipulation/index.adoc[Stack Manipulation] - Stack operations
+* xref:commands/arithmetic-math/index.adoc[Arithmetic and Math] - Mathematical operations
+* xref:commands/array-string/index.adoc[Array and String Operations] - Collection manipulation
+* xref:commands/dictionary/index.adoc[Dictionary Operations] - Key-value store operations
+* xref:commands/graphics-state/index.adoc[Graphics State] - Graphics parameters
+* xref:commands/path-construction/index.adoc[Path Construction] - Path building
+* xref:commands/painting/index.adoc[Painting] - Rendering operations
+* xref:commands/transformations/index.adoc[Coordinate Transformations] - CTM operations
+* xref:commands/font-text/index.adoc[Font and Text] - Typography operators
+* xref:commands/color/index.adoc[Color] - Color operations
+* xref:commands/image/index.adoc[Image] - Image rendering
+* xref:commands/device-output/index.adoc[Device and Output] - Device control
+* xref:commands/file-io/index.adoc[File and I/O] - File operations
+* xref:commands/control-flow/index.adoc[Control Flow] - Program flow control
+* xref:commands/resource-management/index.adoc[Resource Management] - VM and resources
+* xref:commands/error-handling/index.adoc[Error Handling] - Error management
+
+Or browse xref:commands/by-category.adoc[by category] or xref:commands/index.adoc[alphabetically].
+
+=== xref:examples/index.adoc[Practical Examples]
+
+Real-world code examples and use cases:
+
+* xref:examples/hello-world.adoc[Hello World] - Your first PostScript program
+* xref:examples/drawing-shapes.adoc[Drawing Shapes] - Creating vector graphics
+* xref:examples/text-layout.adoc[Text Layout] - Working with fonts and text
+* xref:examples/color-gradients.adoc[Color and Gradients] - Advanced color techniques
+* xref:examples/image-manipulation.adoc[Image Manipulation] - Working with raster images
+* xref:examples/pdf-generation.adoc[PDF Generation] - Creating PDF documents
+
+=== xref:glossary.adoc[Glossary]
+
+Definitions of PostScript-specific terminology and concepts.
+
+== Quick Start
+
+=== Hello World
+
+Here's a simple PostScript program that displays "Hello, World!":
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%Title: Hello World
+%%Creator: PostScript Language Reference Guide
+%%Pages: 1
+%%EndComments
+
+/Helvetica findfont    % Find the Helvetica font
+12 scalefont           % Scale to 12 points
+setfont                % Set as current font
+
+72 720 moveto          % Position at 1 inch from left, 10 inches from bottom
+(Hello, World!) show   % Display the text
+
+showpage               % Output the page
+%%EOF
+----
+
+=== Basic Drawing Example
+
+Creating a simple rectangle:
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+newpath                % Start a new path
+100 100 moveto        % Move to starting point
+200 0 rlineto         % Draw line 200 points right
+0 150 rlineto         % Draw line 150 points up
+-200 0 rlineto        % Draw line 200 points left
+closepath             % Close the path
+
+0.5 setgray           % Set gray level to 50%
+fill                  % Fill the rectangle
+
+showpage              % Output the page
+%%EOF
+----
+
+== Additional Resources
+
+=== Official Documentation
+
+* https://www.adobe.com/products/postscript/pdfs/PLRM.pdf[PostScript Language Reference Manual (PLRM)] - The official specification
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Tutorial and Cookbook]
+
+=== External Resources
+
+* https://en.wikipedia.org/wiki/PostScript[PostScript on Wikipedia]
+* https://www.ghostscript.com/[Ghostscript] - Open source PostScript interpreter
+* https://www.adobe.com/products/postscript.html[Adobe PostScript Information]
+
+== Contributing
+
+This documentation is open source and welcomes contributions. See our https://github.com/metanorma/postscript-guide[GitHub repository] for:
+
+* Reporting errors or omissions
+* Suggesting improvements
+* Adding examples
+* Correcting documentation
+
+---
+
+[.text-center]
+_This reference guide is maintained by the Metanorma community._
