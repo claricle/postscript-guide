@@ -1,0 +1,1159 @@
+---
+layout: default
+title: Text Layout
+parent: Practical Examples
+nav_order: 5
+---
+
+== Text Layout
+
+Advanced typography and text layout techniques in PostScript.
+
+=== Introduction
+
+PostScript provides powerful text handling capabilities, from simple single-line display to complex multi-column layouts, text effects, and typography. This guide demonstrates professional text layout techniques.
+
+=== Single Line Text
+
+Basic text display with positioning and font control.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Simple text at specific position
+/Times-Roman findfont 12 scalefont setfont <1>
+100 700 moveto                          % Position cursor <2>
+(This is a simple line of text.) show  % Display text <3>
+
+% Text with different fonts
+/Helvetica-Bold findfont 16 scalefont setfont
+100 650 moveto
+(Bold Helvetica text) show
+
+/Courier-Oblique findfont 14 scalefont setfont
+100 600 moveto
+(Monospace italic text) show
+
+% Measuring text width
+/Times-Roman findfont 12 scalefont setfont
+(Sample text for measurement) dup      % Duplicate string <4>
+stringwidth pop                         % Get width, discard height <5>
+/textwidth exch def                     % Store width
+
+100 550 moveto
+(Text width: ) show
+textwidth 20 string cvs show           % Convert number to string <6>
+( points) show
+
+% Right-aligned text
+/rightshow {                            % Define procedure <7>
+  dup stringwidth pop                   % Measure text
+  neg 0 rmoveto                         % Move left by text width <8>
+  show                                  % Display
+} def
+
+/Times-Roman findfont 12 scalefont setfont
+500 500 moveto
+(Right-aligned text) rightshow
+
+% Centered text
+/centershow {
+  dup stringwidth pop                   % Measure width
+  2 div neg 0 rmoveto                   % Move left by half width <9>
+  show
+} def
+
+300 450 moveto
+(Centered text) centershow
+
+showpage
+----
+<1> Use [`findfont`](../commands/font-text/findfont.adoc), [`scalefont`](../commands/font-text/scalefont.adoc), [`setfont`](../commands/font-text/setfont.adoc) to prepare font
+<2> Use [`moveto`](../commands/path-construction/moveto.adoc) to position text cursor
+<3> Use [`show`](../commands/font-text/show.adoc) to display the text
+<4> Use `dup` to duplicate string for width measurement
+<5> Use [`stringwidth`](../commands/font-text/stringwidth.adoc) to measure text dimensions
+<6> Use [`cvs`](../commands/array-string/cvs.adoc) to convert value to string
+<7> Define reusable procedure for right alignment
+<8> Use [`rmoveto`](../commands/path-construction/rmoveto.adoc) to move cursor relatively
+<9> Divide by 2 for centering calculation
+
+==== Expected Output
+
+Various text positioning examples:
+
+* Simple left-aligned text
+* Different font styles
+* Text width measurement display
+* Right-aligned text
+* Centered text
+
+==== Text Positioning Techniques
+
+**Left alignment** (default):
+
+* Position with `moveto`, then `show`
+
+**Right alignment**:
+
+* Measure with `stringwidth`
+* Move left by width with `rmoveto`
+* Then `show`
+
+**Center alignment**:
+
+* Measure with `stringwidth`
+* Move left by half-width
+* Then `show`
+
+=== Multi-line Text and Paragraphs
+
+Creating formatted paragraphs with line spacing and margins.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Define text layout constants
+/leftMargin 72 def                      % 1 inch <1>
+/rightMargin 540 def                    % 7.5 inches
+/lineHeight 14 def                      % Leading (line spacing) <2>
+/currentY 720 def                       % Start position
+
+% Simple multi-line text
+/Times-Roman findfont 12 scalefont setfont
+
+leftMargin currentY moveto
+(Line 1: First line of text) show
+
+leftMargin currentY lineHeight sub moveto <3>
+(Line 2: Second line of text) show
+
+leftMargin currentY lineHeight 2 mul sub moveto
+(Line 3: Third line of text) show
+
+% Paragraph with procedure
+/nextline {                             % Move to next line <4>
+  /currentY currentY lineHeight sub def
+  leftMargin currentY moveto
+} def
+
+/paragraph {                            % Display array of lines <5>
+  {
+    leftMargin currentY moveto
+    show
+    nextline
+  } forall                              % Execute for each array element <6>
+} def
+
+% Use paragraph procedure
+/currentY 650 def
+/Times-Roman findfont 11 scalefont setfont
+
+[
+  (This is a paragraph created using an array of strings.)
+  (Each string is displayed on its own line with consistent)
+  (spacing. This makes it easy to format multiple paragraphs)
+  (of text in PostScript documents.)
+] paragraph
+
+% Justified text (word spacing adjustment)
+/justified {                            % text width justified <7>
+  /targetWidth exch def
+  /text exch def
+
+  % Count spaces
+  /spaceCount 0 def
+  0 1 text length 1 sub {
+    text exch get                       % Get character
+    32 eq {                             % Is it a space? <8>
+      /spaceCount spaceCount 1 add def
+    } if
+  } for
+
+  % Calculate extra space per word
+  text stringwidth pop                  % Get natural width
+  targetWidth exch sub                  % Calculate deficit
+  spaceCount 0 gt {
+    spaceCount div                      % Divide by space count
+  } {
+    pop 0                               % No spaces, use 0
+  } ifelse
+  /extraSpace exch def
+
+  % Display with adjusted spacing
+  0 1 text length 1 sub {
+    /i exch def
+    text i 1 getinterval               % Get one character <9>
+    dup show                           % Display it
+    0 get 32 eq {                      % Was it a space?
+      extraSpace 0 rmoveto             % Add extra spacing <10>
+    } if
+  } for
+} def
+
+% Apply justified text
+/currentY 550 def
+/Times-Roman findfont 12 scalefont setfont
+
+leftMargin currentY moveto
+(This line demonstrates justified text with adjusted word spacing.)
+rightMargin leftMargin sub justified
+
+% Paragraph with first-line indent
+/currentY 500 def
+/indent 36 def                          % 0.5 inch indent
+
+leftMargin indent add currentY moveto
+(This paragraph has a first-line indent, which is a common) show
+
+nextline
+(typographical convention for indicating paragraph breaks.) show
+
+nextline
+(Subsequent lines align with the left margin while the first) show
+
+nextline
+(line starts further to the right.) show
+
+% Hanging indent (opposite of first-line)
+/currentY 420 def
+
+leftMargin currentY moveto
+(Definition Term:) show
+
+leftMargin indent add currentY lineHeight sub moveto
+(This is a hanging indent, where the first line extends to) show
+
+nextline
+(the left of subsequent lines. This is commonly used for) show
+
+nextline
+(bibliographies, definitions, and bulleted lists.) show
+
+showpage
+----
+<1> Define margins in points (72 points = 1 inch)
+<2> Leading is the vertical space between baselines
+<3> Subtract line height to move down
+<4> Define procedure to advance to next line
+<5> Define procedure to display array of lines
+<6> Use [`forall`](../commands/array-string/forall.adoc) to iterate array
+<7> Justified text adjusts word spacing to fill line width
+<8> Check if character code is 32 (space character)
+<9> Use [`getinterval`](../commands/array-string/getinterval.adoc) to extract substring
+<10> Add extra space after each space character
+
+==== Expected Output
+
+* Simple three-line text
+* Formatted paragraph using array
+* Justified text with adjusted spacing
+* Paragraph with first-line indent
+* Hanging indent for definition-style text
+
+==== Paragraph Formatting
+
+**Line spacing (leading)**:
+
+* Store current Y position in variable
+* Subtract line height for each new line
+* Typical ratio: 120% of font size
+
+**Indentation**:
+
+* First-line: Add indent to X position for first line only
+* Hanging: Subtract indent from X for all but first line
+* Block: Add indent to all lines
+
+=== Text Alignment Options
+
+Comprehensive alignment and justification techniques.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Setup
+/leftMargin 72 def
+/rightMargin 540 def
+/centerX 306 def                        % Page center (612/2)
+/lineHeight 16 def
+
+% Alignment procedures
+/leftshow {                             % Left-aligned (default)
+  leftMargin exch moveto show
+} def
+
+/rightshow {
+  dup stringwidth pop                   % Measure
+  rightMargin exch sub exch moveto      % Calculate position <1>
+  show
+} def
+
+/centershow {
+  dup stringwidth pop 2 div             % Half width
+  centerX exch sub exch moveto          % Center position <2>
+  show
+} def
+
+/fullshow {                             % Justified to margins <3>
+  /y exch def
+  /text exch def
+
+  % Count spaces
+  /spaces 0 def
+  text {
+    32 eq { /spaces spaces 1 add def } if
+  } forall
+
+  % Calculate spacing
+  text stringwidth pop
+  rightMargin leftMargin sub exch sub   % Available space
+  spaces div                            % Space per gap
+  /wordspace exch def
+
+  % Display
+  leftMargin y moveto
+  text {
+    1 string dup 0 4 -1 roll put       % Create 1-char string <4>
+    dup show
+    0 get 32 eq {
+      wordspace 0 rmoveto
+    } if
+  } forall
+} def
+
+% Demonstrate alignments
+/Times-Roman findfont 14 scalefont setfont
+
+% Left-aligned section
+/y 750 def
+/Helvetica-Bold findfont 12 scalefont setfont
+(Left Alignment) y leftshow
+
+/Times-Roman findfont 11 scalefont setfont
+/y y 20 sub def
+(This text is aligned to the left margin.) y leftshow
+/y y lineHeight sub def
+(Each line starts at the same X coordinate.) y leftshow
+/y y lineHeight sub def
+(This is the default alignment in PostScript.) y leftshow
+
+% Right-aligned section
+/y 650 def
+/Helvetica-Bold findfont 12 scalefont setfont
+(Right Alignment) y rightshow
+
+/Times-Roman findfont 11 scalefont setfont
+/y y 20 sub def
+(This text is aligned to the right margin.) y rightshow
+/y y lineHeight sub def
+(Each line ends at the same X coordinate.) y rightshow
+/y y lineHeight sub def
+(Useful for addresses and signatures.) y rightshow
+
+% Center-aligned section
+/y 550 def
+/Helvetica-Bold findfont 12 scalefont setfont
+(Center Alignment) y centershow
+
+/Times-Roman findfont 11 scalefont setfont
+/y y 20 sub def
+(This text is centered on the page.) y centershow
+/y y lineHeight sub def
+(Each line is individually centered.) y centershow
+/y y lineHeight sub def
+(Common for titles and headings.) y centershow
+
+% Justified section
+/y 450 def
+/Helvetica-Bold findfont 12 scalefont setfont
+(Justified Alignment) y leftshow
+
+/Times-Roman findfont 11 scalefont setfont
+/y y 20 sub def
+(This text is justified to both margins with adjusted word spacing.) y fullshow
+/y y lineHeight sub def
+(Each line extends from the left margin to the right margin evenly.) y fullshow
+/y y lineHeight sub def
+(This creates a clean rectangular block of text for formal documents.) y fullshow
+
+% Mixed alignment in same document
+/y 320 def
+/Helvetica-Bold findfont 14 scalefont setfont
+(Mixed Alignment Example) y centershow
+
+/Times-Roman findfont 11 scalefont setfont
+/y y 25 sub def
+(Body text is typically left-aligned for readability.) y leftshow
+/y y lineHeight sub def
+
+(Signature) y 40 sub rightshow
+(John Doe) y 55 sub rightshow
+(Director) y 70 sub rightshow
+
+showpage
+----
+<1> Calculate right-aligned position: rightMargin - width
+<2> Calculate center position: centerX - (width / 2)
+<3> Justified alignment adjusts space between words
+<4> Convert character code to single-character string
+
+==== Expected Output
+
+Four sections demonstrating:
+
+* Left alignment (standard body text)
+* Right alignment (signatures, dates)
+* Center alignment (titles, headings)
+* Justified alignment (formal documents)
+* Mixed alignment example
+
+==== Alignment Best Practices
+
+* **Body text**: Left-aligned for readability
+* **Headings**: Centered or left-aligned
+* **Signatures**: Right-aligned
+* **Formal documents**: Justified with hyphenation
+* **Narrow columns**: Avoid justification
+
+=== Text in Shapes
+
+Displaying text along paths, in boxes, and following curves.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Text in a box (word wrapping)
+/boxtext {                              % array x y width boxtext <1>
+  /boxwidth exch def
+  /boxy exch def
+  /boxx exch def
+  /lines exch def
+
+  % Draw box outline
+  gsave
+    0.8 setgray
+    newpath
+    boxx boxy moveto
+    boxwidth 0 rlineto
+    0 lines length 14 mul rlineto
+    boxwidth neg 0 rlineto
+    closepath
+    fill
+  grestore
+
+  % Display text lines
+  /Times-Roman findfont 11 scalefont setfont
+  0 setgray
+  0 1 lines length 1 sub {
+    /i exch def
+    boxx 5 add boxy 10 add i 14 mul sub moveto <2>
+    lines i get show                    % Get line from array <3>
+  } for
+} def
+
+% Use boxtext
+[
+  (Text can be constrained)
+  (within rectangular boxes)
+  (using arrays of lines.)
+  (This is useful for forms)
+  (and structured layouts.)
+] 100 700 200 boxtext
+
+% Text on a circular path
+/circltext {                            % text radius circltext <4>
+  /r exch def
+  /text exch def
+  /charcount text length def
+  /angle 360 charcount div def          % Angle per character <5>
+
+  0 1 charcount 1 sub {
+    /i exch def
+    gsave
+      i angle mul rotate                % Rotate for this char <6>
+      0 r moveto                        % Move to radius
+      text i 1 getinterval show        % Show character
+    grestore
+  } for
+} def
+
+% Apply circular text
+gsave
+  400 650 translate
+  /Helvetica-Bold findfont 16 scalefont setfont
+  (CIRCULAR TEXT) 60 circltext
+grestore
+
+% Text following a curve
+/curvetext {                            % text procedure <7>
+  /proc exch def                        % Path-building procedure
+  /text exch def
+
+  /charcount text length def
+  /pathlen 0 def
+
+  % Build path
+  newpath
+  proc
+  flattenpath                           % Convert to line segments <8>
+
+  % Measure path length
+  /x0 0 def /y0 0 def
+  {
+    /y exch def /x exch def
+    /pathlen pathlen
+      x x0 sub dup mul
+      y y0 sub dup mul add sqrt         % Distance formula <9>
+      add def
+    /x0 x def /y0 y def
+  }
+  {} {} {}
+  pathbezier                            % Iterate path <10>
+
+  % Display text along path
+  /charspace pathlen charcount div def  % Space per character
+  /pos 0 def
+
+  newpath
+  proc
+
+  0 1 charcount 1 sub {
+    /i exch def
+
+    % Position on path
+    pos pathlen div dup
+    proc
+    % Complex path-following calculation would go here
+    % Simplified: just show characters
+
+    /pos pos charspace add def
+  } for
+} def
+
+% Text on sine wave
+gsave
+  100 450 translate
+  /Times-Italic findfont 12 scalefont setfont
+
+  newpath
+  0 0 moveto
+  0 5 400 {                             % Draw sine wave
+    /x exch def
+    x x 10 div sin 20 mul lineto        % y = 20 * sin(x/10) <11>
+  } for
+  0.5 setlinewidth
+  stroke
+grestore
+
+% Text in rotated positions
+/spiraltext {                           % text spiraltext
+  /text exch def
+  /angle 0 def
+  /radius 10 def
+
+  0 1 text length 1 sub {
+    /i exch def
+    gsave
+      angle rotate
+      radius 0 moveto
+      text i 1 getinterval show
+    grestore
+    /angle angle 20 add def             % Increase angle <12>
+    /radius radius 3 add def            % Increase radius <13>
+  } for
+} def
+
+gsave
+  400 300 translate
+  /Courier-Bold findfont 10 scalefont setfont
+  (SPIRAL) spiraltext
+grestore
+
+% Text with background box
+/boxedtext {                            % text x y boxedtext
+  /y exch def
+  /x exch def
+  /text exch def
+
+  % Measure text
+  text stringwidth pop /w exch def
+
+  % Draw background
+  gsave
+    0.9 setgray
+    newpath
+    x 3 sub y 2 sub moveto
+    w 6 add 0 rlineto
+    0 16 rlineto
+    w 6 add neg 0 rlineto
+    closepath
+    fill
+  grestore
+
+  % Draw text
+  0 setgray
+  x y moveto
+  text show
+} def
+
+/Helvetica-Bold findfont 12 scalefont setfont
+(Highlighted Text) 100 200 boxedtext
+(Important Note) 300 200 boxedtext
+
+showpage
+----
+<1> Define procedure for text in box with word wrap
+<2> Position each line with offset
+<3> Use [`get`](../commands/array-string/get.adoc) to retrieve array element
+<4> Define procedure for circular text
+<5> Calculate rotation angle per character
+<6> Rotate coordinate system for each character
+<7> Text following arbitrary path
+<8> `flattenpath` converts curves to line segments
+<9> Calculate distance between points
+<10> `pathbezier` iterates through path segments
+<11> Sine function for wave shape
+<12> Increment rotation angle
+<13> Increment radius for spiral
+
+==== Expected Output
+
+* Text in gray rectangular box
+* Text arranged in circle
+* Text following sine wave curve
+* Spiral text pattern
+* Text with highlighted background boxes
+
+==== Text Path Techniques
+
+**Circular/radial text**:
+
+* Rotate coordinate system for each character
+* Position at fixed radius from center
+* Calculate angle based on character count
+
+**Path-following text**:
+
+* Build path with standard operators
+* Use `flattenpath` to convert to segments
+* Position characters along path
+
+=== Mixed Fonts and Sizes
+
+Combining different fonts, sizes, and styles in one document.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Font dictionary for easy switching
+/fonts <<
+  /title /Helvetica-Bold findfont 24 scalefont
+  /heading /Helvetica-Bold findfont 16 scalefont
+  /subhead /Helvetica-Bold findfont 12 scalefont
+  /body /Times-Roman findfont 11 scalefont
+  /italic /Times-Italic findfont 11 scalefont
+  /bold /Times-Bold findfont 11 scalefont
+  /code /Courier findfont 10 scalefont
+  /small /Times-Roman findfont 9 scalefont
+>> def
+
+% Inline font switching
+/setfnt {                               % /fontname setfnt <1>
+  fonts exch get setfont
+} def
+
+% Rich text display
+/y 750 def
+/lm 72 def                              % Left margin
+
+% Title
+fonts /title get setfont
+lm y moveto
+(Typography in PostScript) show
+
+% Section heading
+/y y 40 sub def
+fonts /heading get setfont
+lm y moveto
+(Mixing Fonts and Styles) show
+
+% Body with inline emphasis
+/y y 25 sub def
+fonts /body get setfont
+lm y moveto
+(PostScript supports ) show
+fonts /italic get setfont
+(inline font changes) show              % Italic <2>
+fonts /body get setfont
+( for ) show
+fonts /bold get setfont
+(emphasis) show                         % Bold <3>
+fonts /body get setfont
+( and ) show
+fonts /code get setfont
+(code snippets) show                    % Code font <4>
+fonts /body get setfont
+(.) show
+
+% Subscripts and superscripts
+/y y 25 sub def
+fonts /body get setfont
+lm y moveto
+(E = mc) show
+gsave
+  0 4 rmoveto                           % Move up for superscript <5>
+  fonts /small get setfont
+  (2) show
+grestore
+
+(  and H) show
+gsave
+  0 -2 rmoveto                          % Move down for subscript <6>
+  fonts /small get setfont
+  (2) show
+grestore
+(O) show
+
+% Multi-size heading hierarchy
+/y y 40 sub def
+/title1 {                               % Level 1 heading
+  fonts /heading get setfont
+  lm exch moveto show
+  /y y 22 sub def
+} def
+
+/title2 {                               % Level 2 heading
+  fonts /subhead get setfont
+  lm exch moveto show
+  /y y 18 sub def
+} def
+
+/para {                                 % Paragraph
+  fonts /body get setfont
+  lm exch moveto show
+  /y y 14 sub def
+} def
+
+(Section 1: Introduction) y title1
+(Overview) y title2
+(This demonstrates a document hierarchy.) y para
+(Multiple heading levels are shown.) y para
+
+/y y 10 sub def
+(Section 2: Details) y title1
+(Specifications) y title2
+(Each level uses appropriate sizing.) y para
+
+% Drop cap (large first letter)
+/y y 30 sub def
+gsave
+  /Helvetica-Bold findfont 36 scalefont setfont
+  lm y moveto
+  (D) show                              % Large first letter <7>
+
+  fonts /body get setfont
+  currentpoint pop                      % Get X position <8>
+  3 add y 8 add moveto                  % Offset for baseline
+  (rop caps create) show
+grestore
+
+lm 12 add y 14 sub moveto              % Indent rest of paragraph
+(visual interest and mark) show
+/y y 14 sub def
+lm y moveto
+(paragraph beginnings.) show
+
+% Color + font combination
+/y y 30 sub def
+fonts /heading get setfont
+0.5 0 0 setrgbcolor                     % Dark red <9>
+lm y moveto
+(Colored Heading) show
+
+0 0 0 setrgbcolor                       % Back to black
+fonts /body get setfont
+/y y 20 sub def
+lm y moveto
+(Body text in ) show
+0 0 0.7 setrgbcolor                     % Blue
+fonts /bold get setfont
+(blue bold) show
+0 0 0 setrgbcolor
+fonts /body get setfont
+( and ) show
+0 0.6 0 setrgbcolor                     % Green
+fonts /italic get setfont
+(green italic) show
+0 0 0 setrgbcolor
+fonts /body get setfont
+(.) show
+
+% Font size comparison
+/y y 40 sub def
+/sizes [8 10 12 14 18 24 36] def
+0 1 sizes length 1 sub {
+  /i exch def
+  /Helvetica findfont sizes i get scalefont setfont
+  lm y moveto
+  (Sample Text - ) show
+  sizes i get 10 string cvs show
+  ( points) show
+  /y y sizes i get 1.2 mul sub def      % Space proportional to size <10>
+} for
+
+showpage
+----
+<1> Define convenience procedure for font switching
+<2> Switch to italic font for emphasis
+<3> Switch to bold font for strong emphasis
+<4> Switch to monospace font for code
+<5> Move up 4 points for superscript
+<6> Move down 2 points for subscript
+<7> Display large decorative first letter
+<8> Use `currentpoint` to get position after drop cap
+<9> Use [`setrgbcolor`](../commands/graphics-state/setrgbcolor.adoc) for colored text
+<10> Adjust spacing based on font size
+
+==== Expected Output
+
+A rich document demonstrating:
+
+* Multiple heading levels
+* Inline font changes (italic, bold, code)
+* Superscripts and subscripts
+* Drop cap paragraph
+* Colored text
+* Progressive font size display
+
+==== Font Management
+
+**Font dictionary approach**:
+
+* Store all fonts in dictionary
+* Quick switching with single command
+* Maintains consistency across document
+
+**Inline changes**:
+
+* Save and restore fonts for variations
+* Use `gsave`/`grestore` for temporary changes
+* Return to base font after emphasis
+
+=== Text Effects
+
+Creating outlines, shadows, gradients, and special effects.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Outlined text (hollow letters)
+/outlinetext {                          % text linewidth outlinetext <1>
+  /lw exch def
+  /text exch def
+
+  gsave
+    % Create text path
+    newpath
+    0 0 moveto
+    text false charpath                 % Convert text to path <2>
+
+    % Stroke the outline
+    lw setlinewidth
+    stroke
+  grestore
+} def
+
+gsave
+  100 700 translate
+  /Helvetica-Bold findfont 48 scalefont setfont
+  (OUTLINE) 2 outlinetext
+grestore
+
+% Filled and outlined text
+/strokedtext {                          % text fillgray strokewidth <3>
+  /sw exch def
+  /fg exch def
+  /text exch def
+
+  gsave
+    newpath
+    0 0 moveto
+    text false charpath
+
+    % Fill first
+    fg setgray
+    gsave
+      fill
+    grestore
+
+    % Then stroke
+    0 setgray
+    sw setlinewidth
+    stroke
+  grestore
+} def
+
+gsave
+  100 620 translate
+  /Helvetica-Bold findfont 40 scalefont setfont
+  (STROKED) 0.7 2 strokedtext
+grestore
+
+% Shadow text
+/shadowtext {                           % text dx dy shadowgray <4>
+  /sg exch def
+  /dy exch def
+  /dx exch def
+  /text exch def
+
+  % Draw shadow
+  gsave
+    dx dy rmoveto
+    sg setgray
+    text show
+  grestore
+
+  % Draw main text
+  0 setgray
+  text show
+} def
+
+gsave
+  100 550 translate
+  /Helvetica-Bold findfont 36 scalefont setfont
+  100 50 moveto
+  (SHADOW) 3 -3 0.7 shadowtext          % 3 right, 3 down, 70% gray <5>
+grestore
+
+% Multiple shadow (3D effect)
+/shadow3d {                             % text layers <6>
+  /layers exch def
+  /text exch def
+
+  % Draw shadows back to front
+  layers -1 1 {                         % Count down <7>
+    /i exch def
+    gsave
+      i i rmoveto                       % Offset each layer
+      i layers div 0.3 add setgray      % Lighter as we go back <8>
+      text show
+    grestore
+  } for
+
+  % Draw main text
+  0 setgray
+  text show
+} def
+
+gsave
+  100 450 translate
+  /Helvetica-Bold findfont 36 scalefont setfont
+  100 50 moveto
+  (3D TEXT) 8 shadow3d
+grestore
+
+% Perspective text
+/persptext {                            % text scale <9>
+  /sc exch def
+  /text exch def
+
+  gsave
+    1 sc scale                          % Scale Y axis <10>
+    text show
+  grestore
+} def
+
+gsave
+  100 350 translate
+  /Helvetica-Bold findfont 48 scalefont setfont
+  100 50 moveto
+  (PERSPECTIVE) 0.5 persptext
+grestore
+
+% Embossed text
+/embosstext {                           % text <11>
+  /text exch def
+
+  % Highlight (top-left)
+  gsave
+    -1 1 rmoveto
+    1 setgray
+    text show
+  grestore
+
+  % Shadow (bottom-right)
+  gsave
+    1 -1 rmoveto
+    0.3 setgray
+    text show
+  grestore
+
+  % Main text
+  0.6 setgray
+  text show
+} def
+
+gsave
+  100 250 translate
+  /Helvetica-Bold findfont 36 scalefont setfont
+  100 50 moveto
+  (EMBOSSED) embosstext
+grestore
+
+% Gradient text (requires Level 3 or manual approximation)
+/gradienttext {                         % text steps <12>
+  /steps exch def
+  /text exch def
+
+  newpath
+  0 0 moveto
+  text false charpath
+  clip                                  % Clip to text shape <13>
+
+  % Draw gradient
+  currentpoint exch pop /y0 exch def    % Get Y position
+  text stringwidth pop /w exch def
+
+  0 1 steps {
+    /i exch def
+    i steps div setgray                 % Gradient from black to white
+    newpath
+    i w mul steps div y0 moveto
+    0 100 rlineto
+    w steps div 0 rlineto
+    0 -100 rlineto
+    closepath
+    fill
+  } for
+} def
+
+gsave
+  100 150 translate
+  /Helvetica-Bold findfont 36 scalefont setfont
+  100 50 moveto
+  (GRADIENT) 20 gradienttext
+grestore
+
+showpage
+----
+<1> Define outlined (hollow) text procedure
+<2> Use [`charpath`](../commands/font-text/charpath.adoc) to convert text to path
+<3> Fill first, then stroke for dual effect
+<4> Define shadow text with offset and gray level
+<5> Shadow offset: (dx, dy), shadow darkness
+<6> Multiple offset layers for 3D effect
+<7> Loop backward to draw furthest layer first
+<8> Calculate gray level based on layer position
+<9> Perspective effect using vertical scaling
+<10> Scale Y-axis to compress text vertically
+<11> Embossed effect with highlight and shadow
+<12> Gradient fill requires clipping to text shape
+<13> Use [`clip`](../commands/painting/clip.adoc) to restrict drawing to text outline
+
+==== Expected Output
+
+Various text effects:
+
+* Outlined (hollow) text
+* Filled with stroke outline
+* Simple drop shadow
+* 3D text with multiple shadows
+* Perspective (compressed) text
+* Embossed text effect
+* Gradient-filled text
+
+==== Effect Techniques
+
+**Outline text**:
+
+* Use `charpath` to convert to path
+* Stroke the path instead of filling
+
+**Shadow**:
+
+* Draw offset copy first in gray
+* Draw main text on top in black
+
+**3D/Emboss**:
+
+* Layer multiple offset copies
+* Vary gray levels for depth
+
+**Gradient**:
+
+* Convert text to path with `charpath`
+* Clip to text shape
+* Draw gradient rectangles
+
+=== Troubleshooting
+
+==== Common Issues
+
+**Text not appearing**:
+
+* Ensure font is set with `findfont`, `scalefont`, `setfont`
+* Check position is within page bounds
+* Verify `showpage` is called
+* Make sure color is not white on white
+
+**Wrong font displaying**:
+
+* Font name must be exact (case-sensitive)
+* Use standard PostScript font names
+* Call `setfont` after `scalefont`
+
+**Text positioning errors**:
+
+* Remember Y increases upward from bottom
+* Account for font size when calculating line spacing
+* Use `stringwidth` to measure before positioning
+
+**Overlapping text**:
+
+* Ensure adequate line spacing (typically 120% of font size)
+* Check Y coordinate decreases for each new line
+* Account for descenders in font metrics
+
+**Text effects not working**:
+
+* Use `gsave`/`grestore` around effects
+* Ensure `charpath` uses `false` for stroking
+* Remember `clip` affects all subsequent drawing
+
+=== Performance Tips
+
+* **Cache font objects**: Set font once for multiple uses
+* **Minimize font changes**: Group text by font type
+* **Use procedures**: Define reusable text procedures
+* **Batch operations**: Draw all text before effects
+
+=== See Also
+
+* xref:hello-world.adoc[Hello World] - Basic text display
+* xref:drawing-shapes.adoc[Drawing Shapes] - Paths for text effects
+* xref:color-gradients.adoc[Color Gradients] - Advanced coloring
+* xref:../commands/font-text/show.adoc[show command] - Display text
+* xref:../commands/font-text/charpath.adoc[charpath command] - Text to path
+* xref:../commands/font-text/stringwidth.adoc[stringwidth command] - Measure text
+* xref:../commands/painting/clip.adoc[clip command] - Clipping paths
+* xref:index.adoc[More Examples]
+* xref:../commands/index.adoc[Command Reference]

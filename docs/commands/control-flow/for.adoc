@@ -1,0 +1,235 @@
+---
+layout: default
+title: for
+parent: Control Flow
+grand_parent: Command Reference
+nav_order: 3
+---
+
+== for
+
+Executes a procedure repeatedly with a numeric control variable.
+
+=== Syntax
+
+----
+initial increment limit proc for → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 3
+| `initial` (starting value)
+
+| 2
+| `increment` (step value)
+
+| 1
+| `limit` (ending value)
+
+| 0
+| `proc` (procedure to execute)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (varies)
+| Results from procedure executions
+|===
+
+=== Description
+
+[`for`](for.adoc) executes _proc_ repeatedly, passing it a sequence of values from _initial_ by steps of _increment_ to _limit_.
+
+The operator maintains an internal control variable:
+1. Sets control variable to _initial_
+2. Before each iteration: compares with _limit_
+3. If not exceeded: pushes control variable, executes _proc_, adds _increment_
+4. Repeats until termination condition met
+
+**Termination:**
+* If _increment_ > 0: stops when control variable > _limit_
+* If _increment_ < 0: stops when control variable < _limit_
+* If _initial_ meets condition: _proc_ never executes
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Basic counting
+[source,postscript]
+----
+1 1 5 { = } for
+% Prints: 1 2 3 4 5
+----
+
+.Summing values
+[source,postscript]
+----
+0  % Accumulator
+1 1 4 { add } for
+% Result: 10 (sum of 1+2+3+4)
+----
+
+.Counting down
+[source,postscript]
+----
+3 -.5 1 { = } for
+% Prints: 3.0 2.5 2.0 1.5 1.0
+----
+
+.Building arrays
+[source,postscript]
+----
+5 array
+0 1 4 {
+  2 copy exch dup 10 mul put
+} for
+% Result: [0 10 20 30 40]
+----
+
+=== Common Use Cases
+
+==== Array Population
+
+[source,postscript]
+----
+/squares 10 array def
+0 1 9 {
+  dup dup mul
+  squares 3 1 roll put
+} for
+----
+
+==== Grid Generation
+
+[source,postscript]
+----
+0 10 100 {  % x from 0 to 100 by 10
+  0 10 100 {  % y from 0 to 100 by 10
+    % Draw grid point at (x, y)
+    2 copy moveto
+    2 0 rlineto stroke
+  } for
+  pop
+} for
+----
+
+==== Factorial Calculation
+
+[source,postscript]
+----
+/factorial {  % n => n!
+  1 exch 1 exch { mul } for
+} def
+
+5 factorial  % Returns 120
+----
+
+=== Common Pitfalls
+
+WARNING: *Real Number Precision* - Using reals for control values can cause precision errors.
+
+[source,postscript]
+----
+0 0.1 1 { } for  % May not reach exactly 1.0
+% Use integers when possible
+----
+
+WARNING: *Stack Accumulation* - If _proc_ doesn't consume the control variable, values accumulate.
+
+[source,postscript]
+----
+1 1 5 { } for
+% Stack: 1 2 3 4 5 (all values left!)
+----
+
+WARNING: *Increment Sign Matters* - Positive increment counts up, negative counts down.
+
+[source,postscript]
+----
+5 1 1 { } for  % Never executes (5 > 1 already)
+5 -1 1 { } for % Executes: 5, 4, 3, 2, 1
+----
+
+TIP: *Early Exit* - Use xref:exit.adoc[`exit`] to terminate loop early.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackoverflow`]
+| Too many iterations or proc pushes too much
+
+| [`stackunderflow`]
+| Fewer than 4 operands on stack
+
+| [`typecheck`]
+| Wrong operand types
+|===
+
+=== Implementation Notes
+
+* Control variable is internal (not on stack)
+* Very efficient for numeric sequences
+* Works with both integers and reals
+* Termination tested before each iteration
+
+=== Comparison with Other Loops
+
+[cols="2,3,2"]
+|===
+| Loop | Best For | Control Variable
+
+| [`for`](for.adoc)
+| Numeric sequences
+| Yes
+
+| xref:repeat.adoc[`repeat`]
+| Fixed count, no variable needed
+| No
+
+| xref:loop.adoc[`loop`]
+| Indefinite/conditional termination
+| No
+
+| xref:../array-string/forall.adoc[`forall`]
+| Collection iteration
+| Yes (element)
+|===
+
+=== Advanced Example
+
+.Matrix operations
+[source,postscript]
+----
+/multiplyMatrices {  % matrix1 matrix2 => result
+  [
+    0 1 5 {  % For each result element
+      /i exch def
+      matrix1 i get
+      matrix2 i get mul
+    } for
+  ]
+} def
+----
+
+=== See Also
+
+* xref:repeat.adoc[`repeat`] - Fixed repetition
+* xref:loop.adoc[`loop`] - Indefinite loop
+* xref:exit.adoc[`exit`] - Exit loop early
+* xref:../array-string/forall.adoc[`forall`] - Iterate collections
+* xref:if.adoc[`if`] / xref:ifelse.adoc[`ifelse`] - Conditionals

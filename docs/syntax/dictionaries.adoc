@@ -1,0 +1,1029 @@
+---
+layout: default
+title: Dictionaries
+parent: Language Syntax
+nav_order: 8
+---
+
+== Dictionaries
+
+Dictionaries are associative arrays that store key-value pairs. They are fundamental to PostScript's name resolution system, variable scoping, and object-oriented features. Understanding dictionaries is essential for advanced PostScript programming.
+
+=== Overview
+
+A dictionary is a composite object that maps keys to values. Keys are typically names, but can be any object. Dictionaries provide fast lookup, dynamic binding, and hierarchical scoping through the dictionary stack.
+
+=== Dictionary Characteristics
+
+==== Associative Array
+
+Dictionaries store pairs of keys and values:
+
+.Dictionary structure
+[source,postscript]
+----
+<< /name (John) /age 30 >>      % Dictionary with two entries
+<< /x 42 /y 100 >>              % Coordinate dictionary
+<< >>                            % Empty dictionary
+----
+
+==== Key-Value Pairs
+
+Each entry in a dictionary associates a key with a value:
+
+.Key-value associations
+[source,postscript]
+----
+% Key: /myname → Value: 42
+/myname 42 def
+
+% Key: /proc → Value: { 1 add }
+/proc { 1 add } def
+
+% Any object can be a value
+/data [1 2 3] def
+----
+
+==== Composite Object
+
+Dictionaries are composite objects with:
+
+* **Capacity**: Maximum number of entries it can hold
+* **Length**: Current number of entries
+* **Access**: Read/write permissions
+
+=== Dictionary Creation
+
+==== Using dict Operator
+
+The `dict` operator creates a dictionary with specified capacity:
+
+.Creating with dict
+[source,postscript]
+----
+10 dict             % Create dictionary with capacity 10
+0 dict              % Empty dictionary (minimal capacity)
+100 dict            % Large dictionary
+
+% Capacity vs length
+10 dict
+dup /a 1 put
+dup /b 2 put
+dup maxlength       % Returns 10 (capacity)
+length              % Returns 2 (current entries)
+----
+
+==== Level 2 Dictionary Syntax
+
+Level 2+ supports inline dictionary creation with `<< >>`:
+
+.Inline dictionary syntax
+[source,postscript]
+----
+% Basic syntax
+<< /key value >>
+
+% Multiple entries
+<< /x 10 /y 20 /z 30 >>
+
+% Mixed types
+<<
+    /name (PostScript)
+    /version 3
+    /active true
+    /data [1 2 3]
+>>
+
+% Nested dictionaries
+<<
+    /outer <<
+        /inner 42
+    >>
+>>
+----
+
+==== Building Dictionaries Step by Step
+
+.Programmatic dictionary construction
+[source,postscript]
+----
+% Create and populate
+10 dict begin
+    /x 100 def
+    /y 200 def
+    /color (red) def
+currentdict end     % Returns populated dictionary
+
+% Or using put
+10 dict
+dup /x 100 put
+dup /y 200 put
+dup /color (red) put
+----
+
+=== Dictionary Operations
+
+==== Basic Operations
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `dict`
+| `int → dict`
+| Create dictionary
+
+| `length`
+| `dict → int`
+| Get entry count
+
+| `maxlength`
+| `dict → int`
+| Get capacity
+
+| `begin`
+| `dict → -`
+| Push onto dict stack
+
+| `end`
+| `- → -`
+| Pop from dict stack
+
+| `def`
+| `key value → -`
+| Define in current dict
+
+| `load`
+| `key → value`
+| Look up value
+
+| `store`
+| `key value → -`
+| Store in dict on stack
+
+| `get`
+| `dict key → value`
+| Get value from dict
+
+| `put`
+| `dict key value → -`
+| Put value in dict
+
+| `known`
+| `dict key → bool`
+| Test if key exists
+
+| `undef`
+| `dict key → -`
+| Remove key from dict
+|===
+
+.Basic operation examples
+[source,postscript]
+----
+% Create and populate
+5 dict dup
+dup /x 10 put
+dup /y 20 put
+
+% Access
+dup /x get          % Returns 10
+dup /x known        % Returns true
+dup /z known        % Returns false
+
+% Modify
+dup /x 99 put       % Change x to 99
+
+% Remove
+dup /x undef        % Delete x entry
+----
+
+==== Dictionary Stack Operations
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `begin`
+| `dict → -`
+| Push dict onto dict stack
+
+| `end`
+| `- → -`
+| Pop dict from dict stack
+
+| `countdictstack`
+| `- → int`
+| Count dict stack depth
+
+| `dictstack`
+| `array → subarray`
+| Copy dict stack to array
+
+| `currentdict`
+| `- → dict`
+| Get topmost dict
+|===
+
+.Dictionary stack examples
+[source,postscript]
+----
+% Stack depth
+countdictstack      % Returns initial depth
+
+% Push dictionary
+10 dict begin
+countdictstack      % Depth increased by 1
+
+% Get current dict
+currentdict /x 42 put
+
+% Pop dictionary
+end
+countdictstack      % Back to initial depth
+----
+
+=== The Dictionary Stack
+
+==== Stack Structure
+
+PostScript maintains a stack of dictionaries for name resolution:
+
+.Dictionary stack hierarchy
+[source,text]
+----
+Dictionary Stack (top to bottom):
+┌─────────────────────┐
+│  User Dictionary    │ ← Most recent begin
+├─────────────────────┤
+│  Local Dictionary   │
+├─────────────────────┤
+│  Global Dictionary  │
+├─────────────────────┤
+│  User Dict          │
+├─────────────────────┤
+│  System Dict        │ ← Bottom (always present)
+└─────────────────────┘
+----
+
+==== Name Resolution
+
+When a name is executed, PostScript searches the dictionary stack top to bottom:
+
+.Name lookup process
+[source,postscript]
+----
+% systemdict has: /add → <operator>
+% userdict is empty
+
+% Lookup finds add in systemdict
+add                 % Uses built-in operator
+
+% Override in userdict
+/add { mul } def    % Define in current dict
+
+% Now lookup finds add in userdict first
+add                 % Uses redefined version (multiply)
+
+% Original still in systemdict
+systemdict /add get exec  % Uses original add
+----
+
+==== Scope Management
+
+.Creating scoped contexts
+[source,postscript]
+----
+% Global scope
+/x 100 def
+
+% Local scope
+10 dict begin
+    /x 42 def       % Local x shadows global
+    x               % Returns 42 (local)
+end
+
+% Back to global scope
+x                   % Returns 100 (global)
+----
+
+=== Standard Dictionaries
+
+==== systemdict
+
+Contains all built-in operators and PostScript language features:
+
+.systemdict contents
+[source,postscript]
+----
+% Access systemdict
+systemdict /add known       % true
+systemdict /moveto known    % true
+systemdict length           % Large number (all operators)
+
+% Get operator
+systemdict /add get         % Returns add operator
+----
+
+==== userdict
+
+The default dictionary for user definitions:
+
+.userdict usage
+[source,postscript]
+----
+% Definitions go in userdict by default
+/myvar 42 def
+
+% Equivalent to:
+userdict /myvar 42 put
+
+% Access
+userdict /myvar get         % Returns 42
+----
+
+==== globaldict (Level 2+)
+
+Persistent dictionary across jobs:
+
+.globaldict in Level 2+
+[source,postscript]
+----
+% Check VM mode
+currentglobal               % false (local VM)
+
+% Switch to global VM
+true setglobal
+globaldict /persistent 42 put
+false setglobal
+
+% Value persists across jobs
+----
+
+==== $error Dictionary
+
+Contains error handling information:
+
+.Error information
+[source,postscript]
+----
+% After an error occurs
+$error /newerror get        % true if error occurred
+$error /errorname get       % Name of error
+$error /command get         % Command that caused error
+----
+
+==== statusdict
+
+Device and system status information:
+
+.Status queries
+[source,postscript]
+----
+statusdict /product get     % Device name
+statusdict /version get     % Version info
+statusdict /resolution get  % Device resolution
+----
+
+=== Dictionary Patterns
+
+==== Local Variables
+
+.Dictionary-based locals
+[source,postscript]
+----
+/MyProc {
+    % in: x y z
+
+    % Create local scope
+    3 dict begin
+        /z exch def
+        /y exch def
+        /x exch def
+
+        % Use local variables
+        x y add z mul
+    end
+    % out: result
+} def
+
+1 2 3 MyProc                % Returns (1+2)*3 = 9
+----
+
+==== Configuration Dictionary
+
+.Storing configuration
+[source,postscript]
+----
+/Config <<
+    /PageWidth 612
+    /PageHeight 792
+    /Margin 72
+    /Font /Times-Roman
+    /FontSize 12
+    /Color [0 0 0]
+>> def
+
+% Access configuration
+Config /PageWidth get       % Returns 612
+Config /Font get           % Returns /Times-Roman
+----
+
+==== Object-Like Structures
+
+.Dictionary as object
+[source,postscript]
+----
+/MakePoint {
+    % in: x y
+    % out: point-dict
+
+    <<
+        /x 3 -1 roll
+        /y 3 -1 roll
+        /distance {
+            % Closure over x and y
+            x dup mul y dup mul add sqrt
+        } bind
+    >>
+} def
+
+% Create point
+10 20 MakePoint /pt exch def
+
+% Access fields
+pt /x get                   % Returns 10
+pt /y get                   % Returns 20
+
+% Call method
+pt /distance get exec       % Returns distance from origin
+----
+
+==== Namespace Management
+
+.Module pattern
+[source,postscript]
+----
+% Create module dictionary
+/MyModule 50 dict def
+MyModule begin
+    % Private helpers (not exported)
+    /_helper { 2 mul } def
+
+    % Public interface
+    /PublicFunc {
+        _helper 1 add
+    } def
+
+    /PublicVar 42 def
+end
+
+% Use module
+MyModule /PublicFunc get exec
+MyModule /PublicVar get
+% MyModule /_helper get        % Can access but not intended
+----
+
+=== Dictionary Iteration
+
+==== Using forall
+
+.Iterating dictionary entries
+[source,postscript]
+----
+% Print all entries
+<< /a 1 /b 2 /c 3 >> {
+    % Stack: key value
+    exch =only ( : ) print =
+} forall
+
+% Count entries (alternative to length)
+0 << /a 1 /b 2 /c 3 >> {
+    pop pop 1 add
+} forall                    % Returns 3
+----
+
+==== Filtering Entries
+
+.Selecting dictionary entries
+[source,postscript]
+----
+% Copy entries matching condition
+<<
+    /a 10
+    /b 20
+    /c 30
+    /d 40
+>>
+10 dict exch {
+    % Copy only entries with values > 15
+    1 index 15 gt {
+        3 copy pop put
+    } {
+        pop pop
+    } ifelse
+} forall
+% Result: << /b 20 /c 30 /d 40 >>
+----
+
+=== Dictionary Copying
+
+==== Shallow Copy
+
+.Copying dictionary
+[source,postscript]
+----
+/source << /a 1 /b 2 /c 3 >> def
+
+% Method 1: Copy entries
+source dup length dict exch {
+    3 copy pop put
+} forall
+
+% Method 2: Using copy (Level 2+)
+source dup length dict copy
+----
+
+==== Merging Dictionaries
+
+.Combining dictionaries
+[source,postscript]
+----
+/Merge {
+    % in: dict1 dict2
+    % out: merged-dict
+
+    % Create result dict
+    2 copy length exch length add dict
+
+    % Copy first dictionary
+    3 1 roll {
+        3 copy pop put
+    } forall
+
+    % Copy second dictionary (may override)
+    exch {
+        3 copy pop put
+    } forall
+} def
+
+<< /a 1 /b 2 >> << /c 3 /d 4 >> Merge
+% Result: << /a 1 /b 2 /c 3 /d 4 >>
+----
+
+=== Dictionary Lookup Optimization
+
+==== where Operator
+
+Find which dictionary contains a key:
+
+.Finding definitions
+[source,postscript]
+----
+% where: key → dict true | false
+
+/add where {
+    % Found, dict is on stack
+    /add get type =         % /operatortype
+} {
+    % Not found
+    (Undefined) =
+} ifelse
+
+% Check custom definition
+/myvar where {
+    pop /myvar get
+} {
+    0                       % Default value
+} ifelse
+----
+
+==== Cached Lookups
+
+.Cache frequently used values
+[source,postscript]
+----
+% SLOW - repeated lookup
+/MyProc {
+    /Config where { pop Config /Value get } if
+    % ... use Value multiple times ...
+    /Config where { pop Config /Value get } if
+    /Config where { pop Config /Value get } if
+} def
+
+% FAST - cache the value
+/MyProc {
+    /Config where {
+        pop Config /Value get
+        dup dup                 % Use cached value
+    } if
+} def
+----
+
+=== Dictionary Scoping Patterns
+
+==== Save/Restore Pattern
+
+.Temporary definitions
+[source,postscript]
+----
+% Save state
+save
+
+% Make temporary changes
+/temp-dict 20 dict def
+temp-dict begin
+    /x 100 def
+    /y 200 def
+    % ... use x and y ...
+end
+
+% Restore state (removes temp-dict)
+restore
+----
+
+==== Begin/End Pattern
+
+.Scoped execution
+[source,postscript]
+----
+/WithContext {
+    % in: dict proc
+
+    exch begin
+        exec
+    end
+} def
+
+% Usage
+<< /x 10 /y 20 >> {
+    % x and y available here
+    x y add
+} WithContext               % Returns 30
+----
+
+==== Isolated Scope
+
+.Creating isolated context
+[source,postscript]
+----
+/IsolatedExec {
+    % in: proc
+
+    % Save current dict stack depth
+    countdictstack exch
+
+    % Create isolated environment
+    10 dict begin
+        % Execute procedure
+        stopped {
+            % Handle errors
+        } if
+    end
+
+    % Restore dict stack depth
+    countdictstack exch sub {
+        end
+    } repeat
+} def
+----
+
+=== Dictionary as Data Structure
+
+==== Hash Table Behavior
+
+Dictionaries provide O(1) average lookup time:
+
+.Fast lookup
+[source,postscript]
+----
+% Create large lookup table
+1000 dict begin
+    0 1 999 {
+        dup dup 100 string cvs
+        exch def
+    } for
+currentdict end /lookup exch def
+
+% Fast access
+lookup (500) load           % Quick lookup
+----
+
+==== Set Implementation
+
+.Using dictionary as set
+[source,postscript]
+----
+/MakeSet {
+    % in: array
+    % out: set-dict
+
+    dup length dict exch {
+        1 index exch null put
+    } forall
+} def
+
+/Contains {
+    % in: set key
+    % out: bool
+
+    exch known
+} def
+
+% Usage
+[1 2 3 4 5] MakeSet /myset exch def
+myset 3 Contains            % true
+myset 10 Contains           % false
+----
+
+==== Sparse Array
+
+.Dictionary as sparse array
+[source,postscript]
+----
+/SparseArray 100 dict def
+
+% Set values at arbitrary indices
+SparseArray 1000 (value1000) put
+SparseArray 5000 (value5000) put
+SparseArray 10000 (value10000) put
+
+% Retrieve
+SparseArray 5000 get        % (value5000)
+SparseArray 2000 known      % false
+----
+
+=== Dictionary Performance
+
+==== Capacity Planning
+
+.Choosing initial capacity
+[source,postscript]
+----
+% POOR - will need to grow
+5 dict
+% ... add 100 entries (slow)
+
+% GOOD - right-sized from start
+100 dict
+% ... add 100 entries (fast)
+
+% Size to expected entries + ~20%
+/expected-entries 80 def
+expected-entries 1.2 mul cvi dict
+----
+
+==== Growth Behavior
+
+Dictionaries automatically grow when full:
+
+.Automatic growth
+[source,postscript]
+----
+% Small initial capacity
+5 dict dup
+dup /a 1 put
+dup /b 2 put
+dup /c 3 put
+dup /d 4 put
+dup /e 5 put
+dup maxlength =         % 5
+dup /f 6 put           % Causes growth
+maxlength =             % Larger (implementation-dependent)
+----
+
+=== Dictionary Best Practices
+
+==== Naming Conventions
+
+.Key naming standards
+[source,postscript]
+----
+% Use descriptive names
+/PageWidth 612 def          % GOOD
+/pw 612 def                 % POOR
+
+% Prefix private entries
+/_internalHelper { } def    % Private
+/PublicAPI { } def          % Public
+
+% Use namespaces for modules
+/MyModule.Init { } def
+/MyModule.Process { } def
+----
+
+==== Scope Management
+
+.Clean scope handling
+[source,postscript]
+----
+% GOOD - explicit scope
+10 dict begin
+    % ... definitions ...
+end
+
+% BAD - leaked scope
+10 dict begin
+    % ... definitions ...
+% Missing end - dict stays on stack!
+
+% BETTER - guaranteed cleanup
+10 dict begin
+    {
+        % ... work ...
+    } stopped pop
+end
+----
+
+==== Resource Management
+
+.Dictionary cleanup
+[source,postscript]
+----
+% Clear large dictionary when done
+/bigdict 1000 dict def
+% ... use bigdict ...
+bigdict begin
+    { currentdict { pop undef } forall } stopped pop
+end
+% or
+/bigdict null def          % Release reference
+----
+
+=== Common Pitfalls
+
+==== Dictionary Stack Imbalance
+
+.Unmatched begin/end
+[source,postscript]
+----
+% WRONG - missing end
+10 dict begin
+    /x 42 def
+    % ... more code ...
+% Dictionary stays on stack!
+
+% RIGHT - balanced
+10 dict begin
+    /x 42 def
+end                         % Properly removed
+----
+
+==== Key Type Confusion
+
+.Name vs string keys
+[source,postscript]
+----
+% These are DIFFERENT:
+<< /name 42 >> /name get    % Works: 42
+<< /name 42 >> (name) get   % Error: string ≠ name
+
+% Keys must match exactly
+/dict 10 dict def
+dict /key 1 put
+dict /key get               % OK
+dict (key) cvn get         % OK (converted to name)
+dict (key) get             % ERROR
+----
+
+==== Scope Leakage
+
+.Variables in wrong scope
+[source,postscript]
+----
+% WRONG - pollutes current dict
+/GlobalProc {
+    /x 42 def              % Defines in current dict
+} def
+
+% RIGHT - uses local dict
+/LocalProc {
+    1 dict begin
+        /x 42 def          % Local to this dict
+        x                   % Use it
+    end
+} def
+----
+
+==== Dictionary Modification During Iteration
+
+.Iterator invalidation
+[source,postscript]
+----
+% DANGEROUS
+<< /a 1 /b 2 /c 3 >> {
+    pop                     % Key
+    dup (remove) eq {
+        currentdict exch undef  % Modifying during iteration!
+    } if
+} forall
+
+% SAFE - collect keys first
+<< /a 1 /b 2 /c 3 >>
+[ exch { pop } forall ]     % Collect all keys
+{ ... } forall              % Now safe to modify
+----
+
+=== Advanced Dictionary Techniques
+
+==== Method Dispatch
+
+.Dynamic dispatch table
+[source,postscript]
+----
+/Object <<
+    /type /MyObject
+    /data [1 2 3]
+
+    /Methods <<
+        /print {
+            (Object: ) print
+            Object /data get =
+        } bind
+
+        /size {
+            Object /data get length
+        } bind
+    >>
+>> def
+
+% Invoke method
+Object /Methods get /print get exec
+Object /Methods get /size get exec
+----
+
+==== Prototype-Based Inheritance
+
+.Prototype chain
+[source,postscript]
+----
+/Prototype <<
+    /sharedMethod { (From prototype) = } bind
+>> def
+
+/Instance <<
+    /prototype Prototype
+    /instanceData 42
+>> def
+
+% Lookup with fallback
+/Lookup {
+    % in: object key
+    % out: value
+
+    2 copy known {
+        get
+    } {
+        exch /prototype get
+        exch Lookup         % Recursive lookup
+    } ifelse
+} def
+
+Instance /sharedMethod Lookup exec
+----
+
+==== Memoization
+
+.Caching computed values
+[source,postscript]
+----
+/FibonacciMemo << >> def
+
+/Fibonacci {
+    % in: n
+    % out: fib(n)
+
+    % Check cache
+    FibonacciMemo 1 index known {
+        FibonacciMemo exch get
+    } {
+        % Compute
+        dup 2 lt {
+            % Base case
+        } {
+            dup 1 sub Fibonacci
+            exch 2 sub Fibonacci
+            add
+        } ifelse
+
+        % Store in cache
+        dup
+        FibonacciMemo 3 1 roll put
+    } ifelse
+} def
+----
+
+=== See Also
+
+* xref:objects.adoc[Objects] - Dictionary object model
+* xref:arrays.adoc[Arrays] - Similar composite structure
+* xref:procedures.adoc[Procedures] - Local variables with dictionaries
+* xref:operators.adoc[Operators] - Dictionary operators
+* xref:tokens.adoc[Tokens] - Name syntax for keys
+* xref:../commands/dictionary/dict.adoc[dict] - Create dictionaries
+* xref:../commands/dictionary/begin.adoc[begin] - Push onto dict stack
+* xref:../commands/dictionary/end.adoc[end] - Pop from dict stack
+* xref:../commands/dictionary/def.adoc[def] - Define entries
+* xref:../commands/dictionary/load.adoc[load] - Look up values
+* xref:../commands/dictionary/where.adoc[where] - Find definitions
+* xref:index.adoc[Language Syntax Overview]

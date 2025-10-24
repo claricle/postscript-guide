@@ -1,0 +1,350 @@
+---
+layout: default
+title: concat
+parent: Coordinate Transformations
+grand_parent: Command Reference
+nav_order: 4
+---
+
+== concat
+
+Concatenates a matrix with the current transformation matrix.
+
+=== Syntax
+
+----
+matrix concat → -
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (6-element array)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No results
+|===
+
+=== Description
+
+[`concat`](concat.adoc) concatenates `matrix` with the current transformation matrix (CTM). Precisely, [`concat`](concat.adoc) replaces the CTM by matrix × CTM.
+
+The effect is to define a new user space whose coordinates are transformed into the former user space according to `matrix`. This allows arbitrary transformations including combinations of translation, scaling, rotation, and skewing.
+
+The `matrix` operand must be a 6-element array of numbers representing a transformation matrix in the form:
+
+----
+[a b c d tx ty]
+----
+
+This matrix transforms coordinates according to:
+
+----
+x' = a×x + c×y + tx
+y' = b×x + d×y + ty
+----
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Simple concatenation
+[source,postscript]
+----
+% Translation matrix
+[1 0 0 1 100 200] concat
+% Equivalent to: 100 200 translate
+----
+
+.Combined transformations
+[source,postscript]
+----
+% Scale by 2, rotate 45 degrees
+[1.414 1.414 -1.414 1.414 0 0] concat
+% Approximately equivalent to: 2 2 scale 45 rotate
+----
+
+.Shearing transformation
+[source,postscript]
+----
+% Horizontal shear
+[1 0 0.5 1 0 0] concat
+newpath
+0 0 moveto
+100 0 lineto
+100 100 lineto
+0 100 lineto
+closepath
+stroke  % Draws parallelogram
+----
+
+=== Common Use Cases
+
+==== Building Complex Transformations
+
+[source,postscript]
+----
+% Build transformation step by step
+matrix               % Start with identity
+50 100 translate     % Add translation
+2 2 scale           % Add scaling
+45 rotate           % Add rotation
+concat              % Apply to CTM
+----
+
+==== Applying Precomputed Matrices
+
+[source,postscript]
+----
+% Store transformation for reuse
+/myTransform [2 0 0 2 100 100] def
+
+% Use it multiple times
+gsave
+  myTransform concat
+  % Draw content
+grestore
+
+gsave
+  myTransform concat
+  % Draw more content
+grestore
+----
+
+==== Skew/Shear Effects
+
+[source,postscript]
+----
+% Italic effect (horizontal shear)
+[1 0 0.25 1 0 0] concat
+/Helvetica findfont 24 scalefont setfont
+0 0 moveto
+(Slanted Text) show
+
+% Vertical shear
+[1 0.25 0 1 0 0] concat
+----
+
+==== Mirror Transformations
+
+[source,postscript]
+----
+% Horizontal mirror around x=100
+[- 1 0 0 1 200 0] concat
+
+% Vertical mirror around y=100
+[1 0 0 -1 0 200] concat
+----
+
+=== Common Pitfalls
+
+WARNING: *Matrix Format* - The matrix must be exactly 6 elements in the correct order [a b c d tx ty].
+
+[source,postscript]
+----
+% Wrong: only 4 elements
+[2 0 0 2] concat    % Error!
+
+% Wrong: wrong order
+[100 200 2 0 0 2] concat  % Incorrect transformation
+
+% Right:
+[2 0 0 2 100 200] concat
+----
+
+WARNING: *Identity Matrix* - Concatenating the identity matrix has no effect.
+
+[source,postscript]
+----
+[1 0 0 1 0 0] concat  % Does nothing
+----
+
+WARNING: *Order of Operations* - Matrix multiplication is not commutative. Order matters!
+
+[source,postscript]
+----
+% These produce different results:
+[2 0 0 2 0 0] concat     % Scale first
+[1 0 0 1 100 100] concat % Then translate
+
+[1 0 0 1 100 100] concat % Translate first
+[2 0 0 2 0 0] concat     % Then scale
+----
+
+TIP: *Use Helper Operators* - For simple transformations, use xref:translate.adoc[`translate`], xref:scale.adoc[`scale`], and xref:rotate.adoc[`rotate`] instead of [`concat`](concat.adoc).
+
+[source,postscript]
+----
+% Clearer:
+100 200 translate
+2 2 scale
+
+% Less clear:
+[2 0 0 2 100 200] concat
+----
+
+TIP: *Build Matrices Separately* - Build transformation matrices separately for clarity:
+
+[source,postscript]
+----
+matrix                  % Start with identity
+100 200 translate      % Add translation
+45 rotate              % Add rotation
+/myMatrix exch def     % Save result
+myMatrix concat        % Apply it
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| `matrix` does not have exactly 6 elements, or resulting matrix values exceed implementation limits
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand is not an array, or array elements are not all numbers
+|===
+
+=== Implementation Notes
+
+* The matrix operand is not modified by [`concat`](concat.adoc)
+* Very large or very small matrix values may cause precision loss
+* Degenerate matrices (determinant = 0) create non-invertible transformations
+* The operation is equivalent to: CTM' = matrix × CTM
+
+=== Matrix Mathematics
+
+Given a transformation matrix M:
+
+----
+M = [a  b  c  d  tx  ty]
+----
+
+And the current CTM:
+
+----
+CTM = [a₀  b₀  c₀  d₀  tx₀  ty₀]
+----
+
+[`concat`](concat.adoc) computes:
+
+----
+CTM' = M × CTM
+     = [a  b  c  d  tx  ty] × [a₀  b₀  c₀  d₀  tx₀  ty₀]
+     = [a×a₀+b×c₀         a×b₀+b×d₀
+        c×a₀+d×c₀         c×b₀+d×d₀
+        tx×a₀+ty×c₀+tx₀   tx×b₀+ty×d₀+ty₀]
+----
+
+=== Transformation Components
+
+A general transformation matrix can represent:
+
+[cols="2,3"]
+|===
+| Component | Matrix Elements
+
+| **Scaling**
+| `a` controls x-scaling, `d` controls y-scaling
+
+| **Rotation**
+| When a=d=cos(θ) and b=-c=sin(θ)
+
+| **Shearing**
+| `b` causes x-shear, `c` causes y-shear
+
+| **Translation**
+| `tx` and `ty` control offset
+
+| **Reflection**
+| Negative `a` flips horizontally, negative `d` flips vertically
+|===
+
+=== Decomposition Example
+
+[source,postscript]
+----
+% Complex transformation
+/complexMatrix [1.414 1.414 -1.414 1.414 100 200] def
+
+% This is approximately equivalent to:
+100 200 translate  % Translation (tx=100, ty=200)
+45 rotate          % Rotation (θ=45°)
+2 2 scale          % Scaling (sx=sy=√2≈1.414)
+----
+
+=== Performance Considerations
+
+* [`concat`](concat.adoc) is a lightweight operation
+* No path recomputation is required
+* Matrix multiplication is optimized
+* Using [`concat`](concat.adoc) with precomputed matrices can be faster than multiple individual transformations
+
+=== Relationship to Other Operators
+
+[source,postscript]
+----
+% These are equivalent:
+
+% Using individual operators:
+100 200 translate
+2 2 scale
+45 rotate
+
+% Using concat:
+matrix
+100 200 translate
+2 2 scale
+45 rotate
+concat
+
+% Direct concat (requires computed matrix):
+[1.414 1.414 -2.828 1.414 100 200] concat
+----
+
+=== Building Transformation Matrices
+
+[source,postscript]
+----
+% Create a reusable transformation
+/buildTransform {
+  % angle sx sy tx ty buildTransform -> matrix
+  matrix
+  5 -1 roll translate  % Apply translation
+  4 1 roll scale       % Apply scaling
+  rotate               % Apply rotation
+} def
+
+% Use it:
+45 2 3 100 200 buildTransform concat
+----
+
+=== See Also
+
+* xref:translate.adoc[`translate`] - Move origin
+* xref:scale.adoc[`scale`] - Change unit size
+* xref:rotate.adoc[`rotate`] - Rotate axes
+* xref:concatmatrix.adoc[`concatmatrix`] - Multiply two matrices
+* xref:setmatrix.adoc[`setmatrix`] - Replace CTM directly
+* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:matrix.adoc[`matrix`] - Create identity matrix
+* xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
+* xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

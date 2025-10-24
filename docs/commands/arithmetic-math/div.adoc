@@ -1,0 +1,349 @@
+---
+layout: default
+title: div
+parent: Arithmetic and Math
+grand_parent: Command Reference
+nav_order: 4
+permalink: /commands/arithmetic-math/div/
+---
+= div
+:description: Divide two numbers (real result)
+:keywords: postscript, arithmetic, div, divide, division, math
+
+[.lead]
+Divides the first number by the second and returns a real number result.
+
+== Description
+
+The `div` operator pops two numbers from the operand stack, divides num1 by num2, and pushes the result back onto the stack. The result is *always a real number*, even if both operands are integers. For integer division with truncation, use xref:idiv.adoc[`idiv`] instead.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+num1 num2 div quotient
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num2` (integer or real) - Divisor (number to divide by)
+
+|Top-1
+|`num1` (integer or real) - Dividend (number to be divided)
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`quotient` (real) - Result of num1 ÷ num2 (always real)
+|===
+
+== Parameters
+
+`num1`:: The dividend - the number to be divided (integer or real)
+`num2`:: The divisor - the number to divide by (integer or real, must be non-zero)
+
+== Return Values
+
+`quotient`:: The quotient num1 ÷ num2 as a real number (always real, even for integer operands)
+
+== Examples
+
+=== Basic Division
+
+[source,postscript]
+----
+% Integer operands still produce real result
+3 2 div        % → 1.5 (real, not 1!)
+
+% Even exact divisions produce reals
+4 2 div        % → 2.0 (real result)
+
+% Real division
+7.5 2.5 div    % → 3.0 (real result)
+
+% Negative division
+-10 4 div      % → -2.5 (real result)
+10 -4 div      % → -2.5 (real result)
+-10 -4 div     % → 2.5 (real result)
+----
+
+=== Contrast with idiv
+
+[source,postscript]
+----
+% div always returns real
+7 2 div        % → 3.5 (real)
+
+% idiv returns integer (truncated)
+7 2 idiv       % → 3 (integer)
+
+% Use div for mathematical precision
+1 3 div        % → 0.333333... (real)
+
+% Use idiv for integer quotient
+1 3 idiv       % → 0 (integer)
+----
+
+=== Reciprocal
+
+[source,postscript]
+----
+% Calculate 1/x
+1 5 div        % → 0.2 (reciprocal of 5)
+
+% Percentage to decimal
+1 100 div      % → 0.01 (1%)
+----
+
+=== Scaling and Normalization
+
+[source,postscript]
+----
+% Normalize to 0-1 range
+/normalize {  % value min max -> normalized
+    2 index sub    % value min (max-min)
+    3 1 roll       % (max-min) value min
+    sub            % (max-min) (value-min)
+    exch div       % (value-min)/(max-min)
+} def
+
+75 0 100 normalize  % → 0.75
+----
+
+== Advanced Examples
+
+=== Aspect Ratio
+
+[source,postscript]
+----
+/aspectRatio {  % width height -> ratio
+    div
+} def
+
+1920 1080 aspectRatio  % → 1.777... (16:9 ratio)
+----
+
+=== Unit Conversion
+
+[source,postscript]
+----
+% Convert between units
+/inchesToCm {  % inches -> cm
+    2.54 mul
+} def
+
+/cmToInches {  % cm -> inches
+    2.54 div
+} def
+
+10 inchesToCm   % → 25.4
+25.4 cmToInches % → 10.0
+----
+
+=== Safe Division with Default
+
+[source,postscript]
+----
+/safeDivide {  % num1 num2 default -> result
+    % Divide num1 by num2, or return default if num2 is zero
+    dup 0 eq {
+        pop pop    % Remove num1 and num2
+        % Return default
+    } {
+        div
+    } ifelse
+} def
+
+10 2 0 safeDivide   % → 5.0
+10 0 999 safeDivide % → 999 (avoided division by zero)
+----
+
+=== Weighted Average
+
+[source,postscript]
+----
+/weightedAvg {  % value1 weight1 value2 weight2 -> avg
+    % Calculate weighted average
+    3 index 2 index mul  % v1 w1 v2 w2 (v2*w2)
+    5 2 roll mul         % v2 w2 (v2*w2) (v1*w1)
+    add                  % v2 w2 total
+    3 1 roll add         % total (w1+w2)
+    div                  % total/(w1+w2)
+} def
+
+80 3 90 2 weightedAvg  % → 84.0
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: Division by zero causes an `undefinedresult` error.
+
+=== Division by Zero
+
+[source,postscript]
+----
+% WRONG: Division by zero
+10 0 div       % ERROR: undefinedresult
+
+% CORRECT: Check divisor first
+/safeDivOrZero {  % num1 num2 -> result
+    dup 0 eq {
+        pop pop 0
+    } {
+        div
+    } ifelse
+} def
+
+10 0 safeDivOrZero  % → 0 (returns 0 instead of error)
+----
+
+=== Always Returns Real
+
+[source,postscript]
+----
+% Even perfect integer divisions return real
+100 10 div     % → 10.0 (real, not 10)
+
+% If you need an integer result, use idiv or convert
+100 10 div cvi % → 10 (converted to integer)
+100 10 idiv    % → 10 (integer division)
+----
+
+=== Order Matters
+
+[source,postscript]
+----
+% Division is not commutative
+10 2 div       % → 5.0
+2 10 div       % → 0.2 (very different!)
+
+% Be careful with stack order
+/x 100 def
+/y 4 def
+x y div        % → 25.0 (100 ÷ 4)
+y x div        % → 0.04 (4 ÷ 100)
+----
+
+=== Negative Divisions
+
+[source,postscript]
+----
+% Signs follow standard rules
+10 -3 div      % → -3.33333...
+-10 3 div      % → -3.33333...
+-10 -3 div     % → 3.33333...
+----
+
+== Type Requirements
+
+Both operands must be numeric (integer or real). The divisor (num2) must not be zero. Other types will cause a `typecheck` error:
+
+[source,postscript]
+----
+% BAD: Non-numeric operands
+(hello) 5 div        % ERROR: typecheck
+10 (world) div       % ERROR: typecheck
+----
+
+== Related Commands
+
+* xref:idiv.adoc[`idiv`] - Integer division (truncated result)
+* xref:mod.adoc[`mod`] - Modulo (remainder of division)
+* xref:add.adoc[`add`] - Add two numbers
+* xref:sub.adoc[`sub`] - Subtract two numbers
+* xref:mul.adoc[`mul`] - Multiply two numbers
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental arithmetic operator available in all PostScript implementations.
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack contains fewer than two elements.
++
+[source,postscript]
+----
+5 div          % ERROR: stackunderflow (need 2 operands)
+----
+
+`typecheck`::
+One or both operands are not numbers.
++
+[source,postscript]
+----
+5 (text) div   % ERROR: typecheck
+----
+
+`undefinedresult`::
+The divisor is zero, or the result is outside the representable range.
++
+[source,postscript]
+----
+10 0 div       % ERROR: undefinedresult (division by zero)
+1.0e308 1.0e-308 div  % ERROR: undefinedresult (overflow)
+----
+
+== Performance Considerations
+
+Division is slower than addition and multiplication but still fast:
+
+* Real division is performed in hardware on most systems
+* For division by constants, consider pre-calculating the reciprocal
+* For division by powers of 2, `bitshift` is faster (for integers)
+
+[source,postscript]
+----
+% Slower: repeated division
+100 { 1000 10 div pop } repeat
+
+% Faster: multiply by reciprocal
+/reciprocal 1 10 div def
+100 { 1000 reciprocal mul pop } repeat
+----
+
+== Best Practices
+
+1. **Use `div` for mathematical accuracy** - it preserves fractional results
+2. **Use `idiv` for integer quotients** - when you need truncated integers
+3. **Always check for zero divisors** in user input or calculations
+4. **Be aware that result is always real** - convert with `cvi` if needed
+
+=== Choosing Division Operator
+
+[source,postscript]
+----
+% Mathematical division → use div
+circumference 2 div pi div  % radius = C/(2π)
+
+% Integer quotient → use idiv
+totalItems 3 idiv           % How many groups of 3?
+
+% Remainder → use mod
+totalItems 3 mod            % How many items left over?
+----
+
+== See Also
+
+* xref:index.adoc[Arithmetic and Math] - All arithmetic operators
+* xref:../../levels/index.adoc[PostScript Language Levels]
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

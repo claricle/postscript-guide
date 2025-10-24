@@ -1,0 +1,203 @@
+---
+layout: default
+title: get
+parent: Array and String Operations
+grand_parent: Command Reference
+nav_order: 6
+---
+
+== get
+
+Retrieves a single element from an array, packed array, dictionary, or string.
+
+=== Syntax
+
+----
+array index get → any
+packedarray index get → any
+dict key get → any
+string index get → int
+----
+
+=== Stack Effects
+
+.Array/String Access
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `array`, `packedarray`, or `string`
+
+| 0
+| `index` (integer 0 to n-1)
+|===
+
+.Result
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| Element at `index` (or character code for strings)
+|===
+
+.Dictionary Access
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `dict`
+
+| 0
+| `key`
+|===
+
+.Result
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| Value associated with `key`
+|===
+
+=== Description
+
+[`get`](get.adoc) retrieves a single element from a composite object:
+
+* For arrays and packed arrays: returns the element at the specified index
+* For strings: returns the integer character code (0-255) at the specified index
+* For dictionaries: returns the value associated with the specified key
+
+Indices for arrays and strings are 0-based: valid range is 0 to length-1.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Array element access
+[source,postscript]
+----
+[31 41 59] 0 get        % Returns 31
+[31 41 59] 2 get        % Returns 59
+----
+
+.Mixed-type array
+[source,postscript]
+----
+[0 (a mixed array) [ ] { add }] 1 get
+% Returns (a mixed array)
+----
+
+.String character access
+[source,postscript]
+----
+(abc) 1 get             % Returns 98 (ASCII 'b')
+(a) 0 get               % Returns 97 (ASCII 'a')
+----
+
+.Dictionary lookup
+[source,postscript]
+----
+/mydict 5 dict def
+mydict /mykey (myvalue) put
+mydict /mykey get       % Returns (myvalue)
+----
+
+=== Common Use Cases
+
+==== Coordinate Extraction
+
+[source,postscript]
+----
+/point [100 200] def
+point 0 get  % x coordinate: 100
+point 1 get  % y coordinate: 200
+----
+
+==== Character Code Processing
+
+[source,postscript]
+----
+(Hello) 0 get 32 sub  % Convert 'H' to lowercase offset
+----
+
+==== Configuration Lookup
+
+[source,postscript]
+----
+configdict /PageSize get  % Get page size setting
+----
+
+=== Common Pitfalls
+
+WARNING: *String Returns Integer* - [`get`](get.adoc) on a string returns an integer (character code), not a one-character string.
+
+[source,postscript]
+----
+(abc) 0 get  % Returns 97, not (a)
+----
+
+WARNING: *Index Range* - Index must be in range 0 to length-1. Out-of-bounds access causes [`rangecheck`] error.
+
+[source,postscript]
+----
+[1 2 3] 3 get  % Error: valid indices are 0-2
+----
+
+WARNING: *Dictionary Key Not Found* - If the key doesn't exist in a dictionary, [`undefined`] error occurs.
+
+[source,postscript]
+----
+5 dict /nokey get  % Error: key not in dictionary
+----
+
+TIP: *Use known/where First* - For dictionaries, use `where` or `known` to check if a key exists before using [`get`](get.adoc).
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| Object has no-access or execute-only attribute
+
+| [`rangecheck`]
+| Index out of bounds for array/string
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| First operand wrong type, or index not integer
+
+| [`undefined`]
+| Key not found in dictionary
+|===
+
+=== Implementation Notes
+
+* For arrays and dictionaries, returns the actual object (not a copy)
+* For strings, returns a new integer object
+* Accessing composite elements creates no new objects (shares references)
+* Dictionary lookup is typically O(1) average case
+
+=== Performance Considerations
+
+* Direct array indexing is very fast
+* String character access is equally fast
+* Dictionary lookup slightly slower but still efficient
+* For sequential access, xref:forall.adoc[`forall`] may be more efficient than repeated [`get`](get.adoc) calls
+
+=== See Also
+
+* xref:put.adoc[`put`] - Store value in array/string/dictionary
+* xref:getinterval.adoc[`getinterval`] - Get subarray or substring
+* xref:length.adoc[`length`] - Get length of array/string
+* xref:aload.adoc[`aload`] - Load all array elements
+* xref:forall.adoc[`forall`] - Iterate over elements

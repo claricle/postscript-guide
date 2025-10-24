@@ -1,0 +1,207 @@
+---
+layout: default
+title: cvs
+parent: Array and String Operations
+grand_parent: Command Reference
+nav_order: 17
+---
+
+== cvs
+
+Converts any object to its string representation.
+
+=== Syntax
+
+----
+any string cvs → substring
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `any` (object to convert)
+
+| 0
+| `string` (buffer for result)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `substring` (portion of string used)
+|===
+
+=== Description
+
+[`cvs`](cvs.adoc) (convert to string) produces a text representation of an arbitrary object and stores it into the supplied _string_, overwriting an initial portion of its value. It returns a string object designating the substring actually used.
+
+Conversion rules:
+* **Numbers**: Text representation (e.g., `123`, `3.14`)
+* **Booleans**: `true` or `false`
+* **Strings**: Contents copied verbatim
+* **Names/operators**: Text representation of name
+* **Other types**: `--nostringval--`
+
+For real numbers, the exact format is implementation-dependent (e.g., `0.001` or `1.0E-3`).
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Converting numbers
+[source,postscript]
+----
+/str 20 string def
+123 456 add str cvs
+% Result: (579)
+----
+
+.Converting booleans
+[source,postscript]
+----
+/str 10 string def
+true str cvs     % Result: (true)
+false str cvs    % Result: (false)
+----
+
+.Converting names
+[source,postscript]
+----
+/str 20 string def
+/MyName str cvs  % Result: (MyName)
+----
+
+.Unconvertible types
+[source,postscript]
+----
+/str 20 string def
+mark str cvs     % Result: (--nostringval--)
+----
+
+=== Common Use Cases
+
+==== Number to String Conversion
+
+[source,postscript]
+----
+/num 42 def
+20 string
+num exch cvs
+% Use string representation
+----
+
+==== Building Messages
+
+[source,postscript]
+----
+/message 100 string def
+(Value: ) message 0 7 getinterval cvs
+value message 8 message length 8 sub getinterval cvs
+----
+
+==== Debug Output
+
+[source,postscript]
+----
+/debug {
+  20 string cvs print (\n) print
+} def
+
+123 debug        % Prints "123"
+/name debug      % Prints "name"
+----
+
+=== Common Pitfalls
+
+WARNING: *Buffer Must Be Large Enough* - If _string_ is too small, [`rangecheck`] error occurs.
+
+[source,postscript]
+----
+123456 3 string cvs  % Error: need at least 6 chars
+----
+
+WARNING: *Real Number Format Varies* - Format for reals is implementation-dependent.
+
+[source,postscript]
+----
+0.001 20 string cvs  % Might be (0.001) or (1.0E-3)
+----
+
+WARNING: *Returns Substring* - Result is a substring sharing the buffer, not a new string.
+
+[source,postscript]
+----
+/buf 20 string def
+123 buf cvs /s1 exch def
+456 buf cvs /s2 exch def
+% s1 now shows (456...) - buffer was reused!
+----
+
+TIP: *Use Ample Buffer Size* - Allocate at least 20-30 characters for number conversions.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| String has no-access or read-only attribute
+
+| [`rangecheck`]
+| String too small for conversion result
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| Second operand is not a string
+|===
+
+=== Implementation Notes
+
+* Numbers converted using PostScript syntax rules
+* String result shares the buffer (not a copy)
+* For strings, performs a copy operation
+* Return value points to used portion of buffer only
+
+=== Recommended Buffer Sizes
+
+[cols="2,1,3"]
+|===
+| Object Type | Min Size | Reason
+
+| Integers
+| 12
+| Max ~10 digits plus sign
+
+| Reals
+| 30
+| Scientific notation possible
+
+| Names
+| Variable
+| Length of name + 1
+
+| Booleans
+| 6
+| "true" or "false"
+|===
+
+=== See Also
+
+* xref:cvn.adoc[`cvn`] - Convert string to name
+* xref:cvi.adoc[`cvi`] - Convert to integer
+* xref:cvr.adoc[`cvr`] - Convert to real
+* xref:string.adoc[`string`] - Create string buffer
+* xref:type.adoc[`type`] - Get object type

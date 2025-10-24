@@ -1,0 +1,1190 @@
+---
+layout: default
+title: Patterns
+parent: Advanced Usage
+grand_parent: Usage Guides
+nav_order: 5
+---
+
+== Patterns
+
+Patterns in PostScript allow you to fill and stroke areas with repeating designs, textures, and complex visual effects. They provide powerful capabilities for creating sophisticated graphics.
+
+=== Overview
+
+PostScript supports two types of patterns:
+
+* **Tiling Patterns** (Level 1-compatible using manual techniques)
+* **Pattern Color Space** (Level 2+ native support)
+
+Patterns can be:
+
+* **Colored** - Pattern defines its own colors
+* **Uncolored** - Uses current color
+* **Bounded** - Tiles within defined area
+* **Unbounded** - Tiles infinitely
+
+This guide covers both Level 1-compatible techniques and Level 2 pattern features.
+
+=== Basic Pattern Concepts
+
+==== Pattern Cells
+
+A pattern cell is the basic repeating unit:
+
+[source,postscript]
+----
+% Pattern cell: 10x10 unit
+% Repeats horizontally and vertically
+
+/patternCell {
+  % Draw pattern in 10x10 space
+  newpath
+  0 0 moveto
+  10 0 lineto
+  10 10 lineto
+  0 10 lineto
+  closepath
+  stroke
+} def
+----
+
+==== Pattern Space
+
+Patterns have their own coordinate system:
+
+[source,postscript]
+----
+% Pattern space is independent of user space
+% Transformations affect pattern placement
+gsave
+  % Set up pattern transformation
+  100 100 translate  % Pattern origin
+  2 2 scale         % Pattern scale
+
+  % Apply pattern here
+grestore
+----
+
+=== Level 1-Compatible Patterns
+
+==== Manual Tiling Pattern
+
+[source,postscript]
+----
+% Simple dot pattern
+/dotPattern {  % x y width height -> -
+  4 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      % Clip to area
+      x y w h rectclip
+
+      % Tile pattern
+      x 5 x w add {
+        /px exch def
+        y 5 y h add {
+          /py exch def
+          newpath
+          px py 2 0 360 arc
+          fill
+        } for
+      } for
+    grestore
+  end
+} def
+
+% Usage
+100 100 200 200 dotPattern
+----
+
+==== Grid Pattern
+
+[source,postscript]
+----
+/gridPattern {  % x y width height spacing -> -
+  5 dict begin
+    /spacing exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      0.5 setlinewidth
+
+      % Vertical lines
+      x spacing x w add {
+        dup y moveto y h add lineto stroke
+      } for
+
+      % Horizontal lines
+      y spacing y h add {
+        dup x exch moveto w add exch lineto stroke
+      } for
+    grestore
+  end
+} def
+
+% Usage
+100 100 300 200 20 gridPattern
+----
+
+==== Diagonal Lines Pattern
+
+[source,postscript]
+----
+/diagonalPattern {  % x y width height spacing angle -> -
+  6 dict begin
+    /angle exch def
+    /spacing exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      % Clip to area
+      newpath
+      x y moveto
+      w 0 rlineto
+      0 h rlineto
+      w neg 0 rlineto
+      closepath
+      clip
+
+      % Set up transformation
+      x y translate
+      angle rotate
+
+      % Draw lines
+      0.5 setlinewidth
+      w h add neg spacing w h add {
+        dup 0 moveto w h add lineto stroke
+      } for
+    grestore
+  end
+} def
+
+% Usage
+100 100 200 200 10 45 diagonalPattern
+----
+
+==== Checkerboard Pattern
+
+[source,postscript]
+----
+/checkerPattern {  % x y width height cellSize -> -
+  5 dict begin
+    /cell exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      x y translate
+
+      0 cell h {
+        /row exch def
+        0 cell w {
+          /col exch def
+
+          % Alternate colors
+          row cell div floor cvi
+          col cell div floor cvi
+          add 2 mod 0 eq {
+            0 setgray
+          } {
+            1 setgray
+          } ifelse
+
+          col row cell cell rectfill
+        } for
+      } for
+    grestore
+  end
+} def
+
+% Usage
+100 100 200 200 20 checkerPattern
+----
+
+=== Advanced Manual Patterns
+
+==== Brick Pattern
+
+[source,postscript]
+----
+/brickPattern {  % x y width height -> -
+  4 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    /brickW 40 def
+    /brickH 20 def
+    /mortarW 2 def
+
+    gsave
+      x y translate
+      x y w h rectclip
+
+      0 brickH h {
+        /row exch def
+
+        % Offset every other row
+        row brickH div cvi 2 mod 0 eq {
+          /offset 0 def
+        } {
+          /offset brickW 2 div def
+        } ifelse
+
+        offset brickW w offset add {
+          /col exch def
+
+          % Brick
+          0.7 0.3 0.2 setrgbcolor
+          col row brickW mortarW sub brickH mortarW sub rectfill
+        } for
+      } for
+    grestore
+  end
+} def
+
+100 100 300 200 brickPattern
+----
+
+==== Polka Dot Pattern
+
+[source,postscript]
+----
+/polkaDotPattern {  % x y width height dotSize spacing -> -
+  6 dict begin
+    /spacing exch def
+    /size exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      x y w h rectclip
+
+      x spacing x w add {
+        /px exch def
+        y spacing y h add {
+          /py exch def
+
+          newpath
+          px py size 0 360 arc
+          fill
+        } for
+      } for
+    grestore
+  end
+} def
+
+100 100 200 200 8 20 polkaDotPattern
+----
+
+==== Hatch Pattern
+
+[source,postscript]
+----
+/hatchPattern {  % x y width height spacing -> -
+  5 dict begin
+    /spacing exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      newpath
+      x y moveto
+      w 0 rlineto
+      0 h rlineto
+      w neg 0 rlineto
+      closepath
+      clip
+
+      0.5 setlinewidth
+
+      % Draw diagonal lines both ways
+      x w add neg spacing x w add {
+        /i exch def
+        newpath
+        x i add y moveto
+        x w add i add y h add lineto
+        stroke
+
+        newpath
+        x i add y h add moveto
+        x w add i add y lineto
+        stroke
+      } for
+    grestore
+  end
+} def
+
+100 100 200 150 15 hatchPattern
+----
+
+=== Pattern with Clipping
+
+==== Pattern Fill Shape
+
+[source,postscript]
+----
+/patternFill {  % pattern -> -
+  gsave
+    % Shape to fill
+    newpath
+    200 200 100 0 360 arc
+    clip
+    newpath
+
+    % Execute pattern
+    exec
+  grestore
+} def
+
+% Usage
+{
+  % Draw pattern
+  0 10 400 {
+    /i exch def
+    i 100 moveto
+    200 lineto
+    stroke
+  } for
+} patternFill
+----
+
+==== Text with Pattern
+
+[source,postscript]
+----
+/patternText {  % x y text pattern -> -
+  4 dict begin
+    /pattern exch def
+    /text exch def
+    /y exch def
+    /x exch def
+
+    /Helvetica-Bold findfont 72 scalefont setfont
+
+    gsave
+      % Create clipping path from text
+      newpath
+      x y moveto
+      text false charpath
+      clip
+      newpath
+
+      % Draw pattern through text
+      pattern exec
+    grestore
+  end
+} def
+
+% Usage
+100 200 (PATTERN) {
+  50 10 400 {
+    /i exch def
+    i 100 moveto
+    i 50 add 300 lineto
+    0.5 setlinewidth
+    stroke
+  } for
+} patternText
+----
+
+=== Procedural Patterns
+
+==== Noise Pattern
+
+[source,postscript]
+----
+/noisePattern {  % x y width height density -> -
+  5 dict begin
+    /density exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      x y w h rectclip
+
+      0 1 density {
+        pop
+        rand 2147483647 div w mul x add
+        rand 2147483647 div h mul y add
+        1 0 360 arc
+        fill
+      } for
+    grestore
+  end
+} def
+
+100 100 200 200 500 noisePattern
+----
+
+==== Wave Pattern
+
+[source,postscript]
+----
+/wavePattern {  % x y width height amplitude frequency -> -
+  6 dict begin
+    /freq exch def
+    /amp exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      x y translate
+
+      newpath
+      0 1 w {
+        /i exch def
+        i
+        i freq mul sin amp mul h 2 div add
+        i 0 eq { moveto } { lineto } ifelse
+      } for
+
+      stroke
+    grestore
+  end
+} def
+
+100 100 300 100 20 0.1 wavePattern
+----
+
+==== Spiral Pattern
+
+[source,postscript]
+----
+/spiralPattern {  % centerX centerY maxRadius turns -> -
+  4 dict begin
+    /turns exch def
+    /maxR exch def
+    /cy exch def
+    /cx exch def
+
+    newpath
+    cx cy moveto
+
+    0 5 turns 360 mul {
+      /angle exch def
+      /r angle turns 360 mul div maxR mul def
+
+      cx r angle cos mul add
+      cy r angle sin mul add
+      lineto
+    } for
+
+    stroke
+  end
+} def
+
+200 200 80 5 spiralPattern
+----
+
+=== Gradient Patterns
+
+==== Linear Gradient (Simulated)
+
+[source,postscript]
+----
+/linearGradient {  % x y width height color1 color2 -> -
+  6 dict begin
+    /c2 exch def
+    /c1 exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    0 1 w {
+      /i exch def
+      /t i w div def
+
+      % Interpolate colors
+      c1 aload pop
+      c2 aload pop
+      t blendColors
+      setrgbcolor
+
+      x i add y 1 h rectfill
+    } for
+  end
+} def
+
+/blendColors {  % r1 g1 b1 r2 g2 b2 t -> r g b
+  7 dict begin
+    /t exch def
+    /b2 exch def /g2 exch def /r2 exch def
+    /b1 exch def /g1 exch def /r1 exch def
+
+    r1 1 t sub mul r2 t mul add
+    g1 1 t sub mul g2 t mul add
+    b1 1 t sub mul b2 t mul add
+  end
+} def
+
+% Usage
+100 100 200 100 [1 0 0] [0 0 1] linearGradient
+----
+
+==== Radial Gradient (Simulated)
+
+[source,postscript]
+----
+/radialGradient {  % centerX centerY maxRadius color1 color2 -> -
+  5 dict begin
+    /c2 exch def
+    /c1 exch def
+    /maxR exch def
+    /cy exch def
+    /cx exch def
+
+    maxR -1 0 {
+      /r exch def
+      /t r maxR div def
+
+      % Interpolate colors
+      c1 aload pop
+      c2 aload pop
+      t blendColors
+      setrgbcolor
+
+      newpath
+      cx cy r 0 360 arc
+      fill
+    } for
+  end
+} def
+
+200 200 80 [1 1 0] [1 0 0] radialGradient
+----
+
+=== Pattern Transformations
+
+==== Scaled Pattern
+
+[source,postscript]
+----
+/scaledPattern {  % pattern scaleX scaleY -> -
+  3 dict begin
+    /sy exch def
+    /sx exch def
+    /pattern exch def
+
+    gsave
+      sx sy scale
+      pattern exec
+    grestore
+  end
+} def
+
+% Usage
+{ gridPattern } 2 2 scaledPattern
+----
+
+==== Rotated Pattern
+
+[source,postscript]
+----
+/rotatedPattern {  % pattern angle -> -
+  2 dict begin
+    /angle exch def
+    /pattern exch def
+
+    gsave
+      200 200 translate
+      angle rotate
+      -200 -200 translate
+      pattern exec
+    grestore
+  end
+} def
+
+% Usage
+{ diagonalPattern } 45 rotatedPattern
+----
+
+==== Skewed Pattern
+
+[source,postscript]
+----
+/skewedPattern {  % pattern skewX skewY -> -
+  3 dict begin
+    /sy exch def
+    /sx exch def
+    /pattern exch def
+
+    gsave
+      [1 sy sx 1 0 0] concat
+      pattern exec
+    grestore
+  end
+} def
+----
+
+=== Complex Patterns
+
+==== Hexagonal Pattern
+
+[source,postscript]
+----
+/hexPattern {  % x y width height size -> -
+  5 dict begin
+    /size exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    /hexHeight size 3 sqrt mul def
+    /hexWidth size 2 mul def
+
+    gsave
+      x y w h rectclip
+
+      y hexHeight h {
+        /row exch def
+        /offset row hexHeight div floor cvi 2 mod 0 eq
+          { 0 } { size } ifelse def
+
+        x offset add hexWidth w offset add {
+          /col exch def
+
+          % Draw hexagon
+          newpath
+          0 1 5 {
+            /i exch def
+            /angle i 60 mul def
+            col size angle cos mul add
+            row size angle sin mul add
+            i 0 eq { moveto } { lineto } ifelse
+          } for
+          closepath
+          stroke
+        } for
+      } for
+    grestore
+  end
+} def
+
+100 100 300 200 15 hexPattern
+----
+
+==== Flower Pattern
+
+[source,postscript]
+----
+/flowerPattern {  % centerX centerY petalCount size -> -
+  4 dict begin
+    /size exch def
+    /petals exch def
+    /cy exch def
+    /cx exch def
+
+    gsave
+      cx cy translate
+
+      0 1 petals 1 sub {
+        /i exch def
+        /angle i 360 petals div mul def
+
+        gsave
+          angle rotate
+
+          % Draw petal
+          newpath
+          0 0 moveto
+          size 2 div 0 size 4 div size 2 div curveto
+          size 0 size 2 div size -4 div curveto
+          closepath
+          fill
+        grestore
+      } for
+    grestore
+  end
+} def
+
+200 200 8 30 flowerPattern
+----
+
+==== Star Field Pattern
+
+[source,postscript]
+----
+/starField {  % x y width height starCount -> -
+  5 dict begin
+    /count exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      x y w h rectclip
+
+      1 setgray
+      0 1 count {
+        pop
+        % Random position
+        rand 2147483647 div w mul x add
+        rand 2147483647 div h mul y add
+
+        % Random size
+        rand 2147483647 div 2 mul 0.5 add
+
+        % Draw star
+        0 360 arc fill
+      } for
+    grestore
+  end
+} def
+
+% Draw night sky
+0 setgray
+0 0 612 792 rectfill
+100 100 400 400 100 starField
+----
+
+=== Pattern Libraries
+
+==== Pattern Dictionary
+
+[source,postscript]
+----
+/patterns <<
+  /dots {
+    10 dict begin
+      /spacing 20 def
+      0 spacing 400 {
+        /x exch def
+        0 spacing 400 {
+          /y exch def
+          newpath
+          x y 3 0 360 arc
+          fill
+        } for
+      } for
+    end
+  } bind
+
+  /stripes {
+    0 10 400 {
+      dup 0 moveto 400 lineto stroke
+    } for
+  } bind
+
+  /crosshatch {
+    0 15 400 {
+      dup 0 moveto 400 lineto stroke
+      dup 0 exch moveto 400 exch lineto stroke
+    } for
+  } bind
+>> def
+
+/usePattern {  % patternName -> -
+  patterns exch get exec
+} def
+
+% Usage
+gsave
+  /dots usePattern
+grestore
+----
+
+==== Parameterized Patterns
+
+[source,postscript]
+----
+/createPattern {  % type params -> pattern
+  2 dict begin
+    /params exch def
+    /type exch def
+
+    type /grid eq {
+      {
+        params /spacing get
+        dup 0 exch 400 exch {
+          dup 0 moveto 400 lineto
+          dup 0 exch moveto 400 exch lineto
+          stroke
+        } for
+      } bind
+    } {
+      type /circles eq {
+        {
+          params /radius get /r exch def
+          params /spacing get /s exch def
+          0 s 400 {
+            /x exch def
+            0 s 400 {
+              /y exch def
+              newpath
+              x y r 0 360 arc
+              stroke
+            } for
+          } for
+        } bind
+      } {
+        {}  % Default empty pattern
+      } ifelse
+    } ifelse
+  end
+} def
+
+% Usage
+/grid << /spacing 25 >> createPattern
+/myPattern exch def
+myPattern exec
+----
+
+=== Practical Pattern Examples
+
+==== Example 1: Wallpaper Pattern
+
+[source,postscript]
+----
+/wallpaperPattern {
+  % Background
+  0.95 0.95 0.90 setrgbcolor
+  0 0 612 792 rectfill
+
+  % Damask pattern
+  0.85 0.85 0.80 setrgbcolor
+  0 40 792 {
+    /y exch def
+    0 40 612 {
+      /x exch def
+
+      gsave
+        x y translate
+
+        % Ornamental motif
+        newpath
+        0 20 moveto
+        10 25 20 20 20 10 curveto
+        20 0 10 -5 0 0 curveto
+        -10 -5 -20 0 -20 10 curveto
+        -20 20 -10 25 0 20 curveto
+        closepath
+        fill
+      grestore
+    } for
+  } for
+} def
+
+wallpaperPattern
+----
+
+==== Example 2: Fabric Texture
+
+[source,postscript]
+----
+/fabricTexture {  % x y width height -> -
+  4 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      x y w h rectclip
+
+      % Warp (vertical threads)
+      0.3 0.2 0.6 setrgbcolor
+      x 2 x w add {
+        /i exch def
+        0.3 setlinewidth
+        i y moveto
+        i y h add lineto
+        stroke
+      } for
+
+      % Weft (horizontal threads)
+      0.4 0.3 0.7 setrgbcolor
+      y 2 y h add {
+        /i exch def
+        0.2 setlinewidth
+        x i moveto
+        x w add i lineto
+        stroke
+      } for
+    grestore
+  end
+} def
+
+100 100 200 200 fabricTexture
+----
+
+==== Example 3: Wood Grain
+
+[source,postscript]
+----
+/woodGrain {  % x y width height -> -
+  4 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      x y translate
+
+      % Base color
+      0.6 0.4 0.2 setrgbcolor
+      0 0 w h rectfill
+
+      % Grain lines
+      0.5 0.3 0.15 setrgbcolor
+      0 20 h {
+        /i exch def
+        newpath
+        0 i moveto
+
+        % Wavy line
+        5 5 w {
+          /j exch def
+          j i rand 2147483647 div 5 mul add lineto
+        } for
+
+        0.5 setlinewidth
+        stroke
+      } for
+    grestore
+  end
+} def
+
+100 100 200 150 woodGrain
+----
+
+==== Example 4: Tile Pattern
+
+[source,postscript]
+----
+/tilePattern {  % x y width height -> -
+  4 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    /tileSize 50 def
+    /grout 2 def
+
+    gsave
+      x y w h rectclip
+
+      y tileSize h {
+        /row exch def
+        x tileSize w {
+          /col exch def
+
+          % Tile color variation
+          rand 2147483647 div 0.1 mul 0.85 add
+          dup dup setrgbcolor
+
+          % Draw tile
+          col grout add
+          row grout add
+          tileSize grout 2 mul sub
+          tileSize grout 2 mul sub
+          rectfill
+
+          % Grout
+          0.3 setgray
+          col row tileSize tileSize rectstroke
+        } for
+      } for
+    grestore
+  end
+} def
+
+50 50 300 300 tilePattern
+----
+
+=== Performance Tips
+
+==== Cache Pattern Procedures
+
+[source,postscript]
+----
+% Good: define once, use many times
+/myPattern {
+  % ... pattern definition
+} bind def
+
+gsave
+  myPattern exec
+grestore
+
+gsave
+  myPattern exec
+grestore
+----
+
+==== Use Efficient Loops
+
+[source,postscript]
+----
+% Good: efficient iteration
+x spacing x w add {
+  /i exch def
+  % Draw at i
+} for
+
+% Less efficient: many small operations
+/i x def
+{
+  i x w add ge { exit } if
+  % Draw at i
+  /i i spacing add def
+} loop
+----
+
+==== Minimize State Changes
+
+[source,postscript]
+----
+% Good: set color once
+0.5 setgray
+0 10 100 {
+  % Draw multiple elements
+} for
+
+% Less efficient: repeated color changes
+0 10 100 {
+  0.5 setgray
+  % Draw one element
+} for
+----
+
+=== Best Practices
+
+==== Document Pattern Parameters
+
+[source,postscript]
+----
+% Good: clear documentation
+/gridPattern {  % x y width height spacing -> -
+  % Draws a grid pattern with specified spacing
+  % ...
+} def
+----
+
+==== Use Clipping for Pattern Bounds
+
+[source,postscript]
+----
+% Always clip patterns to intended area
+gsave
+  x y w h rectclip
+  % Draw pattern
+grestore
+----
+
+==== Test Patterns at Different Scales
+
+[source,postscript]
+----
+% Test pattern at various sizes
+/testPattern {
+  0.5 0.5 scale
+  myPattern exec
+} def
+
+/testPattern {
+  2 2 scale
+  myPattern exec
+} def
+----
+
+=== Common Pitfalls
+
+==== Pattern Bleeding
+
+[source,postscript]
+----
+% Wrong: pattern extends beyond bounds
+/pattern {
+  0 10 500 {  % Goes beyond intended area
+    % ...
+  } for
+} def
+
+% Correct: use clipping
+/pattern {
+  gsave
+    100 100 200 200 rectclip
+    0 10 500 {
+      % ...
+    } for
+  grestore
+} def
+----
+
+==== Forgetting State Restoration
+
+[source,postscript]
+----
+% Wrong: affects subsequent drawing
+/pattern {
+  0.1 setlinewidth
+  % ... draw pattern
+} def
+
+% Correct: save/restore
+/pattern {
+  gsave
+    0.1 setlinewidth
+    % ... draw pattern
+  grestore
+} def
+----
+
+==== Inefficient Pattern Generation
+
+[source,postscript]
+----
+% Wrong: recalculates same values
+/pattern {
+  0 10 100 {
+    /i exch def
+    i sin i cos  % Calculated repeatedly
+    % ...
+  } for
+} def
+
+% Better: cache values
+/pattern {
+  [ 0 10 100 { dup sin exch cos } for ]
+  /values exch def
+  % Use cached values
+} def
+----
+
+=== See Also
+
+* xref:color-spaces.adoc[Color Spaces] - Pattern colors
+* xref:../basic/painting.adoc[Painting] - Filling with patterns
+* xref:../basic/graphics-state.adoc[Graphics State] - Pattern state
+* xref:forms.adoc[Forms] - Cached patterns
+* xref:images.adoc[Images] - Bitmap patterns
+* xref:../../commands/painting/fill.adoc[fill] - Fill with pattern
+* xref:../../commands/painting/clip.adoc[clip] - Pattern clipping

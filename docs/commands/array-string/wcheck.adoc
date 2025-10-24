@@ -1,0 +1,206 @@
+---
+layout: default
+title: wcheck
+parent: Array and String Operations
+grand_parent: Command Reference
+nav_order: 26
+---
+
+== wcheck
+
+Tests whether an object's access attribute permits writing to its value.
+
+=== Syntax
+
+----
+array wcheck → bool
+dict wcheck → bool
+file wcheck → bool
+string wcheck → bool
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| Composite object
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `bool` (true if writable, false otherwise)
+|===
+
+=== Description
+
+[`wcheck`](wcheck.adoc) tests whether the operand's access attribute permits its value to be written (modified) by PostScript operators.
+
+Returns:
+* `true` if access is **unlimited**
+* `false` if access is **readonly**, **executeonly**, or **noaccess**
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Writable objects
+[source,postscript]
+----
+[1 2 3] wcheck          % true (unlimited access)
+3 dict wcheck           % true (can add entries)
+(text) wcheck           % true (can modify)
+----
+
+.Non-writable objects
+[source,postscript]
+----
+[1 2 3] readonly wcheck    % false
+{ code } wcheck            % false (procedures readonly by default)
+----
+
+.Packed arrays
+[source,postscript]
+----
+1 2 3 3 packedarray wcheck  % false (always readonly)
+----
+
+.File objects
+[source,postscript]
+----
+(file.ps) (w) file wcheck  % true (write mode)
+(file.ps) (r) file wcheck  % false (read mode)
+----
+
+=== Common Use Cases
+
+==== Safe Modification
+
+[source,postscript]
+----
+/safe-put {
+  3 copy pop exch pop  % array array index
+  wcheck {
+    put
+  } {
+    pop pop pop
+    /invalidaccess cvx exec
+  } ifelse
+} def
+----
+
+==== Validation Before Write
+
+[source,postscript]
+----
+array wcheck not {
+  /invalidaccess cvx exec
+} if
+array index value put
+----
+
+==== Permission Checking
+
+[source,postscript]
+----
+dict wcheck {
+  dict /key value put
+} {
+  (Dictionary is read-only) print
+} ifelse
+----
+
+=== Common Pitfalls
+
+WARNING: *Packed Arrays Always Read-Only* - Packed arrays created with xref:packedarray.adoc[`packedarray`] always return `false` for [`wcheck`](wcheck.adoc).
+
+[source,postscript]
+----
+1 2 3 3 packedarray wcheck  % false
+----
+
+WARNING: *Readonly is Permanent* - Once an object is made readonly, it cannot be made writable again.
+
+[source,postscript]
+----
+[1 2 3] readonly
+% No way to restore unlimited access
+----
+
+WARNING: *Confusing wcheck with xcheck* - [`wcheck`](wcheck.adoc) tests write access, xref:xcheck.adoc[`xcheck`] tests executable attribute.
+
+TIP: *Check Before Modifying* - Use [`wcheck`](wcheck.adoc) before operations like xref:put.adoc[`put`] or xref:putinterval.adoc[`putinterval`] on untrusted objects.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand not array, dict, file, or string
+|===
+
+=== Access Attribute Hierarchy
+
+[cols="2,3,3"]
+|===
+| Attribute | Set By | Can Write?
+
+| Unlimited
+| (default for most objects)
+| Yes
+
+| Readonly
+| `readonly`
+| No
+
+| Executeonly
+| `executeonly`
+| No
+
+| Noaccess
+| `noaccess`
+| No
+|===
+
+=== Implementation Notes
+
+* Fast operation (checks access bits)
+* Does not modify the object
+* Packed arrays inherently readonly
+* Simple objects (numbers, booleans) have no access attribute
+
+=== Common Patterns
+
+.Conditional modification
+[source,postscript]
+----
+object wcheck {
+  % Modify object
+} {
+  % Create writable copy
+  object dup length array copy
+  % Modify copy
+} ifelse
+----
+
+=== See Also
+
+* xref:rcheck.adoc[`rcheck`] - Test if readable
+* xref:xcheck.adoc[`xcheck`] - Test if executable
+* Access operators: `readonly`, `executeonly`, `noaccess`
+* xref:put.adoc[`put`] - Modify array/string/dict
+* xref:type.adoc[`type`] - Get object type

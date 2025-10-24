@@ -1,0 +1,1174 @@
+---
+layout: default
+title: Forms
+parent: Advanced Usage
+grand_parent: Usage Guides
+nav_order: 6
+---
+
+== Forms
+
+Forms (also called Form XObjects in PDF) are cached graphical objects that can be rendered multiple times efficiently. They provide a powerful optimization technique for repetitive graphics.
+
+=== Overview
+
+Forms in PostScript allow you to:
+
+* **Cache complex graphics** - Define once, render many times
+* **Improve performance** - Avoid recalculating paths and transformations
+* **Reduce memory** - Shared representation of repeated content
+* **Create templates** - Reusable graphic components
+
+Forms are particularly useful for:
+
+* Logos and watermarks
+* Repeated design elements
+* Page headers and footers
+* Backgrounds and borders
+* Complex illustrations used multiple times
+
+=== Basic Form Concepts
+
+==== What is a Form?
+
+A form is a self-contained graphic that:
+
+* Has its own coordinate system
+* Can be transformed independently
+* Is rendered with a single operator
+* Maintains its own resources
+
+[source,postscript]
+----
+% Simple form definition (Level 1 compatible approach)
+/MyForm {
+  gsave
+    % Draw form content
+    newpath
+    0 0 100 100 rectfill
+  grestore
+} def
+
+% Use form multiple times
+100 100 translate
+MyForm
+
+200 200 translate
+MyForm
+----
+
+==== Form as Procedure
+
+The simplest form is a PostScript procedure:
+
+[source,postscript]
+----
+% Define form
+/Logo {
+  gsave
+    % Logo graphics
+    newpath
+    0 0 moveto
+    50 0 lineto
+    25 43.3 lineto
+    closepath
+    1 0 0 setrgbcolor
+    fill
+  grestore
+} def
+
+% Use form
+gsave
+  72 720 translate  % Top left
+  Logo
+grestore
+
+gsave
+  540 720 translate  % Top right
+  Logo
+grestore
+----
+
+=== Creating Reusable Forms
+
+==== Parameterized Forms
+
+Forms that accept parameters:
+
+[source,postscript]
+----
+/Badge {  % size color -> -
+  2 dict begin
+    /color exch def
+    /size exch def
+
+    gsave
+      color aload pop setrgbcolor
+
+      % Draw badge
+      newpath
+      0 0 size 0 360 arc
+      fill
+
+      % Border
+      0 setgray
+      1 setlinewidth
+      0 0 size 0 360 arc
+      stroke
+
+      % Text
+      1 setgray
+      /Helvetica-Bold findfont size 2 div scalefont setfont
+      0 0 moveto
+      (!) dup stringwidth pop 2 div neg
+      size 4 div neg rmoveto
+      show
+    grestore
+  end
+} def
+
+% Usage
+gsave
+  100 100 translate
+  30 [1 0 0] Badge  % Red badge, size 30
+grestore
+
+gsave
+  200 200 translate
+  40 [0 0 1] Badge  % Blue badge, size 40
+grestore
+----
+
+==== Forms with State
+
+Forms that maintain internal state:
+
+[source,postscript]
+----
+/Counter {
+  % Create counter form with state
+  10 dict begin
+    /value 0 def
+
+    /increment {
+      /value value 1 add def
+    } def
+
+    /reset {
+      /value 0 def
+    } def
+
+    /draw {
+      gsave
+        % Draw current value
+        /Courier findfont 12 scalefont setfont
+        0 0 moveto
+        value =string cvs show
+      grestore
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+Counter /counter exch def
+
+gsave
+  100 100 translate
+  counter /draw get exec
+grestore
+
+counter /increment get exec
+counter /increment get exec
+
+gsave
+  100 80 translate
+  counter /draw get exec
+grestore
+----
+
+=== Form Libraries
+
+==== Icon Library
+
+[source,postscript]
+----
+/icons <<
+  /checkmark {
+    gsave
+      0.2 0.8 0.2 setrgbcolor
+      2 setlinewidth
+      1 setlinecap
+      1 setlinejoin
+
+      newpath
+      5 10 moveto
+      12 3 lineto
+      25 20 lineto
+      stroke
+    grestore
+  } bind
+
+  /cross {
+    gsave
+      0.8 0.2 0.2 setrgbcolor
+      2 setlinewidth
+      1 setlinecap
+
+      newpath
+      5 5 moveto
+      25 25 lineto
+      stroke
+
+      25 5 moveto
+      5 25 lineto
+      stroke
+    grestore
+  } bind
+
+  /star {
+    gsave
+      1 0.8 0 setrgbcolor
+
+      newpath
+      15 25 moveto
+      11 11 lineto
+      25 7 lineto
+      13 3 lineto
+      15 -11 lineto
+      7 3 lineto
+      -5 7 lineto
+      9 11 lineto
+      5 25 lineto
+      closepath
+      fill
+    grestore
+  } bind
+>> def
+
+/drawIcon {  % x y iconName size -> -
+  4 dict begin
+    /size exch def
+    /name exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      x y translate
+      size 30 div dup scale
+      icons name get exec
+    grestore
+  end
+} def
+
+% Usage
+100 100 /checkmark 20 drawIcon
+150 100 /cross 20 drawIcon
+200 100 /star 20 drawIcon
+----
+
+==== Shape Library
+
+[source,postscript]
+----
+/shapes <<
+  /arrow {  % length width -> -
+    2 dict begin
+      /width exch def
+      /length exch def
+
+      newpath
+      0 0 moveto
+      length width 2 div sub 0 lineto
+      length width 2 div sub width 2 div lineto
+      length 0 lineto
+      length width 2 div sub width -2 div lineto
+      length width 2 div sub 0 lineto
+      0 0 lineto
+      closepath
+      fill
+    end
+  } bind
+
+  /roundedRect {  % width height radius -> -
+    3 dict begin
+      /r exch def
+      /h exch def
+      /w exch def
+
+      newpath
+      r 0 moveto
+      w r sub 0 w 0 w r r arcto 4 {pop} repeat
+      w h r sub w h r h r arcto 4 {pop} repeat
+      r h 0 h 0 h r arcto 4 {pop} repeat
+      0 r 0 0 r 0 r arcto 4 {pop} repeat
+      closepath
+      fill
+    end
+  } bind
+
+  /polygon {  % sides radius -> -
+    2 dict begin
+      /r exch def
+      /n exch def
+
+      newpath
+      0 1 n 1 sub {
+        /i exch def
+        /angle i 360 n div mul 90 add def
+        r angle cos mul
+        r angle sin mul
+        i 0 eq { moveto } { lineto } ifelse
+      } for
+      closepath
+      fill
+    end
+  } bind
+>> def
+----
+
+=== Complex Forms
+
+==== Business Card Form
+
+[source,postscript]
+----
+/BusinessCard {  % name title email phone -> form
+  4 dict begin
+    /phone exch def
+    /email exch def
+    /title exch def
+    /name exch def
+
+    {
+      gsave
+        % Card outline (3.5" x 2")
+        0.5 setlinewidth
+        0 0 252 144 rectstroke
+
+        % Name
+        /Helvetica-Bold findfont 16 scalefont setfont
+        10 110 moveto
+        name show
+
+        % Title
+        /Helvetica findfont 12 scalefont setfont
+        10 95 moveto
+        title show
+
+        % Contact info
+        /Helvetica findfont 9 scalefont setfont
+        10 70 moveto
+        (Email: ) show email show
+
+        10 60 moveto
+        (Phone: ) show phone show
+
+        % Logo area (placeholder)
+        0.9 setgray
+        200 100 40 30 rectfill
+      grestore
+    } bind
+  end
+} def
+
+% Create and use
+(John Doe) (Senior Developer) (john@example.com) (+1-555-0123)
+BusinessCard /myCard exch def
+
+100 100 translate
+myCard exec
+----
+
+==== Letterhead Form
+
+[source,postscript]
+----
+/Letterhead {  % company address1 address2 phone -> form
+  4 dict begin
+    /phone exch def
+    /addr2 exch def
+    /addr1 exch def
+    /company exch def
+
+    {
+      gsave
+        % Company name
+        /Helvetica-Bold findfont 24 scalefont setfont
+        50 750 moveto
+        company show
+
+        % Address
+        /Helvetica findfont 10 scalefont setfont
+        50 735 moveto addr1 show
+        50 725 moveto addr2 show
+        50 715 moveto phone show
+
+        % Bottom line
+        0.5 setlinewidth
+        50 705 moveto
+        562 705 lineto
+        stroke
+      grestore
+    } bind
+  end
+} def
+
+% Create letterhead
+(ACME Corporation)
+(123 Business Street)
+(City, State 12345)
+(+1-555-0100)
+Letterhead /header exch def
+
+% Use on each page
+header exec
+----
+
+==== Watermark Form
+
+[source,postscript]
+----
+/Watermark {  % text -> form
+  1 dict begin
+    /text exch def
+
+    {
+      gsave
+        % Position and rotate
+        306 396 translate
+        45 rotate
+
+        % Semi-transparent effect (simulated)
+        0.9 setgray
+
+        % Large text
+        /Helvetica-Bold findfont 72 scalefont setfont
+        text dup stringwidth pop 2 div neg 0 moveto
+        show
+      grestore
+    } bind
+  end
+} def
+
+% Create watermark
+(CONFIDENTIAL) Watermark /wmark exch def
+
+% Apply to pages
+gsave
+  wmark exec
+grestore
+----
+
+=== Form Optimization
+
+==== Cached Form Pattern
+
+[source,postscript]
+----
+% Cache expensive calculations in form
+/OptimizedForm {
+  % Pre-calculate values
+  20 dict begin
+    /points [
+      0 1 360 {
+        /angle exch def
+        50 angle cos mul
+        50 angle sin mul
+      } for
+    ] def
+
+    {
+      gsave
+        % Use pre-calculated points
+        newpath
+        points aload pop moveto
+        2 2 points length 2 sub {
+          points exch get
+          exch
+          points exch get
+          exch
+          lineto
+        } for
+        closepath
+        stroke
+      grestore
+    } bind
+  end
+} def
+----
+
+==== Lazy Initialization
+
+[source,postscript]
+----
+/LazyForm {
+  10 dict begin
+    /initialized false def
+    /cache null def
+
+    /init {
+      /cache {
+        % Expensive form content here
+        newpath
+        0 0 100 0 360 arc
+        fill
+      } bind def
+      /initialized true def
+    } def
+
+    /draw {
+      initialized not {
+        init
+      } if
+      cache exec
+    } def
+
+    currentdict
+  end
+} def
+----
+
+=== Form Composition
+
+==== Combining Forms
+
+[source,postscript]
+----
+/CompositeForm {  % form1 form2 offsetX offsetY -> compositeForm
+  4 dict begin
+    /offsetY exch def
+    /offsetX exch def
+    /form2 exch def
+    /form1 exch def
+
+    {
+      gsave
+        form1 exec
+      grestore
+
+      gsave
+        offsetX offsetY translate
+        form2 exec
+      grestore
+    } bind
+  end
+} def
+
+% Create composite
+Logo Badge 60 0 CompositeForm /logoBadge exch def
+
+% Use composite
+100 100 translate
+logoBadge exec
+----
+
+==== Layered Forms
+
+[source,postscript]
+----
+/LayeredForm {
+  10 dict begin
+    /layers [] def
+
+    /addLayer {  % form -> -
+      /layers [
+        layers aload pop
+        4 -1 roll
+      ] def
+    } def
+
+    /draw {
+      layers {
+        gsave
+          exec
+        grestore
+      } forall
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+LayeredForm /composite exch def
+composite /addLayer get { background } exec
+composite /addLayer get { content } exec
+composite /addLayer get { overlay } exec
+composite /draw get exec
+----
+
+=== Form Templates
+
+==== Page Template
+
+[source,postscript]
+----
+/PageTemplate {  % headerProc footerProc -> template
+  2 dict begin
+    /footer exch def
+    /header exch def
+
+    {
+      gsave
+        % Header
+        0 720 translate
+        header exec
+      grestore
+
+      % Content area marker (optional)
+      % 72 72 468 648 rectstroke
+
+      gsave
+        % Footer
+        0 36 translate
+        footer exec
+      grestore
+    } bind
+  end
+} def
+
+% Define header and footer
+/myHeader {
+  /Helvetica-Bold findfont 14 scalefont setfont
+  72 0 moveto
+  (Document Title) show
+
+  /Helvetica findfont 10 scalefont setfont
+  540 0 moveto
+  (Page ) show
+  1 =string cvs show
+} def
+
+/myFooter {
+  /Helvetica findfont 9 scalefont setfont
+  72 0 moveto
+  (© 2024 Company Name) show
+
+  540 0 moveto
+  (Confidential) show
+} def
+
+% Create template
+myHeader myFooter PageTemplate /template exch def
+
+% Use on each page
+template exec
+----
+
+==== Report Template
+
+[source,postscript]
+----
+/ReportTemplate {
+  20 dict begin
+    /title exch def
+    /subtitle exch def
+    /author exch def
+    /date exch def
+
+    {
+      gsave
+        % Title section
+        /Helvetica-Bold findfont 24 scalefont setfont
+        306 650 moveto
+        title dup stringwidth pop 2 div neg 0 rmoveto
+        show
+
+        % Subtitle
+        /Helvetica findfont 14 scalefont setfont
+        306 630 moveto
+        subtitle dup stringwidth pop 2 div neg 0 rmoveto
+        show
+
+        % Author and date
+        /Helvetica findfont 10 scalefont setfont
+        306 600 moveto
+        author dup stringwidth pop 2 div neg 0 rmoveto
+        show
+
+        306 585 moveto
+        date dup stringwidth pop 2 div neg 0 rmoveto
+        show
+
+        % Decorative line
+        1 setlinewidth
+        156 570 moveto
+        456 570 lineto
+        stroke
+      grestore
+    } bind
+  end
+} def
+----
+
+=== Form Transformation
+
+==== Scaled Form Instance
+
+[source,postscript]
+----
+/ScaledForm {  % form scale -> scaledForm
+  2 dict begin
+    /scale exch def
+    /form exch def
+
+    {
+      gsave
+        scale dup scale
+        form exec
+      grestore
+    } bind
+  end
+} def
+
+% Usage
+Logo 2 ScaledForm /bigLogo exch def
+Logo 0.5 ScaledForm /smallLogo exch def
+----
+
+==== Rotated Form Instance
+
+[source,postscript]
+----
+/RotatedForm {  % form angle -> rotatedForm
+  2 dict begin
+    /angle exch def
+    /form exch def
+
+    {
+      gsave
+        angle rotate
+        form exec
+      grestore
+    } bind
+  end
+} def
+
+% Usage
+Arrow 45 RotatedForm /diagonalArrow exch def
+----
+
+==== Colored Form Instance
+
+[source,postscript]
+----
+/ColoredForm {  % form r g b -> coloredForm
+  4 dict begin
+    /b exch def
+    /g exch def
+    /r exch def
+    /form exch def
+
+    {
+      gsave
+        r g b setrgbcolor
+        form exec
+      grestore
+    } bind
+  end
+} def
+
+% Usage
+Star 1 0 0 ColoredForm /redStar exch def
+Star 0 0 1 ColoredForm /blueStar exch def
+----
+
+=== Practical Form Examples
+
+==== Example 1: Invoice Template
+
+[source,postscript]
+----
+/InvoiceTemplate {  % invoiceNo date dueDate -> form
+  3 dict begin
+    /due exch def
+    /date exch def
+    /invNo exch def
+
+    {
+      gsave
+        % Company header
+        /Helvetica-Bold findfont 20 scalefont setfont
+        50 750 moveto
+        (INVOICE) show
+
+        % Invoice details
+        /Helvetica findfont 10 scalefont setfont
+        450 750 moveto (Invoice #: ) show invNo show
+        450 735 moveto (Date: ) show date show
+        450 720 moveto (Due: ) show due show
+
+        % Table header
+        0.8 setgray
+        50 650 512 20 rectfill
+
+        0 setgray
+        /Helvetica-Bold findfont 10 scalefont setfont
+        55 655 moveto (Description) show
+        350 655 moveto (Quantity) show
+        450 655 moveto (Price) show
+        500 655 moveto (Total) show
+
+        % Border
+        0.5 setlinewidth
+        50 650 512 20 rectstroke
+      grestore
+    } bind
+  end
+} def
+
+% Usage
+(INV-001) (2024-01-15) (2024-02-15) InvoiceTemplate
+/invoice exch def
+
+invoice exec
+----
+
+==== Example 2: Certificate Border
+
+[source,postscript]
+----
+/CertificateBorder {
+  {
+    gsave
+      % Outer border
+      2 setlinewidth
+      0.6 0.4 0.2 setrgbcolor
+      36 36 540 720 rectstroke
+
+      % Inner border
+      1 setlinewidth
+      0.8 0.6 0.4 setrgbcolor
+      50 50 512 688 rectstroke
+
+      % Corner ornaments
+      0.6 0.4 0.2 setrgbcolor
+      [ 40 40  572 40  40 756  572 756 ] {
+        /y exch def
+        /x exch def
+
+        gsave
+          x y translate
+          newpath
+          -10 0 moveto
+          0 10 lineto
+          10 0 lineto
+          0 -10 lineto
+          closepath
+          fill
+        grestore
+      } forall
+    grestore
+  } bind
+} def
+
+CertificateBorder /certBorder exch def
+certBorder exec
+----
+
+==== Example 3: Barcode Form
+
+[source,postscript]
+----
+/SimpleBarcode {  % digits -> form
+  1 dict begin
+    /digits exch def
+
+    {
+      gsave
+        % Simple barcode (conceptual)
+        /barWidth 2 def
+        /barHeight 50 def
+        /x 0 def
+
+        0 1 digits length 1 sub {
+          /i exch def
+          digits i get 48 sub  % Convert char to digit
+
+          2 mod 0 eq {
+            0 setgray
+          } {
+            1 setgray
+          } ifelse
+
+          x 0 barWidth barHeight rectfill
+          /x x barWidth add def
+        } for
+      grestore
+    } bind
+  end
+} def
+
+% Usage
+(123456789) SimpleBarcode /bc exch def
+100 100 translate
+bc exec
+----
+
+==== Example 4: Graph Grid Form
+
+[source,postscript]
+----
+/GraphGrid {  % width height xDiv yDiv -> form
+  4 dict begin
+    /yDiv exch def
+    /xDiv exch def
+    /h exch def
+    /w exch def
+
+    {
+      gsave
+        0.8 setgray
+        0.25 setlinewidth
+
+        % Vertical lines
+        0 xDiv w {
+          dup 0 moveto h lineto stroke
+        } for
+
+        % Horizontal lines
+        0 yDiv h {
+          dup 0 exch moveto w exch lineto stroke
+        } for
+
+        % Border
+        0 setgray
+        1 setlinewidth
+        0 0 w h rectstroke
+      grestore
+    } bind
+  end
+} def
+
+% Usage
+400 300 20 20 GraphGrid /grid exch def
+50 50 translate
+grid exec
+----
+
+=== Form Management
+
+==== Form Registry
+
+[source,postscript]
+----
+/FormRegistry <<>> def
+
+/registerForm {  % name form -> -
+  FormRegistry 3 1 roll put
+} def
+
+/getForm {  % name -> form
+  FormRegistry exch get
+} def
+
+/hasForm {  % name -> boolean
+  FormRegistry exch known
+} def
+
+% Usage
+/myLogo /Logo registerForm
+/myLogo getForm exec
+----
+
+==== Form Factory
+
+[source,postscript]
+----
+/FormFactory {
+  20 dict begin
+    /forms <<>> def
+
+    /create {  % name type params -> -
+      3 dict begin
+        /params exch def
+        /type exch def
+        /name exch def
+
+        % Create form based on type
+        type /badge eq {
+          params /size get
+          params /color get
+          Badge
+          forms name 3 -1 roll put
+        } if
+
+        % ... other types
+      end
+    } def
+
+    /get {  % name -> form
+      forms exch get
+    } def
+
+    currentdict
+  end
+} def
+----
+
+=== Performance Considerations
+
+==== When to Use Forms
+
+[source,postscript]
+----
+% Good: repetitive complex graphics
+/ComplexLogo {
+  % Many path operations
+  % Multiple colors
+  % Gradients, etc.
+} def
+
+% Use form multiple times
+100 100 translate ComplexLogo exec
+200 200 translate ComplexLogo exec
+300 300 translate ComplexLogo exec
+
+% Bad: simple graphics
+/SimpleDot {
+  0 0 5 0 360 arc fill
+} def
+% Just draw directly instead
+----
+
+==== Form vs Procedure
+
+[source,postscript]
+----
+% Form (better for repeated use)
+/form {
+  gsave
+    % Graphics here
+  grestore
+} bind def
+
+% Plain procedure (simpler for single use)
+/procedure {
+  % Graphics here
+} def
+----
+
+=== Best Practices
+
+==== Self-Contained Forms
+
+[source,postscript]
+----
+% Good: form handles its own state
+/GoodForm {
+  gsave
+    % Set all needed parameters
+    1 setlinewidth
+    0 0 0 setrgbcolor
+    % Draw
+  grestore
+} bind def
+
+% Bad: depends on external state
+/BadForm {
+  % Assumes linewidth, color are set
+  % Draw
+} def
+----
+
+==== Documented Parameters
+
+[source,postscript]
+----
+% Good: clear interface
+/DocumentedForm {  % x y size color -> -
+  % Creates a colored square at position
+  % ...
+} def
+
+% Bad: unclear parameters
+/MyForm {  % ??? -> -
+  % ...
+} def
+----
+
+==== Minimal Dependencies
+
+[source,postscript]
+----
+% Good: standalone
+/StandaloneForm {
+  gsave
+    /Helvetica findfont 12 scalefont setfont
+    % Use font
+  grestore
+} bind def
+
+% Bad: assumes font is set
+/DependentForm {
+  % Assumes currentfont is correct
+  (Text) show
+} def
+----
+
+=== Common Pitfalls
+
+==== Forgetting State Isolation
+
+[source,postscript]
+----
+% Wrong: modifies global state
+/BadForm {
+  1 0 0 setrgbcolor
+  % Draw
+} def
+
+% Correct: isolated state
+/GoodForm {
+  gsave
+    1 0 0 setrgbcolor
+    % Draw
+  grestore
+} def
+----
+
+==== Absolute Positioning
+
+[source,postscript]
+----
+% Wrong: hardcoded positions
+/BadForm {
+  100 200 moveto
+  (Text) show
+} def
+
+% Correct: relative positioning
+/GoodForm {
+  0 0 moveto
+  (Text) show
+} def
+% Use with translate for positioning
+----
+
+==== Missing bind
+
+[source,postscript]
+----
+% Slower: not bound
+/SlowForm {
+  newpath
+  0 0 100 100 rectfill
+} def
+
+% Faster: bound
+/FastForm {
+  newpath
+  0 0 100 100 rectfill
+} bind def
+----
+
+=== See Also
+
+* xref:../basic/procedures.adoc[Procedures] - Procedure basics
+* xref:patterns.adoc[Patterns] - Repeating patterns
+* xref:resource-management.adoc[Resource Management] - Optimizing resources
+* xref:../basic/graphics-state.adoc[Graphics State] - State management
+* xref:../basic/coordinate-systems.adoc[Coordinate Systems] - Form positioning
+* xref:../../commands/control-flow/exec.adoc[exec] - Execute forms

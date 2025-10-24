@@ -1,0 +1,186 @@
+---
+layout: default
+title: length
+parent: Array and String Operations
+grand_parent: Command Reference
+nav_order: 8
+---
+
+== length
+
+Returns the number of elements in an array, packed array, string, dictionary, or name.
+
+=== Syntax
+
+----
+array length → int
+packedarray length → int
+dict length → int
+string length → int
+name length → int
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| Composite object or name
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `int` (number of elements)
+|===
+
+=== Description
+
+[`length`](length.adoc) returns the length of its operand:
+
+* For arrays and packed arrays: number of elements
+* For strings: number of characters (bytes)
+* For dictionaries: current number of key-value pairs (not maximum capacity)
+* For names: number of characters in the name
+
+For dictionaries, use xref:../dictionary/maxlength.adoc[`maxlength`] to get the maximum capacity.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Array length
+[source,postscript]
+----
+[1 2 4] length          % Returns 3
+[] length               % Returns 0
+----
+
+.String length
+[source,postscript]
+----
+(abc) length            % Returns 3
+(hello world) length    % Returns 11 (space counts)
+() length               % Returns 0
+----
+
+.Dictionary length
+[source,postscript]
+----
+/mydict 5 dict def
+mydict length           % Returns 0 (empty)
+mydict /key1 (value1) put
+mydict length           % Returns 1
+----
+
+.Name length
+[source,postscript]
+----
+/foo length             % Returns 3
+/x length               % Returns 1
+----
+
+=== Common Use Cases
+
+==== Loop Bounds
+
+[source,postscript]
+----
+/arr [10 20 30 40] def
+0 1 arr length 1 sub {
+  arr exch get
+  % Process element
+} for
+----
+
+==== Dynamic Array Processing
+
+[source,postscript]
+----
+/data [...] def
+data length array  % Create array of same size
+----
+
+==== String Buffer Allocation
+
+[source,postscript]
+----
+/text (Original text) def
+text length string  % Allocate string of same length
+----
+
+=== Common Pitfalls
+
+WARNING: *Dictionary Length vs. Capacity* - [`length`](length.adoc) returns the current number of entries, not the maximum capacity.
+
+[source,postscript]
+----
+5 dict length         % Returns 0, not 5
+5 dict maxlength      % Returns 5 (capacity)
+----
+
+WARNING: *Name vs. String* - Name length counts characters in the name, not the string representation.
+
+[source,postscript]
+----
+/abc length           % Returns 3
+(abc) length          % Also returns 3
+----
+
+TIP: *Use with forall* - For iterating over all elements, xref:forall.adoc[`forall`] is often more convenient than using [`length`](length.adoc) with a loop.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| Object has no-access attribute
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand is not array, packed array, dict, string, or name
+|===
+
+=== Implementation Notes
+
+* Very fast operation (O(1) - length is stored with the object)
+* For arrays and strings, length is fixed at creation time
+* For dictionaries, length changes as entries are added/removed
+* Packed arrays have fixed length like regular arrays
+
+=== Related Operators
+
+.Comparison of length-related operators
+[cols="2,3"]
+|===
+| Operator | Returns
+
+| [`length`](length.adoc)
+| Current number of elements/entries
+
+| xref:../dictionary/maxlength.adoc[`maxlength`]
+| Maximum capacity (dictionaries only)
+
+| xref:../stack-manipulation/count.adoc[`count`]
+| Number of objects on operand stack
+|===
+
+=== See Also
+
+* xref:get.adoc[`get`] - Get element at index
+* xref:getinterval.adoc[`getinterval`] - Get subarray/substring
+* xref:forall.adoc[`forall`] - Iterate over all elements
+* xref:array.adoc[`array`] - Create array with specific length
+* xref:string.adoc[`string`] - Create string with specific length

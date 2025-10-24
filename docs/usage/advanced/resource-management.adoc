@@ -1,0 +1,1023 @@
+---
+layout: default
+title: Resource Management
+parent: Advanced Usage
+grand_parent: Usage Guides
+nav_order: 11
+---
+
+== Resource Management
+
+Efficient resource management is crucial for creating robust and performant PostScript programs. Understanding memory usage, resource allocation, and optimization techniques ensures your code runs efficiently on any device.
+
+=== Overview
+
+Resource management in PostScript includes:
+
+* **Memory management** - VM (Virtual Memory) allocation and usage
+* **Object lifecycle** - Creating and destroying objects
+* **Resource pools** - Fonts, patterns, and cached data
+* **Stack management** - Operand and dictionary stacks
+* **Garbage collection** - Automatic memory reclamation
+* **Performance optimization** - Efficient resource usage
+
+Proper resource management prevents memory leaks, reduces overhead, and improves performance.
+
+=== Memory Basics
+
+==== Virtual Memory (VM)
+
+PostScript uses VM for all objects:
+
+[source,postscript]
+----
+% vmstatus: - vmstatus level used maximum
+vmstatus
+% Stack: level used maximum
+% level = save/restore level
+% used = bytes currently allocated
+% maximum = maximum bytes available
+----
+
+Monitoring memory:
+
+[source,postscript]
+----
+/showMemory {
+  vmstatus
+  (Memory status:) print
+  ( Used: ) print exch =string cvs print
+  ( / Maximum: ) print =string cvs print
+  ( Level: ) print =string cvs print
+  () print
+  pop
+} def
+
+showMemory
+----
+
+==== Memory Allocation
+
+Objects consume VM when created:
+
+[source,postscript]
+----
+% Arrays
+1000 array  % Allocates space for 1000 elements
+
+% Strings
+1024 string  % Allocates 1024 bytes
+
+% Dictionaries
+100 dict  % Allocates space for 100 key-value pairs
+
+% Large objects consume more memory
+/bigArray 100000 array def  % Significant allocation
+----
+
+==== Memory Deallocation
+
+Memory is reclaimed through:
+
+1. **Garbage collection** - Automatic
+2. **restore** - Explicit VM cleanup
+3. **save/restore** - Local allocation
+
+[source,postscript]
+----
+% Garbage collection happens automatically
+/temp 10000 array def
+/temp null def  % Makes array eligible for GC
+
+% Force garbage collection (not always available)
+% gc
+----
+
+=== Save and Restore
+
+==== The `save` Operator
+
+Creates a VM snapshot:
+
+[source,postscript]
+----
+% save: - save savelevel
+/snap save def
+
+% Allocate objects
+/data 1000 array def
+/dict 50 dict def
+
+% Objects created after save
+% will be discarded on restore
+----
+
+==== The `restore` Operator
+
+Returns to saved state:
+
+[source,postscript]
+----
+save /snap exch def
+
+% Create temporary objects
+/temp1 1000 array def
+/temp2 500 string def
+
+% Restore - temp1 and temp2 are freed
+snap restore
+
+% temp1 and temp2 no longer exist
+----
+
+==== Save/Restore Pattern
+
+[source,postscript]
+----
+/withLocalMemory {  % proc -> -
+  save exch
+  exec
+  restore
+} def
+
+% Usage
+{
+  % All allocations here are temporary
+  /tempData 10000 array def
+  % Process data
+} withLocalMemory
+% tempData no longer exists
+----
+
+==== Nested Save/Restore
+
+[source,postscript]
+----
+save /level1 exch def
+  % Allocations at level 1
+
+  save /level2 exch def
+    % Allocations at level 2
+  level2 restore
+
+  % Level 2 allocations freed
+  % Level 1 allocations remain
+level1 restore
+% All freed
+----
+
+=== Object Management
+
+==== Object Lifecycle
+
+[source,postscript]
+----
+% Creation
+/myArray 100 array def
+
+% Usage
+myArray 0 42 put
+
+% Release (make eligible for GC)
+/myArray null def
+----
+
+==== Reusing Objects
+
+[source,postscript]
+----
+% Good: reuse array
+/buffer 1024 string def
+
+% Use buffer multiple times
+file buffer readstring pop
+% ... process
+file buffer readstring pop
+% ... process
+
+% Bad: create new each time
+file 1024 string readstring pop
+file 1024 string readstring pop
+% ... allocates multiple buffers
+----
+
+==== Object Pools
+
+[source,postscript]
+----
+/StringPool {
+  10 dict begin
+    /size 1024 def
+    /pool 10 array def
+    /index 0 def
+
+    % Initialize pool
+    0 1 pool length 1 sub {
+      pool exch size string put
+    } for
+
+    /acquire {
+      index pool length lt {
+        pool index get
+        /index index 1 add def
+      } {
+        % Pool exhausted, create new
+        size string
+      } ifelse
+    } def
+
+    /release {
+      % Return to pool
+      index 0 gt {
+        /index index 1 sub def
+        pool index 3 -1 roll put
+      } {
+        pop
+      } ifelse
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+StringPool /strPool exch def
+strPool /acquire get exec  % Get string from pool
+% ... use string
+strPool /release get exec  % Return to pool
+----
+
+=== Stack Management
+
+==== Operand Stack
+
+Monitor and manage stack depth:
+
+[source,postscript]
+----
+% count: - count n
+count =  % Shows current stack depth
+
+% Clear stack
+clear
+
+% Save stack state
+count /initialDepth exch def
+% ... operations
+count initialDepth sub =  % Net stack change
+----
+
+==== Stack Hygiene
+
+[source,postscript]
+----
+% Good: balanced stack
+/goodProc {
+  % Takes 2 args, leaves 1 result
+  add
+} def
+
+% Bad: leaks values
+/badProc {
+  add
+  42  % Oops, extra value left
+} def
+
+% Verify stack balance
+/withStackCheck {  % proc -> -
+  count exch
+  exec
+  count exch sub
+  dup 0 ne {
+    (Warning: Stack imbalance: ) print =
+  } {
+    pop
+  } ifelse
+} def
+----
+
+==== Dictionary Stack
+
+Limit dictionary stack growth:
+
+[source,postscript]
+----
+% Check dictionary stack depth
+countdictstack =
+
+% Good: use begin/end pairs
+10 dict begin
+  % Local definitions
+end
+
+% Bad: missing end
+10 dict begin
+  % Definitions
+% Missing end - dict stays on stack!
+----
+
+=== Resource Pooling
+
+==== Font Cache
+
+[source,postscript]
+----
+/FontCache 50 dict def
+
+/getCachedFont {  % fontname size -> font
+  2 dict begin
+    /size exch def
+    /name exch def
+
+    /key name =string cvs (-) exch concatstrings
+         size =string cvs concatstrings def
+
+    FontCache key known {
+      FontCache key get
+    } {
+      name findfont size scalefont
+      dup FontCache key 3 -1 roll put
+    } ifelse
+  end
+} def
+
+% Usage
+/Times-Roman 12 getCachedFont setfont  % Cached
+/Times-Roman 12 getCachedFont setfont  % Retrieved from cache
+----
+
+==== Pattern Cache
+
+[source,postscript]
+----
+/PatternCache <<>> def
+
+/cachePattern {  % name pattern -> -
+  PatternCache 3 1 roll put
+} def
+
+/getPattern {  % name -> pattern
+  PatternCache exch get
+} def
+
+% Usage
+/dots {
+  % ... dot pattern definition
+} bind def
+
+/dots (dots) cachePattern
+(dots) getPattern exec  % Use cached pattern
+----
+
+==== Data Structure Reuse
+
+[source,postscript]
+----
+/BufferManager {
+  20 dict begin
+    /buffers <<
+      /small 256
+      /medium 1024
+      /large 4096
+    >> def
+
+    /cache <<>> def
+
+    /get {  % size -> buffer
+      buffers exch known {
+        buffers 1 index get
+        cache 2 index known {
+          cache exch get
+        } {
+          string
+        } ifelse
+      } {
+        string
+      } ifelse
+    } def
+
+    /return {  % size buffer -> -
+      cache 3 1 roll put
+    } def
+
+    currentdict
+  end
+} def
+----
+
+=== Memory Optimization
+
+==== Minimize Allocations
+
+[source,postscript]
+----
+% Good: allocate once, reuse
+/buffer 1024 string def
+0 1 99 {
+  pop
+  file buffer readstring pop
+  % Process buffer
+} for
+
+% Bad: allocate every time
+0 1 99 {
+  pop
+  file 1024 string readstring pop
+  % New allocation each iteration
+} for
+----
+
+==== Use Appropriate Sizes
+
+[source,postscript]
+----
+% Good: right-sized allocation
+/smallData 10 array def
+/mediumData 100 array def
+/largeData 1000 array def
+
+% Bad: oversized allocation
+/smallData 10000 array def  % Wastes memory
+----
+
+==== Packed Arrays
+
+More memory-efficient for read-only data:
+
+[source,postscript]
+----
+% Regular array (mutable, larger)
+/data [1 2 3 4 5] def
+
+% Packed array (read-only, smaller)
+/data [1 2 3 4 5] cvx def
+
+% Or using packedarray
+mark 1 2 3 4 5 packedarray /data exch def
+----
+
+==== String Optimization
+
+[source,postscript]
+----
+% Good: single string
+/message (This is a long message) def
+
+% Bad: concatenated strings
+/message (This ) (is ) (a ) (long ) (message)
+         concatstrings exch concatstrings exch concatstrings
+         exch concatstrings def
+----
+
+=== Resource Monitoring
+
+==== Memory Usage Tracking
+
+[source,postscript]
+----
+/MemoryTracker {
+  10 dict begin
+    /snapshots [] def
+
+    /snapshot {  % label -> -
+      vmstatus pop
+      2 array astore
+      2 array astore
+      /snapshots [ snapshots aload pop 3 -1 roll ] def
+    } def
+
+    /report {
+      (Memory Usage Report:) print
+      snapshots {
+        aload pop
+        (  ) print exch =string cvs print
+        (: ) print
+        aload pop
+        ( bytes) exch =string cvs concatstrings print
+      } forall
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+MemoryTracker /tracker exch def
+tracker /snapshot (Start) exec
+% ... operations
+tracker /snapshot (After operation) exec
+tracker /report exec
+----
+
+==== Performance Profiling
+
+[source,postscript]
+----
+/profile {  % label proc -> time
+  2 dict begin
+    /proc exch def
+    /label exch def
+
+    vmstatus pop /startMem exch def
+    usertime /startTime exch def
+
+    proc exec
+
+    usertime startTime sub /elapsed exch def
+    vmstatus pop startMem sub /memDelta exch def
+
+    label print
+    (: ) print
+    elapsed =string cvs print
+    (ms, ) print
+    memDelta =string cvs print
+    ( bytes) print
+    () print
+
+    elapsed
+  end
+} def
+
+% Usage
+(Heavy operation) {
+  % ... expensive code
+} profile pop
+----
+
+==== Resource Leaks Detection
+
+[source,postscript]
+----
+/detectLeaks {  % proc -> leaked
+  vmstatus pop /before exch def
+
+  exec
+
+  vmstatus pop /after exch def
+  after before sub
+
+  dup 0 gt {
+    (Warning: Possible leak of ) print
+    =string cvs print
+    ( bytes) print
+  } {
+    pop
+  } ifelse
+} def
+
+% Usage
+{
+  % Suspected leaking code
+  /temp 1000 array def
+  % Forgot to clean up temp
+} detectLeaks
+----
+
+=== Cleanup Patterns
+
+==== RAII Pattern (Resource Acquisition Is Initialization)
+
+[source,postscript]
+----
+/withResource {  % acquireProc releaseProc useProc -> -
+  3 dict begin
+    /use exch def
+    /release exch def
+    /acquire exch def
+
+    acquire exec /resource exch def
+
+    {
+      resource use exec
+    } stopped {
+      resource release exec
+      stop
+    } {
+      resource release exec
+    } ifelse
+  end
+} def
+
+% Usage
+{
+  (file.txt) (r) file  % Acquire
+} {
+  closefile  % Release
+} {
+  256 string readline pop  % Use
+} withResource
+----
+
+==== Scoped Resources
+
+[source,postscript]
+----
+/withScope {  % initProc mainProc cleanupProc -> -
+  3 dict begin
+    /cleanup exch def
+    /main exch def
+    /init exch def
+
+    save /snap exch def
+
+    init exec
+
+    {
+      main exec
+    } stopped {
+      cleanup exec
+      snap restore
+      stop
+    } {
+      cleanup exec
+      snap restore
+    } ifelse
+  end
+} def
+----
+
+==== Finalizers
+
+[source,postscript]
+----
+/Finalizer {
+  <<
+    /resources []
+    /finalizers <<>>
+
+    /register {  % resource finalizerProc -> -
+      2 dict begin
+        /finalizer exch def
+        /resource exch def
+
+        /resources [ resources aload pop resource ] def
+        finalizers resource finalizer put
+      end
+    } bind
+
+    /finalize {
+      resources {
+        /resource exch def
+        finalizers resource known {
+          finalizers resource get
+          resource exch exec
+        } if
+      } forall
+
+      /resources [] def
+      /finalizers <<>> def
+    } bind
+  >>
+} def
+
+% Usage
+Finalizer /fin exch def
+(file.txt) (r) file
+dup { closefile } fin /register get exec
+% ... use file
+fin /finalize get exec
+----
+
+=== Best Practices
+
+==== Minimize Global State
+
+[source,postscript]
+----
+% Good: local scope
+{
+  save
+  % Local allocations
+  /tempData 1000 array def
+  % Process
+  restore
+} exec
+
+% Bad: global pollution
+/tempData 1000 array def
+% Hard to clean up
+----
+
+==== Use Save/Restore for Temporary Data
+
+[source,postscript]
+----
+% Good: automatic cleanup
+/processLargeData {  % data -> result
+  save exch
+
+  % Create temporary working arrays
+  /workspace 10000 array def
+  /results 1000 array def
+
+  % Process data
+  % ... operations
+
+  % Extract results before restore
+  results 0 100 getinterval
+
+  exch restore
+} def
+
+% Bad: manual cleanup
+/processLargeData {
+  /workspace 10000 array def
+  /results 1000 array def
+  % ... process
+  % Forgot to clean up!
+} def
+----
+
+==== Reuse Objects
+
+[source,postscript]
+----
+% Good: object reuse
+/pointBuffer 2 array def
+0 1 99 {
+  pop
+  pointBuffer 0 rand put
+  pointBuffer 1 rand put
+  % Use pointBuffer
+} for
+
+% Bad: create new each time
+0 1 99 {
+  pop
+  [rand rand]  % New array each iteration
+} for
+----
+
+==== Cache Expensive Computations
+
+[source,postscript]
+----
+% Good: cache results
+/factorialCache 20 dict def
+
+/factorial {  % n -> n!
+  dup factorialCache exch known {
+    factorialCache exch get
+  } {
+    dup 1 le {
+      pop 1
+    } {
+      dup 1 sub factorial mul
+    } ifelse
+    dup factorialCache 3 1 roll put
+  } ifelse
+} def
+
+% Bad: recalculate every time
+/factorial {
+  dup 1 le { pop 1 } { dup 1 sub factorial mul } ifelse
+} def
+----
+
+=== Common Pitfalls
+
+==== Memory Leaks
+
+[source,postscript]
+----
+% Wrong: accumulating references
+/data [] def
+0 1 999 {
+  /data [ data aload pop 1000 array ] def
+  % data keeps growing!
+} for
+
+% Correct: use temporary scope
+save
+/data [] def
+0 1 999 {
+  /data [ data aload pop 1000 array ] def
+} for
+restore
+----
+
+==== Missing Cleanup
+
+[source,postscript]
+----
+% Wrong: file not closed on error
+(file.txt) (r) file /f exch def
+f 256 string readline pop
+% If error occurs, file stays open
+
+% Correct: guaranteed cleanup
+(file.txt) (r) file /f exch def
+{
+  f 256 string readline pop
+} stopped {
+  f closefile
+  stop
+} {
+  f closefile
+} ifelse
+----
+
+==== Stack Growth
+
+[source,postscript]
+----
+% Wrong: unbalanced operations
+/leakyProc {
+  42  % Leaves extra value
+  add
+} def
+
+0 1 999 {
+  leakyProc
+} for
+% Stack has grown by 1000 elements!
+
+% Correct: balanced
+/cleanProc {
+  add
+} def
+----
+
+==== Dictionary Stack Overflow
+
+[source,postscript]
+----
+% Wrong: repeated begin without end
+0 1 99 {
+  pop
+  10 dict begin
+  % ... forgot end
+} for
+% Dictionary stack overflow!
+
+% Correct: balanced
+0 1 99 {
+  pop
+  10 dict begin
+    % ...
+  end
+} for
+----
+
+=== Performance Optimization
+
+==== Batch Operations
+
+[source,postscript]
+----
+% Good: batch allocation
+save
+[
+  0 1 999 {
+    1000 array
+  } for
+] /arrays exch def
+% Process all
+restore
+
+% Bad: piecemeal
+0 1 999 {
+  pop
+  save
+  1000 array
+  % Process
+  restore
+} for
+----
+
+==== Minimize VM Snapshots
+
+[source,postscript]
+----
+% Good: one save for entire operation
+save
+% ... many operations
+restore
+
+% Bad: save per operation
+0 1 99 {
+  pop
+  save
+  % ... one operation
+  restore
+} for
+----
+
+==== Use Bind
+
+[source,postscript]
+----
+% Good: bound procedure (faster, no dict lookups)
+/fastProc {
+  dup mul add
+} bind def
+
+% Slower: unbound (dict lookups each time)
+/slowProc {
+  dup mul add
+} def
+----
+
+=== Resource Limits
+
+==== Checking Limits
+
+[source,postscript]
+----
+/checkResources {
+  % Check VM
+  vmstatus
+  3 1 roll sub
+  dup 10000 lt {
+    (Warning: Low memory) print
+  } if
+  pop pop
+
+  % Check stacks
+  count 100 gt {
+    (Warning: Deep operand stack) print
+  } if
+
+  countdictstack 20 gt {
+    (Warning: Deep dictionary stack) print
+  } if
+} def
+----
+
+==== Enforcing Limits
+
+[source,postscript]
+----
+/withMemoryLimit {  % maxBytes proc -> -
+  2 dict begin
+    /proc exch def
+    /limit exch def
+
+    vmstatus pop /start exch def
+
+    {
+      proc exec
+      vmstatus pop start sub limit gt {
+        (Memory limit exceeded) print
+        stop
+      } if
+    } loop
+  end
+} def
+----
+
+=== Debugging Resource Issues
+
+==== Memory Dump
+
+[source,postscript]
+----
+/dumpMemory {
+  (=== Memory Dump ===) print
+  vmstatus
+  (Maximum: ) print =string cvs print () print
+  (Used: ) print =string cvs print () print
+  (Level: ) print =string cvs print () print
+
+  (Operand stack depth: ) print count =
+  (Dictionary stack depth: ) print countdictstack =
+} def
+----
+
+==== Track Allocations
+
+[source,postscript]
+----
+/AllocationTracker {
+  <<
+    /allocations []
+
+    /track {  % name size -> -
+      realtime 3 array astore
+      /allocations [ allocations aload pop 3 -1 roll ] def
+    } bind
+
+    /report {
+      (Allocations:) print
+      allocations {
+        aload pop
+        ( - ) print
+        =string cvs print
+        (: ) print
+        =string cvs print
+        ( bytes at ) print
+        =string cvs print
+        () print
+      } forall
+    } bind
+  >>
+} def
+----
+
+=== See Also
+
+* xref:error-handling.adoc[Error Handling] - Resource errors
+* xref:file-operations.adoc[File Operations] - File resource management
+* xref:../basic/procedures.adoc[Procedures] - Procedure optimization
+* xref:../debugging.adoc[Debugging] - Resource debugging
+* xref:device-control.adoc[Device Control] - Device resources

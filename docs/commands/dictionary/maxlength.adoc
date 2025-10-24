@@ -1,0 +1,185 @@
+---
+layout: default
+title: maxlength
+parent: Dictionary Operations
+grand_parent: Command Reference
+nav_order: 13
+---
+
+== maxlength
+
+Returns the maximum capacity of a dictionary.
+
+=== Syntax
+
+----
+dict maxlength → int
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `dict` (dictionary)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `int` (maximum capacity)
+|===
+
+=== Description
+
+[`maxlength`](maxlength.adoc) returns the capacity of _dict_ - the maximum number of key-value pairs it can hold using the VM currently allocated to it.
+
+**Level 1**: Returns the _int_ operand originally passed to [`dict`](dict.adoc) - the dictionary's fixed maximum capacity.
+
+**Level 2**: Returns the current capacity, which may be larger than the original size if the dictionary has grown.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Basic capacity query
+[source,postscript]
+----
+/mydict 5 dict def
+mydict length     % Returns 0 (empty)
+mydict maxlength  % Returns 5 (capacity)
+----
+
+.Dictionary growth (Level 2)
+[source,postscript]
+----
+2 dict begin
+  /k1 1 def
+  /k2 2 def
+  /k3 3 def  % Auto-expands in Level 2
+  currentdict maxlength  % Returns > 2
+end
+----
+
+.Checking available space
+[source,postscript]
+----
+mydict dup maxlength
+exch length sub  % Available slots
+----
+
+=== Common Use Cases
+
+==== Pre-allocation Check
+
+[source,postscript]
+----
+dict dup maxlength exch length sub
+requiredSlots lt {
+  % Need bigger dictionary
+  dup length requiredSlots add dict
+  copy
+} if
+----
+
+==== Memory Planning
+
+[source,postscript]
+----
+/estimateMemory {
+  dict maxlength 20 mul  % Rough estimate: 20 bytes per entry
+} def
+----
+
+==== Dictionary Debugging
+
+[source,postscript]
+----
+/dictInfo {
+  dup length =only ( / ) print
+  maxlength =only ( entries\n) print
+} def
+----
+
+=== Common Pitfalls
+
+WARNING: *maxlength ≠ length* - [`maxlength`](maxlength.adoc) is capacity, xref:../array-string/length.adoc[`length`] is current count.
+
+[source,postscript]
+----
+5 dict
+dup length     % 0 (no entries yet)
+maxlength      % 5 (capacity)
+----
+
+WARNING: *Level Differences* - Behavior differs between Level 1 and 2:
+
+[source,postscript]
+----
+% Level 1: Fixed at creation
+% Level 2: Can grow (returns current capacity)
+----
+
+TIP: *Don't Rely on Exact Values* - In Level 2, maxlength may increase unpredictably due to automatic expansion.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| Dictionary has no-access attribute
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand is not a dictionary
+|===
+
+=== Implementation Notes
+
+**Level 1:**
+* Returns fixed capacity set at creation
+* Never changes
+* Simple field lookup
+
+**Level 2:**
+* Returns current allocated capacity
+* May be larger than original size
+* Capacity increases in chunks when dictionary grows
+
+=== Capacity vs. Usage
+
+[cols="2,3,3"]
+|===
+| Measurement | Operator | Meaning
+
+| Current entries
+| xref:../array-string/length.adoc[`length`]
+| Number of key-value pairs
+
+| Maximum capacity
+| [`maxlength`](maxlength.adoc)
+| Slots available with current VM allocation
+
+| Available space
+| `maxlength length sub`
+| Remaining capacity (Level 1)
+|===
+
+=== See Also
+
+* xref:../array-string/length.adoc[`length`] - Get current entry count
+* xref:dict.adoc[`dict`] - Create dictionary with initial capacity
+* xref:def.adoc[`def`] - Add entry to dictionary
+* xref:known.adoc[`known`] - Check if key exists

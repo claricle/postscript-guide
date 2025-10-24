@@ -1,0 +1,173 @@
+---
+layout: default
+title: cvn
+parent: Array and String Operations
+grand_parent: Command Reference
+nav_order: 18
+---
+
+== cvn
+
+Converts a string to a name object.
+
+=== Syntax
+
+----
+string cvn → name
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `string`
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `name` (lexically same as string)
+|===
+
+=== Description
+
+[`cvn`](cvn.adoc) (convert to name) converts the string operand to a name object that is lexically identical to the string.
+
+The resulting name:
+* Has the same executable/literal attribute as the string
+* Is interned in the name table
+* Can be used as a dictionary key
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Basic conversion
+[source,postscript]
+----
+(abc) cvn        % Result: /abc
+----
+
+.Executable name
+[source,postscript]
+----
+(abc) cvx cvn    % Result: abc (executable)
+----
+
+.Dynamic name generation
+[source,postscript]
+----
+(font) 10 20 string cvs
+exch dup length string
+dup 0 4 3 index putinterval
+dup 4 3 index putinterval
+cvn
+% Result: /font10
+----
+
+=== Common Use Cases
+
+==== Dynamic Dictionary Keys
+
+[source,postscript]
+----
+/prefix (item) def
+0 1 9 {
+  20 string cvs
+  prefix exch concatstrings
+  cvn  % Convert to name for dict key
+  % Use as dictionary key
+} for
+----
+
+==== Configuration Loading
+
+[source,postscript]
+----
+file readline {
+  token { cvn } if  % Convert key to name
+  token { exch def } if
+} if
+----
+
+==== Computed Names
+
+[source,postscript]
+----
+/basename (MyFont) def
+/size 12 def
+basename (-) size 20 string cvs
+concatstrings cvn
+% Result: /MyFont-12
+----
+
+=== Common Pitfalls
+
+WARNING: *Name Length Limit* - Names have implementation-dependent maximum length (typically 127 characters).
+
+[source,postscript]
+----
+very-long-string cvn  % May cause limitcheck
+----
+
+WARNING: *Names Are Interned* - All identical name objects share the same entry in the name table, consuming VM.
+
+[source,postscript]
+----
+% Each unique name uses VM
+1 1 1000 { 20 string cvs cvn pop } for
+% Created 1000 names in VM
+----
+
+WARNING: *String Must Be Readable* - String must not have no-access attribute.
+
+TIP: *Names vs. Strings as Keys* - Names are more efficient as dictionary keys than strings.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| String has no-access attribute
+
+| [`limitcheck`]
+| String exceeds maximum name length
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand is not a string
+|===
+
+=== Implementation Notes
+
+* Names are stored in a global name table
+* Identical strings convert to the same name object
+* Name table consumes VM (cannot be freed)
+* Executable attribute preserved from string
+
+=== Performance Considerations
+
+* Name creation involves hash table lookup
+* First occurrence of a name allocates VM
+* Subsequent conversions of same string return same name (fast)
+* Avoid creating many unique names unnecessarily
+
+=== See Also
+
+* xref:cvs.adoc[`cvs`] - Convert to string
+* xref:type.adoc[`type`] - Get object type
+* xref:cvlit.adoc[`cvlit`] - Make literal
+* xref:cvx.adoc[`cvx`] - Make executable

@@ -1,0 +1,985 @@
+---
+layout: default
+title: Images
+parent: Advanced Usage
+grand_parent: Usage Guides
+nav_order: 7
+---
+
+== Images
+
+PostScript provides powerful capabilities for including and manipulating raster images. Understanding image handling is essential for documents containing photographs, scanned content, and bitmap graphics.
+
+=== Overview
+
+PostScript image capabilities include:
+
+* **Bitmap images** - Grayscale and color raster images
+* **Image transformations** - Scaling, rotating, and skewing
+* **Color models** - RGB, CMYK, and indexed color
+* **Compression** - Various encoding schemes
+* **Masking** - Transparency and clipping with images
+* **Sampling** - Resolution and interpolation
+
+Images in PostScript are defined by:
+
+* **Dimensions** - Width and height in pixels
+* **Bit depth** - Bits per sample (1, 2, 4, 8, 12)
+* **Color space** - Gray, RGB, CMYK, etc.
+* **Data source** - Inline or procedural
+
+=== Basic Image Syntax
+
+==== The `image` Operator
+
+Basic grayscale image:
+
+[source,postscript]
+----
+% image: width height bits/sample matrix datasource image
+
+% Simple 8x8 grayscale image
+8 8                      % Width, height
+8                        % 8 bits per sample
+[8 0 0 -8 0 8]          % Transformation matrix
+{<FF 00 FF 00 FF 00 FF 00
+  00 FF 00 FF 00 FF 00 FF
+  FF 00 FF 00 FF 00 FF 00
+  00 FF 00 FF 00 FF 00 FF
+  FF 00 FF 00 FF 00 FF 00
+  00 FF 00 FF 00 FF 00 FF
+  FF 00 FF 00 FF 00 FF 00
+  00 FF 00 FF 00 FF 00 FF>}
+image
+----
+
+==== Image Transformation Matrix
+
+The matrix transforms image space to user space:
+
+[source,postscript]
+----
+% [a b c d tx ty]
+% For standard image (top-down):
+% [width 0 0 -height 0 height]
+
+% Example: 100x100 pixel image
+100 100 8
+[100 0 0 -100 0 100]  % Standard orientation
+{<...data...>}
+image
+----
+
+==== Image Data Source
+
+Data can be provided in several ways:
+
+[source,postscript]
+----
+% 1. Hexadecimal string
+{<FFFF0000>}
+
+% 2. Procedure returning strings
+{
+  currentfile 10 string readhexstring
+  pop
+}
+
+% 3. File or filter
+imageFile
+
+% 4. Inline data
+currentfile /ASCII85Decode filter
+----
+
+=== Color Images
+
+==== RGB Images (`colorimage`)
+
+[source,postscript]
+----
+% colorimage: width height bits/sample matrix
+%              datasource ncolors multiproc colorimage
+
+% RGB image (3 components)
+4 4                      % 4x4 pixels
+8                        % 8 bits per sample
+[4 0 0 -4 0 4]          % Matrix
+{<FF0000 00FF00 0000FF FFFFFF
+  000000 FF00FF FFFF00 00FFFF
+  808080 FF8000 80FF00 8000FF
+  C0C0C0 404040 F0F0F0 0F0F0F>}
+false                    % Single data source
+3                        % 3 color components
+colorimage
+----
+
+Multiple data sources:
+
+[source,postscript]
+----
+% Separate R, G, B sources
+4 4 8
+[4 0 0 -4 0 4]
+{<FF 00 00 FF>}  % Red channel
+{<00 FF 00 FF>}  % Green channel
+{<00 00 FF FF>}  % Blue channel
+true             % Multiple sources
+3
+colorimage
+----
+
+==== CMYK Images
+
+[source,postscript]
+----
+% CMYK: 4 color components
+4 4 8
+[4 0 0 -4 0 4]
+{<data...>}
+false
+4                % 4 components (C,M,Y,K)
+colorimage
+----
+
+=== Image Positioning and Scaling
+
+==== Positioning Images
+
+Use coordinate transformations:
+
+[source,postscript]
+----
+gsave
+  % Position at (100, 100)
+  100 100 translate
+
+  % Scale to 200x150 points
+  200 150 scale
+
+  % Draw 1x1 unit image
+  % (will be scaled to 200x150)
+  1 1 8
+  [1 0 0 -1 0 1]
+  {<...data...>}
+  image
+grestore
+----
+
+==== Fitting Image to Area
+
+[source,postscript]
+----
+/fitImage {  % imgWidth imgHeight areaWidth areaHeight -> -
+  4 dict begin
+    /areaH exch def
+    /areaW exch def
+    /imgH exch def
+    /imgW exch def
+
+    % Calculate scale (maintain aspect ratio)
+    /scaleX areaW imgW div def
+    /scaleY areaH imgH div def
+    /scale scaleX scaleY lt { scaleX } { scaleY } ifelse def
+
+    % Center in area
+    /offsetX areaW imgW scale mul sub 2 div def
+    /offsetY areaH imgH scale mul sub 2 div def
+
+    gsave
+      offsetX offsetY translate
+      imgW scale mul imgH scale mul scale
+
+      % Draw image here
+      % 1 1 8 [1 0 0 -1 0 1] {...} image
+    grestore
+  end
+} def
+----
+
+==== Tiling Images
+
+[source,postscript]
+----
+/tileImage {  % imgProc tileW tileH -> -
+  3 dict begin
+    /h exch def
+    /w exch def
+    /img exch def
+
+    0 h 500 {
+      /y exch def
+      0 w 500 {
+        /x exch def
+        gsave
+          x y translate
+          img exec
+        grestore
+      } for
+    } for
+  end
+} def
+----
+
+=== Image Data Formats
+
+==== ASCII Hexadecimal
+
+Most portable format:
+
+[source,postscript]
+----
+% Each byte as two hex digits
+8 8 8
+[8 0 0 -8 0 8]
+{<
+  00 10 20 30 40 50 60 70
+  80 90 A0 B0 C0 D0 E0 F0
+  % ... more data
+>}
+image
+----
+
+==== ASCII85 Encoding
+
+More compact ASCII representation:
+
+[source,postscript]
+----
+8 8 8
+[8 0 0 -8 0 8]
+currentfile /ASCII85Decode filter
+image
+
+% ASCII85 encoded data follows
+Ascii85EncodedDataHere~>
+----
+
+==== Binary Data
+
+Most compact (not always portable):
+
+[source,postscript]
+----
+% Binary data (if interpreter supports it)
+8 8 8
+[8 0 0 -8 0 8]
+currentfile /ASCIIHexDecode filter
+image
+
+% Hex data
+0001020304050607...
+----
+
+=== Image Masking
+
+==== Image Mask (1-bit transparency)
+
+[source,postscript]
+----
+% imagemask: width height polarity matrix datasource imagemask
+
+% Create mask (1 bit per pixel)
+8 8
+true                     % true = 1 bits are painted
+[8 0 0 -8 0 8]
+{<81 42 24 18 18 24 42 81>}  % Checkerboard mask
+imagemask
+----
+
+Using mask with color:
+
+[source,postscript]
+----
+gsave
+  1 0 0 setrgbcolor  % Red
+
+  % Mask determines which pixels are painted
+  8 8 true
+  [8 0 0 -8 0 8]
+  {<FF 00 FF 00 FF 00 FF 00>}
+  imagemask
+grestore
+----
+
+==== Masked Image
+
+Image with transparency mask:
+
+[source,postscript]
+----
+% Draw background
+0.9 0.9 0.9 setrgbcolor
+0 0 100 100 rectfill
+
+% Draw masked image
+<<
+  /ImageType 1
+  /Width 8
+  /Height 8
+  /ImageMatrix [8 0 0 -8 0 8]
+  /BitsPerComponent 8
+  /Decode [0 1]
+  /DataSource {<FF808080404020201010080804040202>}
+  /Mask {<81422418182442 81>}
+>> image
+----
+
+=== Practical Image Examples
+
+==== Example 1: Gradient Image
+
+[source,postscript]
+----
+/gradientImage {  % width height -> -
+  2 dict begin
+    /h exch def
+    /w exch def
+
+    w h 8
+    [w 0 0 h neg 0 h]
+    {
+      % Generate gradient data
+      0 1 w 1 sub {
+        /x exch def
+        x w div 255 mul cvi
+        1 string dup 0 4 -1 roll put
+      } for
+    }
+    image
+  end
+} def
+
+% Usage
+gsave
+  100 100 translate
+  200 100 scale
+  1 1 gradientImage
+grestore
+----
+
+==== Example 2: Checkerboard Pattern
+
+[source,postscript]
+----
+/checkerImage {  % size -> -
+  1 dict begin
+    /size exch def
+
+    size size 1
+    [size 0 0 size neg 0 size]
+    {
+      % Generate checkerboard
+      0 1 size 1 sub {
+        /y exch def
+        0 1 size 1 sub {
+          /x exch def
+          x y add 2 mod 0 eq { <FF> } { <00> } ifelse
+        } for
+      } for
+    }
+    image
+  end
+} def
+
+gsave
+  100 100 translate
+  100 100 scale
+  8 checkerImage
+grestore
+----
+
+==== Example 3: QR Code Style Pattern
+
+[source,postscript]
+----
+/qrPattern {  % size -> -
+  1 dict begin
+    /s exch def
+
+    s s 1
+    [s 0 0 s neg 0 s]
+    {
+      % Generate random pattern
+      0 1 s 1 sub {
+        pop
+        0 1 s 1 sub {
+          pop
+          rand 2147483647 div 0.5 gt { <FF> } { <00> } ifelse
+        } for
+      } for
+    }
+    image
+  end
+} def
+
+gsave
+  100 100 translate
+  100 100 scale
+  32 qrPattern
+grestore
+----
+
+==== Example 4: Image Border
+
+[source,postscript]
+----
+/framedImage {  % imageProc borderWidth -> -
+  2 dict begin
+    /border exch def
+    /img exch def
+
+    gsave
+      % Draw border
+      0 setgray
+      border neg dup moveto
+      border 2 mul 0 rlineto
+      0 border 2 mul rlineto
+      border -2 mul 0 rlineto
+      closepath
+      2 setlinewidth
+      stroke
+
+      % Draw image
+      img exec
+    grestore
+  end
+} def
+
+% Usage
+{
+  1 1 8
+  [1 0 0 -1 0 1]
+  {<...data...>}
+  image
+} 5 framedImage
+----
+
+=== Image Filters and Effects
+
+==== Invert Image
+
+[source,postscript]
+----
+/invertImage {  % imgProc -> -
+  gsave
+    % Invert by using XOR-like effect
+    1 setgray
+    0 0 1 1 rectfill
+
+    % Subtract mode (simulated)
+    % Draw image
+    exec
+  grestore
+} def
+----
+
+==== Grayscale Conversion
+
+[source,postscript]
+----
+% For RGB image, convert to grayscale
+/rgb2gray {  % r g b -> gray
+  0.299 mul     % Red weight
+  exch 0.587 mul add  % Green weight
+  exch 0.114 mul add  % Blue weight
+} def
+----
+
+==== Brightness Adjustment
+
+[source,postscript]
+----
+/brightenImage {  % imgProc amount -> -
+  2 dict begin
+    /bright exch def
+    /img exch def
+
+    gsave
+      % Adjust brightness
+      1 bright add dup dup setrgbcolor
+
+      % Multiply mode (simulated)
+      img exec
+    grestore
+  end
+} def
+----
+
+==== Threshold Effect
+
+[source,postscript]
+----
+/thresholdImage {  % threshold -> -
+  1 dict begin
+    /thresh exch def
+
+    8 8 1  % 1 bit per pixel
+    [8 0 0 -8 0 8]
+    {
+      % Read original data, apply threshold
+      currentfile 8 string readhexstring pop
+      {
+        thresh gt { 1 } { 0 } ifelse
+      } forall
+    }
+    image
+  end
+} def
+----
+
+=== Image Optimization
+
+==== Downsampling
+
+[source,postscript]
+----
+/downsampleImage {  % factor -> -
+  1 dict begin
+    /factor exch def
+
+    % Original: 800x600
+    % Factor: 2
+    % Result: 400x300
+
+    800 factor div cvi
+    600 factor div cvi
+    8
+    [800 factor div 0 0 600 factor div neg 0 600 factor div]
+    {
+      % Sample every nth pixel
+      % (simplified - real downsampling is more complex)
+    }
+    image
+  end
+} def
+----
+
+==== Image Compression
+
+[source,postscript]
+----
+% Using filters for compression
+
+% RLE (Run-Length Encoding)
+<<
+  /ImageType 1
+  /Width 100
+  /Height 100
+  /BitsPerComponent 8
+  /Decode [0 1]
+  /ImageMatrix [100 0 0 -100 0 100]
+  /DataSource currentfile /RunLengthDecode filter
+>> image
+% RLE data here
+
+% LZW Compression
+<<
+  /ImageType 1
+  /Width 100
+  /Height 100
+  /BitsPerComponent 8
+  /Decode [0 1]
+  /ImageMatrix [100 0 0 -100 0 100]
+  /DataSource currentfile /LZWDecode filter
+>> image
+% LZW data here
+----
+
+=== Working with Image Dictionaries
+
+==== Image Dictionary Format
+
+[source,postscript]
+----
+<<
+  /ImageType 1              % Type of image
+  /Width 100                % Width in pixels
+  /Height 100               % Height in pixels
+  /ImageMatrix [100 0 0 -100 0 100]  % Transform
+  /BitsPerComponent 8       % Bits per sample
+  /Decode [0 1]            % Decode array
+  /DataSource currentfile   % Data source
+  /Interpolate false        % Interpolation
+>> image
+----
+
+==== Color Image Dictionary
+
+[source,postscript]
+----
+<<
+  /ImageType 1
+  /Width 50
+  /Height 50
+  /ImageMatrix [50 0 0 -50 0 50]
+  /BitsPerComponent 8
+  /Decode [0 1 0 1 0 1]    % RGB decode ranges
+  /DataSource currentfile
+  /Interpolate true         % Smooth scaling
+>> false 3 colorimage
+----
+
+=== Image Data Generation
+
+==== Procedural Images
+
+[source,postscript]
+----
+/proceduralImage {
+  100 100 8
+  [100 0 0 -100 0 100]
+  {
+    % Generate image data procedurally
+    0 1 99 {
+      /y exch def
+      0 1 99 {
+        /x exch def
+
+        % Calculate pixel value
+        x y add 2 mod 255 mul
+        1 string dup 0 4 -1 roll put
+      } for
+    } for
+  }
+  image
+} def
+----
+
+==== Noise Image
+
+[source,postscript]
+----
+/noiseImage {  % width height -> -
+  2 dict begin
+    /h exch def
+    /w exch def
+
+    w h 8
+    [w 0 0 h neg 0 h]
+    {
+      % Random noise
+      0 1 w h mul 1 sub {
+        pop
+        rand 255 mul 2147483647 div cvi
+        1 string dup 0 4 -1 roll put
+      } for
+    }
+    image
+  end
+} def
+
+50 50 noiseImage
+----
+
+==== Plasma Effect
+
+[source,postscript]
+----
+/plasmaImage {  % width height -> -
+  2 dict begin
+    /h exch def
+    /w exch def
+
+    w h 8
+    [w 0 0 h neg 0 h]
+    {
+      0 1 h 1 sub {
+        /y exch def
+        0 1 w 1 sub {
+          /x exch def
+
+          % Plasma calculation
+          x w div 360 mul sin
+          y h div 360 mul sin add
+          2 div 1 add 127.5 mul cvi
+          1 string dup 0 4 -1 roll put
+        } for
+      } for
+    }
+    image
+  end
+} def
+----
+
+=== Image Transformations
+
+==== Mirrored Image
+
+[source,postscript]
+----
+/mirrorImage {  % imageProc direction -> -
+  % direction: 0=horizontal, 1=vertical
+  2 dict begin
+    /dir exch def
+    /img exch def
+
+    gsave
+      dir 0 eq {
+        % Horizontal mirror
+        -1 1 scale
+        -1 0 translate
+      } {
+        % Vertical mirror
+        1 -1 scale
+        0 -1 translate
+      } ifelse
+
+      img exec
+    grestore
+  end
+} def
+----
+
+==== Rotated Image
+
+[source,postscript]
+----
+/rotateImage {  % imageProc angle -> -
+  2 dict begin
+    /angle exch def
+    /img exch def
+
+    gsave
+      0.5 0.5 translate
+      angle rotate
+      -0.5 -0.5 translate
+      img exec
+    grestore
+  end
+} def
+----
+
+==== Perspective Transform
+
+[source,postscript]
+----
+/perspectiveImage {  % imageProc skewX skewY -> -
+  3 dict begin
+    /skewY exch def
+    /skewX exch def
+    /img exch def
+
+    gsave
+      [1 skewY skewX 1 0 0] concat
+      img exec
+    grestore
+  end
+} def
+----
+
+=== Advanced Image Techniques
+
+==== Image Mosaic
+
+[source,postscript]
+----
+/imageMosaic {  % imageProc tileSize -> -
+  2 dict begin
+    /size exch def
+    /img exch def
+
+    0 size 100 {
+      /y exch def
+      0 size 100 {
+        /x exch def
+
+        gsave
+          x y translate
+          size size scale
+
+          % Small version of image
+          0.1 0.1 scale
+          img exec
+        grestore
+      } for
+    } for
+  end
+} def
+----
+
+==== Image Outline
+
+[source,postscript]
+----
+/imageOutline {  % imageProc -> -
+  gsave
+    % Draw image as path outline
+    1 setlinewidth
+    0 setgray
+
+    % Convert to path and stroke
+    % (simplified - actual edge detection is complex)
+    0 0 1 1 rectstroke
+  grestore
+} def
+----
+
+=== Performance Tips
+
+==== Optimize Image Size
+
+[source,postscript]
+----
+% Bad: huge image for small display
+2400 1800 8  % 2400x1800 pixels
+[2400 0 0 -1800 0 1800]
+{...massive data...}
+image
+
+% Good: appropriate resolution
+300 225 8    % 300x225 pixels (scaled)
+[300 0 0 -225 0 225]
+{...reasonable data...}
+image
+----
+
+==== Use Appropriate Bit Depth
+
+[source,postscript]
+----
+% Bad: 8-bit for simple pattern
+8 8 8
+[8 0 0 -8 0 8]
+{<FF FF FF FF 00 00 00 00>}
+image
+
+% Good: 1-bit for binary pattern
+8 8 1
+[8 0 0 -8 0 8]
+{<FF 00>}
+image
+----
+
+==== Stream Large Images
+
+[source,postscript]
+----
+% Good: stream from file
+/imageFile (image.dat) (r) file def
+
+100 100 8
+[100 0 0 -100 0 100]
+imageFile
+image
+
+imageFile closefile
+----
+
+=== Best Practices
+
+==== Always Specify Image Matrix
+
+[source,postscript]
+----
+% Good: explicit matrix
+100 100 8
+[100 0 0 -100 0 100]
+{<...>}
+image
+
+% Bad: relying on defaults
+100 100 8
+matrix
+{<...>}
+image
+----
+
+==== Use Appropriate Color Space
+
+[source,postscript]
+----
+% Good: grayscale for B&W
+100 100 8
+[100 0 0 -100 0 100]
+{<...>}
+image
+
+% Bad: RGB for B&W
+100 100 8
+[100 0 0 -100 0 100]
+{<...>}
+false 3
+colorimage
+----
+
+==== Proper State Management
+
+[source,postscript]
+----
+% Good: isolated transformation
+gsave
+  100 100 translate
+  200 150 scale
+  % Draw image
+grestore
+
+% Bad: permanent transformation
+100 100 translate
+200 150 scale
+% Affects everything after
+----
+
+=== Common Pitfalls
+
+==== Wrong Matrix Orientation
+
+[source,postscript]
+----
+% Wrong: upside-down image
+100 100 8
+[100 0 0 100 0 0]  % Positive y scale
+{<...>}
+image
+
+% Correct: proper orientation
+100 100 8
+[100 0 0 -100 0 100]  % Negative y scale, offset
+{<...>}
+image
+----
+
+==== Mismatched Data Size
+
+[source,postscript]
+----
+% Wrong: data doesn't match dimensions
+10 10 8  % 10x10 = 100 bytes needed
+[10 0 0 -10 0 10]
+{<FF FF FF>}  % Only 3 bytes!
+image
+
+% Correct: proper data size
+10 10 8
+[10 0 0 -10 0 10]
+{<...100 bytes...>}
+image
+----
+
+==== Forgetting Color Count
+
+[source,postscript]
+----
+% Wrong: missing color count for colorimage
+100 100 8
+[100 0 0 -100 0 100]
+{<...>}
+false
+colorimage  % ERROR: needs color count!
+
+% Correct
+100 100 8
+[100 0 0 -100 0 100]
+{<...>}
+false 3  % 3 components (RGB)
+colorimage
+----
+
+=== See Also
+
+* xref:color-spaces.adoc[Color Spaces] - Image color models
+* xref:patterns.adoc[Patterns] - Image-based patterns
+* xref:../basic/coordinate-systems.adoc[Coordinate Systems] - Image transformations
+* xref:../basic/painting.adoc[Painting] - Image rendering
+* xref:file-operations.adoc[File Operations] - Loading image data
+* xref:resource-management.adoc[Resource Management] - Image memory management

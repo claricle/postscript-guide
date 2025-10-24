@@ -1,0 +1,231 @@
+---
+layout: default
+title: currentlinewidth
+parent: Graphics State
+grand_parent: Command Reference
+nav_order: 16
+---
+
+== currentlinewidth
+
+Returns current line width value.
+
+=== Syntax
+
+----
+– currentlinewidth → num
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| –
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `num` (line width in user space units)
+|===
+
+=== Description
+
+[`currentlinewidth`](currentlinewidth.adoc) returns the current line width parameter from the graphics state. This is the value most recently set by [`setlinewidth`](setlinewidth.adoc).
+
+The returned value is in **user space units**. The actual rendered width in device space depends on the current transformation matrix (CTM) at the time of stroking.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Querying current line width
+[source,postscript]
+----
+1 setlinewidth
+currentlinewidth
+% Stack: 1
+----
+
+.Saving and restoring line width
+[source,postscript]
+----
+currentlinewidth        % Save
+/savedWidth exch def
+
+5 setlinewidth          % Change
+drawThickLines
+
+savedWidth setlinewidth % Restore
+----
+
+.Doubling current width
+[source,postscript]
+----
+currentlinewidth
+2 mul
+setlinewidth
+----
+
+.Conditional drawing based on width
+[source,postscript]
+----
+currentlinewidth 2 gt {
+  % Current width is thick
+  drawBoldGraphic
+} {
+  % Current width is thin
+  drawDetailedGraphic
+} ifelse
+----
+
+=== Common Use Cases
+
+==== Width State Preservation
+
+[source,postscript]
+----
+/DrawWithCustomWidth {
+  % width on stack
+  currentlinewidth exch  % Save, put new width on top
+  setlinewidth
+
+  drawShape
+
+  setlinewidth           % Restore
+} def
+
+% Usage
+3 DrawWithCustomWidth
+----
+
+==== Relative Width Adjustment
+
+[source,postscript]
+----
+/ScaleLineWidth {
+  % factor
+  currentlinewidth mul
+  setlinewidth
+} def
+
+% Double current width
+2 ScaleLineWidth
+
+% Halve current width
+0.5 ScaleLineWidth
+----
+
+==== Width-Adaptive Drawing
+
+[source,postscript]
+----
+/DrawAdaptive {
+  currentlinewidth
+  dup 1 lt {
+    % Thin lines - add detail
+    pop
+    drawDetailedVersion
+  } {
+    % Thick lines - simplify
+    pop
+    drawSimpleVersion
+  } ifelse
+} def
+----
+
+==== Width Validation
+
+[source,postscript]
+----
+/EnsureMinimumWidth {
+  % minWidth
+  currentlinewidth
+  2 copy lt {
+    % Current is less than minimum
+    exch pop setlinewidth
+  } {
+    % Current is adequate
+    pop pop
+  } ifelse
+} def
+
+% Ensure at least 0.5 units
+0.5 EnsureMinimumWidth
+----
+
+=== Common Pitfalls
+
+WARNING: *User Space, Not Device Space* - Returned value is in user space.
+
+[source,postscript]
+----
+1 setlinewidth
+2 2 scale
+currentlinewidth
+% Returns 1, but renders as 2 device units
+----
+
+WARNING: *Not Affected by CTM* - Current width is the set value, not transformed value.
+
+[source,postscript]
+----
+1 setlinewidth
+45 rotate
+currentlinewidth
+% Still returns 1 (rotation doesn't affect value)
+----
+
+TIP: *Use for State Management* - Good for preserving/restoring line parameters.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackoverflow`]
+| No room on operand stack
+|===
+
+=== Implementation Notes
+
+* Very fast query operation
+* No modification to graphics state
+* Returns exact value set by [`setlinewidth`](setlinewidth.adoc)
+* Value is in user space coordinates
+* Default value is typically 1.0
+* Widely supported (Level 1)
+
+=== Line Width Behavior
+
+The line width affects stroked paths:
+
+[source,postscript]
+----
+% Width in user space
+1 setlinewidth
+0 0 moveto 100 0 lineto stroke  % 1 unit thick
+
+% After transformation
+2 2 scale
+currentlinewidth                 % Still 1.0
+0 0 moveto 100 0 lineto stroke  % Renders 2 units thick
+----
+
+=== See Also
+
+* xref:setlinewidth.adoc[`setlinewidth`] - Set line width
+* xref:currentlinecap.adoc[`currentlinecap`] - Get line cap style
+* xref:currentlinejoin.adoc[`currentlinejoin`] - Get line join style
+* xref:currentdash.adoc[`currentdash`] - Get dash pattern
+* xref:currentmiterlimit.adoc[`currentmiterlimit`] - Get miter limit

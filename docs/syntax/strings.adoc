@@ -1,0 +1,942 @@
+---
+layout: default
+title: Strings
+parent: Language Syntax
+nav_order: 9
+---
+
+== Strings
+
+Strings are sequences of 8-bit bytes used to represent text and binary data in PostScript. They are versatile composite objects that support both character data and arbitrary binary content.
+
+=== Overview
+
+PostScript strings are mutable byte sequences with indexed access. Unlike some languages where strings are immutable, PostScript strings can be modified in place. Strings serve dual purposes: representing text for display and storing binary data for images and other purposes.
+
+=== String Types
+
+PostScript supports two string notations: ASCII strings and hexadecimal strings.
+
+==== ASCII Strings
+
+ASCII strings are enclosed in parentheses `(` and `)`:
+
+.ASCII string syntax
+[source,postscript]
+----
+(Hello, World!)             % Simple text
+(Line 1\nLine 2)           % With newline
+()                         % Empty string
+(Text with (nested) parens) % Balanced parentheses
+----
+
+==== Hexadecimal Strings
+
+Hexadecimal strings are enclosed in angle brackets `<` and `>`:
+
+.Hexadecimal string syntax
+[source,postscript]
+----
+<48656C6C6F>               % "Hello" in hex
+<>                         % Empty string
+<41 42 43>                 % "ABC" (whitespace ignored)
+<416>                      % "A`" (odd digits padded with 0)
+----
+
+==== String Type Comparison
+
+[cols="2,2,2,2"]
+|===
+| Aspect | ASCII String | Hex String | Result
+
+| Syntax
+| `(...)`
+| `<...>`
+| Both create stringtype
+
+| Content
+| Characters
+| Hex digits
+| Same internal format
+
+| Escapes
+| Supported
+| Not needed
+| Both can represent any byte
+
+| Readability
+| Text-friendly
+| Binary-friendly
+| Use case dependent
+
+| Type
+| /stringtype
+| /stringtype
+| Identical type
+|===
+
+=== ASCII String Syntax
+
+==== Basic Characters
+
+Most characters can appear literally in ASCII strings:
+
+.Literal characters
+[source,postscript]
+----
+(ABC)                      % Letters
+(123)                      % Digits
+(Hello, World!)           % Punctuation
+(Symbols: !@#$%^&*)       % Special characters
+----
+
+==== Escape Sequences
+
+Special characters require escape sequences:
+
+[cols="1,2,3"]
+|===
+| Sequence | Name | Description
+
+| `\n`
+| Newline
+| Line feed (ASCII 10)
+
+| `\r`
+| Return
+| Carriage return (ASCII 13)
+
+| `\t`
+| Tab
+| Horizontal tab (ASCII 9)
+
+| `\b`
+| Backspace
+| Backspace (ASCII 8)
+
+| `\f`
+| Form feed
+| Form feed (ASCII 12)
+
+| `\\`
+| Backslash
+| Literal backslash
+
+| `\(`
+| Left paren
+| Literal left parenthesis
+
+| `\)`
+| Right paren
+| Literal right parenthesis
+
+| `\ddd`
+| Octal
+| Byte with octal value (1-3 digits)
+
+| `\<newline>`
+| Continue
+| Line continuation (ignored)
+|===
+
+.Escape sequence examples
+[source,postscript]
+----
+% Control characters
+(Line1\nLine2)             % Two lines
+(Tab\there)                % Tab-separated
+(Ring\b\b\b)               % Backspace
+
+% Special characters
+(Backslash: \\)            % Single backslash
+(Parens: \(\))             % Literal parentheses
+
+% Octal codes
+(\101\102\103)             % ABC
+(\000\377)                 % NULL and 255
+
+% Line continuation
+(Long string \
+continues here)            % Backslash-newline ignored
+----
+
+==== Balanced Parentheses
+
+ASCII strings can contain balanced parentheses without escaping:
+
+.Nested parentheses
+[source,postscript]
+----
+(This (has) nested (parentheses))      % OK - balanced
+(Multiple ((nested)) levels)           % OK - balanced
+(Unbalanced \) needs escape)          % Must escape if unbalanced
+----
+
+==== Newlines in Strings
+
+Literal newlines can appear in ASCII strings:
+
+.Multi-line strings
+[source,postscript]
+----
+(This is line one
+and this is line two)
+
+% Equivalent to:
+(This is line one\nand this is line two)
+----
+
+=== Hexadecimal String Syntax
+
+==== Hex Digit Pairs
+
+Each pair of hex digits represents one byte:
+
+.Hex string structure
+[source,postscript]
+----
+<48>                       % Single byte: 72 (ASCII 'H')
+<4142>                     % Two bytes: "AB"
+<48656C6C6F>              % Five bytes: "Hello"
+----
+
+==== Whitespace Handling
+
+Whitespace is ignored in hex strings:
+
+.Whitespace in hex strings
+[source,postscript]
+----
+% These are equivalent:
+<414243>
+<41 42 43>
+<41
+ 42
+ 43>
+----
+
+==== Odd-Length Hex Strings
+
+Strings with odd number of hex digits are padded with 0:
+
+.Odd-length handling
+[source,postscript]
+----
+<4>                        % Becomes <40> (64 decimal)
+<41 6>                     % Becomes <41 60> ("A`")
+<123>                      % Becomes <12 30>
+----
+
+==== Binary Data
+
+Hex strings are ideal for binary data:
+
+.Binary data representation
+[source,postscript]
+----
+% Image data
+<
+  FF FF FF 00 00 00
+  FF FF FF 00 00 00
+  FF FF FF 00 00 00
+>
+
+% Encrypted data
+<9A3B7C4D1E2F>
+
+% Byte sequences
+<00 01 02 03 04 05>
+----
+
+=== String Operations
+
+==== Accessing Elements
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `get`
+| `string index → int`
+| Get byte at index
+
+| `put`
+| `string index int → -`
+| Set byte at index
+
+| `getinterval`
+| `string index count → substring`
+| Extract substring
+
+| `putinterval`
+| `string1 index string2 → -`
+| Replace substring
+
+| `length`
+| `string → int`
+| Get string length
+|===
+
+.Element access examples
+[source,postscript]
+----
+% get - returns byte value (integer)
+(ABC) 0 get                % Returns 65 (ASCII 'A')
+(ABC) 1 get                % Returns 66 (ASCII 'B')
+
+% put - modifies byte
+(ABC) dup 0 88 put         % Changes to (XBC)
+
+% getinterval - substring
+(Hello, World!) 0 5 getinterval    % Returns (Hello)
+(Hello, World!) 7 5 getinterval    % Returns (World)
+
+% putinterval - replace part
+(Hello, World!) dup 7 (Moon) putinterval
+% Result: (Hello, Moon!)
+
+% length - byte count
+(Hello) length             % Returns 5
+<4142> length              % Returns 2
+----
+
+==== String Creation
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `string`
+| `int → string`
+| Create string of length
+
+| `cvs`
+| `any string → substring`
+| Convert to string
+
+| `anchorsearch`
+| `string seek → post match true \| string false`
+| Search from start
+
+| `search`
+| `string seek → post match pre true \| string false`
+| Search anywhere
+|===
+
+.String creation examples
+[source,postscript]
+----
+% Create empty string
+10 string                  % 10-byte string (uninitialized)
+
+% Convert to string
+42 10 string cvs           % Returns (42)
+/name 10 string cvs        % Returns (name)
+3.14 10 string cvs         % Returns (3.14)
+
+% String operations
+(Hello, World!) (World) search {
+    % Found: returns (!) (World) (Hello, )
+    pop pop pop
+} if
+----
+
+=== String Manipulation Patterns
+
+==== String Concatenation
+
+.Joining strings
+[source,postscript]
+----
+/Concat {
+    % in: string1 string2
+    % out: combined-string
+
+    2 copy length exch length add string
+    dup 0 4 index putinterval
+    dup 3 index length 3 index putinterval
+    3 1 roll pop pop
+} def
+
+(Hello, ) (World!) Concat  % Returns (Hello, World!)
+----
+
+==== String Copying
+
+.Duplicating strings
+[source,postscript]
+----
+/StringCopy {
+    % in: string
+    % out: copy
+
+    dup length string
+    dup 0 3 index putinterval
+    exch pop
+} def
+
+(Original) StringCopy      % Independent copy
+----
+
+==== Character Replacement
+
+.Replace characters
+[source,postscript]
+----
+/ReplaceChar {
+    % in: string old-char new-char
+    % out: modified-string (in-place)
+
+    3 -1 roll dup length 0 exch 1 sub {
+        2 index 1 index get    % Get character
+        4 index eq {           % If matches old
+            2 index 1 index 3 index put
+        } if
+        pop
+    } for
+    pop pop
+} def
+
+(Hello) (l) 0 get (L) 0 get ReplaceChar
+% Returns (HeLLo)
+----
+
+==== String Trimming
+
+.Remove whitespace
+[source,postscript]
+----
+/TrimLeft {
+    % in: string
+    % out: trimmed-string
+
+    dup 0 1 2 index length 1 sub {
+        1 index exch get        % Get character
+        dup 32 eq              % Space
+        exch 9 eq or           % Or tab
+        not { exit } if
+        pop
+    } for
+
+    % Create substring from non-space position
+    1 index length 1 index sub
+    2 index 3 1 roll getinterval
+    exch pop
+} def
+
+(  Hello  ) TrimLeft       % Returns (Hello  )
+----
+
+=== String Searching
+
+==== anchorsearch Operator
+
+Searches from the beginning of a string:
+
+.Prefix matching
+[source,postscript]
+----
+% Success case
+(Hello, World!) (Hello) anchorsearch {
+    % Stack: (, World!) (Hello)
+    exch =only ( ... ) print =
+} {
+    (Not found) =
+} ifelse
+
+% Failure case
+(Hello, World!) (World) anchorsearch {
+    % Not executed
+} {
+    (Not at start) =
+} ifelse
+----
+
+==== search Operator
+
+Searches anywhere in a string:
+
+.General search
+[source,postscript]
+----
+% Find substring
+(The quick brown fox) (quick) search {
+    % Stack: ( brown fox) (quick) (The )
+    (Found at position: ) print
+    length =
+} {
+    (Not found) =
+} ifelse
+
+% Multiple occurrences
+/FindAll {
+    % in: string pattern
+    % out: count
+
+    0 3 1 roll              % counter
+    {
+        2 copy search {
+            % Found one
+            pop pop
+            length 0 exch getinterval
+            3 -1 roll 1 add 3 1 roll
+        } {
+            pop pop exit
+        } ifelse
+    } loop
+    exch pop exch pop
+} def
+
+(aabbaabb) (aa) FindAll    % Returns 2
+----
+
+=== String Conversion
+
+==== Numeric to String
+
+.Converting numbers
+[source,postscript]
+----
+% Integer conversion
+42 10 string cvs           % (42)
+-17 10 string cvs          % (-17)
+
+% Real conversion
+3.14159 20 string cvs      % (3.14159)
+-2.5 10 string cvs         % (-2.5)
+
+% Radix representation
+16#FF 10 string cvs        % (255) - decimal output
+----
+
+==== String to Numeric
+
+.Parsing numbers
+[source,postscript]
+----
+% Parse integer
+(42) cvi                   % Returns 42
+(-17) cvi                  % Returns -17
+
+% Parse real
+(3.14) cvr                 % Returns 3.14
+(-2.5) cvr                 % Returns -2.5
+
+% Using token
+(42 3.14) { token } stopped not {
+    pop                    % String remainder
+    % Stack now has: 42 3.14
+} if
+----
+
+==== Name Conversion
+
+.String to name and back
+[source,postscript]
+----
+% String to name
+(myname) cvn               % Returns /myname
+
+% Name to string
+/myname 20 string cvs      % Returns (myname)
+----
+
+=== String Encoding
+
+==== ASCII Encoding
+
+Standard ASCII characters (0-127):
+
+.ASCII character set
+[source,postscript]
+----
+% Printable ASCII (32-126)
+(ABCDEFGHIJKLMNOPQRSTUVWXYZ)
+(abcdefghijklmnopqrstuvwxyz)
+(0123456789)
+(!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~)
+
+% Control characters (0-31, 127)
+<00 01 02 03 04 05 06 07>  % NUL SOH STX ETX EOT ENQ ACK BEL
+<08 09 0A 0B 0C 0D 0E 0F>  % BS  HT  LF  VT  FF  CR  SO  SI
+----
+
+==== Extended ASCII
+
+Bytes 128-255 represent extended characters:
+
+.Extended characters
+[source,postscript]
+----
+% Latin-1 extended characters
+<C0 C1 C2 C3 C4 C5>        % À Á Â Ã Ä Å
+<E0 E1 E2 E3 E4 E5>        % à á â ã ä å
+
+% Symbol characters
+<A9>                       % © (copyright)
+<AE>                       % ® (registered)
+<B0>                       % ° (degree)
+----
+
+==== UTF-8 Considerations
+
+PostScript strings are byte sequences - UTF-8 requires multi-byte handling:
+
+.UTF-8 in PostScript
+[source,postscript]
+----
+% UTF-8 encoded string (manual)
+<
+  48 65 6C 6C 6F          % "Hello"
+  20                       % Space
+  E4 B8 96 E7 95 8C       % "世界" (World in Chinese)
+>
+
+% Length is bytes, not characters
+dup length =               % 11 bytes (not 8 characters)
+----
+
+=== String Performance
+
+==== String Allocation
+
+.Pre-allocate for efficiency
+[source,postscript]
+----
+% SLOW - repeated concatenation
+()
+1 1 100 {
+    10 string cvs
+    2 copy length exch length add string
+    dup 0 4 index putinterval
+    dup 3 index length 3 index putinterval
+    3 1 roll pop pop
+} for
+
+% FAST - pre-calculate size
+0 1 1 100 {
+    10 string cvs length add
+} for
+string
+% ... then fill ...
+----
+
+==== In-Place Modification
+
+.Modify rather than copy
+[source,postscript]
+----
+% SLOW - creates new string
+(HELLO) dup length string
+0 1 2 index length 1 sub {
+    % Copy and modify
+} for
+
+% FAST - modify in place
+(HELLO) 0 1 2 index length 1 sub {
+    2 copy get 32 add
+    2 copy 3 1 roll put
+} for
+% Result: (hello)
+----
+
+=== String Best Practices
+
+==== Choose Appropriate Representation
+
+.ASCII vs hex strings
+[source,postscript]
+----
+% Use ASCII for text
+(Hello, World!)            % GOOD - readable
+
+% Use hex for binary data
+<89504E470D0A1A0A>        % PNG signature
+<FEFF>                     % UTF-16 BOM
+
+% Use hex for control characters
+<00 1B 7F>                 % NUL ESC DEL
+----
+
+==== Validate String Operations
+
+.Bounds checking
+[source,postscript]
+----
+/SafeGet {
+    % in: string index
+    % out: int or null
+
+    2 copy length ge {
+        pop pop null
+    } {
+        get
+    } ifelse
+} def
+
+/SafePut {
+    % in: string index value
+    % out: success-bool
+
+    3 index 2 index length ge {
+        pop pop pop false
+    } {
+        put true
+    } ifelse
+} def
+----
+
+==== Document String Format
+
+.Clear documentation
+[source,postscript]
+----
+% GOOD - documented format
+/ParseRecord {
+    % in: string (format: "NAME:AGE:CITY")
+    % out: name age city
+    % ...
+} def
+
+% POOR - unclear format
+/ParseRecord {
+    % in: string
+    % ...
+} def
+----
+
+=== Common String Patterns
+
+==== String Builder
+
+.Accumulating string content
+[source,postscript]
+----
+/StringBuilder {
+    % Create builder
+    <<
+        /capacity 100
+        /length 0
+        /buffer 100 string
+
+        /append {
+            % in: builder string
+            % out: builder
+
+            % ... implementation ...
+        } bind
+
+        /toString {
+            % in: builder
+            % out: string
+
+            % ... implementation ...
+        } bind
+    >>
+} def
+----
+
+==== String Tokenization
+
+.Splitting strings
+[source,postscript]
+----
+/Split {
+    % in: string delimiter
+    % out: array-of-strings
+
+    mark 3 1 roll           % Mark for array
+    {
+        2 copy search {
+            % Found delimiter
+            4 1 roll pop     % Keep part before delimiter
+            exch pop         % Remove delimiter
+            dup length 0 eq { exit } if
+        } {
+            % No more delimiters
+            pop exit
+        } ifelse
+    } loop
+    pop                     % Remove delimiter
+    ] % Create array
+} def
+
+(one,two,three) (,) Split  % Returns [(one) (two) (three)]
+----
+
+==== Case Conversion
+
+.Upper/lower case
+[source,postscript]
+----
+/ToLower {
+    % in: string
+    % out: lowercase-string (in-place)
+
+    0 1 2 index length 1 sub {
+        2 copy get              % Get character
+        dup 65 ge 1 index 90 le and {  % A-Z?
+            32 add              % Add 32 for lowercase
+            2 index 3 1 roll put
+        } {
+            pop pop
+        } ifelse
+    } for
+} def
+
+(HELLO) dup ToLower        % Returns (hello)
+----
+
+=== Common Pitfalls
+
+==== String Mutability
+
+.Shared string references
+[source,postscript]
+----
+% WRONG - shared reference
+/str (Hello) def
+/copy str def
+copy 0 88 put              % Modifies both!
+
+% RIGHT - independent copy
+/str (Hello) def
+/copy str dup length string dup 0 3 index putinterval exch pop def
+copy 0 88 put              % Only modifies copy
+----
+
+==== Index Out of Bounds
+
+.Bounds errors
+[source,postscript]
+----
+% WRONG - no validation
+(ABC) 10 get               % rangecheck error
+
+% RIGHT - validate index
+/str (ABC) def
+/idx 10 def
+idx 0 ge idx str length lt and {
+    str idx get
+} {
+    (Index out of bounds) =
+    null
+} ifelse
+----
+
+==== String vs Name Confusion
+
+.Different types
+[source,postscript]
+----
+% These are DIFFERENT:
+(name)                     % String object
+/name                      % Name object
+name                       % Executable name
+
+% Type checking:
+(name) type                % /stringtype
+/name type                 % /nametype
+----
+
+==== Octal Escape Pitfalls
+
+.Octal interpretation
+[source,postscript]
+----
+% WRONG - interpreted as octal
+(\100)                     % '@' (64 decimal, not 100)
+
+% If you want digit 100:
+(\061\060\060)             % "100" (three digits)
+
+% Be explicit:
+<313030>                   % "100" in hex
+----
+
+=== Advanced String Techniques
+
+==== String Hashing
+
+.Simple hash function
+[source,postscript]
+----
+/HashString {
+    % in: string
+    % out: hash-value
+
+    0 exch                  % accumulator
+    0 exch {
+        exch 31 mul add     % hash = hash * 31 + char
+        65535 and           % Keep in range
+        exch
+    } forall
+    pop
+} def
+
+(Hello) HashString         % Produces hash value
+----
+
+==== String Interpolation
+
+.Variable substitution
+[source,postscript]
+----
+/Interpolate {
+    % in: template-string value-dict
+    % out: result-string
+
+    % Simple implementation:
+    % Replace ${key} with values from dict
+    % ... implementation ...
+} def
+
+(Hello, ${name}!)
+<< /name (World) >>
+Interpolate                % Returns (Hello, World!)
+----
+
+==== String Comparison
+
+.Case-insensitive comparison
+[source,postscript]
+----
+/StrEqIgnoreCase {
+    % in: string1 string2
+    % out: bool
+
+    2 copy length exch length ne {
+        pop pop false
+    } {
+        true 3 1 roll
+        0 exch {
+            % Compare characters case-insensitively
+            2 index 2 index get    % Get char from str1
+            dup 65 ge 1 index 90 le and { 32 add } if
+            3 index 3 index get    % Get char from str2
+            dup 65 ge 1 index 90 le and { 32 add } if
+            ne {
+                pop pop pop pop false exit
+            } if
+            1 add
+        } forall
+        { pop pop } if
+    } ifelse
+} def
+
+(Hello) (HELLO) StrEqIgnoreCase  % true
+----
+
+=== See Also
+
+* xref:tokens.adoc[Tokens] - String token syntax
+* xref:arrays.adoc[Arrays] - Similar indexed structure
+* xref:objects.adoc[Objects] - String object model
+* xref:data-types.adoc[Data Types] - String type details
+* xref:../commands/array-string/string.adoc[string] - Create strings
+* xref:../commands/array-string/get.adoc[get] - Access bytes
+* xref:../commands/array-string/put.adoc[put] - Modify bytes
+* xref:../commands/array-string/search.adoc[search] - Find substrings
+* xref:../commands/array-string/anchorsearch.adoc[anchorsearch] - Prefix search
+* xref:../commands/array-string/cvs.adoc[cvs] - Convert to string
+* xref:index.adoc[Language Syntax Overview]

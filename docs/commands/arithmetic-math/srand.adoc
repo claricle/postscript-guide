@@ -1,0 +1,133 @@
+---
+layout: default
+title: srand
+parent: Arithmetic and Math
+grand_parent: Command Reference
+nav_order: 22
+permalink: /commands/arithmetic-math/srand/
+---
+= srand
+:description: Seed random number generator
+:keywords: postscript, random, srand, seed, generator
+
+[.lead]
+Seeds the random number generator with a specific value.
+
+== Description
+
+The `srand` operator pops an integer from the operand stack and uses it to initialize (seed) the random number generator. Executing `srand` with a particular seed value causes subsequent calls to xref:rand.adoc[`rand`] to generate a reproducible, deterministic sequence of pseudo-random numbers.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+int srand -
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`int` (integer) - Seed value (any integer)
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|
+|_(no results, stack is empty of operands)_
+|===
+
+== Parameters
+
+`int`:: The seed value for the random number generator (any integer)
+
+== Return Values
+
+None. The `srand` operator consumes the seed value and produces no results.
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Seed with specific value
+42 srand
+rand           % → 1804289383 (always same with seed 42)
+rand           % → 846930886
+
+% Reset to same seed
+42 srand
+rand           % → 1804289383 (same sequence again)
+----
+
+=== Reproducible Random Sequences
+
+[source,postscript]
+----
+% Generate same sequence for testing
+/testSequence {
+    12345 srand    % Known seed
+    5 {
+        rand =     % Print 5 random numbers
+    } repeat
+} def
+
+testSequence   % Always prints same 5 numbers
+----
+
+=== Time-Based Seed
+
+[source,postscript]
+----
+% Seed with current time for "true" randomness
+realtime srand
+rand           % Different each run
+----
+
+== Related Commands
+
+* xref:rand.adoc[`rand`] - Generate random integer
+* xref:rrand.adoc[`rrand`] - Get/set random seed
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty.
+
+`typecheck`::
+The operand is not an integer.
++
+[source,postscript]
+----
+3.5 srand      % ERROR: typecheck
+(text) srand   % ERROR: typecheck
+----
+
+== Best Practices
+
+1. **Use same seed for reproducibility** in testing and debugging
+2. **Use time-based seed for variability** in production
+3. **Document seed values** used in test cases
+
+== See Also
+
+* xref:index.adoc[Arithmetic and Math] - All arithmetic operators
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

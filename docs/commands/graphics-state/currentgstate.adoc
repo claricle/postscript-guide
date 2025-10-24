@@ -1,0 +1,298 @@
+---
+layout: default
+title: currentgstate
+parent: Graphics State
+grand_parent: Command Reference
+nav_order: 12
+---
+
+== currentgstate
+
+Updates a gstate object with current graphics state.
+
+=== Syntax
+
+----
+gstate currentgstate → gstate
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `gstate` (graphics state object)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `gstate` (updated with current state)
+|===
+
+=== Description
+
+[`currentgstate`](currentgstate.adoc) replaces the value of the gstate object by a copy of the current graphics state and pushes gstate back on the operand stack.
+
+This is a **copying operation** that updates an existing gstate object rather than creating a new one. This is more efficient than creating a new gstate with [`gstate`](gstate.adoc) when you already have a gstate object to reuse.
+
+The gstate object must have been previously created by [`gstate`](gstate.adoc). After the operation, the gstate contains a snapshot of:
+
+* Current transformation matrix (CTM)
+* Color space and color values
+* Line parameters (width, cap, join, dash, miter limit)
+* Current font
+* Clipping path
+* All other graphics state parameters
+
+The current path is **not** saved in the gstate object.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Updating existing gstate
+[source,postscript]
+----
+% Create gstate once
+gstate /MyState exch def
+
+% Later, capture current state
+MyState currentgstate pop
+
+% Can be used multiple times
+modifyState
+MyState currentgstate pop  % Update again
+----
+
+.Efficient state monitoring
+[source,postscript]
+----
+% Create gstate for snapshots
+gstate /snapshot exch def
+
+% Take multiple snapshots
+initialSetup
+snapshot currentgstate pop
+
+moreChanges
+snapshot currentgstate pop
+
+finalChanges
+snapshot currentgstate pop
+----
+
+.State comparison
+[source,postscript]
+----
+% Save initial state
+gstate /before exch def
+
+% Make changes
+2 2 scale
+1 0 0 setrgbcolor
+
+% Capture modified state
+gstate /after exch def
+
+% Can now switch between them
+before setgstate  % Original state
+after setgstate   % Modified state
+----
+
+.Reusing gstate objects
+[source,postscript]
+----
+% Create gstate once
+gstate /StateBuffer exch def
+
+% Efficient state capture loop
+items {
+  /item exch def
+
+  % Capture state before processing
+  StateBuffer currentgstate pop
+
+  % Process item (may modify state)
+  item process
+
+  % Restore state for next iteration
+  StateBuffer setgstate
+} forall
+----
+
+=== Common Use Cases
+
+==== State Snapshots in Loops
+
+[source,postscript]
+----
+% Create snapshot buffer
+gstate /snapshot exch def
+
+% Take snapshots efficiently
+1 1 100 {
+  % Capture current state
+  snapshot currentgstate pop
+
+  % Modify and draw
+  dup scale
+  drawShape
+
+  % Restore
+  snapshot setgstate
+} for
+----
+
+==== Preserving State Templates
+
+[source,postscript]
+----
+% Create template states
+gstate /HeaderState exch def
+gstate /BodyState exch def
+
+% Configure header
+/Helvetica-Bold findfont 18 scalefont setfont
+0 setgray
+HeaderState currentgstate pop
+
+% Configure body
+/Times-Roman findfont 12 scalefont setfont
+0.3 setgray
+BodyState currentgstate pop
+
+% Use templates
+HeaderState setgstate
+drawHeader
+
+BodyState setgstate
+drawBody
+----
+
+==== State Diff Detection
+
+[source,postscript]
+----
+% Capture state before operation
+gstate /beforeState exch def
+
+% Perform operation
+complexOperation
+
+% Check if state changed
+gstate /afterState exch def
+beforeState setgstate  % Restore if needed
+----
+
+=== Common Pitfalls
+
+WARNING: *Global VM Restrictions* - If gstate is in global VM, [`currentgstate`](currentgstate.adoc) fails if current state contains local VM objects.
+
+[source,postscript]
+----
+true setglobal
+gstate /globalState exch def
+false setglobal
+
+/LocalFont /Helvetica findfont def
+globalState currentgstate pop  % Error: invalidaccess
+----
+
+WARNING: *Must Use Existing gstate* - [`currentgstate`](currentgstate.adoc) requires a pre-existing gstate object.
+
+[source,postscript]
+----
+% Wrong: trying to use a dict
+10 dict currentgstate  % Error: typecheck
+
+% Right: use gstate object
+gstate currentgstate pop
+----
+
+WARNING: *Current Path Not Saved* - The current path is never included in gstate.
+
+[source,postscript]
+----
+newpath 0 0 moveto 100 100 lineto
+gstate dup currentgstate setgstate
+% Path is lost
+----
+
+TIP: *Reuse gstate Objects* - More efficient than creating new ones repeatedly.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| gstate in global VM but current state contains local VM objects
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand not a gstate object
+|===
+
+=== Implementation Notes
+
+* Updates existing gstate object (doesn't create new one)
+* More efficient than [`gstate`](gstate.adoc) when reusing objects
+* Returns same gstate object (for convenience)
+* Captures complete graphics state except current path
+* Fast operation suitable for frequent use
+* Ideal for state snapshots in loops
+
+=== Comparison with Related Operators
+
+[cols="1,3"]
+|===
+| Operator | Purpose
+
+| [`gstate`](gstate.adoc)
+| Creates new gstate object with current state (allocates VM)
+
+| [`currentgstate`](currentgstate.adoc)
+| Updates existing gstate with current state (no allocation)
+
+| [`setgstate`](setgstate.adoc)
+| Replaces current state from gstate object
+
+| [`gsave`](gsave.adoc)
+| Saves current state on graphics state stack
+
+| [`grestore`](grestore.adoc)
+| Restores state from graphics state stack
+|===
+
+=== Graphics State Components
+
+[`currentgstate`](currentgstate.adoc) captures:
+
+* ✓ Transformation matrix (CTM)
+* ✓ Color space and color
+* ✓ Line width, cap, join, dash, miter limit
+* ✓ Current font
+* ✓ Clipping path
+* ✓ Flatness, stroke adjustment
+* ✓ Halftone, transfer, black generation
+* ✗ Current path (never captured)
+
+=== See Also
+
+* xref:gstate.adoc[`gstate`] - Create new graphics state object
+* xref:setgstate.adoc[`setgstate`] - Replace graphics state from gstate
+* xref:gsave.adoc[`gsave`] - Save state on graphics state stack
+* xref:grestore.adoc[`grestore`] - Restore state from stack
+* xref:grestoreall.adoc[`grestoreall`] - Restore all saved states

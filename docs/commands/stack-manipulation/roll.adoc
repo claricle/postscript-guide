@@ -1,0 +1,348 @@
+---
+layout: default
+title: roll
+parent: Stack Manipulation
+grand_parent: Command Reference
+nav_order: 6
+permalink: /commands/stack-manipulation/roll/
+---
+= roll
+:description: Roll n elements on the stack j times
+:keywords: postscript, stack, roll, rotate, circular shift
+
+[.lead]
+Performs a circular shift of n elements on the operand stack by j positions.
+
+== Description
+
+The `roll` operator performs a circular rotation of the top n elements on the operand stack. The rotation amount j can be positive (upward rotation) or negative (downward rotation).
+
+Positive j values move elements toward the top of the stack, while negative j values move elements toward the bottom. The operation is circular, so elements that move off one end reappear at the other end.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+anyn-1 ... any0 n j roll any(j-1) mod n ... any0 anyn-1 ... anyj mod n
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`j` (integer) - Number of positions to rotate (positive=up, negative=down)
+
+|Top-1
+|`n` (integer) - Number of elements to rotate
+
+|Top-2
+|`any0` - Topmost element of the n elements
+
+|...
+|...
+
+|Top-(n+1)
+|`anyn-1` - Bottommost element of the n elements
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top to Top-(n-1)
+|Elements rotated by j positions (circular)
+|===
+
+== Parameters
+
+`n`:: Non-negative integer specifying how many elements to rotate. Must be ≥ 0.
+
+`j`:: Integer specifying the rotation amount. Positive values rotate upward (toward top), negative values rotate downward.
+
+`anyn-1 ... any0`:: The n elements to be rotated.
+
+== Return Values
+
+The same n elements, rearranged by circular rotation.
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Rotate 3 elements up by 1 position
+(a)(b)(c) 3 1 roll    % Stack: (c)(a)(b)
+
+% Rotate 3 elements down by 1 position
+(a)(b)(c) 3 -1 roll   % Stack: (b)(c)(a)
+
+% No rotation
+(a)(b)(c) 3 0 roll    % Stack: (a)(b)(c)
+----
+
+=== Multiple Rotations
+
+[source,postscript]
+----
+% Rotate by 2 positions
+(a)(b)(c)(d) 4 2 roll     % Stack: (c)(d)(a)(b)
+
+% Rotate by -2 positions
+(a)(b)(c)(d) 4 -2 roll    % Stack: (c)(d)(a)(b)
+% Same result! (4-2 = 2 mod 4)
+----
+
+=== Bringing Element to Top
+
+[source,postscript]
+----
+% Move third element to top
+1 2 3 4 5
+3 -1 roll       % Stack: 1 2 4 5 3
+% Third element (3) is now on top
+----
+
+=== Burying Top Element
+
+[source,postscript]
+----
+% Move top element to third position
+1 2 3
+3 1 roll        % Stack: 3 1 2
+% Top element (3) is now third
+----
+
+== Advanced Examples
+
+=== Implementing Stack Rotation Helpers
+
+[source,postscript]
+----
+% Rotate top 3 elements: a b c -> b c a
+/rot {              % a b c -> b c a
+    3 1 roll
+} def
+
+% Reverse rotate: a b c -> c a b
+/unrot {            % a b c -> c a b
+    3 -1 roll
+} def
+
+1 2 3 rot           % Stack: 2 3 1
+1 2 3 unrot         % Stack: 3 1 2
+----
+
+=== Moving Elements to Specific Positions
+
+[source,postscript]
+----
+% Move element at position i to top
+/bringToTop {       % ... elem_i ... i n -> elem_i ...
+    % i is position from top (0-based)
+    % n is total number of elements
+    exch 1 add      % n (i+1)
+    neg             % n -(i+1)
+    roll
+} def
+
+10 20 30 40 50
+2 5 bringToTop      % Brings element at position 2 to top
+                    % Stack: 30 10 20 40 50
+----
+
+=== Reversing Top N Elements
+
+[source,postscript]
+----
+% Reverse top n elements on stack
+/reverseN {         % elem1 ... elemn n -> elemn ... elem1
+    dup 1 sub 0 exch {
+        % For each position
+        1 index 1 roll
+    } for
+    pop
+} def
+
+1 2 3 4 5
+5 reverseN          % Stack: 5 4 3 2 1
+----
+
+=== Cyclic Permutations
+
+[source,postscript]
+----
+% Generate all cyclic permutations
+/allRotations {     % elem1 ... elemn n -> (prints all rotations)
+    dup 0 1 3 -1 roll 1 sub {
+        % Print current arrangement
+        (Rotation ) print dup =
+        % Rotate for next iteration
+        2 index 1 roll
+    } for
+    pop
+} def
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: Using `roll` requires at least n+2 elements on the stack (n elements plus n and j). Insufficient elements cause `stackunderflow`.
+
+=== Stack Underflow
+
+[source,postscript]
+----
+% BAD: Not enough elements
+1 2 3
+5 1 roll            % ERROR: stackunderflow
+                    % Need 5 elements, only have 3
+----
+
+=== Negative n Not Allowed
+
+[source,postscript]
+----
+% BAD: n must be non-negative
+1 2 3
+-2 1 roll           % ERROR: rangecheck
+----
+
+=== Modulo Arithmetic
+
+[source,postscript]
+----
+% Rolling by n is same as rolling by 0
+(a)(b)(c) 3 3 roll  % Stack: (a)(b)(c)
+% 3 mod 3 = 0, so no change
+
+% Large rotations wrap around
+(a)(b)(c) 3 4 roll  % Same as 3 1 roll
+% 4 mod 3 = 1
+----
+
+TIP: The actual rotation is j mod n. Rolling by j and j+n produces identical results.
+
+=== Roll with n=0 or n=1
+
+[source,postscript]
+----
+% n=0 is valid but does nothing
+1 2 3
+0 5 roll            % Stack: 1 2 3 (no change)
+
+% n=1 just removes n and j
+1 2 3
+1 5 roll            % Stack: 1 2 3 (no change)
+----
+
+== Related Commands
+
+* xref:exch.adoc[`exch`] - Equivalent to `2 1 roll` or `2 -1 roll`
+* xref:index.adoc[`index`] - Access element without reordering
+* xref:copy.adoc[`copy`] - Duplicate elements
+* xref:pop.adoc[`pop`] - Remove elements
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental operator available in all PostScript implementations.
+
+== Error Conditions
+
+`stackunderflow`::
+The stack contains fewer than n+2 elements (n elements plus n and j).
++
+[source,postscript]
+----
+1 2 3
+5 1 roll            % ERROR: stackunderflow
+----
+
+`rangecheck`::
+The value of n is negative.
++
+[source,postscript]
+----
+1 2 3
+-1 1 roll           % ERROR: rangecheck
+----
+
+`typecheck`::
+Either n or j is not an integer.
++
+[source,postscript]
+----
+1 2 3
+3.5 1 roll          % ERROR: typecheck
+1 2 3
+3 (not a number) roll   % ERROR: typecheck
+----
+
+== Performance Considerations
+
+The `roll` operator has O(n) time complexity. For small values of n (like 2 or 3), it's very fast. For larger values, consider whether you really need to rotate all those elements or if there's a more efficient approach.
+
+Frequently rotating large numbers of elements may indicate poor stack management strategy.
+
+== Best Practices
+
+1. **Use exch for two elements**: `2 1 roll` and `2 -1 roll` both work, but xref:exch.adoc[`exch`] is clearer
+2. **Document rotations**: Always comment what `roll` is doing, as it's not immediately obvious
+3. **Consider index instead**: Sometimes xref:psindex.adoc[`index`] is clearer than `roll` for accessing buried elements
+4. **Keep n small**: Large rotations suggest stack management issues
+5. **Use standard patterns**: Establish conventions like `3 1 roll` for rotating three elements
+
+=== Common Rotation Patterns
+
+[source,postscript]
+----
+% Three-element rotations (very common)
+% a b c -> b c a
+3 1 roll
+
+% a b c -> c a b
+3 -1 roll
+
+% Four-element rotation to access buried value
+% a b c d -> (use b)
+3 -1 roll       % b a c d
+% Use b
+% Restore: 3 1 roll
+----
+
+=== Clear Documentation Example
+
+[source,postscript]
+----
+% Good: Document what roll accomplishes
+/computeDistance {  % x1 y1 x2 y2 -> distance
+    % Stack: x1 y1 x2 y2
+    3 -1 roll       % x1 x2 y2 y1 - bring y1 to top
+    sub             % x1 x2 dy
+    dup mul         % x1 x2 dy^2
+    3 1 roll        % dy^2 x1 x2 - bring x's to top
+    sub             % dy^2 dx
+    dup mul         % dy^2 dx^2
+    add sqrt        % distance
+} def
+----
+
+== See Also
+
+* xref:../../syntax/operators.adoc[Operators Overview] - Understanding PostScript operators
+* xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
+* xref:index.adoc[Stack Manipulation] - All stack operators
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 689)
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

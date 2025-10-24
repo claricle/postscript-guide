@@ -1,0 +1,243 @@
+---
+layout: default
+title: undefinefont
+parent: "Font and Text"
+grand_parent: "Command Reference"
+nav_order: 7
+---
+
+== undefinefont
+
+Remove font from font directory (Level 2).
+
+=== Syntax
+
+----
+key undefinefont → -
+----
+
+=== Stack Effects
+
+**Before:**
+```
+key
+```
+
+**After:**
+```
+(empty)
+```
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Description
+
+[`undefinefont`](undefinefont.adoc) removes `key` and its associated value (a font dictionary) from the font directory, reversing the effect of a previous [`definefont`](definefont.adoc). [`undefinefont`](undefinefont.adoc) is a special case of the `undefineresource` operator applied to the Font category.
+
+If the specified `key` does not exist in the font directory, [`undefinefont`](undefinefont.adoc) does nothing—no error occurs.
+
+=== Parameters
+
+**key** (`name` or `string`)
+: The name of the font to remove from the font directory
+
+=== VM Allocation Effects
+
+Local and global resource definitions are maintained separately:
+
+**Local VM mode (false setglobal):**
+- Removes local definition if one exists
+- Does not disturb global definition
+- If global definition exists, it reappears after local removal
+
+**Global VM mode (true setglobal):**
+- Removes local definition
+- Removes global definition
+- Removes both if both exist
+
+=== Examples
+
+==== Basic Font Removal
+
+[source,postscript]
+----
+% Define a custom font
+/MyFont 10 dict dup begin
+  /FontType 3 def
+  /FontMatrix [0.001 0 0 0.001 0 0] def
+  /FontBBox [0 0 1000 1000] def
+  /Encoding StandardEncoding def
+  /BuildChar { pop pop } def
+currentdict end
+/MyFont exch definefont pop
+
+% Later, remove it
+/MyFont undefinefont
+----
+
+==== Cleaning Up Temporary Fonts
+
+[source,postscript]
+----
+% Create temporary scaled font
+/Helvetica findfont 36 scalefont
+/Helvetica-36 exch definefont
+setfont
+
+% Use the font
+100 100 moveto (Large Text) show
+
+% Clean up when done
+/Helvetica-36 undefinefont
+----
+
+==== Replacing Font Definition
+
+[source,postscript]
+----
+% Remove old definition before redefining
+/CustomFont undefinefont
+
+% Define new version
+/CustomFont 10 dict dup begin
+  % New font definition
+  /FontType 3 def
+  % ... other entries
+currentdict end
+/CustomFont exch definefont pop
+----
+
+==== VM-Aware Font Cleanup
+
+[source,postscript]
+----
+% Clean up local and global definitions
+false setglobal
+/TempFont undefinefont    % Remove local definition
+
+true setglobal
+/TempFont undefinefont    % Remove global definition
+false setglobal
+----
+
+=== Errors
+
+**stackunderflow**
+: If no operand is on the stack
+
+**typecheck**
+: If `key` is not a name or string
+
+=== Behavior Notes
+
+**Font Still Usable:**
+- The font dictionary itself is not destroyed
+- If stored elsewhere (e.g., in a variable), it remains valid
+- Font becomes eligible for garbage collection only when no longer accessible
+
+**Current Font:**
+- If the removed font is currently set via [`setfont`](setfont.adoc), it remains current
+- The current font in graphics state is unaffected
+- Only future [`findfont`](findfont.adoc) calls are affected
+
+**Restore Interaction:**
+- Effect of [`undefinefont`](undefinefont.adoc) on local VM subject to `restore`
+- Removing local font can be undone by `restore`
+- Removing global font is permanent (until restored at job end)
+
+=== Font Directory Structure
+
+[source,postscript]
+----
+% Check if font is defined
+FontDirectory /Helvetica known {
+  (Helvetica is in FontDirectory) =
+} if
+
+% After undefinefont
+/Helvetica undefinefont
+FontDirectory /Helvetica known {
+  (Still there) =
+} {
+  (Removed from FontDirectory) =
+} ifelse
+----
+
+=== Use Cases
+
+==== Memory Management
+
+[source,postscript]
+----
+% Process many documents, clean up fonts between them
+{
+  % For each document:
+
+  % Create custom fonts for this document
+  /DocFont1 ... definefont pop
+  /DocFont2 ... definefont pop
+
+  % Process document
+  % ...
+
+  % Clean up to free memory
+  /DocFont1 undefinefont
+  /DocFont2 undefinefont
+} forall
+----
+
+==== Font Versioning
+
+[source,postscript]
+----
+% Replace font with updated version
+/MyFont undefinefont
+
+% Load new version from file or define inline
+(myfontnew.pfa) run  % Loads and defines new version
+----
+
+==== Resource Management
+
+[source,postscript]
+----
+% Remove all custom fonts with specific prefix
+FontDirectory {
+  pop  % Get key
+  dup type /nametype eq {
+    dup =string cvs (Custom) anchorsearch {
+      pop pop  % Found custom font
+      undefinefont
+    } {
+      pop pop  % Not custom
+    } ifelse
+  } {
+    pop  % Not a name
+  } ifelse
+} forall
+----
+
+=== Relationship to Other Resource Operators
+
+[`undefinefont`](undefinefont.adoc) is equivalent to:
+
+[source,postscript]
+----
+key /Font undefineresource
+----
+
+For generic resource manipulation, use the resource operators:
+- `undefineresource` - Remove any resource type
+- `findresource` - Find any resource type
+- `resourcestatus` - Check resource status
+- `resourceforall` - Enumerate resources
+
+=== See Also
+
+- [`definefont`](definefont.adoc) - Register font in font directory
+- [`findfont`](findfont.adoc) - Obtain font dictionary by name
+- `undefineresource` - Remove resource from category
+- `FontDirectory` - Dictionary of local fonts
+- `GlobalFontDirectory` - Dictionary of global fonts

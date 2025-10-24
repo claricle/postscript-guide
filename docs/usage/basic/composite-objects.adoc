@@ -1,0 +1,1056 @@
+---
+layout: default
+title: Composite Objects
+parent: Basic Usage
+grand_parent: Usage Guides
+nav_order: 9
+---
+
+== Composite Objects
+
+Composite objects combine multiple PostScript objects into structured, reusable units. Understanding composite objects is essential for organizing complex data and building maintainable PostScript programs.
+
+=== Overview
+
+PostScript provides several composite object types:
+
+* **Arrays** - Ordered sequences of objects
+* **Dictionaries** - Key-value mappings
+* **Strings** - Sequences of characters (also composite)
+* **Procedures** - Executable arrays
+* **Files** - Data streams (composite in nature)
+
+These objects can contain other objects, including other composite objects, enabling complex data structures.
+
+=== Composite Object Characteristics
+
+==== Reference Semantics
+
+Composite objects use reference semantics:
+
+[source,postscript]
+----
+% Arrays are references
+/arr1 [1 2 3] def
+/arr2 arr1 def        % arr2 references same array
+arr2 0 99 put         % Modifies both arr1 and arr2
+arr1 0 get =          % Prints 99
+
+% Dictionaries are also references
+/dict1 << /a 1 /b 2 >> def
+/dict2 dict1 def
+dict2 /a 99 put
+dict1 /a get =        % Prints 99
+----
+
+==== Mutability
+
+Most composite objects can be modified:
+
+[source,postscript]
+----
+% Mutable array
+/arr [1 2 3] def
+arr 1 99 put          % OK
+
+% Mutable dictionary
+/dict 5 dict def
+dict /key 42 put      % OK
+
+% Strings are also mutable
+/str (hello) def
+str 0 72 put          % Changes 'h' to 'H'
+----
+
+Exception: Packed arrays and literal strings are read-only.
+
+==== Nesting
+
+Composite objects can contain other composite objects:
+
+[source,postscript]
+----
+% Nested arrays
+/matrix [
+  [1 2 3]
+  [4 5 6]
+  [7 8 9]
+] def
+
+% Dictionary containing arrays
+/person <<
+  /name (John Doe)
+  /scores [85 90 78]
+  /address <<
+    /street (123 Main St)
+    /city (Springfield)
+  >>
+>> def
+----
+
+=== Building Complex Data Structures
+
+==== Records/Structs Using Dictionaries
+
+[source,postscript]
+----
+% Person record
+/createPerson {  % name age email -> personDict
+  3 dict begin
+    /email exch def
+    /age exch def
+    /name exch def
+    currentdict
+  end
+} def
+
+% Create person
+(John Doe) 30 (john@example.com) createPerson
+/person exch def
+
+% Access fields
+person /name get =
+person /age get =
+----
+
+More comprehensive example:
+
+[source,postscript]
+----
+% Employee record with nested structures
+/createEmployee {
+  10 dict begin
+    /id exch def
+    /department exch def
+    /salary exch def
+    /address exch def  % Dictionary
+    /name exch def
+
+    % Methods
+    /getFullName {
+      name /first get ( ) name /last get 3 string copy
+      3 1 roll exch concatstrings exch concatstrings
+    } def
+
+    /raiseSalary {  % percent -> newSalary
+      100 div 1 add
+      salary mul
+      /salary exch def
+      salary
+    } def
+
+    currentdict
+  end
+} def
+
+% Create employee
+<< /first (John) /last (Doe) >>  % name
+<< /street (123 Main) /city (Springfield) >>  % address
+50000  % salary
+(Engineering)  % department
+12345  % id
+createEmployee
+/employee exch def
+
+% Use employee
+employee /getFullName get exec =
+employee /raiseSalary get 10 exec =  % 10% raise
+----
+
+==== Lists Using Arrays
+
+[source,postscript]
+----
+% Simple list operations
+/createList {  % -> list
+  10 dict begin
+    /items [] def
+    /count 0 def
+
+    /append {  % value -> -
+      % Grow array if needed
+      count items length ge {
+        /newItems count 10 add array def
+        newItems 0 items putinterval
+        /items newItems def
+      } if
+
+      items count 3 -1 roll put
+      /count count 1 add def
+    } def
+
+    /get {  % index -> value
+      items exch get
+    } def
+
+    /size {  % -> count
+      count
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+createList /list exch def
+list /append get 42 exec
+list /append get 99 exec
+list /size get exec =        % 2
+list /get get 0 exec =       % 42
+----
+
+==== Trees Using Nested Structures
+
+[source,postscript]
+----
+% Binary tree node
+/createNode {  % value left right -> node
+  5 dict begin
+    /right exch def
+    /left exch def
+    /value exch def
+
+    /isLeaf {
+      left null eq right null eq and
+    } def
+
+    /traverse {  % procedure -> -
+      % In-order traversal
+      left null ne {
+        left /traverse get proc exec
+      } if
+
+      value proc exec
+
+      right null ne {
+        right /traverse get proc exec
+      } if
+    } def
+
+    currentdict
+  end
+} def
+
+% Create tree
+% Leaf nodes
+5 null null createNode /node1 exch def
+15 null null createNode /node2 exch def
+
+% Parent node
+10 node1 node2 createNode /root exch def
+
+% Traverse and print
+root /traverse get { = } exec
+% Prints: 5, 10, 15
+----
+
+==== Hash Tables Using Dictionaries
+
+[source,postscript]
+----
+% Hash table with custom operations
+/createHashTable {  % size -> hashtable
+  1 dict begin
+    /dict exch dict def
+
+    /put {  % key value -> -
+      dict 3 1 roll put
+    } def
+
+    /get {  % key -> value (or null)
+      dict exch 2 copy known {
+        get
+      } {
+        pop pop null
+      } ifelse
+    } def
+
+    /contains {  % key -> boolean
+      dict exch known
+    } def
+
+    /remove {  % key -> -
+      dict exch undef
+    } def
+
+    /keys {  % -> array
+      [
+        dict {
+          pop  % Get keys only
+        } forall
+      ]
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+100 createHashTable /ht exch def
+ht /put get (name) (John) exec
+ht /put get (age) 30 exec
+ht /get get (name) exec =
+ht /keys get exec =
+----
+
+==== Stacks Using Arrays
+
+[source,postscript]
+----
+/createStack {  % -> stack
+  10 dict begin
+    /items 100 array def
+    /top -1 def
+
+    /push {  % value -> -
+      /top top 1 add def
+      items top 3 -1 roll put
+    } def
+
+    /pop {  % -> value
+      top 0 ge {
+        items top get
+        /top top 1 sub def
+      } {
+        null
+      } ifelse
+    } def
+
+    /peek {  % -> value
+      top 0 ge {
+        items top get
+      } {
+        null
+      } ifelse
+    } def
+
+    /isEmpty {  % -> boolean
+      top 0 lt
+    } def
+
+    /size {  % -> count
+      top 1 add
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+createStack /stack exch def
+stack /push get 10 exec
+stack /push get 20 exec
+stack /peek get exec =    % 20
+stack /pop get exec =     % 20
+stack /size get exec =    % 1
+----
+
+==== Queues Using Arrays
+
+[source,postscript]
+----
+/createQueue {  % -> queue
+  10 dict begin
+    /items 100 array def
+    /front 0 def
+    /rear -1 def
+    /count 0 def
+
+    /enqueue {  % value -> -
+      /rear rear 1 add 100 mod def
+      items rear 3 -1 roll put
+      /count count 1 add def
+    } def
+
+    /dequeue {  % -> value
+      count 0 gt {
+        items front get
+        /front front 1 add 100 mod def
+        /count count 1 sub def
+      } {
+        null
+      } ifelse
+    } def
+
+    /isEmpty {  % -> boolean
+      count 0 eq
+    } def
+
+    /size {  % -> count
+      count
+    } def
+
+    currentdict
+  end
+} def
+----
+
+=== Object-Oriented Patterns
+
+==== Constructor Pattern
+
+[source,postscript]
+----
+% Class-like constructor
+/Rectangle {  % width height -> rectangle
+  10 dict begin
+    /height exch def
+    /width exch def
+
+    % Methods
+    /area {
+      width height mul
+    } def
+
+    /perimeter {
+      width height add 2 mul
+    } def
+
+    /scale {  % factor -> -
+      /width width 2 index mul def
+      /height height 2 index mul def
+      pop
+    } def
+
+    /draw {
+      gsave
+        newpath
+        0 0 moveto
+        width 0 rlineto
+        0 height rlineto
+        width neg 0 rlineto
+        closepath
+        stroke
+      grestore
+    } def
+
+    currentdict
+  end
+} def
+
+% Create instances
+100 50 Rectangle /rect1 exch def
+200 100 Rectangle /rect2 exch def
+
+% Use methods
+rect1 /area get exec =
+rect2 /perimeter get exec =
+----
+
+==== Inheritance Pattern
+
+[source,postscript]
+----
+% Base class
+/Shape {  % color -> shape
+  5 dict begin
+    /color exch def
+
+    /setColor {  % r g b -> -
+      /color [3 -1 roll 3 -1 roll 3 -1 roll] def
+    } def
+
+    /applyColor {
+      color aload pop setrgbcolor
+    } def
+
+    currentdict
+  end
+} def
+
+% Derived class
+/Circle {  % radius color -> circle
+  1 dict begin
+    /parentShape exch Shape def
+    /radius exch def
+
+    % Inherit from Shape
+    parentShape {
+      currentdict exch 3 -1 roll put
+    } forall
+
+    % Add circle-specific methods
+    /area {
+      radius dup mul 3.14159 mul
+    } def
+
+    /draw {
+      gsave
+        applyColor
+        newpath
+        0 0 radius 0 360 arc
+        fill
+      grestore
+    } def
+
+    currentdict
+  end
+} def
+
+% Create circle
+50 [1 0 0] Circle /redCircle exch def
+redCircle /draw get exec
+----
+
+==== Encapsulation Pattern
+
+[source,postscript]
+----
+% Private state with public interface
+/createCounter {  % initialValue -> counter
+  5 dict begin
+    % Private variable
+    /value exch def
+
+    % Public methods
+    /increment {
+      /value value 1 add def
+    } def
+
+    /decrement {
+      /value value 1 sub def
+    } def
+
+    /getValue {
+      value
+    } def
+
+    /reset {  % newValue -> -
+      /value exch def
+    } def
+
+    % Return only public interface
+    <<
+      /increment { increment } bind
+      /decrement { decrement } bind
+      /getValue { getValue } bind
+      /reset { reset } bind
+    >>
+  end
+} def
+
+% Usage - 'value' is not accessible
+0 createCounter /counter exch def
+counter /increment get exec
+counter /increment get exec
+counter /getValue get exec =  % 2
+----
+
+=== Composite Object Utilities
+
+==== Deep Copy
+
+[source,postscript]
+----
+/deepCopy {  % object -> copy
+  dup type /arraytype eq {
+    % Array: recursively copy elements
+    dup length array
+    0 1 2 index length 1 sub {
+      2 index 1 index get deepCopy
+      2 index 3 1 roll put
+    } for
+    exch pop
+  } {
+    dup type /dicttype eq {
+      % Dictionary: recursively copy entries
+      dup length dict
+      begin
+        1 index {
+          exch deepCopy exch deepCopy def
+        } forall
+        currentdict
+      end
+      exch pop
+    } {
+      % Atomic type: return as-is
+    } ifelse
+  } ifelse
+} def
+
+% Usage
+/original [1 [2 3] << /a 4 >>] def
+/copy original deepCopy def
+copy 1 get 0 99 put  % Doesn't affect original
+----
+
+==== Object Comparison
+
+[source,postscript]
+----
+/objectsEqual {  % obj1 obj2 -> boolean
+  % Check if two objects are deeply equal
+  2 copy eq {
+    % Same reference
+    pop pop true
+  } {
+    2 copy type exch type ne {
+      % Different types
+      pop pop false
+    } {
+      dup type /arraytype eq {
+        % Compare arrays
+        2 copy length exch length ne {
+          pop pop false
+        } {
+          /result true def
+          0 1 2 index length 1 sub {
+            /i exch def
+            result {
+              2 index i get 2 index i get objectsEqual
+              /result exch def
+            } if
+          } for
+          pop pop result
+        } ifelse
+      } {
+        % For other types, use eq
+        eq
+      } ifelse
+    } ifelse
+  } ifelse
+} def
+----
+
+==== Object Serialization
+
+[source,postscript]
+----
+/serialize {  % object -> string
+  dup type /arraytype eq {
+    % Serialize array
+    ([)
+    0 1 2 index length 1 sub {
+      1 index exch get serialize
+      ( ) 3 1 roll
+      concatstrings exch concatstrings
+    } for
+    (]) concatstrings
+    exch pop
+  } {
+    dup type /dicttype eq {
+      % Serialize dictionary
+      (<<)
+      1 index {
+        exch
+        =string cvs ( ) exch concatstrings
+        exch serialize
+        ( ) 3 1 roll concatstrings
+        exch concatstrings exch concatstrings
+      } forall
+      (>>) concatstrings
+      exch pop
+    } {
+      % Serialize atomic type
+      =string cvs
+    } ifelse
+  } ifelse
+} def
+----
+
+=== Practical Composite Examples
+
+==== Example 1: Configuration Object
+
+[source,postscript]
+----
+/createConfig {  % -> config
+  20 dict begin
+    % Default values
+    /pageWidth 612 def
+    /pageHeight 792 def
+    /margin 72 def
+    /fontSize 12 def
+    /fontName /Helvetica def
+
+    % Methods
+    /set {  % key value -> -
+      currentdict 3 1 roll put
+    } def
+
+    /get {  % key -> value
+      currentdict exch get
+    } def
+
+    /loadDefaults {
+      /pageWidth 612 def
+      /pageHeight 792 def
+      /margin 72 def
+    } def
+
+    /validate {
+      pageWidth 0 gt
+      pageHeight 0 gt and
+      margin 0 ge and
+      fontSize 0 gt and
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+createConfig /config exch def
+config /set get /fontSize 14 exec
+config /get get /fontSize exec =
+----
+
+==== Example 2: Graphics Context
+
+[source,postscript]
+----
+/createGraphicsContext {  % -> context
+  20 dict begin
+    % State
+    /color [0 0 0] def
+    /lineWidth 1 def
+    /font /Helvetica def
+    /fontSize 12 def
+
+    % Methods
+    /setColor {  % r g b -> -
+      /color [3 -1 roll 3 -1 roll 3 -1 roll] def
+    } def
+
+    /setLineWidth {  % width -> -
+      /lineWidth exch def
+    } def
+
+    /setFont {  % name size -> -
+      /fontSize exch def
+      /font exch def
+    } def
+
+    /apply {
+      color aload pop setrgbcolor
+      lineWidth setlinewidth
+      font findfont fontSize scalefont setfont
+    } def
+
+    /save {
+      <<
+        /color color
+        /lineWidth lineWidth
+        /font font
+        /fontSize fontSize
+      >>
+    } def
+
+    /restore {  % savedState -> -
+      begin
+        /color color def
+        /lineWidth lineWidth def
+        /font font def
+        /fontSize fontSize def
+      end
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+createGraphicsContext /ctx exch def
+ctx /setColor get 1 0 0 exec
+ctx /setLineWidth get 2 exec
+ctx /apply get exec
+----
+
+==== Example 3: Document Structure
+
+[source,postscript]
+----
+/createDocument {  % -> document
+  15 dict begin
+    /pages [] def
+    /pageCount 0 def
+    /currentPage null def
+
+    /addPage {  % page -> -
+      % Grow pages array if needed
+      pageCount pages length ge {
+        /newPages pageCount 10 add array def
+        newPages 0 pages putinterval
+        /pages newPages def
+      } if
+
+      pages pageCount 3 -1 roll put
+      /pageCount pageCount 1 add def
+    } def
+
+    /getPage {  % index -> page
+      pages exch get
+    } def
+
+    /getPageCount {
+      pageCount
+    } def
+
+    /forEachPage {  % procedure -> -
+      0 1 pageCount 1 sub {
+        pages exch get exch exec
+      } for
+    } def
+
+    currentdict
+  end
+} def
+
+/createPage {  % width height -> page
+  10 dict begin
+    /height exch def
+    /width exch def
+    /content [] def
+    /contentCount 0 def
+
+    /addContent {  % contentItem -> -
+      contentCount content length ge {
+        /newContent contentCount 10 add array def
+        newContent 0 content putinterval
+        /content newContent def
+      } if
+
+      content contentCount 3 -1 roll put
+      /contentCount contentCount 1 add def
+    } def
+
+    /render {
+      gsave
+        0 1 contentCount 1 sub {
+          content exch get /draw get exec
+        } for
+      grestore
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+createDocument /doc exch def
+612 792 createPage /page1 exch def
+doc /addPage get page1 exec
+----
+
+==== Example 4: Event System
+
+[source,postscript]
+----
+/createEventEmitter {  % -> emitter
+  10 dict begin
+    /listeners 20 dict def
+
+    /on {  % eventName handler -> -
+      2 copy listeners exch known {
+        % Add to existing handlers
+        listeners exch get
+        dup length 1 add array
+        dup 0 3 -1 roll putinterval
+        dup 2 index length 3 -1 roll put
+        listeners 3 1 roll put
+      } {
+        % Create new handler array
+        [exch] listeners 3 1 roll put
+      } ifelse
+    } def
+
+    /emit {  % eventName data -> -
+      exch
+      listeners 1 index known {
+        listeners exch get {
+          exec
+        } forall
+      } {
+        pop pop
+      } ifelse
+    } def
+
+    /removeAllListeners {  % eventName -> -
+      listeners exch undef
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+createEventEmitter /emitter exch def
+emitter /on get (ready) { (System ready) print } exec
+emitter /emit get (ready) null exec
+----
+
+=== Best Practices
+
+==== Use Appropriate Data Structures
+
+[source,postscript]
+----
+% Good: dictionary for named fields
+/person <<
+  /name (John)
+  /age 30
+  /email (john@example.com)
+>> def
+
+% Bad: array with magic indices
+/person [(John) 30 (john@example.com)] def
+----
+
+==== Encapsulate Related Data
+
+[source,postscript]
+----
+% Good: bundled state and behavior
+/button {
+  10 dict begin
+    /x exch def
+    /y exch def
+    /label exch def
+
+    /draw { ... } def
+    /click { ... } def
+
+    currentdict
+  end
+} def
+
+% Bad: scattered state
+/buttonX 100 def
+/buttonY 200 def
+/buttonLabel (Click) def
+/drawButton { ... } def
+----
+
+==== Validate Composite Objects
+
+[source,postscript]
+----
+/validatePerson {  % person -> boolean
+  dup type /dicttype ne {
+    pop false
+  } {
+    dup /name known
+    1 index /age known and
+    exch pop
+  } ifelse
+} def
+----
+
+==== Document Object Structure
+
+[source,postscript]
+----
+% Point object: << /x number /y number >>
+% Rectangle object: << /origin point /size size >>
+% Where size: << /width number /height number >>
+
+/createRectangle {  % x y width height -> rectangle
+  <<
+    /size << /height exch /width exch >>
+    /origin << /y exch /x exch >>
+  >>
+} def
+----
+
+=== Common Pitfalls
+
+==== Sharing References
+
+[source,postscript]
+----
+% Wrong: shared reference
+/obj1 [1 2 3] def
+/obj2 obj1 def
+obj2 0 99 put  % Modifies obj1 too!
+
+% Correct: create copy
+/obj1 [1 2 3] def
+/obj2 obj1 0 obj1 length getinterval def
+obj2 0 99 put  % obj1 unchanged
+----
+
+==== Dictionary Scope Issues
+
+[source,postscript]
+----
+% Wrong: losing dictionary reference
+10 dict begin
+  /x 42 def
+end
+% Can't access x anymore!
+
+% Correct: save dictionary
+10 dict begin
+  /x 42 def
+  currentdict
+end
+/myDict exch def
+myDict /x get =
+----
+
+==== Memory Leaks with Circular References
+
+[source,postscript]
+----
+% Be careful with circular references
+/node1 5 dict def
+/node2 5 dict def
+node1 /next node2 put
+node2 /prev node1 put
+% Creates circular reference
+----
+
+=== Performance Considerations
+
+==== Pre-allocate Collections
+
+[source,postscript]
+----
+% Good: pre-allocated
+/items 100 array def
+
+% Less efficient: growing dynamically
+/items [] def
+% ... would need to copy and resize
+----
+
+==== Use Appropriate Collection Types
+
+[source,postscript]
+----
+% Good: dictionary for lookups
+/cache 100 dict def
+cache /key1 value1 put
+cache /key1 get  % Fast O(1) lookup
+
+% Bad: array for lookups
+/cache [/key1 value1 /key2 value2] def
+% Linear search required
+----
+
+==== Cache Computed Values
+
+[source,postscript]
+----
+/shape <<
+  /width 100
+  /height 50
+  /area null  % Cached area
+
+  /getArea {
+    area null eq {
+      /area width height mul def
+    } if
+    area
+  } bind
+>> def
+----
+
+=== See Also
+
+* xref:arrays.adoc[Arrays] - Array operations
+* xref:procedures.adoc[Procedures] - Executable arrays
+* xref:../../syntax/dictionaries.adoc[Dictionaries] - Dictionary syntax
+* xref:../../syntax/arrays.adoc[Array Syntax] - Array syntax
+* xref:../../commands/dictionary/index.adoc[Dictionary Commands] - Dictionary operations
+* xref:../../commands/array-string/index.adoc[Array Commands] - Array operations

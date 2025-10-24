@@ -1,0 +1,182 @@
+---
+layout: default
+title: Command Reference
+nav_order: 6
+permalink: /commands/
+---
+
+== Command Reference
+:description: Complete reference for all PostScript operators
+:keywords: postscript, commands, operators, reference
+:permalink: /commands/
+
+[.lead]
+Complete reference documentation for all PostScript operators, organized alphabetically and by functional category.
+
+=== Browse Commands
+
+==== By Category
+
+Commands are organized into functional categories for easier discovery:
+
+* xref:stack-manipulation/index.adoc[Stack Manipulation] - Operations on the operand stack
+* xref:arithmetic-math/index.adoc[Arithmetic and Math] - Mathematical operations and functions
+* xref:array-string/index.adoc[Array and String Operations] - Collection and text manipulation
+* xref:dictionary/index.adoc[Dictionary Operations] - Key-value store operations
+* xref:graphics-state/index.adoc[Graphics State] - Graphics parameter management
+* xref:path-construction/index.adoc[Path Construction] - Vector path building
+* xref:painting/index.adoc[Painting] - Rendering and output operations
+* xref:transformations/index.adoc[Coordinate Transformations] - CTM and coordinate operations
+* xref:font-text/index.adoc[Font and Text] - Typography and text rendering
+* xref:color/index.adoc[Color] - Color space and color operations
+* xref:image/index.adoc[Image] - Raster image handling
+* xref:device-output/index.adoc[Device and Output] - Device control and output
+* xref:file-io/index.adoc[File and I/O] - File operations and streams
+* xref:control-flow/index.adoc[Control Flow] - Program flow control
+* xref:resource-management/index.adoc[Resource Management] - VM and resource handling
+* xref:error-handling/index.adoc[Error Handling] - Error management and recovery
+
+==== xref:by-category.adoc[Categorical Index]
+
+View all commands grouped by their functional categories.
+
+=== Alphabetical Index
+
+==== A
+
+`abs`, `add`, `aload`, `anchorsearch`, `and`, `arc`, `arcn`, `arct`, `arcto`, `array`, `ashow`, `astore`, `atan`, `awidthshow`
+
+==== B
+
+`begin`, `bind`, `bitshift`, `bytesavailable`
+
+==== C
+
+`cachestatus`, `ceiling`, `charpath`, `clear`, `cleardictstack`, `cleartomark`, `clip`, `clippath`, `closefile`, `closepath`, `colorimage`, `concat`, `concatmatrix`, `copy`, `copypage`, `cos`, `count`, `countdictstack`, `countexecstack`, `counttomark`, `currentcmykcolor`, `currentcolorspace`, `currentdash`, `currentdict`, `currentfile`, `currentflat`, `currentfont`, `currentgray`, `currentgstate`, `currenthsbcolor`, `currentlinecap`, `currentlinejoin`, `currentlinewidth`, `currentmatrix`, `currentmiterlimit`, `currentpoint`, `currentrgbcolor`, `currentscreen`, `currenttransfer`, `curveto`, `cvi`, `cvlit`, `cvn`, `cvr`, `cvrs`, `cvs`, `cvx`
+
+==== D
+
+`def`, `defaultmatrix`, `definefont`, `dict`, `dictstack`, `div`, `dtransform`, `dup`
+
+==== E
+
+`echo`, `eexec`, `end`, `eoclip`, `eofill`, `eq`, `erasepage`, `errordict`, `exch`, `exec`, `execstack`, `executeonly`, `exit`, `exp`
+
+==== F
+
+`false`, `file`, `fill`, `findfont`, `flattenpath`, `floor`, `flush`, `flushfile`, `FontDirectory`, `for`, `forall`, `framedevice`
+
+==== G
+
+`ge`, `get`, `getinterval`, `grestore`, `grestoreall`, `gsave`, `gt`
+
+==== H
+
+`handleerror`
+
+==== I
+
+`idiv`, `idtransform`, `if`, `ifelse`, `image`, `imagemask`, `index`, `initclip`, `initgraphics`, `initmatrix`, `inustroke`, `invertmatrix`, `itransform`
+
+==== K
+
+`known`, `kshow`
+
+==== L
+
+`le`, `length`, `lineto`, `ln`, `load`, `log`, `loop`, `lt`
+
+==== M
+
+`makefont`, `mark`, `matrix`, `maxlength`, `mod`, `moveto`, `mul`
+
+==== N
+
+`ne`, `neg`, `newpath`, `noaccess`, `not`, `null`, `nulldevice`
+
+==== O
+
+`or`
+
+==== P
+
+`pathbbox`, `pathforall`, `pop`, `print`, `printobject`, `product`, `prompt`, `pstack`, `put`, `putinterval`
+
+==== Q
+
+`quit`
+
+==== R
+
+`rand`, `rcheck`, `rcurveto`, `read`, `readhexstring`, `readline`, `readonly`, `readstring`, `repeat`, `resetfile`, `restore`, `reversepath`, `revision`, `rlineto`, `rmoveto`, `roll`, `rotate`, `round`, `rrand`, `run`
+
+==== S
+
+`save`, `scale`, `scalefont`, `search`, `setcachedevice`, `setcachelimit`, `setcharwidth`, `setcmykcolor`, `setcolorspace`, `setdash`, `setfont`, `setgray`, `setgstate`, `sethsbcolor`, `setlinecap`, `setlinejoin`, `setlinewidth`, `setmatrix`, `setmiterlimit`, `setrgbcolor`, `setscreen`, `settransfer`, `show`, `showpage`, `sin`, `sqrt`, `srand`, `StandardEncoding`, `start`, `status`, `statusdict`, `stop`, `stopped`, `store`, `string`, `stringwidth`, `stroke`, `strokepath`, `sub`, `systemdict`
+
+==== T
+
+`token`, `transform`, `translate`, `true`, `truncate`, `type`
+
+==== U
+
+`uappend`, `ucache`, `ueofill`, `ufill`, `undef`, `upath`, `userdict`, `usertime`, `ustroke`, `ustrokepath`
+
+==== V
+
+`version`, `vmstatus`
+
+==== W
+
+`wcheck`, `where`, `widthshow`, `write`, `writehexstring`, `writeobject`, `writestring`
+
+==== X
+
+`xcheck`, `xor`, `xshow`, `xyshow`
+
+==== Y
+
+`yshow`
+
+=== Command Page Format
+
+Each command page includes:
+
+* **Description**: Purpose and usage
+* **Syntax**: Stack effect notation
+* **Parameters**: Detailed parameter descriptions
+* **Return Values**: Result descriptions
+* **Examples**: Basic and advanced usage
+* **Edge Cases**: Common pitfalls and warnings
+* **Related Commands**: Cross-references
+* **PostScript Level**: Version introduced
+* **Error Conditions**: Possible errors
+
+=== Stack Effect Notation
+
+Commands are documented using standard PostScript stack notation:
+
+[source]
+----
+operand1 operand2 operator result1 result2
+----
+
+This shows:
+
+* **Before** the operator name: operands consumed from the stack (bottom to top)
+* **After** the operator name: results produced on the stack (bottom to top)
+
+==== Example
+
+[source,postscript]
+----
+3 4 add 7
+----
+
+This means: `add` pops two numbers (3 and 4) and pushes their sum (7).
+
+=== See Also
+
+* xref:../syntax/operators.adoc[Operators Overview] - Understanding PostScript operators
+* xref:../usage/basic/stack-operations.adoc[Stack Operations] - Working with the stack
+* xref:../levels/index.adoc[PostScript Levels] - Version-specific features

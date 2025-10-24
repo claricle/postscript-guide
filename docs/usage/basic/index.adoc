@@ -1,0 +1,143 @@
+---
+layout: default
+title: Basic Usage
+parent: Usage Guides
+nav_order: 1
+---
+
+== Basic Usage
+
+Essential concepts and techniques for PostScript programming.
+
+== Core Concepts
+
+=== Stack Operations
+
+PostScript uses a stack for all data manipulation. Understanding stack operations is fundamental:
+
+[source,postscript]
+----
+% Push values
+10 20 30
+
+% Duplicate top
+dup            % Stack: 10 20 30 30
+
+% Exchange top two
+exch           % Stack: 10 20 30 30
+
+% Remove top
+pop            % Stack: 10 20 30
+----
+
+See xref:../../commands/stack-manipulation/index.adoc[Stack Manipulation Commands] for complete reference.
+
+=== Coordinate Systems
+
+PostScript uses two coordinate systems:
+
+**User Space:** Your drawing coordinates
+**Device Space:** Physical device pixels
+
+[source,postscript]
+----
+% Default: 72 units = 1 inch
+100 200 moveto     % 100/72 inch right, 200/72 inch up
+----
+
+Transform user space with:
+* `translate` - Move origin
+* `scale` - Change unit size
+* `rotate` - Rotate axes
+
+=== Graphics State
+
+The graphics state stores rendering parameters:
+
+[source,postscript]
+----
+gsave                % Save state
+  1 setlinewidth     % Change line width
+  0.5 setgray        % Change color
+  stroke             % Draw
+grestore             % Restore state
+----
+
+See xref:../../commands/graphics-state/index.adoc[Graphics State Commands].
+
+=== Path Construction
+
+Paths are built then painted:
+
+[source,postscript]
+----
+newpath              % Start fresh
+100 100 moveto       % Set start point
+200 100 lineto       % Add line segment
+200 200 lineto       % Add another
+closepath            % Close the path
+stroke               % Paint it
+----
+
+=== Painting Operations
+
+Two main operations:
+
+**stroke** - Draw along the path
+**fill** - Fill inside the path
+
+[source,postscript]
+----
+% Filled rectangle
+newpath
+0 0 moveto
+100 0 rlineto
+0 100 rlineto
+-100 0 rlineto
+closepath
+0.5 setgray fill
+
+% Stroked circle
+newpath
+150 150 50 0 360 arc
+0 setgray stroke
+----
+
+== Common Patterns
+
+=== Drawing a Box
+
+[source,postscript]
+----
+/box {  % x y width height
+  gsave
+    newpath
+    moveto      % x y
+    dup 0 rlineto    % width 0
+    exch 0 exch rlineto  % 0 height
+    neg 0 rlineto    % -width 0
+    closepath stroke
+  grestore
+} def
+
+100 100 50 75 box
+----
+
+=== Centered Text
+
+[source,postscript]
+----
+/centerShow {  % string x y
+  moveto
+  dup stringwidth pop 2 div neg 0 rmoveto
+  show
+} def
+
+(Hello) 300 400 centerShow
+----
+
+== See Also
+
+* xref:../../commands/index.adoc[Command Reference] - All operators
+* xref:../advanced/index.adoc[Advanced Usage] - Advanced techniques
+* xref:../../examples/index.adoc[Examples] - Code samples

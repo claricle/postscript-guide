@@ -1,0 +1,910 @@
+---
+layout: default
+title: Debugging
+parent: Usage Guides
+nav_order: 10
+---
+
+== Debugging
+
+Debugging PostScript programs requires specialized techniques due to the stack-based nature and interpreted execution model. This guide covers essential debugging strategies, tools, and best practices.
+
+=== Overview
+
+Debugging techniques in PostScript include:
+
+* **Print statements** - Outputting values and messages
+* **Stack inspection** - Examining operand stack state
+* **Execution tracing** - Following program flow
+* **Error analysis** - Understanding error messages
+* **Interactive debugging** - Testing code incrementally
+* **Logging** - Recording program behavior
+
+Effective debugging helps identify and fix issues quickly.
+
+=== Basic Debugging Techniques
+
+==== Print Debugging
+
+The simplest debugging method:
+
+[source,postscript]
+----
+% Print values
+/x 42 def
+(Value of x: ) print x =
+
+% Print strings
+(Debug: entering function) print
+
+% Print with newlines
+(Starting process) print ()
+
+% Print array contents
+[1 2 3 4 5] {
+  (Element: ) print =
+} forall
+----
+
+==== The `=` Operator
+
+Prints value and pops it:
+
+[source,postscript]
+----
+% Print and consume value
+5 10 add =  % Prints: 15
+
+% Print without consuming (use dup)
+5 10 add dup =
+% Value still on stack
+----
+
+==== The `==` Operator
+
+Prints value in more detail:
+
+[source,postscript]
+----
+% Detailed output
+(Hello, World!) ==
+% Shows string with parentheses
+
+[1 2 3] ==
+% Shows array structure
+----
+
+==== The `pstack` Operator
+
+Prints entire stack without modifying it:
+
+[source,postscript]
+----
+1 2 3 4 5
+pstack
+% Prints all values on stack
+% Stack remains unchanged
+----
+
+=== Stack Debugging
+
+==== Viewing Stack State
+
+[source,postscript]
+----
+/showStack {
+  (=== Stack Contents ===) print
+  (Depth: ) print count =
+  count 0 gt {
+    pstack
+  } {
+    (Stack is empty) print
+  } ifelse
+  (====================) print
+} def
+
+% Usage
+5 10 15
+showStack
+----
+
+==== Stack Depth Monitoring
+
+[source,postscript]
+----
+/withStackMonitor {  % proc -> -
+  count /initialDepth exch def
+
+  exec
+
+  count initialDepth sub /delta exch def
+  delta 0 ne {
+    (Warning: Stack changed by ) print delta =
+  } if
+} def
+
+% Usage
+{
+  5 10 add
+  % Forgot to consume result
+  20
+} withStackMonitor
+----
+
+==== Stack Trace on Error
+
+[source,postscript]
+----
+/debugExecute {  % proc -> -
+  {
+    exec
+  } stopped {
+    (Error occurred!) print
+    (Stack trace:) print
+    pstack
+
+    (Error info:) print
+    $error /errorname get (Error: ) exch =string cvs concatstrings print
+    $error /command get (Command: ) exch =string cvs concatstrings print
+  } if
+} def
+
+% Usage
+{
+  1 0 div  % Will error
+} debugExecute
+----
+
+=== Execution Tracing
+
+==== Function Entry/Exit Logging
+
+[source,postscript]
+----
+/traced {  % name proc -> tracedProc
+  2 dict begin
+    /proc exch def
+    /name exch def
+
+    {
+      (>> Entering: ) print name print () print
+      proc exec
+      (<< Exiting: ) print name print () print
+    } bind
+  end
+} def
+
+% Usage
+/myFunction {
+  (Processing...) print
+  5 10 add
+} bind def
+
+/myFunction (myFunction) myFunction traced def
+
+myFunction  % Will print entry/exit messages
+----
+
+==== Conditional Tracing
+
+[source,postscript]
+----
+/debugLevel 0 def
+
+/trace {  % level message -> -
+  exch debugLevel le {
+    (TRACE: ) print print () print
+  } {
+    pop
+  } ifelse
+} def
+
+% Usage
+/debugLevel 2 def
+1 (Low detail) trace
+2 (Medium detail) trace
+3 (High detail - won't show) trace
+----
+
+==== Step-by-Step Execution
+
+[source,postscript]
+----
+/step {  % proc -> -
+  {
+    (Step - Stack: ) print pstack
+    (Press Enter to continue...) print
+    flush
+    (%stdin) (r) file 256 string readline pop pop closefile
+    exec
+  } stopped {
+    (Error during step execution) print
+  } if
+} def
+
+% Usage
+{
+  5
+  {(Added 5) print} step
+  10
+  {(Added 10) print} step
+  add
+  {(Added them) print} step
+} step
+----
+
+=== Variable Inspection
+
+==== Inspecting Dictionaries
+
+[source,postscript]
+----
+/inspectDict {  % dict -> -
+  (=== Dictionary Contents ===) print
+  {
+    exch
+    dup type /nametype eq {
+      =string cvs
+    } {
+      (key) =string cvs
+    } ifelse
+    (:  ) exch concatstrings print
+
+    dup type /nametype eq {
+      =string cvs print
+    } {
+      dup type /arraytype eq {
+        ([array of ) exch length =string cvs
+        concatstrings
+        ( elements]) concatstrings print
+      } {
+        =
+      } ifelse
+    } ifelse
+  } forall
+  (==========================) print
+} def
+
+% Usage
+<< /name (John) /age 30 /scores [85 90 78] >>
+inspectDict
+----
+
+==== Watch Variables
+
+[source,postscript]
+----
+/Watcher {
+  10 dict begin
+    /watches <<>> def
+
+    /watch {  % name value -> -
+      watches 3 1 roll put
+    } def
+
+    /update {  % name value -> -
+      2 copy watches exch known {
+        watches 2 index get
+        1 index ne {
+          (Variable changed: ) print
+          2 index =string cvs print
+          ( from ) print
+          watches 3 index get =string cvs print
+          ( to ) print
+          dup =string cvs print
+          () print
+        } if
+      } if
+      watches 3 1 roll put
+    } def
+
+    /show {
+      (Watched variables:) print
+      watches {
+        exch =string cvs print
+        ( = ) print
+        =
+      } forall
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+Watcher /watcher exch def
+watcher /watch /x 0 exec
+watcher /update /x 5 exec  % Will print change
+watcher /show exec
+----
+
+=== Breakpoints
+
+==== Simple Breakpoints
+
+[source,postscript]
+----
+/breakpoint {  % message -> -
+  (BREAKPOINT: ) print print () print
+  (Stack contents:) print
+  pstack
+  (Continue? (y/n)) print
+  flush
+
+  (%stdin) (r) file 1 string readline pop pop
+  0 get 121 ne {  % 121 = 'y'
+    stop
+  } if
+} def
+
+% Usage
+/processData {
+  (Starting process) breakpoint
+
+  % ... processing
+
+  (Halfway through) breakpoint
+
+  % ... more processing
+} def
+----
+
+==== Conditional Breakpoints
+
+[source,postscript]
+----
+/breakIf {  % condition message -> -
+  exch {
+    breakpoint
+  } {
+    pop
+  } ifelse
+} def
+
+% Usage
+/x 42 def
+x 40 gt (x is greater than 40) breakIf
+----
+
+=== Error Analysis
+
+==== Error Reporter
+
+[source,postscript]
+----
+/ErrorReporter {
+  <<
+    /report {
+      (=== ERROR REPORT ===) print
+
+      $error /errorname known {
+        (Error Type: ) print
+        $error /errorname get =string cvs print
+        () print
+      } if
+
+      $error /command known {
+        (Failed Command: ) print
+        $error /command get dup type /nametype eq {
+          =string cvs
+        } {
+          (complex)
+        } ifelse print
+        () print
+      } if
+
+      $error /ostack known {
+        (Operand Stack:) print
+        $error /ostack get {
+          ( - ) print dup type =string cvs print
+          (: ) print
+          dup type /stringtype eq {
+            print
+          } {
+            =
+          } ifelse
+        } forall
+      } if
+
+      (===================) print
+    } bind
+  >>
+} def
+
+% Usage
+{
+  1 0 div
+} stopped {
+  ErrorReporter /report get exec
+} if
+----
+
+==== Stack Unwinding
+
+[source,postscript]
+----
+/unwindStack {
+  (Unwinding execution stack:) print
+  $error /estack known {
+    $error /estack get {
+      dup type /nametype eq {
+        ( -> ) print =string cvs print
+      } {
+        pop
+      } ifelse
+    } forall
+    () print
+  } if
+} def
+----
+
+=== Logging
+
+==== Simple Logger
+
+[source,postscript]
+----
+/Logger {
+  10 dict begin
+    /logLevel 2 def  % 0=ERROR, 1=WARN, 2=INFO, 3=DEBUG
+    /logFile null def
+
+    /setLevel { /logLevel exch def } def
+
+    /setFile {
+      (a) file /logFile exch def
+    } def
+
+    /log {  % level message -> -
+      2 dict begin
+        /msg exch def
+        /level exch def
+
+        level logLevel le {
+          /timestamp realtime def
+          /output
+            ([) timestamp =string cvs concatstrings
+            (] ) concatstrings
+            level 0 eq { (ERROR: ) } if
+            level 1 eq { (WARN:  ) } if
+            level 2 eq { (INFO:  ) } if
+            level 3 eq { (DEBUG: ) } if
+            concatstrings
+            msg concatstrings
+            (\n) concatstrings
+          def
+
+          logFile null ne {
+            logFile output writestring
+          } {
+            output print
+          } ifelse
+        } if
+      end
+    } def
+
+    /error { 0 exch log } def
+    /warn { 1 exch log } def
+    /info { 2 exch log } def
+    /debug { 3 exch log } def
+
+    /close {
+      logFile null ne {
+        logFile closefile
+        /logFile null def
+      } if
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+Logger /log exch def
+log /setLevel 3 exec
+log /info (Application started) exec
+log /debug (Processing data) exec
+log /error (Something went wrong) exec
+----
+
+==== Structured Logging
+
+[source,postscript]
+----
+/logEvent {  % eventName data -> -
+  2 dict begin
+    /data exch def
+    /event exch def
+
+    ([) print
+    realtime =string cvs print
+    (] EVENT: ) print
+    event print
+    data null ne {
+      ( - Data: ) print
+      data type /stringtype eq {
+        data print
+      } {
+        data =
+      } ifelse
+    } if
+    () print
+  end
+} def
+
+% Usage
+(UserAction) (clicked button) logEvent
+(DataProcessed) 42 logEvent
+----
+
+=== Performance Debugging
+
+==== Timing Functions
+
+[source,postscript]
+----
+/timeIt {  % label proc -> elapsedTime
+  2 dict begin
+    /proc exch def
+    /label exch def
+
+    usertime /startTime exch def
+    proc exec
+    usertime startTime sub /elapsed exch def
+
+    label print
+    ( took ) print
+    elapsed =string cvs print
+    ( ms) print
+    () print
+
+    elapsed
+  end
+} def
+
+% Usage
+(Heavy computation) {
+  0 1 10000 {
+    dup mul pop
+  } for
+} timeIt pop
+----
+
+==== Memory Profiling
+
+[source,postscript]
+----
+/profileMemory {  % label proc -> memoryDelta
+  2 dict begin
+    /proc exch def
+    /label exch def
+
+    vmstatus pop /before exch def
+    proc exec
+    vmstatus pop /after exch def
+
+    after before sub /delta exch def
+
+    label print
+    ( used ) print
+    delta =string cvs print
+    ( bytes) print
+    () print
+
+    delta
+  end
+} def
+
+% Usage
+(Array allocation) {
+  10000 array
+} profileMemory pop
+----
+
+=== Interactive Debugging
+
+==== Debug REPL
+
+[source,postscript]
+----
+/debugREPL {
+  (Debug REPL - Type 'quit' to exit) print
+
+  {
+    (debug> ) print flush
+
+    (%stdin) (r) file 256 string readline {
+      dup (quit) eq {
+        pop exit
+      } if
+
+      {
+        token {
+          exec
+          pstack
+        } {
+          pop
+        } ifelse
+      } stopped {
+        (Error executing command) print
+      } if
+    } {
+      pop exit
+    } ifelse
+  } loop
+
+  (Exiting debug REPL) print
+} def
+----
+
+==== Inspect on Error
+
+[source,postscript]
+----
+/runWithDebugger {  % proc -> -
+  {
+    exec
+  } stopped {
+    (Error occurred - entering debugger) print
+    ErrorReporter /report get exec
+    pstack
+
+    (Commands: 'c'ontinue, 's'tack, 'q'uit) print
+    debugREPL
+  } if
+} def
+----
+
+=== Assertions and Contracts
+
+==== Assert Utility
+
+[source,postscript]
+----
+/assert {  % condition message -> -
+  exch not {
+    (ASSERTION FAILED: ) print print () print
+    pstack
+    stop
+  } {
+    pop
+  } ifelse
+} def
+
+% Usage
+/divide {  % a b -> a/b
+  dup 0 ne (Divisor must not be zero) assert
+  div
+} def
+----
+
+==== Contract Checking
+
+[source,postscript]
+----
+/withContract {  % pre proc post -> -
+  3 dict begin
+    /post exch def
+    /proc exch def
+    /pre exch def
+
+    pre exec (Precondition failed) assert
+    proc exec
+    post exec (Postcondition failed) assert
+  end
+} def
+
+% Usage
+{
+  count 2 ge  % Need 2 values
+} {
+  add
+} {
+  count 1 ge  % Should have 1 result
+} withContract
+----
+
+=== Test Utilities
+
+==== Unit Testing Framework
+
+[source,postscript]
+----
+/TestRunner {
+  20 dict begin
+    /tests [] def
+    /passed 0 def
+    /failed 0 def
+
+    /addTest {  % name testProc -> -
+      2 array astore
+      /tests [ tests aload pop 3 -1 roll ] def
+    } def
+
+    /run {
+      (Running tests...) print
+
+      tests {
+        aload pop
+        /proc exch def
+        /name exch def
+
+        (Test: ) print name print ( ... ) print flush
+
+        {
+          proc exec
+          (PASS) print
+          /passed passed 1 add def
+        } stopped {
+          (FAIL) print
+          /failed failed 1 add def
+        } ifelse
+      } forall
+
+      () print
+      (Results: ) print
+      passed =string cvs print
+      ( passed, ) print
+      failed =string cvs print
+      ( failed) print
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+TestRunner /runner exch def
+runner /addTest (Addition) {
+  5 3 add 8 eq (5+3 should equal 8) assert
+} exec
+runner /run exec
+----
+
+==== Mocking
+
+[source,postscript]
+----
+/Mock {
+  <<
+    /calls []
+
+    /record {  % args -> -
+      /calls [ calls aload pop 3 -1 roll ] def
+    } bind
+
+    /getCalls {
+      calls
+    } bind
+
+    /reset {
+      /calls [] def
+    } bind
+  >>
+} def
+
+% Usage
+Mock /mockFunction exch def
+(arg1) mockFunction /record get exec
+(arg2) mockFunction /record get exec
+mockFunction /getCalls get exec length =  % 2
+----
+
+=== Best Practices
+
+==== Structured Logging Levels
+
+[source,postscript]
+----
+% Use consistent logging levels
+% ERROR: 0 - Critical errors
+% WARN:  1 - Warnings
+% INFO:  2 - Information
+% DEBUG: 3 - Detailed debugging
+
+/debug {
+  debugLevel 3 ge {
+    (DEBUG: ) print print () print
+  } {
+    pop
+  } ifelse
+} def
+----
+
+==== Remove Debug Code in Production
+
+[source,postscript]
+----
+/PRODUCTION false def
+
+/debug {
+  PRODUCTION not {
+    print
+  } {
+    pop
+  } ifelse
+} def
+----
+
+==== Document Debug Points
+
+[source,postscript]
+----
+% Good: documented debug statement
+/processArray {  % array -> result
+  (DEBUG: Processing array of length ) print
+  dup length =
+
+  % ... process
+} def
+----
+
+=== Common Debugging Scenarios
+
+==== Debugging Stack Issues
+
+[source,postscript]
+----
+% Before suspicious operation
+count /before exch def
+pstack
+
+% Suspicious operation
+mysterio usOperation
+
+% After
+count /after exch def
+after before sub /delta exch def
+delta 0 ne {
+  (Stack changed by ) print delta =
+} if
+pstack
+----
+
+==== Debugging Type Errors
+
+[source,postscript]
+----
+/debugType {  % value -> value
+  dup
+  (Value type: ) print
+  dup type =string cvs print
+  (Value: ) print
+  dup type /stringtype eq {
+    print
+  } {
+    =
+  } ifelse
+} def
+
+% Usage
+someValue debugType
+% ... use value
+----
+
+==== Debugging Infinite Loops
+
+[source,postscript]
+----
+/loopCounter 0 def
+
+/safeLoop {
+  {
+    /loopCounter loopCounter 1 add def
+    loopCounter 1000 gt {
+      (Loop limit exceeded!) print
+      exit
+    } if
+
+    % Loop body here
+  } loop
+} def
+----
+
+=== See Also
+
+* xref:error-handling.adoc[Error Handling] - Error management
+* xref:advanced/error-handling.adoc[Advanced Error Handling] - Complex error scenarios
+* xref:advanced/resource-management.adoc[Resource Management] - Memory debugging
+* xref:basic/stack-operations.adoc[Stack Operations] - Stack manipulation
+* xref:basic/procedures.adoc[Procedures] - Procedure debugging

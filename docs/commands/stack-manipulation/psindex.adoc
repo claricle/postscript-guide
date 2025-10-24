@@ -1,0 +1,373 @@
+---
+layout: default
+title: index
+parent: Stack Manipulation
+grand_parent: Command Reference
+nav_order: 5
+permalink: /commands/stack-manipulation/index/
+---
+= index
+:description: Duplicate the nth element from the top of the operand stack
+:keywords: postscript, stack, index, duplicate, access
+
+[.lead]
+Duplicates the nth element from the top of the operand stack, where n is counted from 0.
+
+== Description
+
+The `index` operator removes a non-negative integer n from the operand stack, counts down to the nth element from the top (where the top is position 0), and pushes a copy of that element onto the stack.
+
+This operator is particularly useful for accessing elements deep in the stack without disturbing the intervening elements. It's essentially a generalized form of xref:dup.adoc[`dup`], where `0 index` is equivalent to `dup`.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+anyn ... any0 n index anyn ... any0 anyn
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`n` (integer) - Index of element to duplicate (0-based from top)
+
+|Top-1
+|`any0` - Top element (index 0)
+
+|Top-2
+|`any1` - Second element (index 1)
+
+|...
+|...
+
+|Top-(n+1)
+|`anyn` - Element at index n
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`anyn` - Copy of the element at index n
+
+|Top-1
+|`any0` - Original top element
+
+|Top-2
+|`any1` - Original second element
+
+|...
+|...
+
+|Top-(n+1)
+|`anyn` - Original element at index n
+|===
+
+== Parameters
+
+`n`:: Non-negative integer specifying which element to duplicate. 0 indicates the top element, 1 the second element, etc.
+
+`anyn ... any0`:: At least n+1 elements must be present on the stack below the n operand.
+
+== Return Values
+
+A copy of the element at position n from the top of the stack (before the n was removed).
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Stack positions are 0-based from top
+(a)(b)(c)(d) 0 index -> (a)(b)(c)(d)(d)  % Top element
+(a)(b)(c)(d) 1 index -> (a)(b)(c)(d)(c)  % Second element
+(a)(b)(c)(d) 2 index -> (a)(b)(c)(d)(b)  % Third element
+(a)(b)(c)(d) 3 index -> (a)(b)(c)(d)(a)  % Fourth element
+----
+
+=== Equivalent to dup
+
+[source,postscript]
+----
+% These are equivalent
+42 dup              % Stack: 42 42
+42 0 index          % Stack: 42 42
+----
+
+=== Accessing Buried Values
+
+[source,postscript]
+----
+% Access value deep in stack
+1 2 3 4 5           % Stack: 1 2 3 4 5
+2 index             % Stack: 1 2 3 4 5 3
+% Retrieved third element (3) without disturbing stack
+----
+
+=== Using in Calculations
+
+[source,postscript]
+----
+% Calculate: (a + b) * a
+% where a and b are already on stack
+10 20               % Stack: 10 20 (a=10, b=20)
+add                 % Stack: 30
+10                  % Need original 'a' again - but it's gone!
+
+% Better approach:
+10 20               % Stack: 10 20
+1 index             % Stack: 10 20 10 (duplicate a)
+3 1 roll            % Stack: 10 10 20
+add                 % Stack: 10 30
+mul                 % Stack: 300
+----
+
+=== Preserving Stack State
+
+[source,postscript]
+----
+% Access value without rearranging stack
+/x 100 def
+/y 200 def
+/z 300 def
+
+x y z               % Stack: 100 200 300
+2 index             % Stack: 100 200 300 100
+% Retrieved x without disturbing y and z
+----
+
+== Advanced Examples
+
+=== Implementing pick Operation
+
+[source,postscript]
+----
+% Some PostScript dialects have 'pick' which is same as 'index'
+/pick {             % ... n -> ... elem
+    index
+} def
+
+1 2 3 4 5
+2 pick              % Stack: 1 2 3 4 5 3
+----
+
+=== Safe Index with Bounds Check
+
+[source,postscript]
+----
+% Index with safety check
+/safeIndex {        % ... n -> ... elem (or error)
+    dup count 1 sub gt {
+        pop
+        (Error: index out of bounds) print
+        0
+    } {
+        index
+    } ifelse
+} def
+
+1 2 3
+5 safeIndex         % Prints error, returns 0
+----
+
+=== Copying Multiple Deep Elements
+
+[source,postscript]
+----
+% Copy elements at specific indices
+/multiIndex {       % ... idx1 idx2 idx3 ... idxn n -> ... elem1 elem2 ... elemn
+    dup 1 sub -1 0 {
+        % For each index
+        1 add index
+        exch
+    } for
+    pop
+} def
+
+10 20 30 40 50
+3 1 0               % Indices to copy
+3 multiIndex        % Copies elements at positions 0, 1, 3
+----
+
+=== Stack Inspection
+
+[source,postscript]
+----
+% Print stack element at index n without modifying stack
+/printAt {          % ... n -> ...
+    dup count 1 sub le {
+        index =
+    } {
+        pop (Index out of range) =
+    } ifelse
+} def
+
+1 2 3 4 5
+2 printAt           % Prints: 3
+count =             % Prints: 5 (stack unchanged)
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: Using `index` with n greater than or equal to the stack depth causes a `rangecheck` error.
+
+=== Index Out of Range
+
+[source,postscript]
+----
+% BAD: Index too large
+1 2 3
+5 index             % ERROR: rangecheck
+                    % Only 3 elements, can't access index 5
+----
+
+=== Negative Index
+
+[source,postscript]
+----
+% BAD: Negative indices not allowed
+1 2 3
+-1 index            % ERROR: rangecheck
+----
+
+=== Stack Underflow
+
+[source,postscript]
+----
+% BAD: Not enough elements
+clear
+0 index             % ERROR: stackunderflow
+                    % Need at least 1 element plus the index
+----
+
+=== Off-by-One Errors
+
+[source,postscript]
+----
+% CAUTION: Remember indexing is 0-based
+(a)(b)(c)
+2 index             % Returns (a), not (c)!
+% Position 0 = (c), Position 1 = (b), Position 2 = (a)
+----
+
+TIP: Remember that stack positions are counted from 0, where 0 is the topmost element. The index operand itself is removed before counting, so you're indexing into the stack as it was before calling `index`.
+
+=== Composite Object Sharing
+
+[source,postscript]
+----
+% Remember: index copies references, not values
+[1 2 3]             % Stack: [1 2 3]
+0 index             % Stack: [1 2 3] [1 2 3]
+% Both array references share the same value
+0 99 put            % Modifies both: [99 2 3] [99 2 3]
+----
+
+== Related Commands
+
+* xref:dup.adoc[`dup`] - Equivalent to `0 index`
+* xref:copy.adoc[`copy`] - Copy multiple top elements
+* xref:roll.adoc[`roll`] - Rotate stack elements
+* xref:exch.adoc[`exch`] - Exchange top two elements
+* xref:count.adoc[`count`] - Get stack depth for bounds checking
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental operator available in all PostScript implementations.
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack has fewer than n+2 elements (n+1 elements plus the n operand itself).
++
+[source,postscript]
+----
+clear
+1 2 3               % 3 elements
+3 index             % ERROR: stackunderflow
+                    % Need 4 elements for index 3
+----
+
+`rangecheck`::
+The value of n is negative, or n is greater than or equal to the number of elements on the stack (excluding n itself).
++
+[source,postscript]
+----
+1 2 3
+5 index             % ERROR: rangecheck (only 3 elements)
+1 2 3
+-1 index            % ERROR: rangecheck (negative)
+----
+
+`typecheck`::
+The top operand is not an integer.
++
+[source,postscript]
+----
+1 2 3
+(not a number) index    % ERROR: typecheck
+----
+
+== Performance Considerations
+
+The `index` operator has O(1) constant time complexity. It's very fast regardless of the index value, as it doesn't need to traverse the stack.
+
+However, frequently using large index values may indicate poor stack management. Consider restructuring your code to keep frequently accessed values near the top of the stack.
+
+== Best Practices
+
+1. **Use for deep access**: `index` is ideal when you need an element buried in the stack
+2. **Prefer dup for top element**: Use `dup` rather than `0 index` for clarity
+3. **Check bounds**: Use xref:count.adoc[`count`] to verify sufficient stack depth before large indices
+4. **Document stack layout**: When using `index`, clearly document which stack position contains what
+5. **Consider roll instead**: For repeated access to deep elements, xref:roll.adoc[`roll`] might be more efficient
+
+=== Clear Documentation
+
+[source,postscript]
+----
+% Always document stack layout when using index
+/drawLine {         % x1 y1 x2 y2 -> -
+    % Stack: x1 y1 x2 y2
+    3 index         % Stack: x1 y1 x2 y2 x1
+    3 index         % Stack: x1 y1 x2 y2 x1 y1
+    moveto
+    lineto
+    stroke
+} def
+
+% Or better yet, use named values:
+/drawLine {         % x1 y1 x2 y2 -> -
+    4 dict begin
+        /y2 exch def /x2 exch def
+        /y1 exch def /x1 exch def
+        x1 y1 moveto
+        x2 y2 lineto
+        stroke
+    end
+} def
+----
+
+== See Also
+
+* xref:../../syntax/operators.adoc[Operators Overview] - Understanding PostScript operators
+* xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
+* xref:index.adoc[Stack Manipulation] - All stack operators
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 471)
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

@@ -1,0 +1,188 @@
+---
+layout: default
+title: currentlinejoin
+parent: Graphics State
+grand_parent: Command Reference
+nav_order: 18
+---
+
+== currentlinejoin
+
+Returns current line join style.
+
+=== Syntax
+
+----
+– currentlinejoin → int
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| –
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `int` (0, 1, or 2)
+|===
+
+=== Description
+
+[`currentlinejoin`](currentlinejoin.adoc) returns the current line join parameter from the graphics state. This is the value most recently set by [`setlinejoin`](setlinejoin.adoc).
+
+**Join styles:**
+
+* **0** = Miter join (sharp corners)
+* **1** = Round join (curved corners)
+* **2** = Bevel join (flattened corners)
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Querying current line join
+[source,postscript]
+----
+0 setlinejoin
+currentlinejoin
+% Stack: 0
+----
+
+.Saving and restoring line join
+[source,postscript]
+----
+currentlinejoin         % Save
+/savedJoin exch def
+
+1 setlinejoin           % Change to round
+drawRectangle
+
+savedJoin setlinejoin   % Restore
+----
+
+.Conditional drawing
+[source,postscript]
+----
+currentlinejoin 0 eq {
+  % Miter - draw technical diagram
+  drawBlueprintStyle
+} {
+  % Non-miter - draw artistic
+  drawArtisticStyle
+} ifelse
+----
+
+=== Common Use Cases
+
+==== Join State Preservation
+
+[source,postscript]
+----
+/DrawWithRoundJoins {
+  currentlinejoin       % Save
+  1 setlinejoin         % Round
+
+  drawShape
+
+  setlinejoin           % Restore
+} def
+----
+
+==== Join-Dependent Rendering
+
+[source,postscript]
+----
+/DrawCorner {
+  currentlinejoin
+  dup 0 eq {
+    % Miter - sharp corner
+    drawSharpCorner
+  } if
+  dup 1 eq {
+    % Round - curved corner
+    drawRoundCorner
+  } if
+  2 eq {
+    % Bevel - flat corner
+    drawFlatCorner
+  } if
+} def
+----
+
+==== Style Validation
+
+[source,postscript]
+----
+/EnsureMiterJoin {
+  currentlinejoin 0 ne {
+    0 setlinejoin
+  } if
+} def
+----
+
+=== Common Pitfalls
+
+WARNING: *Miter Limit Interaction* - Miter joins (0) affected by miter limit setting.
+
+[source,postscript]
+----
+0 setlinejoin
+currentlinejoin  % Returns 0 (miter)
+% But sharp miters may become bevels if
+% angle exceeds miter limit
+----
+
+TIP: *Use Round for Smooth* - Round joins (1) produce smoothest appearance.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackoverflow`]
+| No room on operand stack
+|===
+
+=== Implementation Notes
+
+* Very fast query operation
+* No modification to graphics state
+* Returns integer 0, 1, or 2
+* Default value is typically 0 (miter)
+* Miter joins controlled by miter limit
+* Widely supported (Level 1)
+
+=== Line Join Styles
+
+[source]
+----
+Miter (0):    ╱╲
+              ╱  ╲
+
+Round (1):    ╱⌢╲
+              ╱  ╲
+
+Bevel (2):    ╱─╲
+              ╱  ╲
+----
+
+=== See Also
+
+* xref:setlinejoin.adoc[`setlinejoin`] - Set line join style
+* xref:currentlinecap.adoc[`currentlinecap`] - Get line cap style
+* xref:currentlinewidth.adoc[`currentlinewidth`] - Get line width
+* xref:currentmiterlimit.adoc[`currentmiterlimit`] - Get miter limit
+* xref:setmiterlimit.adoc[`setmiterlimit`] - Set miter limit

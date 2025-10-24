@@ -1,0 +1,1179 @@
+---
+layout: default
+title: File Operations
+parent: Advanced Usage
+grand_parent: Usage Guides
+nav_order: 9
+---
+
+== File Operations
+
+PostScript provides comprehensive file I/O capabilities for reading and writing data, managing resources, and creating modular programs. Understanding file operations is essential for advanced PostScript programming.
+
+=== Overview
+
+File operations in PostScript include:
+
+* **File access** - Opening, reading, and writing files
+* **Standard I/O** - stdin, stdout, stderr
+* **Filters** - Data encoding/decoding
+* **String operations** - String-based I/O
+* **Resource loading** - External data and code
+* **Temporary storage** - Working with file buffers
+
+PostScript treats files as streams of bytes that can be read, written, or both.
+
+=== File Basics
+
+==== Opening Files
+
+[source,postscript]
+----
+% file: filename access file
+% access: (r)ead, (w)rite, (r+) read/write
+
+% Open for reading
+(input.ps) (r) file /inputFile exch def
+
+% Open for writing
+(output.dat) (w) file /outputFile exch def
+
+% Open for read/write
+(data.tmp) (r+) file /dataFile exch def
+----
+
+==== Closing Files
+
+[source,postscript]
+----
+% closefile: file closefile
+
+inputFile closefile
+outputFile closefile
+dataFile closefile
+----
+
+==== File Status
+
+[source,postscript]
+----
+% status: file status -> boolean
+
+inputFile status {
+  (File is open) print
+} {
+  (File is closed) print
+} ifelse
+----
+
+=== Reading from Files
+
+==== Reading Strings
+
+[source,postscript]
+----
+% read: file read -> int true | false
+% Reads one byte
+
+(input.txt) (r) file /f exch def
+f read {
+  =  % Print the byte
+} {
+  (End of file) print
+} ifelse
+f closefile
+----
+
+==== Reading Lines
+
+[source,postscript]
+----
+% readline: file string readline -> substring true | false
+
+(input.txt) (r) file /f exch def
+256 string /buffer exch def
+
+% Read one line
+f buffer readline {
+  % Got a line
+  print
+} {
+  (End of file) print
+} ifelse
+
+f closefile
+----
+
+Reading all lines:
+
+[source,postscript]
+----
+/readAllLines {  % filename -> -
+  (r) file
+  256 string
+
+  {
+    2 copy readline not { exit } if
+    print (\n) print
+  } loop
+
+  pop closefile
+} def
+
+% Usage
+(myfile.txt) readAllLines
+----
+
+==== Reading Tokens
+
+[source,postscript]
+----
+% token: string token -> post any true | false
+% token: file token -> any true | false
+
+(data.ps) (r) file /f exch def
+
+% Read PostScript tokens
+f token {
+  % Got token
+  =  % Print it
+
+  % Read another
+  f token {
+    =
+  } if
+} if
+
+f closefile
+----
+
+==== Reading Binary Data
+
+[source,postscript]
+----
+% readstring: file string readstring -> substring boolean
+
+(binary.dat) (r) file /f exch def
+1024 string /buffer exch def
+
+f buffer readstring {
+  % Read full buffer
+  (Read ) print dup length =
+} {
+  % Read partial (EOF)
+  (Read ) print dup length = (bytes before EOF) print
+} ifelse
+
+f closefile
+----
+
+=== Writing to Files
+
+==== Writing Strings
+
+[source,postscript]
+----
+% write: file int write
+
+(output.txt) (w) file /f exch def
+
+% Write bytes
+f 72 write  % 'H'
+f 105 write % 'i'
+f 10 write  % newline
+
+f closefile
+----
+
+==== Writing Lines
+
+[source,postscript]
+----
+% writestring: file string writestring
+
+(output.txt) (w) file /f exch def
+
+f (Hello, World!) writestring
+f (\n) writestring
+f (Second line) writestring
+f (\n) writestring
+
+f closefile
+----
+
+==== Writing Formatted Data
+
+[source,postscript]
+----
+/writeFormatted {  % file values... count template -> -
+  3 dict begin
+    /template exch def
+    /count exch def
+    /f exch def
+
+    % Write formatted output
+    count {
+      template
+      exch =string cvs
+      concatstrings
+      f exch writestring
+    } repeat
+  end
+} def
+
+% Usage
+(output.txt) (w) file /f exch def
+f 42 99 2 (Value: %\n) writeFormatted
+f closefile
+----
+
+==== Print to File
+
+[source,postscript]
+----
+/printToFile {  % filename string -> -
+  2 dict begin
+    /str exch def
+    /fname exch def
+
+    fname (w) file
+    dup str writestring
+    closefile
+  end
+} def
+
+% Usage
+(output.txt) (Hello from PostScript!) printToFile
+----
+
+=== Standard I/O
+
+==== Standard Input
+
+[source,postscript]
+----
+% Read from stdin
+(%stdin) (r) file /stdin exch def
+
+stdin 256 string readline {
+  (You entered: ) print
+  print
+} if
+
+stdin closefile
+----
+
+==== Standard Output
+
+[source,postscript]
+----
+% Write to stdout
+(%stdout) (w) file /stdout exch def
+
+stdout (Output to stdout\n) writestring
+stdout closefile
+
+% Or use print operator (writes to stdout)
+(Hello, stdout!) print
+----
+
+==== Standard Error
+
+[source,postscript]
+----
+% Write to stderr
+(%stderr) (w) file /stderr exch def
+
+stderr (Error message\n) writestring
+stderr closefile
+----
+
+=== File Filters
+
+==== ASCII85 Encoding
+
+[source,postscript]
+----
+% Encode data to ASCII85
+(output.a85) (w) file
+/ASCII85Encode filter /encoded exch def
+
+encoded (Raw data to encode) writestring
+encoded closefile
+
+% Decode ASCII85
+(input.a85) (r) file
+/ASCII85Decode filter /decoded exch def
+
+256 string /buffer exch def
+decoded buffer readstring pop
+decoded closefile
+----
+
+==== Hexadecimal Encoding
+
+[source,postscript]
+----
+% ASCIIHexEncode filter
+(output.hex) (w) file
+/ASCIIHexEncode filter /hexFile exch def
+
+hexFile (Data) writestring
+hexFile closefile
+
+% ASCIIHexDecode filter
+(input.hex) (r) file
+/ASCIIHexDecode filter /hexIn exch def
+
+256 string hexIn exch readstring pop
+hexIn closefile
+----
+
+==== Run-Length Encoding
+
+[source,postscript]
+----
+% RunLengthEncode filter
+(output.rle) (w) file
+/RunLengthEncode filter /rleFile exch def
+
+rleFile (Repeated data...) writestring
+rleFile closefile
+
+% RunLengthDecode filter
+(input.rle) (r) file
+/RunLengthDecode filter /rleIn exch def
+
+1024 string rleIn exch readstring pop
+rleIn closefile
+----
+
+==== LZW Compression
+
+[source,postscript]
+----
+% LZWEncode filter
+(output.lzw) (w) file
+/LZWEncode filter /lzwFile exch def
+
+lzwFile (Compressed data) writestring
+lzwFile closefile
+
+% LZWDecode filter
+(input.lzw) (r) file
+/LZWDecode filter /lzwIn exch def
+
+2048 string lzwIn exch readstring pop
+lzwIn closefile
+----
+
+=== Temporary Files
+
+==== Creating Temp Files
+
+[source,postscript]
+----
+/createTempFile {  % -> file
+  % Generate temp filename
+  /tempName
+    (%temp_)
+    rand =string cvs
+    (.dat)
+    3 string copy
+    concatstrings exch concatstrings
+  def
+
+  tempName (w+) file
+} def
+
+% Usage
+createTempFile /temp exch def
+temp (Temporary data) writestring
+temp closefile
+----
+
+==== String Streams
+
+[source,postscript]
+----
+% Use string as file-like object
+/data 1024 string def
+
+% Write to string
+data 0 (Hello) putinterval
+
+% Read from string
+data 0 5 getinterval
+% Returns: (Hello)
+----
+
+=== File Positioning
+
+==== File Position
+
+[source,postscript]
+----
+% fileposition: file -> position
+
+(data.txt) (r) file /f exch def
+
+% Get current position
+f fileposition =  % Prints current offset
+
+% Read some data
+f 256 string readline pop
+
+% Check new position
+f fileposition =
+
+f closefile
+----
+
+==== Setting Position
+
+[source,postscript]
+----
+% setfileposition: file position setfileposition
+
+(data.txt) (r+) file /f exch def
+
+% Seek to position 100
+f 100 setfileposition
+
+% Read from that position
+f 256 string readline pop
+
+f closefile
+----
+
+==== Rewinding Files
+
+[source,postscript]
+----
+/rewindFile {  % file -> -
+  0 setfileposition
+} def
+
+% Usage
+f rewindFile
+----
+
+=== Loading External Code
+
+==== Running External Scripts
+
+[source,postscript]
+----
+% run: filename run
+% Executes PostScript file
+
+(library.ps) run
+
+% Or with error handling
+(script.ps) {
+  run
+} stopped {
+  (Error loading script) print
+} if
+----
+
+==== Including Libraries
+
+[source,postscript]
+----
+/includeLibrary {  % filename -> -
+  dup
+  {
+    run
+  } stopped {
+    pop
+    ( not found) exch concatstrings print
+  } {
+    pop
+  } ifelse
+} def
+
+% Usage
+(utils.ps) includeLibrary
+(graphics.ps) includeLibrary
+----
+
+==== Resource Files
+
+[source,postscript]
+----
+/loadResource {  % resourceName -> -
+  1 dict begin
+    /name exch def
+
+    % Try different locations
+    [
+      (resources/) name concatstrings
+      (lib/) name concatstrings
+      name
+    ] {
+      dup status {
+        run
+        exit
+      } {
+        pop
+      } ifelse
+    } forall
+  end
+} def
+
+% Usage
+(colors.ps) loadResource
+----
+
+=== Data Files
+
+==== CSV File Reading
+
+[source,postscript]
+----
+/readCSV {  % filename -> array
+  10 dict begin
+    /lines [] def
+
+    (r) file
+    256 string
+
+    {
+      2 copy readline not { exit } if
+
+      % Parse CSV line
+      (,) {
+        search {
+          % Found comma
+          /lines [ lines aload pop 4 -1 roll ] def
+        } {
+          % Last field
+          /lines [ lines aload pop ] def
+          exit
+        } ifelse
+      } loop
+    } loop
+
+    pop closefile
+    lines
+  end
+} def
+
+% Usage
+(data.csv) readCSV
+----
+
+==== Configuration Files
+
+[source,postscript]
+----
+/loadConfig {  % filename -> dict
+  10 dict begin
+    /config 20 dict def
+
+    (r) file /f exch def
+    256 string /line exch def
+
+    {
+      f line readline not { exit } if
+
+      % Parse key=value
+      (=) search {
+        % Found =
+        /value exch def
+        pop  % Discard =
+        /key exch def
+
+        % Store in config
+        config key value put
+      } {
+        % No =, skip line
+        pop
+      } ifelse
+    } loop
+
+    f closefile
+    config
+  end
+} def
+
+% Usage
+(config.txt) loadConfig /settings exch def
+settings /server get print
+----
+
+==== JSON-like Data
+
+[source,postscript]
+----
+/parseSimpleJSON {  % string -> dict
+  % Simplified JSON parser
+  % Format: {key: value, key: value}
+
+  20 dict begin
+    /result 10 dict def
+
+    % Remove braces
+    dup 0 get 123 eq { 1 exch length 2 sub getinterval } if
+
+    % Split by comma
+    {
+      (,) search {
+        % Parse key:value pair
+        (:) search {
+          /value exch def
+          pop
+          /key exch def
+
+          % Clean and store
+          result
+          key strip
+          value strip
+          put
+        } if
+      } {
+        % Last pair
+        (:) search {
+          /value exch def
+          pop
+          /key exch def
+          result key strip value strip put
+        } if
+        exit
+      } ifelse
+    } loop
+
+    result
+  end
+} def
+
+/strip {  % string -> trimmedString
+  % Remove leading/trailing spaces
+  dup length 0 gt {
+    dup 0 get 32 eq {
+      1 exch length 1 sub getinterval strip
+    } if
+  } if
+} def
+----
+
+=== File Management
+
+==== File Existence Check
+
+[source,postscript]
+----
+/fileExists {  % filename -> boolean
+  {
+    (r) file closefile
+    true
+  } stopped {
+    pop false
+  } ifelse
+} def
+
+% Usage
+(myfile.txt) fileExists {
+  (File exists) print
+} {
+  (File not found) print
+} ifelse
+----
+
+==== File Copy
+
+[source,postscript]
+----
+/copyFile {  % srcFile dstFile -> -
+  2 dict begin
+    /dst exch def
+    /src exch def
+
+    src (r) file /inFile exch def
+    dst (w) file /outFile exch def
+
+    1024 string /buffer exch def
+
+    {
+      inFile buffer readstring {
+        outFile exch writestring
+      } {
+        outFile exch writestring
+        exit
+      } ifelse
+    } loop
+
+    inFile closefile
+    outFile closefile
+  end
+} def
+
+% Usage
+(source.txt) (destination.txt) copyFile
+----
+
+==== File Append
+
+[source,postscript]
+----
+/appendToFile {  % filename string -> -
+  2 dict begin
+    /str exch def
+    /fname exch def
+
+    fname (a) file
+    dup str writestring
+    closefile
+  end
+} def
+
+% Usage
+(log.txt) (New log entry\n) appendToFile
+----
+
+=== Binary File Operations
+
+==== Writing Binary Data
+
+[source,postscript]
+----
+/writeBinary {  % filename data -> -
+  2 dict begin
+    /data exch def
+    /fname exch def
+
+    fname (w) file /f exch def
+
+    data {
+      f exch write
+    } forall
+
+    f closefile
+  end
+} def
+
+% Usage
+(binary.dat) [0 255 128 64 32] writeBinary
+----
+
+==== Reading Binary Data
+
+[source,postscript]
+----
+/readBinary {  % filename size -> array
+  2 dict begin
+    /size exch def
+    /fname exch def
+
+    fname (r) file /f exch def
+    size string /buffer exch def
+
+    f buffer readstring pop
+    f closefile
+
+    [
+      0 1 buffer length 1 sub {
+        buffer exch get
+      } for
+    ]
+  end
+} def
+
+% Usage
+(binary.dat) 100 readBinary
+----
+
+=== Practical Examples
+
+==== Example 1: Log File Writer
+
+[source,postscript]
+----
+/Logger {
+  10 dict begin
+    /logFile null def
+    /filename exch def
+
+    /open {
+      filename (a) file /logFile exch def
+    } def
+
+    /close {
+      logFile null ne {
+        logFile closefile
+        /logFile null def
+      } if
+    } def
+
+    /log {  % message level -> -
+      2 dict begin
+        /level exch def
+        /msg exch def
+
+        logFile null eq { open } if
+
+        % Format: [timestamp] LEVEL: message
+        logFile ([) writestring
+        logFile realtime =string cvs writestring
+        logFile (] ) writestring
+        logFile level writestring
+        logFile (: ) writestring
+        logFile msg writestring
+        logFile (\n) writestring
+      end
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+(app.log) Logger /logger exch def
+logger /log (Application started) (INFO) exec
+logger /log (Processing data) (DEBUG) exec
+logger /log (Error occurred) (ERROR) exec
+logger /close exec
+----
+
+==== Example 2: Data Exporter
+
+[source,postscript]
+----
+/DataExporter {
+  10 dict begin
+    /data exch def
+    /filename exch def
+
+    /exportCSV {
+      filename (w) file /f exch def
+
+      % Write header
+      f (X,Y,Value\n) writestring
+
+      % Write data
+      data {
+        aload pop
+        f exch =string cvs writestring
+        f (,) writestring
+        f exch =string cvs writestring
+        f (,) writestring
+        f exch =string cvs writestring
+        f (\n) writestring
+      } forall
+
+      f closefile
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+[
+  [10 20 100]
+  [30 40 200]
+  [50 60 300]
+] (data.csv) DataExporter /exporter exch def
+exporter /exportCSV exec
+----
+
+==== Example 3: Template Processor
+
+[source,postscript]
+----
+/processTemplate {  % templateFile dataDict outputFile -> -
+  3 dict begin
+    /outFile exch def
+    /data exch def
+    /tmplFile exch def
+
+    tmplFile (r) file /inF exch def
+    outFile (w) file /outF exch def
+    256 string /line exch def
+
+    {
+      inF line readline not { exit } if
+
+      % Replace {{key}} with value
+      {
+        ({{) search not { exit } if
+
+        % Write before match
+        outF exch writestring
+        pop  % Discard {{
+
+        (}}) search {
+          % Found closing }}
+          /key exch def
+          pop  % Discard }}
+
+          % Write replacement
+          data key known {
+            outF data key get writestring
+          } {
+            outF ({{) writestring
+            outF key writestring
+            outF (}}) writestring
+          } ifelse
+        } {
+          % No closing }}
+          outF ({{) writestring
+        } ifelse
+      } loop
+
+      % Write rest of line
+      outF exch writestring
+      outF (\n) writestring
+    } loop
+
+    inF closefile
+    outF closefile
+  end
+} def
+
+% Usage
+<<
+  /name (John Doe)
+  /email (john@example.com)
+>> (template.txt) (output.txt) processTemplate
+----
+
+==== Example 4: Batch File Processor
+
+[source,postscript]
+----
+/processBatch {  % directory pattern processor -> -
+  3 dict begin
+    /proc exch def
+    /pattern exch def
+    /dir exch def
+
+    % List files matching pattern
+    % (simplified - actual file listing is system-dependent)
+    [
+      (file1.txt)
+      (file2.txt)
+      (file3.txt)
+    ] {
+      /filename exch def
+
+      % Process each file
+      dir filename concatstrings proc exec
+    } forall
+  end
+} def
+
+% Usage
+(data/) (*.txt) {
+  dup print ( processed) print (\n) print
+  % Process file here
+} processBatch
+----
+
+=== Error Handling
+
+==== Safe File Operations
+
+[source,postscript]
+----
+/safeFileOpen {  % filename mode -> file true | false
+  2 copy
+  {
+    file
+    true
+  } stopped {
+    pop pop pop
+    false
+  } ifelse
+} def
+
+% Usage
+(myfile.txt) (r) safeFileOpen {
+  /f exch def
+  % Use file
+  f closefile
+} {
+  (Could not open file) print
+} ifelse
+----
+
+==== File Operation with Cleanup
+
+[source,postscript]
+----
+/withFile {  % filename mode proc -> -
+  3 dict begin
+    /proc exch def
+    /mode exch def
+    /fname exch def
+
+    fname mode file /f exch def
+
+    {
+      f proc exec
+    } stopped {
+      % Ensure file is closed on error
+      f closefile
+      (File operation failed) print
+    } {
+      f closefile
+    } ifelse
+  end
+} def
+
+% Usage
+(data.txt) (r) {
+  256 string readline {
+    print
+  } if
+} withFile
+----
+
+=== Performance Tips
+
+==== Buffer Size
+
+[source,postscript]
+----
+% Good: appropriate buffer
+4096 string /buffer exch def
+file buffer readstring
+
+% Bad: tiny buffer (many reads)
+10 string /buffer exch def
+file buffer readstring
+----
+
+==== Batch Writes
+
+[source,postscript]
+----
+% Good: batch writes
+file (Line 1\n) (Line 2\n) (Line 3\n)
+concatstrings exch concatstrings
+writestring
+
+% Less efficient: many small writes
+file (Line 1\n) writestring
+file (Line 2\n) writestring
+file (Line 3\n) writestring
+----
+
+==== Close Files Promptly
+
+[source,postscript]
+----
+% Good: close when done
+file dup ... closefile
+
+% Bad: keep open unnecessarily
+file /f exch def
+% ... long time
+f closefile
+----
+
+=== Best Practices
+
+==== Always Close Files
+
+[source,postscript]
+----
+% Good: guaranteed close
+(file.txt) (r) file
+dup
+% ... use file
+closefile
+
+% Better: with error handling
+{
+  (file.txt) (r) file
+  dup
+  % ... use file
+  closefile
+} stopped {
+  pop
+  (Error) print
+} if
+----
+
+==== Check File Operations
+
+[source,postscript]
+----
+% Good: check results
+file string readline {
+  % Success
+} {
+  % EOF or error
+} ifelse
+
+% Bad: assume success
+file string readline pop
+% May fail silently
+----
+
+==== Use Appropriate Access Modes
+
+[source,postscript]
+----
+% Good: correct mode
+(input.txt) (r) file   % Read-only
+(output.txt) (w) file  % Write-only
+(data.txt) (r+) file   % Read-write
+
+% Bad: wrong mode
+(input.txt) (w) file   % Truncates!
+(output.txt) (r) file  % Can't write
+----
+
+=== Common Pitfalls
+
+==== Not Closing Files
+
+[source,postscript]
+----
+% Wrong: file leak
+(file.txt) (r) file
+% ... forget to close
+
+% Correct
+(file.txt) (r) file
+dup
+% ... use file
+closefile
+----
+
+==== Wrong String Size
+
+[source,postscript]
+----
+% Wrong: buffer too small
+file 10 string readline  % May truncate
+
+% Correct: adequate buffer
+file 256 string readline
+----
+
+==== Forgetting EOF Check
+
+[source,postscript]
+----
+% Wrong: assumes data available
+file string readline pop
+% May fail at EOF
+
+% Correct: check EOF
+file string readline {
+  % Got data
+} {
+  % EOF
+} ifelse
+----
+
+=== See Also
+
+* xref:error-handling.adoc[Error Handling] - File operation errors
+* xref:resource-management.adoc[Resource Management] - Managing file resources
+* xref:../basic/procedures.adoc[Procedures] - File processing procedures
+* xref:../../commands/index.adoc[Command Reference] - File operators

@@ -1,0 +1,418 @@
+---
+layout: default
+title: stroke
+parent: Painting
+grand_parent: Command Reference
+nav_order: 5
+---
+
+== stroke
+
+Paints a line following the current path using current line parameters.
+
+=== Syntax
+
+----
+- stroke → -
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No operands required
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No results
+|===
+
+=== Description
+
+[`stroke`](stroke.adoc) paints a line following the current path using the current color. This line is centered on the path, has sides parallel to the path segments, and has a width (thickness) given by the current line width parameter in the graphics state.
+
+[`stroke`](stroke.adoc) paints the joints between connected path segments with the current line join and the ends of open subpaths with the current line cap. The line is either solid or broken according to the dash pattern established by xref:../graphics-state/setdash.adoc[`setdash`].
+
+The parameters in the graphics state controlling line rendition (line width, line join, line cap, dash pattern, etc.) are consulted at the time [`stroke`](stroke.adoc) is executed. Their values during path construction are irrelevant.
+
+[`stroke`](stroke.adoc) implicitly performs a xref:../path-construction/newpath.adoc[`newpath`] after it has finished painting the current path.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Simple line stroke
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+stroke
+----
+
+.Rectangle with thick stroke
+[source,postscript]
+----
+5 setlinewidth        % 5-point line width
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath
+stroke
+----
+
+.Dashed line
+[source,postscript]
+----
+[5 3] 0 setdash      % 5 on, 3 off
+newpath
+50 150 moveto
+250 150 lineto
+stroke
+----
+
+=== Common Use Cases
+
+==== Different Line Caps
+
+[source,postscript]
+----
+1 setlinewidth
+
+% Butt cap (0)
+0 setlinecap
+newpath
+50 200 moveto
+150 200 lineto
+stroke
+
+% Round cap (1)
+1 setlinecap
+newpath
+50 150 moveto
+150 150 lineto
+stroke
+
+% Projecting square cap (2)
+2 setlinecap
+newpath
+50 100 moveto
+150 100 lineto
+stroke
+----
+
+==== Different Line Joins
+
+[source,postscript]
+----
+10 setlinewidth
+
+% Miter join (0)
+0 setlinejoin
+newpath
+50 200 moveto
+100 250 lineto
+150 200 lineto
+stroke
+
+% Round join (1)
+1 setlinejoin
+newpath
+50 150 moveto
+100 200 lineto
+150 150 lineto
+stroke
+
+% Bevel join (2)
+2 setlinejoin
+newpath
+50 100 moveto
+100 150 lineto
+150 100 lineto
+stroke
+----
+
+==== Complex Path Stroking
+
+[source,postscript]
+----
+/drawStar {
+  % x y radius drawStar
+  /r exch def
+  /y exch def
+  /x exch def
+
+  newpath
+  x y r add moveto
+  0 1 4 {
+    144 mul rotate
+    x y r add lineto
+  } for
+  closepath
+
+  2 setlinewidth
+  stroke
+} def
+
+150 150 75 drawStar
+----
+
+=== Common Pitfalls
+
+WARNING: *Path Consumed After Stroke* - [`stroke`](stroke.adoc) clears the current path. Use xref:../graphics-state/gsave.adoc[`gsave`]/xref:../graphics-state/grestore.adoc[`grestore`] to preserve it.
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+stroke
+% Current path is now empty!
+
+% To preserve path:
+newpath
+100 100 moveto
+200 200 lineto
+gsave
+  stroke
+grestore
+% Path still exists
+----
+
+WARNING: *Degenerate Subpaths* - Single points or coincident points produce different results based on line cap.
+
+[source,postscript]
+----
+% Round line cap - produces filled circle
+1 setlinecap
+10 setlinewidth
+newpath
+150 150 moveto
+closepath
+stroke  % Draws a dot
+
+% Butt cap - no output
+0 setlinecap
+newpath
+150 150 moveto
+closepath
+stroke  % Nothing drawn
+----
+
+WARNING: *Line Width in User Space* - Line width is affected by the CTM, which may cause non-uniform line widths.
+
+[source,postscript]
+----
+1 setlinewidth
+2 1 scale  % Scale x by 2, y by 1
+
+newpath
+100 100 moveto
+200 100 lineto
+stroke  % Line appears 2 points wide horizontally, 1 point vertically
+----
+
+TIP: *Use Stroke Adjustment* - Enable automatic stroke adjustment for uniform line appearance:
+
+[source,postscript]
+----
+true setstrokeadjust  % Level 2
+1 setlinewidth
+newpath
+100 100 moveto
+200 200 lineto
+stroke
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`limitcheck`]
+| Path becomes too complex for implementation
+|===
+
+=== Implementation Notes
+
+* Line width of 0 is interpreted as thinnest line possible (typically 1 device pixel)
+* Very thin lines may not be visible on high-resolution devices
+* Degenerate subpaths (single points, closed paths) are handled specially based on line cap
+* Curved segments are automatically flattened according to the flatness parameter
+* Automatic stroke adjustment can ensure uniform line widths
+
+=== Graphics State Parameters
+
+[`stroke`](stroke.adoc) is affected by:
+
+* **Line width** - Set by xref:../graphics-state/setlinewidth.adoc[`setlinewidth`]
+* **Line cap** - Set by xref:../graphics-state/setlinecap.adoc[`setlinecap`] (0=butt, 1=round, 2=square)
+* **Line join** - Set by xref:../graphics-state/setlinejoin.adoc[`setlinejoin`] (0=miter, 1=round, 2=bevel)
+* **Miter limit** - Set by xref:../graphics-state/setmiterlimit.adoc[`setmiterlimit`]
+* **Dash pattern** - Set by xref:../graphics-state/setdash.adoc[`setdash`]
+* **Stroke adjustment** - Set by `setstrokeadjust` (Level 2)
+* **Current color** - Set by color operators
+* **Current transformation matrix (CTM)** - Affects line width and dash pattern
+* **Clipping path** - Clips the stroked output
+* **Flatness** - Affects curve rendering
+
+=== Line Cap Styles
+
+.Butt cap (0)
+* Stroke squared off at endpoint
+* No projection beyond end of path
+* Default setting
+
+.Round cap (1)
+* Semicircular arc at endpoint
+* Diameter equals line width
+* Extends beyond endpoint by half line width
+
+.Projecting square cap (2)
+* Square projection at endpoint
+* Extends beyond endpoint by half line width
+* Projects perpendicular to path direction
+
+=== Line Join Styles
+
+.Miter join (0)
+* Outer edges extended until they meet
+* Creates sharp corners
+* Subject to miter limit
+* Default setting
+
+.Round join (1)
+* Circular arc at corner
+* Diameter equals line width
+* Smooth corners
+
+.Bevel join (2)
+* Corner cut off at angle
+* Butt caps on segments, triangle fills notch
+* No sharp points
+
+=== Best Practices
+
+==== Set Line Parameters Before Stroking
+
+[source,postscript]
+----
+% Set all line parameters first
+2 setlinewidth
+1 setlinecap
+1 setlinejoin
+10 setmiterlimit
+[5 3] 0 setdash
+
+% Then construct and stroke path
+newpath
+100 100 moveto
+200 200 lineto
+stroke
+----
+
+==== Preserve Path for Multiple Operations
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath
+
+% Fill then stroke
+gsave
+  0.8 setgray
+  fill
+grestore
+
+0 setgray
+2 setlinewidth
+stroke
+----
+
+==== Use Appropriate Line Joins for Sharp Angles
+
+[source,postscript]
+----
+% For sharp angles, use miter join with appropriate limit
+0 setlinejoin        % Miter join
+10 setmiterlimit     % Reasonable limit
+
+% For any angle, round join works well
+1 setlinejoin        % Round join
+
+% For performance, bevel join is fastest
+2 setlinejoin        % Bevel join
+----
+
+==== Reset Dash Pattern After Use
+
+[source,postscript]
+----
+% Use dashed line
+[5 3] 0 setdash
+newpath
+100 100 moveto
+200 200 lineto
+stroke
+
+% Reset to solid
+[] 0 setdash
+----
+
+=== Performance Considerations
+
+* Simple straight lines stroke faster than curves
+* Dashed lines are slower than solid lines
+* Round joins are slower than miter or bevel joins
+* Very wide lines are slower to stroke
+* Complex paths with many segments take longer
+* Stroke adjustment may impact performance slightly
+
+=== Stroking vs Filling
+
+.Stroking characteristics
+* Paints along the path
+* Width determined by line width
+* Affected by line parameters
+* Can create open shapes
+* Path is consumed after operation
+
+.Filling characteristics
+* Paints inside the path
+* No concept of line width
+* Not affected by line parameters
+* Always creates closed shapes
+* Path is consumed after operation
+
+=== See Also
+
+* xref:fill.adoc[`fill`] - Fill path interior
+* xref:strokepath.adoc[`strokepath`] - Convert stroke to outline path
+* xref:ustroke.adoc[`ustroke`] - Stroke user path (Level 2)
+* xref:../graphics-state/setlinewidth.adoc[`setlinewidth`] - Set line width
+* xref:../graphics-state/setlinecap.adoc[`setlinecap`] - Set line cap style
+* xref:../graphics-state/setlinejoin.adoc[`setlinejoin`] - Set line join style
+* xref:../graphics-state/setmiterlimit.adoc[`setmiterlimit`] - Set miter limit
+* xref:../graphics-state/setdash.adoc[`setdash`] - Set dash pattern
+* `setstrokeadjust` - Enable stroke adjustment (Level 2)
+* xref:../path-construction/newpath.adoc[`newpath`] - Clear current path
+* xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
+* xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

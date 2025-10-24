@@ -49,3 +49,6 @@ Desktop.ini
 # Temporary files
 *.tmp
 *.bak
+
+# Cache
+.lycheecache

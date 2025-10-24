@@ -1,0 +1,193 @@
+---
+layout: default
+title: anchorsearch
+parent: Array and String Operations
+grand_parent: Command Reference
+nav_order: 14
+---
+
+== anchorsearch
+
+Tests whether a string begins with a specified prefix.
+
+=== Syntax
+
+----
+string seek anchorsearch → post match true (if found)
+                          → string false (if not found)
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `string` (string to search in)
+
+| 0
+| `seek` (prefix to search for)
+|===
+
+.After (if match found)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 2
+| `true`
+
+| 1
+| `match` (matching prefix portion)
+
+| 0
+| `post` (remainder after prefix)
+|===
+
+.After (if not found)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `false`
+
+| 0
+| `string` (original, unchanged)
+|===
+
+=== Description
+
+[`anchorsearch`](anchorsearch.adoc) determines if _string_ begins with _seek_ (i.e., _string_ is at least as long as _seek_ and the initial characters match exactly).
+
+If it matches:
+* Splits _string_ into _match_ (the matching prefix) and _post_ (the remainder)
+* Pushes _post_, _match_, and `true`
+
+If not:
+* Pushes the original _string_ and `false`
+
+The match is case-sensitive and must occur at the start of _string_.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Successful prefix match
+[source,postscript]
+----
+(abbc) (ab) anchorsearch
+% Result: (bc) (ab) true
+----
+
+.No match - wrong position
+[source,postscript]
+----
+(abbc) (bb) anchorsearch
+% Result: (abbc) false
+% 'bb' exists but not at start
+----
+
+.No match - not present
+[source,postscript]
+----
+(abbc) (xyz) anchorsearch
+% Result: (abbc) false
+----
+
+.Case sensitivity
+[source,postscript]
+----
+(Hello) (he) anchorsearch
+% Result: (Hello) false  ('he' != 'He')
+----
+
+=== Common Use Cases
+
+==== Protocol Detection
+
+[source,postscript]
+----
+url (http://) anchorsearch {
+  pop  % post (rest of URL)
+  % Handle HTTP URL
+} {
+  pop  % original string
+  % Try other protocols
+} ifelse
+----
+
+==== Comment Stripping
+
+[source,postscript]
+----
+line (%) anchorsearch {
+  pop pop  % Discard comment
+} {
+  % Process line
+} ifelse
+----
+
+==== File Extension Detection
+
+[source,postscript]
+----
+filename (.ps) anchorsearch {
+  % PostScript file
+} {
+  % Other file type
+} ifelse
+----
+
+=== Common Pitfalls
+
+WARNING: *Must Match At Start* - [`anchorsearch`](anchorsearch.adoc) only finds prefixes, not substrings anywhere in the string.
+
+[source,postscript]
+----
+(hello) (ll) anchorsearch  % false - not at start
+----
+
+WARNING: *Case Sensitive* - Matching is exact, including case.
+
+[source,postscript]
+----
+(PostScript) (post) anchorsearch  % false
+----
+
+TIP: *Use search for Anywhere* - For substring search anywhere in string, use xref:search.adoc[`search`] instead.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| String has no-access attribute
+
+| [`stackoverflow`]
+| Not enough room on stack for results
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| Either operand is not a string
+|===
+
+=== Implementation Notes
+
+* Very efficient - stops checking after first mismatch
+* Returns substring objects that share the original string value
+* Empty _seek_ string always matches (returns entire string as _post_, empty _match_)
+
+=== See Also
+
+* xref:search.adoc[`search`] - Search for substring anywhere
+* xref:token.adoc[`token`] - Parse token from string
+* xref:getinterval.adoc[`getinterval`] - Extract substring

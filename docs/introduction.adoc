@@ -1,0 +1,162 @@
+---
+layout: default
+title: Introduction
+nav_order: 2
+---
+
+== Introduction
+
+Welcome to the PostScript Language Reference Guide - your comprehensive resource for mastering PostScript programming.
+
+== What is PostScript?
+
+PostScript is a stack-based, interpreted programming language created by Adobe Systems in 1984. It revolutionized desktop publishing by providing a device-independent way to describe pages for printing and display.
+
+=== Key Characteristics
+
+**Stack-Based Execution**
+
+PostScript uses a last-in, first-out (LIFO) stack for all operations:
+
+[source,postscript]
+----
+3 4 add    % Push 3, push 4, add them → 7
+5 mul      % Multiply by 5 → 35
+----
+
+**Concatenative Language**
+
+Operations are composed by concatenation - no explicit function calls or variable assignments needed:
+
+[source,postscript]
+----
+/square { dup mul } def
+5 square   % Result: 25
+----
+
+**Device Independent**
+
+The same PostScript program produces identical output on any PostScript-compatible device, from laser printers to imagesetters.
+
+=== Core Concepts
+
+**The Operand Stack**
+
+Central to PostScript - all data flows through the stack:
+
+[source,postscript]
+----
+10 20      % Stack: 10 20
+add        % Stack: 30
+2 div      % Stack: 15
+----
+
+**Dictionaries**
+
+PostScript's namespaces - mapping names to values:
+
+[source,postscript]
+----
+/x 100 def      % Define x as 100
+/y 200 def      % Define y as 200
+x y add         % Use them: 300
+----
+
+**Procedures**
+
+Reusable code blocks:
+
+[source,postscript]
+----
+/drawBox {
+  0 0 moveto
+  100 0 lineto
+  100 100 lineto
+  0 100 lineto
+  closepath
+} def
+----
+
+**Graphics Model**
+
+Powerful vector graphics based on paths:
+
+[source,postscript]
+----
+newpath
+100 100 moveto    % Start point
+200 150 lineto    % Draw line
+stroke            % Render the path
+----
+
+== Why Learn PostScript?
+
+**Professional Publishing**
+
+* Industry standard for prepress and printing
+* Precise control over typography and layout
+* Support for complex color management
+
+**PDF Foundation**
+
+* PDF is derived from PostScript
+* Understanding PostScript helps with PDF manipulation
+* Many PDF tools use PostScript internally
+
+**Programmatic Graphics**
+
+* Generate graphics algorithmically
+* Create custom visual effects
+* Automate document production
+
+**Legacy Systems**
+
+* Many existing systems use PostScript
+* Understanding enables maintenance and updates
+* Integration with modern workflows
+
+== Getting Started
+
+=== Your First Program
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+/Helvetica findfont 12 scalefont setfont
+100 700 moveto
+(Hello, PostScript!) show
+showpage
+----
+
+=== Learning Path
+
+1. **Start with basics** - xref:commands/stack-manipulation/index.adoc[Stack Operations]
+2. **Learn arithmetic** - xref:commands/arithmetic-math/index.adoc[Math Commands]
+3. **Understand data** - xref:commands/array-string/index.adoc[Arrays and Strings]
+4. **Master dictionaries** - xref:commands/dictionary/index.adoc[Dictionary Operations]
+5. **Control flow** - xref:commands/control-flow/index.adoc[Conditionals and Loops]
+6. **Graphics** - xref:commands/graphics-state/index.adoc[Graphics State] and Path Construction
+
+== About This Guide
+
+This reference provides:
+
+* **Complete operator reference** - All PostScript commands documented
+* **Practical examples** - Real-world code samples
+* **Common pitfalls** - Warnings about gotchas
+* **Performance tips** - Optimization guidance
+* **Level indicators** - Which version introduced each feature
+
+=== Navigation
+
+* **By Category** - Browse commands by functional area
+* **Alphabetically** - Find commands by name
+* **By Level** - See what each PostScript version offers
+* **Examples** - Learn from working code
+
+== See Also
+
+* xref:levels/index.adoc[PostScript Levels] - Version history and features
+* xref:commands/index.adoc[Command Reference] - Complete operator reference
+* xref:syntax/index.adoc[Language Syntax] - Grammar and structure
+* xref:examples/index.adoc[Examples] - Practical code samples

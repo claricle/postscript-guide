@@ -1,0 +1,1124 @@
+---
+layout: default
+title: Procedures
+parent: Basic Usage
+grand_parent: Usage Guides
+nav_order: 10
+---
+
+== Procedures
+
+Procedures are executable arrays that form the foundation of PostScript programming. They enable code reuse, abstraction, and modular program design.
+
+=== Overview
+
+A procedure in PostScript is:
+
+* An executable array of PostScript objects
+* Invoked with the `exec` operator (or automatically in certain contexts)
+* A first-class object that can be stored, passed, and manipulated
+* The basis for functions, control structures, and program organization
+
+Procedures are essential for:
+
+* Defining reusable operations
+* Creating custom operators
+* Implementing control flow
+* Building libraries and frameworks
+
+=== Creating Procedures
+
+==== Basic Procedure Definition
+
+Using curly braces creates an executable array:
+
+[source,postscript]
+----
+% Define and execute immediately
+{ 5 10 add = } exec
+% Prints: 15
+
+% Store for later use
+/addFive { 5 add } def
+10 addFive =
+% Prints: 15
+----
+
+==== The `def` Operator
+
+Binds a name to a procedure in the current dictionary:
+
+[source,postscript]
+----
+% Define procedure
+/square {
+  dup mul
+} def
+
+% Use it
+5 square =  % Prints: 25
+----
+
+With parameters (documented via comments):
+
+[source,postscript]
+----
+% Add two numbers
+/add2 {  % a b -> sum
+  add
+} def
+
+% Multiply three numbers
+/mul3 {  % a b c -> product
+  mul mul
+} def
+
+3 4 add2 =      % 7
+2 3 4 mul3 =    % 24
+----
+
+==== The `bind` Operator
+
+Replaces operator names with their values for efficiency:
+
+[source,postscript]
+----
+% Without bind (slower)
+/square1 { dup mul } def
+
+% With bind (faster)
+/square2 { dup mul } bind def
+
+% bind replaces 'dup' and 'mul' with their operator objects
+----
+
+When to use `bind`:
+
+* Performance-critical procedures
+* Procedures called frequently
+* Library procedures
+
+When not to use `bind`:
+
+* Procedures that need dynamic operator lookup
+* Development/debugging (harder to trace)
+
+==== Literal vs. Executable Arrays
+
+[source,postscript]
+----
+% Executable (procedure)
+/proc1 { 1 2 add } def
+proc1 =  % Executes, prints: 3
+
+% Literal array
+/arr1 [ 1 2 add ] def
+arr1 =  % Prints: [1 2 add] (not executed)
+
+% Convert literal to executable
+/arr2 [1 2 add] cvx def
+arr2 =  % Executes, prints: 3
+----
+
+=== Procedure Parameters
+
+==== Stack-Based Parameters
+
+Procedures receive parameters via the operand stack:
+
+[source,postscript]
+----
+% Simple parameter
+/double {  % n -> 2n
+  2 mul
+} def
+
+5 double =  % 10
+
+% Multiple parameters
+/distance {  % x1 y1 x2 y2 -> distance
+  % d = sqrt((x2-x1)² + (y2-y1)²)
+  3 index sub    % dy = y2 - y1
+  3 1 roll       % Reorder stack
+  sub            % dx = x2 - x1
+  dup mul        % dx²
+  exch dup mul   % dy²
+  add sqrt       % sqrt(dx² + dy²)
+} def
+
+0 0 3 4 distance =  % 5.0
+----
+
+==== Named Parameters Using Dictionaries
+
+[source,postscript]
+----
+% Create local scope for parameters
+/rectangle {  % x y width height -> -
+  4 dict begin
+    /height exch def
+    /width exch def
+    /y exch def
+    /x exch def
+
+    newpath
+    x y moveto
+    width 0 rlineto
+    0 height rlineto
+    width neg 0 rlineto
+    closepath
+  end
+} def
+
+% Usage
+100 100 200 150 rectangle
+stroke
+----
+
+==== Optional Parameters
+
+[source,postscript]
+----
+% Procedure with default value
+/drawCircle {  % x y radius [color] -> -
+  % Check stack depth for optional color
+  count 3 gt {
+    % Color provided
+    4 dict begin
+      aload pop setrgbcolor
+      /r exch def
+      /y exch def
+      /x exch def
+    end
+  } {
+    % No color, use default
+    3 dict begin
+      /r exch def
+      /y exch def
+      /x exch def
+      0 setgray
+    end
+  } ifelse
+
+  newpath
+  x y r 0 360 arc
+  fill
+} def
+
+% Usage
+100 100 50 drawCircle              % Black circle
+200 200 50 [1 0 0] drawCircle      % Red circle
+----
+
+==== Variable Arguments
+
+[source,postscript]
+----
+% Sum any number of arguments
+/sum {  % n args... -> sum
+  1 dict begin
+    /n exch def
+    /total 0 def
+
+    n {
+      total add /total exch def
+    } repeat
+
+    total
+  end
+} def
+
+% Usage
+3 10 20 30 sum =      % 60
+5 1 2 3 4 5 sum =     % 15
+----
+
+=== Return Values
+
+==== Returning Single Values
+
+[source,postscript]
+----
+% Return value left on stack
+/square {  % n -> n²
+  dup mul
+} def
+
+5 square =  % 25
+----
+
+==== Returning Multiple Values
+
+[source,postscript]
+----
+% Return width and height
+/getSize {  % -> width height
+  612 792
+} def
+
+getSize  % Stack: 612 792
+exch =   % Prints: 792
+=        % Prints: 612
+----
+
+==== Returning Composite Objects
+
+[source,postscript]
+----
+% Return array
+/makePoint {  % x y -> [x y]
+  2 array astore
+} def
+
+100 200 makePoint
+% Returns [100 200]
+
+% Return dictionary
+/makePerson {  % name age -> person
+  2 dict begin
+    /age exch def
+    /name exch def
+    currentdict
+  end
+} def
+
+(John) 30 makePerson
+% Returns person dictionary
+----
+
+=== Control Flow in Procedures
+
+==== Conditional Execution
+
+[source,postscript]
+----
+% if/ifelse in procedures
+/abs {  % n -> |n|
+  dup 0 lt {
+    neg
+  } if
+} def
+
+-5 abs =  % 5
+
+/max {  % a b -> max(a,b)
+  2 copy gt {
+    exch
+  } if
+  pop
+} def
+
+3 7 max =  % 7
+----
+
+==== Loops
+
+[source,postscript]
+----
+% for loop in procedure
+/factorial {  % n -> n!
+  1 dict begin
+    /n exch def
+    /result 1 def
+
+    1 1 n {
+      result mul /result exch def
+    } for
+
+    result
+  end
+} def
+
+5 factorial =  % 120
+
+% repeat loop
+/stars {  % count -> -
+  {
+    (*) print
+  } repeat
+  () print
+} def
+
+10 stars  % Prints: **********
+----
+
+==== Early Return
+
+[source,postscript]
+----
+% Use stop/stopped for early return
+/findFirst {  % array value -> index/-1
+  2 dict begin
+    /value exch def
+    /arr exch def
+    /result -1 def
+
+    {
+      0 1 arr length 1 sub {
+        /i exch def
+        arr i get value eq {
+          /result i def
+          stop  % Early exit
+        } if
+      } for
+    } stopped pop
+
+    result
+  end
+} def
+
+[10 20 30 40] 30 findFirst =  % 2
+[10 20 30 40] 99 findFirst =  % -1
+----
+
+=== Procedure Patterns
+
+==== Pattern 1: Factory Pattern
+
+[source,postscript]
+----
+% Create configured procedures
+/makeAdder {  % n -> procedure
+  1 dict begin
+    /addend exch def
+
+    { addend add } bind
+  end
+} def
+
+% Create specialized procedures
+/add5 5 makeAdder def
+/add10 10 makeAdder def
+
+3 add5 =   % 8
+3 add10 =  % 13
+----
+
+==== Pattern 2: Closure Pattern
+
+[source,postscript]
+----
+% Procedure with enclosed state
+/makeCounter {  % -> counter
+  5 dict begin
+    /count 0 def
+
+    % Return object with methods
+    <<
+      /increment {
+        /count count 1 add def
+      } bind
+      /decrement {
+        /count count 1 sub def
+      } bind
+      /getValue {
+        count
+      } bind
+      /reset {  % newValue -> -
+        /count exch def
+      } bind
+    >>
+  end
+} def
+
+% Usage
+makeCounter /counter exch def
+counter /increment get exec
+counter /increment get exec
+counter /getValue get exec =  % 2
+----
+
+==== Pattern 3: Callback Pattern
+
+[source,postscript]
+----
+% Execute callback for each element
+/forEach {  % array callback -> -
+  exch {
+    1 index exec
+  } forall
+  pop
+} def
+
+% Usage
+[1 2 3 4 5] {
+  dup mul =
+} forEach
+% Prints: 1, 4, 9, 16, 25
+----
+
+==== Pattern 4: Pipeline Pattern
+
+[source,postscript]
+----
+% Chain procedures together
+/compose {  % proc1 proc2 -> composedProc
+  [
+    3 -1 roll exec
+    3 -1 roll exec
+  ] cvx
+} def
+
+% Create pipeline
+/double { 2 mul } def
+/addTen { 10 add } def
+/doubleAndAdd double addTen compose def
+
+5 doubleAndAdd =  % 20 (5*2 + 10)
+----
+
+==== Pattern 5: Memoization Pattern
+
+[source,postscript]
+----
+% Cache procedure results
+/memoize {  % procedure -> memoizedProcedure
+  1 dict begin
+    /proc exch def
+    /cache 100 dict def
+
+    {
+      dup cache exch known {
+        cache exch get
+      } {
+        dup cache exch
+        2 index proc exec
+        dup 4 1 roll put
+      } ifelse
+    } bind
+  end
+} def
+
+% Memoized fibonacci
+/fib {
+  dup 2 lt {
+  } {
+    dup 1 sub fib
+    exch 2 sub fib
+    add
+  } ifelse
+} def
+
+/fastFib fib memoize def
+
+10 fastFib =  % Much faster on repeated calls
+----
+
+=== Recursion
+
+==== Simple Recursion
+
+[source,postscript]
+----
+% Factorial using recursion
+/factorial {  % n -> n!
+  dup 1 le {
+    pop 1
+  } {
+    dup 1 sub factorial mul
+  } ifelse
+} def
+
+5 factorial =  % 120
+----
+
+==== Tail Recursion
+
+[source,postscript]
+----
+% Tail-recursive factorial
+/factorialTail {  % n accumulator -> n!
+  exch dup 1 le {
+    pop
+  } {
+    dup 1 sub
+    3 -1 roll mul
+    factorialTail
+  } ifelse
+} def
+
+/factorial {  % n -> n!
+  1 factorialTail
+} def
+
+5 factorial =  % 120
+----
+
+==== Tree Traversal
+
+[source,postscript]
+----
+% Recursive tree traversal
+/traverse {  % node procedure -> -
+  exch dup null eq {
+    pop pop
+  } {
+    dup /value get 2 index exec
+    dup /left get 2 index traverse
+    exch /right get exch traverse
+  } ifelse
+} def
+
+% Create tree node
+/node {  % value left right -> node
+  <<
+    /right 3 -1 roll
+    /left 3 -1 roll
+    /value 3 -1 roll
+  >>
+} def
+
+% Build tree
+5 null null node /leaf1 exch def
+15 null null node /leaf2 exch def
+10 leaf1 leaf2 node /root exch def
+
+% Traverse and print
+root { = } traverse
+----
+
+=== Higher-Order Procedures
+
+==== Map Function
+
+[source,postscript]
+----
+/map {  % array procedure -> mappedArray
+  2 dict begin
+    /proc exch def
+    /arr exch def
+
+    [
+      arr {
+        proc exec
+      } forall
+    ]
+  end
+} def
+
+% Usage
+[1 2 3 4 5] { dup mul } map
+% Returns [1 4 9 16 25]
+----
+
+==== Filter Function
+
+[source,postscript]
+----
+/filter {  % array predicate -> filteredArray
+  2 dict begin
+    /pred exch def
+    /arr exch def
+
+    [
+      arr {
+        dup pred exec {
+        } {
+          pop
+        } ifelse
+      } forall
+    ]
+  end
+} def
+
+% Usage - filter even numbers
+[1 2 3 4 5 6] { 2 mod 0 eq } filter
+% Returns [2 4 6]
+----
+
+==== Reduce Function
+
+[source,postscript]
+----
+/reduce {  % array initial procedure -> result
+  3 dict begin
+    /proc exch def
+    /acc exch def
+    /arr exch def
+
+    arr {
+      acc exch proc exec
+      /acc exch def
+    } forall
+
+    acc
+  end
+} def
+
+% Usage - sum
+[1 2 3 4 5] 0 { add } reduce
+% Returns 15
+
+% Product
+[1 2 3 4 5] 1 { mul } reduce
+% Returns 120
+----
+
+==== Sort Function
+
+[source,postscript]
+----
+/sort {  % array comparator -> sortedArray
+  2 dict begin
+    /comp exch def
+    /arr exch def
+
+    % Bubble sort
+    0 1 arr length 2 sub {
+      /i exch def
+      0 1 arr length 2 sub i sub {
+        /j exch def
+
+        arr j get arr j 1 add get comp exec {
+          % Swap
+          /temp arr j get def
+          arr j arr j 1 add get put
+          arr j 1 add temp put
+        } if
+      } for
+    } for
+
+    arr
+  end
+} def
+
+% Usage - ascending order
+[5 2 8 1 9] { gt } sort
+% Returns [1 2 5 8 9]
+
+% Descending order
+[5 2 8 1 9] { lt } sort
+% Returns [9 8 5 2 1]
+----
+
+=== Procedure Composition
+
+==== Function Composition
+
+[source,postscript]
+----
+% Compose two functions
+/compose {  % f g -> (f ∘ g)
+  2 dict begin
+    /g exch def
+    /f exch def
+
+    {
+      g exec
+      f exec
+    } bind
+  end
+} def
+
+% Example
+/inc { 1 add } def
+/double { 2 mul } def
+/incAndDouble inc double compose def
+
+5 incAndDouble =  % 12 ((5+1)*2)
+----
+
+==== Pipeline Builder
+
+[source,postscript]
+----
+% Build processing pipeline
+/pipeline {  % [proc1 proc2 ... procN] -> composedProc
+  1 dict begin
+    /procs exch def
+
+    {
+      procs {
+        exec
+      } forall
+    } bind
+  end
+} def
+
+% Usage
+[
+  { 2 mul }      % Double
+  { 10 add }     % Add 10
+  { dup mul }    % Square
+] pipeline /process exch def
+
+5 process =  % 400 ((5*2+10)²)
+----
+
+=== Practical Procedure Examples
+
+==== Example 1: Drawing Library
+
+[source,postscript]
+----
+% Reusable drawing procedures
+/drawCircle {  % x y radius -> -
+  0 360 arc stroke
+} def
+
+/fillCircle {  % x y radius -> -
+  0 360 arc fill
+} def
+
+/drawRect {  % x y width height -> -
+  4 dict begin
+    /h exch def /w exch def
+    /y exch def /x exch def
+    newpath
+    x y moveto
+    w 0 rlineto
+    0 h rlineto
+    w neg 0 rlineto
+    closepath
+    stroke
+  end
+} def
+
+/fillRect {  % x y width height -> -
+  4 dict begin
+    /h exch def /w exch def
+    /y exch def /x exch def
+    newpath
+    x y moveto
+    w 0 rlineto
+    0 h rlineto
+    w neg 0 rlineto
+    closepath
+    fill
+  end
+} def
+
+% Usage
+100 100 50 drawCircle
+200 200 100 80 fillRect
+----
+
+==== Example 2: String Utilities
+
+[source,postscript]
+----
+% String manipulation procedures
+/uppercase {  % string -> UPPERCASE
+  dup length string
+  0 1 2 index length 1 sub {
+    2 copy
+    3 index exch get
+    dup 97 ge exch 122 le and {
+      32 sub
+    } if
+    put
+  } for
+  exch pop
+} def
+
+/trim {  % string -> trimmedString
+  % Remove leading/trailing spaces
+  dup
+  % Find first non-space
+  0 exch {
+    dup 32 ne { exit } if
+    pop
+    1 add
+  } forall
+
+  exch dup length 1 sub exch
+  % Find last non-space
+  dup length 1 sub -1 0 {
+    2 copy get 32 ne { exit } if
+    pop
+  } for
+
+  2 index sub 1 add
+  getinterval
+} def
+----
+
+==== Example 3: Math Library
+
+[source,postscript]
+----
+% Mathematical procedures
+/min {  % a b -> min(a,b)
+  2 copy lt { exch } if pop
+} def
+
+/max {  % a b -> max(a,b)
+  2 copy gt { exch } if pop
+} def
+
+/clamp {  % value min max -> clampedValue
+  2 index 2 index lt {
+    3 1 roll pop pop
+  } {
+    2 index 1 index gt {
+      3 -1 roll pop exch pop
+    } {
+      pop pop
+    } ifelse
+  } ifelse
+} def
+
+/lerp {  % a b t -> interpolated
+  3 dict begin
+    /t exch def
+    /b exch def
+    /a exch def
+
+    a 1 t sub mul b t mul add
+  end
+} def
+
+% Usage
+5 10 0.5 lerp =  % 7.5
+----
+
+==== Example 4: Animation Helpers
+
+[source,postscript]
+----
+% Easing functions
+/easeInQuad {  % t -> eased_t
+  dup mul
+} def
+
+/easeOutQuad {  % t -> eased_t
+  dup neg 1 add dup mul neg 1 add
+} def
+
+/easeInOutQuad {  % t -> eased_t
+  dup 2 mul
+  dup 1 lt {
+    dup mul 2 div
+  } {
+    1 sub dup neg 2 mul 1 add mul 2 div neg 1 add
+  } ifelse
+} def
+
+% Animate value
+/animate {  % start end duration easing -> -
+  4 dict begin
+    /easing exch def
+    /duration exch def
+    /endVal exch def
+    /startVal exch def
+
+    0 1 duration {
+      /frame exch def
+      /t frame duration div def
+      /easedT t easing exec def
+      /value startVal endVal startVal sub easedT mul add def
+
+      % Use value here
+      value =
+    } for
+  end
+} def
+
+% Animate from 0 to 100 over 10 frames with ease-in
+0 100 10 { easeInQuad } animate
+----
+
+=== Best Practices
+
+==== Document Procedure Signatures
+
+[source,postscript]
+----
+% Good: documented signature
+/calculateArea {  % width height -> area
+  mul
+} def
+
+% Bad: no documentation
+/calculateArea {
+  mul
+} def
+----
+
+==== Use Descriptive Names
+
+[source,postscript]
+----
+% Good: clear purpose
+/convertInchesToPoints { 72 mul } def
+/drawRoundedRectangle { ... } def
+
+% Bad: unclear
+/cip { 72 mul } def
+/drr { ... } def
+----
+
+==== Keep Procedures Focused
+
+[source,postscript]
+----
+% Good: single responsibility
+/calculateDistance {  % x1 y1 x2 y2 -> distance
+  % ... just calculates distance
+} def
+
+/drawLine {  % x1 y1 x2 y2 -> -
+  % ... just draws line
+} def
+
+% Bad: multiple responsibilities
+/calculateAndDrawLine {
+  % ... calculates AND draws
+} def
+----
+
+==== Use Local Variables
+
+[source,postscript]
+----
+% Good: local scope
+/drawBox {  % x y w h -> -
+  5 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+    % Use x, y, w, h
+  end
+} def
+
+% Bad: complex stack manipulation
+/drawBox {
+  4 2 roll
+  2 copy
+  % ... hard to follow
+} def
+----
+
+==== Bind Performance-Critical Procedures
+
+[source,postscript]
+----
+% Good: bound for performance
+/fastSquare { dup mul } bind def
+
+% OK: not bound for flexibility
+/square { dup mul } def
+----
+
+=== Common Pitfalls
+
+==== Forgetting to Balance Stack
+
+[source,postscript]
+----
+% Wrong: leaves values on stack
+/badProc {
+  10 20
+  add
+  30  % Oops! Extra value
+} def
+
+% Correct: clean stack
+/goodProc {
+  10 20 add
+} def
+----
+
+==== Incorrect Parameter Count
+
+[source,postscript]
+----
+% Wrong: expects 2, gets 1
+/add2 { add } def
+5 add2  % ERROR: stackunderflow
+
+% Correct: check/document parameters
+/add2 {  % a b -> sum
+  add
+} def
+5 10 add2  % OK
+----
+
+==== Modifying Shared State
+
+[source,postscript]
+----
+% Dangerous: global state
+/counter 0 def
+/increment {
+  /counter counter 1 add def
+} def
+
+% Better: return new value
+/increment {  % value -> value+1
+  1 add
+} def
+----
+
+==== Not Using `bind` Appropriately
+
+[source,postscript]
+----
+% Problem: redefined operators affect procedure
+/mul { add } def  % Redefine mul!
+/square { dup mul } def  % Uses redefined mul
+5 square =  % Returns 10, not 25!
+
+% Solution: use bind
+/square { dup mul } bind def
+5 square =  % Returns 25 (correct)
+----
+
+=== Performance Considerations
+
+==== Inline Small Procedures
+
+[source,postscript]
+----
+% Sometimes inlining is faster than procedure call
+% Instead of:
+/add5 { 5 add } def
+x add5
+
+% Consider:
+x 5 add
+----
+
+==== Use `bind` for Frequently-Called Procedures
+
+[source,postscript]
+----
+% Bind frequently-used procedures
+/square { dup mul } bind def
+/distance {
+  % ... complex calculation
+} bind def
+----
+
+==== Avoid Excessive Recursion
+
+[source,postscript]
+----
+% Recursive (may overflow)
+/sum {
+  dup 0 eq {
+    pop 0
+  } {
+    dup 1 sub sum add
+  } ifelse
+} def
+
+% Iterative (better)
+/sum {  % n -> sum
+  0 exch
+  1 1 3 -1 roll {
+    add
+  } for
+} def
+----
+
+=== See Also
+
+* xref:../../syntax/procedures.adoc[Procedure Syntax] - Syntax details
+* xref:arrays.adoc[Arrays] - Array operations
+* xref:composite-objects.adoc[Composite Objects] - Complex data structures
+* xref:../../commands/control-flow/index.adoc[Control Flow Commands] - Control structures
+* xref:../../commands/control-flow/exec.adoc[exec] - Execute procedure
+* xref:../../commands/dictionary/def.adoc[def] - Define procedure
+* xref:../debugging.adoc[Debugging] - Debugging procedures

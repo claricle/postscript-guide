@@ -1,0 +1,202 @@
+---
+layout: default
+title: def
+parent: Dictionary Operations
+grand_parent: Command Reference
+nav_order: 4
+---
+
+== def
+
+Associates a key with a value in the current dictionary.
+
+=== Syntax
+
+----
+key value def → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `key` (usually a name)
+
+| 0
+| `value` (any object)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Current dictionary modified
+|===
+
+=== Description
+
+[`def`](def.adoc) associates _key_ with _value_ in the current dictionary (the one on top of the dictionary stack).
+
+* If _key_ already exists: replaces its value
+* If _key_ doesn't exist: creates new entry
+
+If the current dictionary is in global VM and _value_ is a composite object in local VM, [`invalidaccess`] error occurs.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Basic definition
+[source,postscript]
+----
+/x 42 def       % Define x as 42
+/pi 3.14159 def % Define pi
+----
+
+.Redefining values
+[source,postscript]
+----
+/count 1 def
+/count count 1 add def  % count now 2
+----
+
+.Defining procedures
+[source,postscript]
+----
+/square { dup mul } def
+5 square  % Returns 25
+----
+
+.Defining in specific dictionary
+[source,postscript]
+----
+/mydict 10 dict def
+mydict begin
+  /localVar 100 def  % Goes into mydict
+end
+----
+
+=== Common Use Cases
+
+==== Variable Assignment
+
+[source,postscript]
+----
+/width 612 def
+/height 792 def
+/margin 72 def
+----
+
+==== Procedure Definitions
+
+[source,postscript]
+----
+/average { add 2 div } def
+/max { 2 copy gt { exch } if pop } def
+----
+
+==== Constant Definitions
+
+[source,postscript]
+----
+/BLACK 0 def
+/WHITE 1 def
+/GRAY 0.5 def
+----
+
+=== Common Pitfalls
+
+WARNING: *Defines in Current Dictionary* - [`def`](def.adoc) always uses the current dictionary (top of dict stack), not a specific dictionary.
+
+[source,postscript]
+----
+% Wrong way to define in specific dict
+/mydict 5 dict def
+/x 42 def  % Goes into userdict, not mydict!
+
+% Right way
+mydict begin
+  /x 42 def  % Goes into mydict
+end
+----
+
+WARNING: *Global/Local VM Mixing* - Cannot store local VM objects into global VM dictionaries.
+
+[source,postscript]
+----
+true setglobal  % Global VM mode
+/globalDict 10 dict def
+globalDict begin
+  false setglobal
+  /localArray [1 2 3] def  % Error: local in global!
+  true setglobal
+end
+----
+
+WARNING: *Dictionary Full (Level 1)* - In Level 1, dictionary must have capacity. In Level 2, auto-expands.
+
+TIP: *Use Literal Names* - Always use literal names (starting with `/`) for keys.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`dictfull`]
+| Dictionary full (Level 1 only)
+
+| [`invalidaccess`]
+| Global VM dict receives local VM value
+
+| [`limitcheck`]
+| Dictionary expansion exceeds limits (Level 2)
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| Invalid operand types
+
+| [`VMerror`]
+| Insufficient VM for new entry or expansion
+|===
+
+=== Implementation Notes
+
+* Most efficient way to create dictionary entries
+* In Level 2, may trigger dictionary expansion
+* Key typically a name, but can be any object
+* Definition is immediate (no delayed binding)
+
+=== Comparison with Related Operators
+
+[cols="2,3"]
+|===
+| Operator | Behavior
+
+| [`def`](def.adoc)
+| Define in **current** dictionary
+
+| xref:store.adoc[`store`]
+| Define in **first** dictionary containing key, or current if not found
+
+| xref:../array-string/put.adoc[`put`]
+| Put into **specific** dictionary (requires dict on stack)
+|===
+
+=== See Also
+
+* xref:load.adoc[`load`] - Look up value from dictionary stack
+* xref:store.adoc[`store`] - Store with different semantics
+* xref:../array-string/put.adoc[`put`] - Put into specific dictionary
+* xref:begin.adoc[`begin`] - Make dictionary current
+* xref:where.adoc[`where`] - Find which dictionary contains key

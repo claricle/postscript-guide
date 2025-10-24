@@ -1,0 +1,269 @@
+---
+layout: default
+title: token
+parent: Array and String Operations
+grand_parent: Command Reference
+nav_order: 16
+---
+
+== token
+
+Parses and returns the next PostScript token from a file or string.
+
+=== Syntax
+
+----
+file token → any true (if token found)
+           → false (if end-of-file)
+string token → post any true (if token found)
+             → false (if only whitespace)
+----
+
+=== Stack Effects
+
+.File Input (success)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `true`
+
+| 0
+| `any` (scanned token object)
+|===
+
+.File Input (end-of-file)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `false`
+|===
+
+.String Input (success)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 2
+| `true`
+
+| 1
+| `any` (scanned token object)
+
+| 0
+| `post` (remaining string)
+|===
+
+.String Input (no token)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `false`
+|===
+
+=== Description
+
+[`token`](token.adoc) reads characters from _file_ or _string_, interpreting them according to PostScript syntax rules until a complete object is scanned.
+
+**File case:**
+* Returns the scanned object and `true` if successful
+* Closes file and returns `false` if end-of-file encountered before any non-whitespace characters
+
+**String case:**
+* Returns _post_ (remaining substring), scanned object, and `true` if successful
+* Returns `false` if only whitespace characters present
+
+The scanned object may be:
+* Simple: integer, real, or name
+* Composite: string `(...)` or procedure `{ ... }`
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Parsing from string
+[source,postscript]
+----
+(15(St1) { 1 2 add }) token
+% Result: ((St1) { 1 2 add }) 15 true
+----
+
+.Sequential parsing
+[source,postscript]
+----
+((St1) { 1 2 add }) token
+% Result: ( { 1 2 add }) (St1) true
+
+( { 1 2 add }) token
+% Result: ( ) { 1 2 add } true
+----
+
+.Empty string
+[source,postscript]
+----
+( ) token
+% Result: false
+----
+
+.Parsing numbers
+[source,postscript]
+----
+(123 456) token
+% Result: ( 456) 123 true
+----
+
+=== Common Use Cases
+
+==== Configuration File Parsing
+
+[source,postscript]
+----
+configfile {
+  token not { exit } if
+  % Process each token
+} loop
+----
+
+==== String to Number Conversion
+
+[source,postscript]
+----
+(3.14159) token pop  % Discard remainder
+% Stack: 3.14159
+----
+
+==== Multi-token Parsing
+
+[source,postscript]
+----
+/line (name: value) def
+line token {
+  /key exch def      % Save token as key
+  token {
+    /val exch def    % Save token as value
+  } if
+  pop                % Discard remainder
+} if
+----
+
+=== Common Pitfalls
+
+WARNING: *Consumes Whitespace* - [`token`](token.adoc) consumes trailing whitespace after names/numbers.
+
+[source,postscript]
+----
+(123 456) token  % Consumes space after 123
+% Result: ( 456) not (456)
+----
+
+WARNING: *Evaluates Syntax* - Returns actual objects, not string representations.
+
+[source,postscript]
+----
+(123) token  % Returns integer 123, not string
+({ 1 2 }) token  % Returns procedure, not string
+----
+
+WARNING: *Special Character Handling* - Different characters consumed differently after tokens.
+
+TIP: *Binary Token Support* - [`token`](token.adoc) also handles binary tokens and binary object sequences.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| String/file has no-access attribute
+
+| [`ioerror`]
+| File I/O error
+
+| [`limitcheck`]
+| Token too large for implementation
+
+| [`stackoverflow`]
+| Not enough room for results
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`syntaxerror`]
+| Invalid PostScript syntax
+
+| [`typecheck`]
+| Operand not file or string
+
+| [`undefinedresult`]
+| Number out of range
+
+| [`VMerror`]
+| Insufficient VM for composite object
+|===
+
+=== Token Consumption Rules
+
+[`token`](token.adoc) consumes characters differently based on token type:
+
+[cols="2,3"]
+|===
+| Token Type | Characters Consumed
+
+| Name/number + whitespace
+| Token + first whitespace char
+
+| String `(...)`
+| Including closing `)`
+
+| Procedure `{ ... }`
+| Including closing `}`
+
+| Array `[ ... ]`
+| Including closing `]`
+
+| Name preceded by `/`
+| Not including the `/`
+
+| Binary token
+| Exact bytes, no extra
+|===
+
+=== Implementation Notes
+
+* Same parsing logic as the PostScript interpreter
+* Returns literal objects (use [`cvx`](cvx.adoc) if execution needed)
+* File position updated past consumed characters
+* For strings, _post_ points into original string (shared value)
+
+=== Advanced Example
+
+.Complete string tokenization
+[source,postscript]
+----
+/tokenize {  % string => array-of-tokens
+  [ exch
+  {
+    token not { exit } if
+  } loop
+  ]
+} def
+
+(123 (abc) /name { 1 2 add }) tokenize
+% Result: [123 (abc) /name { 1 2 add }]
+----
+
+=== See Also
+
+* xref:search.adoc[`search`] - Find substring
+* xref:anchorsearch.adoc[`anchorsearch`] - Test for prefix
+* xref:cvs.adoc[`cvs`] - Convert to string
+* xref:cvn.adoc[`cvn`] - Convert to name
+* xref:cvx.adoc[`cvx`] - Make executable

@@ -1,0 +1,519 @@
+---
+layout: default
+title: ustrokepath
+parent: Painting
+grand_parent: Command Reference
+nav_order: 8
+---
+
+== ustrokepath
+
+Converts a user path stroke to an outline path.
+
+=== Syntax
+
+----
+userpath ustrokepath → -
+userpath matrix ustrokepath → -
+----
+
+=== Stack Effects
+
+.First form (no matrix)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `userpath` (array, packed array, or string)
+|===
+
+.Second form (with matrix)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `matrix` (array)
+
+| 0
+| `userpath` (array, packed array, or string)
+|===
+
+.After (both forms)
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No results (current path is set to outline)
+|===
+
+=== Description
+
+[`ustrokepath`](ustrokepath.adoc) replaces the current path with one enclosing the shape that would result if the xref:ustroke.adoc[`ustroke`] operator were applied to the same operands. The path resulting from [`ustrokepath`](ustrokepath.adoc) is suitable as the implicit operand to a subsequent xref:fill.adoc[`fill`], xref:clip.adoc[`clip`], or `pathbbox`.
+
+In general, this path is not suitable for xref:stroke.adoc[`stroke`], as it may contain interior segments or disconnected subpaths produced by [`ustrokepath`](ustrokepath.adoc)'s stroke-to-outline conversion process.
+
+In the first form, [`ustrokepath`](ustrokepath.adoc) is equivalent to:
+
+[source,postscript]
+----
+newpath uappend strokepath
+----
+
+In the second form, [`ustrokepath`](ustrokepath.adoc) is equivalent to:
+
+[source,postscript]
+----
+newpath
+exch uappend           % Interpret userpath
+matrix currentmatrix   % Save CTM
+exch concat            % Concat matrix to CTM
+strokepath             % Compute outline of stroke
+setmatrix              % Restore original CTM
+----
+
+The matrix parameter allows compensation for non-uniform scaling in the CTM, affecting line width and dash pattern but not the path coordinates.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Converting user path stroke to outline
+[source,postscript]
+----
+5 setlinewidth
+[
+  50 50 250 250 setbbox
+  100 100 moveto
+  200 100 lineto
+  200 200 lineto
+  100 200 lineto
+  closepath
+] ustrokepath
+
+% Now current path is the stroke outline
+fill
+----
+
+.Creating offset paths
+[source,postscript]
+----
+/createOffset {
+  % userpath width createOffset
+  setlinewidth
+  ustrokepath
+} def
+
+[
+  0 0 200 200 setbbox
+  100 100 moveto
+  100 150 lineto
+  150 150 lineto
+  closepath
+] 5 createOffset
+
+0.7 setgray
+fill
+----
+
+.Using matrix for uniform outline
+[source,postscript]
+----
+2 1 scale  % Non-uniform scale
+
+[
+  0 0 100 100 setbbox
+  50 50 moveto
+  90 50 lineto
+]
+[0.5 0 0 1 0 0]  % Compensate for x scale
+ustrokepath
+
+fill  % Uniform thickness outline
+----
+
+=== Common Use Cases
+
+==== Creating Outlined Text Effects
+
+[source,postscript]
+----
+/outlineText {
+  % string width outlineText
+  /w exch def
+  /s exch def
+
+  /Helvetica-Bold findfont 72 scalefont setfont
+
+  % Create text path as user path
+  /textPath [
+    newpath
+    100 100 moveto
+    s true charpath
+    pathbbox
+    setbbox
+    100 100 moveto
+    s true charpath
+  ] cvx def
+
+  w setlinewidth
+  textPath ustrokepath
+
+  fill
+} def
+
+(OUTLINE) 3 outlineText
+----
+
+==== Double Outline Effect
+
+[source,postscript]
+----
+/doubleLine [
+  ucache
+  50 50 250 250 setbbox
+  100 150 moveto
+  200 150 lineto
+] def
+
+% Outer outline
+10 setlinewidth
+doubleLine ustrokepath
+gsave
+  0.9 setgray
+  fill
+grestore
+
+% Inner outline
+4 setlinewidth
+doubleLine ustrokepath
+0.3 setgray
+fill
+----
+
+==== Advanced Clipping
+
+[source,postscript]
+----
+% Use stroke outline as clip path
+[
+  50 50 250 250 setbbox
+  150 150 75 0 360 arc
+  closepath
+]
+10 setlinewidth
+ustrokepath
+
+clip
+newpath
+
+% Draw clipped content within stroke outline
+% ...
+----
+
+=== Common Pitfalls
+
+WARNING: *Result Not Suitable for Stroking* - The outline path may contain interior segments and is meant for filling or clipping.
+
+[source,postscript]
+----
+[
+  0 0 100 100 setbbox
+  50 50 moveto
+  90 50 lineto
+]
+5 setlinewidth
+ustrokepath
+
+% Don't do this
+stroke  % Unpredictable results
+
+% Do this instead
+fill    % Correct usage
+----
+
+WARNING: *Current Path Is Modified* - Unlike xref:ustroke.adoc[`ustroke`], the current path is replaced with the outline.
+
+[source,postscript]
+----
+[
+  0 0 100 100 setbbox
+  50 50 moveto
+  90 50 lineto
+]
+ustrokepath
+% Current path is now the stroke outline
+% Original user path is gone
+----
+
+WARNING: *Matrix Affects Stroke, Not Path Coordinates* - The optional matrix only affects stroke rendering parameters.
+
+[source,postscript]
+----
+[
+  0 0 100 100 setbbox
+  50 50 moveto
+  90 50 lineto
+]
+[2 0 0 2 0 0]  % Does NOT scale path coordinates
+ustrokepath      % Only affects line width calculation
+----
+
+TIP: *Use for Path Analysis* - [`ustrokepath`](ustrokepath.adoc) makes stroke boundaries explicit for analysis:
+
+[source,postscript]
+----
+[
+  0 0 100 100 setbbox
+  50 50 moveto
+  90 50 lineto
+]
+5 setlinewidth
+ustrokepath
+
+% Get bounds of stroked path
+pathbbox  % Returns bbox of stroke outline
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| User path array is not executable or has insufficient access
+
+| [`limitcheck`]
+| Path becomes too complex for implementation
+
+| [`rangecheck`]
+| User path is malformed (missing setbbox, coordinates out of bounds, invalid matrix)
+
+| [`stackunderflow`]
+| Insufficient operands on stack
+
+| [`typecheck`]
+| Operand is not a valid user path or matrix
+|===
+
+=== Implementation Notes
+
+* Creates outline paths for each path segment in the user path
+* Line caps create closed paths at endpoints
+* Line joins create appropriate corner fills
+* Dash patterns create separate outline segments
+* Very complex paths may exceed implementation limits
+* The resulting path can be quite complex
+
+=== Graphics State Parameters
+
+[`ustrokepath`](ustrokepath.adoc) uses these parameters to create the outline:
+
+* Line width - from xref:../graphics-state/setlinewidth.adoc[`setlinewidth`]
+* Line cap - from xref:../graphics-state/setlinecap.adoc[`setlinecap`]
+* Line join - from xref:../graphics-state/setlinejoin.adoc[`setlinejoin`]
+* Miter limit - from xref:../graphics-state/setmiterlimit.adoc[`setmiterlimit`]
+* Dash pattern - from xref:../graphics-state/setdash.adoc[`setdash`]
+* Current transformation matrix (CTM)
+
+The graphics state is not automatically saved/restored (unlike xref:ustroke.adoc[`ustroke`]).
+
+=== Comparison with Other Stroke Operators
+
+.strokepath
+* Operates on current path
+* Modifies current path in place
+* No automatic state management
+* Traditional path format
+
+.ustroke
+* Operates on user path
+* Automatic gsave/grestore
+* No lasting path changes
+* User path format
+
+.ustrokepath
+* Operates on user path
+* Sets current path to outline
+* No automatic state management
+* User path format
+* Optional matrix parameter
+
+=== Best Practices
+
+==== Set Line Parameters Before Calling
+
+[source,postscript]
+----
+% Set all stroke parameters first
+5 setlinewidth
+1 setlinecap
+1 setlinejoin
+[5 3] 0 setdash
+
+% Then create outline
+[
+  0 0 100 100 setbbox
+  50 50 moveto
+  90 50 lineto
+] ustrokepath
+
+% Fill or clip the outline
+fill
+----
+
+==== Save State When Needed
+
+[source,postscript]
+----
+gsave
+  10 setlinewidth
+  1 setlinecap
+
+  [
+    0 0 100 100 setbbox
+    50 50 moveto
+    90 50 lineto
+  ] ustrokepath
+
+  0.8 setgray
+  fill
+grestore
+----
+
+==== Use Matrix for CTM Compensation
+
+[source,postscript]
+----
+% Save current matrix
+matrix currentmatrix /origMatrix exch def
+
+% Apply non-uniform scale
+3 1 scale
+
+% Create outline with compensation
+/path [
+  0 0 100 50 setbbox
+  50 25 moveto
+  90 25 lineto
+] def
+
+% Inverse of the scale
+[0.333 0 0 1 0 0]
+path exch ustrokepath
+
+fill
+
+% Restore original matrix
+origMatrix setmatrix
+----
+
+==== Combine with Other Operations
+
+[source,postscript]
+----
+/circlePath [
+  ucache
+  100 100 300 300 setbbox
+  200 200 75 0 360 arc
+  closepath
+] def
+
+% Create stroke outline
+8 setlinewidth
+circlePath ustrokepath
+
+% Use for clipping
+clip
+newpath
+
+% Draw clipped content
+% ...
+----
+
+=== Advanced Techniques
+
+==== Creating Variable Width Paths
+
+[source,postscript]
+----
+% Simulate variable width
+[
+  0 0 100 50 setbbox
+  10 25 moveto
+  40 25 lineto
+]
+2 setlinewidth
+ustrokepath
+
+gsave fill grestore
+
+[
+  40 25 moveto
+  70 25 lineto
+]
+6 setlinewidth
+ustrokepath
+
+gsave fill grestore
+
+[
+  70 25 moveto
+  90 25 lineto
+]
+10 setlinewidth
+ustrokepath
+
+fill
+----
+
+==== Creating Parallel Offset Paths
+
+[source,postscript]
+----
+/parallelPath {
+  % userpath offset parallelPath → outlinepath
+  2 mul setlinewidth
+  ustrokepath
+} def
+
+[
+  0 0 200 100 setbbox
+  10 50 moveto
+  190 50 lineto
+]
+5 parallelPath  % 5-unit offset on each side
+
+% Result is outline suitable for fill
+fill
+----
+
+=== Performance Considerations
+
+* More complex than simple xref:ustroke.adoc[`ustroke`]
+* User path format provides some efficiency
+* Dash patterns significantly increase complexity
+* Round caps/joins create more segments
+* Very wide lines create larger outlines
+* Matrix parameter adds minimal overhead
+
+=== See Also
+
+* xref:ustroke.adoc[`ustroke`] - Stroke user path
+* xref:strokepath.adoc[`strokepath`] - Convert stroke to outline (traditional path)
+* xref:ufill.adoc[`ufill`] - Fill user path
+* xref:fill.adoc[`fill`] - Fill path interior
+* xref:clip.adoc[`clip`] - Use path for clipping
+* `setbbox` - Set bounding box
+* `ucache` - Enable user path caching
+* `uappend` - Append user path to current path
+* `pathbbox` - Get path bounding box
+* xref:../graphics-state/setlinewidth.adoc[`setlinewidth`] - Set line width
+* xref:../graphics-state/setlinecap.adoc[`setlinecap`] - Set line cap
+* xref:../graphics-state/setlinejoin.adoc[`setlinejoin`] - Set line join
+* xref:../graphics-state/setdash.adoc[`setdash`] - Set dash pattern

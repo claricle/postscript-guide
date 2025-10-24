@@ -1,0 +1,64 @@
+---
+layout: default
+title: Glossary
+nav_order: 9
+---
+
+== Glossary
+
+Definitions of PostScript-specific terminology.
+
+=== A
+
+**Array**:: Ordered collection of PostScript objects
+
+**Attribute**:: Property of an object (literal/executable, access permissions)
+
+=== C
+
+**CTM**:: Current Transformation Matrix - transforms user space to device space
+
+**Composite Object**:: Object with complex structure (array, string, dictionary)
+
+=== D
+
+**Device Space**:: Physical coordinate system of output device
+
+**Dictionary**:: Key-value data structure for name lookup
+
+**Dictionary Stack**:: Stack of dictionaries used for name resolution
+
+=== G
+
+**Graphics State**:: Collection of parameters affecting graphics operations
+
+=== O
+
+**Operand Stack**:: Main data stack for PostScript operations
+
+**Operator**:: Built-in PostScript command
+
+=== P
+
+**Path**:: Sequence of lines and curves defining a shape
+
+**Procedure**:: Executable array containing PostScript code
+
+=== S
+
+**Stack-Based**:: Programming model using LIFO stacks
+
+**Simple Object**:: Object with atomic value (integer, real, boolean)
+
+=== U
+
+**User Space**:: Application's coordinate system
+
+=== V
+
+**VM**:: Virtual Memory - PostScript's memory management system
+
+=== See Also
+
+* xref:syntax/index.adoc[Language Syntax]
+* xref:commands/index.adoc[Command Reference]

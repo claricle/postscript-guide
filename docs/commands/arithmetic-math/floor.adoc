@@ -1,0 +1,346 @@
+---
+layout: default
+title: floor
+parent: Arithmetic and Math
+grand_parent: Command Reference
+nav_order: 10
+permalink: /commands/arithmetic-math/floor/
+---
+= floor
+:description: Round down to integer
+:keywords: postscript, arithmetic, floor, round down, math
+
+[.lead]
+Returns the greatest integer value less than or equal to a number.
+
+== Description
+
+The `floor` operator pops a number from the operand stack and pushes the largest integer that is less than or equal to that number. The type of the result is the same as the type of the operand - if the input is an integer, it returns an integer; if the input is a real, it returns a real with no fractional part.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+num1 floor num2
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num1` (integer or real) - Number to round down
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num2` (integer or real) - Floor of num1 (same type as num1)
+|===
+
+== Parameters
+
+`num1`:: Any number (integer or real)
+
+== Return Values
+
+`num2`:: The floor of num1 (type matches num1):
+* For integers: returns the same value
+* For reals: returns real with no fractional part, rounded down
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Positive reals round down
+3.2 floor      % → 3.0
+3.9 floor      % → 3.0
+4.0 floor      % → 4.0 (already integer value)
+
+% Negative reals round down (more negative)
+-4.8 floor     % → -5.0 (rounds away from zero)
+-4.1 floor     % → -5.0
+-4.0 floor     % → -4.0
+
+% Integers unchanged
+99 floor       % → 99
+-50 floor      % → -50
+----
+
+=== Rounding Behavior
+
+[source,postscript]
+----
+% floor always rounds toward negative infinity
+0.1 floor      % → 0.0
+0.9 floor      % → 0.0
+1.0 floor      % → 1.0
+
+-0.1 floor     % → -1.0 (rounds down to more negative)
+-0.9 floor     % → -1.0
+-1.0 floor     % → -1.0
+----
+
+=== Integer Extraction
+
+[source,postscript]
+----
+% Get integer part (truncate positive, floor negative)
+/integerPart {  % num -> int
+    floor cvi
+} def
+
+3.7 integerPart    % → 3
+-3.7 integerPart   % → -4
+----
+
+=== Array Index Calculation
+
+[source,postscript]
+----
+% Convert continuous value to array index
+/valueToIndex {  % value min max arraySize -> index
+    4 1 roll sub     % min max arraySize (value-min)
+    3 1 roll sub     % arraySize (value-min) (max-min)
+    div mul          % (value-min)/(max-min) * arraySize
+    floor cvi        % Integer index
+} def
+
+2.5 0 10.0 10 valueToIndex  % → 2
+----
+
+== Advanced Examples
+
+=== Bin Assignment
+
+[source,postscript]
+----
+% Assign value to histogram bin
+/getBin {  % value binSize -> binNumber
+    div floor cvi
+} def
+
+23.7 5.0 getBin    % → 4 (bin 4: 20-25)
+17.2 5.0 getBin    % → 3 (bin 3: 15-20)
+----
+
+=== Time Quantization
+
+[source,postscript]
+----
+% Round down to nearest hour
+/floorToHour {  % minutes -> hours
+    60.0 div floor
+} def
+
+125 floorToHour    % → 2.0 (125 min = 2 hours + remainder)
+59 floorToHour     % → 0.0 (less than 1 hour)
+----
+
+=== Grid Snap (Floor)
+
+[source,postscript]
+----
+% Snap coordinate to grid (floor)
+/snapToGrid {  % coord gridSize -> snapped
+    div floor mul
+} def
+
+23.7 5.0 snapToGrid   % → 20.0
+-7.3 5.0 snapToGrid   % → -10.0
+----
+
+=== Integer Range Check
+
+[source,postscript]
+----
+% Check if value is effectively an integer
+/isInteger {  % num -> bool
+    dup floor eq
+} def
+
+3.0 isInteger      % → true
+3.5 isInteger      % → false
+7 isInteger        % → true
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: Type is preserved - real input gives real output.
+
+=== Type Preservation
+
+[source,postscript]
+----
+% Type matches input type
+3.5 floor      % → 3.0 (real)
+3 floor        % → 3 (integer)
+
+% To get integer result from real
+3.5 floor cvi  % → 3 (converted to integer)
+----
+
+=== Direction of Rounding
+
+[source,postscript]
+----
+% floor always rounds toward negative infinity
+% This means DOWN for positive numbers
+3.9 floor      % → 3.0 (rounds down)
+
+% And MORE NEGATIVE for negative numbers
+-3.1 floor     % → -4.0 (rounds down to more negative)
+-3.9 floor     % → -4.0
+
+% Compare with truncate (toward zero)
+-3.9 truncate  % → -3.0 (toward zero)
+-3.9 floor     % → -4.0 (toward negative infinity)
+----
+
+=== Comparison with Other Rounding
+
+[source,postscript]
+----
+% Different rounding methods on same value
+3.7 floor      % → 3.0 (down)
+3.7 ceiling    % → 4.0 (up)
+3.7 round      % → 4.0 (nearest)
+3.7 truncate   % → 3.0 (toward zero)
+
+% For negative numbers
+-3.7 floor     % → -4.0 (down/away from zero)
+-3.7 ceiling   % → -3.0 (up/toward zero)
+-3.7 round     % → -4.0 (nearest)
+-3.7 truncate  % → -3.0 (toward zero)
+----
+
+=== Zero and Near-Zero
+
+[source,postscript]
+----
+% Small positive values
+0.0001 floor   % → 0.0
+0.9999 floor   % → 0.0
+
+% Small negative values
+-0.0001 floor  % → -1.0 (rounds down)
+-0.9999 floor  % → -1.0
+----
+
+== Type Requirements
+
+The operand must be numeric (integer or real). Other types will cause a `typecheck` error:
+
+[source,postscript]
+----
+% BAD: Non-numeric operands
+(hello) floor      % ERROR: typecheck
+[1 2] floor        % ERROR: typecheck
+----
+
+== Related Commands
+
+* xref:ceiling.adoc[`ceiling`] - Round up to integer
+* xref:round.adoc[`round`] - Round to nearest integer
+* xref:truncate.adoc[`truncate`] - Truncate toward zero
+* xref:div.adoc[`div`] - Division (returns real)
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental arithmetic operator available in all PostScript implementations.
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty.
++
+[source,postscript]
+----
+floor          % ERROR: stackunderflow (need 1 operand)
+----
+
+`typecheck`::
+The operand is not a number.
++
+[source,postscript]
+----
+(text) floor   % ERROR: typecheck
+----
+
+== Performance Considerations
+
+The `floor` operator is fast:
+
+* Efficient rounding operation
+* O(1) constant time complexity
+* Useful for integer conversion and quantization
+
+== Best Practices
+
+1. **Use for downward rounding** - bins, indices, allocation
+2. **Convert with `cvi` if integer needed** - `floor` preserves type
+3. **Understand directional rounding** - toward negative infinity
+4. **Use for "at most" logic** - maximum whole units
+
+=== Choosing Rounding Method
+
+[source,postscript]
+----
+% floor: Round down (toward -∞)
+3.7 floor      % → 3.0
+-3.7 floor     % → -4.0
+
+% ceiling: Round up (toward +∞)
+3.7 ceiling    % → 4.0
+-3.7 ceiling   % → -3.0
+
+% truncate: Round toward zero
+3.7 truncate   % → 3.0
+-3.7 truncate  % → -3.0
+
+% round: Round to nearest
+3.7 round      % → 4.0
+-3.7 round     % → -4.0
+----
+
+=== Bucketing Values
+
+[source,postscript]
+----
+% Assign to buckets (floor division)
+/assignBucket {  % value bucketSize -> bucketId
+    div floor cvi
+} def
+
+% Get all values in a bucket range
+/bucketRange {  % bucketId bucketSize -> min max
+    1 index mul        % bucketId (bucketId*bucketSize)
+    exch 1 add mul     % min (bucketId+1)*bucketSize
+} def
+
+7.8 2.0 assignBucket   % → 3 (bucket for 6-8)
+3 2.0 bucketRange      % → 6.0 8.0
+----
+
+== See Also
+
+* xref:index.adoc[Arithmetic and Math] - All arithmetic operators
+* xref:../../levels/index.adoc[PostScript Language Levels]
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

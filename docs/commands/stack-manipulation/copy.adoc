@@ -1,0 +1,401 @@
+---
+layout: default
+title: copy
+parent: Stack Manipulation
+grand_parent: Command Reference
+nav_order: 4
+permalink: /commands/stack-manipulation/copy/
+---
+= copy
+:description: Copy stack elements or duplicate composite object values
+:keywords: postscript, stack, copy, duplicate, clone
+
+[.lead]
+Duplicates the top n elements on the operand stack, or copies the value of one composite object into another.
+
+== Description
+
+The `copy` operator performs two entirely different functions depending on the type of the topmost operand:
+
+1. **Integer form**: When the top element is a non-negative integer n, `copy` duplicates the top n elements on the operand stack.
+
+2. **Composite form**: When operands are composite objects (arrays, strings, dictionaries, packed arrays, or gstate objects), `copy` copies all elements from the first object into the second.
+
+This dual functionality makes `copy` essential for both stack manipulation and creating independent copies of composite objects.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+any1 ... anyn n copy any1 ... anyn any1 ... anyn
+
+array1 array2 copy subarray2
+dict1 dict2 copy dict2
+string1 string2 copy substring2
+packedarray1 array2 copy subarray2
+gstate1 gstate2 copy gstate2
+----
+
+=== Stack Effect (Integer Form)
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`n` (integer) - Number of elements to copy
+
+|Top-1 to Top-n
+|`any1 ... anyn` - Elements to be copied
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top to Top-n+1
+|`any1 ... anyn` - Duplicated elements
+
+|Top-n to Top-2n+1
+|`any1 ... anyn` - Original elements
+|===
+
+=== Stack Effect (Composite Form)
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`dest` - Destination composite object
+
+|Top-1
+|`source` - Source composite object
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`dest` (or subobject) - Destination with copied values
+|===
+
+== Parameters
+
+=== Integer Form
+
+`n`:: Non-negative integer specifying how many stack elements to duplicate.
+
+`any1 ... anyn`:: The n elements to be copied.
+
+=== Composite Form
+
+`source`:: Source composite object (array, string, dictionary, packed array, or gstate).
+
+`dest`:: Destination composite object of compatible type.
+
+== Return Values
+
+=== Integer Form
+
+Returns 2n elements: the original n elements followed by n duplicated copies.
+
+=== Composite Form
+
+Returns the destination object (or a subobject for arrays/strings).
+
+== Examples
+
+=== Basic Usage - Integer Form
+
+[source,postscript]
+----
+% Copy top 2 elements
+1 2 3 2 copy        % Stack: 1 2 3 2 3
+
+% Copy top 3 elements
+1 2 3 3 copy        % Stack: 1 2 3 1 2 3
+
+% Copy 0 elements (no-op)
+1 2 3 0 copy        % Stack: 1 2 3
+----
+
+=== Array Copying
+
+[source,postscript]
+----
+% Copy array contents
+/a1 [1 2 3] def
+/a2 a1 length array def
+a1 a2 copy          % a2 now contains [1 2 3]
+pop                 % Remove subarray result
+
+% a1 and a2 now have independent values
+a1 0 99 put         % a1 is [99 2 3]
+                    % a2 is still [1 2 3]
+----
+
+=== String Copying
+
+[source,postscript]
+----
+% Copy string
+/s1 (hello) def
+/s2 s1 length string def
+s1 s2 copy          % s2 now contains (hello)
+pop
+
+% Modify independently
+s1 0 72 put         % s1 is (Hello) - 72 is 'H'
+                    % s2 is still (hello)
+----
+
+=== Partial Copying
+
+[source,postscript]
+----
+% Copy into larger destination
+(abc) (12345) copy  % Returns (abc45)
+                    % First 3 chars replaced, rest unchanged
+----
+
+=== Dictionary Copying
+
+[source,postscript]
+----
+% Copy dictionary
+/dict1 3 dict def
+dict1 begin
+    /a 1 def
+    /b 2 def
+end
+
+/dict2 3 dict def
+dict1 dict2 copy pop
+
+% dict2 now has same entries as dict1
+dict2 /a known      % Returns true
+----
+
+== Advanced Examples
+
+=== Implementing Independent Array Copy
+
+[source,postscript]
+----
+% Create true independent copy of array
+/copyArray {        % array -> newarray
+    dup length array copy
+} def
+
+[1 2 3] copyArray
+% Stack: [1 2 3] (independent copy)
+----
+
+=== Duplicating Multiple Stack Items
+
+[source,postscript]
+----
+% Keep top 3 values, duplicate them
+/keep3 {            % a b c ... -> a b c a b c ...
+    3 copy
+} def
+
+10 20 30 40 50 keep3
+% Stack: 10 20 30 40 50 30 40 50
+----
+
+=== Safe String Copying
+
+[source,postscript]
+----
+% Copy string, handling length mismatch
+/copyString {       % src dest -> substring
+    2 copy length exch length
+    lt {
+        % Destination too small
+        pop pop (Error: dest too small) print
+        ()
+    } {
+        copy
+    } ifelse
+} def
+----
+
+=== Packed Array to Array
+
+[source,postscript]
+----
+% Copy packed array to modifiable array
+/unpack {           % packedarray -> array
+    dup length array copy
+} def
+
+[1 2 3] dup xcheck {cvx} if
+aload pop
+3 packedarray       % Create packed array
+unpack              % Convert to regular array
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: The integer form requires n+1 elements on the stack (n elements to copy plus n itself). Insufficient stack depth causes `stackunderflow`.
+
+=== Stack Underflow
+
+[source,postscript]
+----
+% BAD: Not enough elements
+clear
+1 2             % Only 2 elements
+3 copy          % ERROR: stackunderflow (needs 3 elements plus n)
+----
+
+=== Destination Too Small
+
+[source,postscript]
+----
+% BAD: Destination array too small
+[1 2 3 4 5] [1 2] copy  % ERROR: rangecheck
+% Destination must be at least as large as source
+----
+
+=== Type Mismatch
+
+[source,postscript]
+----
+% BAD: Incompatible types
+(hello) [1 2 3] copy    % ERROR: typecheck
+% Can't copy string to array
+----
+
+=== Shallow Copy Limitation
+
+[source,postscript]
+----
+% CAUTION: Nested objects are shared
+[[1 2] [3 4]] dup length array copy
+% Outer array is independent
+% But inner arrays are still shared!
+0 get 0 99 put
+% Modifies both copies' inner array
+----
+
+TIP: The composite form of `copy` performs only one level of copying. Nested composite objects are shared between source and destination.
+
+== Related Commands
+
+* xref:dup.adoc[`dup`] - Duplicate single element (reference only)
+* xref:index.adoc[`index`] - Duplicate nth element
+* xref:roll.adoc[`roll`] - Rotate stack elements
+* xref:pop.adoc[`pop`] - Remove elements
+* `get` - Retrieve individual elements
+* `put` - Store individual elements
+* `putinterval` - Store subsequence
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+The basic functionality is in Level 1. Level 2 adds gstate copying and relaxes some restrictions on dictionary copying.
+
+== Error Conditions
+
+`stackunderflow`::
+Integer form: The stack contains fewer than n+1 elements.
+Composite form: The stack contains fewer than 2 elements.
++
+[source,postscript]
+----
+clear
+1 2 3 copy          % ERROR: stackunderflow
+----
+
+`stackoverflow`::
+Integer form: Copying would exceed stack capacity.
++
+[source,postscript]
+----
+% Stack nearly full, copying would overflow
+----
+
+`rangecheck`::
+Composite form: Destination object is too small to hold source contents.
++
+[source,postscript]
+----
+[1 2 3] [1] copy    % ERROR: rangecheck
+----
+
+`typecheck`::
+Integer form: Top operand is not an integer.
+Composite form: Operands are not compatible types.
++
+[source,postscript]
+----
+(not a number) copy % ERROR: typecheck
+[1 2] (string) copy % ERROR: typecheck
+----
+
+`invalidaccess`::
+Attempting to copy into a read-only object, or copying local VM objects into global VM.
++
+[source,postscript]
+----
+[1 2 3] readonly
+[4 5 6] exch copy   % ERROR: invalidaccess
+----
+
+== Performance Considerations
+
+**Integer form**: Very fast O(n) operation, simply duplicates stack references.
+
+**Composite form**: O(n) where n is the number of elements. For large objects, this can be significant. The operation copies the elements themselves, not just references.
+
+**Dictionary copying**: More expensive than array/string copying due to hash table operations.
+
+== Best Practices
+
+1. **Use for independent copies**: When you need to modify a composite object without affecting the original, use `copy`
+2. **Integer form for stack preservation**: Use `n copy` to preserve stack state before operations that consume elements
+3. **Check sizes**: Always ensure destination is large enough when copying composite objects
+4. **Understand shallow copying**: Remember that nested objects are shared after copying
+5. **Prefer copy over dup for values**: Use `copy` when you need an independent value, `dup` when you can share
+
+=== Creating True Deep Copies
+
+[source,postscript]
+----
+% For deeply nested structures, implement recursive copy
+/deepCopyArray {    % array -> newarray
+    dup length array
+    0 1 2 index length 1 sub {
+        % Process each element
+        2 copy 2 index exch get
+        dup type /arraytype eq {
+            deepCopyArray   % Recursive copy
+        } if
+        put
+    } for
+} def
+----
+
+== See Also
+
+* xref:../../syntax/operators.adoc[Operators Overview] - Understanding PostScript operators
+* xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
+* xref:../../usage/basic/composite-objects.adoc[Composite Objects] - Understanding object copying
+* xref:index.adoc[Stack Manipulation] - All stack operators
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 375)
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

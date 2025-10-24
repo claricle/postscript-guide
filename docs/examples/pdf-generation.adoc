@@ -1,0 +1,999 @@
+---
+layout: default
+title: PDF Generation
+parent: Practical Examples
+nav_order: 8
+---
+
+== PDF Generation
+
+Creating PDF documents from PostScript using pdfmark operators and PDF-specific features.
+
+=== Introduction
+
+While PostScript is a page description language for printing, PDF (Portable Document Format) is based on PostScript but adds document structure features. PostScript can generate PDF through Distiller or Ghostscript using special `pdfmark` operators to add PDF-specific features like bookmarks, links, and metadata.
+
+=== Basic PDF Structure
+
+Understanding PDF document structure and basic pdfmark usage.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%Title: Basic PDF Document
+%%Creator: PostScript Language Reference Guide
+%%CreationDate: (D:20250101120000)
+%%Pages: 1
+%%BoundingBox: 0 0 612 792
+
+% PDF Document Information
+[/Title (My First PDF Document)              % Document title <1>
+ /Author (John Doe)                          % Author name <2>
+ /Subject (PostScript to PDF Example)        % Document subject <3>
+ /Keywords (PostScript PDF Tutorial)         % Search keywords <4>
+ /Creator (PostScript)                       % Creating application <5>
+ /DOCINFO                                    % pdfmark type <6>
+ pdfmark                                     % Execute pdfmark <7>
+
+% Set page to be US Letter size
+<< /PageSize [612 792] >> setpagedevice
+
+% Page content
+/Times-Bold findfont 24 scalefont setfont
+100 700 moveto
+(Welcome to PDF Generation) show
+
+/Times-Roman findfont 12 scalefont setfont
+100 650 moveto
+(This PostScript file will be converted to PDF) show
+100 630 moveto
+(with proper metadata and document structure.) show
+
+% Add some graphics
+gsave
+  100 500 translate
+  newpath
+  0 0 50 0 360 arc
+  0.8 0.2 0.2 setrgbcolor
+  fill
+grestore
+
+% Footer
+/Times-Italic findfont 10 scalefont setfont
+0 setgray
+306 50 moveto
+(Page 1) dup stringwidth pop 2 div neg 0 rmoveto show
+
+showpage
+%%EOF
+----
+<1> Set PDF document title (appears in window title bar)
+<2> Set document author (visible in Properties)
+<3> Set document subject/description
+<4> Set keywords for searching and indexing
+<5> Set creating application name
+<6> `/DOCINFO` specifies document information pdfmark
+<7> `pdfmark` operator processes the PDF directive
+
+==== Expected Output
+
+When converted to PDF (using Ghostscript or Distiller):
+
+* Single-page PDF document
+* Document properties show title, author, subject, keywords
+* Page displays title, description text, and red circle
+* Page number in footer
+
+==== Document Info Fields
+
+Standard PDF metadata fields:
+
+* `/Title` - Document title
+* `/Author` - Author name
+* `/Subject` - Document description
+* `/Keywords` - Search keywords
+* `/Creator` - Application that created the source
+* `/Producer` - PDF conversion tool (set by converter)
+* `/CreationDate` - Creation timestamp
+* `/ModDate` - Modification timestamp
+
+==== Converting to PDF
+
+Use Ghostscript to convert:
+
+[source,shell]
+----
+gs -dBATCH -dNOPAUSE -sDEVICE=pdfwrite \
+   -sOutputFile=output.pdf input.ps
+----
+
+=== Multi-page PDF Documents
+
+Creating PDFs with multiple pages and navigation.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%Title: Multi-Page PDF Document
+%%Pages: 3
+%%BoundingBox: 0 0 612 792
+
+% Document setup
+[/Title (Multi-Page PDF Example)
+ /Author (PostScript Guide)
+ /Subject (Demonstrating multi-page PDF creation)
+ /DOCINFO
+ pdfmark
+
+% Page template procedure
+/page {                                     % title pagenum page <1>
+  /pagenum exch def
+  /title exch def
+
+  % Header
+  gsave
+    0.9 setgray
+    0 742 612 50 rectfill
+
+    0 setgray
+    /Helvetica-Bold findfont 18 scalefont setfont
+    50 760 moveto
+    title show
+  grestore
+
+  % Footer
+  gsave
+    0.8 setgray
+    0 0 612 40 rectfill
+
+    0 setgray
+    /Helvetica findfont 10 scalefont setfont
+    306 15 moveto
+    (Page ) show
+    pagenum 10 string cvs show
+    ( of 3) show
+  grestore
+} def
+
+% Page 1
+(Introduction) 1 page
+
+/Times-Roman findfont 14 scalefont setfont
+50 650 moveto
+(This is the first page of a multi-page PDF document.) show
+
+50 620 moveto
+(Each page has a header and footer for consistency.) show
+
+50 580 moveto
+(Navigation features will be added using pdfmarks.) show
+
+% Mark as page 1
+[/Page 1                                    % Page number <2>
+ /View [/XYZ null null null]                % View settings <3>
+ /DEST                                      % Destination type <4>
+ pdfmark
+
+showpage
+
+% Page 2
+(Content) 2 page
+
+/Times-Roman findfont 14 scalefont setfont
+50 650 moveto
+(This is the second page with more content.) show
+
+% Add a simple diagram
+gsave
+  200 400 translate
+
+  % Box
+  0.7 setgray
+  0 0 200 100 rectfill
+
+  % Text
+  0 setgray
+  /Helvetica-Bold findfont 16 scalefont setfont
+  100 50 moveto
+  (Diagram Area) dup stringwidth pop 2 div neg 0 rmoveto show
+grestore
+
+% Mark as page 2
+[/Page 2
+ /View [/XYZ null null null]
+ /DEST
+ pdfmark
+
+showpage
+
+% Page 3
+(Conclusion) 3 page
+
+/Times-Roman findfont 14 scalefont setfont
+50 650 moveto
+(This is the final page of the document.) show
+
+50 620 moveto
+(Multi-page PDFs maintain consistent formatting.) show
+
+% Mark as page 3
+[/Page 3
+ /View [/XYZ null null null]
+ /DEST
+ pdfmark
+
+showpage
+%%EOF
+----
+<1> Define reusable page template procedure
+<2> Define named destination for this page
+<3> View settings: XYZ = position (null = unchanged)
+<4> `/DEST` creates a named destination
+
+==== Expected Output
+
+Three-page PDF with:
+
+* Consistent header and footer on each page
+* Page numbers (1 of 3, 2 of 3, 3 of 3)
+* Named destinations for each page
+* Content specific to each page
+
+==== Page Management
+
+**Multiple pages**:
+
+* Call `showpage` to output each page
+* Include `%%Pages:` comment with page count
+* Use page template for consistency
+
+**Named destinations**:
+
+* Define destinations for pages
+* Used by bookmarks and links
+* Format: `/Page N /DEST pdfmark`
+
+=== PDF Bookmarks (Outline)
+
+Creating a navigable table of contents.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%Title: PDF with Bookmarks
+%%Pages: 4
+
+% Document info
+[/Title (Document with Bookmarks)
+ /Author (PostScript Guide)
+ /DOCINFO
+ pdfmark
+
+% Create bookmarks (outline)
+% Top-level bookmark: Chapter 1
+[/Title (Chapter 1: Introduction)               % Bookmark text <1>
+ /Page 1                                        % Target page <2>
+ /View [/XYZ null null null]                    % View type <3>
+ /OUT                                           % Outline (bookmark) <4>
+ pdfmark
+
+% Sub-bookmark under Chapter 1
+[/Title (1.1 Getting Started)
+ /Page 1
+ /View [/XYZ null 650 null]                     % Specific Y position <5>
+ /Count 0                                       % No sub-items <6>
+ /OUT
+ pdfmark
+
+% Another sub-bookmark
+[/Title (1.2 Basic Concepts)
+ /Page 1
+ /View [/XYZ null 500 null]
+ /Count 0
+ /OUT
+ pdfmark
+
+% Top-level bookmark: Chapter 2
+[/Title (Chapter 2: Advanced Topics)
+ /Page 2
+ /View [/XYZ null null null]
+ /Count 2                                       % Has 2 sub-items <7>
+ /OUT
+ pdfmark
+
+% Sub-bookmarks under Chapter 2
+[/Title (2.1 Techniques)
+ /Page 2
+ /View [/XYZ null 650 null]
+ /Count 0
+ /OUT
+ pdfmark
+
+[/Title (2.2 Best Practices)
+ /Page 3
+ /View [/XYZ null null null]
+ /Count 0
+ /OUT
+ pdfmark
+
+% Chapter 3
+[/Title (Chapter 3: Conclusion)
+ /Page 4
+ /View [/XYZ null null null]
+ /OUT
+ pdfmark
+
+% Page 1 - Introduction
+/Helvetica-Bold findfont 20 scalefont setfont
+72 720 moveto
+(Chapter 1: Introduction) show
+
+/Times-Roman findfont 12 scalefont setfont
+
+72 650 moveto
+/Helvetica-Bold findfont 14 scalefont setfont
+(1.1 Getting Started) show
+
+/Times-Roman findfont 12 scalefont setfont
+72 620 moveto
+(This section introduces the basic concepts.) show
+
+72 500 moveto
+/Helvetica-Bold findfont 14 scalefont setfont
+(1.2 Basic Concepts) show
+
+/Times-Roman findfont 12 scalefont setfont
+72 470 moveto
+(Here we cover fundamental principles.) show
+
+showpage
+
+% Page 2 - Advanced Topics
+/Helvetica-Bold findfont 20 scalefont setfont
+72 720 moveto
+(Chapter 2: Advanced Topics) show
+
+/Times-Roman findfont 12 scalefont setfont
+
+72 650 moveto
+/Helvetica-Bold findfont 14 scalefont setfont
+(2.1 Techniques) show
+
+/Times-Roman findfont 12 scalefont setfont
+72 620 moveto
+(Advanced techniques for power users.) show
+
+showpage
+
+% Page 3 - Best Practices
+/Helvetica-Bold findfont 14 scalefont setfont
+72 720 moveto
+(2.2 Best Practices) show
+
+/Times-Roman findfont 12 scalefont setfont
+72 680 moveto
+(Guidelines for effective use.) show
+
+showpage
+
+% Page 4 - Conclusion
+/Helvetica-Bold findfont 20 scalefont setfont
+72 720 moveto
+(Chapter 3: Conclusion) show
+
+/Times-Roman findfont 12 scalefont setfont
+72 680 moveto
+(Summary and final thoughts.) show
+
+showpage
+%%EOF
+----
+<1> Bookmark text displayed in PDF viewer
+<2> Target page number (1-based)
+<3> View: /XYZ sets position, null means "current"
+<4> `/OUT` creates outline (bookmark) entry
+<5> Y coordinate specifies vertical position on page
+<6> `/Count 0` means no children (leaf node)
+<7> `/Count N` means N immediate children (expandable)
+
+==== Expected Output
+
+Four-page PDF with hierarchical bookmarks:
+
+* Chapter 1: Introduction
+  * 1.1 Getting Started
+  * 1.2 Basic Concepts
+* Chapter 2: Advanced Topics
+  * 2.1 Techniques
+  * 2.2 Best Practices
+* Chapter 3: Conclusion
+
+Clicking bookmarks navigates to corresponding pages and positions.
+
+==== Bookmark Structure
+
+**Hierarchy**:
+
+* `/Count` defines number of children
+* Bookmarks are added in order
+* Nesting determined by Count values
+
+**View types**:
+
+* `/XYZ` - Position: [/XYZ left top zoom]
+* `/Fit` - Fit whole page
+* `/FitH` - Fit horizontally: [/FitH top]
+* `/FitV` - Fit vertically: [/FitV left]
+
+=== PDF Hyperlinks
+
+Creating clickable links within the document and to external URLs.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%Title: PDF with Hyperlinks
+%%Pages: 2
+
+[/Title (Document with Hyperlinks)
+ /DOCINFO
+ pdfmark
+
+% Page 1 - Links page
+/Helvetica-Bold findfont 18 scalefont setfont
+72 720 moveto
+(Hyperlinks in PDF) show
+
+/Times-Roman findfont 12 scalefont setfont
+
+% Internal link to page 2
+72 650 moveto
+(Click here to go to Page 2) show
+
+% Create link annotation
+[/Rect [72 645 240 665]                     % Link rectangle <1>
+ /Border [0 0 0]                            % No border <2>
+ /Color [0 0 1]                             % Blue color <3>
+ /Action << /Subtype /GoTo                  % Internal link <4>
+            /Dest /Page2 >>                 % Destination name <5>
+ /Subtype /Link                             % Link type <6>
+ /ANN                                       % Annotation <7>
+ pdfmark
+
+% External URL link
+72 600 moveto
+(Visit PostScript.org) show
+
+[/Rect [72 595 210 615]
+ /Border [0 0 1]                            % 1-point border
+ /Color [0 0.5 0]                           % Green
+ /Action << /Subtype /URI                   % URL link <8>
+            /URI (https://www.postscript.org) >> <9>
+ /Subtype /Link
+ /ANN
+ pdfmark
+
+% Email link
+72 550 moveto
+(Email: support@example.com) show
+
+[/Rect [117 545 270 565]
+ /Border [0 0 0]
+ /Color [0.5 0 0]                           % Red
+ /Action << /Subtype /URI
+            /URI (mailto:support@example.com) >> <10>
+ /Subtype /Link
+ /ANN
+ pdfmark
+
+% Link to specific position on same page
+72 500 moveto
+(Jump to bottom of this page) show
+
+[/Rect [72 495 250 515]
+ /Border [0 0 1]
+ /Color [0.5 0 0.5]                         % Purple
+ /Action << /Subtype /GoTo
+            /Dest [/Page 1 /XYZ null 100 null] >> <11>
+ /Subtype /Link
+ /ANN
+ pdfmark
+
+% Draw a box at bottom for link target
+gsave
+  0.9 setgray
+  72 80 200 40 rectfill
+  0 setgray
+  /Helvetica findfont 10 scalefont setfont
+  172 95 moveto
+  (Link destination) dup stringwidth pop 2 div neg 0 rmoveto show
+grestore
+
+% Page navigation links
+72 200 moveto
+(Next page >>) show
+
+[/Rect [72 195 160 215]
+ /Border [0 0 0]
+ /Color [0 0 1]
+ /Action << /Subtype /GoTo
+            /Dest /Page2 >>
+ /Subtype /Link
+ /ANN
+ pdfmark
+
+showpage
+
+% Page 2 - Target page
+% Define named destination
+[/Dest /Page2                               % Named destination <12>
+ /Page 2
+ /View [/XYZ null null null]
+ /DEST
+ pdfmark
+
+/Helvetica-Bold findfont 18 scalefont setfont
+72 720 moveto
+(Page 2 - Link Target) show
+
+/Times-Roman findfont 12 scalefont setfont
+72 680 moveto
+(You arrived here by clicking a link.) show
+
+% Back link to page 1
+72 640 moveto
+(<< Back to Page 1) show
+
+[/Rect [72 635 200 655]
+ /Border [0 0 0]
+ /Color [0 0 1]
+ /Action << /Subtype /GoTo
+            /Dest [/Page 1 /XYZ null null null] >>
+ /Subtype /Link
+ /ANN
+ pdfmark
+
+showpage
+%%EOF
+----
+<1> Rectangle coordinates: [left bottom right top]
+<2> Border: [h-radius v-radius width], [0 0 0] = no border
+<3> Color in RGB: [red green blue]
+<4> `/GoTo` action for internal navigation
+<5> `/Dest` specifies destination name or explicit page
+<6> `/Link` subtype creates clickable link
+<7> `/ANN` creates annotation
+<8> `/URI` action for external links
+<9> Full URL including protocol (http://, https://, etc.)
+<10> `mailto:` protocol for email links
+<11> Explicit destination: [/Page pagenum /ViewType ...]
+<12> Define named destination for linking
+
+==== Expected Output
+
+Two-page PDF with various link types:
+
+* Internal link to Page 2
+* External web link (postscript.org)
+* Email link (opens mail client)
+* Link to position on same page
+* Navigation links between pages
+* Back link from Page 2 to Page 1
+
+==== Link Types
+
+**Internal links**:
+
+* Use `/GoTo` action
+* Specify destination by name or page
+* Can target specific positions
+
+**External links**:
+
+* Use `/URI` action
+* Support http://, https://, mailto:, ftp:, etc.
+* Open in default application
+
+**Link appearance**:
+
+* `/Border` controls border style
+* `/Color` sets link color
+* `/Rect` defines clickable area
+
+=== PDF with Images and Graphics
+
+Incorporating images into PDF documents.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%Title: PDF with Images
+%%Pages: 1
+
+[/Title (PDF with Images and Graphics)
+ /Author (PostScript Guide)
+ /DOCINFO
+ pdfmark
+
+% Title
+/Helvetica-Bold findfont 20 scalefont setfont
+72 720 moveto
+(Images in PDF Documents) show
+
+% Embedded grayscale image
+/Times-Roman findfont 12 scalefont setfont
+72 670 moveto
+(Grayscale Image:) show
+
+gsave
+  100 600 translate
+  80 80 scale
+
+  8 8 8
+  [8 0 0 -8 0 8]
+  {
+    <
+      00 20 40 60 80 A0 C0 E0
+      10 30 50 70 90 B0 D0 F0
+      20 40 60 80 A0 C0 E0 FF
+      30 50 70 90 B0 D0 F0 FF
+      40 60 80 A0 C0 E0 FF FF
+      50 70 90 B0 D0 FF FF FF
+      60 80 A0 C0 E0 FF FF FF
+      70 90 B0 D0 F0 FF FF FF
+    >
+  }
+  image
+grestore
+
+% RGB color image
+72 550 moveto
+(Color Image:) show
+
+gsave
+  100 480 translate
+  80 80 scale
+
+  8 8 8
+  [8 0 0 -8 0 8]
+  {
+    <
+      FF0000 00FF00 0000FF FFFF00 FF00FF 00FFFF 000000 FFFFFF
+      00FF00 0000FF FFFF00 FF00FF 00FFFF 000000 FFFFFF FF0000
+      0000FF FFFF00 FF00FF 00FFFF 000000 FFFFFF FF0000 00FF00
+      FFFF00 FF00FF 00FFFF 000000 FFFFFF FF0000 00FF00 0000FF
+      FF00FF 00FFFF 000000 FFFFFF FF0000 00FF00 0000FF FFFF00
+      00FFFF 000000 FFFFFF FF0000 00FF00 0000FF FFFF00 FF00FF
+      000000 FFFFFF FF0000 00FF00 0000FF FFFF00 FF00FF 00FFFF
+      FFFFFF FF0000 00FF00 0000FF FFFF00 FF00FF 00FFFF 000000
+    >
+  }
+  false 3 colorimage
+grestore
+
+% Vector graphics with image
+72 430 moveto
+(Combined Graphics and Images:) show
+
+gsave
+  300 360 translate
+
+  % Background gradient (vector)
+  0 1 49 {
+    /i exch def
+    i 50 div 0.8 mul 0.2 add
+    i 50 div 0.5 mul 0.3 add
+    i 50 div 0.3 mul 0.5 add
+    setrgbcolor
+    i 2 mul 0 2 100 rectfill
+  } for
+
+  % Overlay image
+  0.7 .setopacityalpha
+  50 50 scale
+
+  4 4 8
+  [4 0 0 -4 0 4]
+  {
+    <
+      FFFFFF C0C0C0 808080 404040
+      C0C0C0 808080 404040 000000
+      808080 404040 000000 404040
+      404040 000000 404040 808080
+    >
+  }
+  image
+
+  1 .setopacityalpha
+grestore
+
+% Image with caption and frame
+72 250 moveto
+(Framed Image with Caption:) show
+
+gsave
+  100 130 translate
+
+  % Frame
+  -5 -5 110 110 rectstroke
+
+  % Image
+  100 100 scale
+
+  8 8 8
+  [8 0 0 -8 0 8]
+  {
+    <
+      00 00 00 00 00 00 00 00
+      00 FF FF FF FF FF FF 00
+      00 FF 00 00 00 00 FF 00
+      00 FF 00 FF FF 00 FF 00
+      00 FF 00 FF FF 00 FF 00
+      00 FF 00 00 00 00 FF 00
+      00 FF FF FF FF FF FF 00
+      00 00 00 00 00 00 00 00
+    >
+  }
+  image
+grestore
+
+% Caption
+/Times-Italic findfont 10 scalefont setfont
+0 setgray
+100 110 moveto
+(Figure 1: Sample Image) show
+
+showpage
+%%EOF
+----
+
+==== Expected Output
+
+Single-page PDF containing:
+
+* Grayscale gradient image
+* RGB color image
+* Combined vector graphics and image
+* Framed image with caption
+
+All images are embedded in the PDF and display properly across all viewers.
+
+==== Image Integration
+
+**Image types in PDF**:
+
+* Grayscale (1 component)
+* RGB (3 components)
+* CMYK (4 components, for print)
+* Indexed color (palette-based)
+
+**Best practices**:
+
+* Use appropriate resolution (72-300 DPI)
+* Compress images when possible
+* Embed all required data
+* Consider file size vs. quality
+
+=== PDF Metadata and Properties
+
+Advanced metadata and document properties.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%Title: PDF with Advanced Metadata
+%%Pages: 1
+
+% Comprehensive document information
+[/Title (Complete PDF Metadata Example)
+ /Author (John Doe)
+ /Subject (Demonstrating PDF metadata capabilities)
+ /Keywords (PDF metadata PostScript pdfmark properties)
+ /Creator (PostScript Language Reference Guide)
+ /CreationDate (D:20250101120000+00'00')   % ISO 8601 format <1>
+ /ModDate (D:20250101120000+00'00')        % Modification date
+ /Trapped /False                            % Trapping status <2>
+ /GTS_PDFXVersion (PDF/X-1:2001)            % PDF/X version <3>
+ /DOCINFO
+ pdfmark
+
+% Document view preferences
+[/PageMode /UseOutlines                     % Show bookmarks <4>
+ /ViewerPreferences <<
+   /DisplayDocTitle true                    % Show title in window <5>
+   /FitWindow true                          % Fit window to page <6>
+   /CenterWindow true                       % Center on screen <7>
+   /HideMenubar false                       % Keep menubar visible
+   /HideToolbar false                       % Keep toolbar visible
+   /HideWindowUI false                      % Show window controls
+   /Direction /L2R                          % Left-to-right <8>
+ >>
+ /DOCVIEW                                   % Document view settings <9>
+ pdfmark
+
+% Page layout
+[/PageLayout /SinglePage                    % Display mode <10>
+ /DOCVIEW
+ pdfmark
+
+% Document security (optional, for information)
+% Note: Actual encryption requires PDF writer support
+% [/CanModify false                         % Prevent modifications
+%  /CanCopy false                            % Prevent copying
+%  /CanPrint true                            % Allow printing
+%  /DOCVIEW
+%  pdfmark
+
+% Custom metadata (XMP)
+% Extended metadata in XML format
+mark                                        % Start mark <11>
+{
+  <x:xmpmeta xmlns:x="adobe:ns:meta/">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <rdf:Description rdf:about=""
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:xmp="http://ns.adobe.com/xap/1.0/">
+        <dc:title>
+          <rdf:Alt>
+            <rdf:li xml:lang="x-default">PDF Metadata Example</rdf:li>
+          </rdf:Alt>
+        </dc:title>
+        <dc:creator>
+          <rdf:Seq>
+            <rdf:li>John Doe</rdf:li>
+          </rdf:Seq>
+        </dc:creator>
+        <dc:description>
+          <rdf:Alt>
+            <rdf:li xml:lang="x-default">Example with metadata</rdf:li>
+          </rdf:Alt>
+        </dc:description>
+        <xmp:CreateDate>2025-01-01T12:00:00Z</xmp:CreateDate>
+      </rdf:Description>
+    </rdf:RDF>
+  </x:xmpmeta>
+} stopped pop                              % Execute and handle errors
+cleartomark                                 % Clear mark
+
+% Page content showing metadata
+/Helvetica-Bold findfont 20 scalefont setfont
+72 720 moveto
+(PDF Metadata & Properties) show
+
+/Times-Roman findfont 12 scalefont setfont
+
+72 670 moveto
+(Document Information:) show
+
+/Courier findfont 10 scalefont setfont
+90 650 moveto (Title: Complete PDF Metadata Example) show
+90 635 moveto (Author: John Doe) show
+90 620 moveto (Subject: Demonstrating PDF metadata) show
+90 605 moveto (Keywords: PDF metadata PostScript) show
+
+/Times-Roman findfont 12 scalefont setfont
+72 570 moveto
+(Viewer Preferences:) show
+
+/Courier findfont 10 scalefont setfont
+90 550 moveto (Display: Document title in window) show
+90 535 moveto (Window: Fit and center) show
+90 520 moveto (Interface: Full UI visible) show
+90 505 moveto (Reading: Left-to-right) show
+
+/Times-Roman findfont 12 scalefont setfont
+72 470 moveto
+(Page Layout: Single page view) show
+
+72 440 moveto
+(These properties are visible in PDF viewer) show
+72 425 moveto
+(File > Properties or Document Properties menu.) show
+
+showpage
+%%EOF
+----
+<1> Date format: (D:YYYYMMDDHHmmSSOHH'mm')
+<2> Trapping status: /True, /False, or /Unknown
+<3> PDF/X conformance level for print
+<4> PageMode: /UseNone, /UseOutlines, /UseThumbs, /FullScreen
+<5> DisplayDocTitle shows title instead of filename
+<6> FitWindow resizes window to fit page
+<7> CenterWindow centers PDF window on screen
+<8> Direction: /L2R (left-to-right) or /R2L (right-to-left)
+<9> `/DOCVIEW` applies view preferences
+<10> PageLayout: /SinglePage, /OneColumn, /TwoColumnLeft, etc.
+<11> `mark` and `cleartomark` bracket complex data
+
+==== Expected Output
+
+PDF with comprehensive metadata:
+
+* Document info (title, author, etc.)
+* Viewer preferences (window behavior)
+* Page layout settings
+* Custom XMP metadata
+* Properties visible in PDF reader
+
+==== Metadata Purposes
+
+**Document information**:
+
+* Identifies document and author
+* Enables searching and cataloging
+* Appears in file properties
+
+**Viewer preferences**:
+
+* Controls initial view
+* Sets window behavior
+* Configures UI elements
+
+**Security** (implementation-specific):
+
+* Restricts operations
+* Requires password
+* Controls permissions
+
+=== Troubleshooting
+
+==== Common Issues
+
+**pdfmark not working**:
+
+* Requires conversion tool (Ghostscript/Distiller)
+* Not all viewers support all features
+* Check pdfmark syntax carefully
+
+**Bookmarks not appearing**:
+
+* Ensure `/Count` values are correct
+* Bookmarks must be defined before pages
+* Check for matching `/Title` and `/Page`
+
+**Links not clickable**:
+
+* Verify `/Rect` coordinates match text position
+* Check `/Action` dictionary syntax
+* Ensure `/Subtype /Link` is specified
+
+**Metadata not visible**:
+
+* Check `/DOCINFO` pdfmark placement
+* Some fields may not display in all viewers
+* Use PDF properties dialog to verify
+
+**Images not embedded**:
+
+* Ensure complete image data in PostScript
+* Check image operator (image vs. colorimage)
+* Verify data source format
+
+=== Performance Tips
+
+* **Define pdfmarks early**: Place metadata at file start
+* **Optimize images**: Use appropriate resolution
+* **Minimize bookmark depth**: Limit nesting levels
+* **Test conversion**: Verify with target PDF tool
+
+=== See Also
+
+* xref:hello-world.adoc[Hello World] - Basic PostScript structure
+* xref:image-manipulation.adoc[Image Manipulation] - Working with images
+* xref:text-layout.adoc[Text Layout] - Document formatting
+* xref:../levels/level-2.adoc[Level 2] - Advanced features
+* xref:../levels/level-3.adoc[Level 3] - Latest capabilities
+* xref:index.adoc[More Examples]
+* xref:../commands/index.adoc[Command Reference]

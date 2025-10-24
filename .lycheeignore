@@ -1,0 +1,51 @@
+# Lychee Ignore Patterns
+# Patterns in this file will be excluded from link checking
+
+# Protocol-relative URLs - convert to https and check
+^//github\.com
+^//www\.adobe\.com
+
+# Local development URLs
+http://localhost
+http://127.0.0.1
+
+# Placeholder URLs in documentation that are examples, not real links
+example\.com
+example\.org
+test\.com
+
+# Adobe URLs that may have rate limiting or be temporarily unavailable
+# We trust these are valid even if temporarily unreachable
+https://www.adobe.com/content/dam/acom/en/devnet/
+https://www.adobe.com/products/postscript/pdfs/
+https://www.adobe.com/products/postscript
+
+# Wikipedia may block certain user agents
+https://en.wikipedia.org/wiki/
+
+# Ghostscript official site
+https://www.ghostscript.com/
+
+# Relative paths that look like URLs in code examples
+# These are PostScript code examples, not actual URLs
+file:///path/to/
+%device%
+
+# PostScript-specific pseudo-URLs used in examples
+%stdin
+%stdout
+%statementedit
+%lineedit
+
+# GitHub URLs for this repository (will be checked differently)
+# Exclude to avoid checking during development
+# https://github.com/metanorma/postscript-guide
+
+# Template/placeholder patterns in examples
+PLACEHOLDER
+TODO
+FIXME
+
+# Cross-reference anchors that are internal to generated HTML
+# These will be validated in the built site, not source
+#.*\.adoc#.*

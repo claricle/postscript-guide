@@ -1,0 +1,13 @@
+---
+layout: default
+title: Error Handling
+parent: Command Reference
+---
+
+== Error Handling
+
+Documentation for error-handling commands.
+
+== Status
+
+Under development.

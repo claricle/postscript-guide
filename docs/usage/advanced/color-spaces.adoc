@@ -1,0 +1,980 @@
+---
+layout: default
+title: Color Spaces
+parent: Advanced Usage
+grand_parent: Usage Guides
+nav_order: 4
+---
+
+== Color Spaces
+
+PostScript supports multiple color spaces for representing colors, from simple grayscale to complex device-independent color systems. Understanding color spaces is crucial for accurate color reproduction and professional printing.
+
+=== Overview
+
+PostScript color spaces include:
+
+* **DeviceGray** - Grayscale (0-1)
+* **DeviceRGB** - Red-Green-Blue (0-1 each)
+* **DeviceCMYK** - Cyan-Magenta-Yellow-Black (0-1 each)
+* **HSB** - Hue-Saturation-Brightness (Level 1 compatible)
+* **CIE-based** - Device-independent color (Level 2+)
+* **Pattern** - Repeating patterns (Level 2+)
+* **Indexed** - Color lookup tables (Level 2+)
+* **Separation** - Spot colors (Level 2+)
+
+Each color space has specific use cases and characteristics.
+
+=== Device Color Spaces
+
+==== DeviceGray
+
+Grayscale color space using single value:
+
+[source,postscript]
+----
+% setgray: gray setgray
+% gray: 0 (black) to 1 (white)
+
+0 setgray        % Black
+0.5 setgray      % 50% gray
+1 setgray        % White
+
+% Query current gray
+currentgray =    % Returns current gray value
+----
+
+Common gray values:
+
+[source,postscript]
+----
+/Black { 0 setgray } def
+/White { 1 setgray } def
+/LightGray { 0.75 setgray } def
+/MediumGray { 0.5 setgray } def
+/DarkGray { 0.25 setgray } def
+----
+
+==== DeviceRGB
+
+RGB color space (additive color model):
+
+[source,postscript]
+----
+% setrgbcolor: red green blue setrgbcolor
+% Each component: 0 (none) to 1 (full)
+
+1 0 0 setrgbcolor    % Red
+0 1 0 setrgbcolor    % Green
+0 0 1 setrgbcolor    % Blue
+1 1 0 setrgbcolor    % Yellow
+1 0 1 setrgbcolor    % Magenta
+0 1 1 setrgbcolor    % Cyan
+0 0 0 setrgbcolor    % Black
+1 1 1 setrgbcolor    % White
+
+% Query current RGB
+currentrgbcolor      % Returns: r g b
+----
+
+Common colors:
+
+[source,postscript]
+----
+% Primary colors
+/Red { 1 0 0 setrgbcolor } def
+/Green { 0 1 0 setrgbcolor } def
+/Blue { 0 0 1 setrgbcolor } def
+
+% Secondary colors
+/Yellow { 1 1 0 setrgbcolor } def
+/Magenta { 1 0 1 setrgbcolor } def
+/Cyan { 0 1 1 setrgbcolor } def
+
+% Named colors
+/Orange { 1 0.647 0 setrgbcolor } def
+/Purple { 0.502 0 0.502 setrgbcolor } def
+/Brown { 0.647 0.165 0.165 setrgbcolor } def
+/Pink { 1 0.753 0.796 setrgbcolor } def
+----
+
+==== DeviceCMYK
+
+CMYK color space (subtractive color model for printing):
+
+[source,postscript]
+----
+% setcmykcolor: cyan magenta yellow black setcmykcolor
+% Each component: 0 (none) to 1 (full)
+
+1 0 0 0 setcmykcolor    % Cyan
+0 1 0 0 setcmykcolor    % Magenta
+0 0 1 0 setcmykcolor    % Yellow
+0 0 0 1 setcmykcolor    % Black
+
+% Query current CMYK
+currentcmykcolor        % Returns: c m y k
+----
+
+RGB to CMYK conversion (simple):
+
+[source,postscript]
+----
+/rgb2cmyk {  % r g b -> c m y k
+  3 dict begin
+    /b exch def
+    /g exch def
+    /r exch def
+
+    % Calculate K
+    /k 1 r max g max b max max sub def
+
+    % Calculate CMY
+    k 1 eq {
+      % Pure black
+      0 0 0 k
+    } {
+      % Calculate C, M, Y
+      1 r sub k sub 1 k sub div
+      1 g sub k sub 1 k sub div
+      1 b sub k sub 1 k sub div
+      k
+    } ifelse
+  end
+} def
+
+% Usage
+0.8 0.2 0.3 rgb2cmyk setcmykcolor
+----
+
+==== HSB (Hue-Saturation-Brightness)
+
+Alternative color representation:
+
+[source,postscript]
+----
+% sethsbcolor: hue saturation brightness sethsbcolor
+% hue: 0-360 degrees
+% saturation: 0 (gray) to 1 (pure)
+% brightness: 0 (black) to 1 (bright)
+
+0 1 1 sethsbcolor      % Red (hue=0°)
+120 1 1 sethsbcolor    % Green (hue=120°)
+240 1 1 sethsbcolor    % Blue (hue=240°)
+60 1 1 sethsbcolor     % Yellow (hue=60°)
+
+% Pastel colors (low saturation)
+0 0.3 1 sethsbcolor    % Pastel red
+
+% Dark colors (low brightness)
+240 1 0.5 sethsbcolor  % Dark blue
+
+% Query current HSB
+currenthsbcolor        % Returns: h s b
+----
+
+Color wheel using HSB:
+
+[source,postscript]
+----
+/colorWheel {  % centerX centerY radius -> -
+  3 dict begin
+    /r exch def
+    /cy exch def
+    /cx exch def
+
+    0 10 360 {
+      /angle exch def
+
+      gsave
+        cx cy translate
+        angle rotate
+
+        % Set color based on angle
+        angle 1 1 sethsbcolor
+
+        % Draw segment
+        newpath
+        0 0 moveto
+        r 0 lineto
+        r 0 r 0 10 arc
+        closepath
+        fill
+      grestore
+    } for
+  end
+} def
+
+200 200 100 colorWheel
+----
+
+=== Color Conversions
+
+==== RGB to HSB
+
+[source,postscript]
+----
+/rgb2hsb {  % r g b -> h s b
+  3 dict begin
+    /b exch def
+    /g exch def
+    /r exch def
+
+    % Find max and min
+    /cmax r g max b max def
+    /cmin r g min b min def
+    /delta cmax cmin sub def
+
+    % Calculate hue
+    delta 0 eq {
+      /h 0 def
+    } {
+      cmax r eq {
+        /h g b sub delta div 60 mul def
+      } {
+        cmax g eq {
+          /h b r sub delta div 2 add 60 mul def
+        } {
+          /h r g sub delta div 4 add 60 mul def
+        } ifelse
+      } ifelse
+    } ifelse
+
+    h 0 lt { /h h 360 add def } if
+
+    % Calculate saturation
+    /s cmax 0 eq { 0 } { delta cmax div } ifelse def
+
+    % Brightness is max
+    /v cmax def
+
+    h s v
+  end
+} def
+
+% Usage
+1 0.5 0 rgb2hsb  % Returns hue, sat, bright
+----
+
+==== HSB to RGB
+
+[source,postscript]
+----
+/hsb2rgb {  % h s b -> r g b
+  3 dict begin
+    /v exch def
+    /s exch def
+    /h exch def
+
+    s 0 eq {
+      % Achromatic (gray)
+      v v v
+    } {
+      h 360 ge { /h h 360 sub def } if
+      h 0 lt { /h h 360 add def } if
+
+      /h h 60 div def
+      /i h floor cvi def
+      /f h i sub def
+
+      /p v 1 s sub mul def
+      /q v 1 s f mul sub mul def
+      /t v 1 s 1 f sub mul sub mul def
+
+      i 0 eq { v t p } if
+      i 1 eq { q v p } if
+      i 2 eq { p v t } if
+      i 3 eq { p q v } if
+      i 4 eq { t p v } if
+      i 5 eq { v p q } if
+    } ifelse
+  end
+} def
+----
+
+==== CMYK to RGB (Approximate)
+
+[source,postscript]
+----
+/cmyk2rgb {  % c m y k -> r g b
+  4 dict begin
+    /k exch def
+    /y exch def
+    /m exch def
+    /c exch def
+
+    1 c k add 1 k sub mul sub
+    1 m k add 1 k sub mul sub
+    1 y k add 1 k sub mul sub
+  end
+} def
+----
+
+=== Color Palettes
+
+==== Predefined Palettes
+
+[source,postscript]
+----
+% Web colors
+/webColors <<
+  /AliceBlue [0.941 0.973 1.000]
+  /AntiqueWhite [0.980 0.922 0.843]
+  /Aqua [0.000 1.000 1.000]
+  /Azure [0.941 1.000 1.000]
+  /Beige [0.961 0.961 0.863]
+  /Crimson [0.863 0.078 0.235]
+  /Gold [1.000 0.843 0.000]
+  /Indigo [0.294 0.000 0.510]
+  /Lavender [0.902 0.902 0.980]
+  /Navy [0.000 0.000 0.502]
+  /Olive [0.502 0.502 0.000]
+  /Orange [1.000 0.647 0.000]
+  /Pink [1.000 0.753 0.796]
+  /Purple [0.502 0.000 0.502]
+  /Silver [0.753 0.753 0.753]
+  /Teal [0.000 0.502 0.502]
+  /Violet [0.933 0.510 0.933]
+>> def
+
+/setWebColor {  % colorName -> -
+  webColors exch get
+  aload pop setrgbcolor
+} def
+
+% Usage
+/Crimson setWebColor
+100 100 50 0 360 arc fill
+----
+
+==== Material Design Palette
+
+[source,postscript]
+----
+/materialColors <<
+  /Red50 [1.000 0.922 0.933]
+  /Red500 [0.957 0.263 0.212]
+  /Red900 [0.718 0.110 0.110]
+
+  /Blue50 [0.890 0.949 0.992]
+  /Blue500 [0.129 0.588 0.953]
+  /Blue900 [0.051 0.278 0.631]
+
+  /Green50 [0.910 0.961 0.914]
+  /Green500 [0.298 0.686 0.314]
+  /Green900 [0.106 0.369 0.125]
+>> def
+----
+
+==== Gradient Palettes
+
+[source,postscript]
+----
+/createGradient {  % color1 color2 steps -> gradientArray
+  3 dict begin
+    /steps exch def
+    /c2 exch def
+    /c1 exch def
+
+    [
+      0 1 steps 1 sub {
+        /i exch def
+        /t i steps 1 sub div def
+
+        [
+          c1 0 get 1 t sub mul c2 0 get t mul add
+          c1 1 get 1 t sub mul c2 1 get t mul add
+          c1 2 get 1 t sub mul c2 2 get t mul add
+        ]
+      } for
+    ]
+  end
+} def
+
+% Usage
+[1 0 0] [0 0 1] 10 createGradient
+% Returns array of 10 colors from red to blue
+----
+
+=== Color Manipulation
+
+==== Lighten/Darken
+
+[source,postscript]
+----
+/lighten {  % amount r g b -> r' g' b'
+  4 dict begin
+    /b exch def
+    /g exch def
+    /r exch def
+    /amt exch def
+
+    r amt add 1 min
+    g amt add 1 min
+    b amt add 1 min
+  end
+} def
+
+/darken {  % amount r g b -> r' g' b'
+  4 dict begin
+    /b exch def
+    /g exch def
+    /r exch def
+    /amt exch def
+
+    r amt sub 0 max
+    g amt sub 0 max
+    b amt sub 0 max
+  end
+} def
+
+% Usage
+0.2 1 0.5 0 lighten setrgbcolor  % Lighten orange
+0.2 1 0.5 0 darken setrgbcolor   % Darken orange
+----
+
+==== Saturation Adjustment
+
+[source,postscript]
+----
+/saturate {  % amount r g b -> r' g' b'
+  4 dict begin
+    /b exch def
+    /g exch def
+    /r exch def
+    /amt exch def
+
+    % Convert to HSB
+    r g b rgb2hsb
+
+    % Adjust saturation
+    3 1 roll
+    amt add 0 max 1 min
+    3 -1 roll
+
+    % Convert back to RGB
+    hsb2rgb
+  end
+} def
+----
+
+==== Color Blending
+
+[source,postscript]
+----
+/blendColors {  % r1 g1 b1 r2 g2 b2 t -> r g b
+  7 dict begin
+    /t exch def
+    /b2 exch def /g2 exch def /r2 exch def
+    /b1 exch def /g1 exch def /r1 exch def
+
+    r1 1 t sub mul r2 t mul add
+    g1 1 t sub mul g2 t mul add
+    b1 1 t sub mul b2 t mul add
+  end
+} def
+
+% Usage
+1 0 0  0 0 1  0.5 blendColors  % 50% red, 50% blue
+setrgbcolor
+----
+
+=== Advanced Color Techniques
+
+==== Color Harmonies
+
+[source,postscript]
+----
+% Complementary colors (opposite on color wheel)
+/complementary {  % h s b -> h1 s1 b1 h2 s2 b2
+  3 copy
+  3 -1 roll 180 add 360 mod
+  3 1 roll
+} def
+
+% Triadic colors (120° apart)
+/triadic {  % h s b -> [h1 s1 b1] [h2 s2 b2] [h3 s3 b3]
+  3 dict begin
+    /b exch def
+    /s exch def
+    /h exch def
+
+    [
+      [h s b]
+      [h 120 add 360 mod s b]
+      [h 240 add 360 mod s b]
+    ]
+  end
+} def
+
+% Usage
+0 1 1 triadic {
+  aload pop sethsbcolor
+  % Draw something with this color
+} forall
+----
+
+==== Color Temperature
+
+[source,postscript]
+----
+% Warm/cool color filter
+/warmFilter {  % r g b -> r' g' b'
+  % Increase red, decrease blue
+  3 1 roll
+  0.9 mul
+  3 -1 roll
+  1.1 mul 1 min
+  3 1 roll
+} def
+
+/coolFilter {  % r g b -> r' g' b'
+  % Decrease red, increase blue
+  exch
+  1.1 mul 1 min
+  exch
+  0.9 mul
+} def
+----
+
+==== Grayscale Conversion
+
+[source,postscript]
+----
+% Luminance-based grayscale
+/toGrayscale {  % r g b -> gray
+  0.299 mul     % Red weight
+  exch 0.587 mul add  % Green weight
+  exch 0.114 mul add  % Blue weight
+} def
+
+% Usage
+1 0.5 0 toGrayscale setgray
+----
+
+=== Color Matching and Gamut
+
+==== Color Difference
+
+[source,postscript]
+----
+% Calculate color difference (Euclidean distance in RGB)
+/colorDifference {  % r1 g1 b1 r2 g2 b2 -> distance
+  6 dict begin
+    /b2 exch def /g2 exch def /r2 exch def
+    /b1 exch def /g1 exch def /r1 exch def
+
+    r2 r1 sub dup mul
+    g2 g1 sub dup mul add
+    b2 b1 sub dup mul add
+    sqrt
+  end
+} def
+
+% Find closest color in palette
+/findClosestColor {  % r g b palette -> index
+  4 dict begin
+    /pal exch def
+    /tb exch def /tg exch def /tr exch def
+
+    /minDist 999 def
+    /minIdx 0 def
+
+    0 1 pal length 1 sub {
+      /i exch def
+      tr tg tb
+      pal i get aload pop
+      colorDifference
+
+      dup minDist lt {
+        /minDist exch def
+        /minIdx i def
+      } {
+        pop
+      } ifelse
+    } for
+
+    minIdx
+  end
+} def
+----
+
+==== Gamut Clamping
+
+[source,postscript]
+----
+% Clamp RGB values to valid range
+/clampRGB {  % r g b -> r' g' b'
+  3 {
+    0 max 1 min
+  } repeat
+} def
+
+% Clamp while preserving hue
+/clampPreservingHue {  % r g b -> r' g' b'
+  3 dict begin
+    /b exch def /g exch def /r exch def
+
+    % Find max component
+    /maxVal r g max b max def
+
+    maxVal 1 gt {
+      % Scale down proportionally
+      r maxVal div
+      g maxVal div
+      b maxVal div
+    } {
+      r g b
+    } ifelse
+  end
+} def
+----
+
+=== Practical Color Examples
+
+==== Example 1: Heat Map
+
+[source,postscript]
+----
+/heatMapColor {  % value(0-1) -> -
+  % Blue -> Cyan -> Green -> Yellow -> Red
+  dup 0.25 lt {
+    % Blue to Cyan
+    4 mul
+    0 exch 1 setrgbcolor
+  } {
+    dup 0.5 lt {
+      % Cyan to Green
+      0.25 sub 4 mul
+      1 exch sub exch 1 exch setrgbcolor
+    } {
+      dup 0.75 lt {
+        % Green to Yellow
+        0.5 sub 4 mul
+        dup 1 0 setrgbcolor
+      } {
+        % Yellow to Red
+        0.75 sub 4 mul
+        1 exch 1 exch sub 0 setrgbcolor
+      } ifelse
+    } ifelse
+  } ifelse
+} def
+
+% Draw heat map
+0 0.05 1 {
+  /v exch def
+  v heatMapColor
+  v 100 mul 100 10 50 rectfill
+} for
+----
+
+==== Example 2: Rainbow Gradient
+
+[source,postscript]
+----
+/rainbowGradient {  % x y width height -> -
+  4 dict begin
+    /h exch def /w exch def
+    /y exch def /x exch def
+
+    0 1 w {
+      /i exch def
+      i w div 360 mul 1 1 sethsbcolor
+      x i add y 1 h rectfill
+    } for
+  end
+} def
+
+100 100 400 50 rainbowGradient
+----
+
+==== Example 3: Color Picker
+
+[source,postscript]
+----
+/colorPicker {  % centerX centerY size -> -
+  3 dict begin
+    /size exch def
+    /cy exch def
+    /cx exch def
+
+    % Draw hue/saturation square
+    0 1 size {
+      /x exch def
+      0 1 size {
+        /y exch def
+
+        /hue x size div 360 mul def
+        /sat y size div def
+
+        hue sat 1 sethsbcolor
+        cx x add cy y add 1 1 rectfill
+      } for
+    } for
+  end
+} def
+
+100 100 200 colorPicker
+----
+
+==== Example 4: Duotone Effect
+
+[source,postscript]
+----
+/duotone {  % grayValue color1 color2 -> -
+  % Blend between two colors based on grayscale
+  3 dict begin
+    /c2 exch def
+    /c1 exch def
+    /gray exch def
+
+    c1 aload pop
+    c2 aload pop
+    gray
+    blendColors
+    setrgbcolor
+  end
+} def
+
+% Usage
+0.3 [0.1 0.2 0.4] [0.9 0.7 0.5] duotone
+100 100 50 50 rectfill
+----
+
+=== Color Accessibility
+
+==== Contrast Ratio
+
+[source,postscript]
+----
+% Calculate relative luminance
+/luminance {  % r g b -> L
+  3 dict begin
+    /b exch def /g exch def /r exch def
+
+    % sRGB to linear RGB
+    /toLinear {
+      dup 0.03928 le {
+        12.92 div
+      } {
+        0.055 add 1.055 div 2.4 exp
+      } ifelse
+    } def
+
+    r toLinear 0.2126 mul
+    g toLinear 0.7152 mul add
+    b toLinear 0.0722 mul add
+  end
+} def
+
+% Calculate contrast ratio
+/contrastRatio {  % r1 g1 b1 r2 g2 b2 -> ratio
+  2 dict begin
+    /L2 3 -1 roll 3 -1 roll 3 -1 roll luminance def
+    /L1 3 -1 roll 3 -1 roll 3 -1 roll luminance def
+
+    L1 L2 gt {
+      L1 0.05 add L2 0.05 add div
+    } {
+      L2 0.05 add L1 0.05 add div
+    } ifelse
+  end
+} def
+
+% Check if contrast is sufficient (WCAG AA: 4.5:1 for normal text)
+/hasGoodContrast {  % r1 g1 b1 r2 g2 b2 -> boolean
+  contrastRatio 4.5 ge
+} def
+----
+
+==== Colorblind-Safe Palettes
+
+[source,postscript]
+----
+% Colorblind-friendly palette
+/cbSafe <<
+  /Blue [0.000 0.447 0.698]
+  /Orange [0.902 0.624 0.000]
+  /Green [0.000 0.620 0.451]
+  /Yellow [0.941 0.894 0.259]
+  /DarkBlue [0.000 0.000 0.545]
+  /Purple [0.800 0.475 0.655]
+  /Pink [0.941 0.502 0.502]
+>> def
+----
+
+=== Performance Optimization
+
+==== Color Caching
+
+[source,postscript]
+----
+% Cache commonly-used colors
+/colorCache 100 dict def
+
+/getCachedColor {  % name r g b -> -
+  4 dict begin
+    /b exch def /g exch def /r exch def
+    /name exch def
+
+    colorCache name known not {
+      colorCache name [r g b] put
+    } if
+
+    colorCache name get aload pop setrgbcolor
+  end
+} def
+
+% Usage
+/MyBlue 0.2 0.4 0.8 getCachedColor
+----
+
+==== Minimize Color Changes
+
+[source,postscript]
+----
+% Good: batch by color
+1 0 0 setrgbcolor
+shape1 fill
+shape2 fill
+shape3 fill
+
+0 0 1 setrgbcolor
+shape4 fill
+shape5 fill
+
+% Less efficient: frequent changes
+1 0 0 setrgbcolor shape1 fill
+0 0 1 setrgbcolor shape2 fill
+1 0 0 setrgbcolor shape3 fill
+0 0 1 setrgbcolor shape4 fill
+----
+
+=== Best Practices
+
+==== Use Meaningful Color Names
+
+[source,postscript]
+----
+% Good: descriptive names
+/BrandPrimary { 0.2 0.4 0.8 setrgbcolor } def
+/BrandSecondary { 1.0 0.6 0.0 setrgbcolor } def
+/TextDark { 0.2 setgray } def
+/Background { 0.95 setgray } def
+
+% Bad: generic names
+/Color1 { 0.2 0.4 0.8 setrgbcolor } def
+/C2 { 1.0 0.6 0.0 setrgbcolor } def
+----
+
+==== Consistent Color Scheme
+
+[source,postscript]
+----
+% Define theme colors
+/theme <<
+  /primary [0.129 0.588 0.953]
+  /secondary [0.957 0.263 0.212]
+  /success [0.298 0.686 0.314]
+  /warning [1.000 0.596 0.000]
+  /error [0.957 0.263 0.212]
+  /text [0.129 0.129 0.129]
+  /background [1.000 1.000 1.000]
+>> def
+
+/useThemeColor {  % colorName -> -
+  theme exch get aload pop setrgbcolor
+} def
+
+% Usage
+/primary useThemeColor
+----
+
+==== Test Color Output
+
+[source,postscript]
+----
+% Draw color swatches for testing
+/drawSwatch {  % x y width height r g b label -> -
+  8 dict begin
+    /label exch def
+    /b exch def /g exch def /r exch def
+    /h exch def /w exch def
+    /y exch def /x exch def
+
+    % Color rectangle
+    r g b setrgbcolor
+    x y w h rectfill
+
+    % Border
+    0 setgray
+    0.5 setlinewidth
+    x y w h rectstroke
+
+    % Label
+    /Helvetica findfont 8 scalefont setfont
+    x 2 add y h add 10 add moveto
+    label show
+  end
+} def
+
+% Test palette
+100 100 50 50 1 0 0 (Red) drawSwatch
+160 100 50 50 0 1 0 (Green) drawSwatch
+220 100 50 50 0 0 1 (Blue) drawSwatch
+----
+
+=== Common Pitfalls
+
+==== Color Values Out of Range
+
+[source,postscript]
+----
+% Wrong: values > 1
+2 0.5 0 setrgbcolor  % Invalid!
+
+% Correct: clamp to 0-1
+2 0.5 0 clampRGB setrgbcolor
+----
+
+==== Mixing Color Spaces
+
+[source,postscript]
+----
+% Wrong: mixed color commands
+1 0 0 setrgbcolor
+0.5 setgray  % Overwrites RGB setting!
+
+% Correct: consistent color space
+1 0 0 setrgbcolor
+% ... draw with RGB
+0 0 0 setrgbcolor  % Still in RGB
+----
+
+==== Forgetting Color Restoration
+
+[source,postscript]
+----
+% Wrong: color persists
+1 0 0 setrgbcolor
+shape1 fill
+% Everything after is red!
+
+% Correct: save/restore
+gsave
+  1 0 0 setrgbcolor
+  shape1 fill
+grestore
+% Color restored
+----
+
+=== See Also
+
+* xref:../basic/graphics-state.adoc[Graphics State] - Color state management
+* xref:patterns.adoc[Patterns] - Color patterns
+* xref:../../commands/graphics-state/setrgbcolor.adoc[setrgbcolor] - Set RGB color
+* xref:../../commands/graphics-state/setcmykcolor.adoc[setcmykcolor] - Set CMYK color
+* xref:../../commands/graphics-state/setgray.adoc[setgray] - Set gray color
+* xref:../../commands/graphics-state/sethsbcolor.adoc[sethsbcolor] - Set HSB color
+* xref:../../commands/graphics-state/currentrgbcolor.adoc[currentrgbcolor] - Get current RGB

@@ -1,0 +1,184 @@
+---
+layout: default
+title: currentlinecap
+parent: Graphics State
+grand_parent: Command Reference
+nav_order: 17
+---
+
+== currentlinecap
+
+Returns current line cap style.
+
+=== Syntax
+
+----
+– currentlinecap → int
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| –
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `int` (0, 1, or 2)
+|===
+
+=== Description
+
+[`currentlinecap`](currentlinecap.adoc) returns the current line cap parameter from the graphics state. This is the value most recently set by [`setlinecap`](setlinecap.adoc).
+
+**Cap styles:**
+
+* **0** = Butt cap (squared off at endpoint)
+* **1** = Round cap (semicircular)
+* **2** = Projecting square cap (extends beyond endpoint)
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Querying current line cap
+[source,postscript]
+----
+1 setlinecap
+currentlinecap
+% Stack: 1
+----
+
+.Saving and restoring line cap
+[source,postscript]
+----
+currentlinecap          % Save
+/savedCap exch def
+
+2 setlinecap            % Change to square
+drawLines
+
+savedCap setlinecap     % Restore
+----
+
+.Conditional drawing
+[source,postscript]
+----
+currentlinecap 1 eq {
+  % Round caps - draw dots
+  drawDottedLine
+} {
+  % Other caps - draw dashed
+  drawDashedLine
+} ifelse
+----
+
+=== Common Use Cases
+
+==== Cap State Preservation
+
+[source,postscript]
+----
+/DrawWithRoundCaps {
+  currentlinecap        % Save
+  1 setlinecap          % Round
+
+  drawShape
+
+  setlinecap            % Restore
+} def
+----
+
+==== Cap-Dependent Rendering
+
+[source,postscript]
+----
+/DrawLineCap {
+  currentlinecap
+  dup 0 eq {
+    % Butt - draw arrow
+    drawArrow
+  } if
+  dup 1 eq {
+    % Round - draw circle
+    drawCircle
+  } if
+  2 eq {
+    % Square - draw square
+    drawSquare
+  } if
+} def
+----
+
+==== Style Detection
+
+[source,postscript]
+----
+/IsRoundCap {
+  currentlinecap 1 eq
+} def
+
+IsRoundCap {
+  % Use round cap drawing
+} {
+  % Use other cap drawing
+} ifelse
+----
+
+=== Common Pitfalls
+
+WARNING: *Only Applies to Open Paths* - Line caps don't affect closed paths.
+
+[source,postscript]
+----
+2 setlinecap
+currentlinecap  % Returns 2
+% But closed paths won't show square caps
+----
+
+TIP: *Use for Dots* - Round caps (1) with zero-length lines make perfect dots.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackoverflow`]
+| No room on operand stack
+|===
+
+=== Implementation Notes
+
+* Very fast query operation
+* No modification to graphics state
+* Returns integer 0, 1, or 2
+* Default value is typically 0 (butt)
+* Widely supported (Level 1)
+
+=== Line Cap Styles
+
+[source]
+----
+Butt (0):     ├─────┤
+Round (1):    (─────)
+Square (2):   [─────]
+----
+
+=== See Also
+
+* xref:setlinecap.adoc[`setlinecap`] - Set line cap style
+* xref:currentlinejoin.adoc[`currentlinejoin`] - Get line join style
+* xref:currentlinewidth.adoc[`currentlinewidth`] - Get line width
+* xref:currentdash.adoc[`currentdash`] - Get dash pattern

@@ -1,0 +1,81 @@
+---
+layout: default
+title: PostScript Level 2
+parent: PostScript Levels
+nav_order: 2
+---
+
+== PostScript Level 2
+
+Major enhancement to PostScript released in 1990, adding color, composite fonts, and improved performance.
+
+== Overview
+
+PostScript Level 2 added significant capabilities while maintaining backward compatibility with Level 1. It introduced color support, composite fonts, improved memory management, and numerous new operators.
+
+== Key Enhancements
+
+=== Color Support
+
+* **RGB Color**: [`setrgbcolor`](../commands/graphics-state/setrgbcolor.adoc), `currentrgbcolor`
+* **CMYK Color**: `setcmykcolor`, `currentcmykcolor`
+* **HSB Color**: `sethsbcolor`, `currenthsbcolor`
+* **Color Spaces**: `setcolorspace`, `setcolor`
+* **Separation Colors**: For professional printing
+
+=== Composite Fonts
+
+* Multi-byte character encodings (CJK support)
+* Hierarchical font structure
+* Font mapping algorithms
+* Multiple descendant fonts
+
+=== Memory Management
+
+* **Global vs. Local VM**: Separate memory regions
+* **Auto-Expanding Dictionaries**: No dictfull error
+* **Garbage Collection**: Automatic memory reclamation
+* **VM Control**: `setglobal`, `currentglobal`
+
+=== New Data Types
+
+* **Packed Arrays**: Memory-efficient read-only arrays
+* **Gstate Objects**: Saveable graphics state
+* **Patterns**: Tiling patterns for fills
+* **Forms**: Cached graphical objects
+
+=== Enhanced Operators
+
+* **Binary Encoding**: Binary object sequences
+* **Filters**: Data compression and encoding
+* **Resources**: Standardized resource management
+* **User Paths**: Optimized path handling
+* **Device Control**: `setpagedevice`
+
+== New Operators
+
+Level 2 added approximately 120 new operators, including:
+
+* `packedarray`, `setpacking`
+* `undef`, `known`, `where` enhancements
+* `setcolorspace`, `setcolor`
+* `makepattern`, `setpattern`
+* `filter` with multiple encoding types
+* `setpagedevice`, `currentpagedevice`
+* Resource management operators
+* And many more...
+
+== Backward Compatibility
+
+Level 2 maintains full backward compatibility:
+
+* All Level 1 operators work unchanged
+* Level 1 programs run without modification
+* New features are additions, not replacements
+
+== See Also
+
+* xref:level-1.adoc[PostScript Level 1] - Original specification
+* xref:level-3.adoc[PostScript Level 3] - Latest features
+* xref:comparison.adoc[Version Comparison] - Detailed feature comparison
+* xref:index.adoc[PostScript Levels Overview]

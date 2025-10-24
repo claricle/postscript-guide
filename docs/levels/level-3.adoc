@@ -1,0 +1,59 @@
+---
+layout: default
+title: PostScript Level 3
+parent: PostScript Levels
+nav_order: 3
+---
+
+== PostScript Level 3
+
+The latest major PostScript specification, released in 1996, adding advanced imaging features and better PDF integration.
+
+== Overview
+
+PostScript Level 3 (also called PostScript 3) builds on Level 2 with enhanced imaging capabilities, better performance, and improved integration with PDF.
+
+== Key Enhancements
+
+=== Advanced Imaging
+
+* **Smooth Shading**: Gradient fills without banding
+* **DeviceN Color Spaces**: Support for spot colors and high-fidelity color
+* **Improved Halftoning**: Better quality screening
+* **In-RIP Trapping**: Automatic trapping for prepress
+
+=== PDF Integration
+
+* Better compatibility with PDF features
+* Improved transparency handling
+* Enhanced color management
+* Streamlined PDF generation
+
+=== Performance
+
+* Faster execution
+* Better memory management
+* Optimized font handling
+* Improved caching
+
+=== New Features
+
+* Additional color spaces
+* Better Unicode support
+* Enhanced device control
+* Improved error handling
+
+== Backward Compatibility
+
+Level 3 maintains full compatibility with Level 1 and Level 2:
+
+* All Level 1 operators work unchanged
+* All Level 2 operators work unchanged
+* Existing programs run without modification
+
+== See Also
+
+* xref:level-1.adoc[PostScript Level 1] - Original specification
+* xref:level-2.adoc[PostScript Level 2] - Color and fonts
+* xref:comparison.adoc[Version Comparison] - Feature comparison
+* xref:index.adoc[PostScript Levels Overview]

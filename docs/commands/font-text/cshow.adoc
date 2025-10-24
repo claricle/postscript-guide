@@ -1,0 +1,318 @@
+---
+layout: default
+title: cshow
+parent: "Font and Text"
+grand_parent: "Command Reference"
+nav_order: 13
+---
+
+== cshow
+
+Show text with procedure invoked for each character (Level 2).
+
+=== Syntax
+
+----
+proc string cshow → -
+----
+
+=== Stack Effects
+
+**Before:**
+```
+proc string
+```
+
+**After:**
+```
+(empty)
+```
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Description
+
+[`cshow`](cshow.adoc) invokes `proc` once for each operation of the font mapping algorithm. The value of [`currentfont`](currentfont.adoc) during the execution of `proc` is the base font that the algorithm ultimately selects.
+
+When `proc` is invoked, the stack contains three values:
+1. The selected character's code (an integer)
+2. The x component of the width vector for the character in user coordinate system
+3. The y component of the width vector for the character in user coordinate system
+
+[`cshow`](cshow.adoc) does not paint the character and does not change the current point, although `proc` may do so. When `proc` completes execution, the value of [`currentfont`](currentfont.adoc) is restored.
+
+[`cshow`](cshow.adoc) can be used to provide careful positioning of individual characters while taking advantage of the composite font mapping machinery of the interpreter. [`cshow`](cshow.adoc) is intended primarily for use with composite fonts. However, it can also be used with a base font. The mapping algorithm for a base font simply selects consecutive characters from the string.
+
+=== Parameters
+
+**proc** (`procedure`)
+: Procedure to execute for each character; receives character code, wx, and wy on stack
+
+**string** (`string`)
+: The text to process
+
+=== Procedure Arguments
+
+When `proc` is called, the stack contains:
+
+```
+charCode wx wy
+```
+
+Where:
+- `charCode` - Integer character code selected by font mapping
+- `wx` - X component of character width in user space
+- `wy` - Y component of character width in user space
+
+=== Examples
+
+==== Character-by-Character Positioning
+
+[source,postscript]
+----
+/customPlace {  % charCode wx wy customPlace -
+  % Move to next position and paint character
+  2 copy rmoveto           % Move by width vector
+  pop pop                  % Remove wx, wy
+
+  % Get character and show it
+  1 string dup 0 4 -1 roll put
+  currentfont /Encoding get exch get
+  glyphshow
+} def
+
+/Helvetica findfont 12 scalefont setfont
+100 700 moveto
+/customPlace load (Custom) cshow
+----
+
+==== Composite Font Processing
+
+[source,postscript]
+----
+% Process each character from composite font
+/processComposite {  % charCode wx wy processComposite -
+  % charCode is the final mapped code
+  % currentfont is the selected base font
+
+  currentfont /FontName get ==  % Print which font
+  3 1 roll                      % charCode at top
+
+  % Paint character at current position
+  1 string dup 0 4 -1 roll put
+  dup show
+
+  % Advance by width
+  exch 0 rmoveto pop
+} def
+
+/CompositeFont findfont 12 scalefont setfont
+100 700 moveto
+/processComposite load (Text) cshow
+----
+
+==== Character Analysis
+
+[source,postscript]
+----
+% Collect character information
+/analyzeChars {  % charCode wx wy analyzeChars -
+  % Store information about each character
+  3 copy
+  4 dict begin
+    /wy exch def
+    /wx exch def
+    /code exch def
+    /font currentfont /FontName get def
+
+    % Print analysis
+    (Char: ) print code =string cvs print
+    ( Font: ) print font =string cvs print
+    ( Width: ) print wx = wy =
+  end
+
+  % Advance and paint
+  rmoveto
+} def
+
+100 700 moveto
+/analyzeChars load (ABC) cshow
+----
+
+==== Vertical Text Layout
+
+[source,postscript]
+----
+% Use wy for vertical advancement
+/verticalShow {  % charCode wx wy verticalShow -
+  exch pop              % Use only wy
+  0 exch neg rmoveto    % Move down by height
+
+  % Paint character
+  1 string dup 0 4 -1 roll put show
+} def
+
+/Helvetica findfont 12 scalefont setfont
+100 700 moveto
+/verticalShow load (VERTICAL) cshow
+----
+
+=== Errors
+
+**invalidfont**
+: Current font is not valid
+
+**invalidaccess**
+: Font or string has restricted access
+
+**nocurrentpoint**
+: Current point is not defined
+
+**rangecheck**
+: Character mapping out of bounds
+
+**stackunderflow**
+: Fewer than two operands on stack
+
+**typecheck**
+: `proc` is not executable or `string` is not a string
+
+=== Font Mapping with Composite Fonts
+
+For composite fonts, [`cshow`](cshow.adoc) invokes the font mapping algorithm:
+
+1. **FMapType** determines how to map string bytes to font selection
+2. Selected base font becomes current during `proc` execution
+3. Character code is the final mapped code in the base font
+4. Width vector is from the selected base font
+
+Example font mapping flow:
+```
+String byte → FMapType algorithm → (font#, charCode)
+            → Select base font
+            → Get character width
+            → Call proc with (charCode, wx, wy)
+```
+
+=== Advanced Applications
+
+==== Glyph Substitution
+
+[source,postscript]
+----
+% Replace specific characters with alternates
+/substituteGlyph {  % charCode wx wy substituteGlyph -
+  3 1 roll  % wx wy charCode
+
+  % Check for substitution
+  dup 65 eq {  % Replace 'A' with special glyph
+    pop
+    /A.swash  % Substitute glyph name
+  } {
+    % Convert code to glyph name
+    currentfont /Encoding get exch get
+  } ifelse
+
+  % Show glyph
+  glyphshow
+
+  % Advance by width
+  rmoveto
+} def
+
+100 700 moveto
+/substituteGlyph load (SWASH CAPS) cshow
+----
+
+==== Multi-Color Text
+
+[source,postscript]
+----
+% Alternate colors for each character
+/colorIndex 0 def
+
+/rainbowProc {  % charCode wx wy rainbowProc -
+  3 1 roll  % charCode at top for later
+
+  % Set color based on index
+  colorIndex 6 mod
+  dup 0 eq { 1 0 0 setrgbcolor } if  % Red
+  dup 1 eq { 1 0.5 0 setrgbcolor } if  % Orange
+  dup 2 eq { 1 1 0 setrgbcolor } if  % Yellow
+  dup 3 eq { 0 1 0 setrgbcolor } if  % Green
+  dup 4 eq { 0 0 1 setrgbcolor } if  % Blue
+  dup 5 eq { 0.5 0 1 setrgbcolor } if  % Purple
+  pop
+
+  /colorIndex colorIndex 1 add def
+
+  % Paint character
+  exch 0 rmoveto pop
+  1 string dup 0 4 -1 roll put show
+} def
+
+100 700 moveto
+/rainbowProc load (RAINBOW TEXT) cshow
+----
+
+=== Composite Font Example
+
+[source,postscript]
+----
+% Define composite font (simplified)
+/MyComposite 10 dict begin
+  /FontType 0 def
+  /FMapType 2 def
+  /FontMatrix [1 0 0 1 0 0] def
+
+  /FDepVector [
+    /Helvetica findfont
+    /Symbol findfont
+  ] def
+
+  /Encoding [0 1] def  % Simple 2-font encoding
+  currentdict
+end /MyComposite exch definefont pop
+
+% Use with cshow
+/MyComposite findfont 12 scalefont setfont
+
+/showWithFont {  % charCode wx wy showWithFont -
+  currentfont /FontName get ==  % Print selected font
+  rmoveto pop
+  1 string dup 0 4 -1 roll put show
+} def
+
+100 700 moveto
+/showWithFont load (Mixed fonts) cshow
+----
+
+=== Use Cases vs. Other Operators
+
+[cols="2,3"]
+|===
+| Operator | Best For
+
+| [`show`](show.adoc)
+| Simple, fast text rendering
+
+| [`kshow`](kshow.adoc)
+| Kerning between character pairs (base fonts only)
+
+| [`cshow`](cshow.adoc)
+| Per-character control with composite fonts
+
+| [`charpath`](charpath.adoc)
+| Getting character outlines for effects
+|===
+
+=== See Also
+
+- [`show`](show.adoc) - Basic text painting
+- [`ashow`](ashow.adoc) - Show with uniform spacing
+- [`kshow`](kshow.adoc) - Show with kerning procedure
+- [`currentfont`](currentfont.adoc) - Get current font
+- `glyphshow` - Show glyph by name
+- `rootfont` - Get root composite font

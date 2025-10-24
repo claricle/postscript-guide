@@ -1,0 +1,577 @@
+---
+layout: default
+title: rectclip
+parent: Painting
+grand_parent: Command Reference
+nav_order: 14
+---
+
+== rectclip
+
+Intersects the current clipping path with one or more rectangles.
+
+=== Syntax
+
+----
+x y width height rectclip → -
+numarray rectclip → -
+numstring rectclip → -
+----
+
+=== Stack Effects
+
+.First form (single rectangle)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 3
+| `height` (number)
+
+| 2
+| `width` (number)
+
+| 1
+| `y` (number)
+
+| 0
+| `x` (number)
+|===
+
+.Second form (array)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `numarray` (array of numbers)
+|===
+
+.Third form (encoded string)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `numstring` (encoded number string)
+|===
+
+.After (all forms)
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No results
+|===
+
+=== Description
+
+[`rectclip`](rectclip.adoc) intersects the inside of the current clipping path with a rectangular path the operands describe. In the first form, the operands are four numbers that describe a single rectangle. In the other two forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
+
+After computing the new clipping path, [`rectclip`](rectclip.adoc) resets the current path to empty, as if by xref:../path-construction/newpath.adoc[`newpath`].
+
+In the first form, assuming width and height are positive, [`rectclip`](rectclip.adoc) is equivalent to:
+
+[source,postscript]
+----
+newpath
+x y moveto
+width 0 rlineto
+0 height rlineto
+width neg 0 rlineto
+closepath
+clip
+newpath
+----
+
+Note that if the second or third form is used to specify multiple rectangles, the rectangles are treated together as a single path and used for a single clip operation. The "inside" of this combined path is the union of all the rectangular subpaths, because the paths are all drawn in the same direction and the non-zero winding number rule is used.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Simple rectangular clip
+[source,postscript]
+----
+50 50 200 150 rectclip
+
+% Graphics now clipped to rectangle
+0 0 moveto
+300 300 lineto
+stroke  % Only visible portion shown
+----
+
+.Clipping to multiple rectangles
+[source,postscript]
+----
+[
+  50 50 80 80
+  150 50 80 80
+  250 50 80 80
+] rectclip
+
+% Graphics clipped to all three rectangles
+0 0 300 300 rectfill
+----
+
+.Nested rectangular clips
+[source,postscript]
+----
+gsave
+  % Outer clip
+  50 50 200 200 rectclip
+
+  gsave
+    % Inner clip (intersection)
+    80 80 140 140 rectclip
+
+    % Drawing clipped to intersection
+    0 0 300 300 rectfill
+  grestore
+grestore
+----
+
+=== Common Use Cases
+
+==== Page Margins
+
+[source,postscript]
+----
+/setMargins {
+  % left bottom right top setMargins
+  /top exch def
+  /right exch def
+  /bottom exch def
+  /left exch def
+
+  clippath pathbbox
+  /ury exch def
+  /urx exch def
+  /lly exch def
+  /llx exch def
+
+  llx left add
+  lly bottom add
+  urx llx sub left sub right sub
+  ury lly sub bottom sub top sub
+  rectclip
+} def
+
+% 1-inch margins (72 points)
+72 72 72 72 setMargins
+----
+
+==== Column Layout
+
+[source,postscript]
+----
+/setupColumns {
+  % cols setupColumns - creates column clips
+  /cols exch def
+  /colWidth 180 def
+  /gutter 20 def
+
+  gsave
+    /rects cols 4 mul array def
+    0 1 cols 1 sub {
+      /i exch def
+      rects i 4 mul
+      50 i colWidth gutter add mul add put
+      rects i 4 mul 1 add 50 put
+      rects i 4 mul 2 add colWidth put
+      rects i 4 mul 3 add 700 put
+    } for
+
+    rects rectclip
+
+    % Flow content into columns
+    % ...
+  grestore
+} def
+
+3 setupColumns
+----
+
+==== Viewport Clipping
+
+[source,postscript]
+----
+/setViewport {
+  % x y width height setViewport
+  gsave
+    rectclip
+
+    % All subsequent drawing clipped to viewport
+    % ...
+  grestore
+} def
+
+100 100 400 300 setViewport
+----
+
+==== Thumbnail Grid
+
+[source,postscript]
+----
+/drawThumbnails {
+  % thumbWidth thumbHeight cols rows drawThumbnails
+  /rows exch def
+  /cols exch def
+  /th exch def
+  /tw exch def
+  /spacing 10 def
+
+  /rects rows cols mul 4 mul array def
+  /idx 0 def
+
+  0 1 rows 1 sub {
+    /row exch def
+    0 1 cols 1 sub {
+      /col exch def
+      /x col tw spacing add mul spacing add def
+      /y row th spacing add mul spacing add def
+
+      gsave
+        x y tw th rectclip
+
+        % Draw thumbnail content
+        % ...
+      grestore
+    } for
+  } for
+} def
+
+120 90 4 3 drawThumbnails
+----
+
+=== Common Pitfalls
+
+WARNING: *Clipping Can Only Shrink* - Like xref:clip.adoc[`clip`], you cannot enlarge the clipping region.
+
+[source,postscript]
+----
+% First clip
+100 100 100 100 rectclip
+
+% Can't expand beyond this
+0 0 300 300 rectclip  % Still limited to intersection
+----
+
+WARNING: *Path Is Cleared* - Unlike xref:clip.adoc[`clip`], [`rectclip`](rectclip.adoc) automatically clears the current path.
+
+[source,postscript]
+----
+newpath
+50 50 moveto
+100 100 lineto
+
+100 100 80 60 rectclip
+% Path is automatically cleared
+% No need for newpath
+----
+
+WARNING: *Multiple Rectangles Form Union* - All rectangles together form the clip region.
+
+[source,postscript]
+----
+% These three rectangles create one clip region
+[
+  50 50 80 80    % Rect 1
+  150 50 80 80   % Rect 2
+  250 50 80 80   % Rect 3
+] rectclip
+
+% Union of all three is clipped
+0 0 400 200 rectfill  % Visible in all three rects
+----
+
+TIP: *Always Use with gsave/grestore* - Bracket clip operations to restore the original clipping path:
+
+[source,postscript]
+----
+gsave
+  100 100 200 150 rectclip
+
+  % Clipped drawing
+  % ...
+grestore
+% Original clip restored
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`limitcheck`]
+| Clipping path becomes too complex, or too many rectangles
+
+| [`stackunderflow`]
+| Insufficient operands on stack
+
+| [`typecheck`]
+| Operands are not numbers or valid array/string
+|===
+
+=== Implementation Notes
+
+* [`rectclip`](rectclip.adoc) is optimized for rectangular clipping regions
+* Multiple rectangles create a union clip region
+* Much faster than constructing paths with xref:clip.adoc[`clip`]
+* The current path is automatically cleared after operation
+* All rectangles use non-zero winding number rule
+* Very efficient for simple rectangular masking
+
+=== Graphics State Interaction
+
+[`rectclip`](rectclip.adoc) affects:
+
+* Current clipping path - Intersected with rectangles
+* Current path - Cleared to empty
+
+[`rectclip`](rectclip.adoc) does not affect other graphics state parameters.
+
+The new clipping path is part of the graphics state and is affected by:
+
+* xref:../graphics-state/gsave.adoc[`gsave`] - Saves clipping path
+* xref:../graphics-state/grestore.adoc[`grestore`] - Restores saved clipping path
+* `save`/`restore` - Saves/restores with VM state
+
+=== Best Practices
+
+==== Always Bracket with gsave/grestore
+
+[source,postscript]
+----
+gsave
+  100 100 200 150 rectclip
+
+  % Clipped operations
+  % ...
+grestore
+% Clip restored
+----
+
+==== Use for Page Regions
+
+[source,postscript]
+----
+% Header region
+gsave
+  50 700 500 80 rectclip
+  % Draw header
+  % ...
+grestore
+
+% Body region
+gsave
+  50 100 500 580 rectclip
+  % Draw body
+  % ...
+grestore
+
+% Footer region
+gsave
+  50 20 500 60 rectclip
+  % Draw footer
+  % ...
+grestore
+----
+
+==== Combine Multiple Rectangles Efficiently
+
+[source,postscript]
+----
+% Good: single operation
+[
+  50 50 100 100
+  200 50 100 100
+  350 50 100 100
+] rectclip
+
+% Less efficient: separate operations
+gsave
+  50 50 100 100 rectclip
+  gsave
+    200 50 100 100 rectclip
+    gsave
+      350 50 100 100 rectclip
+      % ...
+    grestore
+  grestore
+grestore
+----
+
+==== Use for Simple Masks
+
+[source,postscript]
+----
+/maskRegion {
+  % x y width height maskRegion
+  gsave
+    rectclip
+
+    % Draw masked content
+    % ...
+  grestore
+} def
+
+100 100 200 150 maskRegion
+----
+
+=== Performance Considerations
+
+* [`rectclip`](rectclip.adoc) is highly optimized for rectangular regions
+* Much faster than equivalent xref:clip.adoc[`clip`] with constructed paths
+* Multiple rectangles in one operation are efficient
+* Simple rectangular clips have minimal performance impact
+* More efficient than complex path-based clipping
+* Ideal for UI layouts and column formatting
+
+=== Comparison with clip
+
+.Traditional clip approach
+[source,postscript]
+----
+newpath
+100 100 moveto
+80 0 rlineto
+0 60 rlineto
+-80 0 rlineto
+closepath
+clip
+newpath
+----
+
+.rectclip approach
+[source,postscript]
+----
+100 100 80 60 rectclip
+----
+
+Benefits of [`rectclip`](rectclip.adoc):
+
+* More concise syntax
+* Faster execution
+* Automatic path clearing
+* No manual path construction
+* Can handle multiple rectangles
+* Optimized implementation
+
+=== Advanced Techniques
+
+==== Dynamic Viewport
+
+[source,postscript]
+----
+/setDynamicViewport {
+  % scale setDynamicViewport
+  /s exch def
+
+  clippath pathbbox
+  /ury exch def
+  /urx exch def
+  /lly exch def
+  /llx exch def
+
+  /cx llx urx add 2 div def
+  /cy lly ury add 2 div def
+  /w urx llx sub s mul def
+  /h ury lly sub s mul def
+
+  gsave
+    cx w 2 div sub
+    cy h 2 div sub
+    w h rectclip
+
+    % Zoomed/scaled content
+    % ...
+  grestore
+} def
+
+0.5 setDynamicViewport  % 50% viewport
+----
+
+==== Multi-Window Display
+
+[source,postscript]
+----
+/drawWindows {
+  /windows [
+    % [x y w h title]
+    [20 400 180 150 (Window 1)]
+    [220 400 180 150 (Window 2)]
+    [420 400 180 150 (Window 3)]
+    [20 200 180 150 (Window 4)]
+    [220 200 180 150 (Window 5)]
+    [420 200 180 150 (Window 6)]
+  ] def
+
+  windows {
+    aload pop
+    /title exch def
+
+    gsave
+      rectclip  % Clip to window
+
+      % Draw window content
+      % ...
+    grestore
+
+    % Draw window border
+    1 setlinewidth
+    0 setgray
+    rectstroke
+  } forall
+} def
+
+drawWindows
+----
+
+==== Column Masks for Text Flow
+
+[source,postscript]
+----
+/flowText {
+  % string cols flowText
+  /cols exch def
+  /text exch def
+  /colWidth 150 def
+  /colHeight 600 def
+  /gutter 30 def
+
+  0 1 cols 1 sub {
+    /col exch def
+
+    gsave
+      % Clip to column
+      50 col colWidth gutter add mul add
+      50
+      colWidth
+      colHeight
+      rectclip
+
+      % Draw text in column
+      % ...
+    grestore
+  } for
+} def
+
+(Long text content...) 3 flowText
+----
+
+=== See Also
+
+* xref:clip.adoc[`clip`] - Clip to arbitrary path (non-zero winding)
+* xref:eoclip.adoc[`eoclip`] - Clip to path (even-odd rule)
+* xref:clippath.adoc[`clippath`] - Get current clipping path
+* xref:rectfill.adoc[`rectfill`] - Fill rectangles (Level 2)
+* xref:rectstroke.adoc[`rectstroke`] - Stroke rectangles (Level 2)
+* `initclip` - Reset to device default clip
+* xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
+* xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state
+* xref:../path-construction/newpath.adoc[`newpath`] - Clear current path

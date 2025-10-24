@@ -1,0 +1,236 @@
+---
+layout: default
+title: defaultmatrix
+parent: Coordinate Transformations
+grand_parent: Command Reference
+nav_order: 7
+---
+
+== defaultmatrix
+
+Gets the default transformation matrix for the current device.
+
+=== Syntax
+
+----
+matrix defaultmatrix → matrix
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (array)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (modified array)
+|===
+
+=== Description
+
+[`defaultmatrix`](defaultmatrix.adoc) replaces the value of `matrix` with the default transformation matrix for the current output device and pushes the modified matrix back on the operand stack.
+
+The default matrix establishes the standard mapping from the default user coordinate system to device space for the current device. This matrix is device-dependent and defines the initial state before any transformations are applied.
+
+For page-oriented devices, the default matrix is typically established by the page device setup. For display devices, it depends on the window system integration.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Getting the default matrix
+[source,postscript]
+----
+matrix defaultmatrix  % Get device default matrix
+% → e.g., [1 0 0 -1 0 792] for letter page
+----
+
+.Comparing with current matrix
+[source,postscript]
+----
+matrix currentmatrix  % Get CTM
+matrix defaultmatrix  % Get default
+% Compare the two matrices
+----
+
+.Resetting to default
+[source,postscript]
+----
+matrix defaultmatrix setmatrix  % Reset to default
+% Equivalent to: initmatrix
+----
+
+=== Common Use Cases
+
+==== Understanding Device Coordinate System
+
+[source,postscript]
+----
+% Examine default transformation
+matrix defaultmatrix
+% For letter page, might be:
+% [72 0 0 -72 0 792]
+% Meaning: 72dpi, y-axis inverted, origin at top-left
+----
+
+==== Saving Default State
+
+[source,postscript]
+----
+% Save default for later restoration
+/deviceDefault matrix defaultmatrix def
+
+% After many transformations:
+deviceDefault setmatrix  % Restore default
+----
+
+==== Computing Device Dimensions
+
+[source,postscript]
+----
+% Get page dimensions in default user space
+matrix defaultmatrix
+% Extract translation components (tx, ty)
+% to determine page size
+----
+
+=== Common Pitfalls
+
+WARNING: *Device-Dependent* - The default matrix varies by device and is not portable.
+
+[source,postscript]
+----
+% These may differ on different devices:
+matrix defaultmatrix  % On printer: [72 0 0 -72 0 792]
+matrix defaultmatrix  % On display: [1 0 0 -1 0 1024]
+----
+
+WARNING: *Not Always Identity* - The default matrix is rarely the identity matrix.
+
+[source,postscript]
+----
+% Default matrix is usually NOT:
+[1 0 0 1 0 0]
+
+% It's typically something like:
+[72 0 0 -72 0 792]  % Letter page at 72dpi
+----
+
+TIP: *Use initmatrix Instead* - For resetting CTM, use xref:initmatrix.adoc[`initmatrix`]:
+
+[source,postscript]
+----
+% Less clear:
+matrix defaultmatrix setmatrix
+
+% Clearer:
+initmatrix
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| Array has fewer than 6 elements
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand is not an array
+|===
+
+=== Implementation Notes
+
+* The default matrix is established during device initialization
+* For page devices, it's set by the `setpagedevice` operator
+* The matrix defines the initial coordinate system mapping
+* The default matrix typically includes:
+  - Scaling to convert from points to device pixels
+  - Possible y-axis inversion
+  - Translation to position the origin
+
+=== Typical Default Matrices
+
+==== Letter Page (8.5" × 11")
+
+[source,postscript]
+----
+% 72 points per inch, y-axis inverted
+[72 0 0 -72 0 792]
+
+% Meaning:
+% - 72 points = 1 inch
+% - y increases downward in device space
+% - Origin at top-left corner
+----
+
+==== A4 Page (210mm × 297mm)
+
+[source,postscript]
+----
+% Similar to letter
+[72 0 0 -72 0 842]
+
+% 842 ≈ 297mm ÷ 25.4 × 72
+----
+
+==== Display Device
+
+[source,postscript]
+----
+% Device-dependent, might be:
+[1 0 0 -1 0 screenHeight]
+
+% Or with DPI scaling:
+[dpi/72 0 0 -dpi/72 0 height]
+----
+
+=== Matrix Components
+
+For a typical page device:
+
+----
+[a b c d tx ty] = [72 0 0 -72 0 792]
+----
+
+* `a = 72`: x-scale (points to device units)
+* `b = 0`: no rotation
+* `c = 0`: no shear
+* `d = -72`: y-scale (negative = inverted)
+* `tx = 0`: x origin
+* `ty = 792`: y origin (page height in points)
+
+=== Relationship to initmatrix
+
+[source,postscript]
+----
+% These are equivalent:
+initmatrix
+
+matrix defaultmatrix setmatrix
+
+% initmatrix is just a convenience
+----
+
+=== See Also
+
+* xref:initmatrix.adoc[`initmatrix`] - Reset CTM to default
+* xref:currentmatrix.adoc[`currentmatrix`] - Get current transformation
+* xref:setmatrix.adoc[`setmatrix`] - Set transformation matrix
+* xref:matrix.adoc[`matrix`] - Create identity matrix

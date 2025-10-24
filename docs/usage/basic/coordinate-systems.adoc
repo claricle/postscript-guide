@@ -1,0 +1,815 @@
+---
+layout: default
+title: Coordinate Systems
+parent: Basic Usage
+grand_parent: Usage Guides
+nav_order: 4
+---
+
+== Coordinate Systems
+
+PostScript uses a flexible coordinate system that separates logical drawing coordinates from physical device coordinates. Understanding this system is crucial for creating device-independent documents.
+
+=== Overview
+
+PostScript employs multiple coordinate spaces that transform between user-defined coordinates and device pixels:
+
+* **User Space** - The coordinate system you work in (default: points, 1/72 inch)
+* **Device Space** - The actual pixel coordinates of the output device
+* **Current Transformation Matrix (CTM)** - Converts user space to device space
+
+This separation allows the same PostScript code to work correctly on different devices (screens, printers, plotters) without modification.
+
+=== User Space Basics
+
+==== Default User Space
+
+By default, PostScript user space has these properties:
+
+* Origin (0,0) at the bottom-left corner
+* X-axis increases to the right
+* Y-axis increases upward
+* Units are in points (1 point = 1/72 inch)
+* Positive angles rotate counter-clockwise
+
+[source,postscript]
+----
+% Draw a simple line from origin
+0 0 moveto      % Start at bottom-left (0,0)
+100 100 lineto  % Draw to (100, 100) - up and right
+stroke
+----
+
+==== Coordinate Units
+
+The default unit is the PostScript point:
+
+* 1 point = 1/72 inch = 0.3528 mm
+* 72 points = 1 inch
+* 28.35 points ≈ 1 centimeter
+
+[source,postscript]
+----
+% A 1-inch square
+0 0 moveto
+72 0 lineto      % 1 inch right
+72 72 lineto     % 1 inch up
+0 72 lineto      % 1 inch left
+closepath
+stroke
+----
+
+==== Page Coordinates
+
+Standard paper sizes in points:
+
+[source,postscript]
+----
+% US Letter: 8.5" × 11"
+% Width: 8.5 × 72 = 612 points
+% Height: 11 × 72 = 792 points
+
+% A4: 210mm × 297mm
+% Width: 210 / 0.3528 ≈ 595 points
+% Height: 297 / 0.3528 ≈ 842 points
+
+% Center of US Letter page
+306 396  % (612/2, 792/2)
+----
+
+=== Coordinate Transformations
+
+==== The `translate` Operator
+
+Moves the origin to a new location:
+
+[source,postscript]
+----
+% Move origin to center of US Letter page
+306 396 translate
+
+% Now (0,0) is at page center
+0 0 moveto
+100 0 rlineto    % Draw 100 points to the right from center
+stroke
+----
+
+Practical example - drawing multiple shapes:
+
+[source,postscript]
+----
+% Draw three circles at different positions
+gsave
+  100 100 translate
+  0 0 50 0 360 arc stroke
+grestore
+
+gsave
+  300 100 translate
+  0 0 50 0 360 arc stroke
+grestore
+
+gsave
+  200 300 translate
+  0 0 50 0 360 arc stroke
+grestore
+----
+
+==== The `scale` Operator
+
+Changes the size of the coordinate system:
+
+[source,postscript]
+----
+% Scale by 2 in both directions
+2 2 scale
+
+% Now 1 unit = 2 points
+0 0 moveto
+50 0 lineto   % Actually draws 100 points
+stroke
+----
+
+Non-uniform scaling:
+
+[source,postscript]
+----
+% Scale x by 2, y by 3
+2 3 scale
+
+0 0 moveto
+50 50 lineto  % Actually draws 100 points right, 150 points up
+stroke
+----
+
+Converting units with scale:
+
+[source,postscript]
+----
+% Work in millimeters instead of points
+% 1 mm = 72/25.4 points ≈ 2.835 points
+72 25.4 div dup scale
+
+% Now coordinates are in millimeters
+0 0 moveto
+100 0 lineto  % 100 mm line
+stroke
+----
+
+==== The `rotate` Operator
+
+Rotates the coordinate system (angle in degrees, counter-clockwise):
+
+[source,postscript]
+----
+% Rotate 45 degrees
+45 rotate
+
+0 0 moveto
+100 0 lineto  % Line at 45-degree angle
+stroke
+----
+
+Rotating around a point other than origin:
+
+[source,postscript]
+----
+% Rotate around point (200, 300)
+200 300 translate    % Move origin to rotation center
+45 rotate            % Rotate
+-200 -300 translate  % Move origin back
+
+% Or more simply:
+% Draw at (200, 300), rotated 45 degrees
+gsave
+  200 300 translate
+  45 rotate
+  % Draw here with (0,0) at the rotation point
+  0 0 50 0 360 arc
+  stroke
+grestore
+----
+
+==== Combining Transformations
+
+Transformations are cumulative and applied in order:
+
+[source,postscript]
+----
+% Order matters!
+gsave
+  100 100 translate  % Move first
+  45 rotate          % Then rotate
+  2 2 scale          % Then scale
+
+  % Draw a square (will be rotated and scaled)
+  0 0 moveto
+  50 0 lineto
+  50 50 lineto
+  0 50 lineto
+  closepath
+  stroke
+grestore
+----
+
+Different order gives different results:
+
+[source,postscript]
+----
+% Compare: rotate then translate
+gsave
+  45 rotate          % Rotate first
+  100 100 translate  % Then translate (in rotated space!)
+
+  0 0 50 0 360 arc
+  stroke
+grestore
+% Circle appears in different location!
+----
+
+=== The Current Transformation Matrix (CTM)
+
+==== Understanding the CTM
+
+The CTM is a 6-element matrix that transforms user space to device space:
+
+----
+[ a b c d tx ty ]
+
+Where:
+a, d = scaling factors
+b, c = rotation/skew factors
+tx, ty = translation values
+----
+
+Transformation formula:
+
+----
+x' = a*x + c*y + tx
+y' = b*x + d*y + ty
+----
+
+==== Accessing the CTM
+
+[source,postscript]
+----
+% Get current matrix
+matrix currentmatrix  % Returns: [a b c d tx ty]
+
+% Example: print the default matrix
+matrix currentmatrix ==
+% Outputs: [1 0 0 1 0 0] (identity matrix)
+----
+
+==== Setting a Custom CTM
+
+[source,postscript]
+----
+% Create a custom transformation matrix
+% [sx 0 0 sy tx ty] - scale and translate
+[2 0 0 2 100 100] concat
+
+% Or create matrix and apply it
+matrix
+dup 0 2 put      % a = 2 (x scale)
+dup 3 2 put      % d = 2 (y scale)
+dup 4 100 put    % tx = 100
+dup 5 100 put    % ty = 100
+concat
+----
+
+==== Resetting the CTM
+
+[source,postscript]
+----
+% Reset to default (identity matrix)
+initmatrix
+
+% Or reset to device default
+initgraphics  % Also resets other graphics state
+----
+
+=== Saving and Restoring Coordinate Systems
+
+==== Using `gsave` and `grestore`
+
+The graphics state stack preserves the CTM:
+
+[source,postscript]
+----
+% Save current state
+gsave
+  % Modify coordinate system
+  100 100 translate
+  2 2 scale
+  45 rotate
+
+  % Draw something
+  0 0 50 0 360 arc stroke
+
+% Restore original state
+grestore
+
+% Back to original coordinates
+0 0 moveto
+100 0 lineto
+stroke
+----
+
+==== Nested Transformations
+
+[source,postscript]
+----
+% Main scene transformation
+gsave
+  300 400 translate
+
+  % Draw multiple objects with individual transforms
+  gsave
+    0 0 translate
+    0 0 30 0 360 arc stroke
+  grestore
+
+  gsave
+    100 0 translate
+    0 0 30 0 360 arc stroke
+  grestore
+
+  gsave
+    50 100 translate
+    0 0 30 0 360 arc stroke
+  grestore
+
+grestore
+----
+
+=== Device Space
+
+==== Understanding Device Space
+
+Device space represents the actual output device:
+
+* Origin typically at bottom-left of page/screen
+* Units are device pixels or dots
+* Resolution varies by device (72 dpi, 300 dpi, 600 dpi, etc.)
+
+==== Transforming Between Spaces
+
+[source,postscript]
+----
+% Transform user coordinates to device coordinates
+/userX 100 def
+/userY 200 def
+
+matrix currentmatrix
+userX userY
+dtransform        % Device transform
+
+% Stack now has: deviceX deviceY
+----
+
+Inverse transformation (device to user):
+
+[source,postscript]
+----
+% Transform device coordinates to user coordinates
+/deviceX 500 def
+/deviceY 600 def
+
+matrix currentmatrix
+deviceX deviceY
+idtransform       % Inverse device transform
+
+% Stack now has: userX userY
+----
+
+==== Device-Independent Drawing
+
+Key principle: Always work in user space coordinates:
+
+[source,postscript]
+----
+% Good: device-independent
+/drawCircle {  % x y radius -> -
+  0 360 arc stroke
+} def
+
+100 100 50 drawCircle  % Works on any device
+
+% Bad: device-dependent
+/drawCircle {
+  % Assumes specific device resolution
+  500 500 moveto  % Hardcoded device coordinates
+  % ...
+} def
+----
+
+=== Practical Coordinate Patterns
+
+==== Centering Content
+
+[source,postscript]
+----
+% Center a drawing on the page
+% For US Letter (612 × 792)
+306 396 translate  % Move to center
+
+% Draw centered content
+-50 -50 moveto
+100 0 rlineto
+0 100 rlineto
+-100 0 rlineto
+closepath
+stroke
+----
+
+==== Creating a Grid System
+
+[source,postscript]
+----
+% Define a 12-column grid (like Bootstrap)
+/pageWidth 612 def
+/columns 12 def
+/gutterWidth 20 def
+
+/columnWidth {
+  pageWidth gutterWidth columns 1 sub mul sub
+  columns div
+} def
+
+% Position element in column 3
+/col3X {
+  columnWidth 2 mul      % 2 full columns
+  gutterWidth 2 mul add  % 2 gutters
+} def
+
+col3X 100 translate
+% Draw content here
+----
+
+==== Aspect Ratio Preservation
+
+[source,postscript]
+----
+% Scale to fit while preserving aspect ratio
+/srcWidth 800 def
+/srcHeight 600 def
+/dstWidth 400 def
+/dstHeight 400 def
+
+% Calculate scale factor (use minimum to fit)
+/scaleX dstWidth srcWidth div def
+/scaleY dstHeight srcHeight div def
+/scale scaleX scaleY lt { scaleX } { scaleY } ifelse def
+
+% Center and scale
+dstWidth 2 div dstHeight 2 div translate
+scale dup scale
+srcWidth -2 div srcHeight -2 div translate
+
+% Draw content (will be scaled and centered)
+0 0 srcWidth srcHeight rectfill
+----
+
+==== Margin System
+
+[source,postscript]
+----
+% Define page margins (in points)
+/marginLeft 72 def    % 1 inch
+/marginRight 72 def
+/marginTop 72 def
+/marginBottom 72 def
+
+% Calculate content area
+/pageWidth 612 def
+/pageHeight 792 def
+/contentWidth pageWidth marginLeft sub marginRight sub def
+/contentHeight pageHeight marginTop sub marginBottom sub def
+
+% Set up coordinate system for content
+marginLeft marginBottom translate
+
+% Now (0, 0) is at content area origin
+% And (contentWidth, contentHeight) is top-right of content area
+----
+
+=== Common Coordinate System Patterns
+
+==== Pattern 1: Local Coordinate System
+
+Define objects in their own coordinate system:
+
+[source,postscript]
+----
+% Define a star in its own coordinate system (centered at origin)
+/star {
+  newpath
+  0 50 moveto
+  14.7 15.4 lineto
+  47.6 15.4 lineto
+  18.1 -5.9 lineto
+  29.4 -40.5 lineto
+  0 -18.2 lineto
+  -29.4 -40.5 lineto
+  -18.1 -5.9 lineto
+  -47.6 15.4 lineto
+  -14.7 15.4 lineto
+  closepath
+} def
+
+% Use it anywhere
+gsave
+  100 100 translate
+  star fill
+grestore
+
+gsave
+  300 300 translate
+  2 2 scale
+  star fill
+grestore
+----
+
+==== Pattern 2: Percentage-Based Layout
+
+Work in percentages instead of absolute coordinates:
+
+[source,postscript]
+----
+% Set up percentage-based coordinate system
+/pageWidth 612 def
+/pageHeight 792 def
+
+% Scale so 100 = 100% of page
+100 pageWidth div 100 pageHeight div scale
+
+% Now work in percentages
+50 50 translate  % Center (50% of page width and height)
+10 10 moveto     % 10% from left, 10% from bottom
+----
+
+==== Pattern 3: Viewport System
+
+Create multiple viewports on one page:
+
+[source,postscript]
+----
+% Define viewport (x, y, width, height as percentages)
+/viewport {  % x y w h -> -
+  4 dict begin
+    /h exch 792 mul 100 div def
+    /w exch 612 mul 100 div def
+    /y exch 792 mul 100 div def
+    /x exch 612 mul 100 div def
+
+    gsave
+      x y translate
+
+      % Clip to viewport
+      newpath
+      0 0 moveto
+      w 0 rlineto
+      0 h rlineto
+      w neg 0 rlineto
+      closepath
+      clip
+
+      % Set up coordinate system within viewport
+      % (will be restored by grestore)
+  end
+} def
+
+/endviewport {
+  grestore
+} def
+
+% Use viewports
+0 0 50 50 viewport
+  % Draw in bottom-left quadrant
+endviewport
+
+50 0 50 50 viewport
+  % Draw in bottom-right quadrant
+endviewport
+----
+
+=== Coordinate System Best Practices
+
+==== Always Use Graphics State Stack
+
+[source,postscript]
+----
+% Good: isolated transformations
+gsave
+  100 100 translate
+  % ...
+grestore
+
+% Bad: permanent transformations
+100 100 translate
+% ... transformations accumulate!
+----
+
+==== Document Your Coordinate System
+
+[source,postscript]
+----
+% At the start of your document
+% This file uses:
+% - User space units: points (1/72 inch)
+% - Origin: bottom-left
+% - Page size: US Letter (612 × 792 points)
+% - Margin: 1 inch (72 points) on all sides
+----
+
+==== Use Relative Coordinates for Shapes
+
+[source,postscript]
+----
+% Good: relative positioning
+/drawSquare {  % size -> -
+  dup 0 rlineto
+  dup 0 exch rlineto
+  neg 0 rlineto
+  closepath
+} def
+
+% Use absolute positioning only for initial moveto
+100 100 moveto
+50 drawSquare
+
+% Bad: absolute coordinates in shape
+/drawSquare {
+  100 100 lineto  % Hardcoded - not reusable
+  150 100 lineto
+  % ...
+} def
+----
+
+==== Create Coordinate Utilities
+
+[source,postscript]
+----
+% Convert inches to points
+/inch { 72 mul } def
+
+% Convert mm to points
+/mm { 72 mul 25.4 div } def
+
+% Usage
+2 inch 3 inch translate   % 2" right, 3" up
+100 mm 150 mm moveto      % Position in mm
+----
+
+=== Debugging Coordinates
+
+==== Visualize Coordinate System
+
+Draw a coordinate grid to understand current space:
+
+[source,postscript]
+----
+/drawGrid {
+  gsave
+    0.1 setlinewidth
+    0.8 setgray
+
+    % Draw vertical lines
+    -500 10 500 {
+      dup -500 moveto 500 lineto stroke
+    } for
+
+    % Draw horizontal lines
+    -500 10 500 {
+      dup -500 exch moveto 500 exch lineto stroke
+    } for
+
+    % Draw axes
+    0 setgray
+    1 setlinewidth
+    -500 0 moveto 500 0 lineto stroke
+    0 -500 moveto 0 500 lineto stroke
+  grestore
+} def
+
+% Use it to see your coordinate system
+gsave
+  100 100 translate
+  2 2 scale
+  45 rotate
+  drawGrid
+grestore
+----
+
+==== Show Current Transformation
+
+[source,postscript]
+----
+/showCTM {
+  (Current Transformation Matrix:) print
+  matrix currentmatrix {
+    ( ) print
+    =string cvs print
+  } forall
+  () print
+} def
+
+% Usage
+100 100 translate
+showCTM
+% Prints: Current Transformation Matrix: 1 0 0 1 100 100
+----
+
+==== Coordinate Debugging Function
+
+[source,postscript]
+----
+/debugPoint {  % x y label -> -
+  gsave
+    % Draw point
+    0 setgray
+    1 setlinewidth
+    newpath
+    2 copy 3 0 360 arc
+    fill
+
+    % Show label
+    /Helvetica findfont 10 scalefont setfont
+    moveto
+    5 5 rmoveto
+    show
+  grestore
+} def
+
+% Usage
+100 200 (Point A) debugPoint
+150 250 (Point B) debugPoint
+----
+
+=== Common Pitfalls
+
+==== Forgetting to Save/Restore State
+
+[source,postscript]
+----
+% Wrong: transformations accumulate
+100 100 translate
+% Draw
+100 100 translate  % Now at (200, 200) total!
+% Draw
+
+% Correct: use gsave/grestore
+gsave
+  100 100 translate
+  % Draw
+grestore
+
+gsave
+  100 100 translate  % Back to base, then +100, +100
+  % Draw
+grestore
+----
+
+==== Incorrect Transformation Order
+
+[source,postscript]
+----
+% Want to rotate around point (100, 100)
+
+% Wrong order:
+100 100 translate
+45 rotate
+% Rotates around new origin, not (100,100) in original space
+
+% Correct order:
+45 rotate
+100 100 rotate 45 neg mul rotate  % Complex!
+
+% Better approach:
+100 100 translate  % Move origin to rotation center
+45 rotate           % Rotate
+% Draw (0,0) is now at (100,100) in original space
+----
+
+==== Mixing Coordinate Systems
+
+[source,postscript]
+----
+% Wrong: mixing user and device coordinates
+matrix currentmatrix
+100 200 dtransform  % Get device coordinates
+moveto              % But moveto expects user coordinates!
+
+% Correct: stay in one system
+100 200 moveto      % User coordinates
+----
+
+=== See Also
+
+* xref:graphics-state.adoc[Graphics State] - Saving and restoring state
+* xref:../../commands/transformations/index.adoc[Transformation Commands] - Complete transformation reference
+* xref:../../commands/transformations/translate.adoc[translate] - Translation details
+* xref:../../commands/transformations/scale.adoc[scale] - Scaling details
+* xref:../../commands/transformations/rotate.adoc[rotate] - Rotation details
+* xref:path-construction.adoc[Path Construction] - Building paths in user space

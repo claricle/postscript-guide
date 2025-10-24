@@ -1,0 +1,580 @@
+---
+layout: default
+title: Error Handling
+parent: Usage Guides
+nav_order: 11
+---
+
+== Error Handling
+
+Error handling is a fundamental aspect of writing robust PostScript programs. This guide provides an overview of error handling strategies and best practices suitable for all skill levels.
+
+=== Overview
+
+Error handling in PostScript involves:
+
+* **Understanding errors** - Types and causes
+* **Detecting errors** - Catching and identifying issues
+* **Recovering from errors** - Graceful degradation
+* **Preventing errors** - Defensive programming
+* **Reporting errors** - Clear diagnostics
+
+Good error handling makes programs more reliable and easier to debug.
+
+=== Common Error Types
+
+==== Operational Errors
+
+Errors that occur during normal operation:
+
+[source,postscript]
+----
+% stackunderflow - not enough operands
+pop  % ERROR: empty stack
+
+% typecheck - wrong type
+5 (text) add  % ERROR: incompatible types
+
+% rangecheck - value out of range
+-5 array  % ERROR: negative size
+
+% undefinedresult - invalid operation
+1 0 div  % ERROR: division by zero
+----
+
+==== Resource Errors
+
+Errors related to system resources:
+
+[source,postscript]
+----
+% VMerror - out of memory
+99999999 array
+
+% ioerror - file operation failed
+(nonexistent.ps) (r) file
+
+% limitcheck - implementation limit exceeded
+% (varies by interpreter)
+----
+
+==== Syntax Errors
+
+Errors in program structure:
+
+[source,postscript]
+----
+% syntaxerror - invalid PostScript syntax
+{ ( unclosed string
+
+% unmatchedmark - mismatched brackets
+5 10 ]  % ERROR: no matching [
+----
+
+=== Basic Error Handling
+
+==== The `stopped` Operator
+
+Primary error catching mechanism:
+
+[source,postscript]
+----
+% stopped: mark proc stopped -> true | false
+
+{
+  % Code that might error
+  1 0 div
+} stopped {
+  % Error occurred
+  (Error: Division by zero) print
+} {
+  % Success
+  (Division succeeded) print
+} ifelse
+----
+
+==== Simple Error Recovery
+
+[source,postscript]
+----
+/safeDivide {  % a b -> result
+  dup 0 eq {
+    % Handle error condition
+    pop pop
+    (Cannot divide by zero) print
+    0  % Return safe default
+  } {
+    div
+  } ifelse
+} def
+
+% Usage
+10 5 safeDivide =   % 2
+10 0 safeDivide =   % 0 (safe default)
+----
+
+==== Error Messages
+
+[source,postscript]
+----
+{
+  undefined_name
+} stopped {
+  (An error occurred) print
+
+  % Get error details from $error dictionary
+  $error /errorname get (Error type: ) exch =string cvs concatstrings print
+  $error /command get (Failed command: ) exch =string cvs concatstrings print
+} if
+----
+
+=== Error Prevention
+
+==== Input Validation
+
+[source,postscript]
+----
+/divide {  % a b -> result
+  % Validate input
+  dup 0 eq {
+    pop pop
+    (Error: divisor cannot be zero) print
+    /divisionbyzero cvx
+  } {
+    div
+  } ifelse
+} def
+----
+
+==== Type Checking
+
+[source,postscript]
+----
+/addNumbers {  % a b -> sum
+  % Check first operand
+  dup type /integertype ne {
+    (Error: first arg must be integer) print
+    stop
+  } if
+
+  % Check second operand
+  1 index type /integertype ne {
+    (Error: second arg must be integer) print
+    stop
+  } if
+
+  add
+} def
+----
+
+==== Bounds Checking
+
+[source,postscript]
+----
+/getElement {  % array index -> element
+  2 copy
+  length ge {
+    (Error: index out of bounds) print
+    stop
+  } if
+  get
+} def
+----
+
+=== Error Reporting
+
+==== Informative Messages
+
+[source,postscript]
+----
+/reportError {  % context message -> -
+  (ERROR in ) print
+  exch print
+  (: ) print
+  print
+  () print
+} def
+
+% Usage
+{
+  1 0 div
+} stopped {
+  (divide operation) (Division by zero) reportError
+} if
+----
+
+==== Error Context
+
+[source,postscript]
+----
+/withContext {  % contextName proc -> -
+  exch /currentContext exch def
+
+  {
+    exec
+  } stopped {
+    (Error in context: ) print currentContext print
+    () print
+  } if
+} def
+
+% Usage
+(file processing) {
+  (nonexistent.ps) run
+} withContext
+----
+
+=== Practical Error Handling
+
+==== File Operations
+
+[source,postscript]
+----
+/safeFileRead {  % filename -> content true | false
+  {
+    (r) file
+    dup 1024 string exch readstring pop
+    exch closefile
+    true
+  } stopped {
+    pop
+    (Could not read file) print
+    false
+  } ifelse
+} def
+
+% Usage
+(data.txt) safeFileRead {
+  (File contents: ) print print
+} {
+  (Using default data) print
+} ifelse
+----
+
+==== Array Operations
+
+[source,postscript]
+----
+/safeArrayAccess {  % array index -> element true | false
+  {
+    get
+    true
+  } stopped {
+    pop pop
+    false
+  } ifelse
+} def
+
+% Usage
+[10 20 30] 5 safeArrayAccess {
+  =  % Got element
+} {
+  (Index out of range) print
+} ifelse
+----
+
+==== Calculation Safety
+
+[source,postscript]
+----
+/safeCalculate {  % proc -> result true | errorMessage false
+  {
+    exec
+    true
+  } stopped {
+    $error /errorname get
+    =string cvs
+    ( error occurred) concatstrings
+    false
+  } ifelse
+} def
+
+% Usage
+{ 10 5 div } safeCalculate {
+  (Result: ) print =
+} {
+  (Calculation failed: ) print print
+} ifelse
+----
+
+=== Error Handling Patterns
+
+==== Try-Catch Pattern
+
+[source,postscript]
+----
+/try {  % tryProc catchProc -> -
+  exch
+  {
+    exec
+  } stopped {
+    exec
+  } if
+  pop
+} def
+
+% Usage
+{
+  % Try this
+  1 0 div
+} {
+  % Catch errors here
+  (Caught division error) print
+} try
+----
+
+==== Default Value Pattern
+
+[source,postscript]
+----
+/getOrDefault {  % proc defaultValue -> result
+  exch
+  {
+    exec
+  } stopped {
+    % Return default on error
+  } if
+} def
+
+% Usage
+{ nonexistent_variable } 42 getOrDefault
+% Returns 42 if variable doesn't exist
+----
+
+==== Retry Pattern
+
+[source,postscript]
+----
+/retry {  % proc maxAttempts -> result
+  1 dict begin
+    /attempts exch def
+    /proc exch def
+
+    1 1 attempts {
+      /attempt exch def
+
+      {
+        proc exec
+        exit  % Success
+      } stopped {
+        attempt attempts lt {
+          (Retry attempt ) print attempt 1 add =
+        } {
+          (All attempts failed) print
+          stop
+        } ifelse
+      } ifelse
+    } for
+  end
+} def
+----
+
+=== Best Practices
+
+==== Always Handle Errors
+
+[source,postscript]
+----
+% Good: error handled
+{
+  risky_operation
+} stopped {
+  (Operation failed, using fallback) print
+} if
+
+% Bad: error ignored
+risky_operation  % Might crash program
+----
+
+==== Provide Clear Messages
+
+[source,postscript]
+----
+% Good: descriptive error
+dup 0 eq {
+  (Error: Cannot divide ) print
+  2 index =string cvs print
+  ( by zero) print
+  stop
+} if
+
+% Bad: generic error
+dup 0 eq { stop } if
+----
+
+==== Clean Up Resources
+
+[source,postscript]
+----
+% Good: cleanup on error
+(file.txt) (r) file /f exch def
+{
+  f 256 string readline pop
+} stopped {
+  f closefile
+  stop
+} {
+  f closefile
+} ifelse
+
+% Bad: file left open on error
+(file.txt) (r) file /f exch def
+f 256 string readline pop
+----
+
+==== Use Appropriate Error Levels
+
+[source,postscript]
+----
+% Critical errors: stop execution
+dup 0 eq { stop } if
+
+% Warnings: log but continue
+count 10 gt {
+  (Warning: Deep stack) print
+} if
+
+% Info: normal operation feedback
+(Processing item ) print i =
+----
+
+=== Testing Error Handling
+
+==== Test Error Paths
+
+[source,postscript]
+----
+% Test success case
+{ 10 5 divide } safeCalculate pop
+
+% Test error case
+{ 10 0 divide } safeCalculate not {
+  (Error correctly handled) print
+} {
+  (ERROR: Should have failed!) print
+} ifelse
+----
+
+==== Verify Error Messages
+
+[source,postscript]
+----
+{
+  undefined_name
+} stopped {
+  $error /errorname get /undefined eq {
+    (Correct error type) print
+  } {
+    (Wrong error type!) print
+  } ifelse
+} if
+----
+
+=== Common Pitfalls
+
+==== Swallowing Errors
+
+[source,postscript]
+----
+% Wrong: hides problems
+{ operation } stopped pop
+
+% Correct: log or handle
+{ operation } stopped {
+  (Error occurred) print
+} if
+----
+
+==== Not Checking Return Values
+
+[source,postscript]
+----
+% Wrong: assumes success
+file string readline pop
+
+% Correct: check boolean
+file string readline {
+  % Success - got line
+} {
+  % EOF or error
+} ifelse
+----
+
+==== Incomplete Error Handling
+
+[source,postscript]
+----
+% Wrong: only handles one error
+{ operation } stopped {
+  $error /errorname get /ioerror eq {
+    (IO error) print
+  } if
+  % Other errors ignored!
+} if
+
+% Correct: handle all cases
+{ operation } stopped {
+  $error /errorname get
+  dup /ioerror eq {
+    (IO error) print
+  } {
+    (Other error: ) print =
+  } ifelse
+} if
+----
+
+=== Quick Reference
+
+==== Error Types
+
+[source,postscript]
+----
+% Common errors:
+% - stackunderflow: not enough values
+% - typecheck: wrong type
+% - rangecheck: out of range
+% - undefined: name not found
+% - VMerror: out of memory
+% - ioerror: file error
+% - syntaxerror: syntax error
+----
+
+==== Basic Template
+
+[source,postscript]
+----
+{
+  % Risky operation
+  operation
+} stopped {
+  % Error handling
+  (Error: ) print
+  $error /errorname get =string cvs print
+} if
+----
+
+==== Error Information
+
+[source,postscript]
+----
+% Get error details:
+$error /errorname get  % Error type
+$error /command get    % Failed command
+$error /newerror get   % Is new error?
+----
+
+=== Next Steps
+
+For more detailed error handling:
+
+* **Debugging** - See xref:debugging.adoc[Debugging Guide] for debugging techniques
+* **Advanced Error Handling** - See xref:advanced/error-handling.adoc[Advanced Error Handling] for complex scenarios
+* **Resource Management** - See xref:advanced/resource-management.adoc[Resource Management] for resource-related errors
+
+=== See Also
+
+* xref:debugging.adoc[Debugging] - Debugging techniques
+* xref:advanced/error-handling.adoc[Advanced Error Handling] - Detailed error handling
+* xref:advanced/file-operations.adoc[File Operations] - File error handling
+* xref:basic/stack-operations.adoc[Stack Operations] - Stack error prevention
+* link:../commands/control-flow/stopped.html[stopped command] - Error catching operator

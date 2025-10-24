@@ -1,0 +1,190 @@
+---
+layout: default
+title: Arithmetic and Math
+parent: Command Reference
+nav_order: 2
+---
+
+== Arithmetic and Math Operators
+
+=== Overview
+
+PostScript provides a comprehensive set of arithmetic and mathematical operators for numerical computation. These operators work with both integer and real (floating-point) numbers, with automatic type promotion where appropriate.
+
+=== Categories
+
+==== Basic Arithmetic
+
+The fundamental arithmetic operations:
+
+* xref:add.adoc[`add`] - Add two numbers
+* xref:sub.adoc[`sub`] - Subtract two numbers
+* xref:mul.adoc[`mul`] - Multiply two numbers
+* xref:div.adoc[`div`] - Divide (real result)
+* xref:idiv.adoc[`idiv`] - Integer division
+* xref:mod.adoc[`mod`] - Modulo (remainder)
+
+==== Unary Operations
+
+Operations on a single number:
+
+* xref:abs.adoc[`abs`] - Absolute value
+* xref:neg.adoc[`neg`] - Negate
+* xref:ceiling.adoc[`ceiling`] - Round up to integer
+* xref:floor.adoc[`floor`] - Round down to integer
+* xref:round.adoc[`round`] - Round to nearest integer
+* xref:truncate.adoc[`truncate`] - Truncate to integer
+
+==== Exponential and Logarithmic
+
+Power and logarithm functions:
+
+* xref:sqrt.adoc[`sqrt`] - Square root
+* xref:exp.adoc[`exp`] - Exponential (base^exponent)
+* xref:ln.adoc[`ln`] - Natural logarithm (base e)
+* xref:log.adoc[`log`] - Common logarithm (base 10)
+
+==== Trigonometric
+
+Trigonometric functions (angles in degrees):
+
+* xref:sin.adoc[`sin`] - Sine
+* xref:cos.adoc[`cos`] - Cosine
+* xref:atan.adoc[`atan`] - Arctangent
+
+==== Bitwise Operations
+
+Operations on integer bit patterns:
+
+* xref:bitshift.adoc[`bitshift`] - Bitwise shift left or right
+
+==== Random Numbers
+
+Pseudo-random number generation:
+
+* xref:rand.adoc[`rand`] - Generate random integer
+* xref:srand.adoc[`srand`] - Seed random generator
+* xref:rrand.adoc[`rrand`] - Get/set random seed
+
+=== Type Coercion Rules
+
+==== Integer vs. Real Results
+
+* If both operands are integers and the result fits in integer range, the result is an integer
+* Otherwise, the result is a real number
+* The `div` operator always returns a real, even with integer operands
+* The `idiv` operator always returns an integer
+
+==== Examples
+
+[source,postscript]
+----
+3 4 add        % → 7 (integer)
+3 4.0 add      % → 7.0 (real)
+4 2 div        % → 2.0 (real, always)
+4 2 idiv       % → 2 (integer, always)
+----
+
+=== Common Pitfalls
+
+[WARNING]
+====
+**Division by Zero**
+
+Dividing by zero results in an `undefinedresult` error:
+[source,postscript]
+----
+5 0 div    % Error: undefinedresult
+----
+====
+
+[WARNING]
+====
+**Domain Restrictions**
+
+Some operations have restricted domains:
+
+* `sqrt` requires non-negative arguments
+* `ln` and `log` require positive arguments
+* `exp` with fractional exponent requires non-negative base
+
+[source,postscript]
+----
+-4 sqrt    % Error: rangecheck
+0 ln       % Error: rangecheck
+-2 0.5 exp % Error: undefinedresult
+----
+====
+
+[WARNING]
+====
+**Trigonometric Functions Use Degrees**
+
+PostScript trigonometric functions work in degrees, not radians:
+
+[source,postscript]
+----
+90 sin     % → 1.0 (90 degrees)
+0 cos      % → 1.0 (0 degrees)
+1 0 atan   % → 90.0 (returns degrees)
+----
+====
+
+[WARNING]
+====
+**Integer Overflow**
+
+When integer operations exceed the maximum integer value, the result becomes a real:
+
+[source,postscript]
+----
+2147483647 1 add  % → 2147483648.0 (real)
+----
+====
+
+=== Best Practices
+
+==== Use Appropriate Division Operator
+
+* Use `div` for mathematical division requiring precise real results
+* Use `idiv` when you need integer quotients (truncated toward zero)
+* Use `mod` to get the remainder
+
+==== Check Domain Before Operations
+
+For operations with restricted domains, validate input:
+
+[source,postscript]
+----
+/safesqrt {  % num -> real or error
+  dup 0 lt {
+    pop
+    (sqrt: negative argument) print
+    0
+  } {
+    sqrt
+  } ifelse
+} def
+----
+
+==== Be Aware of Precision
+
+Real numbers have finite precision. Avoid comparing reals for exact equality:
+
+[source,postscript]
+----
+% Bad:
+0.1 0.2 add 0.3 eq  % May be false due to rounding
+
+% Better:
+/nearlyequal {  % num1 num2 tolerance -> bool
+  3 1 roll sub abs exch lt
+} def
+
+0.1 0.2 add 0.3 0.0001 nearlyequal  % true
+----
+
+=== See Also
+
+* xref:../../levels/index.adoc[PostScript Language Levels]
+* xref:../stack-manipulation/index.adoc[Stack Manipulation]

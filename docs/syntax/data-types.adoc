@@ -1,0 +1,1226 @@
+---
+layout: default
+title: Data Types
+parent: Language Syntax
+nav_order: 10
+---
+
+== Data Types
+
+PostScript has a rich type system with distinct types for different kinds of data. Understanding the type system is essential for writing robust PostScript programs and avoiding type-related errors.
+
+=== Overview
+
+Every PostScript object has a type that determines what operations can be performed on it. The type system includes simple types (stored by value) and composite types (stored by reference), with clear rules for type checking, conversion, and compatibility.
+
+=== Type Hierarchy
+
+PostScript's type system organizes types into a clear hierarchy:
+
+.Complete type hierarchy
+[source,text]
+----
+PostScript Types
+├── Simple Types (stored by value)
+│   ├── Numeric Types
+│   │   ├── integertype         Integer numbers
+│   │   └── realtype            Floating-point numbers
+│   ├── Boolean Types
+│   │   └── booleantype         True/false values
+│   ├── Name Types
+│   │   └── nametype            Identifiers
+│   ├── Operator Types
+│   │   └── operatortype        Built-in operations
+│   ├── Mark Types
+│   │   └── marktype            Stack delimiter
+│   ├── Null Types
+│   │   └── nulltype            Empty value
+│   └── Save Types
+│       └── savetype            VM snapshot
+└── Composite Types (stored by reference)
+    ├── Collection Types
+    │   ├── stringtype          Byte sequences
+    │   ├── arraytype           Object arrays
+    │   ├── packedarraytype     Compact arrays (Level 2+)
+    │   └── dicttype            Key-value maps
+    ├── I/O Types
+    │   └── filetype            Input/output streams
+    ├── Graphics Types
+    │   ├── fonttype            Font dictionaries
+    │   └── gstatetype          Graphics state (Level 2+)
+    └── Condition Types
+        └── conditiontype       Synchronization (Level 2+)
+----
+
+=== Simple Types
+
+Simple types store their values directly in the object.
+
+==== Integer Type
+
+Whole numbers within implementation-defined range.
+
+.Integer characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `integertype`
+
+| Range
+| Typically -2³¹ to 2³¹-1 (32-bit signed)
+
+| Literal Syntax
+| `42`, `-17`, `0`, `+100`
+
+| Radix Notation
+| `8#77`, `16#FF`, `2#1010`
+
+| Storage
+| By value
+
+| Mutability
+| Immutable
+|===
+
+.Integer examples
+[source,postscript]
+----
+42 type                    % Returns /integertype
+-17 type                   % Returns /integertype
+16#FF type                 % Returns /integertype
+
+% Type checking
+42 dup type /integertype eq  % Returns true
+
+% Operations
+10 20 add                  % 30 (integer)
+10 3 div                   % 3.33... (becomes real)
+10 3 idiv                  % 3 (stays integer)
+----
+
+==== Real Type
+
+Floating-point numbers with fractional parts.
+
+.Real characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `realtype`
+
+| Range
+| Implementation-dependent (typically IEEE 754)
+
+| Precision
+| Implementation-dependent (typically single or double)
+
+| Literal Syntax
+| `3.14`, `-2.5`, `1.0`, `.5`, `6.02e23`
+
+| Storage
+| By value
+
+| Mutability
+| Immutable
+|===
+
+.Real examples
+[source,postscript]
+----
+3.14 type                  % Returns /realtype
+-2.5 type                  % Returns /realtype
+6.02e23 type               % Returns /realtype
+
+% Type checking
+3.14 dup type /realtype eq % Returns true
+
+% Operations
+3.14 2.0 mul               % 6.28 (real)
+10 3.0 div                 % 3.33... (real)
+1.5 ceiling                % 2.0 (real result)
+----
+
+==== Boolean Type
+
+Logical true/false values.
+
+.Boolean characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `booleantype`
+
+| Values
+| `true`, `false`
+
+| Literal Syntax
+| `true` or `false`
+
+| Storage
+| By value
+
+| Mutability
+| Immutable
+|===
+
+.Boolean examples
+[source,postscript]
+----
+true type                  % Returns /booleantype
+false type                 % Returns /booleantype
+
+% Type checking
+true dup type /booleantype eq  % Returns true
+
+% Operations
+true false and             % false
+true false or              % true
+true not                   % false
+5 3 gt                     % true
+----
+
+==== Name Type
+
+Identifiers used as dictionary keys and references.
+
+.Name characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `nametype`
+
+| Literal Syntax
+| `/name` (literal), `name` (executable)
+
+| Storage
+| By value (internal integer ID)
+
+| Mutability
+| Immutable
+
+| Max Length
+| 128 chars (Level 1), 65535 (Level 2+)
+|===
+
+.Name examples
+[source,postscript]
+----
+/myname type               % Returns /nametype
+/add type                  % Returns /nametype
+
+% Type checking
+/x dup type /nametype eq   % Returns true
+
+% Name operations
+/myname ==                 % Prints /myname
+(string) cvn type          % Returns /nametype
+/name 20 string cvs        % Returns (name)
+----
+
+==== Operator Type
+
+Built-in primitive operations.
+
+.Operator characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `operatortype`
+
+| Examples
+| `add`, `def`, `moveto`
+
+| Storage
+| By value (reference to built-in)
+
+| Mutability
+| Immutable
+
+| Executable
+| Always executable
+|===
+
+.Operator examples
+[source,postscript]
+----
+/add load type             % Returns /operatortype
+/moveto load type          % Returns /operatortype
+
+% Type checking
+/add load dup type /operatortype eq  % Returns true
+
+% Cannot be made literal
+/add load cvlit type       % Still /operatortype
+----
+
+==== Mark Type
+
+Special stack marker object.
+
+.Mark characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `marktype`
+
+| Literal Syntax
+| `mark` or `[`
+
+| Storage
+| By value
+
+| Purpose
+| Stack delimiter for array construction
+|===
+
+.Mark examples
+[source,postscript]
+----
+mark type                  % Returns /marktype
+[ type                     % Returns /marktype
+
+% Usage
+mark 1 2 3 counttomark     % Returns 3
+mark 1 2 3 ]              % Creates [1 2 3]
+----
+
+==== Null Type
+
+Empty or undefined value.
+
+.Null characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `nulltype`
+
+| Literal Syntax
+| `null`
+
+| Storage
+| By value
+
+| Purpose
+| Represent "no value" or initialization
+|===
+
+.Null examples
+[source,postscript]
+----
+null type                  % Returns /nulltype
+
+% Type checking
+null dup type /nulltype eq % Returns true
+
+% Usage
+/uninitialized null def
+uninitialized null eq      % Returns true
+----
+
+==== Save Type
+
+VM snapshot for save/restore operations.
+
+.Save characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `savetype`
+
+| Creation
+| `save` operator
+
+| Storage
+| By value (reference to snapshot)
+
+| Purpose
+| Mark VM state for restoration
+|===
+
+.Save examples
+[source,postscript]
+----
+save type                  % Returns /savetype
+
+% Usage
+save
+/temp 42 def
+restore                    % temp is undefined again
+----
+
+=== Composite Types
+
+Composite types store their values indirectly through references.
+
+==== String Type
+
+Sequences of 8-bit bytes.
+
+.String characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `stringtype`
+
+| Literal Syntax
+| `(text)` or `<hex>`
+
+| Max Length
+| 65,535 bytes
+
+| Storage
+| By reference
+
+| Mutability
+| Mutable
+
+| Indexed Access
+| 0-based byte access
+|===
+
+.String examples
+[source,postscript]
+----
+(Hello) type               % Returns /stringtype
+<4142> type                % Returns /stringtype
+
+% Type checking
+(text) dup type /stringtype eq  % Returns true
+
+% Operations
+(Hello) length             % 5
+(Hello) 0 get             % 72 (ASCII 'H')
+(Hello) dup 0 88 put      % Modifies to (Xello)
+----
+
+==== Array Type
+
+Ordered collections of objects.
+
+.Array characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `arraytype`
+
+| Literal Syntax
+| `[...]` (literal), `{...}` (executable)
+
+| Max Length
+| 65,535 elements
+
+| Storage
+| By reference
+
+| Mutability
+| Mutable
+
+| Indexed Access
+| 0-based element access
+|===
+
+.Array examples
+[source,postscript]
+----
+[1 2 3] type               % Returns /arraytype
+{ 1 2 add } type           % Returns /arraytype (executable)
+
+% Type checking
+[1 2] dup type /arraytype eq  % Returns true
+
+% Operations
+[1 2 3] length            % 3
+[1 2 3] 1 get            % 2
+[1 2 3] dup 0 99 put     % Modifies to [99 2 3]
+----
+
+==== Packed Array Type (Level 2+)
+
+Space-efficient read-only arrays.
+
+.Packed array characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `packedarraytype`
+
+| Creation
+| `packedarray` operator
+
+| Storage
+| By reference (compact)
+
+| Mutability
+| Read-only
+
+| Space
+| More compact than regular arrays
+|===
+
+.Packed array examples
+[source,postscript]
+----
+mark 1 2 3 ] packedarray type  % Returns /packedarraytype
+
+% Read-only
+mark 1 2 3 ] packedarray
+dup 0 99 put                    % Error: invalidaccess
+----
+
+==== Dictionary Type
+
+Associative arrays (key-value pairs).
+
+.Dictionary characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `dicttype`
+
+| Creation
+| `dict` or `<< ... >>`
+
+| Storage
+| By reference
+
+| Mutability
+| Mutable
+
+| Key Types
+| Any object (typically names)
+|===
+
+.Dictionary examples
+[source,postscript]
+----
+10 dict type               % Returns /dicttype
+<< /a 1 >> type           % Returns /dicttype
+
+% Type checking
+10 dict dup type /dicttype eq  % Returns true
+
+% Operations
+<< /x 42 >> /x get        % 42
+<< >> dup /y 10 put       % Add entry
+----
+
+==== File Type
+
+Input/output streams.
+
+.File characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `filetype`
+
+| Creation
+| `file` operator, `stdin`, `stdout`
+
+| Storage
+| By reference
+
+| Mutability
+| State changes
+
+| Purpose
+| Reading/writing data
+|===
+
+.File examples
+[source,postscript]
+----
+(file.txt) (r) file type   % Returns /filetype
+stdin type                  % Returns /filetype
+
+% Type checking
+stdin dup type /filetype eq % Returns true
+----
+
+==== Font Type
+
+Font dictionaries.
+
+.Font characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `fonttype`
+
+| Creation
+| `definefont`, `findfont`
+
+| Storage
+| By reference (special dictionary)
+
+| Mutability
+| Varies
+
+| Purpose
+| Text rendering
+|===
+
+.Font examples
+[source,postscript]
+----
+/Times-Roman findfont type % Returns /fonttype
+
+% Type checking
+currentfont type            % Returns /fonttype
+----
+
+==== Graphics State Type (Level 2+)
+
+Captured graphics state.
+
+.GState characteristics
+[cols="1,3"]
+|===
+| Property | Description
+
+| Type Name
+| `gstatetype`
+
+| Creation
+| `gstate` operator
+
+| Storage
+| By reference
+
+| Purpose
+| Save/restore graphics state
+|===
+
+.GState examples
+[source,postscript]
+----
+gstate type                % Returns /gstatetype
+
+% Usage
+gstate /mygs exch def
+mygs setgstate
+----
+
+=== Type Checking
+
+==== type Operator
+
+Returns the type name of an object:
+
+.Getting object types
+[source,postscript]
+----
+42 type                    % /integertype
+3.14 type                  % /realtype
+(text) type                % /stringtype
+[1 2 3] type              % /arraytype
+true type                  % /booleantype
+/name type                 % /nametype
+----
+
+==== Type Comparison
+
+.Checking specific types
+[source,postscript]
+----
+% Check if integer
+/CheckInteger {
+    type /integertype eq
+} def
+
+42 CheckInteger            % true
+3.14 CheckInteger          % false
+
+% Check if numeric
+/CheckNumeric {
+    type dup /integertype eq
+    exch /realtype eq or
+} def
+
+42 CheckNumeric            % true
+3.14 CheckNumeric          % true
+(text) CheckNumeric        % false
+----
+
+==== Type Validation
+
+.Safe type checking
+[source,postscript]
+----
+/RequireType {
+    % in: object expected-type
+    % out: object (or error)
+
+    1 index type 1 index ne {
+        /typecheck cvx signalerror
+    } {
+        pop
+    } ifelse
+} def
+
+% Usage
+42 /integertype RequireType     % OK
+(text) /integertype RequireType % Error
+----
+
+=== Type Conversion
+
+==== Numeric Conversions
+
+[cols="1,2,2"]
+|===
+| Operator | Conversion | Example
+
+| `cvi`
+| To integer
+| `3.14 cvi` → 3
+
+| `cvr`
+| To real
+| `42 cvr` → 42.0
+
+| `round`
+| Round to nearest
+| `3.7 round` → 4.0
+
+| `truncate`
+| Truncate to integer
+| `3.7 truncate` → 3.0
+
+| `floor`
+| Round down
+| `3.7 floor` → 3.0
+
+| `ceiling`
+| Round up
+| `3.2 ceiling` → 4.0
+|===
+
+.Numeric conversion examples
+[source,postscript]
+----
+% Real to integer
+3.14 cvi                   % 3
+-2.8 cvi                   % -2
+
+% Integer to real
+42 cvr                     % 42.0
+
+% Rounding
+3.7 round cvi              % 4
+3.2 floor cvi              % 3
+3.2 ceiling cvi            % 4
+----
+
+==== String Conversions
+
+[cols="1,2,2"]
+|===
+| Operator | Conversion | Example
+
+| `cvs`
+| To string
+| `42 10 string cvs` → (42)
+
+| `cvn`
+| String to name
+| `(name) cvn` → /name
+
+| `cvi`
+| String to integer
+| `(42) cvi` → 42
+
+| `cvr`
+| String to real
+| `(3.14) cvr` → 3.14
+|===
+
+.String conversion examples
+[source,postscript]
+----
+% Number to string
+42 10 string cvs           % (42)
+3.14 20 string cvs         % (3.14)
+
+% String to number
+(42) cvi                   % 42
+(3.14) cvr                 % 3.14
+
+% String to name
+(myname) cvn               % /myname
+
+% Name to string
+/myname 20 string cvs      % (myname)
+----
+
+==== Literal/Executable Conversion
+
+[cols="1,2,2"]
+|===
+| Operator | Conversion | Example
+
+| `cvlit`
+| To literal
+| `add cvlit` → /add
+
+| `cvx`
+| To executable
+| `/add cvx` → add
+|===
+
+.Literal/executable examples
+[source,postscript]
+----
+% Make literal
+{ 1 2 add } cvlit          % Literal array
+add cvlit                  % /add (name)
+
+% Make executable
+/add cvx                   % add (operator)
+[1 2 /add] cvx            % Executable array
+----
+
+=== Type Compatibility
+
+==== Numeric Type Mixing
+
+Arithmetic operations automatically promote integers to reals when needed:
+
+.Automatic promotion
+[source,postscript]
+----
+% Integer + Integer → Integer
+10 20 add                  % 30 (integer)
+
+% Integer + Real → Real
+10 20.0 add               % 30.0 (real)
+
+% Integer / Integer → Real
+10 3 div                   % 3.33... (real)
+
+% Integer idiv Integer → Integer
+10 3 idiv                  % 3 (integer)
+----
+
+==== Type Promotion Rules
+
+.Promotion hierarchy
+[source,text]
+----
+Integer → Real (when mixed with real)
+Integer → Real (for division with div)
+Integer → Integer (for idiv, mod)
+----
+
+==== Compatible Operations
+
+.Operations by type compatibility
+[source,postscript]
+----
+% Numeric operations (int or real)
+10 20 add mul div sub
+
+% String operations
+(abc) (def) eq
+(text) length
+
+% Array operations
+[1 2 3] [4 5 6] eq
+[1 2] length
+
+% Dictionary operations
+<< /a 1 >> /a known
+10 dict length
+----
+
+=== Type-Specific Operations
+
+==== Integer-Only Operations
+
+[cols="1,3"]
+|===
+| Operator | Description
+
+| `idiv`
+| Integer division
+
+| `mod`
+| Modulo (remainder)
+
+| `bitshift`
+| Bit shift
+
+| `and` (bitwise)
+| Bitwise AND
+
+| `or` (bitwise)
+| Bitwise OR
+
+| `xor` (bitwise)
+| Bitwise XOR
+
+| `not` (bitwise)
+| Bitwise NOT
+|===
+
+.Integer-specific examples
+[source,postscript]
+----
+10 3 idiv                  % 3 (integer division)
+10 3 mod                   % 1 (remainder)
+4 2 bitshift               % 16 (left shift)
+12 10 and                  % 8 (bitwise AND)
+----
+
+==== Real-Only Operations
+
+[cols="1,3"]
+|===
+| Operator | Description
+
+| `sin`
+| Sine (degrees)
+
+| `cos`
+| Cosine (degrees)
+
+| `atan`
+| Arctangent
+
+| `sqrt`
+| Square root
+
+| `exp`
+| Exponential
+
+| `ln`
+| Natural logarithm
+
+| `log`
+| Base-10 logarithm
+|===
+
+.Real-specific examples
+[source,postscript]
+----
+90 sin                     % 1.0
+0 cos                      % 1.0
+1 atan                     % 45.0
+9.0 sqrt                   % 3.0
+1 exp                      % 2.71828...
+----
+
+==== String-Specific Operations
+
+[cols="1,3"]
+|===
+| Operator | Description
+
+| `search`
+| Find substring
+
+| `anchorsearch`
+| Search from start
+
+| `token`
+| Parse token from string
+|===
+
+==== Array-Specific Operations
+
+[cols="1,3"]
+|===
+| Operator | Description
+
+| `aload`
+| Unpack array to stack
+
+| `astore`
+| Pack stack into array
+
+| `packedarray`
+| Create packed array
+|===
+
+==== Dictionary-Specific Operations
+
+[cols="1,3"]
+|===
+| Operator | Description
+
+| `begin`
+| Push onto dict stack
+
+| `end`
+| Pop from dict stack
+
+| `def`
+| Define in current dict
+
+| `where`
+| Find dict containing key
+|===
+
+=== Type Error Handling
+
+==== Common Type Errors
+
+[cols="1,3"]
+|===
+| Error | Cause
+
+| `typecheck`
+| Wrong operand type for operation
+
+| `rangecheck`
+| Value out of valid range
+
+| `stackunderflow`
+| Not enough operands
+
+| `invalidaccess`
+| Access permission violation
+|===
+
+.Type error examples
+[source,postscript]
+----
+% typecheck
+(text) 5 add               % Error: can't add string
+
+% rangecheck
+-5 array                   % Error: negative size
+
+% stackunderflow
+add                        % Error: needs 2 operands
+
+% invalidaccess
+[1 2 3] readonly
+dup 0 99 put              % Error: read-only
+----
+
+==== Type-Safe Programming
+
+.Defensive type checking
+[source,postscript]
+----
+/SafeAdd {
+    % in: a b
+    % out: sum or error
+
+    % Check both are numeric
+    1 index type dup /integertype eq
+    exch /realtype eq or
+    1 index type dup /integertype eq
+    exch /realtype eq or
+    and {
+        add
+    } {
+        (Type error: expected numbers) =
+        pop pop 0
+    } ifelse
+} def
+
+3 4 SafeAdd                % 7
+3 (x) SafeAdd              % Error message, returns 0
+----
+
+=== Type System Best Practices
+
+==== Type Documentation
+
+.Document expected types
+[source,postscript]
+----
+/WellTyped {
+    % in: int int string
+    % out: array
+    % Description: Creates array from parameters
+
+    % ... implementation ...
+} def
+----
+
+==== Type Validation
+
+.Validate inputs
+[source,postscript]
+----
+/ValidateParams {
+    % Validate all parameters are correct type
+    % before proceeding with operation
+} def
+----
+
+==== Type Conversion Strategy
+
+.Explicit vs implicit conversion
+[source,postscript]
+----
+% IMPLICIT - may be unclear
+/proc { add } def
+
+% EXPLICIT - clearer intent
+/proc {
+    cvr exch cvr exch       % Ensure both are real
+    add
+} def
+----
+
+==== Type Hierarchies
+
+.Organize types logically
+[source,postscript]
+----
+% Check if numeric
+/IsNumeric {
+    type dup /integertype eq
+    exch /realtype eq or
+} def
+
+% Check if collection
+/IsCollection {
+    type dup /arraytype eq
+    1 index /stringtype eq or
+    exch /dicttype eq or
+} def
+----
+
+=== Type System Summary
+
+==== Type Categories
+
+[cols="1,1,2"]
+|===
+| Category | Storage | Types
+
+| Simple
+| By value
+| integer, real, boolean, name, operator, mark, null, save
+
+| Composite
+| By reference
+| string, array, dict, file, font, gstate, packedarray
+
+| Numeric
+| By value
+| integer, real
+
+| Collection
+| By reference
+| string, array, packedarray, dict
+|===
+
+==== Type Mutability
+
+[cols="2,1,1"]
+|===
+| Type | Mutable | Notes
+
+| integer
+| No
+| Immutable value
+
+| real
+| No
+| Immutable value
+
+| boolean
+| No
+| Immutable value
+
+| name
+| No
+| Immutable value
+
+| string
+| Yes
+| Mutable bytes
+
+| array
+| Yes
+| Mutable elements
+
+| packedarray
+| No
+| Read-only
+
+| dict
+| Yes
+| Mutable entries
+
+| file
+| State
+| Mutable state
+|===
+
+==== Type Checking Quick Reference
+
+.Essential type operations
+[source,postscript]
+----
+% Get type
+obj type                   % Returns type name
+
+% Check type
+obj type /typename eq      % Boolean result
+
+% Validate type
+obj type /typename ne {
+    /typecheck cvx signalerror
+} if
+
+% Convert type
+obj cvi                    % To integer
+obj cvr                    % To real
+obj cvs                    % To string
+obj cvn                    % To name
+obj cvlit                  % To literal
+obj cvx                    % To executable
+----
+
+=== See Also
+
+* xref:objects.adoc[Objects] - Object model and attributes
+* xref:tokens.adoc[Tokens] - Type literal syntax
+* xref:operators.adoc[Operators] - Type-specific operations
+* xref:strings.adoc[Strings] - String type details
+* xref:arrays.adoc[Arrays] - Array type details
+* xref:dictionaries.adoc[Dictionaries] - Dictionary type details
+* xref:procedures.adoc[Procedures] - Array type as procedures
+* xref:../commands/array-string/type.adoc[type] - Get object type
+* xref:../commands/array-string/cvi.adoc[cvi] - Convert to integer
+* xref:../commands/array-string/cvr.adoc[cvr] - Convert to real
+* xref:../commands/array-string/cvs.adoc[cvs] - Convert to string
+* xref:../commands/array-string/cvn.adoc[cvn] - Convert to name
+* xref:../commands/array-string/cvlit.adoc[cvlit] - Make literal
+* xref:../commands/array-string/cvx.adoc[cvx] - Make executable
+* xref:index.adoc[Language Syntax Overview]

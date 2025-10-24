@@ -1,0 +1,347 @@
+---
+layout: default
+title: itransform
+parent: Coordinate Transformations
+grand_parent: Command Reference
+nav_order: 14
+---
+
+== itransform
+
+Transforms coordinates from device space to user space (inverse transform).
+
+=== Syntax
+
+----
+x' y' itransform → x y
+x' y' matrix itransform → x y
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `y'` (number)
+
+| 0
+| `x'` (number)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `y` (number)
+
+| 0
+| `x` (number)
+|===
+
+=== Description
+
+With no matrix operand, [`itransform`](itransform.adoc) (inverse transform) transforms the device space coordinate (x', y') by the inverse of the current transformation matrix (CTM) to produce the corresponding user space coordinate (x, y).
+
+If the `matrix` operand is supplied, [`itransform`](itransform.adoc) transforms (x', y') by the inverse of `matrix` rather than by the inverse of CTM.
+
+This is the inverse operation of xref:transform.adoc[`transform`]. It converts device coordinates (pixel positions) back to user coordinates (the coordinate system used for drawing).
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Basic inverse transformation
+[source,postscript]
+----
+100 100 translate
+2 2 scale
+
+% Forward transformation
+50 50 transform
+% → 200.0 200.0
+
+% Inverse transformation
+200 200 itransform
+% → 50.0 50.0 (back to original)
+----
+
+.Using explicit matrix
+[source,postscript]
+----
+/m [2 0 0 2 100 100] def
+200 200 m itransform
+% → 50.0 50.0
+% Inverse of (x-100)/2, (y-100)/2
+----
+
+.Mouse coordinate conversion
+[source,postscript]
+----
+% Convert device coordinates (pixels) to user coordinates
+/deviceX 300 def
+/deviceY 400 def
+deviceX deviceY itransform
+% → user space coordinates
+----
+
+=== Common Use Cases
+
+==== Hit Testing
+
+[source,postscript]
+----
+% Check if device point is inside user space rectangle
+/deviceClick {  % deviceX deviceY -> bool
+  itransform  % Convert to user space
+  % Check bounds in user space
+  dup 0 ge exch 100 le and
+  exch dup 0 ge exch 100 le and
+  and
+} def
+
+250 300 deviceClick  % Check if click is in rectangle
+----
+
+==== Event Handling
+
+[source,postscript]
+----
+% Convert mouse events to drawing coordinates
+/handleMouseDown {  % deviceX deviceY
+  gsave
+    % Current transformations in effect
+    itransform
+    /userY exch def
+    /userX exch def
+    % Process in user coordinates
+    userX userY processClick
+  grestore
+} def
+----
+
+==== Coordinate System Analysis
+
+[source,postscript]
+----
+% Understand current transformation
+initmatrix
+72 72 scale  % 1 unit = 1 inch
+
+% Where is device pixel (100, 100)?
+100 100 itransform
+% → 1.388... 1.388... (in inches)
+----
+
+==== Undoing Transformations
+
+[source,postscript]
+----
+% Get user coordinates from transformed device coordinates
+gsave
+  100 100 translate
+  2 2 scale
+
+  % Point in current user space
+  50 50 transform  % → 200 200 in device space
+
+  % Convert back
+  itransform       % → 50 50 in user space
+grestore
+----
+
+=== Common Pitfalls
+
+WARNING: *Includes Translation* - [`itransform`](itransform.adoc) uses the full inverse transformation including translation. Use xref:idtransform.adoc[`idtransform`] for distance vectors.
+
+[source,postscript]
+----
+100 100 translate
+
+% For points:
+150 200 itransform  % → 50 100 (correct)
+
+% For distances:
+100 100 itransform  % → 0 0 (wrong - includes translation)
+100 100 idtransform % → 100 100 (correct - distance)
+----
+
+WARNING: *Singular Matrices* - If CTM or matrix is singular (determinant = 0), [`itransform`](itransform.adoc) fails.
+
+[source,postscript]
+----
+0 0 scale  % Creates singular matrix (determinant = 0)
+100 100 itransform  % Error: undefinedresult
+----
+
+WARNING: *Precision Loss* - Very large transformations may cause precision loss in the inverse.
+
+[source,postscript]
+----
+1000000 1000000 scale
+1 1 itransform
+% May not return exactly 0.000001 0.000001
+% due to floating-point precision
+----
+
+TIP: *Use for Interactive Graphics* - Essential for converting mouse/touch coordinates:
+
+[source,postscript]
+----
+% In drawing application
+/handleClick {  % deviceX deviceY
+  gsave
+    % Apply all user transformations
+    panX panY translate
+    zoom zoom scale
+    rotation rotate
+
+    % Convert click to drawing coordinates
+    itransform
+    /drawY exch def
+    /drawX exch def
+
+    % Process click in drawing coordinates
+    drawX drawY addPoint
+  grestore
+} def
+----
+
+TIP: *Verify Round-Trip* - Test that transform/itransform are inverses:
+
+[source,postscript]
+----
+/testTransform {
+  % userX userY
+  2 copy transform itransform
+  % Should return original values
+  3 -1 roll sub abs 0.001 lt
+  3 1 roll exch sub abs 0.001 lt and
+  { (OK) } { (Error!) } ifelse print
+} def
+
+100 200 testTransform
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| Matrix operand does not have exactly 6 elements
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack (first form) or fewer than 3 (second form)
+
+| [`typecheck`]
+| Operands are not numbers, or matrix operand is not an array
+
+| [`undefinedresult`]
+| CTM or matrix is singular (determinant = 0) and cannot be inverted
+|===
+
+=== Implementation Notes
+
+* Requires computing the matrix inverse
+* More expensive than xref:transform.adoc[`transform`] (forward transformation)
+* The inverse CTM is not cached; computed each time
+* Precision depends on CTM condition number
+* Used automatically by many interactive operators
+
+=== Transformation Formula
+
+For CTM = [a b c d tx ty], the inverse transformation is:
+
+----
+det = a×d - b×c
+
+x = (d×(x' - tx) - c×(y' - ty)) / det
+y = (a×(y' - ty) - b×(x' - tx)) / det
+----
+
+Example with CTM = [2 0 0 2 100 100]:
+
+----
+det = 2×2 - 0×0 = 4
+
+(200, 200) inverse transforms to:
+x = (2×(200-100) - 0×(200-100)) / 4 = 200/4 = 50
+y = (2×(200-100) - 0×(200-100)) / 4 = 200/4 = 50
+→ (50, 50)
+----
+
+=== Relationship to Other Operators
+
+[source,postscript]
+----
+% Forward and inverse are opposites:
+userX userY transform itransform
+% → userX userY (round-trip)
+
+deviceX deviceY itransform transform
+% → deviceX deviceY (round-trip)
+
+% Using explicit matrix:
+x y m transform m itransform
+% → x y
+
+% Equivalent to using inverse matrix:
+m matrix invertmatrix  % Get inverse
+x y transform          % Transform by inverse
+----
+
+=== Use in Interactive Applications
+
+[source,postscript]
+----
+% Typical pattern for interactive graphics
+/processInput {  % deviceX deviceY eventType
+  /event exch def
+  itransform  % Convert to user space
+  event (mousedown) eq {
+    handleMouseDown
+  } if
+  event (mousemove) eq {
+    handleMouseMove
+  } if
+} def
+----
+
+=== Performance Considerations
+
+* Slightly slower than xref:transform.adoc[`transform`] (requires matrix inversion)
+* Still very fast for occasional use
+* If called frequently with same matrix, consider precomputing inverse:
+
+[source,postscript]
+----
+% Inefficient:
+{
+  deviceX deviceY itransform
+  % ... process ...
+} repeat
+
+% Efficient:
+matrix currentmatrix matrix invertmatrix
+/inverseMatrix exch def
+{
+  deviceX deviceY inverseMatrix transform
+  % ... process ...
+} repeat
+----
+
+=== See Also
+
+* xref:transform.adoc[`transform`] - Transform user to device coordinates
+* xref:dtransform.adoc[`dtransform`] - Transform distance vector
+* xref:idtransform.adoc[`idtransform`] - Inverse transform distance vector
+* xref:invertmatrix.adoc[`invertmatrix`] - Invert transformation matrix
+* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM

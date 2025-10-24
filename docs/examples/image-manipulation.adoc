@@ -1,0 +1,1289 @@
+---
+layout: default
+title: Image Manipulation
+parent: Practical Examples
+nav_order: 7
+---
+
+== Image Manipulation
+
+Working with raster images in PostScript: embedding, transforming, and applying effects.
+
+=== Introduction
+
+PostScript can incorporate raster images alongside vector graphics. This guide covers image embedding formats, transformations, masking, and image processing techniques. PostScript supports various image types including grayscale, RGB, and indexed color.
+
+=== Basic Image Display
+
+Displaying a simple bitmap image using the image operator.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Simple 8x8 grayscale image
+/imagedata <                            % Hexadecimal image data <1>
+  00 00 00 00 00 00 00 00
+  00 FF FF FF FF FF FF 00
+  00 FF 00 00 00 00 FF 00
+  00 FF 00 FF FF 00 FF 00
+  00 FF 00 FF FF 00 FF 00
+  00 FF 00 00 00 00 FF 00
+  00 FF FF FF FF FF FF 00
+  00 00 00 00 00 00 00 00
+> def
+
+% Position and scale
+100 650 translate                       % Position the image <2>
+80 80 scale                             % Scale to 80x80 points <3>
+
+% Display image
+8 8                                     % Width and height in pixels <4>
+8                                       % Bits per component <5>
+[8 0 0 -8 0 8]                          % Transformation matrix <6>
+{imagedata}                             % Data source procedure <7>
+image                                   % Render the image <8>
+
+% Larger example with pattern
+gsave
+  200 650 translate
+  120 120 scale
+
+  % Create 16x16 checkerboard pattern
+  16 16 8
+  [16 0 0 -16 0 16]
+  {
+    <
+      FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00
+      FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00
+      00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF
+      00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF
+      FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00
+      FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00
+      00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF
+      00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF
+      FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00
+      FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00
+      00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF
+      00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF
+      FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00
+      FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00
+      00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF
+      00 00 FF FF 00 00 FF FF 00 00 FF FF 00 00 FF FF
+    >
+  }
+  image
+grestore
+
+% RGB color image (small 4x4)
+gsave
+  400 650 translate
+  100 100 scale
+
+  4 4 8                                 % 4x4 pixels, 8 bits per component
+  [4 0 0 -4 0 4]
+  {
+    <
+      FF0000 00FF00 0000FF FFFF00        % Red, Green, Blue, Yellow <9>
+      00FFFF FF00FF 808080 FFFFFF        % Cyan, Magenta, Gray, White
+      000000 FF8000 8000FF 00FF80        % Black, Orange, Purple, Lime
+      FF0080 0080FF 80FF00 8080FF        % Pink, Sky, Yellow-green, Lavender
+    >
+  }
+  false 3                               % RGB image (3 components) <10>
+  colorimage                            % Render color image <11>
+grestore
+
+showpage
+----
+<1> Image data in hexadecimal format (00=black, FF=white)
+<2> Use [`translate`](../commands/transformations/translate.adoc) to position image
+<3> Use [`scale`](../commands/transformations/scale.adoc) to size image in points
+<4> Image dimensions in pixels (width height)
+<5> Bits per color component (typically 8 for 256 levels)
+<6> Image transformation matrix [a b c d tx ty]
+<7> Procedure that returns image data when called
+<8> Use `image` operator to render grayscale image
+<9> RGB data: each pixel is 3 bytes (RRGGBB in hex)
+<10> `false` = RGB (not CMYK), `3` = 3 components
+<11> Use `colorimage` for RGB/CMYK images
+
+==== Expected Output
+
+* 8×8 grayscale image scaled to 80×80 points (smiley face pattern)
+* 16×16 checkerboard pattern scaled to 120×120 points
+* 4×4 RGB color image scaled to 100×100 points
+
+==== Image Format Basics
+
+**Grayscale image**:
+
+* Use `image` operator
+* Each pixel is 1 byte (00-FF)
+* 8 bits per sample is most common
+
+**RGB color image**:
+
+* Use `colorimage` operator
+* Each pixel is 3 bytes (RGB)
+* Specify `false 3` for RGB mode
+
+**Transformation matrix** `[a b c d tx ty]`:
+
+* Maps unit square to image space
+* Typically `[width 0 0 -height 0 height]`
+* Negative height flips Y-axis (images are top-down)
+
+=== Image Transformations
+
+Scaling, rotating, and skewing images using CTM.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Define a simple test image (8x8 gradient)
+/testimage {
+  8 8 8
+  [8 0 0 -8 0 8]
+  {
+    <
+      00 20 40 60 80 A0 C0 E0
+      10 30 50 70 90 B0 D0 F0
+      20 40 60 80 A0 C0 E0 FF
+      30 50 70 90 B0 D0 F0 FF
+      40 60 80 A0 C0 E0 FF FF
+      50 70 90 B0 D0 FF FF FF
+      60 80 A0 C0 E0 FF FF FF
+      70 90 B0 D0 F0 FF FF FF
+    >
+  }
+  image
+} def
+
+% Original size
+gsave
+  50 700 translate
+  60 60 scale                           % 60x60 points
+  testimage
+grestore
+
+% Scaled larger
+gsave
+  150 700 translate
+  100 100 scale                         % 100x100 points <1>
+  testimage
+grestore
+
+% Scaled with different aspect ratio
+gsave
+  300 700 translate
+  120 60 scale                          % Wide <2>
+  testimage
+grestore
+
+% Rotated 45 degrees
+gsave
+  100 550 translate
+  45 rotate                             % Rotate before scaling <3>
+  60 60 scale
+  testimage
+grestore
+
+% Rotated 90 degrees
+gsave
+  250 550 translate
+  90 rotate
+  60 60 scale
+  testimage
+grestore
+
+% Skewed (shear transformation)
+gsave
+  100 400 translate
+  60 60 scale
+  1 0.5 0 1 0 0 concat                  % Shear matrix <4>
+  testimage
+grestore
+
+% Reflected (mirrored horizontally)
+gsave
+  300 400 translate
+  -60 60 scale                          % Negative X scale <5>
+  testimage
+grestore
+
+% Reflected vertically
+gsave
+  450 400 translate
+  60 -60 scale                          % Negative Y scale
+  testimage
+grestore
+
+% Combined transformations
+gsave
+  100 250 translate
+  30 rotate                             % Rotate 30°
+  80 60 scale                           % Non-uniform scale
+  testimage
+grestore
+
+% Perspective-like effect (not true perspective)
+gsave
+  300 250 translate
+  [1 0 0.3 1 0 0] concat                % Skew Y based on X <6>
+  60 80 scale
+  testimage
+grestore
+
+% Multiple copies with transformations
+/y 100 def
+0 1 5 {
+  /i exch def
+  gsave
+    100 i 80 mul add y translate
+    i 15 mul rotate                     % Increasing rotation
+    50 50 scale
+    testimage
+  grestore
+} for
+
+showpage
+----
+<1> Larger scale increases image size
+<2> Different X and Y scales change aspect ratio
+<3> Rotate coordinate system before scaling
+<4> Use [`concat`](../commands/transformations/concat.adoc) to apply custom matrix
+<5> Negative scale values flip/mirror the image
+<6> Shear matrix creates pseudo-perspective
+
+==== Expected Output
+
+Demonstration of various image transformations:
+
+* Original size reference
+* Scaled larger
+* Stretched horizontally
+* Rotated 45° and 90°
+* Skewed/sheared
+* Mirrored horizontally and vertically
+* Combined rotation and scaling
+* Pseudo-perspective effect
+* Series of images with progressive rotation
+
+==== Transformation Order
+
+Apply transformations in this order for predictable results:
+
+1. `translate` - Position
+2. `rotate` - Rotate
+3. `scale` - Size
+4. `image` - Render
+
+Transformations affect the coordinate system, not the image itself.
+
+=== Image Clipping and Masking
+
+Using images as masks and clipping images to shapes.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Test image for demonstrations
+/gradient {
+  16 16 8
+  [16 0 0 -16 0 16]
+  {
+    <
+      00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF
+      00 11 22 33 44 55 66 77 88 99 AA BB CC DD EE FF
+      10 21 32 43 54 65 76 87 98 A9 BA CB DC ED FE FF
+      10 21 32 43 54 65 76 87 98 A9 BA CB DC ED FE FF
+      20 31 42 53 64 75 86 97 A8 B9 CA DB EC FD FF FF
+      20 31 42 53 64 75 86 97 A8 B9 CA DB EC FD FF FF
+      30 41 52 63 74 85 96 A7 B8 C9 DA EB FC FF FF FF
+      30 41 52 63 74 85 96 A7 B8 C9 DA EB FC FF FF FF
+      40 51 62 73 84 95 A6 B7 C8 D9 EA FB FF FF FF FF
+      40 51 62 73 84 95 A6 B7 C8 D9 EA FB FF FF FF FF
+      50 61 72 83 94 A5 B6 C7 D8 E9 FA FF FF FF FF FF
+      50 61 72 83 94 A5 B6 C7 D8 E9 FA FF FF FF FF FF
+      60 71 82 93 A4 B5 C6 D7 E8 F9 FF FF FF FF FF FF
+      60 71 82 93 A4 B5 C6 D7 E8 F9 FF FF FF FF FF FF
+      70 81 92 A3 B4 C5 D6 E7 F8 FF FF FF FF FF FF FF
+      70 81 92 A3 B4 C5 D6 E7 F8 FF FF FF FF FF FF FF
+    >
+  }
+  image
+} def
+
+% Image clipped to circle
+gsave
+  150 650 translate
+
+  % Create circular clipping path
+  newpath
+  0 0 50 0 360 arc
+  clip                                  % Clip to circle <1>
+
+  % Draw image
+  -50 -50 translate
+  100 100 scale
+  gradient
+grestore
+
+% Image clipped to star
+gsave
+  350 650 translate
+
+  % Create star clipping path
+  newpath
+  0 60 moveto
+  1 1 5 {
+    pop
+    144 rotate
+    0 60 lineto
+  } for
+  closepath
+  clip
+
+  % Draw image
+  -60 -60 translate
+  120 120 scale
+  gradient
+grestore
+
+% Image as mask (ImageType 1, Level 2+)
+%%LanguageLevel: 2
+
+% Mask defines transparency
+gsave
+  100 450 translate
+
+  % Fill background color
+  0.2 0.6 1 setrgbcolor
+  -50 -50 100 100 rectfill
+
+  % Use image as mask
+  <<
+    /ImageType 1
+    /Width 8
+    /Height 8
+    /ImageMatrix [8 0 0 -8 0 8]
+    /BitsPerComponent 8
+    /Decode [0 1]                       % Value range <2>
+    /DataSource <
+      00 00 00 00 00 00 00 00
+      00 FF FF FF FF FF FF 00
+      00 FF 00 00 00 00 FF 00
+      00 FF 00 FF FF 00 FF 00
+      00 FF 00 FF FF 00 FF 00
+      00 FF 00 00 00 00 FF 00
+      00 FF FF FF FF FF FF 00
+      00 00 00 00 00 00 00 00
+    >
+  >>
+
+  % Set color for masked area
+  1 0.8 0 setrgbcolor                   % Yellow
+
+  % Apply mask
+  80 80 scale
+  imagemask                             % Render as mask <3>
+grestore
+
+% Soft mask (Level 3, gradual transparency)
+%%LanguageLevel: 3
+
+gsave
+  300 450 translate
+
+  % Background
+  1 0.5 0.5 setrgbcolor
+  -60 -60 120 120 rectfill
+
+  % Create soft mask (gradient opacity)
+  <<
+    /ImageType 1
+    /Width 16
+    /Height 16
+    /ImageMatrix [16 0 0 -16 0 16]
+    /BitsPerComponent 8
+    /Decode [0 1]
+    /DataSource <
+      FF EE DD CC BB AA 99 88 77 66 55 44 33 22 11 00
+      FF EE DD CC BB AA 99 88 77 66 55 44 33 22 11 00
+      EE DD CC BB AA 99 88 77 66 55 44 33 22 11 00 00
+      DD CC BB AA 99 88 77 66 55 44 33 22 11 00 00 00
+      CC BB AA 99 88 77 66 55 44 33 22 11 00 00 00 00
+      BB AA 99 88 77 66 55 44 33 22 11 00 00 00 00 00
+      AA 99 88 77 66 55 44 33 22 11 00 00 00 00 00 00
+      99 88 77 66 55 44 33 22 11 00 00 00 00 00 00 00
+      88 77 66 55 44 33 22 11 00 00 00 00 00 00 00 00
+      77 66 55 44 33 22 11 00 00 00 00 00 00 00 00 00
+      66 55 44 33 22 11 00 00 00 00 00 00 00 00 00 00
+      55 44 33 22 11 00 00 00 00 00 00 00 00 00 00 00
+      44 33 22 11 00 00 00 00 00 00 00 00 00 00 00 00
+      33 22 11 00 00 00 00 00 00 00 00 00 00 00 00 00
+      22 11 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+      11 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    >
+  >> .setshapealpha                     % Set as opacity mask <4>
+
+  % Draw image with soft mask
+  0 1 0 setrgbcolor
+  -60 -60 translate
+  120 120 scale
+  gradient
+grestore
+
+% Image with knockout (Level 3)
+gsave
+  100 250 translate
+
+  % Background pattern
+  0 5 100 {
+    /i exch def
+    i 10 mod 5 lt {
+      0.8 setgray
+    } {
+      0.3 setgray
+    } ifelse
+    i 0 5 100 rectfill
+  } for
+
+  % Knockout image (replaces background)
+  0 0 translate
+  100 100 scale
+  gradient
+grestore
+
+% Stencil mask (binary transparency)
+gsave
+  300 250 translate
+
+  % Background gradient
+  0 1 99 {
+    /i exch def
+    i 100 div 0.5 add 0.2 0.2 setrgbcolor
+    i 0 1 100 rectfill
+  } for
+
+  % Stencil pattern
+  <<
+    /ImageType 1
+    /Width 10
+    /Height 10
+    /ImageMatrix [10 0 0 -10 0 10]
+    /BitsPerComponent 1                 % Binary: 0 or 1 <5>
+    /Decode [1 0]                       % Inverted <6>
+    /DataSource <
+      AA 55 AA 55 AA 55 AA 55 AA 55    % Checkerboard in binary
+    >
+  >>
+
+  0 setgray
+  100 100 scale
+  imagemask
+grestore
+
+showpage
+----
+<1> Use [`clip`](../commands/painting/clip.adoc) to restrict image to shape
+<2> Decode specifies how to interpret pixel values
+<3> Use `imagemask` to render 1-bit images as masks
+<4> `.setshapealpha` applies soft mask (Level 3)
+<5> 1 bit per component for binary masks
+<6> Decode [1 0] inverts: 1=transparent, 0=opaque
+
+==== Expected Output
+
+Various masking techniques:
+
+* Image clipped to circular shape
+* Image clipped to star shape
+* Binary mask (smiley face shape)
+* Soft mask with gradient transparency (Level 3)
+* Image with knockout background
+* Stencil mask with checkerboard pattern
+
+==== Masking Types
+
+**Clipping**:
+
+* Use `clip` to restrict drawing area
+* Applies to all subsequent operations
+* Released with `grestore`
+
+**Image mask**:
+
+* 1-bit image defines transparency
+* Black = opaque, white = transparent
+* Use `imagemask` operator
+
+**Soft mask** (Level 3):
+
+* Grayscale image defines opacity
+* 00 = transparent, FF = opaque
+* Use `.setshapealpha`
+
+=== Image Filters and Effects
+
+Applying visual effects to images through PostScript operations.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Sample RGB image for effects
+/colorimg {
+  8 8 8
+  [8 0 0 -8 0 8]
+  {
+    <
+      FF0000 FF0000 FF8800 FF8800 FFFF00 FFFF00 88FF00 88FF00
+      FF0000 FF0000 FF8800 FF8800 FFFF00 FFFF00 88FF00 88FF00
+      FF0088 FF0088 FF8888 FF8888 FFFF88 FFFF88 88FF88 88FF88
+      FF0088 FF0088 FF8888 FF8888 FFFF88 FFFF88 88FF88 88FF88
+      FF00FF FF00FF FF88FF FF88FF FFFFFF FFFFFF 88FFFF 88FFFF
+      FF00FF FF00FF FF88FF FF88FF FFFFFF FFFFFF 88FFFF 88FFFF
+      8800FF 8800FF 8888FF 8888FF 88FFFF 88FFFF 00FFFF 00FFFF
+      8800FF 8800FF 8888FF 8888FF 88FFFF 88FFFF 00FFFF 00FFFF
+    >
+  }
+  false 3 colorimage
+} def
+
+% Original
+gsave
+  50 700 translate
+  60 60 scale
+  colorimg
+grestore
+
+% Inverted colors (negative)
+gsave
+  150 700 translate
+  60 60 scale
+
+  % Use transfer function to invert <1>
+  {1 exch sub} settransfer              % Invert grayscale <2>
+  colorimg
+  {} settransfer                        % Reset
+grestore
+
+% Brightness adjustment
+gsave
+  250 700 translate
+  60 60 scale
+
+  % Increase brightness
+  {0.3 add} settransfer                 % Add 0.3 to all values <3>
+  colorimg
+  {} settransfer
+grestore
+
+% Contrast adjustment
+gsave
+  350 700 translate
+  60 60 scale
+
+  % Increase contrast
+  {0.5 sub 2 mul 0.5 add} settransfer   % Expand around midpoint <4>
+  colorimg
+  {} settransfer
+grestore
+
+% Threshold (posterize)
+gsave
+  450 700 translate
+  60 60 scale
+
+  % Binary threshold at 0.5
+  {0.5 gt {1} {0} ifelse} settransfer   % <5>
+  colorimg
+  {} settransfer
+grestore
+
+% Grayscale conversion
+gsave
+  50 600 translate
+  60 60 scale
+
+  % Convert to grayscale (manual)
+  8 8 8
+  [8 0 0 -8 0 8]
+  {
+    <
+      40 40 58 58 88 88 98 98
+      40 40 58 58 88 88 98 98
+      50 50 68 68 98 98 A8 A8
+      50 50 68 68 98 98 A8 A8
+      78 78 90 90 C0 C0 D0 D0
+      78 78 90 90 C0 C0 D0 D0
+      60 60 78 78 A8 A8 A0 A0
+      60 60 78 78 A8 A8 A0 A0
+    >
+  }
+  image                                 % Grayscale version <6>
+grestore
+
+% Sepia tone
+gsave
+  150 600 translate
+
+  % Apply sepia color overlay
+  0.9 0.7 0.4 setrgbcolor               % Sepia tint <7>
+  0 0 60 60 rectfill
+
+  % Blend with image
+  .5 .setopacityalpha                   % 50% opacity
+  60 60 scale
+  colorimg
+  1 .setopacityalpha
+grestore
+
+% Color channel extraction (red only)
+gsave
+  250 600 translate
+  60 60 scale
+
+  8 8 8
+  [8 0 0 -8 0 8]
+  {
+    <
+      FF0000 FF0000 FF0000 FF0000 FF0000 FF0000 000000 000000
+      FF0000 FF0000 FF0000 FF0000 FF0000 FF0000 000000 000000
+      FF0000 FF0000 FF0000 FF0000 FF0000 FF0000 000000 000000
+      FF0000 FF0000 FF0000 FF0000 FF0000 FF0000 000000 000000
+      FF0000 FF0000 FF0000 FF0000 FF0000 FF0000 000000 000000
+      FF0000 FF0000 FF0000 FF0000 FF0000 FF0000 000000 000000
+      000000 000000 000000 000000 000000 000000 000000 000000
+      000000 000000 000000 000000 000000 000000 000000 000000
+    >
+  }
+  false 3 colorimage
+grestore
+
+% Pixelated effect (scale down then up)
+gsave
+  350 600 translate
+
+  % Scale up without interpolation
+  120 120 scale                         % Large scale <8>
+
+  4 4 8                                 % Small 4x4 image
+  [4 0 0 -4 0 4]
+  {
+    <
+      FF4400 FFAA00 44FF00 00FFAA
+      FF00AA FFAAAA 44FFAA 00FFFF
+      AA00FF AAAAFF 0000FF 00AAFF
+      4400AA 44AAAA 0000AA 00AA44
+    >
+  }
+  false 3 colorimage
+grestore
+
+% Tiled/repeated image
+gsave
+  50 400 translate
+
+  % Tile 3x3
+  0 1 2 {
+    /row exch def
+    0 1 2 {
+      /col exch def
+      gsave
+        col 70 mul row 70 mul translate
+        60 60 scale
+        colorimg
+      grestore
+    } for
+  } for
+grestore
+
+% Blend two images
+gsave
+  250 400 translate
+
+  % First image
+  60 60 scale
+  colorimg
+
+  % Second image with transparency
+  .5 .setopacityalpha
+  -60 -60 translate
+  60 60 scale
+
+  % Different pattern
+  8 8 8
+  [8 0 0 -8 0 8]
+  {
+    <
+      0000FF 0088FF 00FFFF 00FF88 00FF00 88FF00 FFFF00 FF8800
+      0088FF 0088FF 00FFFF 00FF88 88FF00 88FF00 FFFF00 FF8800
+      00FFFF 00FFFF 88FFFF 00FF88 FFFF00 FFFF00 FFFF88 FF8800
+      00FF88 00FF88 88FFFF 88FF88 FFFF00 FFFF00 FFFF88 FF8888
+      00FF00 88FF00 FFFF00 FFFF00 FFFF88 FFFF88 FF8888 FF8888
+      88FF00 88FF00 FFFF00 FFFF00 FFFF88 FFFF88 FF8888 FF0088
+      FFFF00 FFFF00 FFFF88 FFFF88 FF8888 FF8888 FF0088 FF0088
+      FF8800 FF8800 FF8888 FF8888 FF8888 FF0088 FF0088 FF00FF
+    >
+  }
+  false 3 colorimage
+
+  1 .setopacityalpha
+grestore
+
+% Edge detection simulation
+gsave
+  400 400 translate
+
+  % High contrast version
+  {0.5 sub 5 mul 0.5 add} settransfer
+  60 60 scale
+  colorimg
+  {} settransfer
+grestore
+
+% Color replacement
+gsave
+  50 250 translate
+  60 60 scale
+
+  % Replace certain colors
+  8 8 8
+  [8 0 0 -8 0 8]
+  {
+    <
+      0000FF 0000FF 0088FF 0088FF 00FFFF 00FFFF 00FF88 00FF88
+      0000FF 0000FF 0088FF 0088FF 00FFFF 00FFFF 00FF88 00FF88
+      00FF00 00FF00 0088FF 0088FF 00FFFF 00FFFF 00FF88 00FF88
+      00FF00 00FF00 0088FF 0088FF 00FFFF 00FFFF 00FF88 00FF88
+      00FF00 00FF00 00FF00 00FF00 00FFFF 00FFFF 00FF88 00FF88
+      00FF00 00FF00 00FF00 00FF00 00FFFF 00FFFF 00FF88 00FF88
+      8800FF 8800FF 8888FF 8888FF 88FFFF 88FFFF 00FFFF 00FFFF
+      8800FF 8800FF 8888FF 8888FF 88FFFF 88FFFF 00FFFF 00FFFF
+    >
+  }
+  false 3 colorimage
+grestore
+
+showpage
+----
+<1> Transfer functions modify pixel values
+<2> Use `settransfer` to apply function to all pixels
+<3> Add constant to brighten image
+<4> Multiply around midpoint for contrast
+<5> Threshold creates binary (black/white) effect
+<6> Convert RGB to grayscale by extracting luminance
+<7> Overlay color tint for sepia effect
+<8> Large scale without interpolation creates pixelated look
+
+==== Expected Output
+
+Various image effects:
+
+* Original image
+* Inverted (negative) colors
+* Brightened version
+* Increased contrast
+* Binary threshold
+* Grayscale conversion
+* Sepia tone
+* Red channel extraction
+* Pixelated effect
+* Tiled pattern
+* Blended images
+* High contrast (edge detection simulation)
+* Color replacement
+
+==== Effect Techniques
+
+**Transfer functions**:
+
+* Modify pixel values mathematically
+* Apply to all subsequent images
+* Reset with `{} settransfer`
+
+**Color manipulation**:
+
+* Extract individual channels
+* Apply tints with overlays
+* Blend with transparency (Level 3)
+
+**Geometric effects**:
+
+* Tile by repeating in loop
+* Pixelate by scaling small image
+* Distort with transformations
+
+=== Combining Images with Graphics
+
+Integrating raster images with vector graphics.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Define test image
+/photo {
+  16 16 8
+  [16 0 0 -16 0 16]
+  {
+    <
+      808080 888888 909090 989898 A0A0A0 A8A8A8 B0B0B0 B8B8B8
+      C0C0C0 C8C8C8 D0D0D0 D8D8D8 E0E0E0 E8E8E8 F0F0F0 F8F8F8
+      707070 787878 808080 888888 909090 989898 A0A0A0 A8A8A8
+      B0B0B0 B8B8B8 C0C0C0 C8C8C8 D0D0D0 D8D8D8 E0E0E0 E8E8E8
+      606060 686868 707070 787878 808080 888888 909090 989898
+      A0A0A0 A8A8A8 B0B0B0 B8B8B8 C0C0C0 C8C8C8 D0D0D0 D8D8D8
+      505050 585858 606060 686868 707070 787878 808080 888888
+      909090 989898 A0A0A0 A8A8A8 B0B0B0 B8B8B8 C0C0C0 C8C8C8
+      404040 484848 505050 585858 606060 686868 707070 787878
+      808080 888888 909090 989898 A0A0A0 A8A8A8 B0B0B0 B8B8B8
+      303030 383838 404040 484848 505050 585858 606060 686868
+      707070 787878 808080 888888 909090 989898 A0A0A0 A8A8A8
+      202020 282828 303030 383838 404040 484848 505050 585858
+      606060 686868 707070 787878 808080 888888 909090 989898
+      101010 181818 202020 282828 303030 383838 404040 484848
+      505050 585858 606060 686868 707070 787878 808080 888888
+      000000 080808 101010 181818 202020 282828 303030 383838
+      404040 484848 505050 585858 606060 686868 707070 787878
+      101010 181818 202020 282828 303030 383838 404040 484848
+      505050 585858 606060 686868 707070 787878 808080 888888
+      202020 282828 303030 383838 404040 484848 505050 585858
+      606060 686868 707070 787878 808080 888888 909090 989898
+      303030 383838 404040 484848 505050 585858 606060 686868
+      707070 787878 808080 888888 909090 989898 A0A0A0 A8A8A8
+      404040 484848 505050 585858 606060 686868 707070 787878
+      808080 888888 909090 989898 A0A0A0 A8A8A8 B0B0B0 B8B8B8
+      505050 585858 606060 686868 707070 787878 808080 888888
+      909090 989898 A0A0A0 A8A8A8 B0B0B0 B8B8B8 C0C0C0 C8C8C8
+      606060 686868 707070 787878 808080 888888 909090 989898
+      A0A0A0 A8A8A8 B0B0B0 B8B8B8 C0C0C0 C8C8C8 D0D0D0 D8D8D8
+      707070 787878 808080 888888 909090 989898 A0A0A0 A8A8A8
+      B0B0B0 B8B8B8 C0C0C0 C8C8C8 D0D0D0 D8D8D8 E0E0E0 E8E8E8
+    >
+  }
+  false 3 colorimage
+} def
+
+% Image with border
+gsave
+  100 650 translate
+
+  % Draw image
+  100 100 scale
+  photo
+
+  % Add vector border
+  0 setgray
+  3 setlinewidth
+  newpath
+  0 0 moveto
+  1 0 lineto
+  1 1 lineto
+  0 1 lineto
+  closepath
+  stroke
+grestore
+
+% Image with caption
+gsave
+  250 650 translate
+
+  % Image
+  100 100 scale
+  photo
+
+  % Caption below
+  /Times-Italic findfont 10 scalefont setfont
+  0 setgray
+  0 -0.15 moveto
+  (Photo Caption) show
+grestore
+
+% Image in shaped frame
+gsave
+  450 650 translate
+
+  % Frame shape (rounded rectangle)
+  newpath
+  -55 -55 moveto
+  110 0 rlineto
+  0 110 rlineto
+  -110 0 rlineto
+  closepath
+
+  gsave
+    clip
+    -50 -50 translate
+    100 100 scale
+    photo
+  grestore
+
+  % Frame outline
+  0 setgray
+  4 setlinewidth
+  stroke
+grestore
+
+% Image as part of composite
+gsave
+  100 450 translate
+
+  % Background shape
+  0.8 0.9 1 setrgbcolor
+  newpath
+  -20 -20 140 140 20 20 roundbox
+  fill
+
+  % Image
+  100 100 scale
+  photo
+
+  % Overlay graphics
+  0 0 0 setrgbcolor
+  0.2 setlinewidth
+  newpath
+  0.2 0.2 moveto
+  0.8 0.8 lineto
+  0.2 0.8 moveto
+  0.8 0.2 lineto
+  stroke
+grestore
+
+% Define roundbox (needed for above)
+/roundbox {
+  /r exch def /h exch def /w exch def /y exch def /x exch def
+  newpath
+  x r add y moveto
+  x w add r sub y lineto
+  x w add y r add r -90 0 arcn
+  x w add y h add r sub lineto
+  x w add r sub y h add r 0 90 arcn
+  x r add y h add lineto
+  x y h add r sub r 90 180 arcn
+  x y r add lineto
+  x r add y r 180 270 arcn
+  closepath
+} def
+
+% Photo gallery layout
+/photos [
+  { photo }
+  { photo }
+  { photo }
+  { photo }
+] def
+
+gsave
+  300 450 translate
+
+  0 1 3 {
+    /i exch def
+    gsave
+      i 2 mod 110 mul i 2 idiv 110 mul translate
+
+      % White mat
+      0.95 setgray
+      -5 -5 110 110 rectfill
+
+      % Photo
+      100 100 scale
+      photos i get exec
+
+      % Border
+      0 setgray
+      1 setlinewidth
+      0 0 1 1 rectstroke
+    grestore
+  } for
+grestore
+
+% Image with text overlay
+gsave
+  100 200 translate
+
+  % Image
+  150 100 scale
+  photo
+
+  % Semi-transparent text background
+  0 0 0 setrgbcolor
+  .5 .setopacityalpha
+  0 0.7 1 0.2 rectfill
+  1 .setopacityalpha
+
+  % White text
+  1 1 1 setrgbcolor
+  /Helvetica-Bold findfont 0.1 scalefont setfont
+  0.05 0.75 moveto
+  (IMAGE TITLE) show
+grestore
+
+% Collage effect
+gsave
+  350 200 translate
+
+  % Multiple overlapping images at angles
+  0 1 2 {
+    /i exch def
+    gsave
+      i 15 mul rotate
+      i 10 mul i 5 mul translate
+      80 80 scale
+      photo
+
+      % White border
+      1 setgray
+      4 setlinewidth
+      0 0 1 1 rectstroke
+    grestore
+  } for
+grestore
+
+showpage
+----
+
+==== Expected Output
+
+Images combined with vector graphics:
+
+* Image with decorative border
+* Image with text caption
+* Image in rounded frame
+* Image in colored background with crosshairs
+* 2×2 photo gallery with white mats
+* Image with semi-transparent text overlay
+* Collage of rotated, overlapping images
+
+==== Integration Techniques
+
+**Framing**:
+
+* Draw image first
+* Add vector border on top
+* Use clipping for shaped frames
+
+**Captions**:
+
+* Position text relative to image
+* Use coordinate system for consistent placement
+
+**Overlays**:
+
+* Layer graphics over images
+* Use transparency for subtle effects (Level 3)
+
+**Galleries**:
+
+* Use loops for repeated layouts
+* Calculate positions programmatically
+
+=== Performance Optimization
+
+Techniques for efficient image handling.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% OPTIMIZATION 1: Reuse image data
+/imagedata <
+  00 20 40 60 80 A0 C0 E0
+  10 30 50 70 90 B0 D0 F0
+  20 40 60 80 A0 C0 E0 FF
+  30 50 70 90 B0 D0 F0 FF
+  40 60 80 A0 C0 E0 FF FF
+  50 70 90 B0 D0 FF FF FF
+  60 80 A0 C0 E0 FF FF FF
+  70 90 B0 D0 F0 FF FF FF
+> def
+
+/showimg {                              % Reusable procedure <1>
+  8 8 8
+  [8 0 0 -8 0 8]
+  {imagedata}                           % Shared data <2>
+  image
+} def
+
+% Use multiple times efficiently
+0 1 4 {
+  /i exch def
+  gsave
+    100 i 80 mul add 600 translate
+    60 60 scale
+    showimg                             % Call procedure <3>
+  grestore
+} for
+
+% OPTIMIZATION 2: Appropriate resolution
+% Don't use high-res image for small display
+
+% Low-res for thumbnail (4x4)
+gsave
+  100 500 translate
+  40 40 scale
+
+  4 4 8
+  [4 0 0 -4 0 4]
+  {< 40 80 C0 FF 60 A0 E0 FF 80 C0 FF FF A0 E0 FF FF >}
+  image
+grestore
+
+% Medium-res for normal size (8x8)
+gsave
+  200 500 translate
+  80 80 scale
+  showimg
+grestore
+
+% OPTIMIZATION 3: Compression (Level 2+)
+%%LanguageLevel: 2
+
+% Use ASCII85 encoding for smaller file size
+gsave
+  350 500 translate
+  60 60 scale
+
+  8 8 8
+  [8 0 0 -8 0 8]
+  currentfile /ASCII85Decode filter       % Decode filter <4>
+  image
+  Gar8O$j,<6!!&7j!!&5&!!&,e!!%tc!!%kZ!!%bQ!!%YG!!%P> <5>
+  !!&-7!!&5)!!&<r!!&Dk!!&Ld!!&T[!!%cR!!%kN!!%sE
+  ~>                                      % End marker <6>
+grestore
+
+% OPTIMIZATION 4: On-demand loading
+% Store image in procedure, call only when needed
+
+/bigimage {                             % Lazy loading <7>
+  100 100 scale
+  16 16 8
+  [16 0 0 -16 0 16]
+  {
+    currentfile /ASCIIHexDecode filter
+    128 string readstring pop
+  }
+  image
+  % ... image data would follow ...
+} def
+
+% Only load if condition met
+true {                                  % Conditional display <8>
+  gsave
+    100 350 translate
+    % bigimage  % Uncomment to actually load
+  grestore
+} if
+
+% OPTIMIZATION 5: Caching (implementation-dependent)
+% Many interpreters cache image data automatically
+
+showpage
+----
+<1> Define reusable image procedure
+<2> Reference shared data string
+<3> Call procedure multiple times without duplicating data
+<4> ASCII85 encoding provides ~25% compression
+<5> Encoded image data (much shorter than hex)
+<6> `~>` marks end of ASCII85 data
+<7> Lazy loading: define but don't execute until needed
+<8> Conditional display based on logic
+
+==== Optimization Strategies
+
+**Data Reuse**:
+
+* Define image data once in variable
+* Reference from multiple procedures
+* Saves memory and file size
+
+**Appropriate Resolution**:
+
+* Use lower resolution for thumbnails
+* Match image size to display size
+* Reduces processing time
+
+**Compression**:
+
+* ASCII85Decode for text efficiency
+* LZWDecode or FlateDecode for better compression (Level 2+)
+* RunLengthDecode for simple patterns
+
+**Lazy Loading**:
+
+* Define images in procedures
+* Execute only when actually needed
+* Useful for conditional content
+
+=== Troubleshooting
+
+==== Common Issues
+
+**Image not appearing**:
+
+* Check transformation matrix orientation
+* Verify image data format (hex must be valid)
+* Ensure `image` or `colorimage` is called
+* Check scale isn't zero or negative
+
+**Wrong colors**:
+
+* Verify bits per component (usually 8)
+* Check colorimage parameters: `false 3` for RGB
+* Ensure hex data has correct number of bytes
+* RGB needs 3 bytes per pixel, grayscale needs 1
+
+**Image upside down**:
+
+* Matrix should be `[w 0 0 -h 0 h]` for top-down images
+* Negative height flips Y-axis
+* Adjust matrix if image appears inverted
+
+**Image distorted**:
+
+* Check width×height match data size
+* Verify transformation matrix values
+* Ensure scale is applied before image
+
+**Masking not working**:
+
+* Level 2+ required for advanced masking
+* Check ImageType dictionary structure
+* Verify Decode array values
+* Binary masks need 1 bit per component
+
+=== Performance Tips
+
+* **Minimize image data**: Use appropriate resolution
+* **Reuse procedures**: Define once, call multiple times
+* **Use compression**: ASCII85 or LZW encoding (Level 2+)
+* **Cache strategically**: Let interpreter cache when beneficial
+* **Optimize transformations**: Combine matrix operations
+
+=== See Also
+
+* xref:drawing-shapes.adoc[Drawing Shapes] - Clipping paths for images
+* xref:color-gradients.adoc[Color Gradients] - Color manipulation
+* xref:pdf-generation.adoc[PDF Generation] - Images in PDF
+* xref:../levels/level-2.adoc[Level 2] - Advanced image features
+* xref:../levels/level-3.adoc[Level 3] - Transparency and soft masks
+* xref:index.adoc[More Examples]
+* xref:../commands/index.adoc[Command Reference]

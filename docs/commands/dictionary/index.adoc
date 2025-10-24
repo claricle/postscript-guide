@@ -1,0 +1,217 @@
+---
+layout: default
+title: Dictionary Operations
+parent: Command Reference
+nav_order: 4
+---
+
+== Dictionary Operations
+
+Dictionary operations provide PostScript's primary mechanism for associating keys with values. Dictionaries serve as namespaces, configuration stores, and the foundation for the language's scoping and name lookup mechanisms.
+
+== Overview
+
+Dictionaries in PostScript are:
+
+* **Key-value stores**: Associate arbitrary keys (typically names) with values
+* **Scoped namespaces**: Organized in a dictionary stack for hierarchical lookup
+* **Dynamic**: Can grow beyond initial capacity (Level 2)
+* **Fundamental**: Used for variable storage, procedure definitions, and system configuration
+
+== Dictionary Stack
+
+PostScript maintains a dictionary stack that controls name lookup:
+
+* Top dictionary is searched first (current dictionary)
+* Search proceeds down the stack until name is found
+* Standard dictionaries: `systemdict`, `globaldict` (Level 2), `userdict`
+* User dictionaries can be pushed/popped with [`begin`](begin.adoc) / [`end`](end.adoc)
+
+== Command Categories
+
+=== Dictionary Creation
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:dict.adoc[`dict`]
+| Create new dictionary with initial capacity
+|===
+
+=== Dictionary Stack Operations
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:begin.adoc[`begin`]
+| Push dictionary onto dictionary stack
+
+| xref:end.adoc[`end`]
+| Pop dictionary from dictionary stack
+
+| xref:currentdict.adoc[`currentdict`]
+| Get current dictionary (top of stack)
+
+| xref:countdictstack.adoc[`countdictstack`]
+| Count dictionaries on stack
+
+| xref:dictstack.adoc[`dictstack`]
+| Copy dictionary stack to array
+|===
+
+=== Dictionary Content Operations
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:def.adoc[`def`]
+| Define key-value pair in current dictionary
+
+| xref:load.adoc[`load`]
+| Look up and return value from dictionary stack
+
+| xref:store.adoc[`store`]
+| Store value in dictionary stack (create if needed)
+
+| xref:known.adoc[`known`]
+| Check if key exists in specific dictionary
+
+| xref:where.adoc[`where`]
+| Find which dictionary contains key
+
+| xref:undef.adoc[`undef`]
+| Remove key from dictionary (Level 2)
+|===
+
+=== Dictionary Inspection
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:maxlength.adoc[`maxlength`]
+| Get maximum capacity
+
+| xref:../array-string/length.adoc[`length`]
+| Get current number of entries
+
+| xref:../array-string/get.adoc[`get`]
+| Get value for specific key
+
+| xref:../array-string/put.adoc[`put`]
+| Put key-value pair
+
+| xref:../array-string/forall.adoc[`forall`]
+| Iterate over all key-value pairs
+|===
+
+== Common Patterns
+
+=== Creating and Using Dictionaries
+
+[source,postscript]
+----
+% Create a dictionary with initial capacity
+5 dict begin
+  /width 100 def
+  /height 200 def
+  /color /red def
+end
+
+% Use the dictionary
+currentdict /width get  % Returns 100
+----
+
+=== Dictionary as Configuration
+
+[source,postscript]
+----
+/config 10 dict def
+config begin
+  /fontSize 12 def
+  /fontName /Helvetica def
+  /lineHeight 14 def
+end
+
+% Access configuration
+config /fontSize get
+----
+
+=== Name Lookup
+
+[source,postscript]
+----
+% Define in current dictionary
+/myvar 42 def
+
+% Find which dictionary contains it
+/myvar where {
+  % Found - dictionary is on stack
+  /myvar get  % Get the value
+} {
+  % Not found
+  /myvar load  % Will cause undefined error
+} ifelse
+----
+
+== Important Considerations
+
+=== Dictionary Stack Hierarchy
+
+The standard dictionary stack (bottom to top):
+
+1. `systemdict` - Read-only system definitions
+2. `globaldict` - Global definitions (Level 2)
+3. `userdict` - User definitions
+4. User-created dictionaries (via `begin`)
+
+=== Level 1 vs. Level 2 Differences
+
+**Level 1:**
+* Fixed capacity - [`dictfull`] error if exceeded
+* Must specify sufficient size at creation
+* No global VM concept
+
+**Level 2:**
+* Auto-expanding - grows beyond initial capacity
+* Initial size is optimization hint
+* Global vs. local VM distinctions
+
+=== VM Allocation
+
+* Dictionaries allocated in local or global VM based on allocation mode
+* Global VM dictionaries persist across jobs
+* Cannot store local VM objects in global VM dictionaries
+
+=== Access Control
+
+* Dictionaries can be made readonly
+* Readonly dictionaries cannot have entries added/modified
+* No-access prevents reading contents
+
+== Common Pitfalls
+
+WARNING: *Dictionary Stack Balance* - Every [`begin`](begin.adoc) must have matching [`end`](end.adoc). Unbalanced stacks cause [`dictstackunderflow`] or [`dictstackoverflow`].
+
+WARNING: *Fixed Capacity (Level 1)* - In Level 1, exceeding dictionary capacity causes [`dictfull`] error. Always allocate sufficient space.
+
+WARNING: *Global/Local VM* - Cannot store local VM objects into global VM dictionaries - causes [`invalidaccess`].
+
+TIP: *Use begin/end Blocks* - Bracket dictionary use with `begin`/`end` for scoped access:
+
+[source,postscript]
+----
+mydict begin
+  % Definitions go into mydict
+  /key value def
+end
+----
+
+== See Also
+
+* xref:../stack-manipulation/index.adoc[Stack Manipulation] - For general stack operations
+* xref:../array-string/index.adoc[Array and String Operations] - Similar composite types
+* Control Flow (to be documented) - Scoping with dictionaries

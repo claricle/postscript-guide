@@ -1,0 +1,189 @@
+---
+layout: default
+title: Advanced Usage
+parent: Usage Guides
+nav_order: 2
+---
+
+== Advanced Usage
+
+Advanced PostScript programming techniques for professional document production.
+
+== Font and Text
+
+=== Font Selection
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+/Times-Roman findfont 14 scalefont setfont
+----
+
+=== Custom Font Transformations
+
+[source,postscript]
+----
+/Helvetica findfont
+[10 0 0 12 0 0] makefont    % Condensed
+setfont
+----
+
+=== Text Measurement
+
+[source,postscript]
+----
+(Sample Text) stringwidth pop  % Get width
+----
+
+== Color Spaces
+
+=== Device Colors
+
+[source,postscript]
+----
+% Grayscale
+0.5 setgray
+
+% RGB
+1 0 0 setrgbcolor
+
+% CMYK (Level 2)
+0 1 1 0 setcmykcolor
+----
+
+=== CIE Color (Level 2)
+
+Calibrated color for color management:
+
+[source,postscript]
+----
+[/CIEBasedABC <<
+  /RangeABC [0 1 0 1 0 1]
+  /DecodeABC [{exp} bind {exp} bind {exp} bind]
+  /MatrixABC [0.4124 0.2126 0.0193
+              0.3576 0.7152 0.1192
+              0.1805 0.0722 0.9505]
+  /WhitePoint [0.9505 1.0000 1.0890]
+>>] setcolorspace
+----
+
+== Patterns
+
+Create repeating patterns for fills:
+
+[source,postscript]
+----
+<<
+  /PatternType 1
+  /PaintType 1
+  /TilingType 1
+  /BBox [0 0 10 10]
+  /XStep 10
+  /YStep 10
+  /PaintProc { pop
+    newpath
+    5 5 3 0 360 arc
+    fill
+  }
+>> matrix makepattern setpattern
+----
+
+== Forms (Level 2)
+
+Cache complex graphics for reuse:
+
+[source,postscript]
+----
+/myform <<
+  /FormType 1
+  /BBox [0 0 100 100]
+  /Matrix [1 0 0 1 0 0]
+  /PaintProc { pop
+    % Complex graphics here
+    0 0 100 100 rectfill
+  }
+>> def
+
+myform execform
+----
+
+== Image Handling
+
+=== Monochrome Image
+
+[source,postscript]
+----
+100 100 translate
+100 100 scale
+8 8 1 [8 0 0 -8 0 8]
+{ <FF00 0000 00FF 00FF
+   00FF FF00 0000 FF00> }
+image
+----
+
+=== Color Image (Level 2)
+
+[source,postscript]
+----
+/DeviceRGB setcolorspace
+100 100 translate
+100 100 scale
+8 8 8 [8 0 0 -8 0 8]
+currentfile /ASCIIHexDecode filter
+image
+FF0000 00FF00 0000FF ...
+----
+
+== Error Handling
+
+=== Try-Catch Pattern
+
+[source,postscript]
+----
+{
+  % Risky operation
+  riskyCode
+} stopped {
+  % Error handler
+  (Error occurred) print
+  handleError
+} if
+----
+
+=== Custom Error Handler
+
+[source,postscript]
+----
+errordict /myerror {
+  (Custom error handler) print
+  stop
+} put
+----
+
+== Resource Management
+
+=== Memory Conservation
+
+[source,postscript]
+----
+save
+  % Temporary allocations
+  complexOperations
+restore  % Free everything
+----
+
+=== Efficient Dictionaries
+
+[source,postscript]
+----
+% Estimate size correctly
+100 dict begin  % Not 5 if you need 100!
+  definitions
+end
+----
+
+== See Also
+
+* xref:../basic/index.adoc[Basic Usage] - Start here first
+* xref:../../commands/index.adoc[Command Reference] - All operators
+* xref:../../examples/index.adoc[Examples] - Practical code

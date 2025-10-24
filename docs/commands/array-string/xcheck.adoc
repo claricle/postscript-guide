@@ -1,0 +1,198 @@
+---
+layout: default
+title: xcheck
+parent: Array and String Operations
+grand_parent: Command Reference
+nav_order: 24
+---
+
+== xcheck
+
+Tests whether an object has the executable attribute.
+
+=== Syntax
+
+----
+any xcheck → bool
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `any` (any object)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `bool` (true if executable, false if literal)
+|===
+
+=== Description
+
+[`xcheck`](xcheck.adoc) tests whether the operand has the executable or literal attribute:
+
+* Returns `true` if the object is executable
+* Returns `false` if the object is literal
+
+This tests the executable/literal attribute only, not the access attribute (e.g., execute-only, readonly).
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Checking names
+[source,postscript]
+----
+/abc xcheck      % false (literal name)
+abc xcheck       % true (executable name) - if abc is defined
+----
+
+.Checking procedures
+[source,postscript]
+----
+{ 1 2 add } xcheck      % true (procedures are executable)
+{ 1 2 add } cvlit xcheck  % false (converted to literal)
+----
+
+.Checking numbers and strings
+[source,postscript]
+----
+123 xcheck       % false (numbers always literal)
+(text) xcheck    % false (strings always literal)
+----
+
+=== Common Use Cases
+
+==== Validating Procedure Arguments
+
+[source,postscript]
+----
+/execute-if-proc {
+  dup xcheck {
+    exec
+  } {
+    % Not executable, handle differently
+  } ifelse
+} def
+----
+
+==== Type-Safe Operations
+
+[source,postscript]
+----
+/safe-exec {
+  dup xcheck not {
+    /typecheck cvx exec
+  } if
+  exec
+} def
+----
+
+==== Debugging
+
+[source,postscript]
+----
+/show-attr {
+  dup xcheck
+  { (executable) }
+  { (literal) }
+  ifelse print
+} def
+----
+
+=== Common Pitfalls
+
+WARNING: *Tests Attribute, Not Access* - [`xcheck`](xcheck.adoc) does not test access permissions like execute-only.
+
+[source,postscript]
+----
+% xcheck returns true even for execute-only objects
+proc executeonly xcheck  % true
+----
+
+WARNING: *Most Objects Are Literal* - Numbers, strings, and array literals are all literal by default.
+
+TIP: *Combine with type* - Use xref:type.adoc[`type`] to check object type along with executability.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackunderflow`]
+| No operand on stack
+|===
+
+=== Implementation Notes
+
+* Very fast operation (checks single bit in object header)
+* Does not modify the object
+* Works on any object type
+* Complementary test to attribute queries
+
+=== Executable vs. Literal Summary
+
+[cols="2,2,2"]
+|===
+| Object Type | Default Attribute | Can Change?
+
+| Integer
+| Literal
+| No
+
+| Real
+| Literal
+| No
+
+| Boolean
+| Literal
+| No
+
+| String
+| Literal
+| Yes
+
+| Name
+| Depends on `/` prefix
+| Yes
+
+| Array
+| Literal (`[ ]`)
+| Yes
+
+| Procedure
+| Executable (`{ }`)
+| Yes
+
+| Mark
+| Literal
+| No
+
+| Null
+| Literal
+| No
+
+| Operator
+| Executable
+| No
+|===
+
+=== See Also
+
+* xref:cvlit.adoc[`cvlit`] - Convert to literal attribute
+* xref:cvx.adoc[`cvx`] - Convert to executable attribute
+* xref:rcheck.adoc[`rcheck`] - Test if readable
+* xref:wcheck.adoc[`wcheck`] - Test if writable
+* xref:type.adoc[`type`] - Get object type

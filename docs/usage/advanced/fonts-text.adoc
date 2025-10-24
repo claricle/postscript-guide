@@ -1,0 +1,1164 @@
+---
+layout: default
+title: Fonts and Text
+parent: Advanced Usage
+grand_parent: Usage Guides
+nav_order: 3
+---
+
+== Fonts and Text
+
+Typography and text rendering in PostScript provide sophisticated control over font selection, text layout, and character positioning. Mastering these capabilities is essential for professional document production.
+
+=== Overview
+
+PostScript text capabilities include:
+
+* **Font management** - Loading, scaling, and caching fonts
+* **Text rendering** - Basic and advanced text display
+* **Character positioning** - Precise character placement
+* **Text metrics** - Measuring text dimensions
+* **Font transformations** - Scaling, rotating, and skewing fonts
+* **Custom text effects** - Outlines, shadows, and patterns
+
+PostScript uses vector fonts that scale to any size without quality loss.
+
+=== Font Basics
+
+==== Font Selection
+
+The standard font workflow:
+
+[source,postscript]
+----
+% 1. Find font by name
+/Times-Roman findfont
+
+% 2. Scale to desired size
+12 scalefont
+
+% 3. Make it current
+setfont
+
+% Or in one line:
+/Times-Roman findfont 12 scalefont setfont
+----
+
+==== Standard Fonts
+
+PostScript Level 1 guaranteed fonts:
+
+[source,postscript]
+----
+% Serif fonts
+/Times-Roman findfont 12 scalefont setfont
+/Times-Bold findfont 12 scalefont setfont
+/Times-Italic findfont 12 scalefont setfont
+/Times-BoldItalic findfont 12 scalefont setfont
+
+% Sans-serif fonts
+/Helvetica findfont 12 scalefont setfont
+/Helvetica-Bold findfont 12 scalefont setfont
+/Helvetica-Oblique findfont 12 scalefont setfont
+/Helvetica-BoldOblique findfont 12 scalefont setfont
+
+% Monospaced fonts
+/Courier findfont 12 scalefont setfont
+/Courier-Bold findfont 12 scalefont setfont
+/Courier-Oblique findfont 12 scalefont setfont
+/Courier-BoldOblique findfont 12 scalefont setfont
+
+% Symbol font
+/Symbol findfont 12 scalefont setfont
+----
+
+==== Font Dictionaries
+
+Fonts are dictionaries containing font data:
+
+[source,postscript]
+----
+% Get current font
+currentfont
+
+% Access font dictionary entries
+currentfont /FontName get =     % Font name
+currentfont /FontType get =     % Font type
+currentfont /FontMatrix get =   % Font transformation matrix
+----
+
+=== Basic Text Rendering
+
+==== The `show` Operator
+
+Display text at current point:
+
+[source,postscript]
+----
+% Set up
+/Helvetica findfont 24 scalefont setfont
+100 100 moveto
+
+% Show text
+(Hello, World!) show
+----
+
+Multiple text segments:
+
+[source,postscript]
+----
+/Times-Roman findfont 14 scalefont setfont
+100 100 moveto
+(This is ) show
+/Times-Bold findfont 14 scalefont setfont
+(bold ) show
+/Times-Roman findfont 14 scalefont setfont
+(text.) show
+----
+
+==== Text Positioning
+
+Text updates the current point:
+
+[source,postscript]
+----
+100 100 moveto
+(Line 1) show
+
+% Current point is now at end of "Line 1"
+% Move down for next line
+0 -20 rmoveto
+(Line 2) show
+----
+
+Common line spacing:
+
+[source,postscript]
+----
+/fontSize 12 def
+/leading fontSize 1.2 mul def  % 120% of font size
+
+/Times-Roman findfont fontSize scalefont setfont
+100 500 moveto
+(Line 1) show
+0 leading neg rmoveto
+(Line 2) show
+0 leading neg rmoveto
+(Line 3) show
+----
+
+==== Text Alignment
+
+Left-aligned (default):
+
+[source,postscript]
+----
+100 100 moveto
+(Left aligned) show
+----
+
+Right-aligned:
+
+[source,postscript]
+----
+/text (Right aligned) def
+/Times-Roman findfont 12 scalefont setfont
+
+% Measure text width
+text stringwidth pop
+
+% Move left by text width
+neg 0 rmoveto
+
+% Show text
+text show
+----
+
+Center-aligned:
+
+[source,postscript]
+----
+/text (Centered) def
+/Times-Roman findfont 12 scalefont setfont
+
+% Measure and divide by 2
+text stringwidth pop 2 div
+
+% Move left by half width
+neg 0 rmoveto
+
+% Show text
+text show
+----
+
+Alignment helper:
+
+[source,postscript]
+----
+/alignText {  % x y text alignment -> -
+  % alignment: 0=left, 1=center, 2=right
+  4 dict begin
+    /align exch def
+    /text exch def
+    /y exch def
+    /x exch def
+
+    text stringwidth pop
+
+    align 1 eq {
+      2 div neg 0
+    } {
+      align 2 eq {
+        neg 0
+      } {
+        pop 0 0
+      } ifelse
+    } ifelse
+
+    x add y moveto
+    text show
+  end
+} def
+
+% Usage
+100 100 (Left) 0 alignText
+200 100 (Center) 1 alignText
+300 100 (Right) 2 alignText
+----
+
+=== Advanced Text Operators
+
+==== The `ashow` Operator
+
+Add space after each character:
+
+[source,postscript]
+----
+% ashow: ax ay string ashow
+100 100 moveto
+5 0 (Spaced Text) ashow
+% Adds 5 points horizontal space after each character
+----
+
+==== The `widthshow` Operator
+
+Add space after specific character:
+
+[source,postscript]
+----
+% widthshow: cx cy char string widthshow
+100 100 moveto
+10 0 32 (Add space after spaces) widthshow
+% Adds 10 points after each space (ASCII 32)
+----
+
+==== The `awidthshow` Operator
+
+Combines `ashow` and `widthshow`:
+
+[source,postscript]
+----
+% awidthshow: cx cy char ax ay string awidthshow
+100 100 moveto
+20 0 32 2 0 (Spacing example) awidthshow
+% 2 points after each char, 20 points after spaces
+----
+
+==== The `kshow` Operator
+
+Custom kerning with procedure:
+
+[source,postscript]
+----
+% kshow: string procedure kshow
+% Procedure called between each character pair
+
+/Times-Roman findfont 24 scalefont setfont
+100 100 moveto
+
+(WAVE) {
+  % Add custom spacing based on characters
+  pop  % Current character code
+  2 0 rmoveto  % Add 2 points between chars
+} kshow
+----
+
+Advanced kerning:
+
+[source,postscript]
+----
+% Custom kerning pairs
+/kerningPairs <<
+  (AV) -2
+  (VA) -2
+  (To) -1
+  (Wo) -1
+>> def
+
+/kernedShow {  % string -> -
+  {
+    % Get character
+    1 string dup 0 4 -1 roll put
+
+    % Show it
+    dup show
+
+    % Check for kerning pair
+    % (implementation simplified)
+  } kshow
+} def
+
+(WAVE) kernedShow
+----
+
+==== The `cshow` Operator
+
+Callback for each character position:
+
+[source,postscript]
+----
+% cshow: string procedure cshow
+% Procedure gets character code before showing
+
+100 100 moveto
+(ABC) {
+  % Character code on stack
+  dup =  % Print character code
+  % Character is shown automatically after procedure
+} cshow
+----
+
+=== Text Metrics
+
+==== The `stringwidth` Operator
+
+Get text dimensions:
+
+[source,postscript]
+----
+% stringwidth: string -> width height
+/Times-Roman findfont 12 scalefont setfont
+(Sample Text) stringwidth
+% Returns: width height
+
+% Common usage - get width only
+(Sample Text) stringwidth pop pop  % Discard both
+(Sample Text) stringwidth exch pop % Keep height
+(Sample Text) stringwidth pop      % Keep width
+----
+
+Measuring for centering:
+
+[source,postscript]
+----
+/centerText {  % x y text -> -
+  3 dict begin
+    /text exch def
+    /y exch def
+    /x exch def
+
+    text stringwidth pop 2 div
+    x exch sub y moveto
+    text show
+  end
+} def
+
+300 400 (Centered Text) centerText
+----
+
+==== Bounding Box
+
+Get character bounding boxes:
+
+[source,postscript]
+----
+% Using charpath to get bounds
+/getTextBounds {  % string -> llx lly urx ury
+  gsave
+    newpath
+    0 0 moveto
+    true charpath
+    pathbbox
+  grestore
+} def
+
+% Usage
+(Text) getTextBounds
+% Returns: llx lly urx ury
+----
+
+=== Font Transformations
+
+==== The `scalefont` Operator
+
+Scale font to size:
+
+[source,postscript]
+----
+% scalefont: font scale -> scaledfont
+/Times-Roman findfont
+12 scalefont setfont
+
+% Different sizes
+/Times-Roman findfont 8 scalefont setfont   % Small
+/Times-Roman findfont 12 scalefont setfont  % Normal
+/Times-Roman findfont 24 scalefont setfont  % Large
+/Times-Roman findfont 72 scalefont setfont  % Huge
+----
+
+==== The `makefont` Operator
+
+Apply arbitrary transformation matrix:
+
+[source,postscript]
+----
+% makefont: font matrix -> transformedfont
+
+% Condensed font (50% width)
+/Times-Roman findfont
+[6 0 0 12 0 0] makefont setfont
+100 100 moveto
+(Condensed) show
+
+% Expanded font (200% width)
+/Times-Roman findfont
+[24 0 0 12 0 0] makefont setfont
+100 80 moveto
+(Expanded) show
+
+% Italic (slanted)
+/Times-Roman findfont
+[12 0 6 12 0 0] makefont setfont
+100 60 moveto
+(Slanted) show
+
+% Rotated
+/Times-Roman findfont
+[0 12 -12 0 0 0] makefont setfont
+100 40 moveto
+(Rotated) show
+----
+
+Combined transformations:
+
+[source,postscript]
+----
+% Create fancy font transformation
+/Times-Bold findfont
+[20 0 4 24 0 0] makefont  % Wide and slanted
+setfont
+100 100 moveto
+(Fancy!) show
+----
+
+=== Text as Paths
+
+==== The `charpath` Operator
+
+Convert text to path outline:
+
+[source,postscript]
+----
+% charpath: string boolean charpath
+% boolean: true=stroke outline, false=fill outline
+
+/Helvetica-Bold findfont 72 scalefont setfont
+newpath
+100 200 moveto
+(TEXT) true charpath  % Create stroke outline
+2 setlinewidth
+stroke
+----
+
+Outlined text:
+
+[source,postscript]
+----
+/outlineText {  % text -> -
+  gsave
+    % Fill
+    1 1 1 setrgbcolor
+    newpath
+    100 200 moveto
+    dup false charpath
+    fill
+  grestore
+
+  % Outline
+  0 0 0 setrgbcolor
+  newpath
+  100 200 moveto
+  true charpath
+  2 setlinewidth
+  stroke
+} def
+
+(OUTLINED) outlineText
+----
+
+Text with gradient (simulated):
+
+[source,postscript]
+----
+/Helvetica-Bold findfont 72 scalefont setfont
+newpath
+100 200 moveto
+(GRADIENT) false charpath
+
+% Clip to text
+clip
+newpath
+
+% Draw gradient through text
+0 1 100 {
+  /i exch def
+  i 100 div dup 0 setrgbcolor
+  i 100 200 1 72 rectfill
+} for
+----
+
+=== Text Effects
+
+==== Drop Shadow
+
+[source,postscript]
+----
+/shadowText {  % x y text -> -
+  3 dict begin
+    /text exch def
+    /y exch def
+    /x exch def
+
+    % Shadow
+    gsave
+      0.7 setgray
+      x 3 add y 3 sub moveto
+      text show
+    grestore
+
+    % Text
+    0 setgray
+    x y moveto
+    text show
+  end
+} def
+
+100 100 (Shadow Text) shadowText
+----
+
+==== Outline Text
+
+[source,postscript]
+----
+/outlineText {  % x y text outlineWidth -> -
+  4 dict begin
+    /width exch def
+    /text exch def
+    /y exch def
+    /x exch def
+
+    /Helvetica-Bold findfont 48 scalefont setfont
+
+    % Outline
+    1 1 1 setrgbcolor
+    width setlinewidth
+    newpath
+    x y moveto
+    text true charpath
+    stroke
+
+    % Fill
+    0 0 0 setrgbcolor
+    x y moveto
+    text show
+  end
+} def
+
+100 100 (OUTLINE) 3 outlineText
+----
+
+==== 3D Text Effect
+
+[source,postscript]
+----
+/text3D {  % x y text depth -> -
+  4 dict begin
+    /depth exch def
+    /text exch def
+    /y exch def
+    /x exch def
+
+    /Helvetica-Bold findfont 72 scalefont setfont
+
+    % Depth layers
+    depth -1 1 {
+      /d exch def
+      d depth div 0.3 add setgray
+      x d add y d sub moveto
+      text show
+    } for
+
+    % Front
+    1 1 0 setrgbcolor
+    x y moveto
+    text show
+  end
+} def
+
+100 200 (3D!) 5 text3D
+----
+
+==== Patterned Text
+
+[source,postscript]
+----
+/patternText {  % x y text -> -
+  3 dict begin
+    /text exch def
+    /y exch def
+    /x exch def
+
+    /Helvetica-Bold findfont 72 scalefont setfont
+
+    % Create clipping path from text
+    gsave
+      newpath
+      x y moveto
+      text false charpath
+      clip
+      newpath
+
+      % Draw pattern
+      0 5 100 {
+        /i exch def
+        i 10 mod 10 div setgray
+        x i add y 1 72 rectfill
+      } for
+    grestore
+  end
+} def
+
+100 200 (PATTERN) patternText
+----
+
+=== Multi-line Text
+
+==== Basic Multi-line
+
+[source,postscript]
+----
+/multiLine {  % x y lineHeight textArray -> -
+  4 dict begin
+    /lines exch def
+    /leading exch def
+    /y exch def
+    /x exch def
+
+    lines {
+      x y moveto
+      show
+      /y y leading sub def
+    } forall
+  end
+} def
+
+% Usage
+100 500 15 [
+  (Line 1)
+  (Line 2)
+  (Line 3)
+] multiLine
+----
+
+==== Text Box with Word Wrap
+
+[source,postscript]
+----
+/textBox {  % x y width text -> -
+  4 dict begin
+    /text exch def
+    /boxWidth exch def
+    /startY exch def
+    /startX exch def
+
+    /currentX startX def
+    /currentY startY def
+    /fontSize 12 def
+    /leading fontSize 1.2 mul def
+
+    /Helvetica findfont fontSize scalefont setfont
+
+    % Split text into words
+    text ( ) {
+      search {
+        % Found space
+        dup stringwidth pop
+        currentX add boxWidth startX add gt {
+          % Word doesn't fit, new line
+          /currentX startX def
+          /currentY currentY leading sub def
+        } if
+
+        currentX currentY moveto
+        dup show
+        stringwidth pop currentX add
+        /currentX exch def
+
+        % Add space width
+        ( ) stringwidth pop currentX add
+        /currentX exch def
+      } {
+        % Last word
+        currentX currentY moveto
+        show
+        exit
+      } ifelse
+    } loop
+  end
+} def
+
+% Usage
+50 500 200 (This is a long text that will automatically wrap to fit within the specified width.) textBox
+----
+
+=== Text Layout Patterns
+
+==== Justified Text
+
+[source,postscript]
+----
+/justifyLine {  % x y width text -> -
+  4 dict begin
+    /text exch def
+    /lineWidth exch def
+    /y exch def
+    /x exch def
+
+    % Count spaces
+    /spaces 0 def
+    0 1 text length 1 sub {
+      text exch get 32 eq {
+        /spaces spaces 1 add def
+      } if
+    } for
+
+    % Calculate extra space per gap
+    spaces 0 gt {
+      text stringwidth pop
+      lineWidth exch sub
+      spaces div
+
+      % Show with extra spacing
+      x y moveto
+      0 32 text widthshow
+    } {
+      % No spaces, just show
+      x y moveto
+      text show
+    } ifelse
+  end
+} def
+
+% Usage
+50 100 500 (This line will be justified across the width.) justifyLine
+----
+
+==== Vertical Text
+
+[source,postscript]
+----
+/verticalText {  % x y text -> -
+  3 dict begin
+    /text exch def
+    /y exch def
+    /x exch def
+
+    /Helvetica findfont 12 scalefont setfont
+    /charHeight 14 def
+
+    0 1 text length 1 sub {
+      /i exch def
+      x y i charHeight mul sub moveto
+      text i 1 getinterval show
+    } for
+  end
+} def
+
+100 500 (VERTICAL) verticalText
+----
+
+==== Circular Text
+
+[source,postscript]
+----
+/circularText {  % centerX centerY radius text -> -
+  4 dict begin
+    /text exch def
+    /r exch def
+    /cy exch def
+    /cx exch def
+
+    /Helvetica findfont 12 scalefont setfont
+    /angleStep 360 text length div def
+
+    0 1 text length 1 sub {
+      /i exch def
+      /angle i angleStep mul 90 add def
+
+      gsave
+        cx cy translate
+        angle rotate
+        0 r moveto
+        text i 1 getinterval show
+      grestore
+    } for
+  end
+} def
+
+200 200 100 (CIRCULAR TEXT!) circularText
+----
+
+=== Font Management
+
+==== Defining Custom Fonts
+
+[source,postscript]
+----
+% Define a font alias
+/MyFont /Times-Roman findfont 12 scalefont def
+
+% Use it
+MyFont setfont
+100 100 moveto
+(Using custom font) show
+----
+
+==== Font Cache
+
+[source,postscript]
+----
+% Cache scaled fonts for performance
+/fontCache 10 dict def
+
+/getCachedFont {  % fontName size -> font
+  2 dict begin
+    /size exch def
+    /name exch def
+
+    /key name =string cvs (-) exch concatstrings
+         size =string cvs concatstrings def
+
+    fontCache key known {
+      fontCache key get
+    } {
+      name findfont size scalefont
+      dup fontCache key 3 -1 roll put
+    } ifelse
+  end
+} def
+
+% Usage
+/Times-Roman 12 getCachedFont setfont
+/Helvetica 14 getCachedFont setfont
+----
+
+==== Fallback Fonts
+
+[source,postscript]
+----
+/findFontSafe {  % fontName -> font
+  dup
+  {
+    findfont
+  } stopped {
+    pop
+    (Font not found, using Courier) print
+    /Courier findfont
+  } if
+} def
+
+% Usage
+/NonExistentFont findFontSafe 12 scalefont setfont
+----
+
+=== Practical Examples
+
+==== Example 1: Title Page
+
+[source,postscript]
+----
+/titlePage {
+  % Title
+  /Helvetica-Bold findfont 36 scalefont setfont
+  306 600 moveto
+  (Document Title) dup stringwidth pop 2 div neg 0 rmoveto
+  show
+
+  % Subtitle
+  /Helvetica findfont 18 scalefont setfont
+  306 560 moveto
+  (A Comprehensive Guide) dup stringwidth pop 2 div neg 0 rmoveto
+  show
+
+  % Author
+  /Times-Italic findfont 14 scalefont setfont
+  306 400 moveto
+  (By Author Name) dup stringwidth pop 2 div neg 0 rmoveto
+  show
+
+  % Date
+  /Times-Roman findfont 12 scalefont setfont
+  306 370 moveto
+  (January 2024) dup stringwidth pop 2 div neg 0 rmoveto
+  show
+} def
+
+titlePage
+----
+
+==== Example 2: Business Card
+
+[source,postscript]
+----
+/businessCard {
+  % Border
+  0.5 setlinewidth
+  50 50 252 144 rectstroke
+
+  % Name
+  /Helvetica-Bold findfont 16 scalefont setfont
+  60 160 moveto
+  (John Doe) show
+
+  % Title
+  /Helvetica findfont 10 scalefont setfont
+  60 145 moveto
+  (Senior Developer) show
+
+  % Contact info
+  /Courier findfont 8 scalefont setfont
+  60 120 moveto (Email: john@example.com) show
+  60 110 moveto (Phone: +1-555-0123) show
+  60 100 moveto (Web: www.example.com) show
+} def
+
+businessCard
+----
+
+==== Example 3: Invoice Header
+
+[source,postscript]
+----
+/invoiceHeader {
+  % Company name
+  /Helvetica-Bold findfont 24 scalefont setfont
+  50 750 moveto
+  (ACME Corporation) show
+
+  % Address
+  /Helvetica findfont 10 scalefont setfont
+  50 735 moveto (123 Business St) show
+  50 725 moveto (City, State 12345) show
+
+  % Invoice title
+  /Helvetica-Bold findfont 18 scalefont setfont
+  450 750 moveto (INVOICE) show
+
+  % Invoice details
+  /Helvetica findfont 10 scalefont setfont
+  450 730 moveto (Invoice #: 12345) show
+  450 720 moveto (Date: 2024-01-15) show
+  450 710 moveto (Due: 2024-02-15) show
+} def
+
+invoiceHeader
+----
+
+==== Example 4: Code Listing
+
+[source,postscript]
+----
+/codeListing {  % lines -> -
+  1 dict begin
+    /lines exch def
+    /y 700 def
+    /lineHeight 12 def
+
+    % Background
+    0.95 setgray
+    50 y lineHeight lines length mul add 500 lineHeight lines length mul sub rectfill
+
+    % Line numbers and code
+    /Courier findfont 9 scalefont setfont
+
+    0 1 lines length 1 sub {
+      /i exch def
+
+      % Line number
+      0.5 setgray
+      55 y moveto
+      i 1 add =string cvs show
+
+      % Code
+      0 setgray
+      90 y moveto
+      lines i get show
+
+      /y y lineHeight sub def
+    } for
+  end
+} def
+
+% Usage
+[
+  (function hello() {)
+  (  console.log("Hello");)
+  (})
+] codeListing
+----
+
+=== Best Practices
+
+==== Cache Fonts
+
+[source,postscript]
+----
+% Good: define once, use many times
+/bodyFont /Times-Roman findfont 12 scalefont def
+/headingFont /Helvetica-Bold findfont 18 scalefont def
+
+bodyFont setfont
+(Body text) show
+
+headingFont setfont
+(Heading) show
+----
+
+==== Use Appropriate Fonts
+
+[source,postscript]
+----
+% Serif for body text (easier to read)
+/Times-Roman findfont 11 scalefont setfont
+
+% Sans-serif for headings
+/Helvetica-Bold findfont 18 scalefont setfont
+
+% Monospace for code
+/Courier findfont 9 scalefont setfont
+----
+
+==== Consistent Leading
+
+[source,postscript]
+----
+% Define leading as multiple of font size
+/fontSize 12 def
+/leading fontSize 1.2 mul def  % 120% = good readability
+
+% Or
+/leading fontSize 1.5 mul def  % 150% = loose, airy
+----
+
+==== Check Text Bounds
+
+[source,postscript]
+----
+/showInBounds {  % x y width text -> -
+  4 dict begin
+    /text exch def
+    /maxWidth exch def
+    /y exch def
+    /x exch def
+
+    text stringwidth pop maxWidth gt {
+      % Text too wide, scale down
+      /Times-Roman findfont
+      maxWidth text stringwidth pop div 12 mul
+      scalefont setfont
+    } if
+
+    x y moveto text show
+  end
+} def
+----
+
+=== Common Pitfalls
+
+==== Forgetting Current Point
+
+[source,postscript]
+----
+% Wrong: no current point
+(Text) show  % ERROR: nocurrentpoint
+
+% Correct: set position first
+100 100 moveto
+(Text) show
+----
+
+==== Mixing Coordinate Systems
+
+[source,postscript]
+----
+% Be careful with transformations
+gsave
+  100 100 translate
+  0 0 moveto  % Now at (100, 100) in page space
+  (Text) show
+grestore
+----
+
+==== Not Scaling Font
+
+[source,postscript]
+----
+% Wrong: font not scaled
+/Times-Roman findfont setfont  % HUGE!
+
+% Correct: always scale
+/Times-Roman findfont 12 scalefont setfont
+----
+
+=== Performance Tips
+
+==== Minimize Font Changes
+
+[source,postscript]
+----
+% Good: batch by font
+/Times-Roman findfont 12 scalefont setfont
+100 100 moveto (Line 1) show
+100 85 moveto (Line 2) show
+100 70 moveto (Line 3) show
+
+% Less efficient: font changes
+/Times-Roman findfont 12 scalefont setfont
+100 100 moveto (Line 1) show
+/Helvetica findfont 12 scalefont setfont
+100 85 moveto (Line 2) show
+/Times-Roman findfont 12 scalefont setfont
+100 70 moveto (Line 3) show
+----
+
+==== Use `bind` for Text Procedures
+
+[source,postscript]
+----
+/showCentered {
+  dup stringwidth pop 2 div neg 0 rmoveto
+  show
+} bind def
+----
+
+=== See Also
+
+* xref:../../commands/font-text/index.adoc[Font & Text Commands] - Complete command reference
+* xref:../../commands/font-text/show.adoc[show] - Display text
+* xref:../../commands/font-text/findfont.adoc[findfont] - Find font
+* xref:../../commands/font-text/scalefont.adoc[scalefont] - Scale font
+* xref:../../commands/font-text/setfont.adoc[setfont] - Set current font
+* xref:../../commands/font-text/stringwidth.adoc[stringwidth] - Measure text
+* xref:../../commands/font-text/charpath.adoc[charpath] - Text to path
+* xref:color-spaces.adoc[Color Spaces] - Text colors
+* xref:../basic/graphics-state.adoc[Graphics State] - Text rendering state

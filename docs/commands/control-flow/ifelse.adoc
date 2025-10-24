@@ -1,0 +1,210 @@
+---
+layout: default
+title: ifelse
+parent: Control Flow
+grand_parent: Command Reference
+nav_order: 2
+---
+
+== ifelse
+
+Conditionally executes one of two procedures based on a boolean value.
+
+=== Syntax
+
+----
+bool proc1 proc2 ifelse → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 2
+| `bool` (boolean condition)
+
+| 1
+| `proc1` (procedure if true)
+
+| 0
+| `proc2` (procedure if false)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (varies)
+| Results from executed procedure
+|===
+
+=== Description
+
+[`ifelse`](ifelse.adoc) removes all three operands from the stack, then executes _proc1_ if _bool_ is `true`, or _proc2_ if _bool_ is `false`.
+
+The [`ifelse`](ifelse.adoc) operator itself pushes no results, but the executed procedure may push results.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Basic two-way branch
+[source,postscript]
+----
+4 3 lt
+  { (4 < 3: true) }
+  { (4 < 3: false) }
+ifelse
+% Prints: 4 < 3: false
+----
+
+.Returning different values
+[source,postscript]
+----
+x 0 ge
+  { x }
+  { x neg }
+ifelse
+% Returns absolute value
+----
+
+.Nested conditionals
+[source,postscript]
+----
+x 0 gt {
+  (positive)
+} {
+  x 0 lt {
+    (negative)
+  } {
+    (zero)
+  } ifelse
+} ifelse
+----
+
+=== Common Use Cases
+
+==== Value Selection
+
+[source,postscript]
+----
+/max {  % num1 num2 => max
+  2 copy gt { exch } if pop
+} def
+
+/min {  % num1 num2 => min
+  2 copy lt { exch } if pop
+} def
+----
+
+==== Conditional Computation
+
+[source,postscript]
+----
+isColor {
+  currentrgbcolor  % Get RGB
+} {
+  currentgray dup dup  % Convert gray to RGB
+} ifelse
+----
+
+==== Default Values
+
+[source,postscript]
+----
+/getValue {  % dict key defaultValue => value
+  3 1 roll
+  2 copy known {
+    get exch pop
+  } {
+    pop pop
+  } ifelse
+} def
+----
+
+=== Common Pitfalls
+
+WARNING: *Both Procedures Required* - Unlike some languages, you cannot omit the false branch.
+
+[source,postscript]
+----
+condition { true-code } ifelse  % Error: stackunderflow
+condition { true-code } { } ifelse  % Correct (empty false branch)
+----
+
+WARNING: *Stack Balance* - Both procedures should leave the stack in the same state.
+
+[source,postscript]
+----
+% Bad: different stack effects
+x 0 gt { x x mul } { } ifelse  % Unbalanced
+
+% Good: both push one value
+x 0 gt { x x mul } { 0 } ifelse
+----
+
+TIP: *Use for Single Branch* - If you only need one branch, xref:if.adoc[`if`] is simpler.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackunderflow`]
+| Fewer than 3 operands on stack
+
+| [`typecheck`]
+| First operand not boolean, or second/third not procedures
+|===
+
+=== Implementation Notes
+
+* Only the selected procedure is executed
+* No overhead for the non-executed branch
+* Procedures execute in current context
+* Very fast conditional evaluation
+
+=== Pattern: Multi-Way Branch
+
+For multiple conditions, nest [`ifelse`](ifelse.adoc) or use dictionary dispatch:
+
+[source,postscript]
+----
+% Nested ifelse
+grade 90 ge {
+  (A)
+} {
+  grade 80 ge {
+    (B)
+  } {
+    grade 70 ge {
+      (C)
+    } {
+      (F)
+    } ifelse
+  } ifelse
+} ifelse
+
+% Dictionary dispatch (often cleaner)
+5 dict begin
+  /red { 1 0 0 setrgbcolor } def
+  /green { 0 1 0 setrgbcolor } def
+  /blue { 0 0 1 setrgbcolor } def
+  colorName load exec
+end
+----
+
+=== See Also
+
+* xref:if.adoc[`if`] - Single-branch conditional
+* xref:loop.adoc[`loop`] - Indefinite repetition
+* xref:repeat.adoc[`repeat`] - Fixed repetition
+* Comparison operators: `eq`, `ne`, `lt`, `le`, `gt`, `ge`
+* Boolean operators: `and`, `or`, `not`

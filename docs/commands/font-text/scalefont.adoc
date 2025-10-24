@@ -1,0 +1,123 @@
+---
+layout: default
+title: scalefont
+parent: "Font and Text"
+grand_parent: "Command Reference"
+nav_order: 2
+---
+
+== scalefont
+
+Scale font by uniform factor.
+
+=== Syntax
+
+```
+font scale scalefont font'
+```
+
+=== Stack Effects
+
+**Before:**
+```
+font scale
+```
+
+**After:**
+```
+font'
+```
+
+=== Description
+
+[`scalefont`](scalefont.adoc) applies the scale factor `scale` to `font`, producing a new `font'` whose characters are scaled by `scale` (in both x and y) when they are shown. [`scalefont`](scalefont.adoc) first creates a copy of `font`, then replaces the new font's `FontMatrix` entry with the result of scaling the existing `FontMatrix` by `scale`.
+
+It inserts two additional entries, `OrigFont` and `ScaleMatrix`, whose purpose is internal to the implementation. Finally, it returns the result as `font'`.
+
+Showing characters from the transformed font produces the same results as showing from the original font after having scaled user space by the factor `scale` in both x and y by means of the [`scale`](../transformations/scale.adoc) operator.
+
+[`scalefont`](scalefont.adoc) is essentially a convenience operator that enables the desired scale factor to be encapsulated in the font description. Another operator, [`makefont`](makefont.adoc), performs more general transformations than simple scaling.
+
+The interpreter keeps track of font dictionaries recently created by [`scalefont`](scalefont.adoc). Calling [`scalefont`](scalefont.adoc) multiple times with the same font and scale will usually return the same `font'` rather than create a new one each time. However, it is usually more efficient for a PostScript language program to apply [`scalefont`](scalefont.adoc) only once for each font that it needs and to keep track of the resulting font dictionaries on its own.
+
+=== VM Allocation
+
+The [`makefont`](makefont.adoc), [`scalefont`](scalefont.adoc), and [`selectfont`](../graphics-state/selectfont.adoc) operators produce a font dictionary derived from an original font dictionary, but with the `FontMatrix` entry altered. The derived font dictionary is allocated in local or global VM according to whether the original font dictionary is in local or global VM. This is independent of the current VM allocation mode.
+
+=== Parameters
+
+**font** (`dictionary`)
+: The original font dictionary to scale
+
+**scale** (`number`)
+: The uniform scale factor to apply in both x and y dimensions
+
+=== Returns
+
+**font'** (`dictionary`)
+: A new font dictionary with scaled character metrics
+
+=== Examples
+
+==== Basic Font Scaling
+
+```postscript
+/Helvetica findfont    % Get Helvetica font
+12 scalefont           % Scale to 12 points
+setfont                % Set as current font
+```
+
+==== Creating Multiple Sizes
+
+```postscript
+/Helvetica findfont
+dup 10 scalefont /H10 exch def   % 10-point Helvetica
+dup 12 scalefont /H12 exch def   % 12-point Helvetica
+    18 scalefont /H18 exch def   % 18-point Helvetica
+```
+
+==== Scaling for Different Units
+
+```postscript
+% The standard font has 1-unit line height
+/Helvetica findfont
+12 scalefont setfont
+
+% Creates a 12-unit high font (12-point in default user space)
+% Characters have same proportions as original font
+```
+
+=== Errors
+
+**invalidfont**
+: If `font` is not a valid font dictionary
+
+**stackunderflow**
+: If fewer than two operands are on the stack
+
+**typecheck**
+: If `font` is not a dictionary or `scale` is not a number
+
+**undefined**
+: If required font dictionary entries are missing
+
+=== Font Scaling Behavior
+
+The scale factor affects:
+
+- Character widths in both x and y
+- Character heights
+- All font metrics proportionally
+
+The scale transformation is applied by modifying the `FontMatrix`:
+
+```
+FontMatrix' = [scale 0 0 scale 0 0] × FontMatrix
+```
+
+=== See Also
+
+- [`findfont`](findfont.adoc) - Obtain font dictionary by name
+- [`makefont`](makefont.adoc) - Transform font by matrix (for non-uniform scaling)
+- [`setfont`](setfont.adoc) - Establish current font
+- [`currentfont`](currentfont.adoc) - Get current font dictionary

@@ -1,0 +1,292 @@
+---
+layout: default
+title: scale
+parent: Coordinate Transformations
+grand_parent: Command Reference
+nav_order: 2
+---
+
+== scale
+
+Changes the unit size of the coordinate system.
+
+=== Syntax
+
+----
+sx sy scale → -
+sx sy matrix scale → matrix
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `sy` (number)
+
+| 0
+| `sx` (number)
+|===
+
+.After (first form)
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No results
+|===
+
+.After (second form)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (modified matrix)
+|===
+
+=== Description
+
+With no matrix operand, [`scale`](scale.adoc) builds a temporary transformation matrix S and concatenates it with the current transformation matrix (CTM). Precisely, [`scale`](scale.adoc) replaces the CTM by S × CTM.
+
+The effect is to make the x and y units in the user coordinate system the size of `sx` and `sy` units in the former user coordinate system. The position of the user coordinate origin and the orientation of the axes are unchanged.
+
+If the `matrix` operand is supplied, [`scale`](scale.adoc) replaces the value of `matrix` by S and pushes the modified matrix back on the operand stack. In this case, [`scale`](scale.adoc) does not affect the CTM.
+
+The scaling matrix S has the form:
+
+----
+[sx 0 0 sy 0 0]
+----
+
+This transforms coordinates according to:
+
+----
+x' = sx × x
+y' = sy × y
+----
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Uniform scaling
+[source,postscript]
+----
+2 2 scale         % Double size in both directions
+0 0 50 50 rectfill % Draws 100x100 rectangle
+----
+
+.Non-uniform scaling
+[source,postscript]
+----
+2 1 scale         % Stretch horizontally
+newpath
+0 0 moveto
+100 0 lineto
+100 100 lineto
+0 100 lineto
+closepath
+stroke            % Draws 200x100 rectangle
+----
+
+.Scaling fonts
+[source,postscript]
+----
+/Helvetica findfont
+12 scalefont setfont  % Scale font to 12 points
+
+% Equivalent using scale operator:
+/Helvetica findfont
+setfont
+12 12 scale
+(Text) show
+----
+
+=== Common Use Cases
+
+==== Converting Units
+
+[source,postscript]
+----
+% Convert to inches (72 points per inch)
+72 72 scale
+% Now coordinates are in inches
+1 1 moveto        % 1 inch from origin
+2 2 lineto        % To 2 inches from origin
+stroke
+----
+
+==== Creating Aspect Ratios
+
+[source,postscript]
+----
+% Create 16:9 aspect ratio in unit square
+1 0.5625 scale    % 9/16 = 0.5625
+0 0 1 1 rectfill  % Draws 16:9 rectangle
+----
+
+==== Mirror Effects
+
+[source,postscript]
+----
+% Horizontal mirror (flip)
+-1 1 scale
+-100 0 translate  % Adjust position
+
+% Vertical mirror
+1 -1 scale
+0 -100 translate
+----
+
+==== Coordinate System Setup
+
+[source,postscript]
+----
+% Set up coordinate system: (0,0) at lower-left,
+% (1,1) at upper-right of letter page
+612 792 scale
+% Now can use normalized coordinates 0-1
+----
+
+=== Common Pitfalls
+
+WARNING: *Line Width Affected* - Scaling affects line width. A 1-point line becomes thicker when scaled up.
+
+[source,postscript]
+----
+1 setlinewidth
+newpath
+0 0 moveto
+100 100 lineto
+stroke            % 1-point line
+
+2 2 scale
+newpath
+0 0 moveto
+50 50 lineto
+stroke            % 2-point line (appears thicker)
+----
+
+WARNING: *Dash Patterns Affected* - Dash patterns are also scaled with the coordinate system.
+
+[source,postscript]
+----
+[5 3] 0 setdash   % 5 on, 3 off
+2 2 scale
+% Dash pattern is now effectively [10 6] 0
+----
+
+WARNING: *Negative Scaling Reverses Direction* - Negative scale values flip the coordinate system, which can reverse path direction.
+
+[source,postscript]
+----
+-1 1 scale        % Horizontal flip
+% Text and paths may appear reversed
+----
+
+TIP: *Use setlinewidth After Scaling* - Set line width after scaling for consistent appearance:
+
+[source,postscript]
+----
+2 2 scale
+1 setlinewidth    % Line appears as 2 points in original space
+----
+
+TIP: *Preserve Aspect Ratio* - For proportional scaling, use the same value for `sx` and `sy`:
+
+[source,postscript]
+----
+2 2 scale         % Proportional
+% Not: 2 3 scale (distorts aspect ratio)
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| Resulting matrix values exceed implementation limits
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack (first form) or fewer than 3 (second form)
+
+| [`typecheck`]
+| Operands are not numbers, or matrix operand is not an array
+|===
+
+=== Implementation Notes
+
+* Zero scale values create a degenerate transformation (not recommended)
+* Very small scale values may cause precision loss
+* Very large scale values may cause coordinates to exceed device limits
+* Scaling is applied during path construction
+* The flatness parameter for curves is in device space, so it's unaffected by scaling
+
+=== Matrix Mathematics
+
+The scaling matrix for [`scale`](scale.adoc) by (`sx`, `sy`) is:
+
+----
+S = [sx  0   0   sy  0  0]
+----
+
+Concatenating with the CTM:
+
+----
+CTM' = S × CTM
+     = [sx  0   0   sy  0  0] × [a  b  c  d  e  f]
+     = [sx×a  sx×b  sy×c  sy×d  e  f]
+----
+
+=== Graphics State Effects
+
+Scaling affects several graphics state parameters when they are used:
+
+* **Line width**: Scaled by the transformation
+* **Dash pattern**: Dash lengths are scaled
+* **Flatness**: Remains in device space (not affected)
+* **Path coordinates**: Transformed by the scale
+
+=== Performance Considerations
+
+* Scaling is a very efficient operation
+* No path recomputation is needed
+* Uniform scaling (sx = sy) may be slightly faster than non-uniform scaling
+* Extreme scale values can impact rendering performance
+
+=== Relationship to Other Operators
+
+[source,postscript]
+----
+% These are equivalent:
+/Helvetica findfont 12 scalefont setfont
+/Helvetica findfont setfont 12 12 scale
+
+% Building a transformation:
+gsave
+  2 2 scale
+  45 rotate
+  100 100 translate
+  % Draw content
+grestore
+----
+
+=== See Also
+
+* xref:translate.adoc[`translate`] - Move origin
+* xref:rotate.adoc[`rotate`] - Rotate axes
+* xref:concat.adoc[`concat`] - Concatenate arbitrary matrix
+* xref:setmatrix.adoc[`setmatrix`] - Replace CTM directly
+* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../graphics-state/setlinewidth.adoc[`setlinewidth`] - Set line width
+* xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
+* xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

@@ -1,0 +1,198 @@
+---
+layout: default
+title: rmoveto
+parent: Path Construction
+grand_parent: Command Reference
+nav_order: 2
+---
+
+== rmoveto
+
+Sets the current point relative to the previous point, starting a new subpath.
+
+=== Syntax
+
+----
+dx dy rmoveto → -
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `dy` (number - vertical displacement)
+
+| 0
+| `dx` (number - horizontal displacement)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Stack cleared of operands
+|===
+
+=== Description
+
+[`rmoveto`](rmoveto.adoc) (relative moveto) starts a new subpath of the current path in the same manner as xref:moveto.adoc[`moveto`]. However, the number pair is interpreted as a displacement relative to the current point (x, y) rather than as an absolute coordinate. That is, [`rmoveto`](rmoveto.adoc) makes (x + dx, y + dy) the new current point, without connecting it to the previous point.
+
+If the current point is undefined because the current path is empty, [`rmoveto`](rmoveto.adoc) executes the [`nocurrentpoint`] error.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Basic relative movement
+[source,postscript]
+----
+100 100 moveto           % Start at (100, 100)
+50 0 rmoveto             % Move to (150, 100)
+0 50 rmoveto             % Move to (150, 150)
+-50 0 rmoveto            % Move to (100, 150)
+0 -50 rmoveto            % Back to (100, 100)
+----
+
+.Drawing a square with relative moves
+[source,postscript]
+----
+newpath
+100 100 moveto           % Start at corner
+100 0 rlineto            % Right edge
+0 100 rlineto            % Top edge
+-100 0 rlineto           % Left edge
+closepath
+----
+
+.Creating offset subpaths
+[source,postscript]
+----
+newpath
+100 100 moveto
+100 0 rlineto
+closepath
+
+50 50 rmoveto            % New subpath offset by (50, 50)
+100 0 rlineto
+closepath
+----
+
+=== Common Use Cases
+
+==== Relative Path Construction
+
+[source,postscript]
+----
+/drawSquare {
+  % Stack: size
+  /size exch def
+  0 size rlineto
+  size 0 rlineto
+  0 size neg rlineto
+  closepath
+} def
+
+100 100 moveto
+50 drawSquare
+----
+
+==== Creating Patterns with Offsets
+
+[source,postscript]
+----
+/drawDot {
+  newpath
+  0 0 5 0 360 arc
+  fill
+} def
+
+newpath
+10 {
+  20 20 rmoveto           % Move to next position
+  gsave
+  drawDot
+  grestore
+} repeat
+----
+
+==== Text Line Spacing
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+100 500 moveto
+(First line) show
+0 -14 rmoveto             % Move down one line
+(Second line) show
+0 -14 rmoveto             % Move down another line
+(Third line) show
+----
+
+=== Common Pitfalls
+
+WARNING: *Requires Current Point* - [`rmoveto`](rmoveto.adoc) requires a current point. Use xref:moveto.adoc[`moveto`] first to establish one.
+
+[source,postscript]
+----
+newpath
+10 10 rmoveto            % Error: nocurrentpoint
+----
+
+WARNING: *Displacement Not Position* - The arguments are displacements (dx, dy), not absolute coordinates. Negative values move in the opposite direction.
+
+[source,postscript]
+----
+100 100 moveto
+-50 -50 rmoveto          % Moves to (50, 50), not (-50, -50)
+----
+
+TIP: *Use for Relative Layouts* - [`rmoveto`](rmoveto.adoc) is ideal for creating shapes or text layouts where elements are positioned relative to each other.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`limitcheck`]
+| Path becomes too complex for implementation
+
+| [`nocurrentpoint`]
+| Current path is empty (no current point defined)
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| Operands are not numbers
+|===
+
+=== Implementation Notes
+
+* Displacements are in user space coordinates
+* The transformation by CTM happens after adding displacement to current point
+* Creates a new subpath (breaks any line continuation)
+* More efficient than calculating absolute coordinates manually
+* Negative displacements move in opposite directions
+
+=== Performance Considerations
+
+* Slightly faster than computing absolute coordinates and using xref:moveto.adoc[`moveto`]
+* Useful for patterns and repeated structures
+* No performance difference from xref:moveto.adoc[`moveto`] in terms of path complexity
+
+=== See Also
+
+* xref:moveto.adoc[`moveto`] - Absolute moveto
+* xref:rlineto.adoc[`rlineto`] - Relative lineto
+* xref:rcurveto.adoc[`rcurveto`] - Relative curveto
+* xref:currentpoint.adoc[`currentpoint`] - Get current point coordinates
+* xref:newpath.adoc[`newpath`] - Initialize empty path

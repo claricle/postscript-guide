@@ -1,0 +1,299 @@
+---
+layout: default
+title: add
+parent: Arithmetic and Math
+grand_parent: Command Reference
+nav_order: 1
+permalink: /commands/arithmetic-math/add/
+---
+= add
+:description: Add two numbers
+:keywords: postscript, arithmetic, add, addition, math
+
+[.lead]
+Adds two numbers and returns their sum.
+
+== Description
+
+The `add` operator pops two numbers from the operand stack, adds them together, and pushes the result back onto the stack. If both operands are integers and the result fits within the integer range, the result is an integer. Otherwise, the result is a real number.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+num1 num2 add sum
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num2` (integer or real) - Second addend
+
+|Top-1
+|`num1` (integer or real) - First addend
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`sum` (integer or real) - Result of num1 + num2
+|===
+
+== Parameters
+
+`num1`:: The first number to add (integer or real)
+`num2`:: The second number to add (integer or real)
+
+== Return Values
+
+`sum`:: The sum of num1 and num2. Type depends on operands:
+* Integer if both operands are integers and result fits in integer range
+* Real otherwise
+
+== Examples
+
+=== Basic Addition
+
+[source,postscript]
+----
+% Integer addition
+3 4 add        % → 7 (integer result)
+
+% Real addition
+9.9 1.1 add    % → 11.0 (real result)
+
+% Mixed types
+5 2.5 add      % → 7.5 (real result)
+
+% Negative numbers
+-10 3 add      % → -7 (integer result)
+----
+
+=== Type Coercion
+
+[source,postscript]
+----
+% Both integers → integer result
+100 200 add     % → 300 (integer)
+
+% Integer and real → real result
+100 200.0 add   % → 300.0 (real)
+
+% Both reals → real result
+1.5 2.5 add     % → 4.0 (real)
+----
+
+=== Accumulating Values
+
+[source,postscript]
+----
+% Sum a series of numbers
+0              % Initialize accumulator
+10 add         % → 10
+20 add         % → 30
+30 add         % → 60
+----
+
+=== Array Sum Function
+
+[source,postscript]
+----
+% Sum all elements in an array
+/sumArray {  % [num1 num2 ... numn] -> sum
+    0 exch   % Start with 0 accumulator
+    {
+        add  % Add each element
+    } forall
+} def
+
+% Usage
+[10 20 30 40 50] sumArray  % → 150
+----
+
+== Advanced Examples
+
+=== Calculating Average
+
+[source,postscript]
+----
+/average {  % num1 num2 -> avg
+    add 2 div
+} def
+
+10 20 average  % → 15.0
+----
+
+=== Vector Addition
+
+[source,postscript]
+----
+/addVectors {  % [x1 y1] [x2 y2] -> [x3 y3]
+    % Add two 2D vectors
+    aload pop          % x2 y2
+    3 -1 roll aload pop % y2 x2 x1 y1
+    3 -1 roll add      % y2 x2 y1+x1
+    3 1 roll add       % y1+x1 y2+x2
+    2 array astore     % [x3 y3]
+} def
+
+[10 20] [5 15] addVectors  % → [15 35]
+----
+
+=== Cumulative Sum
+
+[source,postscript]
+----
+% Create array of cumulative sums
+/cumulativeSum {  % [n1 n2 ... nk] -> [n1 n1+n2 n1+n2+n3 ...]
+    dup length array  % Result array
+    0                 % Accumulator
+    3 1 roll          % acc result input
+    0 1 2 index length 1 sub {
+        % i acc result input
+        2 index 1 index get  % Get input[i]
+        3 index add          % Add to accumulator
+        2 index 3 index 3 -1 roll put  % Store in result
+        3 1 roll             % Reorder for next iteration
+    } for
+    pop exch pop      % Clean up, leave result
+} def
+
+[1 2 3 4 5] cumulativeSum  % → [1 3 6 10 15]
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: Integer overflow results in a real number, not an error.
+
+=== Integer Overflow
+
+[source,postscript]
+----
+% Maximum 32-bit signed integer
+2147483647 1 add    % → 2147483648.0 (real)
+----
+
+When integers overflow, PostScript automatically promotes the result to a real number.
+
+=== Accumulation Precision
+
+[source,postscript]
+----
+% Be careful with real number precision
+0.1 0.2 add    % → 0.3 (may have rounding errors)
+
+% For financial calculations, use integers
+10 20 add 100 div  % → 0.30 (more precise than 0.1 0.2 add)
+----
+
+=== `undefinedresult` Error
+
+While rare, extremely large values can cause errors:
+
+[source,postscript]
+----
+% Attempting to add beyond real number range
+1.0e308 1.0e308 add  % May cause undefinedresult
+----
+
+== Type Requirements
+
+Both operands must be numeric (integer or real). Other types will cause a `typecheck` error:
+
+[source,postscript]
+----
+% BAD: Non-numeric operands
+(hello) 5 add        % ERROR: typecheck
+[1 2 3] 10 add       % ERROR: typecheck
+----
+
+== Related Commands
+
+* xref:sub.adoc[`sub`] - Subtract two numbers
+* xref:mul.adoc[`mul`] - Multiply two numbers
+* xref:div.adoc[`div`] - Divide two numbers (real result)
+* xref:idiv.adoc[`idiv`] - Integer division
+* xref:mod.adoc[`mod`] - Modulo (remainder)
+* xref:neg.adoc[`neg`] - Negate a number
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental arithmetic operator available in all PostScript implementations.
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack contains fewer than two elements.
++
+[source,postscript]
+----
+5 add          % ERROR: stackunderflow (need 2 operands)
+----
+
+`typecheck`::
+One or both operands are not numbers.
++
+[source,postscript]
+----
+(text) 5 add   % ERROR: typecheck
+----
+
+`undefinedresult`::
+The result is outside the representable range for real numbers (extremely rare).
+
+== Performance Considerations
+
+The `add` operator is a primitive operation that executes in constant time O(1). Performance is excellent even for very large numbers of additions.
+
+For adding many values, consider:
+
+* Using built-in operators when possible
+* Minimizing type conversions between integer and real
+* Using integer arithmetic when precision allows
+
+== Best Practices
+
+1. **Use integer arithmetic when possible** for better precision and performance
+2. **Be aware of type coercion** - mixing integers and reals produces reals
+3. **Document expected types** in procedures for clarity
+4. **Handle overflow gracefully** in critical applications
+
+=== Type-Safe Addition
+
+[source,postscript]
+----
+% Ensure integer result
+/intAdd {  % int1 int2 -> int
+    add
+    cvi  % Force to integer (truncate if needed)
+} def
+
+% Ensure real result
+/realAdd {  % num1 num2 -> real
+    add
+    cvr  % Force to real
+} def
+----
+
+== See Also
+
+* xref:index.adoc[Arithmetic and Math] - All arithmetic operators
+* xref:../../levels/index.adoc[PostScript Language Levels]
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

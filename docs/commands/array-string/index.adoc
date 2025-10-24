@@ -1,0 +1,225 @@
+---
+layout: default
+title: Array and String Operations
+parent: Command Reference
+nav_order: 3
+---
+
+== Array and String Operations
+
+Array and string operations provide the foundation for data structure manipulation in PostScript. These commands enable creating, accessing, modifying, and iterating over arrays and strings, which are the primary composite data types in PostScript.
+
+== Overview
+
+Arrays and strings in PostScript share many operational characteristics:
+
+* Both are indexed collections (0-based indexing)
+* Both support element access via [`get`](get.adoc) and [`put`](put.adoc)
+* Both can have subsequences extracted via [`getinterval`](getinterval.adoc)
+* Both can be iterated over using [`forall`](forall.adoc)
+* Both have a [`length`](length.adoc) that can be queried
+
+However, they differ in important ways:
+
+* Arrays contain arbitrary PostScript objects; strings contain only integers (0-255)
+* Arrays can be literal or executable; strings are always literal unless explicitly converted
+* Strings are mutable; packed arrays are read-only
+
+== Array Categories
+
+=== Array Creation and Manipulation
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:array.adoc[`array`]
+| Create a new array of specified length
+
+| xref:left-bracket.adoc[`[`]
+| Begin array construction (mark)
+
+| xref:right-bracket.adoc[`]`]
+| End array construction
+
+| xref:aload.adoc[`aload`]
+| Load all array elements onto stack
+
+| xref:astore.adoc[`astore`]
+| Store stack elements into array
+
+| xref:packedarray.adoc[`packedarray`]
+| Create read-only packed array (Level 2)
+|===
+
+=== Element Access
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:get.adoc[`get`]
+| Get single element from array/string
+
+| xref:put.adoc[`put`]
+| Put value into array/string element
+
+| xref:getinterval.adoc[`getinterval`]
+| Extract subarray or substring
+
+| xref:putinterval.adoc[`putinterval`]
+| Insert array/string into another
+
+| xref:length.adoc[`length`]
+| Get length of array/string
+|===
+
+=== Iteration
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:forall.adoc[`forall`]
+| Execute procedure for each element
+|===
+
+== String Categories
+
+=== String Creation and Manipulation
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:string.adoc[`string`]
+| Create new string of specified length
+
+| xref:anchorsearch.adoc[`anchorsearch`]
+| Search for prefix in string
+
+| xref:search.adoc[`search`]
+| Search for substring
+
+| xref:token.adoc[`token`]
+| Parse next token from string/file
+|===
+
+=== Type Conversion
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:cvs.adoc[`cvs`]
+| Convert any object to string representation
+
+| xref:cvn.adoc[`cvn`]
+| Convert string to name
+
+| xref:cvr.adoc[`cvr`]
+| Convert to real number
+
+| xref:cvi.adoc[`cvi`]
+| Convert to integer
+
+| xref:cvlit.adoc[`cvlit`]
+| Convert to literal attribute
+
+| xref:cvx.adoc[`cvx`]
+| Convert to executable attribute
+
+| xref:type.adoc[`type`]
+| Get object type as name
+|===
+
+=== Access Checking
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:xcheck.adoc[`xcheck`]
+| Check if object is executable
+
+| xref:rcheck.adoc[`rcheck`]
+| Check if object is readable
+
+| xref:wcheck.adoc[`wcheck`]
+| Check if object is writable
+|===
+
+== Common Patterns
+
+=== Array Construction
+
+The most common way to create arrays uses the bracket syntax:
+
+[source,postscript]
+----
+[ 1 2 3 ]           % Creates [1 2 3]
+[ (hello) /world ]  % Mixed types
+----
+
+For dynamic array creation:
+
+[source,postscript]
+----
+3 array             % Create array of length 3: [null null null]
+dup 0 42 put        % Set first element to 42
+----
+
+=== String Processing
+
+Strings are commonly used for text and binary data:
+
+[source,postscript]
+----
+(Hello, World!) length           % Get string length: 13
+(PostScript) 0 4 getinterval    % Extract "Post"
+(abc) (a) anchorsearch          % Test for prefix
+----
+
+=== Array/String Iteration
+
+Process all elements in a collection:
+
+[source,postscript]
+----
+[1 2 3 4 5] { 10 mul } forall   % Multiply each by 10: 10 20 30 40 50
+(abc) { 32 add } forall         % Add 32 to each char code: 97 98 99
+----
+
+== Important Considerations
+
+=== Indexing
+
+* Arrays and strings use 0-based indexing
+* Valid indices range from 0 to length-1
+* Out-of-bounds access generates [`rangecheck`] error
+
+=== Mutability
+
+* Regular arrays are mutable (can be modified)
+* Packed arrays (Level 2) are read-only for efficiency
+* Strings are mutable (unlike in many other languages)
+* Access attributes can restrict modification via [`readonly`]
+
+=== Memory
+
+* Arrays allocated in VM (local or global based on allocation mode)
+* Strings allocated in VM
+* Packed arrays more memory-efficient than regular arrays
+* Subarrays/substrings share the underlying value
+
+=== Type Restrictions
+
+* String elements must be integers 0-255 (character codes)
+* Array elements can be any PostScript object
+* Type checking errors occur on invalid operations
+
+== See Also
+
+* xref:../stack-manipulation/index.adoc[Stack Manipulation Commands] - For basic data movement
+* xref:../arithmetic-math/index.adoc[Arithmetic and Math Commands] - For numeric operations
+* Control Flow Commands - For conditional and loop constructs (to be documented)

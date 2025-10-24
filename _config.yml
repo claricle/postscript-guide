@@ -1,4 +1,4 @@
-title: "PostScript Language Reference Guide"
+title: "PostScript Language Guide"
 description: "Comprehensive documentation for the PostScript programming language, covering operators, syntax, and practical usage examples"
 baseurl: "/postscript-guide"
 url: "https://metanorma.github.io"
@@ -46,12 +46,12 @@ nav_fold: true
 
 # External links
 aux_links:
-  "Source Repository":
+  "Source":
     - "//github.com/metanorma/postscript-guide"
-  "Report Issue":
+  "Report Issues":
     - "//github.com/metanorma/postscript-guide/issues"
-  "Adobe PostScript Reference":
-    - "//www.adobe.com/products/postscript/pdfs/PLRM.pdf"
+  "Adobe PostScript Language Reference Manual":
+    - "//www.adobe.com/jp/print/postscript/pdfs/PLRM.pdf"
 
 aux_links_new_tab: true
 
@@ -63,7 +63,7 @@ back_to_top_text: "Back to top"
 heading_anchors: true
 
 # Footer
-footer_content: "Copyright &copy; 2025 Metanorma. Distributed under the <a href=\"https://github.com/metanorma/postscript-guide/blob/main/LICENSE\">MIT License</a>."
+footer_content: "Copyright &copy; 2025 Metanorma. PostScript is a trademark of Adobe. Distributed under the <a href=\"https://github.com/metanorma/postscript-guide/blob/main/LICENSE\">MIT License</a>."
 
 # Collections
 collections:
@@ -82,11 +82,6 @@ defaults:
       path: "docs"
     values:
       layout: default
-  - scope:
-      path: "docs/commands"
-    values:
-      layout: default
-      parent: Commands
 
 # Plugins
 plugins:

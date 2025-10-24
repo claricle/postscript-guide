@@ -1,0 +1,262 @@
+---
+layout: default
+title: translate
+parent: Coordinate Transformations
+grand_parent: Command Reference
+nav_order: 1
+---
+
+== translate
+
+Moves the origin of the user coordinate system.
+
+=== Syntax
+
+----
+tx ty translate → -
+tx ty matrix translate → matrix
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `ty` (number)
+
+| 0
+| `tx` (number)
+|===
+
+.After (first form)
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No results
+|===
+
+.After (second form)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (modified matrix)
+|===
+
+=== Description
+
+With no matrix operand, [`translate`](translate.adoc) builds a temporary transformation matrix T and concatenates it with the current transformation matrix (CTM). Precisely, [`translate`](translate.adoc) replaces the CTM by T × CTM.
+
+The effect is to move the origin of the user coordinate system by `tx` units in the x direction and `ty` units in the y direction relative to the former user coordinate system. The sizes of the x and y units and the orientation of the axes are unchanged.
+
+If the `matrix` operand is supplied, [`translate`](translate.adoc) replaces the value of `matrix` by T and pushes the modified matrix back on the operand stack. In this case, [`translate`](translate.adoc) does not affect the CTM.
+
+The translation matrix T has the form:
+
+----
+[1 0 0 1 tx ty]
+----
+
+This transforms coordinates according to:
+
+----
+x' = x + tx
+y' = y + ty
+----
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Simple translation
+[source,postscript]
+----
+100 200 translate  % Move origin to (100, 200)
+0 0 moveto         % Now at (100, 200) in original coordinates
+50 50 lineto       % Line to (150, 250) in original coordinates
+stroke
+----
+
+.Centering content
+[source,postscript]
+----
+% Center a 200x100 rectangle on letter page (612x792)
+306 396 translate  % Move to center
+-100 -50 translate % Offset by half size
+0 0 moveto
+200 0 lineto
+200 100 lineto
+0 100 lineto
+closepath
+stroke
+----
+
+.Multiple translations
+[source,postscript]
+----
+50 50 translate    % Origin now at (50, 50)
+100 100 translate  % Origin now at (150, 150)
+% Translations accumulate
+----
+
+=== Common Use Cases
+
+==== Positioning Graphics
+
+[source,postscript]
+----
+/drawBox {
+  % Draw a 100x100 box at current origin
+  newpath
+  0 0 moveto
+  100 0 lineto
+  100 100 lineto
+  0 100 lineto
+  closepath
+  stroke
+} def
+
+100 100 translate
+drawBox           % Box at (100, 100)
+
+150 0 translate
+drawBox           % Box at (250, 100)
+----
+
+==== Page Layout
+
+[source,postscript]
+----
+% Set up margins
+72 72 translate   % 1 inch margins on letter page
+% Content is now inset from page edges
+----
+
+==== Building Transformation Matrices
+
+[source,postscript]
+----
+% Create translation matrix without affecting CTM
+matrix              % Get identity matrix
+50 100 translate   % Modify to translation matrix
+% Stack now has [1 0 0 1 50 100]
+----
+
+=== Common Pitfalls
+
+WARNING: *Coordinate System, Not Content* - [`translate`](translate.adoc) moves the coordinate system, not the content. Drawing at (0, 0) after translation draws at the new origin location.
+
+[source,postscript]
+----
+100 100 moveto
+50 50 lineto
+stroke
+
+100 100 translate  % Moves coordinate system
+100 100 moveto     % Actually at (200, 200) in original space
+150 150 lineto     % Actually at (250, 250) in original space
+stroke
+----
+
+WARNING: *Transformations Accumulate* - Multiple translations add together. Use xref:../graphics-state/gsave.adoc[`gsave`]/xref:../graphics-state/grestore.adoc[`grestore`] to isolate transformations.
+
+[source,postscript]
+----
+50 50 translate
+100 100 translate  % Origin is now at (150, 150), not (100, 100)
+
+% Better approach:
+gsave
+  100 100 translate
+  % Draw content
+grestore
+% Original coordinate system restored
+----
+
+TIP: *Readable Layout Code* - Use [`translate`](translate.adoc) to establish drawing origins, making code more readable:
+
+[source,postscript]
+----
+% Clear intent: position then draw
+200 300 translate
+/drawLogo load exec
+
+% Less clear: pass coordinates everywhere
+200 300 /drawLogo load exec
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| Resulting matrix values exceed implementation limits
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack (first form) or fewer than 3 (second form)
+
+| [`typecheck`]
+| Operands are not numbers, or matrix operand is not an array
+|===
+
+=== Implementation Notes
+
+* Translation is one of the fastest transformations
+* The CTM is stored in device space, so very large translation values may lose precision
+* Translations do not affect line width, dash patterns, or other graphics state parameters
+* The transformation matrix is applied during path construction, not during painting
+
+=== Matrix Mathematics
+
+The translation matrix for [`translate`](translate.adoc) by (`tx`, `ty`) is:
+
+----
+T = [1  0  0  1  tx  ty]
+----
+
+Concatenating with the CTM:
+
+----
+CTM' = T × CTM
+     = [1  0  0  1  tx  ty] × [a  b  c  d  e  f]
+     = [a  b  c  d  (a×tx + c×ty + e)  (b×tx + d×ty + f)]
+----
+
+=== Performance Considerations
+
+* Very lightweight operation
+* No path flattening or other expensive operations
+* Can be used frequently without performance concerns
+* Matrix operations are optimized in most implementations
+
+=== Transformation Order
+
+Transformations are applied in reverse order of specification:
+
+[source,postscript]
+----
+translate1 translate2 translate3
+% Applied as: translate3(translate2(translate1(point)))
+----
+
+This is because each transformation modifies the CTM by left-multiplication.
+
+=== See Also
+
+* xref:scale.adoc[`scale`] - Change unit size
+* xref:rotate.adoc[`rotate`] - Rotate coordinate axes
+* xref:concat.adoc[`concat`] - Concatenate arbitrary matrix
+* xref:setmatrix.adoc[`setmatrix`] - Replace CTM directly
+* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
+* xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

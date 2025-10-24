@@ -1,0 +1,572 @@
+---
+layout: default
+title: Stack Operations
+parent: Basic Usage
+grand_parent: Usage Guides
+nav_order: 3
+---
+
+== Stack Operations
+
+The operand stack is the fundamental data structure in PostScript. Understanding stack operations is essential for working effectively with the language.
+
+=== Overview
+
+PostScript uses a stack-based architecture where operands are pushed onto a stack before operators consume them. This reverse Polish notation (RPN) style eliminates the need for parentheses and provides a consistent execution model.
+
+The operand stack:
+
+* Stores objects temporarily during program execution
+* Provides a last-in, first-out (LIFO) data structure
+* Has no fixed size limit (implementation-dependent)
+* Can hold any PostScript object type
+
+=== Basic Stack Manipulation
+
+==== Pushing Values onto the Stack
+
+Values are pushed onto the stack simply by writing them:
+
+[source,postscript]
+----
+5           % Push integer 5
+3.14        % Push real number 3.14
+(Hello)     % Push string "Hello"
+true        % Push boolean true
+----
+
+After these operations, the stack contains (from bottom to top): `5 3.14 (Hello) true`
+
+==== The `pop` Operator
+
+Removes the top element from the stack:
+
+[source,postscript]
+----
+5 10 15     % Stack: 5 10 15
+pop         % Stack: 5 10 (removed 15)
+----
+
+==== The `dup` Operator
+
+Duplicates the top element:
+
+[source,postscript]
+----
+7           % Stack: 7
+dup         % Stack: 7 7
+mul         % Stack: 49 (7 * 7)
+----
+
+Practical example - drawing a square:
+
+[source,postscript]
+----
+100 dup     % Create equal width and height
+0 0 moveto
+dup 0 rlineto      % Right side
+0 exch rlineto     % Top side
+neg 0 rlineto      % Left side
+closepath
+stroke
+----
+
+==== The `exch` Operator
+
+Exchanges the top two elements:
+
+[source,postscript]
+----
+5 10        % Stack: 5 10
+exch        % Stack: 10 5
+sub         % Stack: 5 (10 - 5)
+----
+
+==== The `clear` Operator
+
+Removes all elements from the stack:
+
+[source,postscript]
+----
+1 2 3 4 5   % Stack: 1 2 3 4 5
+clear       % Stack: (empty)
+----
+
+=== Intermediate Stack Operations
+
+==== The `index` Operator
+
+Duplicates an arbitrary element identified by its position (0 is the top element):
+
+[source,postscript]
+----
+10 20 30 40    % Stack: 10 20 30 40
+2 index        % Stack: 10 20 30 40 20
+               % (copied element at position 2)
+----
+
+Position counting from the top:
+* 0 index = duplicate top element (same as `dup`)
+* 1 index = duplicate second element
+* 2 index = duplicate third element
+
+==== The `roll` Operator
+
+Rotates elements on the stack. Syntax: `n j roll`
+
+* `n` = number of elements to rotate
+* `j` = number of positions (positive = upward, negative = downward)
+
+[source,postscript]
+----
+1 2 3 4 5      % Stack: 1 2 3 4 5
+3 1 roll       % Stack: 1 2 5 3 4
+               % (rotated top 3 elements up by 1)
+
+1 2 3 4 5      % Stack: 1 2 3 4 5
+3 -1 roll      % Stack: 1 2 4 5 3
+               % (rotated top 3 elements down by 1)
+----
+
+Practical use - reordering for `setrgbcolor`:
+
+[source,postscript]
+----
+% Convert RGB order to PostScript order
+0.5 0.8 0.2    % R G B
+3 -1 roll      % G B R
+3 1 roll       % R G B (back to original, just demonstrating)
+setrgbcolor
+----
+
+==== The `copy` Operator
+
+Copies the top `n` elements:
+
+[source,postscript]
+----
+1 2 3          % Stack: 1 2 3
+2 copy         % Stack: 1 2 3 2 3
+               % (copied top 2 elements)
+----
+
+==== The `count` Operator
+
+Returns the number of elements currently on the stack:
+
+[source,postscript]
+----
+10 20 30       % Stack: 10 20 30
+count          % Stack: 10 20 30 3
+               % (3 elements were on stack)
+----
+
+=== Advanced Stack Patterns
+
+==== Stack Preservation Pattern
+
+Save and restore stack state during operations:
+
+[source,postscript]
+----
+% Save current value
+100 dup        % Stack: 100 100
+
+% Use value
+50 sub         % Stack: 100 50
+
+% Restore original
+exch pop       % Stack: 100
+----
+
+Better approach using `gsave`/`grestore` for graphics state:
+
+[source,postscript]
+----
+gsave
+  % Modify graphics state here
+  100 100 translate
+  0.5 setgray
+  % Draw something
+grestore
+% Graphics state restored
+----
+
+==== Multiple Value Handling
+
+Working with multiple return values:
+
+[source,postscript]
+----
+% stringwidth returns two values: width height
+(Hello) /Times-Roman findfont 12 scalefont setfont
+(Hello) stringwidth   % Stack: width height
+
+% Swap to use height first
+exch                  % Stack: height width
+pop                   % Stack: height (discard width)
+----
+
+==== Stack-based Calculations
+
+Complex calculations using stack manipulation:
+
+[source,postscript]
+----
+% Calculate: (a + b) * (c - d)
+% Where a=5, b=3, c=10, d=2
+
+5 3 add        % Stack: 8 (a + b)
+10 2 sub       % Stack: 8 8 (c - d)
+mul            % Stack: 64
+----
+
+==== Building Complex Transformations
+
+Using stack operations for transformation matrices:
+
+[source,postscript]
+----
+% Create a complex transformation
+gsave
+  % Position
+  200 300 translate
+
+  % Scale (keep copy of scale factor)
+  2 dup scale    % Scale x and y equally
+
+  % Rotate
+  45 rotate
+
+  % Draw
+  0 0 50 0 360 arc
+  stroke
+grestore
+----
+
+=== Common Stack Patterns
+
+==== The Dup-Pop Pattern
+
+Used to execute an operator on a copy while preserving the original:
+
+[source,postscript]
+----
+100            % Stack: 100
+dup            % Stack: 100 100
+sin            % Stack: 100 (sin of 100)
+exch           % Stack: (sin of 100) 100
+cos            % Stack: (sin of 100) (cos of 100)
+----
+
+==== The Index Pattern
+
+Accessing lower stack elements without disrupting the stack:
+
+[source,postscript]
+----
+% Set fill and stroke colors from single RGB value
+0.8 0.4 0.2    % R G B for fill
+2 index        % Stack: 0.8 0.4 0.2 0.8
+2 index        % Stack: 0.8 0.4 0.2 0.8 0.4
+2 index        % Stack: 0.8 0.4 0.2 0.8 0.4 0.2
+setrgbcolor    % Set stroke color
+% Stack still has: 0.8 0.4 0.2
+setrgbcolor    % Set fill color (using same values)
+----
+
+==== The Roll Pattern
+
+Reordering multiple values efficiently:
+
+[source,postscript]
+----
+% Convert coordinates: x y width height -> x y x+width y+height
+100 200 50 75     % x y w h
+4 2 roll          % w h x y
+2 index           % w h x y w
+add               % w h x y+w
+3 1 roll          % w x y+w h
+add               % w x y+w+h
+3 -1 roll         % x y+w+h w
+pop               % x y+w+h
+2 index           % x y+w+h x
+exch              % x x y+w+h
+----
+
+=== Stack Debugging
+
+==== Viewing Stack Contents
+
+Use the `==` operator to print and pop the top element:
+
+[source,postscript]
+----
+5 10 15
+==         % Prints: 15, Stack: 5 10
+==         % Prints: 10, Stack: 5
+----
+
+Use `pstack` to view entire stack without modifying it:
+
+[source,postscript]
+----
+1 2 3
+pstack     % Prints: 1 2 3 (stack unchanged)
+----
+
+==== Stack Overflow/Underflow
+
+Common errors:
+
+[source,postscript]
+----
+% Stack underflow - trying to pop empty stack
+clear
+pop        % ERROR: stackunderflow
+
+% Too many operations without consuming values
+1 2 3 4 5 6 7 8 9 10
+% ... (continuing without using values)
+% May eventually cause: ERROR: stackoverflow
+----
+
+==== Debugging Stack Operations
+
+Add stack checks in your code:
+
+[source,postscript]
+----
+% Expected: 3 values on stack
+count 3 ne {
+  (Stack size error) print
+} if
+----
+
+=== Best Practices
+
+==== Stack Hygiene
+
+Always clean up after your operations:
+
+[source,postscript]
+----
+% Bad: leaves extra values on stack
+/drawCircle {
+  0 360 arc
+  stroke
+  42        % Oops! Left value on stack
+} def
+
+% Good: clean stack on exit
+/drawCircle {
+  0 360 arc
+  stroke
+  % Stack is clean
+} def
+----
+
+==== Documenting Stack Effects
+
+Comment your procedures with stack effects:
+
+[source,postscript]
+----
+% drawBox: x y width height -> -
+% Takes box coordinates and dimensions, draws rectangle
+/drawBox {
+  % Stack: x y width height
+  4 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    newpath
+    x y moveto
+    w 0 rlineto
+    0 h rlineto
+    w neg 0 rlineto
+    closepath
+    stroke
+  end
+} def
+----
+
+==== Avoiding Deep Stack Manipulation
+
+Prefer local variables over complex stack operations:
+
+[source,postscript]
+----
+% Harder to maintain
+/complexCalc {
+  % Stack: a b c d e
+  4 index 3 index mul
+  3 1 roll exch
+  % ... complex manipulations
+} def
+
+% Better: use dictionary for local variables
+/complexCalc {
+  5 dict begin
+    /e exch def
+    /d exch def
+    /c exch def
+    /b exch def
+    /a exch def
+
+    a c mul  % Much clearer!
+    % ... calculations
+  end
+} def
+----
+
+=== Common Pitfalls
+
+==== Forgetting to Consume Values
+
+[source,postscript]
+----
+% Wrong: leaves width/height on stack
+(Text) stringwidth
+% ... do something else
+% Stack still has unconsumed values!
+
+% Correct: always consume return values
+(Text) stringwidth
+pop pop  % Discard if not needed
+% Or use them:
+% exch pop  % Keep just height
+----
+
+==== Incorrect Roll Arguments
+
+[source,postscript]
+----
+% Wrong: not enough elements
+1 2
+5 1 roll   % ERROR: only 2 elements, but asking for 5
+
+% Correct: match roll count to available elements
+1 2
+2 1 roll   % OK
+----
+
+==== Lost Count During Complex Operations
+
+[source,postscript]
+----
+% Use count to verify
+/verifiedOp {
+  count /stacksizebefore exch def
+
+  % ... do operations
+
+  count stacksizebefore sub 1 ne {
+    (Unexpected stack change) print
+  } if
+} def
+----
+
+=== Performance Considerations
+
+==== Minimize Deep Stack Access
+
+[source,postscript]
+----
+% Slower: frequent deep access
+1 2 3 4 5
+4 index  % Access bottom element
+4 index  % Again
+4 index  % Multiple times
+
+% Faster: copy once to top
+1 2 3 4 5
+4 index  % Copy once
+dup      % Then duplicate top
+dup      % Much faster
+----
+
+==== Use Local Variables for Complex Operations
+
+Local variables (via dictionaries) are often faster than complex stack manipulation for algorithms requiring repeated access to the same values.
+
+=== Practical Examples
+
+==== Example 1: Calculate Circle Area
+
+[source,postscript]
+----
+% area = π * r²
+/circleArea {  % r -> area
+  dup mul      % r² (r * r)
+  3.14159 mul  % π * r²
+} def
+
+% Usage
+5 circleArea   % Returns 78.53975
+----
+
+==== Example 2: Swap RGB to BGR
+
+[source,postscript]
+----
+% Swap red and blue components
+/rgb2bgr {  % r g b -> b g r
+  3 -1 roll  % Move r to top: g b r
+} def
+
+% Usage
+1.0 0.5 0.0  % Orange in RGB
+rgb2bgr      % Now: 0.0 0.5 1.0 (BGR)
+----
+
+==== Example 3: Midpoint Calculator
+
+[source,postscript]
+----
+% Calculate midpoint between two values
+/midpoint {  % a b -> (a+b)/2
+  add        % a + b
+  2 div      % (a + b) / 2
+} def
+
+% Usage
+100 200 midpoint  % Returns 150
+----
+
+==== Example 4: Clamp Value to Range
+
+[source,postscript]
+----
+% Clamp value between min and max
+/clamp {  % value min max -> clampedValue
+  2 index  % Copy value to top
+  1 index  % Copy max
+  gt {     % If value > max
+    exch pop  % Keep max, discard value
+  } if
+
+  1 index  % Copy min
+  1 index  % Copy current top
+  lt {     % If current < min
+    pop    % Discard current
+  } {      % Else
+    exch pop  % Discard min
+  } ifelse
+} def
+
+% Usage
+150 0 100 clamp  % Returns 100 (clamped to max)
+-50 0 100 clamp  % Returns 0 (clamped to min)
+50 0 100 clamp   % Returns 50 (within range)
+----
+
+=== See Also
+
+* xref:procedures.adoc[Procedures] - Creating reusable code blocks
+* xref:arrays.adoc[Arrays] - Working with array objects
+* xref:../../commands/index.adoc[Command Reference] - Complete operator reference
+* xref:../../syntax/operators.adoc[Operators] - Operator syntax details
+* xref:../debugging.adoc[Debugging] - Debugging techniques

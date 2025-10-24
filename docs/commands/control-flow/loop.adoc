@@ -1,0 +1,182 @@
+---
+layout: default
+title: loop
+parent: Control Flow
+grand_parent: Command Reference
+nav_order: 5
+---
+
+== loop
+
+Repeatedly executes a procedure indefinitely until exit is called.
+
+=== Syntax
+
+----
+proc loop → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `proc` (procedure to execute)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (varies)
+| Results from procedure executions
+|===
+
+=== Description
+
+[`loop`](loop.adoc) repeatedly executes _proc_ until _proc_ executes xref:exit.adoc[`exit`], at which point interpretation resumes after the loop.
+
+Control also leaves _proc_ if xref:stop.adoc[`stop`] is executed. If _proc_ never executes [`exit`](exit.adoc) or [`stop`](stop.adoc), an infinite loop results.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Loop with exit condition
+[source,postscript]
+----
+0 {
+  dup 10 ge { exit } if
+  dup =
+  1 add
+} loop
+pop
+% Prints: 0 1 2 3 4 5 6 7 8 9
+----
+
+.Reading until condition
+[source,postscript]
+----
+file {
+  read not { exit } if
+  % Process character
+} loop
+----
+
+.Infinite server loop
+[source,postscript]
+----
+{
+  % Wait for request
+  % Process request
+  % Send response
+} loop
+----
+
+=== Common Use Cases
+
+==== Event Loop
+
+[source,postscript]
+----
+{
+  waitForEvent
+  dup /quit eq { exit } if
+  processEvent
+} loop
+----
+
+==== File Processing
+
+[source,postscript]
+----
+{
+  file readline not { exit } if
+  processLine
+} loop
+----
+
+==== Search with Early Exit
+
+[source,postscript]
+----
+/found false def
+0 {
+  array exch get
+  dup target eq {
+    /found true def
+    exit
+  } if
+  pop
+} loop
+----
+
+=== Common Pitfalls
+
+WARNING: *Infinite Loops* - Without xref:exit.adoc[`exit`] or xref:stop.adoc[`stop`], loop runs forever.
+
+[source,postscript]
+----
+{ (infinite) print } loop  % Never stops!
+----
+
+WARNING: *Stack Growth* - Ensure loop body balances stack or it will overflow.
+
+[source,postscript]
+----
+{ 1 } loop  % Stack overflow eventually
+----
+
+TIP: *Use External Interrupt* - Infinite loops can be broken via implementation-specific external interrupts (e.g., Ctrl-C).
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand is not a procedure
+|===
+
+=== Implementation Notes
+
+* No iteration limit checked
+* Very lightweight (minimal overhead per iteration)
+* Procedure must contain exit logic
+* Common pattern for server loops
+
+=== Typical Pattern
+
+[source,postscript]
+----
+{
+  % 1. Get/wait for input
+  getData
+
+  % 2. Check termination
+  dup shouldExit { pop exit } if
+
+  % 3. Process
+  process
+
+  % 4. Loop continues
+} loop
+----
+
+=== See Also
+
+* xref:exit.adoc[`exit`] - Exit loop
+* xref:for.adoc[`for`] - Numeric loop
+* xref:repeat.adoc[`repeat`] - Fixed repetition
+* xref:stop.adoc[`stop`] - Exit stopped context
+* xref:../array-string/forall.adoc[`forall`] - Iterate collections

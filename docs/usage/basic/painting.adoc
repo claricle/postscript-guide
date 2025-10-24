@@ -1,0 +1,1019 @@
+---
+layout: default
+title: Painting
+parent: Basic Usage
+grand_parent: Usage Guides
+nav_order: 7
+---
+
+== Painting
+
+Painting is the process of rendering paths and other graphics to the output device. Understanding painting operators is crucial for making your PostScript paths visible.
+
+=== Overview
+
+PostScript provides three main painting operations:
+
+* **Stroking** - Drawing the outline of a path
+* **Filling** - Filling the interior of a closed path
+* **Clipping** - Restricting where subsequent graphics can appear
+
+Each operation consumes the current path, so you must reconstruct the path if you need to paint it multiple ways.
+
+=== Stroke Operations
+
+==== Basic Stroking: `stroke`
+
+Draws the outline of the current path using current graphics state:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath
+
+2 setlinewidth
+stroke  % Path is consumed (cleared)
+----
+
+The appearance is controlled by:
+
+* Line width (`setlinewidth`)
+* Line cap (`setlinecap`)
+* Line join (`setlinejoin`)
+* Dash pattern (`setdash`)
+* Current color
+
+==== Preserving Path After Stroke
+
+The path is consumed by stroke, so use `gsave`/`grestore`:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+
+% Stroke without losing path
+gsave
+  stroke
+grestore
+
+% Path still exists
+2 0 0 setrgbcolor  % Change to red
+stroke             % Stroke again
+----
+
+Or rebuild the path:
+
+[source,postscript]
+----
+% Better: define path as procedure
+/myPath {
+  newpath
+  100 100 moveto
+  200 200 lineto
+} def
+
+myPath stroke
+myPath 1 0 0 setrgbcolor stroke
+----
+
+==== Stroking Rectangles: `rectstroke`
+
+Optimized operator for rectangular strokes:
+
+[source,postscript]
+----
+% rectstroke: x y width height rectstroke
+100 100 200 150 rectstroke
+
+% Equivalent to:
+% newpath
+% 100 100 moveto
+% 200 0 rlineto
+% 0 150 rlineto
+% -200 0 rlineto
+% closepath
+% stroke
+----
+
+==== User Space Stroking: `ustroke`
+
+Strokes in user space (Level 2+), ignoring current transformation:
+
+[source,postscript]
+----
+gsave
+  % Even with transformations
+  200 200 translate
+  2 2 scale
+
+  newpath
+  0 0 50 0 360 arc
+
+  % Stroke at original line width
+  ustroke
+grestore
+----
+
+==== Stroke Path Outline: `strokepath`
+
+Converts stroke to fillable path:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+
+10 setlinewidth
+strokepath  % Path is now the outline
+
+0.8 0.8 0.8 setrgbcolor
+fill        % Fill the stroke outline
+----
+
+=== Fill Operations
+
+==== Basic Filling: `fill`
+
+Fills the interior of the current path:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath
+
+0.8 0.2 0.2 setrgbcolor
+fill  % Path is consumed
+----
+
+==== Fill Rules
+
+PostScript uses the non-zero winding number rule by default:
+
+[source,postscript]
+----
+% Non-zero winding number (default)
+newpath
+% Outer rectangle (counterclockwise)
+100 100 moveto
+300 100 lineto
+300 300 lineto
+100 300 lineto
+closepath
+
+% Inner rectangle (same direction)
+150 150 moveto
+250 150 lineto
+250 250 lineto
+150 250 lineto
+closepath
+
+fill  % Both filled (same winding direction)
+----
+
+==== Even-Odd Fill: `eofill`
+
+Uses the even-odd rule for filling:
+
+[source,postscript]
+----
+% Even-odd rule
+newpath
+% Outer rectangle
+100 100 moveto
+300 100 lineto
+300 300 lineto
+100 300 lineto
+closepath
+
+% Inner rectangle (creates hole)
+150 150 moveto
+250 150 lineto
+250 250 lineto
+150 250 lineto
+closepath
+
+eofill  % Inner is a hole (odd/even crossings)
+----
+
+Visual comparison:
+
+[source,postscript]
+----
+% Create star with crossing lines
+/star {
+  newpath
+  200 300 moveto
+  250 150 lineto
+  100 220 lineto
+  300 220 lineto
+  150 150 lineto
+  closepath
+} def
+
+% Non-zero winding
+gsave
+  star fill
+grestore
+
+% Even-odd (creates holes at intersections)
+gsave
+  100 0 translate
+  star eofill
+grestore
+----
+
+==== Filling Rectangles: `rectfill`
+
+Optimized operator for rectangular fills:
+
+[source,postscript]
+----
+% rectfill: x y width height rectfill
+100 100 200 150 rectfill
+
+% Can fill multiple rectangles at once (Level 2+)
+% [x1 y1 w1 h1 x2 y2 w2 h2 ...] rectfill
+----
+
+==== User Space Filling: `ufill` and `ueofill`
+
+Fills in user space (Level 2+):
+
+[source,postscript]
+----
+gsave
+  2 2 scale
+
+  newpath
+  50 50 moveto
+  100 50 lineto
+  100 100 lineto
+  closepath
+
+  % Fills at user space coordinates
+  ufill
+grestore
+----
+
+=== Combined Fill and Stroke
+
+==== Fill Then Stroke
+
+Common pattern for outlined shapes:
+
+[source,postscript]
+----
+% Define path once
+/myShape {
+  newpath
+  200 200 100 0 360 arc
+} def
+
+% Fill
+myShape
+0.8 0.8 1 setrgbcolor
+fill
+
+% Stroke
+myShape
+0 0 0.5 setrgbcolor
+2 setlinewidth
+stroke
+----
+
+Using gsave/grestore:
+
+[source,postscript]
+----
+newpath
+200 200 100 0 360 arc
+
+% Fill preserving path
+gsave
+  0.8 0.8 1 setrgbcolor
+  fill
+grestore
+
+% Stroke
+0 0 0.5 setrgbcolor
+2 setlinewidth
+stroke
+----
+
+==== Inline Fill and Stroke
+
+[source,postscript]
+----
+% Single path, multiple renders
+newpath
+100 100 moveto
+300 100 lineto
+200 250 lineto
+closepath
+
+% Fill
+gsave
+  1 0.8 0.6 setrgbcolor
+  fill
+grestore
+
+% Stroke
+0 0 0 setrgbcolor
+3 setlinewidth
+stroke
+----
+
+=== Clipping Operations
+
+==== Basic Clipping: `clip`
+
+Intersects current clipping path with current path:
+
+[source,postscript]
+----
+gsave
+  % Set clipping path
+  newpath
+  200 200 100 0 360 arc
+  clip
+  newpath  % Clear path after clip
+
+  % Only visible inside circle
+  100 100 200 200 rectfill
+grestore
+% Clipping restored
+----
+
+Important: Always use `newpath` after `clip` to avoid clipping to an empty path.
+
+==== Even-Odd Clipping: `eoclip`
+
+Clips using even-odd rule:
+
+[source,postscript]
+----
+gsave
+  % Create clipping path with hole
+  newpath
+  100 100 moveto
+  300 100 lineto
+  300 300 lineto
+  100 300 lineto
+  closepath
+
+  150 150 moveto
+  250 150 lineto
+  250 250 lineto
+  150 250 lineto
+  closepath
+
+  eoclip
+  newpath
+
+  % Visible in outer, not inner
+  50 50 250 250 rectfill
+grestore
+----
+
+==== Rectangular Clipping: `rectclip`
+
+Optimized for rectangular clipping regions:
+
+[source,postscript]
+----
+gsave
+  % rectclip: x y width height rectclip
+  100 100 200 150 rectclip
+
+  % Draw - only visible in rectangle
+  0 0 400 400 rectfill
+grestore
+----
+
+==== Getting Clipping Path: `clippath`
+
+Makes clipping path the current path:
+
+[source,postscript]
+----
+% Get current clipping boundary
+newpath
+clippath
+
+% Stroke it to visualize
+0.5 setgray
+0.5 setlinewidth
+stroke
+----
+
+==== Nested Clipping
+
+Clipping regions accumulate (intersect):
+
+[source,postscript]
+----
+gsave
+  % First clip
+  100 100 200 200 rectclip
+
+  gsave
+    % Second clip (intersection)
+    150 150 100 100 rectclip
+
+    % Only visible in intersection
+    0 0 400 400 rectfill
+  grestore
+grestore
+----
+
+=== Painting Strategies
+
+==== Strategy 1: Path Reuse with Procedures
+
+[source,postscript]
+----
+/triangle {
+  newpath
+  100 100 moveto
+  200 100 lineto
+  150 200 lineto
+  closepath
+} def
+
+% Use multiple times
+triangle 1 0.8 0.6 setrgbcolor fill
+triangle 0 0 0 setrgbcolor 2 setlinewidth stroke
+----
+
+==== Strategy 2: Layered Drawing
+
+Draw from back to front:
+
+[source,postscript]
+----
+% Background
+0.9 0.9 0.9 setrgbcolor
+0 0 612 792 rectfill
+
+% Middle layer
+0.8 0.8 1 setrgbcolor
+100 100 200 200 rectfill
+
+% Foreground
+1 1 0.8 setrgbcolor
+150 150 100 100 rectfill
+
+% Outline on top
+0 0 0 setrgbcolor
+1 setlinewidth
+100 100 200 200 rectstroke
+----
+
+==== Strategy 3: Masking with Clipping
+
+[source,postscript]
+----
+gsave
+  % Create mask
+  newpath
+  /Helvetica-Bold findfont 72 scalefont setfont
+  100 200 moveto
+  (MASK) true charpath
+  clip
+  newpath
+
+  % Draw background visible through text
+  0 10 792 {
+    /y exch def
+    y 100 mod 100 div dup 0 setrgbcolor
+    0 y 612 1 rectfill
+  } for
+grestore
+----
+
+==== Strategy 4: Compound Shapes
+
+[source,postscript]
+----
+% Create complex shape with multiple subpaths
+newpath
+% Outer circle
+200 200 100 0 360 arc
+
+% Inner circle (hole) - reverse direction
+200 200 50 0 360 arcn
+
+% Fill creates donut
+eofill
+----
+
+=== Advanced Painting Techniques
+
+==== Gradient Fills (Simulated)
+
+[source,postscript]
+----
+% Simple horizontal gradient
+/hgradient {  % x y width height -> -
+  4 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    0 1 w {
+      /i exch def
+      i w div setgray
+      x i add y 1 h rectfill
+    } for
+  end
+} def
+
+100 100 200 100 hgradient
+----
+
+Radial gradient (simplified):
+
+[source,postscript]
+----
+/radialgradient {  % x y maxRadius -> -
+  3 dict begin
+    /mr exch def
+    /cy exch def
+    /cx exch def
+
+    mr -1 0 {
+      /r exch def
+      r mr div setgray
+      newpath
+      cx cy r 0 360 arc
+      fill
+    } for
+  end
+} def
+
+200 200 100 radialgradient
+----
+
+==== Pattern Fills
+
+Using clipping for pattern fills:
+
+[source,postscript]
+----
+/dotPattern {
+  gsave
+    % Set up pattern
+    10 10 scale
+    0 1 10 {
+      /y exch def
+      0 1 10 {
+        /x exch def
+        x y 0.3 0 360 arc
+        fill
+      } for
+    } for
+  grestore
+} def
+
+% Apply pattern to shape
+gsave
+  newpath
+  200 200 100 0 360 arc
+  clip
+  newpath
+  dotPattern
+grestore
+----
+
+==== Multi-Pass Rendering
+
+Render same path with different effects:
+
+[source,postscript]
+----
+/myPath {
+  newpath
+  200 200 100 0 360 arc
+} def
+
+% Pass 1: Shadow
+gsave
+  205 195 translate
+  myPath
+  0.7 setgray
+  fill
+grestore
+
+% Pass 2: Fill
+myPath
+1 0.8 0.6 setrgbcolor
+fill
+
+% Pass 3: Highlight
+gsave
+  myPath
+  clip
+  newpath
+  190 220 30 0 360 arc
+  1 1 1 setrgbcolor
+  fill
+grestore
+
+% Pass 4: Outline
+myPath
+0 0 0 setrgbcolor
+2 setlinewidth
+stroke
+----
+
+==== Transparency Simulation
+
+Use patterns or gray levels to simulate transparency:
+
+[source,postscript]
+----
+% Crosshatch pattern for transparency
+/transparent {  % density (0-1)
+  1 dict begin
+    /d exch def
+
+    gsave
+      % Create fine crosshatch
+      0.5 setlinewidth
+      0 2 100 {
+        dup 0 moveto 100 lineto
+      } for
+      0 2 100 {
+        dup 0 exch moveto 100 exch lineto
+      } for
+      stroke
+    grestore
+  end
+} def
+----
+
+=== Practical Painting Examples
+
+==== Example 1: Button with Border
+
+[source,postscript]
+----
+/button {  % x y width height label
+  5 dict begin
+    /label exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    % Background
+    0.9 0.9 0.9 setrgbcolor
+    x y w h rectfill
+
+    % Border
+    0 0 0 setrgbcolor
+    1 setlinewidth
+    x y w h rectstroke
+
+    % Text
+    /Helvetica findfont 12 scalefont setfont
+    x w 2 div add y h 2 div add moveto
+    label dup stringwidth pop 2 div neg 0 rmoveto
+    show
+  end
+} def
+
+100 100 100 40 (Click Me) button
+----
+
+==== Example 2: Pie Chart
+
+[source,postscript]
+----
+/pieSlice {  % cx cy r startAngle endAngle color
+  6 dict begin
+    /color exch def
+    /ea exch def
+    /sa exch def
+    /r exch def
+    /cy exch def
+    /cx exch def
+
+    newpath
+    cx cy moveto
+    cx cy r sa ea arc
+    closepath
+
+    % Fill
+    color aload pop setrgbcolor
+    gsave fill grestore
+
+    % Outline
+    0 0 0 setrgbcolor
+    1 setlinewidth
+    stroke
+  end
+} def
+
+% Draw pie chart
+200 200 100 0 90 [1 0.8 0.8] pieSlice
+200 200 100 90 180 [0.8 1 0.8] pieSlice
+200 200 100 180 270 [0.8 0.8 1] pieSlice
+200 200 100 270 360 [1 1 0.8] pieSlice
+----
+
+==== Example 3: Progress Bar
+
+[source,postscript]
+----
+/progressBar {  % x y width height percent
+  5 dict begin
+    /pct exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    % Background
+    0.9 0.9 0.9 setrgbcolor
+    x y w h rectfill
+
+    % Progress
+    0.2 0.6 1 setrgbcolor
+    x y w pct mul h rectfill
+
+    % Border
+    0 0 0 setrgbcolor
+    1 setlinewidth
+    x y w h rectstroke
+  end
+} def
+
+100 100 200 30 0.75 progressBar  % 75% complete
+----
+
+==== Example 4: Drop Shadow
+
+[source,postscript]
+----
+/shapePath {
+  newpath
+  200 200 moveto
+  300 200 lineto
+  250 300 lineto
+  closepath
+} def
+
+% Shadow
+gsave
+  5 -5 translate
+  shapePath
+  0.5 setgray
+  fill
+grestore
+
+% Shape
+shapePath
+1 0.8 0.6 setrgbcolor
+fill
+
+% Outline
+shapePath
+0 0 0 setrgbcolor
+2 setlinewidth
+stroke
+----
+
+=== Best Practices
+
+==== Separate Path and Paint
+
+[source,postscript]
+----
+% Good: reusable path
+/myShape {
+  newpath
+  100 100 moveto
+  200 200 lineto
+} def
+
+myShape stroke
+myShape fill
+
+% Bad: path and paint mixed
+/myShape {
+  newpath
+  100 100 moveto
+  200 200 lineto
+  stroke  % Can't reuse for fill
+} def
+----
+
+==== Use Graphics State for Complex Painting
+
+[source,postscript]
+----
+% Good: isolated state changes
+gsave
+  1 0 0 setrgbcolor
+  3 setlinewidth
+  newpath
+  100 100 200 200 rlineto
+  stroke
+grestore
+% State restored
+
+% Bad: permanent changes
+1 0 0 setrgbcolor
+3 setlinewidth
+% ... affects everything after
+----
+
+==== Order Operations Correctly
+
+[source,postscript]
+----
+% Correct order:
+% 1. Build path
+newpath
+200 200 100 0 360 arc
+
+% 2. Set graphics state
+1 0.8 0.6 setrgbcolor
+2 setlinewidth
+
+% 3. Paint
+stroke
+
+% Wrong: setting state after painting
+newpath
+200 200 100 0 360 arc
+stroke
+1 0.8 0.6 setrgbcolor  % Too late!
+----
+
+==== Always Clear Path After Clip
+
+[source,postscript]
+----
+% Correct
+newpath
+200 200 100 0 360 arc
+clip
+newpath  % Essential!
+
+% Wrong
+newpath
+200 200 100 0 360 arc
+clip
+% Current path is now empty AND clip path
+----
+
+=== Common Pitfalls
+
+==== Path Consumed by Paint
+
+[source,postscript]
+----
+% Wrong: path lost after stroke
+newpath
+100 100 moveto
+200 200 lineto
+stroke
+fill  % ERROR: nothing to fill
+
+% Correct: save path or rebuild
+/myPath {
+  newpath
+  100 100 moveto
+  200 200 lineto
+} def
+
+myPath stroke
+myPath fill
+----
+
+==== Clipping Without Restore
+
+[source,postscript]
+----
+% Wrong: clip affects all subsequent drawing
+newpath
+200 200 100 0 360 arc
+clip
+newpath
+% ... everything clipped forever
+
+% Correct: use gsave/grestore
+gsave
+  newpath
+  200 200 100 0 360 arc
+  clip
+  newpath
+  % ... clipped region
+grestore
+% Clipping restored
+----
+
+==== Fill vs. EOfill Confusion
+
+[source,postscript]
+----
+% Shape with hole
+newpath
+% Outer
+100 100 300 300 rectstroke
+% Inner (same direction)
+150 150 200 200 rectstroke
+
+fill    % Both filled (non-zero rule)
+eofill  % Inner is hole (even-odd rule)
+----
+
+=== Performance Considerations
+
+==== Use Optimized Operators
+
+[source,postscript]
+----
+% Faster: optimized operators
+100 100 200 150 rectfill
+100 100 200 150 rectstroke
+
+% Slower: manual path construction
+newpath
+100 100 moveto
+200 0 rlineto
+0 150 rlineto
+-200 0 rlineto
+closepath
+fill
+
+newpath
+100 100 moveto
+200 0 rlineto
+0 150 rlineto
+-200 0 rlineto
+closepath
+stroke
+----
+
+==== Minimize State Changes
+
+[source,postscript]
+----
+% Good: batch similar operations
+1 0 0 setrgbcolor
+shape1 fill
+shape2 fill
+shape3 fill
+
+% Less efficient: frequent state changes
+1 0 0 setrgbcolor shape1 fill
+0 1 0 setrgbcolor shape2 fill
+0 0 1 setrgbcolor shape3 fill
+----
+
+==== Cache Complex Paths
+
+[source,postscript]
+----
+% Good: define once, use many times
+/complexShape {
+  newpath
+  % ... many path operations
+} def
+
+complexShape fill
+complexShape stroke
+
+% Bad: rebuild every time
+newpath
+% ... many path operations
+fill
+newpath
+% ... rebuild same path
+stroke
+----
+
+=== See Also
+
+* xref:path-construction.adoc[Path Construction] - Building paths
+* xref:graphics-state.adoc[Graphics State] - Controlling appearance
+* xref:../../commands/painting/index.adoc[Painting Commands] - Complete command reference
+* xref:../../commands/painting/fill.adoc[fill] - Fill path
+* xref:../../commands/painting/stroke.adoc[stroke] - Stroke path
+* xref:../../commands/painting/clip.adoc[clip] - Set clipping path
+* xref:../advanced/patterns.adoc[Patterns] - Advanced pattern fills

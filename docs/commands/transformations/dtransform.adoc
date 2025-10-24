@@ -1,0 +1,325 @@
+---
+layout: default
+title: dtransform
+parent: Coordinate Transformations
+grand_parent: Command Reference
+nav_order: 15
+---
+
+== dtransform
+
+Transforms a distance vector from user space to device space.
+
+=== Syntax
+
+----
+dx dy dtransform → dx' dy'
+dx dy matrix dtransform → dx' dy'
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `dy` (number)
+
+| 0
+| `dx` (number)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `dy'` (number)
+
+| 0
+| `dx'` (number)
+|===
+
+=== Description
+
+With no matrix operand, [`dtransform`](dtransform.adoc) (delta transform) transforms the distance vector (dx, dy) by the CTM to produce the corresponding distance vector (dx', dy') in device space.
+
+If the `matrix` operand is supplied, [`dtransform`](dtransform.adoc) transforms the distance vector by `matrix` rather than by the CTM.
+
+A delta transformation is similar to a normal transformation (xref:transform.adoc[`transform`]), but the translation components (tx and ty) of the transformation matrix are not used. This makes distance vectors position-independent in both user space and device space.
+
+This is useful for determining how distances map from user space to device space, such as for line widths, dash patterns, or measuring transformed lengths.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Basic distance transformation
+[source,postscript]
+----
+initmatrix
+100 200 dtransform
+% → 100.0 200.0 (no transformation)
+
+2 2 scale
+100 200 dtransform
+% → 200.0 400.0 (scaled but not translated)
+----
+
+.Translation ignored
+[source,postscript]
+----
+100 100 translate  % Translation
+100 100 dtransform
+% → 100.0 100.0 (translation ignored)
+
+100 100 transform
+% → 200.0 200.0 (translation included)
+----
+
+.Computing line width in device space
+[source,postscript]
+----
+2 2 scale
+1 0 dtransform     % Transform unit x-vector
+/deviceWidth exch def pop
+% deviceWidth = 2.0 (line width in device pixels)
+----
+
+=== Common Use Cases
+
+==== Determining Device Line Width
+
+[source,postscript]
+----
+% Current line width in device pixels
+currentlinewidth 0 dtransform
+/deviceHeight exch def
+/deviceWidth exch def
+deviceWidth dup mul deviceHeight dup mul add sqrt
+/deviceLineWidth exch def
+----
+
+==== Computing Dash Pattern Scale
+
+[source,postscript]
+----
+% How much is a dash pattern scaled?
+2 3 scale
+10 0 dtransform pop
+% → 20.0 (10-point dash becomes 20 device units)
+----
+
+==== Measuring Transformed Distances
+
+[source,postscript]
+----
+% Length of transformed vector
+/vectorLength {  % dx dy -> length
+  dtransform
+  dup mul exch dup mul add sqrt
+} def
+
+100 100 translate
+2 2 scale
+10 10 vectorLength
+% → 28.28... (√((10×2)² + (10×2)²))
+----
+
+==== Font Scaling Analysis
+
+[source,postscript]
+----
+% Determine actual font size in device space
+/Helvetica findfont 12 scalefont setfont
+0 1 dtransform
+/fontHeightDevice exch def pop
+% fontHeightDevice shows actual pixel height
+----
+
+=== Common Pitfalls
+
+WARNING: *Position-Independent* - [`dtransform`](dtransform.adoc) ignores translation. Use xref:transform.adoc[`transform`] for points.
+
+[source,postscript]
+----
+100 100 translate
+
+% For points (positions):
+50 50 transform    % → 150 150 (correct)
+50 50 dtransform   % → 50 50 (wrong - no translation)
+
+% For distances (vectors):
+50 50 dtransform   % → 50 50 (correct)
+50 50 transform    % → 150 150 (wrong - includes translation)
+----
+
+WARNING: *Not for Coordinate Conversion* - Don't use for absolute positions.
+
+[source,postscript]
+----
+% Wrong - finding device position:
+100 100 dtransform  % Ignores translation!
+
+% Right:
+100 100 transform   % Includes translation
+----
+
+TIP: *Use for Scale-Dependent Parameters* - Perfect for parameters affected by scaling:
+
+[source,postscript]
+----
+% Adjust line width for scale
+2 2 scale
+0.5 setlinewidth  % Thin line in user space
+1 0 dtransform abs  % Check device width
+% → 1.0 (half point becomes 1 device unit after 2x scale)
+----
+
+TIP: *Direction Vectors* - Use for transforming directions without position:
+
+[source,postscript]
+----
+% Unit vector in x direction
+1 0 dtransform
+% Shows how x-axis is transformed (direction and scale)
+
+% Unit vector in y direction
+0 1 dtransform
+% Shows how y-axis is transformed
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| Matrix operand does not have exactly 6 elements
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack (first form) or fewer than 3 (second form)
+
+| [`typecheck`]
+| Operands are not numbers, or matrix operand is not an array
+|===
+
+=== Implementation Notes
+
+* Translation components (tx, ty) are ignored
+* Only the linear transformation part [a b c d] is used
+* Very fast operation (simpler than full xref:transform.adoc[`transform`])
+* No risk of [`undefinedresult`] error (unlike xref:itransform.adoc[`itransform`])
+* The inverse operation is xref:idtransform.adoc[`idtransform`]
+
+=== Transformation Formula
+
+For CTM = [a b c d tx ty]:
+
+----
+dx' = a×dx + c×dy
+dy' = b×dx + d×dy
+----
+
+Note: tx and ty are not used.
+
+Example with CTM = [2 0 0 3 100 100]:
+
+----
+(10, 20) delta transforms to:
+dx' = 2×10 + 0×20 = 20
+dy' = 0×10 + 3×20 = 60
+→ (20, 60)
+----
+
+=== Distance vs Position
+
+[cols="2,3,3"]
+|===
+| Operation | Use For | Example
+
+| xref:transform.adoc[`transform`]
+| Absolute positions, points
+| `100 100 moveto`
+
+| [`dtransform`](dtransform.adoc)
+| Distances, vectors, offsets
+| Line width, dash lengths
+
+| xref:itransform.adoc[`itransform`]
+| Device to user positions
+| Mouse coordinates
+
+| xref:idtransform.adoc[`idtransform`]
+| Device to user distances
+| Device pixel size
+|===
+
+=== Understanding the Difference
+
+[source,postscript]
+----
+100 100 translate
+2 2 scale
+
+% Point transformation (includes translation):
+50 50 transform    % → 200 200
+
+% Distance transformation (no translation):
+50 50 dtransform   % → 100 100
+
+% The difference:
+% - transform moves (50,50) to translated+scaled position
+% - dtransform just scales the distance (50,50)
+----
+
+=== Practical Applications
+
+==== Adaptive Line Width
+
+[source,postscript]
+----
+% Maintain 1-pixel line width regardless of scale
+/setDeviceLineWidth {  % deviceWidth
+  1 0 idtransform exch abs exch abs max
+  setlinewidth
+} def
+
+1 setDeviceLineWidth  % Always 1 device pixel wide
+----
+
+==== Computing Transformed Lengths
+
+[source,postscript]
+----
+% Actual length of line after transformation
+/pathLength {  % x1 y1 x2 y2 -> length
+  4 2 roll sub    % dx
+  3 1 roll sub    % dy
+  dtransform      % Transform to device
+  dup mul exch dup mul add sqrt
+} def
+
+0 0 100 100 pathLength
+----
+
+=== Performance Considerations
+
+* Faster than xref:transform.adoc[`transform`] (no translation component)
+* Simple matrix multiplication
+* Can be called frequently
+* No memory allocation
+
+=== See Also
+
+* xref:idtransform.adoc[`idtransform`] - Inverse distance transformation
+* xref:transform.adoc[`transform`] - Transform coordinates (includes translation)
+* xref:itransform.adoc[`itransform`] - Inverse coordinate transformation
+* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../graphics-state/setlinewidth.adoc[`setlinewidth`] - Set line width

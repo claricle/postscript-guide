@@ -1,0 +1,275 @@
+---
+layout: default
+title: Language Syntax
+nav_order: 3
+---
+
+== Language Syntax
+
+PostScript's syntax is unique among programming languages, combining stack-based execution with a simple, token-based grammar.
+
+== Overview
+
+PostScript programs consist of sequences of tokens separated by whitespace. The interpreter reads tokens, executes operators, and manipulates the operand stack.
+
+== Fundamental Elements
+
+=== Tokens
+
+The basic lexical elements of PostScript:
+
+* **Numbers**: `42`, `3.14159`, `1.5E-3`
+* **Names**: `/name`, `name` (literal vs executable)
+* **Strings**: `(text)`, `<68656C6C6F>` (hex)
+* **Arrays**: `[ 1 2 3 ]`
+* **Procedures**: `{ code }`
+* **Comments**: `% comment`
+
+=== Objects
+
+Everything in PostScript is an object with:
+
+* **Type**: integer, real, boolean, string, name, array, dictionary, operator, etc.
+* **Value**: The object's data
+* **Attributes**: Literal/executable, access permissions
+
+=== Operators
+
+Built-in operations that manipulate the stack:
+
+[source,postscript]
+----
+3 4 add    % Arithmetic operator
+dup        % Stack operator
+moveto     % Graphics operator
+----
+
+== Data Types
+
+=== Simple Types
+
+**Numbers**
+[source,postscript]
+----
+42         % Integer
+3.14159    % Real
+1.5E-3     % Scientific notation
+16#FF      % Hexadecimal (255)
+----
+
+**Booleans**
+[source,postscript]
+----
+true false
+----
+
+**Null**
+[source,postscript]
+----
+null       % Placeholder value
+----
+
+=== Composite Types
+
+**Arrays**
+[source,postscript]
+----
+[ 1 2 3 ]              % Literal array
+[ /add /mul /div ]     % Array of names
+----
+
+**Strings**
+[source,postscript]
+----
+(Hello, World!)        % ASCII string
+<48656C6C6F>          % Hex string (Hello)
+----
+
+**Dictionaries**
+[source,postscript]
+----
+5 dict begin
+  /key1 value1 def
+  /key2 value2 def
+end
+----
+
+**Procedures**
+[source,postscript]
+----
+{ 1 2 add }           % Executable array
+/proc { code } def    % Named procedure
+----
+
+== Syntax Rules
+
+=== Whitespace
+
+Whitespace (space, tab, newline, formfeed) separates tokens but is otherwise ignored:
+
+[source,postscript]
+----
+1 2 add    % Same as
+1    2
+   add
+----
+
+=== Comments
+
+`%` begins a comment that extends to end of line:
+
+[source,postscript]
+----
+% This is a comment
+1 2 add  % Inline comment
+----
+
+=== Names
+
+Names can be literal or executable:
+
+[source,postscript]
+----
+/name      % Literal name (starts with /)
+name       % Executable name (looked up)
+----
+
+Valid name characters: letters, digits, and most punctuation except `()[]{}/<>%`
+
+=== Strings
+
+**ASCII Strings:** `(...)`
+[source,postscript]
+----
+(Hello)
+(Line 1\nLine 2)      % \n = newline
+(Nested \(parens\))   % Escape parens
+----
+
+**Hex Strings:** `<...>`
+[source,postscript]
+----
+<48656C6C6F>          % "Hello"
+<48 65 6C 6C 6F>      % Spaces ignored
+----
+
+=== Arrays
+
+**Literal Arrays:** `[ ... ]`
+[source,postscript]
+----
+[ 1 2 3 ]
+[ /name (string) 42 ]
+[ nested [ arrays ] ]
+----
+
+**Procedures:** `{ ... }`
+[source,postscript]
+----
+{ 1 2 add }           % Executable array
+/{ code } cvlit       % Convert to literal
+----
+
+=== Special Characters
+
+[cols="1,3"]
+|===
+| Character | Meaning
+
+| `%`
+| Comment to end of line
+
+| `(` `)`
+| String delimiters
+
+| `[` `]`
+| Array construction
+
+| `{` `}`
+| Procedure (executable array)
+
+| `/`
+| Literal name prefix
+
+| `<` `>`
+| Hex string delimiters
+
+| `<<` `>>`
+| Dictionary construction (Level 2)
+|===
+
+== Program Structure
+
+=== Typical PostScript File
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%Title: My Document
+%%Creator: Author Name
+%%Pages: 1
+%%EndComments
+
+% Procedure definitions
+/myproc { implementation } def
+
+% Main content
+100 100 moveto
+(Text) show
+
+%%Trailer
+showpage
+%%EOF
+----
+
+=== Document Structuring Conventions (DSC)
+
+Comments beginning with `%%` provide metadata:
+
+* `%!PS-Adobe-3.0` - Version identifier
+* `%%Title:` - Document title
+* `%%Pages:` - Page count
+* `%%EndComments` - End of header
+* `%%EOF` - End of file
+
+== Execution Model
+
+=== Stack-Based Evaluation
+
+[source,postscript]
+----
+% Execution trace:
+10         % Stack: 10
+20         % Stack: 10 20
+add        % Stack: 30
+2          % Stack: 30 2
+div        % Stack: 15
+----
+
+=== Name Lookup
+
+The interpreter searches the dictionary stack:
+
+[source,postscript]
+----
+/x 42 def        % Define x in current dict
+x                % Look up x, push value 42
+x 2 mul          % Use x: 84
+----
+
+=== Procedure Execution
+
+Procedures execute their elements sequentially:
+
+[source,postscript]
+----
+{ 1 2 add 3 mul }  % Procedure object
+exec               % Execute: pushes 9
+----
+
+== See Also
+
+* xref:../commands/index.adoc[Command Reference] - All operators
+* xref:../levels/index.adoc[PostScript Levels] - Version features
+* xref:../usage/basic/index.adoc[Basic Usage] - Getting started
+* xref:../examples/index.adoc[Examples] - Code samples

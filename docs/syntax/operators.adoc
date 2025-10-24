@@ -1,0 +1,1000 @@
+---
+layout: default
+title: Operators
+parent: Language Syntax
+nav_order: 5
+---
+
+== Operators
+
+Operators are the executable commands that perform PostScript's primitive operations. They manipulate objects on the operand stack, perform calculations, control program flow, and manage the graphics state.
+
+=== Overview
+
+PostScript operators are built-in primitives that execute when their names are encountered during interpretation. Unlike procedures (user-defined code), operators are implemented directly by the PostScript interpreter for efficiency.
+
+=== Operator Characteristics
+
+==== Built-in Primitives
+
+All operators are pre-defined by the PostScript implementation and stored in `systemdict`.
+
+.Operator types
+[source,postscript]
+----
+add             % Arithmetic operator
+def             % Dictionary operator
+moveto          % Graphics operator
+ifelse          % Control flow operator
+----
+
+==== Operator Type
+
+Operators have the type `operatortype`:
+
+.Checking operator type
+[source,postscript]
+----
+/add load type          % Returns /operatortype
+/def load type          % Returns /operatortype
+/moveto load type       % Returns /operatortype
+----
+
+==== Always Executable
+
+Operators are always executable - they cannot be made literal:
+
+.Operators remain executable
+[source,postscript]
+----
+/add load cvlit type    % Still /operatortype
+/add load cvlit xcheck  % Still returns true
+----
+
+=== Operator Execution Model
+
+Understanding how operators execute is fundamental to PostScript programming.
+
+==== Stack-Based Execution
+
+Operators operate on objects from the operand stack and push results back:
+
+.Stack-based operation
+[source,postscript]
+----
+% Before: Stack is empty
+3               % Push 3:        [3]
+4               % Push 4:        [3 4]
+add             % Execute add:   [7]
+% After: Result 7 on stack
+----
+
+==== Operand Consumption
+
+Operators consume (pop) their operands from the stack:
+
+.Operand consumption
+[source,postscript]
+----
+% Setup
+10 20 30        % Stack: [10 20 30]
+
+% Operator consumes top 2 operands
+add             % Pops 30 and 20, pushes 50
+                % Stack: [10 50]
+
+% Another operator
+sub             % Pops 50 and 10, pushes 40
+                % Stack: [40]
+----
+
+==== Result Production
+
+Operators push zero or more results onto the stack:
+
+.Result patterns
+[source,postscript]
+----
+% No result
+mark cleartomark        % Pops to mark, pushes nothing
+
+% One result
+3 4 add                 % Pushes one result: 7
+
+% Multiple results
+3 4 5 6 7 count         % Pushes result: 5
+                        % Stack: [3 4 5 6 7 5]
+----
+
+=== Operator Categories
+
+PostScript operators are organized into functional categories.
+
+==== Stack Manipulation
+
+Operators that reorganize the operand stack:
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `pop`
+| `any → -`
+| Remove top item
+
+| `dup`
+| `any → any any`
+| Duplicate top item
+
+| `exch`
+| `any₁ any₂ → any₂ any₁`
+| Exchange top two items
+
+| `copy`
+| `any₁...anyₙ n → any₁...anyₙ any₁...anyₙ`
+| Duplicate top n items
+
+| `roll`
+| `any₁...anyₙ n j → ...`
+| Roll n items j times
+
+| `index`
+| `anyₙ...any₀ n → anyₙ...any₀ anyₙ`
+| Copy n-th item to top
+
+| `clear`
+| `any... → -`
+| Clear entire stack
+|===
+
+.Stack manipulation examples
+[source,postscript]
+----
+1 2 3 pop       % Stack: [1 2]
+1 2 dup         % Stack: [1 2 2]
+1 2 exch        % Stack: [2 1]
+1 2 3 2 copy    % Stack: [1 2 3 2 3]
+1 2 3 3 1 roll  % Stack: [3 1 2]
+1 2 3 2 index   % Stack: [1 2 3 1]
+----
+
+==== Arithmetic and Math
+
+Operators for numeric calculations:
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `add`
+| `num₁ num₂ → sum`
+| Addition
+
+| `sub`
+| `num₁ num₂ → difference`
+| Subtraction
+
+| `mul`
+| `num₁ num₂ → product`
+| Multiplication
+
+| `div`
+| `num₁ num₂ → quotient`
+| Division (real result)
+
+| `idiv`
+| `int₁ int₂ → quotient`
+| Integer division
+
+| `mod`
+| `int₁ int₂ → remainder`
+| Modulo
+
+| `neg`
+| `num → -num`
+| Negation
+
+| `abs`
+| `num → \|num\|`
+| Absolute value
+
+| `sqrt`
+| `num → \√num`
+| Square root
+
+| `sin`
+| `angle → sine`
+| Sine (degrees)
+
+| `cos`
+| `angle → cosine`
+| Cosine (degrees)
+|===
+
+.Arithmetic examples
+[source,postscript]
+----
+3 4 add         % Result: 7
+10 3 sub        % Result: 7
+5 6 mul         % Result: 30
+15 2 div        % Result: 7.5
+15 2 idiv       % Result: 7
+15 2 mod        % Result: 1
+-5 abs          % Result: 5
+9 sqrt          % Result: 3.0
+----
+
+==== Array and String
+
+Operators for composite object manipulation:
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `length`
+| `array/string → int`
+| Get length
+
+| `get`
+| `array/string index → any`
+| Get element at index
+
+| `put`
+| `array/string index any → -`
+| Put element at index
+
+| `getinterval`
+| `array/string index count → subarray/substring`
+| Extract subrange
+
+| `putinterval`
+| `array₁/string₁ index array₂/string₂ → -`
+| Replace subrange
+
+| `aload`
+| `array → any₁...anyₙ array`
+| Push all elements
+
+| `astore`
+| `any₁...anyₙ array → array`
+| Pop elements into array
+
+| `copy`
+| `array₁/string₁ array₂/string₂ → subarray₂/substring₂`
+| Copy elements
+
+| `forall`
+| `array/string proc → -`
+| Execute proc for each element
+|===
+
+.Array/string examples
+[source,postscript]
+----
+[1 2 3] length          % Result: 3
+[10 20 30] 1 get        % Result: 20
+[1 2 3] 0 99 put        % Modifies array
+(abc) 0 get             % Result: 97 (ASCII 'a')
+[1 2 3 4] 1 2 getinterval  % Result: [2 3]
+----
+
+==== Dictionary
+
+Operators for dictionary management:
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `def`
+| `key value → -`
+| Define in current dict
+
+| `load`
+| `key → value`
+| Look up key
+
+| `store`
+| `key value → -`
+| Store in dict on stack
+
+| `begin`
+| `dict → -`
+| Push dict on dict stack
+
+| `end`
+| `- → -`
+| Pop dict from dict stack
+
+| `dict`
+| `int → dict`
+| Create dictionary
+
+| `known`
+| `dict key → bool`
+| Test if key exists
+
+| `where`
+| `key → dict true \| false`
+| Find dict containing key
+
+| `undef`
+| `dict key → -`
+| Remove key from dict
+|===
+
+.Dictionary examples
+[source,postscript]
+----
+/x 42 def               % Define x=42 in current dict
+/x load                 % Look up x, result: 42
+10 dict begin           % Create dict and push on dict stack
+/y 10 def              % Define in new dict
+currentdict /y known    % Result: true
+end                     % Pop dict stack
+----
+
+==== Control Flow
+
+Operators that control program execution:
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `exec`
+| `any → -`
+| Execute object
+
+| `if`
+| `bool proc → -`
+| Conditional execution
+
+| `ifelse`
+| `bool proc₁ proc₂ → -`
+| Conditional branch
+
+| `for`
+| `initial increment limit proc → -`
+| Counting loop
+
+| `repeat`
+| `int proc → -`
+| Repeat n times
+
+| `loop`
+| `proc → -`
+| Infinite loop
+
+| `exit`
+| `- → -`
+| Exit loop
+
+| `stop`
+| `- → -`
+| Terminate execution
+
+| `stopped`
+| `any → bool`
+| Catch stop
+|===
+
+.Control flow examples
+[source,postscript]
+----
+% Conditional
+true { (yes) } { (no) } ifelse   % Executes first proc
+
+% Loops
+1 1 10 { dup mul = } for         % Squares 1-10
+5 { (Hello) = } repeat            % Print 5 times
+{ ... exit ... } loop            % Exit breaks loop
+----
+
+==== Type and Attribute
+
+Operators for type checking and conversion:
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `type`
+| `any → nametype`
+| Get object type
+
+| `cvlit`
+| `any → any`
+| Make literal
+
+| `cvx`
+| `any → any`
+| Make executable
+
+| `xcheck`
+| `any → bool`
+| Check if executable
+
+| `rcheck`
+| `array/string → bool`
+| Check if readable
+
+| `wcheck`
+| `array/string → bool`
+| Check if writable
+
+| `cvi`
+| `num/string → int`
+| Convert to integer
+
+| `cvr`
+| `num/string → real`
+| Convert to real
+
+| `cvn`
+| `string → name`
+| Convert to name
+
+| `cvs`
+| `any string → substring`
+| Convert to string
+|===
+
+.Type checking examples
+[source,postscript]
+----
+42 type                 % Result: /integertype
+/name cvx               % Result: name (executable)
+{ } xcheck              % Result: true
+[1 2] rcheck           % Result: true
+3.14 cvi                % Result: 3
+(42) cvi                % Result: 42
+----
+
+==== Graphics State
+
+Operators that modify the graphics state:
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `gsave`
+| `- → -`
+| Save graphics state
+
+| `grestore`
+| `- → -`
+| Restore graphics state
+
+| `setlinewidth`
+| `width → -`
+| Set line width
+
+| `setlinecap`
+| `int → -`
+| Set line cap style
+
+| `setlinejoin`
+| `int → -`
+| Set line join style
+
+| `setgray`
+| `gray → -`
+| Set gray color
+
+| `setrgbcolor`
+| `r g b → -`
+| Set RGB color
+
+| `currentpoint`
+| `- → x y`
+| Get current point
+
+| `currentlinewidth`
+| `- → width`
+| Get line width
+|===
+
+==== Path Construction
+
+Operators that build paths:
+
+[cols="1,2,2"]
+|===
+| Operator | Stack Effect | Description
+
+| `newpath`
+| `- → -`
+| Clear current path
+
+| `moveto`
+| `x y → -`
+| Move current point
+
+| `lineto`
+| `x y → -`
+| Append line
+
+| `curveto`
+| `x₁ y₁ x₂ y₂ x₃ y₃ → -`
+| Append curve
+
+| `arc`
+| `x y r ang₁ ang₂ → -`
+| Append arc
+
+| `closepath`
+| `- → -`
+| Close subpath
+
+| `stroke`
+| `- → -`
+| Stroke path
+
+| `fill`
+| `- → -`
+| Fill path
+
+| `clip`
+| `- → -`
+| Clip to path
+|===
+
+=== Stack Effects Notation
+
+Operators are documented with stack effect notation showing input and output:
+
+[cols="1,2,3"]
+|===
+| Notation | Meaning | Example
+
+| `any`
+| Any object
+| `pop` takes any type
+
+| `num`
+| Number (int or real)
+| `add` takes two numbers
+
+| `int`
+| Integer only
+| `repeat` requires integer
+
+| `bool`
+| Boolean
+| `if` requires boolean
+
+| `array`
+| Array object
+| `aload` requires array
+
+| `→`
+| Stack transformation
+| Before → After
+
+| `-`
+| Nothing (empty)
+| No value pushed/popped
+
+| `...`
+| Variable number
+| Multiple objects
+|===
+
+.Reading stack effects
+[source,postscript]
+----
+% add: num₁ num₂ → sum
+% Pops num₂, pops num₁, pushes sum
+3 4 add         % num₁=3, num₂=4, sum=7
+
+% dup: any → any any
+% Copies top item
+42 dup          % Stack: [42 42]
+
+% exch: any₁ any₂ → any₂ any₁
+% Exchanges top two items
+10 20 exch      % Stack: [20 10]
+----
+
+=== Operator Binding
+
+Operators can be bound to names in dictionaries.
+
+==== Dictionary Lookup
+
+When an executable name is encountered, it's looked up in the dictionary stack:
+
+.Name resolution
+[source,postscript]
+----
+% Built-in operators in systemdict
+add             % Finds /add in systemdict
+
+% User definitions override
+/add { mul } def   % Redefine add as multiply
+3 4 add            % Now returns 12!
+
+% Original still available
+systemdict /add get exec  % True add: 7
+----
+
+==== Binding Operators
+
+The `bind` operator replaces names with operators in procedures:
+
+.Operator binding
+[source,postscript]
+----
+% Unbound procedure
+/MyProc { 3 add } def
+
+% Redefine add
+/add { mul } def
+
+MyProc              % Uses new definition (multiply)
+
+% Bound procedure
+/MyProc { 3 add } bind def
+
+% Redefine add again
+/add { sub } def
+
+MyProc              % Still uses original add
+----
+
+==== When to Bind
+
+.Binding guidelines
+[source,postscript]
+----
+% Bind for performance and safety
+/FastProc {
+    % ... many operators ...
+} bind def
+
+% Don't bind if you want flexibility
+/FlexibleProc {
+    MyCustomOp      % User can redefine
+} def
+
+% Selective binding (Level 2+)
+/MixedProc {
+    add             % Will be bound
+    //sub           % Immediately looked up and bound
+    MyOp            % Won't be bound
+} bind def
+----
+
+=== Operator Performance
+
+Different operators have different performance characteristics.
+
+==== Fast Operators
+
+Stack and arithmetic operators are typically very fast:
+
+[source,postscript]
+----
+% Fast operations
+dup             % Stack manipulation
+add             % Arithmetic
+eq              % Comparison
+----
+
+==== Moderate Operators
+
+Array and string access are moderately fast:
+
+[source,postscript]
+----
+% Moderate speed
+get             % Array/string indexing
+length          % Size query
+copy            % Copying data
+----
+
+==== Slow Operators
+
+Dictionary operations and I/O are relatively slow:
+
+[source,postscript]
+----
+% Slower operations
+def             % Dictionary write
+load            % Dictionary lookup
+print           % I/O operation
+----
+
+=== Operator Errors
+
+Operators can generate errors when misused.
+
+==== Common Errors
+
+[cols="1,2,3"]
+|===
+| Error | Cause | Example
+
+| `stackunderflow`
+| Not enough operands
+| `add` with empty stack
+
+| `typecheck`
+| Wrong operand type
+| `add` with string operand
+
+| `rangecheck`
+| Value out of range
+| `array` with negative size
+
+| `invalidaccess`
+| Access violation
+| `put` on read-only array
+
+| `undefined`
+| Name not found
+| Unknown operator name
+
+| `unmatchedmark`
+| Mark mismatch
+| `]` without `[`
+|===
+
+.Error examples
+[source,postscript]
+----
+% stackunderflow
+add                 % Error: needs 2 operands
+
+% typecheck
+42 (text) add       % Error: can't add string
+
+% rangecheck
+-5 array            % Error: negative size
+
+% invalidaccess
+[1 2] readonly
+dup 0 99 put        % Error: array is readonly
+
+% undefined
+unknownop           % Error: name not defined
+----
+
+=== Custom Operators (Level 2+)
+
+Level 2 allows creating custom operators:
+
+.Defining custom operators
+[source,postscript]
+----
+% Create operator (Level 2+)
+/.setpagedevice /setpagedevice load def
+/.setpagedevice {
+    % Custom pre-processing
+    dup /PageSize get aload pop
+    % Call original
+    /setpagedevice load exec
+} bind def
+
+% Operator can now be used
+<< /PageSize [612 792] >> setpagedevice
+----
+
+=== Immediate Execution
+
+Some operators execute immediately during token scanning:
+
+[cols="1,3"]
+|===
+| Token | Action
+
+| `{`
+| Begin procedure mode
+
+| `}`
+| End procedure, create array
+
+| `[`
+| Push mark (equivalent to `mark`)
+
+| `]`
+| Create array to mark
+
+| `<<`
+| Push mark for dictionary (Level 2+)
+
+| `>>`
+| Create dictionary (Level 2+)
+|===
+
+.Immediate execution example
+[source,postscript]
+----
+% { and } execute during scanning
+{ 1 2 add }         % Creates executable array
+                    % Does NOT execute add
+
+% [ and ] execute during scanning
+[ 1 2 add ]         % Creates array [1 2 3]
+                    % DOES execute add
+----
+
+=== Operator vs Procedure Comparison
+
+[cols="2,2,2"]
+|===
+| Aspect | Operator | Procedure
+
+| Implementation
+| Built-in primitive
+| User-defined code
+
+| Performance
+| Fast
+| Slower
+
+| Type
+| `operatortype`
+| `arraytype`
+
+| Modification
+| Cannot be modified
+| Can be redefined
+
+| Execution
+| Direct
+| Indirect via interpreter
+
+| Examples
+| `add`, `def`, `moveto`
+| `{ 1 add }`, custom procedures
+|===
+
+=== Best Practices
+
+==== Operator Usage
+
+* Use built-in operators for best performance
+* Don't redefine standard operators unnecessarily
+* Bind procedures that use operators extensively
+* Check stack depth before operations
+
+==== Stack Discipline
+
+.Maintain stack balance
+[source,postscript]
+----
+% GOOD - balanced stack
+/MyProc {
+    % in: x y
+    add         % out: sum
+} def
+
+% BAD - unbalanced stack
+/BadProc {
+    % in: x
+    dup dup     % out: x x x (unexpected extras)
+} def
+----
+
+==== Error Handling
+
+.Defensive programming
+[source,postscript]
+----
+% Check operand count
+/SafeDiv {
+    count 2 lt {
+        /stackunderflow cvx signalerror
+    } if
+
+    % Check for division by zero
+    dup 0 eq {
+        /undefinedresult cvx signalerror
+    } if
+
+    div
+} def
+----
+
+==== Type Safety
+
+.Validate operand types
+[source,postscript]
+----
+/TypeSafeAdd {
+    % Verify both operands are numbers
+    1 index type dup /integertype eq
+    exch /realtype eq or
+    1 index type dup /integertype eq
+    exch /realtype eq or
+    and not {
+        /typecheck cvx signalerror
+    } if
+    add
+} def
+----
+
+=== Common Patterns
+
+==== Stack Manipulation Idioms
+
+.Useful stack patterns
+[source,postscript]
+----
+% Rotate three items: a b c → b c a
+exch 3 1 roll
+
+% Duplicate second item: a b → a b a
+1 index
+
+% Swap and duplicate: a b → b a b
+exch 1 index exch
+
+% Clear n items from stack
+count n sub {pop} repeat
+----
+
+==== Conditional Patterns
+
+.Common conditionals
+[source,postscript]
+----
+% If-then-else pattern
+condition {
+    % then code
+} {
+    % else code
+} ifelse
+
+% Guard pattern
+value dup 0 lt {
+    pop 0       % Clamp to zero
+} if
+
+% Default value pattern
+/key where {
+    /key get
+} {
+    default-value
+} ifelse
+----
+
+==== Loop Patterns
+
+.Iteration idioms
+[source,postscript]
+----
+% Count-controlled loop
+1 1 10 {
+    % body with index on stack
+} for
+
+% Foreach loop
+[1 2 3 4] {
+    % body with element on stack
+} forall
+
+% While-loop equivalent
+{
+    % condition test
+    { exit } if
+    % body
+} loop
+----
+
+=== See Also
+
+* xref:procedures.adoc[Procedures] - User-defined executable arrays
+* xref:objects.adoc[Objects] - Object execution model
+* xref:tokens.adoc[Tokens] - Operator name syntax
+* xref:data-types.adoc[Data Types] - Operand types
+* xref:../commands/control-flow/index.adoc[Control Flow Commands]
+* xref:../commands/stack-manipulation/index.adoc[Stack Manipulation Commands]
+* xref:../commands/arithmetic-math/index.adoc[Arithmetic Commands]
+* xref:../commands/array-string/index.adoc[Array and String Commands]
+* xref:../commands/dictionary/index.adoc[Dictionary Commands]
+* xref:index.adoc[Language Syntax Overview]

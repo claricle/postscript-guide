@@ -1,0 +1,124 @@
+---
+layout: default
+title: round
+parent: Arithmetic and Math
+grand_parent: Command Reference
+nav_order: 11
+permalink: /commands/arithmetic-math/round/
+---
+= round
+:description: Round to nearest integer
+:keywords: postscript, arithmetic, round, rounding, nearest, math
+
+[.lead]
+Returns the integer value nearest to a number.
+
+== Description
+
+The `round` operator pops a number from the operand stack and pushes the integer value nearest to that number. If the number is equally close to two integers, `round` returns the greater of the two. The type of the result is the same as the type of the operand.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+num1 round num2
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num1` (integer or real) - Number to round
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num2` (integer or real) - Rounded value (same type as num1)
+|===
+
+== Parameters
+
+`num1`:: Any number (integer or real)
+
+== Return Values
+
+`num2`:: The nearest integer value to num1 (type matches num1):
+* For integers: returns the same value
+* For reals: returns real with no fractional part, rounded to nearest
+
+== Examples
+
+=== Basic Rounding
+
+[source,postscript]
+----
+% Round to nearest integer
+3.2 round      % → 3.0 (closer to 3)
+3.7 round      % → 4.0 (closer to 4)
+
+% Tie-breaking: 0.5 rounds to greater value
+3.5 round      % → 4.0 (tie: chooses greater)
+6.5 round      % → 7.0
+
+% Negative numbers
+-4.2 round     % → -4.0
+-4.7 round     % → -5.0
+-6.5 round     % → -6.0 (tie: chooses greater, less negative)
+
+% Already integers
+99 round       % → 99
+----
+
+=== Rounding to Decimal Places
+
+[source,postscript]
+----
+% Round to n decimal places
+/roundTo {  % value decimals -> rounded
+    10 exch exp dup 3 1 roll mul round exch div
+} def
+
+3.14159 2 roundTo   % → 3.14
+99.9876 1 roundTo   % → 100.0
+----
+
+== Edge Cases
+
+WARNING: Ties (0.5) always round toward the greater value.
+
+== Related Commands
+
+* xref:ceiling.adoc[`ceiling`] - Round up
+* xref:floor.adoc[`floor`] - Round down
+* xref:truncate.adoc[`truncate`] - Truncate toward zero
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty.
+
+`typecheck`::
+The operand is not a number.
+
+== See Also
+
+* xref:index.adoc[Arithmetic and Math] - All arithmetic operators
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

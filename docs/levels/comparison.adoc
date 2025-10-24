@@ -1,0 +1,79 @@
+---
+layout: default
+title: Version Comparison
+parent: PostScript Levels
+nav_order: 4
+---
+
+== PostScript Level Comparison
+
+Comprehensive comparison of features across PostScript Levels 1, 2, and 3.
+
+== Feature Comparison
+
+[cols="2,1,1,1"]
+|===
+| Feature | Level 1 | Level 2 | Level 3
+
+| **Color Support**
+| Grayscale only
+| RGB, CMYK, HSB
+| + DeviceN, smooth shading
+
+| **Dictionaries**
+| Fixed size
+| Auto-expanding
+| Auto-expanding
+
+| **Fonts**
+| Single-byte
+| Composite fonts
+| Composite fonts
+
+| **Images**
+| Monochrome
+| Color images
+| + Advanced compression
+
+| **Memory Management**
+| Basic
+| Local/Global VM
+| Local/Global VM
+
+| **Packed Arrays**
+| No
+| Yes
+| Yes
+
+| **Patterns**
+| No
+| Yes (Level 2)
+| Yes
+
+| **Forms**
+| No
+| Yes
+| Yes
+
+| **Filters**
+| No
+| Yes
+| Yes
+
+| **PDF Integration**
+| Limited
+| Better
+| Excellent
+
+| **Operators**
+| ~250
+| ~370
+| ~380
+|===
+
+== See Also
+
+* xref:level-1.adoc[PostScript Level 1]
+* xref:level-2.adoc[PostScript Level 2]
+* xref:level-3.adoc[PostScript Level 3]
+* xref:index.adoc[PostScript Levels Overview]

@@ -1,0 +1,985 @@
+---
+layout: default
+title: Arrays
+parent: Basic Usage
+grand_parent: Usage Guides
+nav_order: 8
+---
+
+== Arrays
+
+Arrays are ordered collections of objects in PostScript. They provide a way to group related data and are fundamental to many PostScript operations.
+
+=== Overview
+
+PostScript arrays:
+
+* Store an ordered sequence of any PostScript objects
+* Have a fixed size once created
+* Can contain mixed types (numbers, strings, other arrays, etc.)
+* Support both literal and executable forms
+* Use zero-based indexing
+
+Arrays are used extensively for:
+
+* Coordinate lists
+* Color spaces
+* Transformation matrices
+* Dash patterns
+* Procedure definitions
+
+=== Creating Arrays
+
+==== Literal Array Syntax
+
+The most common way to create arrays:
+
+[source,postscript]
+----
+% Literal array notation
+[1 2 3 4 5]         % Array of integers
+[/a /b /c]          % Array of names
+[(hello) (world)]   % Array of strings
+[1 (two) /three]    % Mixed types
+
+% Nested arrays
+[1 [2 3] [4 [5 6]]] % Arrays within arrays
+----
+
+==== The `array` Operator
+
+Creates an empty array of specified size:
+
+[source,postscript]
+----
+% array: n -> array
+5 array             % Creates [null null null null null]
+
+% Store in variable
+/myArray 10 array def
+----
+
+==== The `[` and `]` Operators
+
+Mark-based array creation:
+
+[source,postscript]
+----
+% [ mark operator
+[ 1 2 3 4 5 ]       % Creates and leaves array on stack
+
+% Equivalent to:
+mark 1 2 3 4 5 ]
+----
+
+Dynamic array building:
+
+[source,postscript]
+----
+[
+  1 1 add           % 2
+  3 4 mul           % 12
+  (hello) length    % 5
+]                   % Result: [2 12 5]
+----
+
+==== The `astore` Operator
+
+Pops objects from stack into array:
+
+[source,postscript]
+----
+% Create values
+10 20 30 40 50
+
+% Create array and store
+5 array astore      % Array: [10 20 30 40 50]
+----
+
+With existing array:
+
+[source,postscript]
+----
+% Existing array
+/myArray 3 array def
+
+% Fill it
+100 200 300
+myArray astore pop  % Stores and returns array
+----
+
+=== Accessing Array Elements
+
+==== The `get` Operator
+
+Retrieves element by index:
+
+[source,postscript]
+----
+% get: array index -> element
+[10 20 30 40 50] 2 get   % Returns 30 (index 2)
+[10 20 30 40 50] 0 get   % Returns 10 (index 0)
+[10 20 30 40 50] 4 get   % Returns 50 (index 4)
+----
+
+Using with variables:
+
+[source,postscript]
+----
+/colors [
+  [1 0 0]    % Red
+  [0 1 0]    % Green
+  [0 0 1]    % Blue
+] def
+
+colors 0 get aload pop setrgbcolor  % Set red
+colors 1 get aload pop setrgbcolor  % Set green
+----
+
+==== The `put` Operator
+
+Stores element at index:
+
+[source,postscript]
+----
+% put: array index value -> -
+/myArray [1 2 3 4 5] def
+myArray 2 99 put        % Changes index 2 to 99
+% myArray is now [1 2 99 4 5]
+----
+
+Modifying nested arrays:
+
+[source,postscript]
+----
+/matrix [
+  [1 0 0]
+  [0 1 0]
+  [0 0 1]
+] def
+
+% Modify element in nested array
+matrix 1 get 1 99 put
+% matrix is now [[1 0 0] [0 99 0] [0 0 1]]
+----
+
+==== The `getinterval` Operator
+
+Extracts a sub-array:
+
+[source,postscript]
+----
+% getinterval: array index count -> subarray
+[10 20 30 40 50 60] 2 3 getinterval
+% Returns [30 40 50] (3 elements starting at index 2)
+----
+
+==== The `putinterval` Operator
+
+Replaces a portion of an array:
+
+[source,postscript]
+----
+% putinterval: array1 index array2 -> -
+/dest [1 2 3 4 5 6] def
+/src [99 88 77] def
+
+dest 2 src putinterval
+% dest is now [1 2 99 88 77 6]
+----
+
+=== Array Manipulation
+
+==== The `aload` Operator
+
+Pushes all array elements onto stack:
+
+[source,postscript]
+----
+% aload: array -> element1 element2 ... elementN array
+[10 20 30] aload
+% Stack: 10 20 30 [10 20 30]
+
+% Discard array reference
+[10 20 30] aload pop
+% Stack: 10 20 30
+----
+
+Common use - unpacking coordinates:
+
+[source,postscript]
+----
+/point [100 200] def
+point aload pop moveto  % moveto 100 200
+----
+
+==== The `length` Operator
+
+Returns number of elements:
+
+[source,postscript]
+----
+% length: array -> integer
+[1 2 3 4 5] length      % Returns 5
+[] length               % Returns 0
+[[1 2] [3 4]] length    % Returns 2 (not 4)
+----
+
+Using length in loops:
+
+[source,postscript]
+----
+/myArray [10 20 30 40 50] def
+
+0 1 myArray length 1 sub {
+  /i exch def
+  myArray i get =  % Print each element
+} for
+----
+
+==== The `forall` Operator
+
+Iterates over array elements:
+
+[source,postscript]
+----
+% forall: array procedure -> -
+[10 20 30 40 50] {
+  dup mul =  % Square and print each element
+} forall
+% Prints: 100, 400, 900, 1600, 2500
+----
+
+With multiple operations:
+
+[source,postscript]
+----
+/sum 0 def
+[1 2 3 4 5] {
+  sum add /sum exch def
+} forall
+% sum is now 15
+----
+
+Processing array of points:
+
+[source,postscript]
+----
+/points [
+  [100 100]
+  [200 100]
+  [200 200]
+  [100 200]
+] def
+
+newpath
+points {
+  aload pop
+  points 0 get eq {
+    moveto
+  } {
+    lineto
+  } ifelse
+} forall
+closepath
+stroke
+----
+
+==== Copying Arrays
+
+Arrays are references, not values:
+
+[source,postscript]
+----
+% Wrong: both reference same array
+/array1 [1 2 3] def
+/array2 array1 def
+array2 0 99 put
+% Both array1 and array2 are [99 2 3]
+
+% Correct: create new array
+/array1 [1 2 3] def
+/array2 array1 length array def
+array2 0 array1 putinterval
+array2 0 99 put
+% array1 is [1 2 3], array2 is [99 2 3]
+----
+
+Using `getinterval` to copy:
+
+[source,postscript]
+----
+/array1 [1 2 3 4 5] def
+/array2 array1 0 array1 length getinterval def
+% array2 is a copy of array1
+----
+
+=== Array Patterns and Techniques
+
+==== Pattern 1: Array as Stack
+
+Use array indices to simulate stack operations:
+
+[source,postscript]
+----
+/Stack 100 array def
+/StackPtr 0 def
+
+/push {
+  Stack StackPtr 3 -1 roll put
+  /StackPtr StackPtr 1 add def
+} def
+
+/pop {
+  /StackPtr StackPtr 1 sub def
+  Stack StackPtr get
+} def
+
+% Usage
+42 push
+99 push
+pop =   % Prints 99
+pop =   % Prints 42
+----
+
+==== Pattern 2: Array as Lookup Table
+
+[source,postscript]
+----
+% Day of week lookup
+/days [
+  (Sunday)
+  (Monday)
+  (Tuesday)
+  (Wednesday)
+  (Thursday)
+  (Friday)
+  (Saturday)
+] def
+
+% Get day name
+3 days exch get =  % Prints "Wednesday"
+----
+
+Color palette:
+
+[source,postscript]
+----
+/palette [
+  [1 0 0]      % Red
+  [0 1 0]      % Green
+  [0 0 1]      % Blue
+  [1 1 0]      % Yellow
+  [1 0 1]      % Magenta
+  [0 1 1]      % Cyan
+] def
+
+/setColor {  % index -> -
+  palette exch get
+  aload pop setrgbcolor
+} def
+
+2 setColor  % Set to blue
+----
+
+==== Pattern 3: Coordinate Arrays
+
+[source,postscript]
+----
+% Path from coordinate array
+/drawPath {  % array -> -
+  1 dict begin
+    /coords exch def
+    newpath
+    coords {
+      aload pop
+      coords 0 get eq { moveto } { lineto } ifelse
+    } forall
+  end
+} def
+
+% Usage
+[
+  [100 100]
+  [200 100]
+  [200 200]
+  [100 200]
+] drawPath
+closepath
+stroke
+----
+
+==== Pattern 4: Matrix Operations
+
+[source,postscript]
+----
+% 2D matrix (array of arrays)
+/matrix [
+  [1 2 3]
+  [4 5 6]
+  [7 8 9]
+] def
+
+% Get element at row i, column j
+/getMatrixElement {  % matrix i j -> value
+  3 1 roll get exch get
+} def
+
+% Usage
+matrix 1 2 getMatrixElement =  % Returns 6
+----
+
+==== Pattern 5: Ring Buffer
+
+[source,postscript]
+----
+/RingBuffer 10 array def
+/RBIndex 0 def
+
+/rbPush {  % value -> -
+  RingBuffer RBIndex 3 -1 roll put
+  /RBIndex RBIndex 1 add 10 mod def
+} def
+
+/rbGet {  % index -> value
+  RBIndex add 10 mod
+  RingBuffer exch get
+} def
+
+% Usage
+42 rbPush
+99 rbPush
+0 rbGet =  % Gets last pushed value
+----
+
+=== Special Array Types
+
+==== Packed Arrays
+
+More memory-efficient, read-only arrays:
+
+[source,postscript]
+----
+% packedarray: mark obj1 obj2 ... objN packedarray -> array
+% Or use << >> syntax (Level 2+)
+
+mark 1 2 3 4 5 packedarray
+% Creates read-only array [1 2 3 4 5]
+
+% Shorter syntax
+<< 1 2 3 4 5 >>  % Packed array (Level 2+)
+----
+
+Properties:
+
+* Cannot be modified with `put`
+* Use less memory
+* Faster access
+* Often used for procedure bodies
+
+==== Transformation Matrices
+
+Special 6-element arrays:
+
+[source,postscript]
+----
+% Matrix: [a b c d tx ty]
+% Default identity matrix
+[1 0 0 1 0 0]
+
+% Scale matrix (2x, 3y)
+[2 0 0 3 0 0]
+
+% Translation matrix (+100, +200)
+[1 0 0 1 100 200]
+
+% Rotation matrix (45 degrees)
+45 cos 45 sin 45 sin neg 45 cos 0 0
+6 array astore
+----
+
+Using matrix arrays:
+
+[source,postscript]
+----
+% Create and apply transformation
+/myMatrix [2 0 0 2 100 100] def
+myMatrix concat  % Apply transformation
+
+% Or use matrix operators
+matrix currentmatrix  % Get current matrix
+----
+
+==== Color Arrays
+
+Arrays for color specifications:
+
+[source,postscript]
+----
+% RGB color
+/red [1 0 0] def
+red aload pop setrgbcolor
+
+% CMYK color
+/cyan [1 0 0 0] def
+cyan aload pop setcmykcolor
+
+% Gray
+/mediumGray [0.5] def
+mediumGray aload pop setgray
+----
+
+==== Dash Pattern Arrays
+
+[source,postscript]
+----
+% Dash patterns
+/dashed [5 3] def           % 5 on, 3 off
+/dotted [1 3] def           % 1 on, 3 off
+/dashdot [10 3 1 3] def     % 10 on, 3 off, 1 on, 3 off
+
+dashed 0 setdash
+0 100 moveto 200 100 lineto stroke
+
+dotted 0 setdash
+0 110 moveto 200 110 lineto stroke
+----
+
+=== Practical Array Examples
+
+==== Example 1: Bar Chart Data
+
+[source,postscript]
+----
+/barChart {  % array x y barWidth spacing -> -
+  6 dict begin
+    /spacing exch def
+    /barWidth exch def
+    /y exch def
+    /x exch def
+    /data exch def
+
+    0 1 data length 1 sub {
+      /i exch def
+
+      % Draw bar
+      x i barWidth spacing add mul add
+      y
+      barWidth
+      data i get
+      rectfill
+    } for
+  end
+} def
+
+% Usage
+[50 80 120 90 110] 100 100 20 5 barChart
+----
+
+==== Example 2: Scatter Plot
+
+[source,postscript]
+----
+/scatterPlot {  % pointArray -> -
+  {
+    aload pop
+    newpath
+    2 copy 3 0 360 arc
+    fill
+  } forall
+} def
+
+% Usage
+[
+  [100 150]
+  [150 200]
+  [200 180]
+  [250 220]
+  [300 190]
+] scatterPlot
+----
+
+==== Example 3: Color Gradient
+
+[source,postscript]
+----
+/gradientColors {  % startColor endColor steps -> colorArray
+  3 dict begin
+    /steps exch def
+    /ec exch def
+    /sc exch def
+
+    [
+      0 1 steps 1 sub {
+        /i exch def
+        /t i steps 1 sub div def
+
+        [
+          sc 0 get 1 t sub mul ec 0 get t mul add
+          sc 1 get 1 t sub mul ec 1 get t mul add
+          sc 2 get 1 t sub mul ec 2 get t mul add
+        ]
+      } for
+    ]
+  end
+} def
+
+% Create gradient from red to blue
+[1 0 0] [0 0 1] 10 gradientColors
+% Returns array of 10 RGB colors
+----
+
+==== Example 4: Data Sorting (Bubble Sort)
+
+[source,postscript]
+----
+/bubbleSort {  % array -> sortedArray
+  1 dict begin
+    /arr exch def
+
+    0 1 arr length 2 sub {
+      /i exch def
+      0 1 arr length 2 sub i sub {
+        /j exch def
+
+        arr j get arr j 1 add get gt {
+          % Swap
+          /temp arr j get def
+          arr j arr j 1 add get put
+          arr j 1 add temp put
+        } if
+      } for
+    } for
+
+    arr
+  end
+} def
+
+% Usage
+[5 2 8 1 9 3] bubbleSort
+% Returns [1 2 3 5 8 9]
+----
+
+==== Example 5: Array Filtering
+
+[source,postscript]
+----
+/filter {  % array procedure -> filteredArray
+  2 dict begin
+    /proc exch def
+    /arr exch def
+
+    [
+      arr {
+        dup proc exec {
+          % Include in result
+        } {
+          pop  % Exclude from result
+        } ifelse
+      } forall
+    ]
+  end
+} def
+
+% Usage - filter even numbers
+[1 2 3 4 5 6 7 8 9 10] {
+  2 mod 0 eq
+} filter
+% Returns [2 4 6 8 10]
+----
+
+=== Advanced Array Techniques
+
+==== Multi-dimensional Arrays
+
+[source,postscript]
+----
+% 2D array (3x3)
+/grid [
+  [1 2 3]
+  [4 5 6]
+  [7 8 9]
+] def
+
+% Access element grid[row][col]
+/getCell {  % row col -> value
+  exch grid exch get exch get
+} def
+
+% Set element grid[row][col] = value
+/setCell {  % row col value -> -
+  3 1 roll
+  grid 3 1 roll get
+  3 1 roll put
+} def
+
+% Usage
+1 2 getCell =      % Gets grid[1][2] = 6
+0 1 99 setCell     % Sets grid[0][1] = 99
+----
+
+==== Sparse Arrays
+
+Use dictionaries for sparse arrays:
+
+[source,postscript]
+----
+% Sparse array using dictionary
+/sparseArray 100 dict def
+
+% Set value at index
+/sparseSet {  % index value -> -
+  sparseArray 3 1 roll put
+} def
+
+% Get value at index (0 if not set)
+/sparseGet {  % index -> value
+  sparseArray exch 2 copy known {
+    get
+  } {
+    pop pop 0
+  } ifelse
+} def
+
+% Usage
+100 42 sparseSet
+5000 99 sparseSet
+100 sparseGet =    % Returns 42
+200 sparseGet =    % Returns 0 (not set)
+----
+
+==== Array Mapping
+
+[source,postscript]
+----
+/map {  % array procedure -> newArray
+  2 dict begin
+    /proc exch def
+    /arr exch def
+
+    [
+      arr {
+        proc exec
+      } forall
+    ]
+  end
+} def
+
+% Usage - square all elements
+[1 2 3 4 5] {
+  dup mul
+} map
+% Returns [1 4 9 16 25]
+----
+
+==== Array Reduction
+
+[source,postscript]
+----
+/reduce {  % array initial procedure -> result
+  3 dict begin
+    /proc exch def
+    /accum exch def
+    /arr exch def
+
+    arr {
+      accum exch proc exec
+      /accum exch def
+    } forall
+
+    accum
+  end
+} def
+
+% Usage - sum all elements
+[1 2 3 4 5] 0 { add } reduce
+% Returns 15
+
+% Product
+[1 2 3 4 5] 1 { mul } reduce
+% Returns 120
+----
+
+=== Best Practices
+
+==== Pre-allocate Arrays When Possible
+
+[source,postscript]
+----
+% Good: pre-allocated
+/results 100 array def
+0 1 99 {
+  /i exch def
+  results i i dup mul put
+} for
+
+% Less efficient: building dynamically
+/results [] def
+0 1 99 {
+  dup mul
+  % Would need to copy and extend array
+} for
+----
+
+==== Use Appropriate Data Structures
+
+[source,postscript]
+----
+% Good: dictionary for named access
+/config << /width 100 /height 200 >> def
+config /width get
+
+% Bad: array with magic indices
+/config [100 200] def
+config 0 get  % What does index 0 mean?
+----
+
+==== Document Array Structures
+
+[source,postscript]
+----
+% Good: documented structure
+% Point: [x y]
+% Line: [point1 point2]
+% Polygon: [point1 point2 ... pointN]
+
+/drawLine {  % [x1 y1] [x2 y2] -> -
+  1 dict begin
+    /p2 exch def
+    /p1 exch def
+
+    newpath
+    p1 aload pop moveto
+    p2 aload pop lineto
+    stroke
+  end
+} def
+----
+
+==== Validate Array Bounds
+
+[source,postscript]
+----
+/safeGet {  % array index -> value
+  2 copy exch length lt {
+    get
+  } {
+    pop pop null
+  } ifelse
+} def
+
+% Usage
+[10 20 30] 5 safeGet
+% Returns null instead of error
+----
+
+=== Common Pitfalls
+
+==== Array Reference vs. Copy
+
+[source,postscript]
+----
+% Wrong: modifying shared reference
+/a [1 2 3] def
+/b a def
+b 0 99 put
+% Both a and b are [99 2 3]!
+
+% Correct: create copy
+/a [1 2 3] def
+/b a 0 a length getinterval def
+b 0 99 put
+% a is [1 2 3], b is [99 2 3]
+----
+
+==== Forgetting Array is Returned by aload
+
+[source,postscript]
+----
+% Wrong: array left on stack
+[10 20 30] aload
+% Stack: 10 20 30 [10 20 30]
+% Need to pop the array!
+
+% Correct: pop array reference
+[10 20 30] aload pop
+% Stack: 10 20 30
+----
+
+==== Index Out of Bounds
+
+[source,postscript]
+----
+% Wrong: no bounds checking
+/arr [1 2 3] def
+arr 10 get  % ERROR: rangecheck
+
+% Correct: check bounds
+/arr [1 2 3] def
+/idx 10 def
+idx arr length lt {
+  arr idx get
+} {
+  (Index out of bounds) print
+} ifelse
+----
+
+=== Performance Considerations
+
+==== Use Packed Arrays for Read-Only Data
+
+[source,postscript]
+----
+% Faster and more memory-efficient
+/constants << 3.14159 2.71828 1.41421 >> def
+
+% vs. regular array
+/constants [3.14159 2.71828 1.41421] def
+----
+
+==== Minimize Array Copies
+
+[source,postscript]
+----
+% Good: work with array in place
+/arr [1 2 3 4 5] def
+0 1 arr length 1 sub {
+  /i exch def
+  arr i arr i get 2 mul put
+} for
+
+% Less efficient: creating new arrays
+/arr [1 2 3 4 5] def
+[
+  arr { 2 mul } forall
+]
+----
+
+==== Cache Array Length
+
+[source,postscript]
+----
+% Good: calculate length once
+/arr [many elements...] def
+/len arr length def
+0 1 len 1 sub {
+  % Use len
+} for
+
+% Less efficient: recalculate each time
+0 1 arr length 1 sub {
+  % Calls length operator repeatedly
+} for
+----
+
+=== See Also
+
+* xref:../../syntax/arrays.adoc[Array Syntax] - Array syntax details
+* xref:procedures.adoc[Procedures] - Using arrays in procedures
+* xref:composite-objects.adoc[Composite Objects] - Complex data structures
+* xref:../../commands/array-string/array.adoc[array] - Create array
+* xref:../../commands/array-string/aload.adoc[aload] - Unpack array
+* xref:../../commands/array-string/astore.adoc[astore] - Pack array
+* xref:../../commands/array-string/get.adoc[get] - Get element
+* xref:../../commands/array-string/put.adoc[put] - Set element
+* xref:../../commands/array-string/forall.adoc[forall] - Iterate array

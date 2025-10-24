@@ -1,0 +1,225 @@
+---
+layout: default
+title: Graphics State
+parent: Command Reference
+nav_order: 6
+---
+
+== Graphics State
+
+Graphics state operations control the rendering parameters that affect how graphics are drawn on the page. The graphics state includes color, line characteristics, transformations, clipping paths, and many other attributes.
+
+== Overview
+
+The graphics state is a collection of parameters that control:
+
+* **Color**: Current color (gray, RGB, CMYK, HSB)
+* **Line attributes**: Width, cap style, join style, miter limit, dash pattern
+* **Transformations**: Current transformation matrix (CTM)
+* **Clipping**: Current clipping path
+* **Font**: Current font and text parameters
+* **Device**: Current output device
+
+Each parameter has a current value that affects subsequent graphics operations.
+
+== Graphics State Stack
+
+PostScript provides a stack for saving and restoring graphics state:
+
+* [`gsave`](gsave.adoc) saves current state
+* [`grestore`](grestore.adoc) restores saved state
+* State changes are isolated between save/restore pairs
+* Enables temporary modifications without losing previous state
+
+== Command Categories
+
+=== State Save and Restore
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:gsave.adoc[`gsave`]
+| Push copy of graphics state onto graphics state stack
+
+| xref:grestore.adoc[`grestore`]
+| Restore graphics state from top of stack
+
+| xref:grestoreall.adoc[`grestoreall`]
+| Restore to bottommost save level
+
+| xref:gstate.adoc[`gstate`]
+| Create gstate object (Level 2)
+
+| xref:setgstate.adoc[`setgstate`]
+| Set graphics state from gstate object (Level 2)
+
+| xref:currentgstate.adoc[`currentgstate`]
+| Copy current state to gstate object (Level 2)
+|===
+
+=== Line Attributes
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:setlinewidth.adoc[`setlinewidth`]
+| Set line width for stroking
+
+| xref:setlinecap.adoc[`setlinecap`]
+| Set line cap style (butt, round, square)
+
+| xref:setlinejoin.adoc[`setlinejoin`]
+| Set line join style (miter, round, bevel)
+
+| xref:setmiterlimit.adoc[`setmiterlimit`]
+| Set miter limit for sharp corners
+
+| xref:setdash.adoc[`setdash`]
+| Set dash pattern for lines
+
+| xref:currentlinewidth.adoc[`currentlinewidth`]
+| Get current line width
+
+| xref:currentlinecap.adoc[`currentlinecap`]
+| Get current line cap
+
+| xref:currentlinejoin.adoc[`currentlinejoin`]
+| Get current line join
+
+| xref:currentmiterlimit.adoc[`currentmiterlimit`]
+| Get current miter limit
+
+| xref:currentdash.adoc[`currentdash`]
+| Get current dash pattern
+|===
+
+=== Color Operations
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:setgray.adoc[`setgray`]
+| Set gray level (0=black, 1=white)
+
+| xref:setrgbcolor.adoc[`setrgbcolor`]
+| Set RGB color
+
+| xref:setcmykcolor.adoc[`setcmykcolor`]
+| Set CMYK color (Level 2)
+
+| xref:sethsbcolor.adoc[`sethsbcolor`]
+| Set HSB color
+
+| xref:currentgray.adoc[`currentgray`]
+| Get current gray value
+
+| xref:currentrgbcolor.adoc[`currentrgbcolor`]
+| Get current RGB color
+
+| xref:currentcmykcolor.adoc[`currentcmykcolor`]
+| Get current CMYK color (Level 2)
+
+| xref:currenthsbcolor.adoc[`currenthsbcolor`]
+| Get current HSB color
+|===
+
+== Common Patterns
+
+=== Temporary State Changes
+
+[source,postscript]
+----
+gsave
+  1 setlinewidth
+  0 setgray
+  % Draw with these settings
+  stroke
+grestore
+% Original settings restored
+----
+
+=== Setting Line Appearance
+
+[source,postscript]
+----
+2 setlinewidth      % 2-unit wide lines
+1 setlinecap        % Round caps
+1 setlinejoin       % Round joins
+[3 5] 0 setdash     % Dashed: 3 on, 5 off
+----
+
+=== Color Selection
+
+[source,postscript]
+----
+% Grayscale
+0.5 setgray         % 50% gray
+
+% RGB
+1 0 0 setrgbcolor   % Red
+
+% CMYK (Level 2)
+0 1 1 0 setcmykcolor  % Red in CMYK
+----
+
+== Important Considerations
+
+=== State Hierarchy
+
+Graphics state changes affect all subsequent operations until:
+
+* Another state change occurs
+* [`grestore`](grestore.adoc) restores previous state
+* [`initgraphics`](initgraphics.adoc) resets to defaults
+* Page is complete (showpage)
+
+=== save vs. gsave
+
+[cols="2,3,3"]
+|===
+| Operator | Saves | Restores
+
+| xref:../dictionary/begin.adoc[`save`]
+| VM + graphics state
+| [`restore`]
+
+| [`gsave`](gsave.adoc)
+| Graphics state only
+| [`grestore`](grestore.adoc)
+|===
+
+=== Device Dependence
+
+Some parameters are device-dependent:
+
+* Transfer functions
+* Halftone screens
+* Flatness
+* Should not be used in device-independent documents
+
+== Common Pitfalls
+
+WARNING: *Unbalanced gsave/grestore* - Every [`gsave`](gsave.adoc) must have matching [`grestore`](grestore.adoc).
+
+WARNING: *Color Space* - Color operators may switch color space (e.g., [`setgray`](setgray.adoc) → DeviceGray).
+
+WARNING: *Dash Pattern Reset* - Empty dash array `[]` resets to solid lines.
+
+TIP: *Bracket Graphics with gsave/grestore* - Always wrap state changes:
+
+[source,postscript]
+----
+gsave
+  % Temporary changes
+grestore
+----
+
+== See Also
+
+* Coordinate Transformations (to be documented) - CTM operations
+* Path Construction (to be documented) - Path building
+* Painting (to be documented) - Using graphics state
+* Color (to be documented) - Advanced color spaces

@@ -1,0 +1,13 @@
+---
+layout: default
+title: Painting
+parent: Command Reference
+---
+
+== Painting
+
+Commands for rendering paths and shapes.
+
+== Status
+
+Under development.

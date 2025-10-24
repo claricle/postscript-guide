@@ -1,0 +1,1142 @@
+---
+layout: default
+title: Color Gradients
+parent: Practical Examples
+nav_order: 6
+---
+
+== Color Gradients
+
+Advanced color techniques including gradients, shading, and color space manipulation.
+
+=== Introduction
+
+PostScript provides sophisticated color control through multiple color spaces and gradient capabilities. This guide covers everything from basic color manipulation to advanced shading functions available in PostScript Level 2 and 3.
+
+=== Basic Color Spaces
+
+Understanding RGB, CMYK, HSB, and grayscale color models.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Grayscale (0 = black, 1 = white)
+/y 750 def
+0 1 10 {                                % Create gray scale <1>
+  /i exch def
+  gsave
+    i 10 div setgray                    % Gray level from 0 to 1 <2>
+    50 i 50 mul add 700 40 40 rectfill  % Draw square
+  grestore
+} for
+
+% Label
+0 setgray
+/Helvetica findfont 10 scalefont setfont
+50 y moveto
+(Grayscale: 0.0 to 1.0) show
+
+% RGB Color (Red, Green, Blue)
+/y 650 def
+
+% Pure red
+1 0 0 setrgbcolor                       % R G B values <3>
+50 600 40 40 rectfill
+
+% Pure green
+0 1 0 setrgbcolor
+100 600 40 40 rectfill
+
+% Pure blue
+0 0 1 setrgbcolor
+150 600 40 40 rectfill
+
+% Cyan (Green + Blue)
+0 1 1 setrgbcolor
+200 600 40 40 rectfill
+
+% Magenta (Red + Blue)
+1 0 1 setrgbcolor
+250 600 40 40 rectfill
+
+% Yellow (Red + Green)
+1 1 0 setrgbcolor
+300 600 40 40 rectfill
+
+% White (all on)
+1 1 1 setrgbcolor
+350 600 40 40 rectfill
+
+% Mixed color
+0.8 0.4 0.2 setrgbcolor                 % Orange
+400 600 40 40 rectfill
+
+% Label
+0 setgray
+/Helvetica findfont 10 scalefont setfont
+50 y moveto
+(RGB: Red, Green, Blue \(0.0-1.0 each\)) show
+
+% CMYK Color (Cyan, Magenta, Yellow, Black)
+/y 550 def
+
+% Pure cyan
+1 0 0 0 setcmykcolor                    % C M Y K values <4>
+50 500 40 40 rectfill
+
+% Pure magenta
+0 1 0 0 setcmykcolor
+100 500 40 40 rectfill
+
+% Pure yellow
+0 0 1 0 setcmykcolor
+150 500 40 40 rectfill
+
+% Pure black
+0 0 0 1 setcmykcolor
+200 500 40 40 rectfill
+
+% Red (M + Y)
+0 1 1 0 setcmykcolor
+250 500 40 40 rectfill
+
+% Green (C + Y)
+1 0 1 0 setcmykcolor
+300 500 40 40 rectfill
+
+% Blue (C + M)
+1 1 0 0 setcmykcolor
+350 500 40 40 rectfill
+
+% Rich black (C + M + Y + K)
+0.5 0.5 0.5 1 setcmykcolor
+400 500 40 40 rectfill
+
+% Label
+0 setgray
+50 y moveto
+(CMYK: Cyan, Magenta, Yellow, Black \(0.0-1.0 each\)) show
+
+% HSB Color (Hue, Saturation, Brightness)
+/y 450 def
+
+% Hue spectrum at full saturation and brightness
+0 1 11 {
+  /i exch def
+  i 12 div 1 1 sethsbcolor                % H S B values <5>
+  50 i 30 mul add 400 40 40 rectfill
+} for
+
+% Label
+0 setgray
+50 y moveto
+(HSB: Hue \(0-1 = 0-360°\), Saturation, Brightness) show
+
+% Saturation variation (same hue)
+/y 350 def
+0 1 10 {
+  /i exch def
+  0.5 i 10 div 1 sethsbcolor              % Hue=0.5 (cyan), varying S
+  50 i 40 mul add 300 40 40 rectfill
+} for
+
+0 setgray
+50 y moveto
+(Saturation variation: 0.0 \(gray\) to 1.0 \(full color\)) show
+
+% Brightness variation (same hue)
+/y 250 def
+0 1 10 {
+  /i exch def
+  0.0 1 i 10 div sethsbcolor              % Hue=0 (red), varying B
+  50 i 40 mul add 200 40 40 rectfill
+} for
+
+0 setgray
+50 y moveto
+(Brightness variation: 0.0 \(black\) to 1.0 \(bright\)) show
+
+% Color conversion example
+/y 150 def
+0 setgray
+/Helvetica findfont 10 scalefont setfont
+50 y moveto
+(Color space conversions:) show
+
+% Same visual color in different spaces
+/y y 20 sub def
+0.8 0.2 0.1 setrgbcolor                   % RGB orange
+50 y 10 sub 30 30 rectfill
+
+0.8 0.2 0.1 setrgbcolor
+50 y moveto
+(RGB: 0.8, 0.2, 0.1) show
+
+0 0.75 0.875 0.2 setcmykcolor             % Equivalent CMYK
+150 y 10 sub 30 30 rectfill
+
+0 setgray
+150 y moveto
+(CMYK: 0, 0.75, 0.875, 0.2) show
+
+0.028 0.75 0.8 sethsbcolor                % Equivalent HSB
+300 y 10 sub 30 30 rectfill
+
+0 setgray
+300 y moveto
+(HSB: 0.028, 0.75, 0.8) show
+
+showpage
+----
+<1> Loop to create grayscale spectrum
+<2> Use [`setgray`](../commands/graphics-state/setgray.adoc) for grayscale (0=black, 1=white)
+<3> Use [`setrgbcolor`](../commands/graphics-state/setrgbcolor.adoc) for red, green, blue (0.0-1.0 each)
+<4> Use [`setcmykcolor`](../commands/graphics-state/setcmykcolor.adoc) for cyan, magenta, yellow, black
+<5> Use [`sethsbcolor`](../commands/graphics-state/sethsbcolor.adoc) for hue (0-1 = 0-360°), saturation, brightness
+
+==== Expected Output
+
+* Grayscale gradient from black to white
+* RGB primary and secondary colors
+* CMYK primary colors and combinations
+* HSB hue spectrum at full saturation
+* Saturation and brightness variations
+* Same color shown in RGB, CMYK, and HSB
+
+==== Color Space Characteristics
+
+**Grayscale**:
+
+* Single value: 0 (black) to 1 (white)
+* Device-independent
+* Efficient for monochrome output
+
+**RGB** (Red, Green, Blue):
+
+* Additive color model
+* Used for screens/displays
+* Three values: 0.0-1.0 each
+* (0,0,0) = black, (1,1,1) = white
+
+**CMYK** (Cyan, Magenta, Yellow, Black):
+
+* Subtractive color model
+* Used for printing
+* Four values: 0.0-1.0 each
+* (0,0,0,0) = white paper, (0,0,0,1) = black ink
+
+**HSB** (Hue, Saturation, Brightness):
+
+* Intuitive color selection
+* Hue: 0-1 represents 0-360° color wheel
+* Saturation: 0 (gray) to 1 (pure color)
+* Brightness: 0 (black) to 1 (bright)
+
+=== Linear Gradients (Manual)
+
+Creating smooth color transitions using multiple rectangles.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Simple grayscale gradient
+/gradient {                             % x y width height steps gradient <1>
+  /steps exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  /stepwidth w steps div def            % Width of each bar
+
+  0 1 steps 1 sub {                     % Loop through steps
+    /i exch def
+    i steps div setgray                 % Set gray level <2>
+    x i stepwidth mul add y stepwidth h rectfill <3>
+  } for
+} def
+
+% Horizontal grayscale gradient
+100 700 400 50 100 gradient
+
+% Vertical grayscale gradient
+/vgradient {                            % x y width height steps vgradient
+  /steps exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  /stepheight h steps div def
+
+  0 1 steps 1 sub {
+    /i exch def
+    i steps div setgray
+    x y i stepheight mul add w stepheight rectfill
+  } for
+} def
+
+100 600 50 400 100 vgradient
+
+% RGB gradient (red to blue)
+/rgbgradient {                          % x y w h steps r1 g1 b1 r2 g2 b2 <4>
+  /b2 exch def /g2 exch def /r2 exch def
+  /b1 exch def /g1 exch def /r1 exch def
+  /steps exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  /stepwidth w steps div def
+
+  0 1 steps 1 sub {
+    /i exch def
+    /t i steps div def                  % Interpolation factor <5>
+
+    % Interpolate each color component
+    r1 r2 r1 sub t mul add              % r1 + (r2-r1) * t <6>
+    g1 g2 g1 sub t mul add
+    b1 b2 b1 sub t mul add
+    setrgbcolor
+
+    x i stepwidth mul add y stepwidth h rectfill
+  } for
+} def
+
+% Red to blue gradient
+200 600 300 50 100
+1 0 0  0 0 1                            % RGB start and end colors
+rgbgradient
+
+% Multi-stop gradient (red -> yellow -> green)
+/y 520 def
+0 1 49 {                                % First half: red to yellow
+  /i exch def
+  /t i 50 div def
+  1 t 0 setrgbcolor                     % R constant, G increases
+  200 i 3 mul add y 3 50 rectfill
+} for
+
+0 1 50 {                                % Second half: yellow to green
+  /i exch def
+  /t i 50 div def
+  1 t sub 1 0 setrgbcolor               % R decreases, G constant
+  350 i 3 mul add y 3 50 rectfill
+} for
+
+% Radial gradient (manual approximation)
+/radialgradient {                       % cx cy radius steps <7>
+  /steps exch def
+  /maxradius exch def
+  /cy exch def
+  /cx exch def
+
+  steps -1 0 {                          % Draw from outside to inside <8>
+    /i exch def
+    /t i steps div def
+
+    t setgray
+    newpath
+    cx cy maxradius t mul 0 360 arc     % Shrinking circles <9>
+    fill
+  } for
+} def
+
+% Centered radial gradient
+350 400 75 50 radialgradient
+
+% Conical gradient (color wheel)
+/conicalgradient {                      % cx cy radius <10>
+  /radius exch def
+  /cy exch def
+  /cx exch def
+
+  0 1 359 {                             % One degree per segment
+    /angle exch def
+
+    angle 360 div 1 1 sethsbcolor       % Hue varies with angle <11>
+
+    newpath
+    cx cy moveto
+    cx cy radius angle dup 1 add arc    % 1-degree wedge <12>
+    closepath
+    fill
+  } for
+} def
+
+% Color wheel
+350 250 60 conicalgradient
+
+% Two-color diagonal gradient
+/diaggradient {                         % x y w h steps <13>
+  /steps exch def
+  /h exch def
+  /w exch def
+  /y0 exch def
+  /x0 exch def
+
+  gsave
+    x0 y0 translate
+
+    0 1 steps {
+      /i exch def
+      /t i steps div def
+
+      % Color from dark blue to light yellow
+      0.2 t 0.6 mul add                 % R: 0.2 to 0.8
+      0.2 t 0.6 mul add                 % G: 0.2 to 0.8
+      0.6 t 0.4 mul sub                 % B: 0.6 to 0.2
+      setrgbcolor
+
+      % Draw diagonal stripe
+      newpath
+      0 i h mul steps div moveto
+      w i h mul steps div sub 0 rlineto
+      w steps div dup rlineto
+      0 exch neg w steps div sub exch rlineto
+      closepath
+      fill
+    } for
+  grestore
+} def
+
+% Apply diagonal gradient
+100 150 200 150 50 diaggradient
+
+showpage
+----
+<1> Define procedure for horizontal gradient with parameters
+<2> Calculate gray level based on position in gradient
+<3> Draw thin rectangle at calculated position
+<4> RGB gradient requires start and end colors (6 values)
+<5> Calculate interpolation factor t from 0 to 1
+<6> Linear interpolation formula: start + (end - start) × t
+<7> Radial gradient draws concentric circles
+<8> Draw from outside to inside so inner circles paint over outer
+<9> Radius decreases with each step
+<10> Conical gradient creates color wheel effect
+<11> Map angle to hue value in HSB color space
+<12> Draw thin wedge for each degree
+<13> Diagonal gradient requires coordinate transformation
+
+==== Expected Output
+
+Various manual gradient types:
+
+* Horizontal grayscale gradient
+* Vertical grayscale gradient
+* Red to blue horizontal gradient
+* Multi-stop gradient (red → yellow → green)
+* Radial gradient (dark center to light edge)
+* Conical gradient (color wheel)
+* Diagonal two-color gradient
+
+==== Manual Gradient Techniques
+
+**Linear gradients**:
+
+* Divide area into steps
+* Calculate color for each step
+* Draw rectangles at each position
+
+**Radial gradients**:
+
+* Draw concentric circles
+* Start from outside, work inward
+* Vary color and radius
+
+**Color interpolation**:
+
+* Linear: `start + (end - start) × t`
+* Where t goes from 0 to 1
+
+=== Smooth Shading (Level 2+)
+
+Using PostScript Level 2 and 3 shading functions for smooth gradients.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%LanguageLevel: 2
+
+% Note: Shading requires PostScript Level 2 or higher
+
+% Axial shading (linear gradient)
+<<
+  /ShadingType 2                        % Axial (linear) shading <1>
+  /ColorSpace /DeviceRGB                % RGB color space <2>
+  /Coords [100 650 400 650]             % Start point, end point <3>
+  /Function <<                          % Color function <4>
+    /FunctionType 2                     % Exponential interpolation <5>
+    /Domain [0 1]                       % Input range
+    /C0 [1 0 0]                         % Start color (red) <6>
+    /C1 [0 0 1]                         % End color (blue) <7>
+    /N 1                                % Linear interpolation <8>
+  >>
+  /Extend [true true]                   % Extend beyond endpoints <9>
+>> shfill                               % Fill with shading <10>
+
+% Radial shading (circular gradient)
+<<
+  /ShadingType 3                        % Radial shading <11>
+  /ColorSpace /DeviceRGB
+  /Coords [250 500 0 250 500 80]        % x0 y0 r0 x1 y1 r1 <12>
+  /Function <<
+    /FunctionType 2
+    /Domain [0 1]
+    /C0 [1 1 0]                         % Yellow center
+    /C1 [1 0 0]                         % Red edge
+    /N 1
+  >>
+  /Extend [true true]
+>> shfill
+
+% Multi-color gradient using stitching function
+<<
+  /ShadingType 2
+  /ColorSpace /DeviceRGB
+  /Coords [100 400 400 400]
+  /Function <<
+    /FunctionType 3                     % Stitching function <13>
+    /Domain [0 1]
+    /Functions [                        % Array of functions <14>
+      <<
+        /FunctionType 2
+        /Domain [0 1]
+        /C0 [1 0 0]                     % Red
+        /C1 [1 1 0]                     % Yellow
+        /N 1
+      >>
+      <<
+        /FunctionType 2
+        /Domain [0 1]
+        /C0 [1 1 0]                     % Yellow
+        /C1 [0 1 0]                     % Green
+        /N 1
+      >>
+      <<
+        /FunctionType 2
+        /Domain [0 1]
+        /C0 [0 1 0]                     % Green
+        /C1 [0 0 1]                     % Blue
+        /N 1
+      >>
+    ]
+    /Bounds [0.33 0.67]                 % Transition points <15>
+    /Encode [0 1 0 1 0 1]               % Sub-function ranges <16>
+  >>
+>> shfill
+
+% Coons patch mesh (complex gradients, Level 3)
+% Simplified example - actual mesh is more complex
+<<
+  /ShadingType 6                        % Coons patch mesh <17>
+  /ColorSpace /DeviceRGB
+  /DataSource [
+    0                                   % Flag
+    100 250 300 250 300 150 100 150     % Patch corners <18>
+    1 0 0  0 1 0  0 0 1  1 1 0          % Corner colors <19>
+  ]
+>> shfill
+
+% Gradient in clipped shape
+gsave
+  % Define clipping path
+  newpath
+  450 500 60 0 360 arc
+  clip                                  % Clip to circle <20>
+
+  % Apply gradient within clip
+  <<
+    /ShadingType 2
+    /ColorSpace /DeviceRGB
+    /Coords [420 470 480 530]           % Diagonal gradient
+    /Function <<
+      /FunctionType 2
+      /Domain [0 1]
+      /C0 [0.2 0.8 1]                   % Light cyan
+      /C1 [0 0.2 0.6]                   % Dark blue
+      /N 1
+    >>
+  >> shfill
+grestore
+
+% Text with gradient fill
+gsave
+  /Helvetica-Bold findfont 48 scalefont setfont
+
+  % Convert text to path
+  newpath
+  100 50 moveto
+  (GRADIENT) false charpath             % Text outline <21>
+  clip                                  % Clip to text
+
+  % Fill with gradient
+  <<
+    /ShadingType 2
+    /ColorSpace /DeviceRGB
+    /Coords [100 50 450 50]
+    /Function <<
+      /FunctionType 2
+      /Domain [0 1]
+      /C0 [1 0.5 0]                     % Orange
+      /C1 [1 0 0.5]                     % Pink
+      /N 1
+    >>
+  >> shfill
+grestore
+
+showpage
+%%EOF
+----
+<1> ShadingType 2 = axial (linear) shading
+<2> ColorSpace defines color model
+<3> Coords: [x0 y0 x1 y1] defines gradient axis
+<4> Function defines color transition
+<5> FunctionType 2 = exponential interpolation
+<6> C0 = color at start of gradient
+<7> C1 = color at end of gradient
+<8> N = 1 for linear, >1 for exponential
+<9> Extend gradient beyond endpoints if true
+<10> `shfill` fills current path with shading
+<11> ShadingType 3 = radial (circular) shading
+<12> Coords: [x0 y0 r0 x1 y1 r1] defines start/end circles
+<13> FunctionType 3 = stitching (multiple segments)
+<14> Array of sub-functions for each segment
+<15> Bounds define transition points between segments
+<16> Encode maps input to each sub-function
+<17> ShadingType 6 = Coons patch mesh (Level 3)
+<18> Define patch corner coordinates
+<19> Define colors at each corner
+<20> Use [`clip`](../commands/painting/clip.adoc) to restrict gradient to shape
+<21> Use [`charpath`](../commands/font-text/charpath.adoc) to convert text to path
+
+==== Expected Output
+
+Smooth, high-quality gradients:
+
+* Linear red-to-blue gradient
+* Radial yellow-to-red gradient
+* Multi-color gradient (red → yellow → green → blue)
+* Coons patch mesh gradient
+* Circular gradient clipped to circle
+* Text filled with orange-to-pink gradient
+
+==== Shading Function Types
+
+**ShadingType 2** (Axial/Linear):
+
+* Straight-line gradient
+* Defined by two points
+* Color interpolates along axis
+
+**ShadingType 3** (Radial):
+
+* Circular gradient
+* Defined by two circles (can be concentric)
+* Color interpolates radially
+
+**ShadingType 6** (Coons Patch):
+
+* Complex tensor product
+* Four-sided patches with color at corners
+* Smooth transitions
+
+=== Gradient Fills for Shapes
+
+Applying gradients to various geometric shapes.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%LanguageLevel: 2
+
+% Square with diagonal gradient
+gsave
+  newpath
+  100 700 100 100 rectstroke            % Draw outline
+
+  newpath
+  100 700 moveto
+  100 0 rlineto
+  0 100 rlineto
+  -100 0 rlineto
+  closepath
+  clip                                  % Clip to square <1>
+
+  <<
+    /ShadingType 2
+    /ColorSpace /DeviceRGB
+    /Coords [100 700 200 800]
+    /Function <<
+      /FunctionType 2
+      /Domain [0 1]
+      /C0 [0.8 0.2 0.2]                 % Dark red
+      /C1 [1 0.8 0.8]                   % Light pink
+      /N 1
+    >>
+  >> shfill
+grestore
+
+% Circle with radial gradient
+gsave
+  newpath
+  300 750 50 0 360 arc
+  gsave
+    clip
+
+    <<
+      /ShadingType 3
+      /ColorSpace /DeviceRGB
+      /Coords [300 750 0 300 750 50]
+      /Function <<
+        /FunctionType 2
+        /Domain [0 1]
+        /C0 [1 1 1]                     % White center
+        /C1 [0 0.5 1]                   % Blue edge
+        /N 1
+      >>
+    >> shfill
+  grestore
+
+  0 setgray
+  1 setlinewidth
+  stroke                                % Stroke after gradient <2>
+grestore
+
+% Star with gradient
+gsave
+  450 750 translate
+
+  % Create star path
+  newpath
+  0 50 moveto
+  1 1 5 {
+    pop
+    144 rotate
+    0 50 lineto
+  } for
+  closepath
+
+  gsave
+    clip
+
+    <<
+      /ShadingType 2
+      /ColorSpace /DeviceRGB
+      /Coords [450 700 450 800]
+      /Function <<
+        /FunctionType 2
+        /Domain [0 1]
+        /C0 [1 0.8 0]                   % Gold
+        /C1 [1 1 0.6]                   % Light yellow
+        /N 1
+      >>
+    >> shfill
+  grestore
+
+  0 setgray
+  stroke
+grestore
+
+% Heart with gradient
+gsave
+  newpath
+  150 550 moveto
+  150 600 100 625 75 625 curveto
+  50 625 25 600 25 575 curveto
+  25 540 50 520 75 520 curveto
+  100 520 125 530 150 550 curveto
+
+  150 550 moveto
+  175 530 200 520 225 520 curveto
+  250 520 275 540 275 575 curveto
+  275 600 250 625 225 625 curveto
+  200 625 150 600 150 550 curveto
+
+  gsave
+    clip
+
+    <<
+      /ShadingType 3
+      /ColorSpace /DeviceRGB
+      /Coords [150 570 0 150 570 80]
+      /Function <<
+        /FunctionType 2
+        /Domain [0 1]
+        /C0 [1 0.7 0.7]                 % Light pink
+        /C1 [0.8 0 0]                   % Dark red
+        /N 1
+      >>
+    >> shfill
+  grestore
+
+  0.5 0 0 setrgbcolor
+  2 setlinewidth
+  stroke
+grestore
+
+% Multiple shapes with coordinated gradient
+gsave
+  % Define shared gradient
+  /mygradient << <3>
+    /ShadingType 2
+    /ColorSpace /DeviceRGB
+    /Coords [350 500 550 600]           % Diagonal across all shapes
+    /Function <<
+      /FunctionType 2
+      /Domain [0 1]
+      /C0 [0.2 0.2 0.8]                 % Dark blue
+      /C1 [0.8 0.2 0.8]                 % Purple
+      /N 1
+    >>
+  >> def
+
+  % Rectangle
+  newpath
+  370 520 60 60 rectstroke
+  newpath
+  370 520 60 60 rectclip
+  mygradient shfill
+
+  % Circle
+  newpath
+  480 550 30 0 360 arc
+  gsave
+    clip
+    mygradient shfill
+  grestore
+  0 setgray
+  stroke
+
+  % Triangle
+  newpath
+  400 470 moveto
+  430 520 lineto
+  370 520 lineto
+  closepath
+  gsave
+    clip
+    mygradient shfill
+  grestore
+  0 setgray
+  stroke
+grestore
+
+% Concentric circles with different gradients
+gsave <4>
+  150 300 translate
+
+  % Outer circle
+  newpath
+  0 0 80 0 360 arc
+  gsave
+    clip
+    <<
+      /ShadingType 3
+      /ColorSpace /DeviceRGB
+      /Coords [0 0 0 0 0 80]
+      /Function <<
+        /FunctionType 2
+        /Domain [0 1]
+        /C0 [1 0.5 0]                   % Orange center
+        /C1 [1 1 0]                     % Yellow edge
+        /N 1
+      >>
+    >> shfill
+  grestore
+  stroke
+
+  % Middle circle
+  newpath
+  0 0 50 0 360 arc
+  gsave
+    clip
+    <<
+      /ShadingType 3
+      /ColorSpace /DeviceRGB
+      /Coords [0 0 0 0 0 50]
+      /Function <<
+        /FunctionType 2
+        /Domain [0 1]
+        /C0 [0 1 0.5]                   % Cyan center
+        /C1 [0 0.5 1]                   % Blue edge
+        /N 1
+      >>
+    >> shfill
+  grestore
+  stroke
+
+  % Inner circle
+  newpath
+  0 0 20 0 360 arc
+  gsave
+    clip
+    <<
+      /ShadingType 3
+      /ColorSpace /DeviceRGB
+      /Coords [0 0 0 0 0 20]
+      /Function <<
+        /FunctionType 2
+        /Domain [0 1]
+        /C0 [1 1 1]                     % White center
+        /C1 [1 0 1]                     % Magenta edge
+        /N 1
+      >>
+    >> shfill
+  grestore
+  stroke
+grestore
+
+% Wave pattern with gradient
+gsave
+  350 200 translate
+
+  newpath
+  0 0 moveto
+  0 10 200 {
+    /x exch def
+    x x 15 div sin 30 mul lineto
+  } for
+  0 60 lineto
+  200 60 lineto
+  closepath
+
+  gsave
+    clip
+    <<
+      /ShadingType 2
+      /ColorSpace /DeviceRGB
+      /Coords [0 0 200 0]
+      /Function <<
+        /FunctionType 3
+        /Domain [0 1]
+        /Functions [
+          <<
+            /FunctionType 2
+            /Domain [0 1]
+            /C0 [0 0.5 1]
+            /C1 [0 1 1]
+            /N 1
+          >>
+          <<
+            /FunctionType 2
+            /Domain [0 1]
+            /C0 [0 1 1]
+            /C1 [0 1 0.5]
+            /N 1
+          >>
+        ]
+        /Bounds [0.5]
+        /Encode [0 1 0 1]
+      >>
+    >> shfill
+  grestore
+
+  0 setgray
+  stroke
+grestore
+
+showpage
+%%EOF
+----
+<1> Clip to shape before applying gradient
+<2> Stroke after gradient to add outline
+<3> Use same gradient for multiple shapes by storing in variable
+<4> Nested clips create layered effects
+
+==== Expected Output
+
+Various shapes with gradients:
+
+* Square with diagonal gradient
+* Circle with radial gradient from white center
+* Five-pointed star with gold gradient
+* Heart with pink-to-red gradient
+* Multiple shapes with shared diagonal gradient
+* Concentric circles with different gradients
+* Wave shape with multi-stop gradient
+
+==== Shape Gradient Workflow
+
+1. Define the shape path with standard operators
+2. Use `clip` to restrict subsequent drawing
+3. Apply gradient with `shfill`
+4. Use `grestore` to release clip
+5. Optionally stroke outline
+
+=== Transparency and Blending (Level 3)
+
+Advanced transparency effects available in PostScript Level 3.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%LanguageLevel: 3
+
+% Note: Transparency requires PostScript Level 3
+
+% Simple transparency
+gsave
+  % Opaque background
+  0.8 0.8 1 setrgbcolor
+  100 600 200 150 rectfill
+
+  % Semi-transparent overlay
+  1 0 0 setrgbcolor
+  /TransparentGroup true def            % Enable transparency <1>
+  .5 .setopacityalpha                   % 50% opacity <2>
+  150 650 200 150 rectfill
+grestore
+
+% Gradient with transparency
+gsave
+  350 600 translate
+
+  % Background pattern
+  0 0 0 setrgbcolor
+  0 10 200 {
+    /i exch def
+    i 10 mod 0 eq {
+      i 0 10 150 rectfill
+    } if
+  } for
+
+  % Gradient with varying transparency
+  0 1 19 {
+    /i exch def
+    /t i 20 div def
+
+    1 0.5 0 setrgbcolor
+    t .setopacityalpha                  % Varying opacity <3>
+    i 10 mul 0 10 150 rectfill
+  } for
+grestore
+
+% Blend modes
+/blendmodes [
+  /Normal /Multiply /Screen /Overlay
+  /Darken /Lighten /ColorDodge /ColorBurn
+  /HardLight /SoftLight /Difference /Exclusion
+] def
+
+% Demonstrate blend modes
+0 1 11 {
+  /i exch def
+
+  gsave
+    100 i 70 add mul 450 translate
+
+    % Background circle
+    0.8 0.2 0.2 setrgbcolor
+    newpath
+    -15 0 20 0 360 arc
+    fill
+
+    % Overlapping circle with blend mode
+    blendmodes i get .setblendmode      % Set blend mode <4>
+    0.2 0.2 0.8 setrgbcolor
+    .7 .setopacityalpha
+    newpath
+    15 0 20 0 360 arc
+    fill
+
+    % Label
+    /Normal .setblendmode
+    1 .setopacityalpha
+    0 setgray
+    /Helvetica findfont 8 scalefont setfont
+    -25 -30 moveto
+    blendmodes i get 20 string cvs show
+  grestore
+} for
+
+showpage
+%%EOF
+----
+<1> Enable transparency group
+<2> Use `.setopacityalpha` for transparency (0=invisible, 1=opaque)
+<3> Vary opacity for each rectangle
+<4> Use `.setblendmode` to set compositing mode
+
+==== Expected Output
+
+Transparency demonstrations:
+
+* Semi-transparent red rectangle over blue background
+* Gradient with varying transparency levels
+* Twelve blend mode examples showing different compositing methods
+
+==== Transparency Notes
+
+* Requires PostScript Level 3
+* `.setopacityalpha` controls transparency
+* Blend modes control how colors combine
+* Transparency groups prevent unwanted interactions
+
+=== Troubleshooting
+
+==== Common Issues
+
+**Colors not appearing**:
+
+* Check color values are in range 0.0-1.0
+* Ensure color is set before fill/stroke
+* Verify correct color space (RGB, CMYK, HSB, Gray)
+
+**Gradients not smooth**:
+
+* Increase number of steps in manual gradients
+* Use shading functions (Level 2+) for true smooth gradients
+* Check that FunctionType and parameters are correct
+
+**Shading not working**:
+
+* Verify PostScript level: `%%LanguageLevel: 2` or higher
+* Check dictionary syntax (all required keys present)
+* Ensure coordinates are correct for shading type
+
+**Wrong colors in output**:
+
+* RGB vs CMYK: Different color spaces produce different results
+* Check if output device supports requested color space
+* Some printers convert RGB to CMYK automatically
+
+**Transparency not working**:
+
+* Requires PostScript Level 3
+* Check that `.setopacityalpha` is supported
+* Verify transparency group is enabled
+
+=== Performance Tips
+
+* **Use shading functions** instead of manual gradients when possible
+* **Minimize color changes**: Group same-color operations
+* **Cache color values**: Store frequently used colors in variables
+* **Simplify gradients**: Fewer steps when quality allows
+
+=== See Also
+
+* xref:drawing-shapes.adoc[Drawing Shapes] - Shapes to fill with gradients
+* xref:text-layout.adoc[Text Layout] - Gradient text effects
+* xref:image-manipulation.adoc[Image Manipulation] - Color in images
+* xref:../levels/level-2.adoc[Level 2] - Shading functions
+* xref:../levels/level-3.adoc[Level 3] - Transparency
+* xref:../commands/graphics-state/setrgbcolor.adoc[setrgbcolor] - RGB colors
+* xref:../commands/graphics-state/setcmykcolor.adoc[setcmykcolor] - CMYK colors
+* xref:../commands/graphics-state/sethsbcolor.adoc[sethsbcolor] - HSB colors
+* xref:index.adoc[More Examples]
+* xref:../commands/index.adoc[Command Reference]

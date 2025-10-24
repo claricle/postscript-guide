@@ -1,0 +1,973 @@
+---
+layout: default
+title: Graphics State
+parent: Basic Usage
+grand_parent: Usage Guides
+nav_order: 5
+---
+
+== Graphics State
+
+The graphics state contains all parameters that affect the appearance of rendered graphics. Managing the graphics state effectively is essential for consistent and predictable output.
+
+=== Overview
+
+The graphics state is a collection of parameters that control how graphics are rendered:
+
+* **Current path** - The path being constructed
+* **Current position** - The position within the path
+* **Color** - Current color for fill and stroke operations
+* **Line attributes** - Width, cap style, join style, dash pattern
+* **Transformation matrix** - Coordinate system transformations
+* **Clipping path** - Region where graphics can appear
+* **Font** - Current font and size
+
+These parameters persist until explicitly changed or the graphics state is restored.
+
+=== The Graphics State Stack
+
+==== Saving State with `gsave`
+
+The `gsave` operator pushes the current graphics state onto the stack:
+
+[source,postscript]
+----
+% Set some graphics parameters
+1 0 0 setrgbcolor    % Red
+2 setlinewidth        % 2-point line
+
+% Save current state
+gsave
+
+% Modify state
+0 1 0 setrgbcolor    % Green
+5 setlinewidth        % 5-point line
+
+% Draw something
+0 0 100 100 rectfill
+
+% State is still modified here
+----
+
+==== Restoring State with `grestore`
+
+The `grestore` operator pops the graphics state from the stack:
+
+[source,postscript]
+----
+gsave
+  % Set temporary state
+  0 1 0 setrgbcolor
+  5 setlinewidth
+
+  % Draw
+  0 0 100 100 rectfill
+grestore
+
+% Color and line width are restored to pre-gsave values
+% Back to red and 2-point lines
+0 0 moveto
+200 0 lineto
+stroke
+----
+
+==== Nested State Management
+
+Graphics state operations can be nested:
+
+[source,postscript]
+----
+% Initial state: black, 1-point line
+gsave                    % Level 1
+  1 0 0 setrgbcolor     % Red
+
+  gsave                 % Level 2
+    0 1 0 setrgbcolor   % Green
+    3 setlinewidth
+    % Draw green with thick line
+  grestore              % Back to level 1: red, 1-point
+
+  % Draw red with 1-point line
+grestore                % Back to initial: black, 1-point
+----
+
+==== The `grestoreall` Operator
+
+Restores to the bottom of the graphics state stack:
+
+[source,postscript]
+----
+gsave
+  gsave
+    gsave
+      % Deeply nested
+    % grestore would go back one level
+    grestoreall  % Goes back to initial state
+  % Never executed
+grestore
+----
+
+=== Color Parameters
+
+==== Gray Color
+
+Set grayscale values (0 = black, 1 = white):
+
+[source,postscript]
+----
+% Set gray for fill and stroke
+0 setgray        % Black
+0.5 setgray      % 50% gray
+1 setgray        % White
+
+% Query current gray
+currentgray      % Returns current gray value (0-1)
+----
+
+==== RGB Color
+
+Set red-green-blue color components (each 0-1):
+
+[source,postscript]
+----
+% RGB: red green blue
+1 0 0 setrgbcolor      % Pure red
+0 1 0 setrgbcolor      % Pure green
+0 0 1 setrgbcolor      % Pure blue
+0.5 0.5 0.5 setrgbcolor % Gray
+1 1 0 setrgbcolor      % Yellow
+0 1 1 setrgbcolor      % Cyan
+
+% Query current RGB
+currentrgbcolor        % Returns: r g b
+----
+
+Creating custom colors:
+
+[source,postscript]
+----
+% Define color constants
+/Navy { 0 0 0.5 setrgbcolor } def
+/Orange { 1 0.647 0 setrgbcolor } def
+/Purple { 0.502 0 0.502 setrgbcolor } def
+
+% Use them
+Navy
+0 0 100 100 rectfill
+
+Orange
+200 0 100 100 rectfill
+----
+
+==== CMYK Color
+
+Set cyan-magenta-yellow-black components (each 0-1):
+
+[source,postscript]
+----
+% CMYK: cyan magenta yellow black
+0 0 0 1 setcmykcolor    % Pure black
+1 0 0 0 setcmykcolor    % Pure cyan
+0 1 0 0 setcmykcolor    % Pure magenta
+0 0 1 0 setcmykcolor    % Pure yellow
+
+% Query current CMYK
+currentcmykcolor        % Returns: c m y k
+----
+
+==== HSB Color
+
+Set hue-saturation-brightness (hue: 0-360, saturation and brightness: 0-1):
+
+[source,postscript]
+----
+% HSB: hue saturation brightness
+0 1 1 sethsbcolor      % Pure red
+120 1 1 sethsbcolor    % Pure green
+240 1 1 sethsbcolor    % Pure blue
+60 1 1 sethsbcolor     % Yellow
+
+% Pastel colors (low saturation)
+0 0.3 1 sethsbcolor    % Pastel red
+
+% Query current HSB
+currenthsbcolor        % Returns: h s b
+----
+
+=== Line Attributes
+
+==== Line Width
+
+Set the width of stroked lines (in user space units):
+
+[source,postscript]
+----
+% Set line width
+0.5 setlinewidth       % Thin line
+1 setlinewidth         % Default
+5 setlinewidth         % Thick line
+10 setlinewidth        % Very thick line
+
+% Query current line width
+currentlinewidth       % Returns current width
+
+% Example
+newpath
+1 setlinewidth
+0 100 moveto 100 100 lineto stroke
+
+5 setlinewidth
+0 110 moveto 100 110 lineto stroke
+
+10 setlinewidth
+0 120 moveto 100 120 lineto stroke
+----
+
+==== Line Cap Style
+
+Controls the shape of line endpoints:
+
+[source,postscript]
+----
+% Line cap styles:
+% 0 = butt cap (default) - square end at endpoint
+% 1 = round cap - semicircular end
+% 2 = projecting square cap - extends beyond endpoint
+
+0 setlinecap     % Butt cap
+1 setlinecap     % Round cap
+2 setlinecap     % Square cap
+
+% Query current line cap
+currentlinecap   % Returns 0, 1, or 2
+----
+
+Visual comparison:
+
+[source,postscript]
+----
+10 setlinewidth
+
+% Butt cap
+0 setlinecap
+0 100 moveto 100 100 lineto stroke
+
+% Round cap
+1 setlinecap
+0 120 moveto 100 120 lineto stroke
+
+% Square cap
+2 setlinecap
+0 140 moveto 100 140 lineto stroke
+----
+
+==== Line Join Style
+
+Controls how line segments connect:
+
+[source,postscript]
+----
+% Line join styles:
+% 0 = miter join (default) - pointed join
+% 1 = round join - circular join
+% 2 = bevel join - beveled join
+
+0 setlinejoin    % Miter join
+1 setlinejoin    % Round join
+2 setlinejoin    % Bevel join
+
+% Query current line join
+currentlinejoin  % Returns 0, 1, or 2
+----
+
+Visual comparison with angles:
+
+[source,postscript]
+----
+10 setlinewidth
+
+% Miter join
+0 setlinejoin
+newpath
+0 100 moveto
+50 150 lineto
+100 100 lineto
+stroke
+
+% Round join
+1 setlinejoin
+newpath
+0 120 moveto
+50 170 lineto
+100 120 lineto
+stroke
+
+% Bevel join
+2 setlinejoin
+newpath
+0 140 moveto
+50 190 lineto
+100 140 lineto
+stroke
+----
+
+==== Miter Limit
+
+Controls when miter joins are beveled (only applies to miter joins):
+
+[source,postscript]
+----
+% Miter limit (default is 10)
+% Ratio of miter length to line width
+% Smaller values bevel sharper angles
+
+10 setmiterlimit    % Default
+4 setmiterlimit     % More aggressive beveling
+1 setmiterlimit     % Very aggressive
+
+% Query current miter limit
+currentmiterlimit   % Returns current limit
+----
+
+Practical example:
+
+[source,postscript]
+----
+20 setlinewidth
+0 setlinejoin       % Miter join
+
+% Sharp angle with high miter limit
+10 setmiterlimit
+newpath
+0 100 moveto
+50 150 lineto
+100 100 lineto
+stroke
+
+% Same angle with low miter limit (will bevel)
+1 setmiterlimit
+newpath
+0 200 moveto
+50 250 lineto
+100 200 lineto
+stroke
+----
+
+==== Dash Pattern
+
+Creates dashed or dotted lines:
+
+[source,postscript]
+----
+% setdash: array offset setdash
+% array = [on off on off ...]
+% offset = starting offset into pattern
+
+% Solid line (default)
+[] 0 setdash
+
+% Simple dash pattern
+[5 3] 0 setdash    % 5 on, 3 off
+0 100 moveto 200 100 lineto stroke
+
+% Dash-dot pattern
+[10 5 2 5] 0 setdash
+0 110 moveto 200 110 lineto stroke
+
+% Dotted line
+[1 3] 0 setdash
+0 120 moveto 200 120 lineto stroke
+
+% Query current dash
+currentdash        % Returns: array offset
+----
+
+Pattern with offset:
+
+[source,postscript]
+----
+[10 5] 0 setdash
+0 100 moveto 200 100 lineto stroke
+
+% Same pattern, different offset
+[10 5] 5 setdash
+0 110 moveto 200 110 lineto stroke
+----
+
+=== Clipping
+
+==== Setting the Clipping Path
+
+The clipping path restricts where graphics can appear:
+
+[source,postscript]
+----
+% Create a clipping path
+gsave
+  newpath
+  100 100 100 0 360 arc
+  clip               % Set as clipping path
+  newpath            % Start new path (don't stroke clip path)
+
+  % Only visible inside circle
+  0 0 200 200 rectfill
+grestore
+----
+
+==== Even-Odd Clipping
+
+Alternative clipping rule:
+
+[source,postscript]
+----
+gsave
+  % Create complex path with holes
+  newpath
+  50 50 150 0 360 arc
+  100 100 50 0 360 arc
+
+  eoclip            % Even-odd clip
+  newpath
+
+  % Fill shows holes
+  0 0 300 300 rectfill
+grestore
+----
+
+==== Rectangular Clipping
+
+Faster clipping for rectangles:
+
+[source,postscript]
+----
+% rectclip: x y width height rectclip
+gsave
+  50 50 200 150 rectclip
+
+  % Only visible in rectangle
+  0 0 moveto
+  300 300 lineto
+  stroke
+grestore
+----
+
+==== Getting the Clipping Path
+
+[source,postscript]
+----
+% Get current clipping path as a new path
+clippath
+
+% Common pattern: stroke the clipping boundary
+gsave
+  clippath
+  0.5 setlinewidth
+  1 0 0 setrgbcolor
+  stroke
+grestore
+----
+
+=== Font State
+
+==== Setting the Current Font
+
+[source,postscript]
+----
+% Find and scale font
+/Times-Roman findfont
+12 scalefont
+setfont
+
+% Query current font
+currentfont        % Returns font dictionary
+----
+
+Combined font selection:
+
+[source,postscript]
+----
+% All in one line
+/Helvetica-Bold findfont 24 scalefont setfont
+100 100 moveto
+(Hello) show
+----
+
+==== Font Transformations
+
+[source,postscript]
+----
+% Create transformed font
+/Times-Roman findfont
+[20 0 0 10 0 0] makefont  % Narrow font (20 wide, 10 tall)
+setfont
+
+% Slanted font
+/Courier findfont
+[12 0 6 12 0 0] makefont  % Slanted 12pt
+setfont
+----
+
+=== Transformation Matrix
+
+==== Current Transformation Matrix
+
+The CTM is part of the graphics state:
+
+[source,postscript]
+----
+gsave
+  % Modify CTM
+  100 100 translate
+  45 rotate
+  2 2 scale
+
+  % Query CTM
+  matrix currentmatrix  % Returns current matrix
+
+  % Draw in transformed space
+  0 0 50 0 360 arc stroke
+grestore
+% CTM restored
+----
+
+==== Setting the Matrix
+
+[source,postscript]
+----
+% Set a specific matrix
+[2 0 0 2 100 100] concat
+
+% Or create and set matrix
+matrix
+dup 0 2 put      % a = 2
+dup 3 2 put      % d = 2
+dup 4 100 put    % tx = 100
+dup 5 100 put    % ty = 100
+setmatrix
+----
+
+=== Graphics State Objects (Level 2)
+
+==== Creating a Graphics State Object
+
+Save parameters in a reusable object:
+
+[source,postscript]
+----
+% Create gstate object
+gstate              % Creates empty gstate
+currentgstate       % Fills with current state
+
+% Store for later use
+/myState currentgstate def
+----
+
+==== Using Graphics State Objects
+
+[source,postscript]
+----
+% Save current state
+/savedState currentgstate def
+
+% Modify state
+1 0 0 setrgbcolor
+5 setlinewidth
+45 rotate
+
+% Restore from saved state
+savedState setgstate
+% Back to state when we saved it
+----
+
+Practical example - switching between two states:
+
+[source,postscript]
+----
+% Define two different states
+/redThick gstate def
+redThick currentgstate pop
+redThick /PaintType 1 0 0 setrgbcolor
+redThick /LineWidth 5 setlinewidth
+
+/blueThin gstate def
+blueThin currentgstate pop
+blueThin /PaintType 0 0 1 setrgbcolor
+blueThin /LineWidth 1 setlinewidth
+
+% Use them
+redThick setgstate
+0 100 moveto 200 100 lineto stroke
+
+blueThin setgstate
+0 110 moveto 200 110 lineto stroke
+
+redThick setgstate
+0 120 moveto 200 120 lineto stroke
+----
+
+=== Practical Graphics State Patterns
+
+==== Pattern 1: Temporary Style Changes
+
+[source,postscript]
+----
+% Draw with temporary style
+/withStyle {  % ... procedure ... -> -
+  gsave
+    % Set style
+    1 0 0 setrgbcolor
+    3 setlinewidth
+    [5 3] 0 setdash
+
+    % Execute procedure
+    exec
+  grestore
+} def
+
+% Usage
+{
+  0 0 moveto
+  100 100 lineto
+  stroke
+} withStyle
+----
+
+==== Pattern 2: Style Inheritance
+
+[source,postscript]
+----
+% Base style
+/baseStyle {
+  /Helvetica findfont 12 scalefont setfont
+  0 setgray
+  1 setlinewidth
+} def
+
+% Heading style (inherits from base)
+/headingStyle {
+  baseStyle
+  /Helvetica-Bold findfont 18 scalefont setfont
+} def
+
+% Use them
+baseStyle
+100 100 moveto (Body text) show
+
+headingStyle
+100 120 moveto (Heading) show
+----
+
+==== Pattern 3: State Snapshot
+
+[source,postscript]
+----
+% Take snapshot of current state
+/snapshot {
+  20 dict begin
+    /savedGray currentgray def
+    /savedLineWidth currentlinewidth def
+    /savedLineCap currentlinecap def
+    /savedLineJoin currentlinejoin def
+    /savedDash currentdash def
+    /savedFont currentfont def
+    % ... other parameters
+  currentdict end
+} def
+
+% Restore snapshot
+/restore {
+  begin
+    savedGray setgray
+    savedLineWidth setlinewidth
+    savedLineCap setlinecap
+    savedLineJoin setlinejoin
+    savedDash aload pop setdash
+    savedFont setfont
+  end
+} def
+----
+
+==== Pattern 4: Scoped Drawing
+
+[source,postscript]
+----
+% Execute code with isolated graphics state
+/isolated {  % proc -> -
+  gsave
+    exec
+  grestore
+} def
+
+% Usage
+{
+  200 200 translate
+  45 rotate
+  1 0 0 setrgbcolor
+  0 0 100 100 rectfill
+} isolated
+
+% State is unchanged here
+----
+
+=== Common Graphics State Tasks
+
+==== Drawing with Multiple Styles
+
+[source,postscript]
+----
+% Draw border and fill with different styles
+gsave
+  % Fill
+  0.9 0.9 1 setrgbcolor
+  100 100 200 150 rectfill
+grestore
+
+gsave
+  % Border
+  0 0 0.5 setrgbcolor
+  2 setlinewidth
+  100 100 200 150 rectstroke
+grestore
+----
+
+==== Creating Gradients (Manual)
+
+[source,postscript]
+----
+% Horizontal gradient (simplified)
+/gradient {  % y1 y2 -> -
+  10 {
+    dup 10 div setgray
+    100 2 index 200 1 rectfill
+    1 add
+  } repeat
+  pop pop
+} def
+
+100 200 gradient
+----
+
+==== Style-based Drawing Functions
+
+[source,postscript]
+----
+% Draw rectangle with specified style
+/styledRect {  % x y w h style -> -
+  5 dict begin
+    /style exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    gsave
+      style exec
+      x y w h rectfill
+    grestore
+  end
+} def
+
+% Define styles
+/redStyle { 1 0 0 setrgbcolor } def
+/blueStyle { 0 0 1 setrgbcolor } def
+
+% Use them
+100 100 50 50 redStyle styledRect
+200 100 50 50 blueStyle styledRect
+----
+
+=== Best Practices
+
+==== Always Balance gsave/grestore
+
+[source,postscript]
+----
+% Good: balanced
+gsave
+  % ...
+grestore
+
+% Bad: unbalanced
+gsave
+  % ... missing grestore
+gsave
+  % ... too many gsave
+----
+
+==== Use Meaningful State Boundaries
+
+[source,postscript]
+----
+% Good: logical grouping
+gsave
+  % Set up for drawing shape
+  1 0 0 setrgbcolor
+  2 setlinewidth
+
+  % Draw shape
+  100 100 50 0 360 arc
+  stroke
+grestore
+
+% Bad: arbitrary boundaries
+gsave
+  1 0 0 setrgbcolor
+grestore
+gsave
+  2 setlinewidth
+  100 100 50 0 360 arc
+grestore
+----
+
+==== Initialize State Explicitly
+
+[source,postscript]
+----
+% Good: explicit initialization
+/initialize {
+  initgraphics     % Reset to default
+  0 setgray
+  1 setlinewidth
+  [] 0 setdash
+  0 setlinecap
+  0 setlinejoin
+  /Helvetica findfont 12 scalefont setfont
+} def
+
+initialize
+% Known starting state
+----
+
+==== Document State Requirements
+
+[source,postscript]
+----
+% drawFancyBorder: requires current path to be set
+% Assumes: line width, color already set
+% Modifies: dash pattern
+% Preserves: path, other state
+/drawFancyBorder {
+  gsave
+    [5 3] 0 setdash
+    stroke
+  grestore
+} def
+----
+
+=== Debugging Graphics State
+
+==== Print Current State
+
+[source,postscript]
+----
+/printState {
+  (=== Graphics State ===) print
+  (Gray: ) print currentgray =
+  (RGB: ) print currentrgbcolor pop pop =
+  (Line Width: ) print currentlinewidth =
+  (Line Cap: ) print currentlinecap =
+  (Line Join: ) print currentlinejoin =
+  (Dash: ) print currentdash pop =
+  (Font: ) print currentfont /FontName get =
+} def
+
+% Usage
+printState
+----
+
+==== Track State Changes
+
+[source,postscript]
+----
+% Wrap state-changing operators
+/setgray {
+  dup (Setting gray to: ) print =
+  systemdict /setgray get exec
+} def
+
+% Now all setgray calls are logged
+0.5 setgray  % Prints: Setting gray to: 0.5
+----
+
+==== Visualize State Stack Depth
+
+[source,postscript]
+----
+/showStackDepth {
+  countdictstack (Dict stack depth: ) exch =string cvs print () print
+  count (Operand stack depth: ) exch =string cvs print () print
+} def
+
+gsave
+  gsave
+    showStackDepth  % Shows nesting level
+  grestore
+grestore
+----
+
+=== Common Pitfalls
+
+==== Modifying State Without Saving
+
+[source,postscript]
+----
+% Wrong: permanent change
+1 0 0 setrgbcolor
+% Everything after this is red!
+
+% Correct: temporary change
+gsave
+  1 0 0 setrgbcolor
+  % Draw red things
+grestore
+% Color restored
+----
+
+==== Forgetting to Reset Path After Clip
+
+[source,postscript]
+----
+% Wrong: path becomes clipping path
+newpath
+100 100 100 0 360 arc
+clip
+% Path is now empty and also the clip path
+
+% Correct: reset path
+newpath
+100 100 100 0 360 arc
+clip
+newpath  % Start fresh path for drawing
+----
+
+==== Accumulating Transformations
+
+[source,postscript]
+----
+% Wrong: transformations accumulate
+/drawSomething {
+  45 rotate
+  % Draw
+} def
+
+drawSomething  % Rotated 45°
+drawSomething  % Rotated 90° total!
+
+% Correct: save/restore
+/drawSomething {
+  gsave
+    45 rotate
+    % Draw
+  grestore
+} def
+----
+
+=== See Also
+
+* xref:coordinate-systems.adoc[Coordinate Systems] - Transformation matrix details
+* xref:painting.adoc[Painting] - Using graphics state for rendering
+* xref:../../commands/graphics-state/index.adoc[Graphics State Commands] - Complete command reference
+* xref:../../commands/graphics-state/gsave.adoc[gsave] - Save graphics state
+* xref:../../commands/graphics-state/grestore.adoc[grestore] - Restore graphics state
+* xref:../../commands/graphics-state/setlinewidth.adoc[setlinewidth] - Set line width
+* xref:../../commands/graphics-state/setrgbcolor.adoc[setrgbcolor] - Set RGB color

@@ -1,0 +1,196 @@
+---
+layout: default
+title: repeat
+parent: Control Flow
+grand_parent: Command Reference
+nav_order: 4
+---
+
+== repeat
+
+Executes a procedure a specified number of times.
+
+=== Syntax
+
+----
+int proc repeat → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `int` (non-negative integer)
+
+| 0
+| `proc` (procedure to execute)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (varies)
+| Results from procedure executions
+|===
+
+=== Description
+
+[`repeat`](repeat.adoc) executes _proc_ exactly _int_ times, where _int_ must be a non-negative integer.
+
+The operator removes both operands before executing _proc_ for the first time. If _int_ is 0, _proc_ is not executed at all.
+
+If _proc_ executes xref:exit.adoc[`exit`], the loop terminates prematurely.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Simple repetition
+[source,postscript]
+----
+4 { (abc) } repeat
+% Stack: (abc) (abc) (abc) (abc)
+----
+
+.With side effects
+[source,postscript]
+----
+10 { (.) print } repeat
+% Prints: ..........
+----
+
+.Zero repetitions
+[source,postscript]
+----
+mark 0 { (won't happen) } repeat
+% Stack: mark (procedure never executed)
+----
+
+.Removing values
+[source,postscript]
+----
+1 2 3 4
+3 { pop } repeat
+% Stack: 1 (removed top 3 values)
+----
+
+=== Common Use Cases
+
+==== Simple Drawing
+[source,postscript]
+----
+5 {
+  0 0 moveto
+  72 0 rlineto
+  stroke
+  0 10 translate
+} repeat
+----
+
+==== Buffer Initialization
+
+[source,postscript]
+----
+100 { 0 } repeat
+100 array astore
+% Array of 100 zeros
+----
+
+==== Pattern Generation
+
+[source,postscript]
+----
+10 {
+  gsave
+    % Draw pattern element
+    currentpoint translate
+    drawElement
+  grestore
+  spacing 0 translate
+} repeat
+----
+
+=== Common Pitfalls
+
+WARNING: *Stack Accumulation* - If _proc_ pushes values without consuming them, they accumulate.
+
+[source,postscript]
+----
+10 { 42 } repeat
+% Stack has 10 copies of 42!
+----
+
+WARNING: *No Control Variable* - Unlike xref:for.adoc[`for`], [`repeat`](repeat.adoc) doesn't provide iteration index.
+
+[source,postscript]
+----
+5 { % No way to know which iteration } repeat
+----
+
+TIP: *Use for if Index Needed* - If you need to know the iteration number, use xref:for.adoc[`for`] instead:
+
+[source,postscript]
+----
+0 1 4 { % Iteration index on stack } for
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| _int_ is negative
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| _int_ not integer, or _proc_ not procedure
+|===
+
+=== Implementation Notes
+
+* Efficient for simple fixed repetition
+* No control variable overhead
+* Very fast for small counts
+* Procedure executed in current context
+
+=== Comparison
+
+[cols="2,3,2"]
+|===
+| Use Case | Operator | Reason
+
+| Need iteration index
+| xref:for.adoc[`for`]
+| Provides control variable
+
+| Fixed count, no index
+| [`repeat`](repeat.adoc)
+| Simpler, faster
+
+| Conditional termination
+| xref:loop.adoc[`loop`]
+| Exit when condition met
+
+| Iterate collection
+| xref:../array-string/forall.adoc[`forall`]
+| Works with arrays/strings
+|===
+
+=== See Also
+
+* xref:for.adoc[`for`] - Loop with control variable
+* xref:loop.adoc[`loop`] - Indefinite loop
+* xref:exit.adoc[`exit`] - Exit loop early
+* xref:../array-string/forall.adoc[`forall`] - Iterate collections

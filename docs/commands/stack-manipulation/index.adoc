@@ -1,0 +1,79 @@
+---
+layout: default
+title: Stack Manipulation
+parent: Command Reference
+nav_order: 1
+permalink: /commands/stack-manipulation/
+---
+= Stack Manipulation
+:description: PostScript stack manipulation operators
+:keywords: postscript, stack, manipulation, operators
+
+[.lead]
+Commands for manipulating the operand stack in PostScript.
+
+== Overview
+
+The operand stack is fundamental to PostScript execution. These operators provide essential capabilities for managing stack contents, including duplicating, exchanging, copying, and removing elements.
+
+== Stack Manipulation Commands
+
+[cols="1,3"]
+|===
+|Command |Description
+
+|xref:pop.adoc[`pop`]
+|Remove the top element from the stack
+
+|xref:exch.adoc[`exch`]
+|Exchange the top two stack elements
+
+|xref:dup.adoc[`dup`]
+|Duplicate the top element
+
+|xref:copy.adoc[`copy`]
+|Copy top n elements or duplicate composite object values
+
+|xref:psindex.adoc[`index`]
+|Duplicate the nth element from the top
+
+|xref:roll.adoc[`roll`]
+|Roll n elements j times
+
+|xref:count.adoc[`count`]
+|Count elements on the stack
+
+|xref:clear.adoc[`clear`]
+|Remove all elements from the stack
+
+|xref:mark.adoc[`mark`]
+|Push a mark object onto the stack
+
+|xref:cleartomark.adoc[`cleartomark`]
+|Pop elements down to and including a mark
+
+|xref:counttomark.adoc[`counttomark`]
+|Count elements down to a mark
+|===
+
+== Common Patterns
+
+Stack manipulation operators are often used in combination:
+
+[source,postscript]
+----
+% Duplicate and swap
+5 dup exch          % Create two copies and swap positions
+
+% Copy multiple elements
+1 2 3 3 copy        % Duplicate top 3 elements
+
+% Access deep element
+a b c d 3 index     % Copy element 3 positions down
+----
+
+== See Also
+
+* xref:../index.adoc[Command Reference] - All PostScript commands
+* xref:../../syntax/operators.adoc[Operators Overview]
+* xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide]

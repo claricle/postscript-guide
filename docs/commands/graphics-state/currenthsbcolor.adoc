@@ -1,0 +1,305 @@
+---
+layout: default
+title: currenthsbcolor
+parent: Graphics State
+grand_parent: Command Reference
+nav_order: 23
+---
+
+== currenthsbcolor
+
+Returns current color as HSB values.
+
+=== Syntax
+
+----
+– currenthsbcolor → hue saturation brightness
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| –
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 2
+| `hue` (0.0 to 1.0, color angle/360°)
+
+| 1
+| `saturation` (0.0 to 1.0, color purity)
+
+| 0
+| `brightness` (0.0 to 1.0, color intensity)
+|===
+
+=== Description
+
+[`currenthsbcolor`](currenthsbcolor.adoc) returns the current color in the graphics state according to the hue-saturation-brightness model.
+
+* If the current color space is **DeviceRGB**, [`currenthsbcolor`](currenthsbcolor.adoc) returns the color values most recently specified by [`sethsbcolor`](sethsbcolor.adoc), converting them from RGB to HSB coordinates if necessary.
+* If the current color space is **DeviceGray** or **DeviceCMYK**, [`currenthsbcolor`](currenthsbcolor.adoc) first converts the current color to RGB, then to HSB.
+* For any other color space, [`currenthsbcolor`](currenthsbcolor.adoc) returns **0.0 0.0 0.0** (black).
+
+**HSB components:**
+
+* **Hue**: Color type (0.0=red, 0.333=green, 0.667=blue, 1.0=red again)
+* **Saturation**: Color purity (0.0=gray, 1.0=pure color)
+* **Brightness**: Color intensity (0.0=black, 1.0=bright)
+
+NOTE: HSB is not a color space in its own right, merely a means for entering RGB color values in a different coordinate system. The color is internally stored as RGB.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Querying current HSB color
+[source,postscript]
+----
+0.5 1 1 sethsbcolor  % Cyan (hue=0.5)
+currenthsbcolor
+% Stack: 0.5 1.0 1.0
+----
+
+.Converting from RGB
+[source,postscript]
+----
+1 0 0 setrgbcolor  % Red
+currenthsbcolor
+% Stack: 0.0 1.0 1.0 (or 1.0 1.0 1.0 - hue wraps)
+----
+
+.Saving and restoring color
+[source,postscript]
+----
+currenthsbcolor            % Save current
+/brightness exch def
+/saturation exch def
+/hue exch def
+
+0.3 0.8 0.9 sethsbcolor   % Change color
+drawShape
+
+hue saturation brightness sethsbcolor  % Restore
+----
+
+.Adjusting brightness
+[source,postscript]
+----
+currenthsbcolor
+0.5 mul                % Halve brightness
+3 1 roll               % Reorder
+sethsbcolor
+----
+
+=== Common Use Cases
+
+==== Color Lightening/Darkening
+
+[source,postscript]
+----
+/Lighten {
+  % Increase brightness by 20%
+  currenthsbcolor
+  1.2 mul 1.0 min       % Brighten, cap at 1.0
+  3 1 roll
+  sethsbcolor
+} def
+
+/Darken {
+  % Decrease brightness by 20%
+  currenthsbcolor
+  0.8 mul
+  3 1 roll
+  sethsbcolor
+} def
+----
+
+==== Saturation Adjustment
+
+[source,postscript]
+----
+/Desaturate {
+  % Reduce saturation by half
+  currenthsbcolor
+  3 1 roll
+  0.5 mul
+  3 -1 roll
+  sethsbcolor
+} def
+
+/Saturate {
+  % Increase saturation
+  currenthsbcolor
+  3 1 roll
+  1.5 mul 1.0 min
+  3 -1 roll
+  sethsbcolor
+} def
+----
+
+==== Hue Rotation
+
+[source,postscript]
+----
+/RotateHue {
+  % delta
+  currenthsbcolor
+  3 2 roll
+  add
+  dup 1.0 gt { 1.0 sub } if
+  dup 0.0 lt { 1.0 add } if
+  3 -2 roll
+  sethsbcolor
+} def
+
+% Example: rotate 120 degrees
+0.333 RotateHue
+----
+
+==== Color Scheme Generation
+
+[source,postscript]
+----
+/ComplementaryColor {
+  currenthsbcolor
+  3 2 roll
+  0.5 add
+  dup 1.0 gt { 1.0 sub } if
+  3 -2 roll
+  sethsbcolor
+} def
+
+/AnalogousColors {
+  % Returns two analogous colors
+  currenthsbcolor
+  /b exch def /s exch def /h exch def
+
+  % First analogous (+30°)
+  h 0.083 add dup 1.0 gt { 1.0 sub } if
+  s b sethsbcolor
+
+  % Second analogous (-30°)
+  h 0.083 sub dup 0.0 lt { 1.0 add } if
+  s b sethsbcolor
+} def
+----
+
+=== Common Pitfalls
+
+WARNING: *HSB is RGB Entry Method* - Color is actually stored as RGB internally.
+
+[source,postscript]
+----
+0.5 1 1 sethsbcolor    % Cyan via HSB
+currentrgbcolor         % Returns RGB values
+% Stack: 0.0 1.0 1.0
+----
+
+WARNING: *Hue Wraps Around* - Hue values wrap at 0.0 and 1.0.
+
+[source,postscript]
+----
+1.2 0.8 0.9 sethsbcolor  % Hue becomes 0.2
+-0.1 0.8 0.9 sethsbcolor % Hue becomes 0.9
+----
+
+WARNING: *Conversion Precision* - RGB↔HSB conversion may lose precision.
+
+[source,postscript]
+----
+0.123 0.456 0.789 sethsbcolor
+currenthsbcolor
+% May not be exactly 0.123 0.456 0.789
+----
+
+WARNING: *Gray Colors Undefined Hue* - When saturation=0, hue is meaningless.
+
+[source,postscript]
+----
+0.5 0.5 0.5 setrgbcolor  % Gray
+currenthsbcolor
+% Hue value is undefined (may be any value)
+----
+
+TIP: *Use for Intuitive Color Selection* - HSB is more intuitive than RGB for humans.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackoverflow`]
+| Fewer than 3 free stack positions
+|===
+
+=== Implementation Notes
+
+* Fast query operation
+* No modification to graphics state
+* Values always in range 0.0 to 1.0
+* Actually queries RGB, then converts
+* Conversion is deterministic but approximate
+* Hue undefined when saturation is 0
+
+=== HSB Color Model
+
+The HSB color model provides intuitive color selection:
+
+.Hue Values
+----
+0.0   = Red
+0.167 = Yellow
+0.333 = Green
+0.5   = Cyan
+0.667 = Blue
+0.833 = Magenta
+1.0   = Red (wraps)
+----
+
+.Saturation Values
+----
+0.0 = No color (gray)
+0.5 = Pastel
+1.0 = Pure, vivid color
+----
+
+.Brightness Values
+----
+0.0 = Black
+0.5 = Medium
+1.0 = Bright
+----
+
+=== HSB to RGB Conversion
+
+The conversion algorithm (conceptual):
+
+[source,postscript]
+----
+% If saturation = 0 (gray)
+brightness dup dup setrgbcolor
+
+% Otherwise, convert via hue sectors
+% (Implementation uses 6 sectors based on hue)
+----
+
+=== See Also
+
+* xref:sethsbcolor.adoc[`sethsbcolor`] - Set HSB color
+* xref:currentrgbcolor.adoc[`currentrgbcolor`] - Get RGB color
+* xref:setrgbcolor.adoc[`setrgbcolor`] - Set RGB color
+* xref:currentgray.adoc[`currentgray`] - Get gray value
+* xref:currentcmykcolor.adoc[`currentcmykcolor`] - Get CMYK color

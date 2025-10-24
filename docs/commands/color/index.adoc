@@ -1,0 +1,13 @@
+---
+layout: default
+title: Color
+parent: Command Reference
+---
+
+== Color
+
+Documentation for color commands.
+
+== Status
+
+Under development.

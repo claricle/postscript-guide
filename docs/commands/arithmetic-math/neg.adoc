@@ -1,0 +1,338 @@
+---
+layout: default
+title: neg
+parent: Arithmetic and Math
+grand_parent: Command Reference
+nav_order: 8
+permalink: /commands/arithmetic-math/neg/
+---
+= neg
+:description: Negate a number
+:keywords: postscript, arithmetic, neg, negate, negative, math
+
+[.lead]
+Returns the negative (opposite sign) of a number.
+
+== Description
+
+The `neg` operator pops a number from the operand stack and pushes its negation back onto the stack. The type of the result is the same as the type of the operand, unless the operand is the most negative integer (-2147483648), in which case the result is a real.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+num1 neg num2
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num1` (integer or real) - Number to negate
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num2` (integer or real) - Negation of num1
+|===
+
+== Parameters
+
+`num1`:: Any number (integer or real), positive, negative, or zero
+
+== Return Values
+
+`num2`:: The negation of num1 (changes sign):
+* Same type as num1 (integer or real)
+* Exception: Most negative integer returns real
+
+== Examples
+
+=== Basic Negation
+
+[source,postscript]
+----
+% Negate positive
+5 neg          % → -5
+4.5 neg        % → -4.5
+
+% Negate negative (makes positive)
+-3 neg         % → 3
+-7.2 neg       % → 7.2
+
+% Zero unchanged (but may preserve sign for reals)
+0 neg          % → 0
+-0.0 neg       % → 0.0 or -0.0
+----
+
+=== Double Negation
+
+[source,postscript]
+----
+% Negating twice returns original
+5 neg neg      % → 5
+-3.5 neg neg   % → -3.5
+----
+
+=== Sign Reversal in Calculations
+
+[source,postscript]
+----
+% Reverse direction of a vector
+/reverseVector {  % [x y] -> [-x -y]
+    aload pop      % x y
+    neg exch neg exch
+    2 array astore
+} def
+
+[10 20] reverseVector  % → [-10 -20]
+----
+
+=== Subtraction Alternative
+
+[source,postscript]
+----
+% These are equivalent:
+10 5 sub       % → 5
+
+5 neg 10 add   % → 5 (add negative is same as subtract)
+
+% Sometimes clearer to add negative:
+/total 100 def
+/deduction 25 def
+total deduction neg add  % "Add negative deduction"
+----
+
+== Advanced Examples
+
+=== Opposite Direction
+
+[source,postscript]
+----
+% Calculate opposite angle
+/oppositeAngle {  % angle -> oppositeAngle
+    180 add        % Add 180 degrees
+    360 mod        % Normalize to 0-360
+} def
+
+45 oppositeAngle   % → 225
+----
+
+=== Mirror Coordinate
+
+[source,postscript]
+----
+% Mirror point across axis
+/mirrorX {  % x y -> x -y
+    neg
+} def
+
+/mirrorY {  % x y -> -x y
+    exch neg exch
+} def
+
+10 20 mirrorX  % → 10 -20
+10 20 mirrorY  % → -10 20
+----
+
+=== Debt Representation
+
+[source,postscript]
+----
+% Convert between credit/debit representation
+/creditToDebit {  % amount -> debit
+    neg
+} def
+
+/debitToCredit {  % debit -> credit
+    neg
+} def
+
+100 creditToDebit  % → -100 (represent as debt)
+-100 debitToCredit % → 100 (back to credit)
+----
+
+=== Flip Sign Conditionally
+
+[source,postscript]
+----
+% Make negative if condition is true
+/negIf {  % num bool -> num
+    {
+        neg
+    } if
+} def
+
+5 true negIf   % → -5
+5 false negIf  % → 5
+-3 true negIf  % → 3 (double negation)
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: Most negative integer (-2147483648) returns a real when negated.
+
+=== Most Negative Integer
+
+[source,postscript]
+----
+% Special case: most negative 32-bit integer
+-2147483648 neg  % → 2147483648.0 (real!)
+
+% Positive equivalent exceeds integer range
+% All other integers preserve type
+-2147483647 neg  % → 2147483647 (still integer)
+2147483647 neg   % → -2147483647 (still integer)
+----
+
+=== Sign of Zero
+
+[source,postscript]
+----
+% Integer zero has no sign
+0 neg          % → 0 (same as 0)
+
+% Real zero may preserve signed zero (IEEE 754)
+0.0 neg        % → -0.0 (implementation dependent)
+-0.0 neg       % → 0.0 (implementation dependent)
+----
+
+=== Type Preservation
+
+[source,postscript]
+----
+% Type is preserved
+-5 neg         % → 5 (integer)
+-5.0 neg       % → 5.0 (real)
+
+% Unless overflow
+-2147483648 neg % → 2147483648.0 (real)
+----
+
+=== Not the Same as Subtraction from Zero
+
+[source,postscript]
+----
+% These are equivalent for most values
+5 neg          % → -5
+0 5 sub        % → -5
+
+% But subtraction requires two operands
+% neg is more efficient and clearer
+----
+
+== Type Requirements
+
+The operand must be numeric (integer or real). Other types will cause a `typecheck` error:
+
+[source,postscript]
+----
+% BAD: Non-numeric operands
+(hello) neg    % ERROR: typecheck
+[1 2] neg      % ERROR: typecheck
+true neg       % ERROR: typecheck
+----
+
+== Related Commands
+
+* xref:abs.adoc[`abs`] - Absolute value
+* xref:sub.adoc[`sub`] - Subtract two numbers
+* xref:add.adoc[`add`] - Add two numbers
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental arithmetic operator available in all PostScript implementations.
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty.
++
+[source,postscript]
+----
+neg            % ERROR: stackunderflow (need 1 operand)
+----
+
+`typecheck`::
+The operand is not a number.
++
+[source,postscript]
+----
+(text) neg     % ERROR: typecheck
+----
+
+== Performance Considerations
+
+The `neg` operator is extremely fast:
+
+* Simple sign bit flip or subtraction from zero
+* O(1) constant time complexity
+* No overhead compared to manual subtraction
+
+== Best Practices
+
+1. **Use `neg` instead of subtracting from zero** - clearer and more efficient
+2. **Be aware of type preservation** - maintains integer/real type
+3. **Remember special case** for most negative integer
+4. **Useful for sign reversal** in geometric operations
+
+=== Idiomatic Usage
+
+[source,postscript]
+----
+% GOOD: Clear intent
+velocity neg   % Reverse direction
+
+% LESS CLEAR: Equivalent but obscure
+0 velocity sub % Same result, less clear intent
+
+% Sign changes
+/x 10 def
+x neg /x exch def  % x is now -10
+
+% Double negation for positive
+value neg neg  % Same as abs for negative, but keeps positive positive
+----
+
+=== Combine with Conditions
+
+[source,postscript]
+----
+% Make value negative if condition
+/negativeIf {  % num bool -> num
+    {
+        dup 0 gt { neg } if
+    } if
+} def
+
+% Ensure value is negative
+/ensureNegative {  % num -> negNum
+    dup 0 gt { neg } if
+} def
+
+10 ensureNegative   % → -10
+-5 ensureNegative   % → -5
+----
+
+== See Also
+
+* xref:index.adoc[Arithmetic and Math] - All arithmetic operators
+* xref:../../levels/index.adoc[PostScript Language Levels]
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

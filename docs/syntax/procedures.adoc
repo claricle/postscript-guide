@@ -1,0 +1,922 @@
+---
+layout: default
+title: Procedures
+parent: Language Syntax
+nav_order: 6
+---
+
+== Procedures
+
+Procedures are executable arrays that contain sequences of PostScript commands. They are the fundamental mechanism for creating reusable code, defining functions, and implementing control structures.
+
+=== Overview
+
+A procedure is an array object with the executable attribute. Procedures allow you to group operations into logical units that can be executed as a single entity, passed as arguments, and stored in variables.
+
+=== Procedure Syntax
+
+==== Basic Syntax
+
+Procedures are created using curly braces `{ }`:
+
+.Procedure creation
+[source,postscript]
+----
+{ 1 2 add }         % Simple procedure
+{ }                 % Empty procedure
+{                   % Multi-line procedure
+    100 200 moveto
+    300 200 lineto
+    stroke
+}
+----
+
+==== How { } Work
+
+The curly braces are special tokens that execute immediately during scanning:
+
+[source,postscript]
+----
+% When { is encountered:
+% 1. A mark is pushed onto the operand stack
+% 2. The scanner enters "procedure mode"
+% 3. Tokens are accumulated but not executed
+
+% When } is encountered:
+% 1. All tokens since the mark are collected
+% 2. An executable array is created
+% 3. The array replaces the mark on the stack
+----
+
+=== Procedure Structure
+
+==== Array Nature
+
+Procedures are arrays with the executable attribute:
+
+.Procedures are arrays
+[source,postscript]
+----
+{ 1 2 add } type        % Returns /arraytype (not /proceduretype)
+{ 1 2 add } xcheck      % Returns true (executable)
+{ 1 2 add } length      % Returns 3 (three elements)
+
+% Access elements like an array
+{ 1 2 add } 0 get       % Returns 1
+{ 1 2 add } 2 get       % Returns /add (executable name)
+----
+
+==== Executable Attribute
+
+What makes a procedure different from a regular array is the executable attribute:
+
+.Executable vs literal arrays
+[source,postscript]
+----
+% Executable array (procedure)
+{ 1 2 add }             % Will execute when encountered
+dup exec                % Executes: result 3
+
+% Literal array
+[ 1 2 add ]             % Executes during construction
+                        % Creates [3] not [1 2 add]
+
+% Make array executable
+[/1 /2 /add] cvx        % Converts to procedure
+dup exec                % Can now execute
+----
+
+=== Procedure Execution
+
+==== Deferred Execution
+
+Procedures don't execute when created - they execute when explicitly invoked:
+
+.Deferred execution
+[source,postscript]
+----
+% Creation doesn't execute
+{ 1 2 add }             % Stack: [{ 1 2 add }]
+                        % add is NOT executed
+
+% Execution happens later
+dup exec                % Now executes: stack [{ 1 2 add } 3]
+----
+
+==== Execution Methods
+
+Procedures can be executed in several ways:
+
+.Ways to execute procedures
+[source,postscript]
+----
+% 1. exec operator
+{ 1 2 add } exec        % Explicit execution
+
+% 2. As name value (most common)
+/MyProc { 1 2 add } def
+MyProc                  % Looked up and executed
+
+% 3. Control flow operators
+true { (yes) } { (no) } ifelse  % Conditional execution
+
+% 4. Iteration operators
+5 { (Hello) = } repeat  % Repeated execution
+----
+
+==== Execution Semantics
+
+When a procedure executes:
+
+. Each element is processed in sequence
+. Executable names are looked up and executed
+. Literal objects are pushed onto the stack
+. Nested procedures remain as objects (unless executed)
+
+.Execution example
+[source,postscript]
+----
+{                       % Begin procedure
+    /x 42 def          % 1. Define x
+    x                   % 2. Look up x, push 42
+    10                  % 3. Push 10
+    add                 % 4. Execute add, result 52
+} exec                  % Execute entire procedure
+                        % Stack: [52]
+----
+
+=== Defining Procedures
+
+==== Simple Definitions
+
+.Basic procedure definition
+[source,postscript]
+----
+% Define named procedure
+/Square { dup mul } def
+
+% Use it
+5 Square                % Result: 25
+----
+
+==== Multi-Step Procedures
+
+.Complex procedure
+[source,postscript]
+----
+/DrawSquare {
+    % Parameters: x y size
+    % Draw a square at (x,y) with given size
+    gsave
+        newpath
+        0 0 moveto              % Bottom-left
+        dup 0 lineto            % Bottom-right
+        dup dup lineto          % Top-right
+        0 exch lineto           % Top-left
+        closepath
+        stroke
+    grestore
+} def
+
+% Usage
+100 100 50 DrawSquare
+----
+
+==== Procedures with Parameters
+
+Procedures receive parameters from the stack:
+
+.Parameter handling
+[source,postscript]
+----
+% Procedure expecting 2 parameters
+/Add2Numbers {
+    % in: num1 num2
+    add
+    % out: sum
+} def
+
+% Call with parameters
+3 4 Add2Numbers         % Result: 7
+
+% Document parameter expectations
+/Rectangle {
+    % in: x y width height
+    % out: -
+    % Draws a rectangle
+    4 dict begin
+        /h exch def
+        /w exch def
+        /y exch def
+        /x exch def
+
+        newpath
+        x y moveto
+        w 0 rlineto
+        0 h rlineto
+        w neg 0 rlineto
+        closepath
+        stroke
+    end
+} def
+----
+
+=== Local Variables
+
+Procedures can use local variables through dictionaries.
+
+==== Dictionary-Based Locals
+
+.Local variable pattern
+[source,postscript]
+----
+/MyProc {
+    % Create local dictionary
+    10 dict begin
+        % Define local variables
+        /a exch def         % First parameter
+        /b exch def         % Second parameter
+        /result a b add def % Local computation
+
+        % Return result
+        result
+    end
+} def
+
+% Usage
+3 4 MyProc              % Result: 7
+----
+
+==== Avoiding Name Collisions
+
+.Safe local variables
+[source,postscript]
+----
+% Global variable
+/x 100 def
+
+% Procedure with local x
+/UseLocalX {
+    5 dict begin
+        /x 42 def       % Local x, doesn't affect global
+        x               % Uses local: 42
+    end
+} def
+
+UseLocalX               % Result: 42
+x                       % Global unchanged: 100
+----
+
+==== Local Scope Pattern
+
+.Standard local variable pattern
+[source,postscript]
+----
+/ProcName {
+    % in: param1 param2 param3
+
+    % Begin local scope
+    n dict begin
+        % Store parameters in local variables
+        /p3 exch def
+        /p2 exch def
+        /p1 exch def
+
+        % Local computation
+        /localVar p1 p2 add def
+
+        % Compute result
+        localVar p3 mul
+
+    end
+    % out: result
+} def
+----
+
+=== Closures and Scope
+
+==== Lexical Scoping
+
+PostScript uses dynamic scoping, but closures can capture state:
+
+.Closure pattern
+[source,postscript]
+----
+% Create a counter procedure
+/MakeCounter {
+    % in: initial-value
+
+    % Create dictionary to hold state
+    1 dict dup begin
+        /count exch def
+
+        % Return procedure that references 'count'
+        currentdict {
+            /count count 1 add def
+            count
+        } bind
+    end
+} def
+
+% Create two independent counters
+0 MakeCounter /counter1 exch def
+100 MakeCounter /counter2 exch def
+
+counter1 exec           % Returns 1
+counter1 exec           % Returns 2
+counter2 exec           % Returns 101
+counter1 exec           % Returns 3
+----
+
+==== Nested Procedures
+
+Procedures can contain other procedures:
+
+.Nested procedures
+[source,postscript]
+----
+/Outer {
+    % Define inner procedure
+    /Inner { 10 mul } def
+
+    % Use inner procedure
+    5 Inner             % Result: 50
+} def
+
+Outer                   % Defines and uses Inner
+----
+
+=== Control Flow Procedures
+
+Many control operators take procedures as arguments.
+
+==== Conditional Execution
+
+.if and ifelse
+[source,postscript]
+----
+% if: bool proc → -
+true { (It's true) print } if
+
+% ifelse: bool proc1 proc2 → -
+x 0 gt {
+    (Positive) print
+} {
+    (Not positive) print
+} ifelse
+----
+
+==== Loops
+
+.Iteration with procedures
+[source,postscript]
+----
+% repeat: int proc → -
+5 { (Hello) = } repeat
+
+% for: init incr limit proc → -
+1 1 10 {
+    dup dup mul =       % Print squares
+} for
+
+% forall: array proc → -
+[10 20 30] {
+    2 div =             % Print half of each
+} forall
+
+% loop: proc → - (infinite)
+/i 0 def
+{
+    i 10 ge { exit } if
+    i =
+    /i i 1 add def
+} loop
+----
+
+==== Stopped Context
+
+.Error handling with procedures
+[source,postscript]
+----
+% stopped: any → bool
+{
+    % Code that might error
+    1 0 div             % Division by zero
+} stopped {
+    (Error occurred) =
+} {
+    (Success) =
+} ifelse
+----
+
+=== Procedure Composition
+
+Procedures can be combined to create more complex behaviors.
+
+==== Sequential Composition
+
+.Chaining procedures
+[source,postscript]
+----
+/Step1 { 10 add } def
+/Step2 { 2 mul } def
+/Step3 { 1 sub } def
+
+/Composed {
+    Step1
+    Step2
+    Step3
+} def
+
+5 Composed              % (5+10)*2-1 = 29
+----
+
+==== Higher-Order Procedures
+
+Procedures that take or return procedures:
+
+.Procedure as argument
+[source,postscript]
+----
+% Apply a procedure to each array element
+/Map {
+    % in: array proc
+    % out: result-array
+
+    1 index length array    % Create result array
+    3 1 roll                % Arrange: array result proc
+
+    0 1 4 index length 1 sub {
+        % Stack: array result proc index
+        3 index 1 index get  % Get element
+        2 index exec         % Apply proc
+        3 index 3 1 roll put % Store result
+    } for
+
+    exch pop exch pop       % Clean up
+} def
+
+% Usage
+[1 2 3 4] { 2 mul } Map  % Result: [2 4 6 8]
+----
+
+.Procedure factory
+[source,postscript]
+----
+% Create a procedure that adds a specific value
+/MakeAdder {
+    % in: n
+    % out: procedure
+
+    1 dict begin
+        /n exch def
+        { n add }
+    end
+} def
+
+% Create specific adders
+5 MakeAdder /Add5 exch def
+10 MakeAdder /Add10 exch def
+
+3 Add5 exec             % Result: 8
+3 Add10 exec            % Result: 13
+----
+
+=== Procedure Optimization
+
+==== Operator Binding
+
+The `bind` operator replaces operator names with operator objects:
+
+.Binding for performance
+[source,postscript]
+----
+% Unbound procedure
+/SlowProc {
+    add mul sub div
+} def
+
+% Bound procedure
+/FastProc {
+    add mul sub div
+} bind def
+
+% FastProc is faster because operators
+% are pre-resolved at definition time
+----
+
+==== When to Bind
+
+.Binding guidelines
+[source,postscript]
+----
+% BIND for:
+% - Performance-critical code
+% - Procedures using many operators
+% - Code that should be protected from redefinition
+
+/CriticalProc {
+    % ... lots of operators ...
+} bind def
+
+% DON'T BIND for:
+% - Procedures that should allow operator redefinition
+% - Procedures calling user-defined operations
+
+/FlexibleProc {
+    MyCustomOp      % Should allow redefinition
+} def
+----
+
+==== Immediate Lookup (Level 2+)
+
+.Force immediate binding
+[source,postscript]
+----
+% Level 2+ immediate name lookup
+/MyProc {
+    //add           % Look up add immediately
+    //mul           % Look up mul immediately
+    CustomOp        % Will be bound by bind
+} bind def
+
+% Equivalent to manually inserting operators
+----
+
+=== Procedure Patterns
+
+==== Stack Effect Documentation
+
+.Documenting procedures
+[source,postscript]
+----
+/WellDocumented {
+    % Purpose: Calculate rectangle area
+    % in: width height
+    % out: area
+
+    mul
+} def
+----
+
+==== Guard Clauses
+
+.Input validation
+[source,postscript]
+----
+/SafeDivide {
+    % in: dividend divisor
+    % out: quotient
+
+    % Guard against division by zero
+    dup 0 eq {
+        pop pop
+        (Division by zero) print
+        0
+    } {
+        div
+    } ifelse
+} def
+----
+
+==== Template Method
+
+.Procedure template
+[source,postscript]
+----
+/TemplateProc {
+    % Setup
+    gsave
+
+    % Hook for customization
+    BeforeHook
+
+    % Core logic
+    % ...
+
+    % Another hook
+    AfterHook
+
+    % Cleanup
+    grestore
+} def
+
+% Customize by defining hooks
+/BeforeHook { 0.5 setgray } def
+/AfterHook { } def
+----
+
+==== Resource Cleanup
+
+.Safe resource management
+[source,postscript]
+----
+/WithFile {
+    % in: filename proc
+
+    exch (r) file       % Open file
+    dup 3 -1 roll       % Duplicate file for cleanup
+
+    % Execute procedure
+    stopped {
+        closefile
+        (Error in file processing) print
+    } {
+        closefile
+    } ifelse
+} def
+
+% Usage
+(data.txt) {
+    % Procedure using file
+    10 string readline pop
+} WithFile
+----
+
+=== Recursive Procedures
+
+Procedures can call themselves recursively.
+
+==== Direct Recursion
+
+.Factorial example
+[source,postscript]
+----
+/Factorial {
+    % in: n
+    % out: n!
+
+    dup 1 le {
+        % Base case
+        pop 1
+    } {
+        % Recursive case
+        dup 1 sub Factorial mul
+    } ifelse
+} def
+
+5 Factorial             % Result: 120
+----
+
+==== Mutual Recursion
+
+.Mutually recursive procedures
+[source,postscript]
+----
+/IsEven {
+    % in: n
+    % out: bool
+
+    dup 0 eq {
+        pop true
+    } {
+        1 sub IsOdd
+    } ifelse
+} def
+
+/IsOdd {
+    % in: n
+    % out: bool
+
+    dup 0 eq {
+        pop false
+    } {
+        1 sub IsEven
+    } ifelse
+} def
+
+6 IsEven                % true
+7 IsOdd                 % true
+----
+
+==== Tail Recursion
+
+.Tail-recursive pattern
+[source,postscript]
+----
+% Tail-recursive sum
+/Sum {
+    % in: array accumulator
+    % out: sum
+
+    exch dup length 0 eq {
+        pop             % Return accumulator
+    } {
+        dup 0 get       % Get first element
+        3 -1 roll add   % Add to accumulator
+        exch
+        dup length 1 sub 1 exch getinterval
+        exch Sum        % Tail call
+    } ifelse
+} def
+
+[1 2 3 4 5] 0 Sum       % Result: 15
+----
+
+=== Procedure Arrays
+
+Arrays of procedures enable dispatch tables and strategy patterns.
+
+==== Dispatch Table
+
+.Procedure dispatch
+[source,postscript]
+----
+% Operation dispatch table
+/Operations [
+    { add }             % Operation 0
+    { sub }             % Operation 1
+    { mul }             % Operation 2
+    { div }             % Operation 3
+] def
+
+% Execute operation by index
+/DoOp {
+    % in: a b op-index
+    % out: result
+
+    Operations exch get exec
+} def
+
+10 5 0 DoOp             % Add: 15
+10 5 1 DoOp             % Sub: 5
+10 5 2 DoOp             % Mul: 50
+----
+
+==== Strategy Pattern
+
+.Pluggable strategies
+[source,postscript]
+----
+/ProcessData {
+    % in: data strategy-proc
+
+    % Apply strategy to data
+    exec
+} def
+
+% Different strategies
+/Strategy1 { 2 mul } def
+/Strategy2 { 10 add } def
+/Strategy3 { dup mul } def
+
+42 { Strategy1 } ProcessData  % Result: 84
+42 { Strategy2 } ProcessData  % Result: 52
+----
+
+=== Procedure Debugging
+
+==== Tracing Execution
+
+.Debug wrapper
+[source,postscript]
+----
+/Trace {
+    % in: proc name
+
+    exch
+    dup (Entering: ) print print (\n) print
+    exec
+    dup (Exiting: ) print print (\n) print
+} def
+
+% Usage
+{ 1 2 add } (Add) Trace
+----
+
+==== Stack Inspection
+
+.Stack debugging
+[source,postscript]
+----
+/ShowStack {
+    (Stack: ) print
+    count 0 eq {
+        (empty) print
+    } {
+        count {
+            dup =
+        } repeat
+    } ifelse
+    (\n) print
+} def
+
+% Use in procedures
+/DebugProc {
+    ShowStack
+    1 2 add
+    ShowStack
+} def
+----
+
+=== Best Practices
+
+==== Procedure Design
+
+* Keep procedures focused on a single responsibility
+* Use meaningful names that describe what the procedure does
+* Document stack effects (inputs and outputs)
+* Validate inputs for robustness
+* Use local variables for complex procedures
+
+==== Performance
+
+* Use `bind` for procedures with many operators
+* Avoid excessive recursion (PostScript has limited stack depth)
+* Minimize temporary object creation
+* Reuse procedures rather than duplicating code
+
+==== Style
+
+.Good procedure style
+[source,postscript]
+----
+/GoodProc {
+    % Purpose: Clear description
+    % in: param1 param2
+    % out: result
+
+    % Use local variables for clarity
+    5 dict begin
+        /p2 exch def
+        /p1 exch def
+
+        % Clear, logical steps
+        /intermediate p1 p2 add def
+        intermediate 2 mul
+    end
+} def
+----
+
+=== Common Pitfalls
+
+==== Stack Imbalance
+
+.Unbalanced stack effects
+[source,postscript]
+----
+% WRONG - leaves extra values
+/BadProc {
+    dup dup dup         % Too many duplicates
+    add
+    % Missing cleanup
+} def
+
+% RIGHT - balanced
+/GoodProc {
+    dup                 % One dup
+    add
+    % Stack balanced
+} def
+----
+
+==== Scope Confusion
+
+.Variable scope issues
+[source,postscript]
+----
+% WRONG - no local scope
+/NoScope {
+    /x 42 def          % Pollutes global namespace
+    x
+} def
+
+% RIGHT - proper scope
+/WithScope {
+    1 dict begin
+        /x 42 def      % Local variable
+        x
+    end
+} def
+----
+
+==== Recursion Depth
+
+.Stack overflow from deep recursion
+[source,postscript]
+----
+% WRONG - unbounded recursion
+/Infinite {
+    1 add
+    Infinite           % Will overflow
+} def
+
+% RIGHT - base case
+/Bounded {
+    dup 1000 lt {
+        1 add Bounded
+    } if
+} def
+----
+
+=== See Also
+
+* xref:arrays.adoc[Arrays] - Array structure and operations
+* xref:operators.adoc[Operators] - Built-in operations
+* xref:dictionaries.adoc[Dictionaries] - Local variable implementation
+* xref:objects.adoc[Objects] - Executable vs literal objects
+* xref:../commands/control-flow/index.adoc[Control Flow Commands]
+* xref:../commands/dictionary/def.adoc[def] - Define procedures
+* xref:../commands/control-flow/exec.adoc[exec] - Execute procedures
+* xref:../usage/basic/procedures.adoc[Procedures Usage Guide]
+* xref:index.adoc[Language Syntax Overview]

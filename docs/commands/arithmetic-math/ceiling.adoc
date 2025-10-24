@@ -1,0 +1,332 @@
+---
+layout: default
+title: ceiling
+parent: Arithmetic and Math
+grand_parent: Command Reference
+nav_order: 9
+permalink: /commands/arithmetic-math/ceiling/
+---
+= ceiling
+:description: Round up to integer
+:keywords: postscript, arithmetic, ceiling, ceil, round up, math
+
+[.lead]
+Returns the least integer value greater than or equal to a number.
+
+== Description
+
+The `ceiling` operator pops a number from the operand stack and pushes the smallest integer that is greater than or equal to that number. The type of the result is the same as the type of the operand - if the input is an integer, it returns an integer; if the input is a real, it returns a real with no fractional part.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+num1 ceiling num2
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num1` (integer or real) - Number to round up
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num2` (integer or real) - Ceiling of num1 (same type as num1)
+|===
+
+== Parameters
+
+`num1`:: Any number (integer or real)
+
+== Return Values
+
+`num2`:: The ceiling of num1 (type matches num1):
+* For integers: returns the same value
+* For reals: returns real with no fractional part, rounded up
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Positive reals round up
+3.2 ceiling    % → 4.0
+3.9 ceiling    % → 4.0
+4.0 ceiling    % → 4.0 (already integer value)
+
+% Negative reals round toward zero (less negative)
+-4.8 ceiling   % → -4.0 (rounds toward zero)
+-4.1 ceiling   % → -4.0
+-4.0 ceiling   % → -4.0
+
+% Integers unchanged
+99 ceiling     % → 99
+-50 ceiling    % → -50
+----
+
+=== Rounding Behavior
+
+[source,postscript]
+----
+% ceiling always rounds up (toward positive infinity)
+0.1 ceiling    % → 1.0
+0.9 ceiling    % → 1.0
+1.0 ceiling    % → 1.0
+
+% For negative numbers, "up" means toward zero
+-0.1 ceiling   % → -0.0 (or 0.0)
+-0.9 ceiling   % → -0.0 (or 0.0)
+-1.0 ceiling   % → -1.0
+-1.1 ceiling   % → -1.0 (rounded toward zero/up)
+----
+
+=== Round Up for Allocation
+
+[source,postscript]
+----
+% Calculate pages needed
+/pagesNeeded {  % items itemsPerPage -> pages
+    div ceiling cvi
+} def
+
+100 30.0 pagesNeeded  % → 4 (need 4 pages for 100 items at 30/page)
+90 30.0 pagesNeeded   % → 3
+----
+
+=== Grid Cell Calculation
+
+[source,postscript]
+----
+% Calculate grid dimensions needed
+/gridCells {  % totalItems cellsPerRow -> rows
+    div ceiling cvi
+} def
+
+25 7.0 gridCells  % → 4 (need 4 rows)
+----
+
+== Advanced Examples
+
+=== Round Up to Multiple
+
+[source,postscript]
+----
+% Round up to nearest multiple
+/roundUpToMultiple {  % value multiple -> rounded
+    div ceiling
+    1 index mul
+    exch pop
+} def
+
+23 5.0 roundUpToMultiple  % → 25.0 (next multiple of 5)
+100 64.0 roundUpToMultiple % → 128.0 (next multiple of 64)
+----
+
+=== Buffer Size Calculation
+
+[source,postscript]
+----
+% Calculate buffer size needed
+/bufferSize {  % dataSize blockSize -> numBlocks
+    exch dup 0 eq {
+        pop pop 0
+    } {
+        exch div ceiling cvi
+    } ifelse
+} def
+
+1000 256 bufferSize  % → 4 (need 4 blocks of 256)
+----
+
+=== Price Rounding
+
+[source,postscript]
+----
+% Round price up to next cent
+/roundUpToCent {  % price -> roundedPrice
+    100 mul ceiling 100 div
+} def
+
+1.234 roundUpToCent  % → 1.24
+1.231 roundUpToCent  % → 1.24 (rounds up)
+----
+
+=== Convert to Integer (Round Up)
+
+[source,postscript]
+----
+% Get integer ceiling
+/iceil {  % num -> int
+    ceiling cvi
+} def
+
+3.1 iceil      % → 4
+-2.8 iceil     % → -2
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: Type is preserved - real input gives real output.
+
+=== Type Preservation
+
+[source,postscript]
+----
+% Type matches input type
+3.5 ceiling    % → 4.0 (real)
+3 ceiling      % → 3 (integer)
+
+% To get integer result from real
+3.5 ceiling cvi % → 4 (converted to integer)
+----
+
+=== Already an Integer Value
+
+[source,postscript]
+----
+% Integer values unchanged
+5.0 ceiling    % → 5.0 (no change, but still real)
+-3.0 ceiling   % → -3.0
+
+% Actual integers
+5 ceiling      % → 5
+----
+
+=== Negative Number Behavior
+
+[source,postscript]
+----
+% ceiling rounds toward positive infinity
+% For negative numbers, this means toward zero
+
+-3.2 ceiling   % → -3.0 (toward zero, less negative)
+-3.9 ceiling   % → -3.0 (not -4.0!)
+
+% Compare with floor
+-3.2 floor     % → -4.0 (away from zero, more negative)
+-3.2 ceiling   % → -3.0 (toward zero, less negative)
+----
+
+=== Fractional Part Exactly Zero
+
+[source,postscript]
+----
+% No change if already integer value
+4.0 ceiling    % → 4.0
+-7.0 ceiling   % → -7.0
+0.0 ceiling    % → 0.0
+----
+
+== Type Requirements
+
+The operand must be numeric (integer or real). Other types will cause a `typecheck` error:
+
+[source,postscript]
+----
+% BAD: Non-numeric operands
+(hello) ceiling    % ERROR: typecheck
+[1 2] ceiling      % ERROR: typecheck
+true ceiling       % ERROR: typecheck
+----
+
+== Related Commands
+
+* xref:floor.adoc[`floor`] - Round down to integer
+* xref:round.adoc[`round`] - Round to nearest integer
+* xref:truncate.adoc[`truncate`] - Truncate toward zero
+* xref:abs.adoc[`abs`] - Absolute value
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental arithmetic operator available in all PostScript implementations.
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty.
++
+[source,postscript]
+----
+ceiling        % ERROR: stackunderflow (need 1 operand)
+----
+
+`typecheck`::
+The operand is not a number.
++
+[source,postscript]
+----
+(text) ceiling % ERROR: typecheck
+----
+
+== Performance Considerations
+
+The `ceiling` operator is fast:
+
+* Simple comparison and rounding operation
+* O(1) constant time complexity
+* Efficient for allocation calculations
+
+== Best Practices
+
+1. **Use for allocation and capacity** calculations
+2. **Convert with `cvi` if integer needed** - `ceiling` preserves type
+3. **Understand negative behavior** - rounds toward zero
+4. **Use for "round up" logic** - next page, next block, etc.
+
+=== Common Patterns
+
+[source,postscript]
+----
+% Round up for resources
+/resourcesNeeded {  % demand capacity -> units
+    div ceiling cvi
+} def
+
+% Ensure positive ceiling
+/posCeiling {  % num -> ceil
+    dup 0 ge {
+        ceiling
+    } {
+        truncate
+    } ifelse
+} def
+
+% Pages needed (rounds up)
+/calculatePages {  % items perPage -> pages
+    div dup
+    dup truncate eq {
+        % Exact division
+        truncate
+    } {
+        % Round up
+        ceiling
+    } ifelse
+    cvi
+} def
+----
+
+== See Also
+
+* xref:index.adoc[Arithmetic and Math] - All arithmetic operators
+* xref:../../levels/index.adoc[PostScript Language Levels]
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

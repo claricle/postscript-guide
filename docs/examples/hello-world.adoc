@@ -1,0 +1,760 @@
+---
+layout: default
+title: Hello World
+parent: Practical Examples
+nav_order: 3
+---
+
+== Hello World
+
+Your first PostScript program: displaying text and creating basic graphics.
+
+=== Introduction
+
+The classic "Hello World" program is the perfect starting point for learning PostScript. This guide takes you from the simplest possible program to more sophisticated variations with formatting, graphics, and complete page layouts.
+
+=== Minimal Hello World
+
+The simplest PostScript program that displays text.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+/Courier findfont        % Find the Courier font <1>
+12 scalefont            % Scale to 12 points <2>
+setfont                 % Make it the current font <3>
+72 720 moveto           % Move to position (1 inch, 10 inches) <4>
+(Hello, World!) show    % Display the text <5>
+showpage                % Output the page <6>
+----
+<1> Use [`findfont`](../commands/font-text/findfont.adoc) to locate the Courier font
+<2> Use [`scalefont`](../commands/font-text/scalefont.adoc) to set the size to 12 points
+<3> Use [`setfont`](../commands/font-text/setfont.adoc) to activate the font
+<4> Use [`moveto`](../commands/path-construction/moveto.adoc) to position the cursor (72 points = 1 inch)
+<5> Use [`show`](../commands/font-text/show.adoc) to render the text
+<6> Use `showpage` to output the page to the device
+
+==== Expected Output
+
+The text "Hello, World!" appears in 12-point Courier font at position (72, 720) on the page, which is approximately 1 inch from the left edge and 10 inches from the bottom.
+
+==== How It Works
+
+PostScript uses a coordinate system where:
+
+* The origin (0,0) is at the bottom-left corner
+* Units are in points (1/72 of an inch)
+* X increases to the right, Y increases upward
+* Standard US Letter page is 612 × 792 points (8.5 × 11 inches)
+
+=== Hello World with Formatting
+
+Adding font selection, sizing, and positioning for better visual presentation.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Define convenience procedures
+/inch { 72 mul } def                    % Convert inches to points <1>
+
+% Set up Times-Bold font at 24 points
+/Times-Bold findfont 24 scalefont setfont <2>
+
+% Position and display the greeting
+1 inch 9.5 inch moveto                  % 1 inch from left, 9.5 inches from bottom <3>
+(Hello, PostScript World!) show          % Display main text <4>
+
+% Add a subtitle in smaller italic font
+/Times-Italic findfont 14 scalefont setfont <5>
+1 inch 9.2 inch moveto
+(Your first formatted text example) show <6>
+
+% Add footer in small regular font
+/Times-Roman findfont 10 scalefont setfont
+1 inch 0.75 inch moveto
+(Generated with PostScript) show
+
+showpage
+----
+<1> Define a procedure to convert inches to points for easier positioning
+<2> Set main title font to 24-point Times-Bold
+<3> Position at 1 inch from left, 9.5 inches from bottom
+<4> Display the main greeting text
+<5> Switch to 14-point Times-Italic for subtitle
+<6> Display subtitle 0.3 inches below the title
+
+==== Expected Output
+
+A formatted page with:
+
+* Large bold title "Hello, PostScript World!" at the top
+* Medium italic subtitle below it
+* Small footer text at the bottom of the page
+
+==== Available Fonts
+
+Standard PostScript fonts include:
+
+* **Serif families**: Times-Roman, Times-Bold, Times-Italic, Times-BoldItalic
+* **Sans-serif families**: Helvetica, Helvetica-Bold, Helvetica-Oblique, Helvetica-BoldOblique
+* **Monospace families**: Courier, Courier-Bold, Courier-Oblique, Courier-BoldOblique
+* **Symbol fonts**: Symbol, ZapfDingbats
+
+=== Multiple Text Variations
+
+Demonstrating different text styles, sizes, and alignments.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Utility procedures
+/inch { 72 mul } def
+/centershow {                           % Center text at current point <1>
+  dup stringwidth pop                   % Get text width <2>
+  2 div neg 0 rmoveto                   % Move back half the width <3>
+  show                                  % Display the text <4>
+} def
+
+% Title - Large centered bold
+/Helvetica-Bold findfont 36 scalefont setfont
+4.25 inch 10 inch moveto                % Center of page horizontally
+(PostScript Typography) centershow       % Centered title <5>
+
+% Subtitle - Medium centered
+/Helvetica-Oblique findfont 18 scalefont setfont
+4.25 inch 9.5 inch moveto
+(Exploring Font Variations) centershow
+
+% Left-aligned body text
+/Times-Roman findfont 12 scalefont setfont
+1 inch 8.5 inch moveto
+(Left-aligned text example) show         % Standard left alignment <6>
+
+% Right-aligned text
+/Times-Italic findfont 12 scalefont setfont
+7.5 inch 8 inch moveto
+(Right-aligned text) dup stringwidth pop neg 0 rmoveto show <7>
+
+% Centered text
+/Courier findfont 12 scalefont setfont
+4.25 inch 7.5 inch moveto
+(Centered monospace text) centershow
+
+% Multiple sizes demonstration
+1 inch 6.5 inch moveto
+/Helvetica findfont 8 scalefont setfont
+(8 point text) show
+
+1 inch 6.2 inch moveto
+/Helvetica findfont 10 scalefont setfont
+(10 point text) show
+
+1 inch 5.85 inch moveto
+/Helvetica findfont 12 scalefont setfont
+(12 point text) show
+
+1 inch 5.45 inch moveto
+/Helvetica findfont 14 scalefont setfont
+(14 point text) show
+
+1 inch 4.95 inch moveto
+/Helvetica findfont 18 scalefont setfont
+(18 point text) show
+
+1 inch 4.3 inch moveto
+/Helvetica findfont 24 scalefont setfont
+(24 point text) show
+
+showpage
+----
+<1> Define a procedure to center text at the current position
+<2> Use [`stringwidth`](../commands/font-text/stringwidth.adoc) to measure text width
+<3> Use [`rmoveto`](../commands/path-construction/rmoveto.adoc) to move back half the width
+<4> Use [`show`](../commands/font-text/show.adoc) to display the centered text
+<5> Apply centershow to title at horizontal center (4.25 inches = half of 8.5")
+<6> Left alignment is the default behavior of show
+<7> Right-align by moving left by the text width before showing
+
+==== Expected Output
+
+A page demonstrating various text alignments and sizes:
+
+* Large centered bold title at the top
+* Medium centered italic subtitle
+* Left-aligned, right-aligned, and centered examples
+* Progressive size demonstration from 8pt to 24pt
+
+==== Text Alignment Techniques
+
+**Left alignment** (default):
+
+* Simply use `moveto` to position, then `show` to display
+
+**Center alignment**:
+
+* Use `stringwidth` to measure text width
+* Move back half the width with `rmoveto`
+* Then `show` the text
+
+**Right alignment**:
+
+* Use `stringwidth` to measure text width
+* Move back the full width with `rmoveto`
+* Then `show` the text
+
+=== Adding Simple Graphics
+
+Combining text with basic geometric shapes for visual interest.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Utilities
+/inch { 72 mul } def
+
+% Draw a decorative border
+gsave                                   % Save graphics state <1>
+  2 setlinewidth                        % Set line thickness <2>
+  0.5 inch 0.5 inch moveto              % Start at bottom-left
+  0.5 inch 10.5 inch lineto             % Draw to top-left <3>
+  8 inch 10.5 inch lineto               % Draw to top-right
+  8 inch 0.5 inch lineto                % Draw to bottom-right
+  closepath                             % Close the rectangle <4>
+  stroke                                % Draw the border <5>
+grestore                                % Restore graphics state <6>
+
+% Draw a horizontal line separator
+gsave
+  1 setlinewidth
+  1 inch 9 inch moveto
+  7.5 inch 9 inch lineto
+  stroke
+grestore
+
+% Main title with background box
+gsave
+  % Draw filled box behind title
+  0.9 setgray                           % Light gray fill <7>
+  1.5 inch 9.3 inch moveto
+  6 inch 0 rlineto                      % Draw rectangle outline <8>
+  0 0.6 inch rlineto
+  -6 inch 0 rlineto
+  closepath
+  fill                                  % Fill the box <9>
+
+  % Draw title text
+  0 setgray                             % Black text <10>
+  /Helvetica-Bold findfont 32 scalefont setfont
+  4.25 inch 9.5 inch moveto
+  (Hello, World!) dup stringwidth pop 2 div neg 0 rmoveto show
+grestore
+
+% Add circular bullet points
+/bullet {                               % Define bullet procedure <11>
+  gsave
+    0 setgray
+    newpath
+    0 0 0.08 inch 0 360 arc             % Small circle <12>
+    fill
+  grestore
+} def
+
+% Create bulleted list
+/Times-Roman findfont 14 scalefont setfont
+1.5 inch 8.2 inch moveto
+(Welcome to PostScript programming) show
+
+1.2 inch 7.9 inch moveto bullet         % Draw bullet <13>
+1.5 inch 7.85 inch moveto
+(PostScript is a page description language) show
+
+1.2 inch 7.5 inch moveto bullet
+1.5 inch 7.45 inch moveto
+(Text and graphics can be combined) show
+
+1.2 inch 7.1 inch moveto bullet
+1.5 inch 7.05 inch moveto
+(Programs produce precise, scalable output) show
+
+% Add a simple logo using shapes
+gsave
+  4.25 inch 5.5 inch translate         % Move origin to logo center <14>
+
+  % Draw outer circle
+  newpath
+  0 0 0.75 inch 0 360 arc
+  0.2 setlinewidth
+  stroke
+
+  % Draw inner shapes
+  0.7 setgray
+  newpath
+  -0.4 inch 0 moveto
+  0.4 inch 0 lineto
+  0 0.4 inch lineto
+  closepath
+  fill
+grestore
+
+% Footer with decorative elements
+gsave
+  % Left decorative box
+  0.5 setgray
+  0.75 inch 1 inch moveto
+  0.5 inch 0 rlineto
+  0 0.3 inch rlineto
+  -0.5 inch 0 rlineto
+  closepath
+  fill
+
+  % Right decorative box
+  7.25 inch 1 inch moveto
+  0.5 inch 0 rlineto
+  0 0.3 inch rlineto
+  -0.5 inch 0 rlineto
+  closepath
+  fill
+
+  % Footer text
+  0 setgray
+  /Times-Italic findfont 10 scalefont setfont
+  4.25 inch 1.1 inch moveto
+  (Created with PostScript) dup stringwidth pop 2 div neg 0 rmoveto show
+grestore
+
+showpage
+----
+<1> Use [`gsave`](../commands/graphics-state/gsave.adoc) to save current graphics state
+<2> Use [`setlinewidth`](../commands/graphics-state/setlinewidth.adoc) to set line thickness
+<3> Use [`lineto`](../commands/path-construction/lineto.adoc) to draw line segments
+<4> Use [`closepath`](../commands/path-construction/closepath.adoc) to complete the shape
+<5> Use [`stroke`](../commands/painting/stroke.adoc) to draw the outlined path
+<6> Use [`grestore`](../commands/graphics-state/grestore.adoc) to restore previous state
+<7> Use [`setgray`](../commands/graphics-state/setgray.adoc) to set gray level (0=black, 1=white)
+<8> Use [`rlineto`](../commands/path-construction/rlineto.adoc) for relative line drawing
+<9> Use [`fill`](../commands/painting/fill.adoc) to fill the enclosed area
+<10> Set color back to black (0 gray) for text
+<11> Define reusable procedure for drawing bullets
+<12> Use [`arc`](../commands/path-construction/arc.adoc) to draw circular shape
+<13> Call the bullet procedure to draw each bullet point
+<14> Use [`translate`](../commands/transformations/translate.adoc) to change coordinate origin
+
+==== Expected Output
+
+A professional-looking page featuring:
+
+* Decorative border around the entire page
+* Gray background box behind the title
+* Horizontal separator line
+* Bulleted list with circular bullets
+* Simple geometric logo
+* Decorative footer with gray boxes
+
+==== Graphics State Management
+
+Use `gsave` and `grestore` to isolate changes:
+
+* Line widths
+* Colors
+* Coordinate transformations
+* Clipping paths
+
+This prevents unintended side effects when combining graphics and text.
+
+=== Complete Page Layout Example
+
+A production-ready page layout with header, body, and footer.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%Title: Complete Page Layout
+%%Creator: PostScript Language Reference Guide
+%%CreationDate: (2025)
+%%Pages: 1
+%%BoundingBox: 0 0 612 792
+%%EndComments
+
+% ============================================================
+% PROCEDURE DEFINITIONS
+% ============================================================
+
+/inch { 72 mul } def
+
+% Text alignment procedures
+/centershow {
+  dup stringwidth pop 2 div neg 0 rmoveto show
+} def
+
+/rightshow {
+  dup stringwidth pop neg 0 rmoveto show
+} def
+
+% Box drawing procedure
+/box {  % width height x y box
+  gsave
+    moveto                              % Move to bottom-left corner
+    1 index 0 rlineto                   % width 0 rlineto (bottom edge)
+    0 exch rlineto                      % 0 height rlineto (right edge)
+    1 index neg 0 rlineto               % -width 0 rlineto (top edge)
+    closepath
+    pop pop                             % Clean up width and height from stack
+  grestore
+} def
+
+% Rounded box procedure
+/roundbox {  % width height radius x y roundbox
+  gsave
+    /r exch def                         % radius
+    moveto                              % Move to starting position
+    /h exch def /w exch def             % Store width and height
+
+    % Draw rounded rectangle
+    w r sub 0 rlineto                   % Bottom line
+    r r r 270 360 arc                   % Bottom-right corner
+    0 h 2 r mul sub rlineto             % Right line
+    r neg r r 0 90 arc                  % Top-right corner
+    w 2 r mul sub neg 0 rlineto         % Top line
+    r neg r neg r 90 180 arc            % Top-left corner
+    0 h 2 r mul sub neg rlineto         % Left line
+    r r neg r 180 270 arc               % Bottom-left corner
+    closepath
+  grestore
+} def
+
+% Horizontal line procedure
+/hline {  % x1 x2 y hline
+  gsave
+    /y exch def
+    /x2 exch def
+    /x1 exch def
+    newpath
+    x1 y moveto
+    x2 y lineto
+    stroke
+  grestore
+} def
+
+% ============================================================
+% PAGE MARGINS AND LAYOUT CONSTANTS
+% ============================================================
+
+/leftMargin 1 inch def
+/rightMargin 7.5 inch def
+/topMargin 10.5 inch def
+/bottomMargin 0.75 inch def
+/pageWidth 8.5 inch def
+/pageCenter pageWidth 2 div def
+
+% ============================================================
+% HEADER SECTION
+% ============================================================
+
+gsave
+  % Header background
+  0.95 setgray
+  rightMargin leftMargin sub 0.8 inch leftMargin topMargin 0.4 inch sub box
+  fill
+
+  % Header title
+  0 setgray
+  /Helvetica-Bold findfont 18 scalefont setfont
+  leftMargin 0.2 inch add topMargin 0.15 inch sub moveto
+  (PostScript Programming Guide) show
+
+  % Header date (right-aligned)
+  /Helvetica findfont 10 scalefont setfont
+  rightMargin 0.2 inch sub topMargin 0.15 inch sub moveto
+  (2025-01-01) rightshow
+
+  % Header separator line
+  1 setlinewidth
+  leftMargin rightMargin topMargin 0.45 inch sub hline
+grestore
+
+% ============================================================
+% MAIN CONTENT
+% ============================================================
+
+% Main title
+gsave
+  /Helvetica-Bold findfont 36 scalefont setfont
+  pageCenter 9.2 inch moveto
+  (Hello, World!) centershow
+
+  % Subtitle
+  /Helvetica-Oblique findfont 16 scalefont setfont
+  pageCenter 8.8 inch moveto
+  (A Complete Page Layout Example) centershow
+grestore
+
+% Decorative line under title
+gsave
+  2 setlinewidth
+  0.5 setgray
+  pageCenter 1 inch sub 8.5 inch moveto
+  2 inch 0 rlineto
+  stroke
+grestore
+
+% Introduction paragraph
+gsave
+  /Times-Roman findfont 12 scalefont setfont
+  /leading 16 def                       % Line spacing
+
+  leftMargin 8 inch moveto
+  (This example demonstrates a complete page layout with) show
+  leftMargin 8 inch leading sub moveto
+  (header, body content, graphics, and footer. It showcases) show
+  leftMargin 8 inch leading 2 mul sub moveto
+  (professional document structure and design principles.) show
+grestore
+
+% Feature highlights with rounded boxes
+gsave
+  /Times-Roman findfont 11 scalefont setfont
+
+  % Box 1: Structure
+  0.9 setgray
+  2.5 inch 1.8 inch 0.15 inch 1 inch 7 inch roundbox
+  fill
+  0 setgray
+  1.2 inch 7.7 inch moveto
+  /Helvetica-Bold findfont 12 scalefont setfont
+  (Document Structure) show
+  1.2 inch 7.45 inch moveto
+  /Times-Roman findfont 10 scalefont setfont
+  (Headers, footers, and) show
+  1.2 inch 7.25 inch moveto
+  (content organization) show
+
+  % Box 2: Typography
+  0.9 setgray
+  2.5 inch 1.8 inch 0.15 inch 3.8 inch 7 inch roundbox
+  fill
+  0 setgray
+  4 inch 7.7 inch moveto
+  /Helvetica-Bold findfont 12 scalefont setfont
+  (Typography) show
+  4 inch 7.45 inch moveto
+  /Times-Roman findfont 10 scalefont setfont
+  (Professional fonts) show
+  4 inch 7.25 inch moveto
+  (and text layout) show
+
+  % Box 3: Graphics
+  0.9 setgray
+  2.5 inch 1.8 inch 0.15 inch 6.1 inch 7 inch roundbox
+  fill
+  0 setgray
+  6.3 inch 7.7 inch moveto
+  /Helvetica-Bold findfont 12 scalefont setfont
+  (Vector Graphics) show
+  6.3 inch 7.45 inch moveto
+  /Times-Roman findfont 10 scalefont setfont
+  (Shapes, lines, and) show
+  6.3 inch 7.25 inch moveto
+  (design elements) show
+grestore
+
+% Sample diagram
+gsave
+  pageCenter 5 inch translate          % Center of diagram area
+
+  % Outer frame
+  1 setlinewidth
+  0 setgray
+  -2 inch -1.5 inch moveto
+  4 inch 0 rlineto
+  0 3 inch rlineto
+  -4 inch 0 rlineto
+  closepath
+  stroke
+
+  % Inner elements
+  0.7 setgray
+
+  % Left box
+  -1.5 inch -1 inch moveto
+  1 inch 0 rlineto
+  0 1.5 inch rlineto
+  -1 inch 0 rlineto
+  closepath
+  fill
+
+  % Center circle
+  newpath
+  0 0 0.6 inch 0 360 arc
+  fill
+
+  % Right triangle
+  0.5 inch -0.8 inch moveto
+  1.2 inch 0 rlineto
+  -0.6 inch 1.4 inch rlineto
+  closepath
+  fill
+
+  % Labels
+  0 setgray
+  /Helvetica findfont 9 scalefont setfont
+  -1 inch -1.4 inch moveto
+  (Input) dup stringwidth pop 2 div neg 0 rmoveto show
+  0 -1.4 inch moveto
+  (Process) dup stringwidth pop 2 div neg 0 rmoveto show
+  1.1 inch -1.4 inch moveto
+  (Output) dup stringwidth pop 2 div neg 0 rmoveto show
+grestore
+
+% Body text sections
+gsave
+  /Times-Roman findfont 11 scalefont setfont
+  /leading 14 def
+
+  % Section 1
+  leftMargin 2.5 inch moveto
+  /Times-Bold findfont 13 scalefont setfont
+  (Key Features) show
+
+  /Times-Roman findfont 11 scalefont setfont
+  leftMargin 2.3 inch moveto
+  (PostScript provides powerful tools for creating professional) show
+  leftMargin 2.3 inch leading sub moveto
+  (documents with precise control over typography and graphics.) show
+
+  % Section 2
+  leftMargin 1.8 inch moveto
+  /Times-Bold findfont 13 scalefont setfont
+  (Best Practices) show
+
+  /Times-Roman findfont 11 scalefont setfont
+  leftMargin 1.6 inch moveto
+  (Use gsave/grestore to manage graphics state, define reusable) show
+  leftMargin 1.6 inch leading sub moveto
+  (procedures, and maintain consistent margins and spacing.) show
+grestore
+
+% ============================================================
+% FOOTER SECTION
+% ============================================================
+
+gsave
+  % Footer separator line
+  0.5 setlinewidth
+  leftMargin rightMargin bottomMargin 0.5 inch add hline
+
+  % Footer text
+  /Times-Roman findfont 9 scalefont setfont
+  leftMargin bottomMargin 0.25 inch add moveto
+  (PostScript Language Reference Guide) show
+
+  % Page number (centered)
+  /Helvetica findfont 9 scalefont setfont
+  pageCenter bottomMargin 0.25 inch add moveto
+  (- 1 -) centershow
+
+  % Copyright (right-aligned)
+  /Times-Italic findfont 8 scalefont setfont
+  rightMargin bottomMargin 0.25 inch add moveto
+  (Copyright \251 2025) rightshow
+grestore
+
+showpage
+%%EOF
+----
+
+==== Expected Output
+
+A complete professional page with:
+
+* Gray header box with title and date
+* Large centered title and subtitle
+* Three rounded information boxes
+* Central diagram with shapes and labels
+* Body text with sections and headings
+* Professional footer with page number and copyright
+
+==== Layout Components
+
+**Header**:
+
+* Background box for visual separation
+* Document title and date
+* Separator line
+
+**Body**:
+
+* Centered title and subtitle
+* Feature highlights in rounded boxes
+* Diagrams with labels
+* Structured body text
+
+**Footer**:
+
+* Separator line
+* Left-aligned document name
+* Centered page number
+* Right-aligned copyright
+
+=== Troubleshooting
+
+==== Common Issues
+
+**Text not appearing**:
+
+* Ensure `showpage` is called at the end
+* Check that font is set before calling `show`
+* Verify coordinates are within page bounds (0-612 for X, 0-792 for Y)
+
+**Wrong font or size**:
+
+* Call `findfont`, `scalefont`, and `setfont` in that order
+* Remember that `scalefont` creates a new font; it doesn't modify the current one
+
+**Text cut off at page edges**:
+
+* Leave margins (typically 0.5-1 inch from edges)
+* Calculate text width with `stringwidth` before positioning
+
+**Graphics obscuring text**:
+
+* Use `gsave`/`grestore` to isolate graphics operations
+* Be mindful of the order: graphics drawn last appear on top
+
+**Coordinate confusion**:
+
+* Remember: origin (0,0) is at bottom-left
+* Y-axis increases upward (opposite of screen coordinates)
+* Use the `/inch { 72 mul } def` procedure for easier calculation
+
+=== Performance Tips
+
+* **Define procedures once** at the beginning of the file
+* **Use `gsave`/`grestore` sparingly** - they save/restore the entire graphics state
+* **Avoid redundant font changes** - set font once for multiple text operations
+* **Cache calculated values** in variables rather than recomputing
+
+=== See Also
+
+* xref:drawing-shapes.adoc[Drawing Shapes] - Creating geometric graphics
+* xref:text-layout.adoc[Text Layout] - Advanced typography techniques
+* xref:../commands/font-text/show.adoc[show command] - Display text
+* xref:../commands/font-text/findfont.adoc[findfont command] - Locate fonts
+* xref:../commands/font-text/scalefont.adoc[scalefont command] - Size fonts
+* xref:../commands/graphics-state/gsave.adoc[gsave command] - Save graphics state
+* xref:../commands/painting/stroke.adoc[stroke command] - Draw paths
+* xref:../commands/painting/fill.adoc[fill command] - Fill shapes
+* xref:index.adoc[More Examples]
+* xref:../commands/index.adoc[Command Reference]

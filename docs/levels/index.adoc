@@ -1,0 +1,141 @@
+---
+layout: default
+title: PostScript Levels
+nav_order: 4
+---
+= PostScript Levels
+:description: Documentation for PostScript Level 1, 2, and 3 specifications
+:keywords: postscript, levels, versions, specifications
+:permalink: /levels/
+
+[.lead]
+PostScript has evolved through three major versions, each adding significant capabilities while maintaining backward compatibility.
+
+== Overview
+
+PostScript was developed by Adobe Systems and released in three major levels, each building upon the previous version with enhanced features and capabilities.
+
+== Evolution Timeline
+
+[cols="1,2,4"]
+|===
+|Level |Release Year |Key Features
+
+|xref:level-1.adoc[Level 1]
+|1984
+|Original specification with basic imaging model, stack-based execution, vector graphics, and font handling
+
+|xref:level-2.adoc[Level 2]
+|1990
+|Added color extensions, composite fonts, filters, forms, patterns, file system, and performance improvements
+
+|xref:level-3.adoc[Level 3]
+|1996
+|Introduced smooth shading, better color management, improved PDF integration, and additional imaging features
+|===
+
+== Version Documentation
+
+=== xref:level-1.adoc[PostScript Level 1]
+
+The original PostScript specification introduced:
+
+* Stack-based execution model
+* Basic imaging operators
+* Path construction and painting
+* Font rendering
+* Device independence
+* Coordinate transformations
+
+xref:level-1.adoc[Read more about Level 1 →]
+
+=== xref:level-2.adoc[PostScript Level 2]
+
+Level 2 extended PostScript with:
+
+* Color spaces (DeviceRGB, DeviceCMYK, DeviceGray, CIE-based)
+* Composite fonts and CID-keyed fonts
+* Binary encoding for efficiency
+* Filters (compression, decompression)
+* Forms (cached graphical objects)
+* Patterns (tiling patterns)
+* Image operators enhancements
+* File system and named resources
+* Better memory management
+
+xref:level-2.adoc[Read more about Level 2 →]
+
+=== xref:level-3.adoc[PostScript Level 3]
+
+Level 3 added advanced features:
+
+* Smooth shading (gradient fills)
+* DeviceN and Separation color spaces
+* In-RIP separations
+* Better PDF integration
+* Improved halftoning
+* Better device control
+* Enhanced font support
+
+xref:level-3.adoc[Read more about Level 3 →]
+
+== xref:comparison.adoc[Feature Comparison]
+
+For a detailed comparison of features across all three levels, see the xref:comparison.adoc[version comparison table].
+
+== Compatibility
+
+PostScript interpreters are generally backward compatible:
+
+* A Level 2 interpreter can execute Level 1 programs
+* A Level 3 interpreter can execute Level 1 and Level 2 programs
+* Programs can query the language level using the `languagelevel` operator
+
+=== Checking Language Level
+
+[source,postscript]
+----
+languagelevel       % Returns 1, 2, or 3
+1 eq {              % If Level 1
+    % Use Level 1 features only
+} {
+    languagelevel 2 eq {  % If Level 2
+        % Can use Level 2 features
+    } {
+        % Can use Level 3 features
+    } ifelse
+} ifelse
+----
+
+== Choosing the Right Level
+
+When writing PostScript programs:
+
+* **Use Level 1** if maximum compatibility is required
+* **Use Level 2** for color documents, better performance, and modern features
+* **Use Level 3** for advanced imaging, smooth shading, and optimal PDF workflow
+
+Most modern PostScript interpreters support Level 3, but it's good practice to:
+
+1. State the required level in document comments
+2. Use conditional code for optional features
+3. Test on target devices when possible
+
+== Document Structuring Comments
+
+Declare the PostScript level in your document header:
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%LanguageLevel: 2
+%%Creator: My Application
+%%Title: Sample Document
+%%EndComments
+----
+
+== See Also
+
+* xref:../commands/index.adoc[Command Reference] - Lists which commands are available in each level
+* xref:../syntax/index.adoc[Language Syntax] - Core syntax applicable to all levels
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification

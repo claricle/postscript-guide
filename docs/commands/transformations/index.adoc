@@ -1,0 +1,106 @@
+---
+layout: default
+title: Coordinate Transformations
+parent: Command Reference
+---
+
+== Coordinate Transformations
+
+Commands for coordinate system transformations and matrix operations.
+
+=== Overview
+
+The PostScript coordinate transformation system provides powerful tools for manipulating the coordinate space in which graphics are drawn. These commands fall into three main categories:
+
+==== Basic Transformations
+
+* xref:translate.adoc[`translate`] - Move the origin
+* xref:scale.adoc[`scale`] - Change unit size
+* xref:rotate.adoc[`rotate`] - Rotate axes
+* xref:concat.adoc[`concat`] - Concatenate matrix with CTM
+
+==== Matrix Operations
+
+* xref:matrix.adoc[`matrix`] - Create identity matrix
+* xref:identmatrix.adoc[`identmatrix`] - Replace matrix with identity
+* xref:defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
+* xref:currentmatrix.adoc[`currentmatrix`] - Get current transformation matrix
+* xref:setmatrix.adoc[`setmatrix`] - Replace CTM with matrix
+* xref:initmatrix.adoc[`initmatrix`] - Reset CTM to default
+* xref:concatmatrix.adoc[`concatmatrix`] - Multiply two matrices
+* xref:invertmatrix.adoc[`invertmatrix`] - Invert a matrix
+
+==== Coordinate Transformations
+
+* xref:transform.adoc[`transform`] - Transform user→device coordinates
+* xref:itransform.adoc[`itransform`] - Transform device→user coordinates
+* xref:dtransform.adoc[`dtransform`] - Transform distance vector
+* xref:idtransform.adoc[`idtransform`] - Inverse transform distance vector
+
+=== Transformation Matrix
+
+PostScript uses a 6-element matrix to represent coordinate transformations:
+
+----
+[a b c d tx ty]
+----
+
+This matrix transforms coordinates according to:
+
+----
+x' = a×x + c×y + tx
+y' = b×x + d×y + ty
+----
+
+Where:
+
+* `a`, `d` - Scaling factors in x and y
+* `b`, `c` - Rotation/skewing components
+* `tx`, `ty` - Translation components
+
+The identity matrix is `[1 0 0 1 0 0]`.
+
+=== Current Transformation Matrix (CTM)
+
+The CTM maps user space coordinates to device space coordinates. It is part of the graphics state and is affected by:
+
+* xref:../graphics-state/gsave.adoc[`gsave`] and xref:../graphics-state/grestore.adoc[`grestore`]
+* Basic transformation commands
+* xref:setmatrix.adoc[`setmatrix`]
+
+=== Common Operations
+
+==== Centering Content
+
+[source,postscript]
+----
+% Center a 100x100 square on page
+306 396 translate  % Move to center of letter page
+-50 -50 translate  % Move back by half size
+----
+
+==== Scaling and Rotation
+
+[source,postscript]
+----
+% Scale by 2 and rotate 45 degrees
+2 2 scale
+45 rotate
+----
+
+==== Saving Transformations
+
+[source,postscript]
+----
+gsave
+  % Temporary transformations
+  100 100 translate
+  2 2 scale
+  % Draw transformed content
+grestore
+% Original CTM restored
+----
+
+=== Status
+
+Complete documentation for all transformation commands.

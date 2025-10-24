@@ -1,0 +1,180 @@
+---
+layout: default
+title: store
+parent: Dictionary Operations
+grand_parent: Command Reference
+nav_order: 6
+---
+
+== store
+
+Stores a value in the dictionary stack (searches for existing key first).
+
+=== Syntax
+
+----
+key value store → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `key`
+
+| 0
+| `value`
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Dictionary modified
+|===
+
+=== Description
+
+[`store`](store.adoc) searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
+
+* If found: replaces the value in that dictionary
+* If not found: creates new entry in current dictionary
+
+This differs from [`def`](def.adoc), which always uses the current dictionary.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Store vs. def
+[source,postscript]
+----
+/x 1 def  % Define in current dict
+
+5 dict begin
+  /x 2 def     % New x in new dict
+  /x 3 store   % Modifies x in current dict (now 3)
+end
+
+/x load  % Returns 1 (outer x unchanged)
+----
+
+.Updating existing values
+[source,postscript]
+----
+/counter 0 def
+% ... later ...
+/counter counter 1 add store  % Increment counter
+----
+
+.Equivalent to def when not found
+[source,postscript]
+----
+/newvar 42 store  % Same as /newvar 42 def (not found)
+----
+
+=== Common Use Cases
+
+==== Global Variable Updates
+
+[source,postscript]
+----
+/globalCounter 0 def
+
+/increment {
+  5 dict begin  % Local scope
+    /globalCounter globalCounter 1 add store
+  end
+} def
+----
+
+==== Configuration Updates
+
+[source,postscript]
+----
+% Update wherever it's defined
+/setting newValue store
+----
+
+=== Common Pitfalls
+
+WARNING: *Searches Dictionary Stack* - [`store`](store.adoc) may modify a dictionary other than the current one!
+
+[source,postscript]
+----
+/x 1 def  % In userdict
+
+10 dict begin
+  /x 99 store  % Modifies x in userdict, not current dict!
+end
+----
+
+WARNING: *Global/Local VM Restrictions* - Same VM rules as [`def`](def.adoc) apply.
+
+TIP: *Use def for New Definitions* - Use [`def`](def.adoc) when you want to ensure definition goes in current dictionary.
+
+TIP: *Use store for Updates* - Use [`store`](store.adoc) when you want to update an existing definition regardless of where it is.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`dictfull`]
+| Current dictionary full and key not found (Level 1)
+
+| [`invalidaccess`]
+| Global VM dict would receive local VM value
+
+| [`limitcheck`]
+| Dictionary expansion exceeds limits
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+|===
+
+=== Implementation Notes
+
+* Equivalent to: `key where { exch put } { currentdict exch put } ifelse`
+* May trigger dictionary expansion in Level 2
+* Searches top-down through dictionary stack
+* Creates entry in current dict only if key not found
+
+=== Comparison
+
+[cols="2,3,3"]
+|===
+| Aspect | [`def`](def.adoc) | [`store`](store.adoc)
+
+| Target
+| Always current dictionary
+| First dict containing key, or current if not found
+
+| New keys
+| Current dictionary
+| Current dictionary
+
+| Existing keys
+| Current dictionary (shadows outer)
+| Dictionary where found (updates outer)
+
+| Use case
+| New definitions
+| Variable updates
+|===
+
+=== See Also
+
+* xref:def.adoc[`def`] - Define in current dictionary
+* xref:load.adoc[`load`] - Load from dictionary stack
+* xref:where.adoc[`where`] - Find which dictionary contains key
+* xref:../array-string/put.adoc[`put`] - Put into specific dictionary

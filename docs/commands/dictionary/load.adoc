@@ -1,0 +1,184 @@
+---
+layout: default
+title: load
+parent: Dictionary Operations
+grand_parent: Command Reference
+nav_order: 5
+---
+
+== load
+
+Searches dictionary stack for a key and returns its associated value.
+
+=== Syntax
+
+----
+key load → value
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `key` (name or other object)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `value` (associated with key)
+|===
+
+=== Description
+
+[`load`](load.adoc) searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
+
+* If found: pushes the associated value
+* If not found: executes [`undefined`] error
+
+[`load`](load.adoc) looks up keys the same way the interpreter looks up executable names, but always pushes the value (never executes it).
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Loading values
+[source,postscript]
+----
+/pi 3.14159 def
+/pi load  % Returns 3.14159
+----
+
+.Loading procedures
+[source,postscript]
+----
+/avg { add 2 div } def
+/avg load  % Returns { add 2 div }, doesn't execute
+----
+
+.Difference from execution
+[source,postscript]
+----
+/add load  % Pushes add operator
+add        % Executes add operator
+----
+
+=== Common Use Cases
+
+==== Getting Procedure Objects
+
+[source,postscript]
+----
+/myProc { complex code } def
+/myProc load
+% Can now manipulate procedure as data
+----
+
+==== Conditional Loading
+
+[source,postscript]
+----
+/setting where {
+  /setting load
+} {
+  defaultValue
+} ifelse
+----
+
+==== Dynamic Lookup
+
+[source,postscript]
+----
+(variableName) cvn load  % Load dynamically named variable
+----
+
+=== Common Pitfalls
+
+WARNING: *Always Pushes Value* - [`load`](load.adoc) never executes values, even executable ones.
+
+[source,postscript]
+----
+/proc { 1 2 add } def
+proc       % Executes, pushes 3
+/proc load % Pushes { 1 2 add }
+----
+
+WARNING: *Undefined Keys* - If key not found, [`undefined`] error occurs.
+
+[source,postscript]
+----
+/nonexistent load  % Error: undefined
+----
+
+TIP: *Use where First* - Check if key exists before loading:
+
+[source,postscript]
+----
+/key where {
+  /key load
+} {
+  % Handle missing key
+} ifelse
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| Dictionary on stack has no-access attribute
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand wrong type
+
+| [`undefined`]
+| Key not found in any dictionary on stack
+|===
+
+=== Implementation Notes
+
+* Searches dictionary stack top-down
+* Same lookup mechanism as interpreter uses
+* Fast operation (hash table lookup)
+* Does not create new objects (returns actual value)
+
+=== Comparison with get
+
+[cols="2,3,3"]
+|===
+| Operation | [`load`](load.adoc) | xref:../array-string/get.adoc[`get`]
+
+| Search scope
+| Entire dictionary stack
+| Specific dictionary only
+
+| Not found
+| [`undefined`] error
+| [`undefined`] error
+
+| Syntax
+| `key load`
+| `dict key get`
+|===
+
+=== See Also
+
+* xref:store.adoc[`store`] - Store value in dictionary stack
+* xref:def.adoc[`def`] - Define in current dictionary
+* xref:where.adoc[`where`] - Find which dictionary contains key
+* xref:../array-string/get.adoc[`get`] - Get from specific dictionary
+* xref:known.adoc[`known`] - Check if key exists

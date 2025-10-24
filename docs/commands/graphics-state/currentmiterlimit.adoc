@@ -1,0 +1,212 @@
+---
+layout: default
+title: currentmiterlimit
+parent: Graphics State
+grand_parent: Command Reference
+nav_order: 19
+---
+
+== currentmiterlimit
+
+Returns current miter limit value.
+
+=== Syntax
+
+----
+– currentmiterlimit → num
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| –
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `num` (miter limit value, ≥ 1.0)
+|===
+
+=== Description
+
+[`currentmiterlimit`](currentmiterlimit.adoc) returns the current miter limit parameter from the graphics state. This is the value most recently set by [`setmiterlimit`](setmiterlimit.adoc).
+
+The miter limit controls when sharp miter joins are converted to bevel joins. It is the ratio of miter length to line width. When this ratio exceeds the miter limit, a bevel join is used instead.
+
+* **Default**: typically 10.0
+* **Minimum**: 1.0
+* **Higher values**: allow sharper angles before beveling
+* **Lower values**: bevel more angles
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Querying current miter limit
+[source,postscript]
+----
+10 setmiterlimit
+currentmiterlimit
+% Stack: 10
+----
+
+.Saving and restoring miter limit
+[source,postscript]
+----
+currentmiterlimit       % Save
+/savedLimit exch def
+
+1 setmiterlimit         % Change (bevel all)
+drawSharpAngles
+
+savedLimit setmiterlimit % Restore
+----
+
+.Increasing miter limit
+[source,postscript]
+----
+currentmiterlimit
+2 mul
+setmiterlimit
+----
+
+=== Common Use Cases
+
+==== Miter Limit Preservation
+
+[source,postscript]
+----
+/DrawWithNoMiters {
+  currentmiterlimit     % Save
+  1 setmiterlimit       % Minimum (bevel all)
+
+  drawShape
+
+  setmiterlimit         % Restore
+} def
+----
+
+==== Adaptive Miter Handling
+
+[source,postscript]
+----
+/DrawWithAngle {
+  % angle on stack
+  dup 30 lt {
+    % Very sharp angle
+    1 setmiterlimit     % Force bevel
+  } {
+    % Normal angle
+    10 setmiterlimit    % Allow miters
+  } ifelse
+
+  drawAngle
+  currentmiterlimit setmiterlimit
+} def
+----
+
+==== Miter Limit Scaling
+
+[source,postscript]
+----
+/ScaleMiterLimit {
+  % factor
+  currentmiterlimit mul
+  setmiterlimit
+} def
+
+% Double sensitivity
+2 ScaleMiterLimit
+----
+
+=== Common Pitfalls
+
+WARNING: *Only Affects Miter Joins* - Miter limit only applies when line join is 0 (miter).
+
+[source,postscript]
+----
+1 setlinejoin           % Round join
+1 setmiterlimit         % Has no effect
+currentmiterlimit       % Returns 1, but not used
+----
+
+WARNING: *Minimum Value is 1* - Values less than 1 are clamped to 1.
+
+[source,postscript]
+----
+0.5 setmiterlimit
+currentmiterlimit       % Returns 1.0
+----
+
+TIP: *Low Value Bevels All* - Use 1.0 to bevel all sharp corners.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackoverflow`]
+| No room on operand stack
+|===
+
+=== Implementation Notes
+
+* Very fast query operation
+* No modification to graphics state
+* Returns number ≥ 1.0
+* Default is typically 10.0
+* Only meaningful for miter joins
+* Widely supported (Level 1)
+
+=== Miter Limit Behavior
+
+The miter limit determines the cutoff angle:
+
+[source]
+----
+Limit  Cutoff Angle (approx)
+-----  --------------------
+1.0    90° (bevels all)
+1.414  90°
+2.0    60°
+4.0    29°
+10.0   11° (default)
+∞      0° (never bevel)
+----
+
+Formula:
+----
+miterLimit = 1 / sin(angle/2)
+----
+
+=== Visual Effect
+
+[source,postscript]
+----
+% Very permissive (sharp miters)
+100 setmiterlimit
+drawSharpCorners
+
+% Very restrictive (bevels most)
+1 setmiterlimit
+drawSharpCorners
+----
+
+=== See Also
+
+* xref:setmiterlimit.adoc[`setmiterlimit`] - Set miter limit
+* xref:currentlinejoin.adoc[`currentlinejoin`] - Get line join style
+* xref:setlinejoin.adoc[`setlinejoin`] - Set line join style
+* xref:currentlinewidth.adoc[`currentlinewidth`] - Get line width

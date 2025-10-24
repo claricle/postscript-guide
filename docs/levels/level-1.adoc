@@ -1,0 +1,69 @@
+---
+layout: default
+title: PostScript Level 1
+parent: PostScript Levels
+nav_order: 1
+---
+
+== PostScript Level 1
+
+The original PostScript specification, released in 1984 by Adobe Systems.
+
+== Overview
+
+PostScript Level 1 established the foundation of the PostScript language, introducing the core concepts of stack-based programming, vector graphics, and device-independent page description.
+
+== Key Features
+
+=== Core Language
+
+* Stack-based execution model
+* Dictionary-based name lookup
+* Dynamic typing
+* Procedures (executable arrays)
+* Composite data types (arrays, strings, dictionaries)
+
+=== Graphics Capabilities
+
+* Vector path construction (moveto, lineto, curveto)
+* Path painting (stroke, fill)
+* Coordinate transformations
+* Clipping paths
+* Grayscale imaging
+
+=== Type System
+
+* Simple types: integer, real, boolean, mark, null
+* Composite types: array, string, dictionary
+* Special types: name, operator, file, save
+
+=== Limitations
+
+* **No Color**: Only grayscale support
+* **Fixed Dictionary Size**: Dictionaries have fixed capacity (dictfull error)
+* **No Composite Fonts**: Single-byte character encoding only
+* **Limited Image Support**: Basic monochrome images only
+* **No Forms**: Cannot cache complex graphics
+* **No Patterns**: No tiling pattern support
+
+== Implementation
+
+Level 1 implementations provide approximately 250 operators covering:
+
+* Stack manipulation
+* Arithmetic and mathematics
+* Array and string operations
+* Dictionary operations
+* Control flow
+* Graphics state management
+* Path construction and painting
+* Font operations
+* File I/O
+* Memory management
+
+== See Also
+
+* xref:level-2.adoc[PostScript Level 2] - Enhanced version
+* xref:level-3.adoc[PostScript Level 3] - Latest specification
+* xref:comparison.adoc[Version Comparison] - Feature comparison
+* xref:index.adoc[PostScript Levels Overview]

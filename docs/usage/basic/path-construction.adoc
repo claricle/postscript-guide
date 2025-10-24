@@ -1,0 +1,992 @@
+---
+layout: default
+title: Path Construction
+parent: Basic Usage
+grand_parent: Usage Guides
+nav_order: 6
+---
+
+== Path Construction
+
+Paths are the fundamental building blocks of all vector graphics in PostScript. Understanding how to construct and manipulate paths is essential for creating any visual output.
+
+=== Overview
+
+A path is a mathematical description of shapes made up of straight lines and curves. Paths exist in user space and can be:
+
+* **Stroked** - Drawn as an outline
+* **Filled** - Filled with color
+* **Clipped** - Used to restrict drawing area
+* **Converted** - Used as character outlines
+
+Paths are built step-by-step by adding elements, then rendered with painting operators.
+
+=== Path Concepts
+
+==== The Current Path
+
+PostScript maintains a single current path that you build incrementally:
+
+[source,postscript]
+----
+newpath           % Clear current path
+100 100 moveto    % Start new subpath
+200 100 lineto    % Add line segment
+200 200 lineto    % Add another segment
+% Path exists but is not visible yet
+stroke            % Now render the path
+----
+
+==== The Current Point
+
+The current point is the end of the last path segment:
+
+[source,postscript]
+----
+newpath
+100 100 moveto    % Current point: (100, 100)
+200 100 lineto    % Current point: (200, 100)
+200 200 lineto    % Current point: (200, 200)
+
+currentpoint      % Returns: 200 200
+----
+
+==== Subpaths
+
+A path can contain multiple disconnected subpaths:
+
+[source,postscript]
+----
+newpath
+% First subpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+
+% Second subpath
+300 300 moveto
+400 300 lineto
+400 400 lineto
+
+stroke  % Both subpaths are stroked
+----
+
+==== Open vs. Closed Paths
+
+Paths can be open or closed:
+
+[source,postscript]
+----
+% Open path
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+stroke  % Does not connect back to start
+
+% Closed path
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+closepath  % Connects back to (100, 100)
+stroke
+----
+
+=== Basic Path Construction
+
+==== Starting a New Path: `newpath`
+
+Clears the current path and resets the current point:
+
+[source,postscript]
+----
+newpath  % Start with clean slate
+% currentpoint would cause error - no current point yet
+----
+
+==== Moving: `moveto`
+
+Begins a new subpath at specified coordinates:
+
+[source,postscript]
+----
+newpath
+100 100 moveto    % Absolute coordinates
+% Current point is now (100, 100)
+----
+
+==== Relative Moving: `rmoveto`
+
+Moves relative to current point:
+
+[source,postscript]
+----
+newpath
+100 100 moveto    % Start at (100, 100)
+50 0 rmoveto      % Move to (150, 100)
+0 50 rmoveto      % Move to (150, 150)
+----
+
+==== Drawing Lines: `lineto`
+
+Adds a straight line from current point to specified coordinates:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto    % Horizontal line
+200 200 lineto    % Vertical line
+100 200 lineto    % Back horizontally
+stroke
+----
+
+==== Relative Lines: `rlineto`
+
+Adds line relative to current point:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+100 0 rlineto     % 100 points right
+0 100 rlineto     % 100 points up
+-100 0 rlineto    % 100 points left
+closepath
+stroke
+----
+
+==== Closing Paths: `closepath`
+
+Adds a line from current point back to subpath start:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath         % Closes back to (100, 100)
+% Forms a complete rectangle
+stroke
+----
+
+=== Curved Path Segments
+
+==== Bézier Curves: `curveto`
+
+Creates a cubic Bézier curve using two control points:
+
+[source,postscript]
+----
+% curveto: x1 y1 x2 y2 x3 y3 curveto
+% (x1,y1) = first control point
+% (x2,y2) = second control point
+% (x3,y3) = end point
+
+newpath
+100 100 moveto
+150 50 200 50 250 100 curveto  % S-curve
+stroke
+----
+
+Smooth curve example:
+
+[source,postscript]
+----
+newpath
+50 100 moveto
+100 50 150 150 200 100 curveto   % Wave
+200 100 moveto
+250 50 300 150 350 100 curveto   % Another wave
+stroke
+----
+
+==== Relative Bézier Curves: `rcurveto`
+
+Bézier curve with relative coordinates:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+50 -50 100 -50 150 0 rcurveto  % All relative to (100, 100)
+stroke
+----
+
+==== Arc Segments: `arc`
+
+Creates a circular arc (counter-clockwise):
+
+[source,postscript]
+----
+% arc: x y radius startAngle endAngle arc
+newpath
+200 200 50 0 360 arc  % Complete circle
+stroke
+
+newpath
+200 200 50 0 90 arc   % Quarter circle
+stroke
+----
+
+Important: `arc` adds a line from current point to arc start if current point exists:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 50 0 180 arc  % Line from (100,100) to arc start
+stroke
+----
+
+==== Clockwise Arc: `arcn`
+
+Creates arc in clockwise direction:
+
+[source,postscript]
+----
+% arcn: x y radius startAngle endAngle arcn
+newpath
+200 200 50 0 90 arcn  % Clockwise from 0° to 90°
+stroke
+----
+
+==== Arc Through Point: `arct`
+
+Creates arc tangent to two lines:
+
+[source,postscript]
+----
+% arct: x1 y1 x2 y2 radius arct
+% Creates arc of given radius tangent to:
+% - Line from current point to (x1,y1)
+% - Line from (x1,y1) to (x2,y2)
+
+newpath
+100 100 moveto
+200 100 300 200 20 arct  % Rounded corner
+300 200 lineto
+stroke
+----
+
+==== Arc To Point: `arcto`
+
+Similar to `arct` but returns tangent points:
+
+[source,postscript]
+----
+% arcto: x1 y1 x2 y2 radius arcto -> xt1 yt1 xt2 yt2
+newpath
+100 100 moveto
+200 100 200 200 30 arcto  % Returns 4 values
+pop pop pop pop            % Discard if not needed
+stroke
+----
+
+=== Common Path Shapes
+
+==== Rectangle
+
+Building a rectangle manually:
+
+[source,postscript]
+----
+% Rectangle: x y width height
+/rectangle {
+  4 dict begin
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    newpath
+    x y moveto
+    w 0 rlineto
+    0 h rlineto
+    w neg 0 rlineto
+    closepath
+  end
+} def
+
+100 100 200 150 rectangle
+stroke
+----
+
+==== Circle
+
+[source,postscript]
+----
+% Circle: x y radius
+/circle {
+  0 360 arc
+} def
+
+200 200 50 circle
+stroke
+----
+
+==== Rounded Rectangle
+
+[source,postscript]
+----
+% Rounded rectangle: x y width height radius
+/roundrect {
+  5 dict begin
+    /r exch def
+    /h exch def
+    /w exch def
+    /y exch def
+    /x exch def
+
+    newpath
+    x r add y moveto
+    x w add y x w add y h add r arcto 4 {pop} repeat
+    x w add y h add x y h add r arcto 4 {pop} repeat
+    x y h add x y r arcto 4 {pop} repeat
+    x y x w add y r arcto 4 {pop} repeat
+    closepath
+  end
+} def
+
+100 100 200 150 20 roundrect
+stroke
+----
+
+==== Regular Polygon
+
+[source,postscript]
+----
+% Regular polygon: x y radius sides startAngle
+/polygon {
+  5 dict begin
+    /angle exch def
+    /n exch def
+    /r exch def
+    /y exch def
+    /x exch def
+
+    newpath
+    /angleStep 360 n div def
+    x y moveto
+    x r angle cos mul add y r angle sin mul add moveto
+    1 1 n {
+      pop
+      /angle angle angleStep add def
+      x r angle cos mul add y r angle sin mul add lineto
+    } for
+    closepath
+  end
+} def
+
+% Pentagon
+200 200 50 5 90 polygon
+stroke
+
+% Hexagon
+300 300 50 6 0 polygon
+stroke
+----
+
+==== Star
+
+[source,postscript]
+----
+% 5-pointed star: x y outerRadius innerRadius
+/star5 {
+  4 dict begin
+    /ir exch def
+    /or exch def
+    /y exch def
+    /x exch def
+
+    newpath
+    /angle 90 def
+    x or angle cos mul add y or angle sin mul add moveto
+
+    0 1 4 {
+      pop
+      /angle angle 72 sub def
+      x ir angle 36 sub cos mul add y ir angle 36 sub sin mul add lineto
+      x or angle cos mul add y or angle sin mul add lineto
+    } for
+    closepath
+  end
+} def
+
+200 200 80 30 star5
+stroke
+----
+
+=== Path Manipulation
+
+==== Reversing Path Direction: `reversepath`
+
+Reverses the direction of the current path:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+reversepath  % Now goes: (200,200)->(200,100)->(100,100)
+----
+
+==== Converting Stroke to Path: `strokepath`
+
+Converts stroked outline to a fillable path:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+10 setlinewidth
+strokepath    % Path is now the outline of the stroke
+fill          % Fill the stroke outline
+----
+
+==== Flattening Curves: `flattenpath`
+
+Converts curves to straight line segments:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 250 200 150 200 curveto
+flattenpath   % Curve becomes multiple line segments
+----
+
+==== Getting Path Information: `pathforall`
+
+Iterate through path segments:
+
+[source,postscript]
+----
+% pathforall: moveto lineto curveto closepath pathforall
+% Executes procedures for each path element
+
+{  % moveto procedure
+  (Move to: ) print exch =string cvs print ( ) print =string cvs print ()
+}
+{  % lineto procedure
+  (Line to: ) print exch =string cvs print ( ) print =string cvs print ()
+}
+{  % curveto procedure
+  (Curve) print
+}
+{  % closepath procedure
+  (Close) print
+}
+pathforall
+----
+
+==== Path Bounding Box: `pathbbox`
+
+Gets the bounding box of the current path:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath
+
+pathbbox  % Returns: llx lly urx ury
+% Stack: 100 100 200 200
+----
+
+=== Advanced Path Techniques
+
+==== Compound Paths with Holes
+
+Create shapes with holes using subpaths:
+
+[source,postscript]
+----
+% Outer rectangle
+newpath
+100 100 moveto
+300 100 lineto
+300 300 lineto
+100 300 lineto
+closepath
+
+% Inner rectangle (hole) - reverse direction
+200 200 moveto
+200 150 lineto
+150 150 lineto
+150 200 lineto
+closepath
+
+% Fill with even-odd rule
+eofill
+----
+
+==== Path Clipping
+
+Use paths to define clipping regions:
+
+[source,postscript]
+----
+gsave
+  % Create clipping path
+  newpath
+  200 200 100 0 360 arc
+  clip
+  newpath  % Start new path for drawing
+
+  % Only visible inside circle
+  100 100 200 200 rectfill
+grestore
+----
+
+==== Text as Paths: `charpath`
+
+Convert text to paths:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+/Helvetica-Bold findfont 72 scalefont setfont
+(HELLO) true charpath  % true = stroke outline
+2 setlinewidth
+stroke
+
+% Or fill the character paths
+newpath
+100 200 moveto
+(WORLD) false charpath  % false = fill outline
+fill
+----
+
+==== Dashed Paths
+
+Create dashed lines with custom patterns:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+300 100 lineto
+
+% Set dash pattern
+[10 5 2 5] 0 setdash
+2 setlinewidth
+stroke
+----
+
+=== Path Construction Patterns
+
+==== Pattern 1: Path Builder
+
+Construct complex paths programmatically:
+
+[source,postscript]
+----
+/pathBuilder {
+  10 dict begin
+    /segments exch def
+    newpath
+    segments {
+      aload pop
+      /type exch def
+      type (M) eq { moveto } if
+      type (L) eq { lineto } if
+      type (C) eq { curveto } if
+      type (Z) eq { closepath } if
+    } forall
+  end
+} def
+
+% Usage
+[
+  [(M) 100 100]
+  [(L) 200 100]
+  [(L) 200 200]
+  [(L) 100 200]
+  [(Z)]
+] pathBuilder
+stroke
+----
+
+==== Pattern 2: Parametric Curves
+
+Generate curves from mathematical functions:
+
+[source,postscript]
+----
+% Draw sine wave
+/sineWave {
+  newpath
+  0 1 360 {
+    /x exch def
+    x 200 div dup
+    100 mul sin 50 mul
+    200 add exch 100 add exch
+    x 0 eq { moveto } { lineto } ifelse
+  } for
+} def
+
+sineWave
+stroke
+----
+
+==== Pattern 3: Morphing Shapes
+
+Interpolate between two paths:
+
+[source,postscript]
+----
+% Morph from circle to square
+/morphShape {  % t (0-1)
+  1 dict begin
+    /t exch def
+    newpath
+
+    0 15 345 {
+      /angle exch def
+
+      % Circle point
+      /cx 100 angle cos mul def
+      /cy 100 angle sin mul def
+
+      % Square point (approximate)
+      /sx 100 angle cos mul abs angle cos mul def
+      /sy 100 angle sin mul abs angle sin mul def
+
+      % Interpolate
+      cx 1 t sub mul sx t mul add 200 add
+      cy 1 t sub mul sy t mul add 200 add
+
+      angle 0 eq { moveto } { lineto } ifelse
+    } for
+    closepath
+  end
+} def
+
+% Draw morphing sequence
+0 0.2 1 {
+  gsave
+    0 morphShape
+    stroke
+  grestore
+} for
+----
+
+==== Pattern 4: Constrained Paths
+
+Build paths with constraints:
+
+[source,postscript]
+----
+% Path that stays within bounds
+/constrainedLine {  % x1 y1 x2 y2 minX minY maxX maxY
+  8 dict begin
+    /maxY exch def /maxX exch def
+    /minY exch def /minX exch def
+    /y2 exch def /x2 exch def
+    /y1 exch def /x1 exch def
+
+    % Clamp endpoints
+    /x1 x1 minX maxX clamp def
+    /y1 y1 minY maxY clamp def
+    /x2 x2 minX maxX clamp def
+    /y2 y2 minY maxY clamp def
+
+    newpath
+    x1 y1 moveto
+    x2 y2 lineto
+  end
+} def
+
+/clamp {  % value min max -> clampedValue
+  2 copy gt { exch } if pop
+  2 copy lt { exch } if pop
+} def
+----
+
+=== Practical Examples
+
+==== Example 1: Grid Pattern
+
+[source,postscript]
+----
+% Draw a grid
+/drawGrid {  % spacing width height
+  3 dict begin
+    /h exch def
+    /w exch def
+    /s exch def
+
+    0.5 setgray
+    0.5 setlinewidth
+
+    % Vertical lines
+    0 s w {
+      dup 0 moveto h lineto stroke
+    } for
+
+    % Horizontal lines
+    0 s h {
+      dup 0 exch moveto w exch lineto stroke
+    } for
+  end
+} def
+
+20 400 400 drawGrid
+----
+
+==== Example 2: Flow Chart Connector
+
+[source,postscript]
+----
+% Connector with rounded corners
+/connector {  % x1 y1 x2 y2 radius
+  5 dict begin
+    /r exch def
+    /y2 exch def /x2 exch def
+    /y1 exch def /x1 exch def
+
+    newpath
+    x1 y1 moveto
+
+    % Horizontal then vertical with rounded corner
+    x2 r sub y1 lineto
+    x2 y1 x2 y2 r sub r arct 4 {pop} repeat
+    x2 y2 lineto
+  end
+} def
+
+100 100 300 200 15 connector
+stroke
+----
+
+==== Example 3: Pie Chart Slice
+
+[source,postscript]
+----
+% Pie slice: centerX centerY radius startAngle endAngle
+/pieSlice {
+  5 dict begin
+    /endAngle exch def
+    /startAngle exch def
+    /r exch def
+    /cy exch def
+    /cx exch def
+
+    newpath
+    cx cy moveto
+    cx cy r startAngle endAngle arc
+    closepath
+  end
+} def
+
+% Draw pie chart
+200 200 100 0 60 pieSlice fill
+200 200 100 60 180 pieSlice fill
+200 200 100 180 360 pieSlice fill
+----
+
+==== Example 4: Arrow Path
+
+[source,postscript]
+----
+% Arrow from (x1,y1) to (x2,y2) with given head size
+/arrow {  % x1 y1 x2 y2 headSize
+  5 dict begin
+    /hs exch def
+    /y2 exch def /x2 exch def
+    /y1 exch def /x1 exch def
+
+    % Calculate angle
+    /dx x2 x1 sub def
+    /dy y2 y1 sub def
+    /angle dy dx atan def
+
+    % Draw shaft
+    newpath
+    x1 y1 moveto
+    x2 y2 lineto
+    stroke
+
+    % Draw head
+    newpath
+    x2 y2 moveto
+    x2 hs angle 180 add 30 add cos mul add
+    y2 hs angle 180 add 30 add sin mul add lineto
+    x2 y2 lineto
+    x2 hs angle 180 add 30 sub cos mul add
+    y2 hs angle 180 add 30 sub sin mul add lineto
+    closepath
+    fill
+  end
+} def
+
+100 100 300 200 15 arrow
+----
+
+=== Best Practices
+
+==== Always Start with `newpath`
+
+[source,postscript]
+----
+% Good
+newpath
+100 100 moveto
+200 200 lineto
+stroke
+
+% Risky - might add to existing path
+100 100 moveto
+200 200 lineto
+stroke
+----
+
+==== Close Paths When Appropriate
+
+[source,postscript]
+----
+% Good: explicitly closed
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath
+fill
+
+% OK for strokes but not ideal for fills
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+fill  % PostScript closes automatically for fill
+----
+
+==== Use Relative Coordinates for Reusability
+
+[source,postscript]
+----
+% Good: reusable shape
+/square {  % size
+  dup 0 rlineto
+  dup 0 exch rlineto
+  neg dup rlineto
+  0 exch rlineto
+  closepath
+} def
+
+% Use anywhere
+newpath 100 100 moveto 50 square
+
+% Bad: hardcoded positions
+/square {
+  100 100 moveto
+  150 100 lineto
+  % ... not reusable
+} def
+----
+
+==== Separate Path Construction from Rendering
+
+[source,postscript]
+----
+% Good: path construction separate from rendering
+/buildCircle {
+  newpath
+  0 360 arc
+} def
+
+/renderFilled {
+  gsave
+    0.8 0.2 0.2 setrgbcolor
+    fill
+  grestore
+} def
+
+/renderStroked {
+  gsave
+    0 0 0 setrgbcolor
+    2 setlinewidth
+    stroke
+  grestore
+} def
+
+% Use flexibly
+100 100 50 buildCircle renderFilled
+200 200 50 buildCircle renderStroked
+----
+
+=== Common Pitfalls
+
+==== Forgetting Current Point
+
+[source,postscript]
+----
+% Wrong: no current point
+newpath
+lineto  % ERROR: nocurrentpoint
+
+% Correct
+newpath
+100 100 moveto
+200 200 lineto
+----
+
+==== Not Clearing Path with `newpath`
+
+[source,postscript]
+----
+% Wrong: paths accumulate
+100 100 moveto
+200 100 lineto
+stroke
+
+300 300 moveto  % Still part of previous path!
+400 400 lineto
+stroke  % Draws both paths
+
+% Correct
+newpath
+100 100 moveto
+200 100 lineto
+stroke
+
+newpath  % Clear previous path
+300 300 moveto
+400 400 lineto
+stroke
+----
+
+==== Incorrect Arc Direction
+
+[source,postscript]
+----
+% Creates unexpected results
+newpath
+200 200 100 90 0 arc  % Draws 270° arc (90° to 0° counterclockwise)
+
+% Use arcn for clockwise
+newpath
+200 200 100 90 0 arcn  % Draws 90° arc clockwise
+----
+
+=== See Also
+
+* xref:painting.adoc[Painting] - Rendering paths
+* xref:coordinate-systems.adoc[Coordinate Systems] - User space coordinates
+* xref:../../commands/path-construction/index.adoc[Path Construction Commands] - Complete command reference
+* xref:../../commands/path-construction/moveto.adoc[moveto] - Move to point
+* xref:../../commands/path-construction/lineto.adoc[lineto] - Draw line
+* xref:../../commands/path-construction/arc.adoc[arc] - Draw arc
+* xref:../../commands/path-construction/curveto.adoc[curveto] - Draw curve

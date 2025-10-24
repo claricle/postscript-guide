@@ -1,0 +1,1010 @@
+---
+layout: default
+title: Error Handling
+parent: Advanced Usage
+grand_parent: Usage Guides
+nav_order: 10
+---
+
+== Error Handling
+
+Robust error handling is essential for creating reliable PostScript programs. Understanding error types, handling mechanisms, and recovery strategies ensures your code behaves predictably even when things go wrong.
+
+=== Overview
+
+PostScript error handling includes:
+
+* **Error types** - Syntax, runtime, and resource errors
+* **Error detection** - Catching and identifying errors
+* **Error recovery** - Graceful degradation
+* **Error reporting** - Diagnostic information
+* **Defensive programming** - Preventing errors
+* **Debugging support** - Error tracing
+
+Proper error handling makes programs more robust and easier to maintain.
+
+=== Error Types
+
+==== Common PostScript Errors
+
+[source,postscript]
+----
+% stackunderflow: not enough operands
+pop  % ERROR: empty stack
+
+% typecheck: wrong operand type
+(string) 5 add  % ERROR: can't add string and number
+
+% rangecheck: value out of range
+-1 array  % ERROR: negative array size
+
+% undefined: name not found
+nonexistentName  % ERROR: undefined
+
+% invalidaccess: operation not permitted
+/Times-Roman findfont 0 get  % ERROR: font dict access
+----
+
+==== Error Categories
+
+Runtime errors:
+
+[source,postscript]
+----
+% Arithmetic errors
+1 0 div  % undefinedresult
+0 sqrt   % rangecheck (implementation-dependent)
+
+% Resource errors
+99999999 array  % VMerror (out of memory)
+
+% File errors
+(nonexistent.ps) (r) file  % ioerror
+
+% Syntax errors
+{ ( unclosed string  % syntaxerror
+----
+
+=== Basic Error Handling
+
+==== The `stopped` Operator
+
+Catches errors in code execution:
+
+[source,postscript]
+----
+% stopped: mark proc stopped -> true | false
+% Returns true if error occurred, false if successful
+
+{
+  % Code that might error
+  1 0 div
+} stopped {
+  % Error occurred
+  (Error: Division by zero) print
+} {
+  % Success
+  (Division succeeded) print
+} ifelse
+----
+
+==== Error Context
+
+[source,postscript]
+----
+% stopped leaves error info on stack
+{
+  undefined_name
+} stopped {
+  % Stack has error info
+  (Error caught) print
+
+  % Clear error info
+  $error /newerror false put
+} if
+----
+
+==== Simple Error Handler
+
+[source,postscript]
+----
+/safeExecute {  % proc -> result true | false
+  {
+    exec
+    true
+  } stopped {
+    pop  % Discard error
+    false
+  } ifelse
+} def
+
+% Usage
+{ 5 3 add } safeExecute {
+  (Success: ) print =
+} {
+  (Failed) print
+} ifelse
+----
+
+=== Error Information
+
+==== The `$error` Dictionary
+
+Contains error details:
+
+[source,postscript]
+----
+% Access error information
+$error /errorname get  % Name of error
+$error /command get    % Command that caused error
+$error /newerror get   % Boolean: new error occurred
+$error /ostack get     % Operand stack snapshot
+$error /estack get     % Execution stack snapshot
+----
+
+==== Getting Error Details
+
+[source,postscript]
+----
+/getErrorInfo {  % -> errorName commandName
+  $error /errorname get
+  $error /command get
+} def
+
+% Usage
+{
+  1 0 div
+} stopped {
+  getErrorInfo
+  (Error: ) print exch =string cvs print
+  ( in ) print =string cvs print
+} if
+----
+
+==== Stack Trace
+
+[source,postscript]
+----
+/printStackTrace {
+  $error /estack known {
+    (Execution stack:) print
+    $error /estack get {
+      ( ) print
+      dup type /nametype eq {
+        =string cvs print
+      } {
+        pop (object) print
+      } ifelse
+    } forall
+    () print
+  } if
+} def
+
+% Usage on error
+{
+  undefined_name
+} stopped {
+  printStackTrace
+} if
+----
+
+=== Advanced Error Handling
+
+==== Nested Error Handling
+
+[source,postscript]
+----
+/nestedOperation {
+  {
+    % Outer operation
+    {
+      % Inner operation that might fail
+      1 0 div
+    } stopped {
+      (Inner error handled) print
+      % Handle or re-raise
+    } if
+
+    % Continue outer operation
+  } stopped {
+    (Outer error handled) print
+  } if
+} def
+----
+
+==== Error Recovery
+
+[source,postscript]
+----
+/divideWithFallback {  % a b -> result
+  2 copy
+  {
+    div
+  } stopped {
+    % Division failed, use fallback
+    pop pop
+    (Division failed, using 0) print
+    0
+  } ifelse
+} def
+
+% Usage
+10 2 divideWithFallback =  % 5
+10 0 divideWithFallback =  % 0 (fallback)
+----
+
+==== Retry Logic
+
+[source,postscript]
+----
+/retryOperation {  % proc maxAttempts -> result true | false
+  2 dict begin
+    /maxAttempts exch def
+    /proc exch def
+    /attempts 0 def
+
+    {
+      /attempts attempts 1 add def
+
+      {
+        proc exec
+        true
+        exit
+      } stopped {
+        attempts maxAttempts lt {
+          (Retry ) print attempts =
+        } {
+          (Max attempts reached) print
+          false
+          exit
+        } ifelse
+      } ifelse
+    } loop
+  end
+} def
+
+% Usage
+{
+  rand 2147483647 div 0.8 gt {
+    (Success!) print
+  } {
+    stop
+  } ifelse
+} 5 retryOperation
+----
+
+=== Error Prevention
+
+==== Input Validation
+
+[source,postscript]
+----
+/safeDivide {  % a b -> result
+  dup 0 eq {
+    pop pop
+    (Error: Division by zero) print
+    0
+  } {
+    div
+  } ifelse
+} def
+
+% Or with error signaling
+/checkedDivide {  % a b -> result | error
+  dup 0 eq {
+    /DivisionByZero cvx  % Signal error
+  } {
+    div
+  } ifelse
+} def
+----
+
+==== Type Checking
+
+[source,postscript]
+----
+/requireType {  % value expectedType -> value
+  exch dup type
+  3 index ne {
+    (Type error: expected ) print
+    2 index =string cvs print
+    (, got ) print
+    =string cvs print
+    stop
+  } {
+    pop pop
+  } ifelse
+} def
+
+% Usage
+/add2 {  % a b -> sum
+  /integertype requireType
+  exch /integertype requireType
+  add
+} def
+
+5 10 add2 =      % OK: 15
+5 (text) add2    % Error: type mismatch
+----
+
+==== Range Checking
+
+[source,postscript]
+----
+/requireRange {  % value min max -> value
+  2 index 2 index lt 2 index 3 index gt or {
+    (Range error: value ) print
+    3 index =string cvs print
+    ( not in range [) print
+    2 index =string cvs print
+    (,) print
+    1 index =string cvs print
+    (]) print
+    stop
+  } {
+    pop pop
+  } ifelse
+} def
+
+% Usage
+/setAlpha {  % alpha(0-1) -> -
+  0 1 requireRange
+  % ... use alpha
+} def
+----
+
+=== Custom Error Handling
+
+==== Custom Error Types
+
+[source,postscript]
+----
+% Define custom errors
+/FileNotFoundError { /FileNotFoundError cvx } def
+/InvalidDataError { /InvalidDataError cvx } def
+/ConfigurationError { /ConfigurationError cvx } def
+
+% Throw custom error
+/openFile {  % filename -> file
+  dup {
+    (r) file
+  } stopped {
+    pop
+    FileNotFoundError
+  } ifelse
+} def
+
+% Catch custom error
+{
+  (nonexistent.txt) openFile
+} stopped {
+  dup /FileNotFoundError eq {
+    pop
+    (File not found, using default) print
+    (%stdin) (r) file
+  } {
+    % Re-raise other errors
+    stop
+  } ifelse
+} if
+----
+
+==== Error Context Manager
+
+[source,postscript]
+----
+/ErrorContext {
+  20 dict begin
+    /context () def
+    /handlers 10 dict def
+
+    /setContext {  % contextName -> -
+      /context exch def
+    } def
+
+    /addHandler {  % errorType handler -> -
+      handlers 3 1 roll put
+    } def
+
+    /execute {  % proc -> -
+      {
+        exec
+      } stopped {
+        % Check for specific handler
+        $error /errorname get
+        handlers 1 index known {
+          handlers exch get exec
+        } {
+          % Default handler
+          pop
+          (Error in context: ) print
+          context print
+          () print
+        } ifelse
+      } if
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+ErrorContext /ctx exch def
+ctx /setContext (File Processing) exec
+ctx /addHandler /ioerror {
+  (IO error during file processing) print
+} exec
+
+ctx /execute {
+  (nonexistent.ps) run
+} exec
+----
+
+=== Defensive Programming
+
+==== Assertions
+
+[source,postscript]
+----
+/assert {  % condition message -> -
+  exch not {
+    (Assertion failed: ) print print
+    stop
+  } {
+    pop
+  } ifelse
+} def
+
+% Usage
+/processArray {  % array -> -
+  dup type /arraytype eq
+  (Input must be array) assert
+
+  dup length 0 gt
+  (Array must not be empty) assert
+
+  % Process array
+} def
+----
+
+==== Preconditions
+
+[source,postscript]
+----
+/withPreconditions {  % proc preconditionProcs -> -
+  exch
+  % Check all preconditions
+  1 index {
+    exec not {
+      (Precondition failed) print
+      stop
+    } if
+  } forall
+
+  % Execute if all pass
+  exec
+  pop
+} def
+
+% Usage
+{
+  % Main operation
+  1 0 div
+} [
+  { count 2 ge }  % Enough operands
+  { 1 index 0 ne }  % Divisor not zero
+] withPreconditions
+----
+
+==== Postconditions
+
+[source,postscript]
+----
+/withPostconditions {  % proc postconditionProcs -> -
+  2 dict begin
+    /postconds exch def
+    /proc exch def
+
+    % Execute
+    proc exec
+
+    % Check postconditions
+    postconds {
+      exec not {
+        (Postcondition failed) print
+        stop
+      } if
+    } forall
+  end
+} def
+----
+
+=== Error Logging
+
+==== Simple Logger
+
+[source,postscript]
+----
+/ErrorLogger {
+  10 dict begin
+    /logFile null def
+    /enabled true def
+
+    /init {  % filename -> -
+      (a) file /logFile exch def
+    } def
+
+    /log {  % message level -> -
+      enabled {
+        logFile null ne {
+          logFile ([) writestring
+          logFile realtime =string cvs writestring
+          logFile (] ) writestring
+          logFile exch writestring
+          logFile (: ) writestring
+          logFile exch writestring
+          logFile (\n) writestring
+        } if
+      } if
+    } def
+
+    /logError {  % errorName commandName -> -
+      2 dict begin
+        /cmd exch def
+        /err exch def
+
+        err =string cvs
+        ( in ) cmd =string cvs concatstrings exch concatstrings
+        (ERROR) log
+      end
+    } def
+
+    /close {
+      logFile null ne {
+        logFile closefile
+        /logFile null def
+      } if
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+ErrorLogger /logger exch def
+logger /init (errors.log) exec
+
+{
+  undefined_name
+} stopped {
+  getErrorInfo logger /logError exec
+} if
+
+logger /close exec
+----
+
+==== Structured Error Reports
+
+[source,postscript]
+----
+/ErrorReport {
+  <<
+    /timestamp realtime
+    /errorName $error /errorname get
+    /command $error /command get
+    /context (Unknown)
+    /severity 5
+  >>
+} def
+
+/formatErrorReport {  % errorReport -> string
+  dup /timestamp get =string cvs
+  ( - ) exch concatstrings
+  1 index /errorName get =string cvs concatstrings
+  ( in ) exch concatstrings
+  1 index /command get =string cvs concatstrings
+  exch pop
+} def
+----
+
+=== Practical Error Handling
+
+==== File Operations with Errors
+
+[source,postscript]
+----
+/safeFileRead {  % filename -> content true | false
+  {
+    (r) file
+    dup 1024 string exch
+    readstring pop
+    exch closefile
+    true
+  } stopped {
+    pop false
+  } ifelse
+} def
+
+% Usage
+(data.txt) safeFileRead {
+  (File content: ) print print
+} {
+  (Could not read file) print
+} ifelse
+----
+
+==== Network-Style Operations
+
+[source,postscript]
+----
+/fetchData {  % url -> data
+  % Simulated network fetch with retry
+  3 {
+    {
+      % Attempt fetch
+      rand 2147483647 div 0.7 gt {
+        (Data fetched) print
+        exit
+      } {
+        stop
+      } ifelse
+    } stopped {
+      (Retry...) print
+    } ifelse
+  } repeat
+} def
+----
+
+==== Transaction Pattern
+
+[source,postscript]
+----
+/transaction {  % setupProc mainProc cleanupProc -> -
+  3 dict begin
+    /cleanup exch def
+    /main exch def
+    /setup exch def
+
+    % Setup
+    setup exec
+
+    % Main operation
+    {
+      main exec
+    } stopped {
+      % Error occurred
+      (Transaction failed, rolling back) print
+      cleanup exec
+      stop
+    } {
+      % Success
+      (Transaction succeeded) print
+      cleanup exec
+    } ifelse
+  end
+} def
+
+% Usage
+{
+  % Setup
+  /tempData 100 array def
+} {
+  % Main operation
+  % ... work with tempData
+} {
+  % Cleanup
+  /tempData null def
+} transaction
+----
+
+=== Error Message Formatting
+
+==== User-Friendly Messages
+
+[source,postscript]
+----
+/ErrorMessages <<
+  /stackunderflow (Not enough values on stack)
+  /typecheck (Wrong type of value)
+  /rangecheck (Value out of acceptable range)
+  /undefined (Name or value not found)
+  /VMerror (Out of memory)
+  /ioerror (File or I/O error)
+>> def
+
+/formatError {  % errorName -> message
+  ErrorMessages exch 2 copy known {
+    get
+  } {
+    pop
+    (Unknown error: ) exch =string cvs concatstrings
+  } ifelse
+} def
+
+% Usage
+{
+  1 0 div
+} stopped {
+  $error /errorname get formatError print
+} if
+----
+
+==== Contextual Error Messages
+
+[source,postscript]
+----
+/ErrorFormatter {
+  <<
+    /formatWithContext {  % errorName context -> message
+      (Error in ) 3 -1 roll concatstrings
+      (: ) exch concatstrings
+      exch formatError concatstrings
+    } bind
+
+    /formatWithDetails {  % errorDict -> message
+      dup /errorname get formatError
+      (\nCommand: ) exch concatstrings
+      1 index /command get =string cvs concatstrings
+      (\nContext: ) exch concatstrings
+      1 index /context get concatstrings
+      exch pop
+    } bind
+  >>
+} def
+----
+
+=== Testing Error Handling
+
+==== Error Test Cases
+
+[source,postscript]
+----
+/testError {  % errorType testProc -> -
+  2 dict begin
+    /proc exch def
+    /expectedError exch def
+
+    {
+      proc exec
+      (FAIL: No error raised) print
+    } stopped {
+      $error /errorname get expectedError eq {
+        (PASS: Correct error) print
+      } {
+        (FAIL: Wrong error) print
+      } ifelse
+    } ifelse
+  end
+} def
+
+% Usage
+/stackunderflow {
+  pop  % Empty stack
+} testError
+
+/typecheck {
+  (string) 5 add
+} testError
+----
+
+==== Error Handling Coverage
+
+[source,postscript]
+----
+/ErrorHandlingTests {
+  [
+    % Test 1: Division by zero
+    {
+      1 0 safeDivide
+      0 eq
+    }
+
+    % Test 2: Invalid input
+    {
+      (text) /integertype requireType
+      false
+    } stopped { pop true } if
+
+    % Test 3: File not found
+    {
+      (nonexistent.txt) safeFileRead
+      not
+    }
+  ]
+} def
+
+% Run tests
+ErrorHandlingTests {
+  exec {
+    (PASS) print
+  } {
+    (FAIL) print
+  } ifelse
+} forall
+----
+
+=== Performance Considerations
+
+==== Error Handling Overhead
+
+[source,postscript]
+----
+% Minimal overhead for hot paths
+/fastOperation {
+  % Assume inputs are valid
+  % No error checking
+  add
+} def
+
+% Thorough checking for critical paths
+/safeOperation {
+  % Validate everything
+  /integertype requireType
+  exch /integertype requireType
+  add
+} def
+----
+
+==== Lazy Error Checking
+
+[source,postscript]
+----
+% Check only when needed
+/lazyValidation {  % value -> validatedValue
+  dup /validated known not {
+    dup validate
+    dup /validated true put
+  } if
+} def
+----
+
+=== Best Practices
+
+==== Fail Fast
+
+[source,postscript]
+----
+% Good: validate early
+/processData {  % data -> result
+  % Validate immediately
+  dup type /arraytype ne {
+    /typecheck cvx
+  } if
+
+  dup length 0 eq {
+    /rangecheck cvx
+  } if
+
+  % Process valid data
+} def
+
+% Bad: validate late
+/processData {
+  % ... lots of processing
+  % ... then check if valid
+} def
+----
+
+==== Informative Error Messages
+
+[source,postscript]
+----
+% Good: specific message
+/divide {  % a b -> a/b
+  dup 0 eq {
+    (Error: Cannot divide by zero. Operand: ) print
+    1 index =
+    /undefinedresult cvx
+  } {
+    div
+  } ifelse
+} def
+
+% Bad: generic message
+/divide {
+  dup 0 eq { stop } { div } ifelse
+} def
+----
+
+==== Clean Up Resources
+
+[source,postscript]
+----
+% Good: cleanup on error
+/safeOperation {
+  /file (data.txt) (r) file def
+
+  {
+    % Operation
+    file 256 string readline pop
+  } stopped {
+    file closefile
+    stop
+  } {
+    file closefile
+  } ifelse
+} def
+----
+
+=== Common Pitfalls
+
+==== Swallowing Errors
+
+[source,postscript]
+----
+% Wrong: hides errors
+{
+  dangerousOperation
+} stopped pop  % Ignores error!
+
+% Correct: handle or log
+{
+  dangerousOperation
+} stopped {
+  (Error occurred) print
+  % Log or handle appropriately
+} if
+----
+
+==== Incomplete Error Handling
+
+[source,postscript]
+----
+% Wrong: only handles one error type
+{
+  operation
+} stopped {
+  $error /errorname get /ioerror eq {
+    (IO error) print
+  } if
+  % Other errors ignored!
+} if
+
+% Correct: handle all cases
+{
+  operation
+} stopped {
+  $error /errorname get
+  dup /ioerror eq {
+    (IO error) print
+  } {
+    dup /VMerror eq {
+      (Memory error) print
+    } {
+      (Other error: ) print =
+    } ifelse
+  } ifelse
+} if
+----
+
+==== Losing Error Context
+
+[source,postscript]
+----
+% Wrong: no context preserved
+{
+  {
+    operation
+  } stopped {
+    (Error) print
+  } if
+} repeat
+
+% Correct: preserve context
+{
+  {
+    operation
+  } stopped {
+    (Error in iteration ) print
+    iterationNumber =
+  } if
+} repeat
+----
+
+=== See Also
+
+* xref:../debugging.adoc[Debugging] - Debugging techniques
+* xref:file-operations.adoc[File Operations] - File error handling
+* xref:resource-management.adoc[Resource Management] - Resource errors
+* xref:../../commands/error-handling/index.adoc[Error Handling Commands] - Error operators
+* xref:../../commands/control-flow/stopped.adoc[stopped] - Error catching

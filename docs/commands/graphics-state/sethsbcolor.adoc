@@ -1,0 +1,317 @@
+---
+layout: default
+title: sethsbcolor
+parent: Graphics State
+grand_parent: Command Reference
+nav_order: 2
+---
+
+== sethsbcolor
+
+Sets the current color using HSB (Hue-Saturation-Brightness) values.
+
+=== Syntax
+
+----
+hue saturation brightness sethsbcolor → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 2
+| `hue` (0.0 to 1.0, color angle/360°)
+
+| 1
+| `saturation` (0.0 to 1.0, color purity)
+
+| 0
+| `brightness` (0.0 to 1.0, color intensity)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Color space set to DeviceRGB with HSB-derived color
+|===
+
+=== Description
+
+[`sethsbcolor`](sethsbcolor.adoc) sets the color space to DeviceRGB and sets the current color using hue, saturation, and brightness components.
+
+**HSB components:**
+
+* **Hue** (0.0 to 1.0): Color type on the color wheel
+  - 0.0 = red, 0.167 = yellow, 0.333 = green, 0.5 = cyan, 0.667 = blue, 0.833 = magenta, 1.0 = red (wraps)
+* **Saturation** (0.0 to 1.0): Color purity
+  - 0.0 = no color (gray), 1.0 = pure, vivid color
+* **Brightness** (0.0 to 1.0): Color intensity
+  - 0.0 = black, 1.0 = maximum brightness
+
+NOTE: HSB is **not a color space** in its own right, merely a means for entering RGB color values in a different coordinate system. The color value entered by [`sethsbcolor`](sethsbcolor.adoc) is immediately converted into the RGB model and used with the DeviceRGB color space.
+
+[`sethsbcolor`](sethsbcolor.adoc) does not give a rangecheck error for values outside the range 0 to 1; it substitutes the nearest legal value.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Primary colors
+[source,postscript]
+----
+0.0   1 1 sethsbcolor  % Red
+0.333 1 1 sethsbcolor  % Green
+0.667 1 1 sethsbcolor  % Blue
+----
+
+.Pastel colors (low saturation)
+[source,postscript]
+----
+0.0   0.3 1.0 sethsbcolor  % Light pink
+0.333 0.3 1.0 sethsbcolor  % Light green
+0.667 0.3 1.0 sethsbcolor  % Light blue
+----
+
+.Dark colors (low brightness)
+[source,postscript]
+----
+0.0   1 0.3 sethsbcolor  % Dark red
+0.333 1 0.3 sethsbcolor  % Dark green
+0.667 1 0.3 sethsbcolor  % Dark blue
+----
+
+.Grays (zero saturation)
+[source,postscript]
+----
+0 0   0.0 sethsbcolor  % Black
+0 0   0.5 sethsbcolor  % Mid gray
+0 0   1.0 sethsbcolor  % White
+----
+
+=== Common Use Cases
+
+==== Color Wheel Generation
+
+[source,postscript]
+----
+/DrawColorWheel {
+  0 10 360 {
+    % Convert degrees to hue
+    360 div
+    1.0  % Full saturation
+    1.0  % Full brightness
+    sethsbcolor
+
+    % Draw segment
+    drawWedge
+  } for
+} def
+----
+
+==== Tint Generation
+
+[source,postscript]
+----
+/GenerateTints {
+  % hue on stack
+  5 {
+    % Create 5 tints
+    dup           % hue
+    0.2 mul       % saturation decreases
+    1.0           % full brightness
+    sethsbcolor
+    drawSwatch
+  } repeat
+  pop
+} def
+----
+
+==== Shade Generation
+
+[source,postscript]
+----
+/GenerateShades {
+  % hue on stack
+  5 {
+    dup           % hue
+    1.0           % full saturation
+    0.2 mul       % brightness decreases
+    sethsbcolor
+    drawSwatch
+  } repeat
+  pop
+} def
+----
+
+==== Color Harmony
+
+[source,postscript]
+----
+/ComplementaryPair {
+  % hue
+  dup 1 1 sethsbcolor
+  drawShape1
+
+  0.5 add  % Opposite on color wheel
+  dup 1.0 gt { 1.0 sub } if
+  1 1 sethsbcolor
+  drawShape2
+} def
+
+/TriadicScheme {
+  % hue
+  dup 1 1 sethsbcolor
+  drawShape1
+
+  dup 0.333 add 1 1 sethsbcolor
+  drawShape2
+
+  0.667 add 1 1 sethsbcolor
+  drawShape3
+} def
+----
+
+=== Common Pitfalls
+
+WARNING: *Immediately Converted to RGB* - Color is stored as RGB, not HSB.
+
+[source,postscript]
+----
+0.5 1 1 sethsbcolor    % Cyan via HSB
+currentrgbcolor         % Returns 0 1 1 (RGB)
+currenthsbcolor         % Returns 0.5 1 1 (converted back)
+----
+
+WARNING: *Values Clamped* - Out-of-range values adjusted, not rejected.
+
+[source,postscript]
+----
+1.5 0.5 0.8 sethsbcolor  % Hue becomes 0.5
+0.5 1.5 0.8 sethsbcolor  % Saturation becomes 1.0
+0.5 0.5 1.5 sethsbcolor  % Brightness becomes 1.0
+----
+
+WARNING: *Hue Wraps* - Hue values wrap at 0.0 and 1.0.
+
+[source,postscript]
+----
+1.2 1 1 sethsbcolor   % Hue becomes 0.2
+-0.1 1 1 sethsbcolor  % Hue becomes 0.9
+----
+
+WARNING: *Color Space Changes* - Changes to DeviceRGB color space.
+
+[source,postscript]
+----
+0.5 setgray             % DeviceGray
+0.5 1 1 sethsbcolor     % DeviceRGB (gray lost!)
+----
+
+TIP: *Intuitive Color Selection* - HSB is more intuitive than RGB for selecting colors.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackunderflow`]
+| Fewer than 3 operands on stack
+
+| [`typecheck`]
+| Any operand not a number
+
+| [`undefined`]
+| Disabled in certain contexts
+|===
+
+=== Implementation Notes
+
+* Immediately converts to RGB internally
+* Sets color space to DeviceRGB
+* Values clamped to 0.0-1.0 range
+* No actual HSB color space exists
+* Fast operation (simple conversion)
+* Widely supported (Level 1)
+
+=== HSB to RGB Conversion
+
+Conceptual algorithm:
+
+[source,postscript]
+----
+% If saturation = 0 (achromatic)
+brightness dup dup setrgbcolor
+
+% Otherwise
+% 1. Determine hue sector (0-5)
+% 2. Calculate chroma and intermediate values
+% 3. Map to RGB based on sector
+% 4. Apply brightness scaling
+----
+
+=== HSB Color Model
+
+.Hue Circle
+----
+   Yellow
+  0.167
+    |
+Green-+-Red
+0.333 | 0.0/1.0
+    |
+   Cyan
+   0.5
+    |
+ Blue-+-Magenta
+ 0.667| 0.833
+----
+
+.Saturation Scale
+----
+0.0 = Gray (no color)
+0.5 = Pastel (moderate color)
+1.0 = Vivid (pure color)
+----
+
+.Brightness Scale
+----
+0.0 = Black
+0.5 = Medium
+1.0 = Full brightness
+----
+
+=== Practical Color Selection
+
+[source,postscript]
+----
+% Selecting colors intuitively:
+
+% Vivid red
+0.0 1.0 1.0 sethsbcolor
+
+% Pastel blue
+0.667 0.3 1.0 sethsbcolor
+
+% Dark green
+0.333 1.0 0.3 sethsbcolor
+
+% Medium gray (saturation = 0)
+0.0 0.0 0.5 sethsbcolor
+----
+
+=== See Also
+
+* xref:setrgbcolor.adoc[`setrgbcolor`] - Set RGB color
+* xref:setgray.adoc[`setgray`] - Set grayscale
+* xref:setcmykcolor.adoc[`setcmykcolor`] - Set CMYK color (Level 2)
+* xref:currenthsbcolor.adoc[`currenthsbcolor`] - Get HSB color

@@ -1,0 +1,247 @@
+---
+layout: default
+title: closepath
+parent: Path Construction
+grand_parent: Command Reference
+nav_order: 11
+---
+
+== closepath
+
+Closes the current subpath by adding a straight line back to its starting point.
+
+=== Syntax
+
+----
+- closepath → -
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No operands required
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No results
+|===
+
+=== Description
+
+[`closepath`](closepath.adoc) closes the current subpath by appending a straight line segment connecting the current point to the subpath's starting point—generally, the point most recently specified by xref:moveto.adoc[`moveto`].
+
+If the current subpath is already closed or the current path is empty, [`closepath`](closepath.adoc) does nothing.
+
+[`closepath`](closepath.adoc) terminates the current subpath. Appending another segment to the current path will begin a new subpath, even if it is drawn from the endpoint reached by [`closepath`](closepath.adoc).
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Closing a triangle
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+150 200 lineto
+closepath                % Adds line from (150,200) to (100,100)
+stroke
+----
+
+.Multiple closed subpaths
+[source,postscript]
+----
+newpath
+% First square
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath
+
+% Second square (new subpath)
+250 100 moveto
+350 100 lineto
+350 200 lineto
+250 200 lineto
+closepath
+
+fill
+----
+
+.Circle with closepath
+[source,postscript]
+----
+newpath
+200 200 50 0 360 arc
+closepath                % Not strictly necessary for arcs
+fill
+----
+
+=== Common Use Cases
+
+==== Creating Closed Shapes
+
+[source,postscript]
+----
+/drawPolygon {
+  % array of points -> draws closed polygon
+  /points exch def
+  newpath
+  points 0 get points 1 get moveto
+  2 2 points length 1 sub {
+    /i exch def
+    points i get points i 1 add get lineto
+  } for
+  closepath
+} def
+
+[100 100  200 150  250 100  200 50] drawPolygon
+fill
+----
+
+==== Ensuring Proper Fills
+
+[source,postscript]
+----
+% Without closepath - gap at join
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+% No closepath
+5 setlinewidth
+stroke                   % Gap visible at corner
+
+% With closepath - clean join
+newpath
+250 100 moveto
+350 100 lineto
+350 200 lineto
+250 200 lineto
+closepath
+stroke                   % Clean miter join at corner
+----
+
+==== Creating Compound Paths
+
+[source,postscript]
+----
+/drawTarget {
+  % cx cy radius
+  /r exch def
+  /cy exch def
+  /cx exch def
+
+  newpath
+  cx cy r 0 360 arc closepath          % Outer circle
+  cx cy r 2 div 0 360 arc closepath    % Inner circle
+
+  % Fill with even-odd rule creates ring
+  eofill
+} def
+
+200 200 80 drawTarget
+----
+
+=== Common Pitfalls
+
+WARNING: *Line Cap at Close Point* - The line cap setting doesn't affect the join where [`closepath`](closepath.adoc) connects. The line join setting applies instead.
+
+[source,postscript]
+----
+2 setlinecap             % Round caps
+0 setlinejoin            % Miter joins
+
+newpath
+100 100 moveto
+200 100 lineto
+closepath
+stroke                   % Join at (100,100) is mitered, not rounded
+----
+
+WARNING: *Not Needed for All Shapes* - Complete arcs (0 to 360) are automatically closed. Adding [`closepath`](closepath.adoc) doesn't hurt, but it's redundant.
+
+[source,postscript]
+----
+newpath
+200 200 50 0 360 arc     % Already creates closed path
+closepath                % Redundant but harmless
+----
+
+TIP: *Always Close Filled Paths* - For clean fills and strokes, always use [`closepath`](closepath.adoc) to close shapes, even if the endpoints are very close.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`limitcheck`]
+| Path becomes too complex for implementation
+|===
+
+Note: [`closepath`](closepath.adoc) does not require a current point and will not generate a [`nocurrentpoint`] error.
+
+=== Implementation Notes
+
+* Creates an explicit line segment in the path
+* The closing segment participates in line join calculations
+* Current point after [`closepath`](closepath.adoc) is the subpath start point
+* Subsequent path operations start a new subpath
+* Has no effect on empty paths or already-closed subpaths
+* Essential for proper fill and stroke behavior
+
+=== Behavior Details
+
+The behavior differs from simply using xref:lineto.adoc[`lineto`] back to the starting point:
+
+[source,postscript]
+----
+% Using lineto
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+100 100 lineto          % Back to start
+% Next lineto extends from (100,100)
+
+% Using closepath
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath               % Back to start, subpath closed
+% Next lineto starts NEW subpath
+----
+
+=== Performance Considerations
+
+* Very lightweight operation
+* No computational overhead
+* Improves rendering quality for stroked paths
+* Required for correct fill behavior in most cases
+
+=== See Also
+
+* xref:newpath.adoc[`newpath`] - Initialize empty path
+* xref:moveto.adoc[`moveto`] - Start new subpath
+* xref:lineto.adoc[`lineto`] - Add straight line segment
+* xref:arc.adoc[`arc`] - Add circular arc
+* xref:currentpoint.adoc[`currentpoint`] - Get current point

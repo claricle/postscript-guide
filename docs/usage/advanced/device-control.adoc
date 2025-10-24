@@ -1,0 +1,865 @@
+---
+layout: default
+title: Device Control
+parent: Advanced Usage
+grand_parent: Usage Guides
+nav_order: 8
+---
+
+== Device Control
+
+Device control in PostScript allows you to interact with output devices, manage page layout, and control rendering behavior. Understanding device control is essential for professional document production.
+
+=== Overview
+
+Device control capabilities include:
+
+* **Page management** - Page setup and output
+* **Device parameters** - Resolution, media, etc.
+* **Output control** - Copying, erasure, and rendering
+* **Device-specific features** - Printer capabilities
+* **Coordinate systems** - Device vs. user space
+* **Resource management** - Fonts, patterns, etc.
+
+These features enable precise control over document output across different devices.
+
+=== Page Management
+
+==== The `showpage` Operator
+
+Transmits current page to output device:
+
+[source,postscript]
+----
+% Draw content
+100 100 moveto
+(Hello, World!) show
+
+% Output page
+showpage
+% Page is cleared, ready for next page
+----
+
+==== The `copypage` Operator
+
+Outputs page without clearing:
+
+[source,postscript]
+----
+% Draw content
+100 100 moveto
+(Page content) show
+
+% Output without clearing
+copypage
+
+% Add more content
+100 80 moveto
+(More content) show
+
+% Final output
+showpage
+----
+
+==== The `erasepage` Operator
+
+Clears current page without outputting:
+
+[source,postscript]
+----
+% Draw something
+100 100 moveto
+(Oops, mistake!) show
+
+% Clear it
+erasepage
+
+% Start fresh
+100 100 moveto
+(Correct content) show
+showpage
+----
+
+==== Multi-Page Documents
+
+[source,postscript]
+----
+% Page 1
+/Times-Roman findfont 12 scalefont setfont
+100 700 moveto
+(Page 1) show
+showpage
+
+% Page 2
+100 700 moveto
+(Page 2) show
+showpage
+
+% Page 3
+100 700 moveto
+(Page 3) show
+showpage
+----
+
+=== Device Parameters
+
+==== Page Size and Orientation
+
+[source,postscript]
+----
+% US Letter (8.5" x 11")
+<< /PageSize [612 792] >> setpagedevice
+
+% A4 (210mm x 297mm)
+<< /PageSize [595 842] >> setpagedevice
+
+% Landscape (swap dimensions)
+<< /PageSize [792 612] >> setpagedevice
+
+% Legal (8.5" x 14")
+<< /PageSize [612 1008] >> setpagedevice
+----
+
+==== Resolution Control
+
+[source,postscript]
+----
+% Set resolution (if supported)
+<< /HWResolution [300 300] >> setpagedevice  % 300 DPI
+
+% High resolution
+<< /HWResolution [600 600] >> setpagedevice  % 600 DPI
+
+% Query current resolution
+currentpagedevice /HWResolution get
+% Returns: [xRes yRes]
+----
+
+==== Media Selection
+
+[source,postscript]
+----
+% Select media type
+<< /MediaType (Plain) >> setpagedevice
+<< /MediaType (Transparency) >> setpagedevice
+<< /MediaType (Glossy) >> setpagedevice
+
+% Media color
+<< /MediaColor (white) >> setpagedevice
+<< /MediaColor (blue) >> setpagedevice
+
+% Media weight
+<< /MediaWeight 90 >> setpagedevice  % 90 g/m²
+----
+
+==== Duplex Printing
+
+[source,postscript]
+----
+% Simplex (single-sided)
+<< /Duplex false >> setpagedevice
+
+% Duplex (double-sided)
+<< /Duplex true >> setpagedevice
+
+% Tumble (short-edge binding)
+<< /Duplex true /Tumble true >> setpagedevice
+
+% Long-edge binding
+<< /Duplex true /Tumble false >> setpagedevice
+----
+
+=== Device Capabilities
+
+==== Querying Device Parameters
+
+[source,postscript]
+----
+% Get current page device
+currentpagedevice
+
+% Query specific parameter
+currentpagedevice /PageSize get =
+
+% Check if parameter exists
+currentpagedevice /Duplex known {
+  (Duplex supported) print
+} {
+  (Duplex not supported) print
+} ifelse
+----
+
+==== Device Dictionary
+
+[source,postscript]
+----
+% Complete page device dictionary
+<<
+  /PageSize [612 792]
+  /HWResolution [600 600]
+  /Duplex true
+  /Tumble false
+  /MediaType (Plain)
+  /MediaColor (white)
+  /MediaWeight 90
+  /NumCopies 1
+  /Collate true
+>> setpagedevice
+----
+
+==== Printer-Specific Features
+
+[source,postscript]
+----
+% Tray selection
+<< /MediaPosition 0 >> setpagedevice  % Auto
+<< /MediaPosition 1 >> setpagedevice  % Tray 1
+<< /MediaPosition 2 >> setpagedevice  % Tray 2
+
+% Output bin
+<< /OutputType (Stacker) >> setpagedevice
+
+% Finishing options
+<<
+  /Staple 1        % Staple top-left
+  /Punch true      % Hole punch
+  /Fold 1          % Fold in half
+>> setpagedevice
+----
+
+=== Output Control
+
+==== Number of Copies
+
+[source,postscript]
+----
+% Print 5 copies
+<< /NumCopies 5 >> setpagedevice
+
+% With collation
+<<
+  /NumCopies 5
+  /Collate true
+>> setpagedevice
+
+% Draw page
+100 100 moveto
+(This will print 5 times) show
+showpage
+----
+
+==== Manual Feed
+
+[source,postscript]
+----
+% Request manual feed
+<< /ManualFeed true >> setpagedevice
+
+% Draw page
+100 100 moveto
+(Insert paper manually) show
+showpage
+
+% Restore automatic feed
+<< /ManualFeed false >> setpagedevice
+----
+
+==== Job Control
+
+[source,postscript]
+----
+% Start of job
+<<
+  /BeginPage {
+    % Execute before each page
+    /Times-Roman findfont 8 scalefont setfont
+    550 20 moveto
+    (Page ) show
+    PageCount =string cvs show
+  }
+  /EndPage {
+    % Execute after each page
+    pop  % Discard reason
+    0    % Return 0 to output page
+  }
+>> setpagedevice
+----
+
+=== Coordinate System Management
+
+==== Default vs. Device Matrix
+
+[source,postscript]
+----
+% Get default matrix (initial CTM)
+matrix defaultmatrix
+% Returns standard page matrix
+
+% Get current matrix
+matrix currentmatrix
+
+% Reset to default
+initmatrix
+----
+
+==== Device Space Transformations
+
+[source,postscript]
+----
+% Transform point to device space
+100 200  % User space coordinates
+matrix currentmatrix
+dtransform
+% Returns device space coordinates
+
+% Inverse transform
+500 600  % Device space coordinates
+matrix currentmatrix
+idtransform
+% Returns user space coordinates
+----
+
+==== Resolution-Independent Drawing
+
+[source,postscript]
+----
+% Always work in points (1/72 inch)
+% Let device handle resolution
+
+% Good: resolution-independent
+/inch { 72 mul } def
+1 inch 2 inch moveto
+(Text at 1", 2") show
+
+% Bad: device-specific
+300 600 moveto  % Assumes 300 DPI
+(Position varies by device) show
+----
+
+=== Device-Independent Output
+
+==== Standard Page Sizes
+
+[source,postscript]
+----
+/PageSizes <<
+  /Letter [612 792]     % 8.5 x 11 in
+  /Legal [612 1008]     % 8.5 x 14 in
+  /Ledger [1224 792]    % 17 x 11 in
+  /Tabloid [792 1224]   % 11 x 17 in
+  /A0 [2384 3370]       % 841 x 1189 mm
+  /A1 [1684 2384]       % 594 x 841 mm
+  /A2 [1191 1684]       % 420 x 594 mm
+  /A3 [842 1191]        % 297 x 420 mm
+  /A4 [595 842]         % 210 x 297 mm
+  /A5 [420 595]         % 148 x 210 mm
+  /B4 [729 1032]        % 257 x 364 mm
+  /B5 [516 729]         % 182 x 257 mm
+>> def
+
+/setPageSize {  % /sizeName -> -
+  PageSizes exch get
+  dup 0 get exch 1 get
+  << /PageSize [4 -1 roll 3 -1 roll] >> setpagedevice
+} def
+
+% Usage
+/A4 setPageSize
+----
+
+==== Margins and Safe Area
+
+[source,postscript]
+----
+/PageMargins {
+  % Define standard margins
+  <<
+    /ImagingBBox [36 36 576 756]  % 0.5" margins on Letter
+    % [llx lly urx ury] in points
+  >> setpagedevice
+} def
+
+% Calculate safe area
+/SafeArea {  % -> llx lly urx ury
+  currentpagedevice /PageSize get
+  aload pop                    % width height
+  4 dict begin
+    /h exch def
+    /w exch def
+    /margin 72 def  % 1 inch
+
+    margin                      % llx
+    margin                      % lly
+    w margin sub               % urx
+    h margin sub               % ury
+  end
+} def
+
+% Draw in safe area
+SafeArea
+4 dict begin
+  /ury exch def /urx exch def
+  /lly exch def /llx exch def
+
+  % Draw content within safe area
+  llx lly moveto
+  (Safe content) show
+end
+----
+
+=== Rendering Control
+
+==== Screen Frequency
+
+[source,postscript]
+----
+% Set halftone screen (printing)
+<<
+  /ScreenFrequency 85
+  /ScreenAngle 45
+>> setpagedevice
+
+% High-quality screen
+<< /ScreenFrequency 150 >> setpagedevice
+----
+
+==== Transfer Functions
+
+[source,postscript]
+----
+% Adjust tone reproduction
+<<
+  /TransferFunction { 0.5 mul }  % Lighter
+>> setpagedevice
+
+% Gamma correction
+<<
+  /TransferFunction { 0.45 exp }
+>> setpagedevice
+----
+
+==== Overprint Control
+
+[source,postscript]
+----
+% Enable overprint
+<< /Overprint true >> setpagedevice
+
+% Disable overprint
+<< /Overprint false >> setpagedevice
+----
+
+=== Practical Device Control
+
+==== Page Setup Utility
+
+[source,postscript]
+----
+/setupPage {  % size orientation -> -
+  2 dict begin
+    /orient exch def  % 0=portrait, 1=landscape
+    /size exch def
+
+    % Get page dimensions
+    PageSizes size get
+
+    % Apply orientation
+    orient 1 eq {
+      aload pop exch  % Swap width/height
+    } {
+      aload pop
+    } ifelse
+
+    % Set page size
+    << /PageSize [4 -1 roll 3 -1 roll] >> setpagedevice
+  end
+} def
+
+% Usage
+/Letter 0 setupPage  % Portrait Letter
+/A4 1 setupPage      % Landscape A4
+----
+
+==== Multi-Page Template
+
+[source,postscript]
+----
+/PageTemplate {
+  10 dict begin
+    /pageNum 1 def
+    /totalPages exch def
+
+    /header {
+      gsave
+        /Helvetica findfont 10 scalefont setfont
+        72 720 moveto
+        (Document Title) show
+      grestore
+    } def
+
+    /footer {
+      gsave
+        /Helvetica findfont 9 scalefont setfont
+        540 36 moveto
+        (Page ) show
+        pageNum =string cvs show
+        ( of ) show
+        totalPages =string cvs show
+      grestore
+    } def
+
+    /nextPage {
+      header exec
+      % Page content here
+      footer exec
+      showpage
+      /pageNum pageNum 1 add def
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+10 PageTemplate /doc exch def
+doc /nextPage get exec  % Page 1
+doc /nextPage get exec  % Page 2
+doc /nextPage get exec  % Page 3
+----
+
+==== Print Job Manager
+
+[source,postscript]
+----
+/PrintJob {
+  20 dict begin
+    /title exch def
+    /copies 1 def
+    /duplex false def
+    /collate true def
+
+    /setup {
+      <<
+        /NumCopies copies
+        /Duplex duplex
+        /Collate collate
+      >> setpagedevice
+    } def
+
+    /setCopies { /copies exch def } def
+    /setDuplex { /duplex exch def } def
+    /setCollate { /collate exch def } def
+
+    /print {
+      setup
+      % Print pages
+    } def
+
+    currentdict
+  end
+} def
+
+% Usage
+(My Document) PrintJob /job exch def
+job /setCopies 5 exec
+job /setDuplex true exec
+job /print exec
+----
+
+=== Device Testing
+
+==== Capability Detection
+
+[source,postscript]
+----
+/testDeviceCapability {  % key -> boolean
+  currentpagedevice exch known
+} def
+
+% Test capabilities
+/Duplex testDeviceCapability {
+  (Duplex printing available) print
+} {
+  (Duplex not supported) print
+} ifelse
+
+/Color testDeviceCapability {
+  (Color device) print
+} {
+  (Monochrome device) print
+} ifelse
+----
+
+==== Resolution Test Page
+
+[source,postscript]
+----
+/resolutionTest {
+  % Display device information
+  /Courier findfont 10 scalefont setfont
+
+  72 700 moveto
+  (Device Information) show
+
+  72 680 moveto
+  (Resolution: ) show
+  currentpagedevice /HWResolution get
+  0 get =string cvs show
+  ( DPI) show
+
+  72 660 moveto
+  (Page Size: ) show
+  currentpagedevice /PageSize get
+  aload pop
+  exch =string cvs show
+  ( x ) show
+  =string cvs show
+  ( points) show
+
+  % Resolution test pattern
+  100 500 moveto
+  0 1 99 {
+    /i exch def
+    0 2 rlineto
+    0 -2 rmoveto
+    1 0 rmoveto
+  } for
+  0.1 setlinewidth
+  stroke
+} def
+
+resolutionTest
+showpage
+----
+
+==== Color Test Page
+
+[source,postscript]
+----
+/colorTest {
+  % Primary colors
+  50 dict begin
+    /x 50 def
+    /y 650 def
+    /size 100 def
+
+    % Red
+    1 0 0 setrgbcolor
+    x y size size rectfill
+
+    % Green
+    0 1 0 setrgbcolor
+    x size add 20 add y size size rectfill
+
+    % Blue
+    0 0 1 setrgbcolor
+    x size 2 mul add 40 add y size size rectfill
+
+    % Grayscale ramp
+    /y y size sub 50 sub def
+    0 0.1 1 {
+      /gray exch def
+      gray setgray
+      x gray 500 mul add y 10 50 rectfill
+    } for
+  end
+} def
+
+colorTest
+showpage
+----
+
+=== Error Handling for Devices
+
+==== Safe Device Settings
+
+[source,postscript]
+----
+/safeSetPageDevice {  % dict -> boolean
+  {
+    setpagedevice
+    true
+  } stopped {
+    pop  % Discard error
+    (Warning: Could not set page device) print
+    false
+  } ifelse
+} def
+
+% Usage
+<< /PageSize [595 842] >> safeSetPageDevice {
+  (Page size set successfully) print
+} {
+  (Using default page size) print
+} ifelse
+----
+
+==== Fallback Strategy
+
+[source,postscript]
+----
+/setPageSizeSafe {  % size -> -
+  dup PageSizes exch known {
+    PageSizes exch get
+    << /PageSize 3 -1 roll >> setpagedevice
+  } {
+    pop
+    (Unknown page size, using default) print
+  } ifelse
+} def
+
+% Usage
+/A4 setPageSizeSafe        % Sets A4
+/CustomSize setPageSizeSafe  % Uses default
+----
+
+=== Performance Optimization
+
+==== Batch Page Setup
+
+[source,postscript]
+----
+% Good: set once for all pages
+<<
+  /PageSize [612 792]
+  /NumCopies 1
+  /Duplex false
+>> setpagedevice
+
+% Draw all pages with same settings
+1 1 10 {
+  pop
+  % Page content
+  showpage
+} for
+
+% Bad: repeated setup
+1 1 10 {
+  pop
+  << /PageSize [612 792] >> setpagedevice
+  % Page content
+  showpage
+} for
+----
+
+==== Minimize Device Changes
+
+[source,postscript]
+----
+% Good: group by settings
+<< /Duplex false >> setpagedevice
+% Pages 1-5 simplex
+1 1 5 { pop showpage } for
+
+<< /Duplex true >> setpagedevice
+% Pages 6-10 duplex
+6 1 10 { pop showpage } for
+
+% Bad: alternating
+1 1 10 {
+  dup 2 mod 0 eq {
+    << /Duplex true >> setpagedevice
+  } {
+    << /Duplex false >> setpagedevice
+  } ifelse
+  showpage
+} for
+----
+
+=== Best Practices
+
+==== Device-Independent Code
+
+[source,postscript]
+----
+% Good: works on any device
+/inch { 72 mul } def
+1 inch 2 inch moveto
+(Text) show
+
+% Bad: device-specific
+300 600 moveto  % Assumes specific resolution
+(Text) show
+----
+
+==== Query Before Setting
+
+[source,postscript]
+----
+% Good: check capability first
+currentpagedevice /Duplex known {
+  << /Duplex true >> setpagedevice
+} {
+  (Duplex not available) print
+} ifelse
+
+% Bad: assume capability
+<< /Duplex true >> setpagedevice  % May error
+----
+
+==== Preserve Device State
+
+[source,postscript]
+----
+% Good: save and restore
+/savedDevice currentpagedevice def
+<< /NumCopies 5 >> setpagedevice
+% ... print job
+savedDevice setpagedevice
+
+% Bad: don't restore
+<< /NumCopies 5 >> setpagedevice
+% Settings persist!
+----
+
+=== Common Pitfalls
+
+==== Forgetting `showpage`
+
+[source,postscript]
+----
+% Wrong: page not output
+100 100 moveto
+(Text) show
+% No showpage - page stays in memory!
+
+% Correct
+100 100 moveto
+(Text) show
+showpage
+----
+
+==== Unsupported Parameters
+
+[source,postscript]
+----
+% Wrong: may cause error
+<< /UnsupportedFeature true >> setpagedevice
+
+% Correct: check first
+currentpagedevice /UnsupportedFeature known {
+  << /UnsupportedFeature true >> setpagedevice
+} {
+  (Feature not supported) print
+} ifelse
+----
+
+==== Mixing User and Device Space
+
+[source,postscript]
+----
+% Wrong: confused coordinate systems
+matrix currentmatrix dtransform moveto  % Wrong!
+
+% Correct: stay in user space
+100 200 moveto  % User space coordinates
+----
+
+=== See Also
+
+* xref:../basic/coordinate-systems.adoc[Coordinate Systems] - Device vs user space
+* xref:../basic/graphics-state.adoc[Graphics State] - State management
+* xref:file-operations.adoc[File Operations] - Output control
+* xref:resource-management.adoc[Resource Management] - Device resources
+* xref:error-handling.adoc[Error Handling] - Device errors
+* xref:../../commands/device-output/index.adoc[Device Output Commands] - Output operators

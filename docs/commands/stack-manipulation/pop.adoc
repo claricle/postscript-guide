@@ -1,0 +1,251 @@
+---
+layout: default
+title: pop
+parent: Stack Manipulation
+grand_parent: Command Reference
+nav_order: 1
+permalink: /commands/stack-manipulation/pop/
+---
+= pop
+:description: Remove the top element from the operand stack
+:keywords: postscript, stack, pop, remove
+
+[.lead]
+Removes the top element from the operand stack and discards it.
+
+== Description
+
+The `pop` operator removes and discards the topmost element from the operand stack. It is one of the most fundamental stack manipulation operators and is frequently used to discard unwanted results or clean up the stack after operations.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+any pop -
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`any` (any type) - The element to be removed and discarded
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|
+|_(Stack is one element shorter)_
+|===
+
+== Parameters
+
+`any`:: Any PostScript object of any type. The object is removed from the stack and discarded.
+
+== Return Values
+
+None. The `pop` operator consumes one element and produces no results.
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Push some values
+10 20 30
+
+% Remove top value (30)
+pop
+
+% Stack now contains: 10 20
+count =        % Prints: 2
+----
+
+=== Discarding Intermediate Results
+
+[source,postscript]
+----
+% Calculate but discard intermediate result
+5 6 mul        % Stack: 30
+dup            % Stack: 30 30
+7 add          % Stack: 30 37
+exch           % Stack: 37 30
+pop            % Stack: 37 (discarded the 30)
+----
+
+=== Cleaning Up After Operations
+
+[source,postscript]
+----
+% Function that leaves extra value
+/calculate {
+    10 20 add  % Returns 30
+    100        % Accidentally leaves 100 on stack
+} def
+
+% Use it and clean up
+calculate      % Stack: 30 100
+pop            % Stack: 30 (cleaned up unwanted 100)
+----
+
+=== Multiple Pops
+
+[source,postscript]
+----
+% Remove multiple values
+1 2 3 4 5      % Stack: 1 2 3 4 5
+pop pop        % Stack: 1 2 3
+----
+
+== Advanced Examples
+
+=== Conditional Stack Cleanup
+
+[source,postscript]
+----
+% Remove value only if condition is true
+/conditionalPop {  % bool any -> any|nothing
+    exch           % any bool
+    {              % If true
+        pop        % Remove the value
+    } {            % If false
+        % Leave value on stack
+    } ifelse
+} def
+
+% Usage
+42 true conditionalPop   % Stack is empty (value removed)
+42 false conditionalPop  % Stack: 42 (value kept)
+----
+
+=== Stack Depth Management
+
+[source,postscript]
+----
+% Ensure stack has exactly n elements
+/ensureDepth {  % any1 ... anyx n -> any1 ... anyn
+    count 1 index sub  % Calculate how many to remove
+    {
+        dup 0 gt {     % While extras exist
+            exch pop   % Remove one
+            1 sub      % Decrement counter
+        } {
+            pop exit   % Done
+        } ifelse
+    } loop
+} def
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: Using `pop` on an empty stack causes a `stackunderflow` error.
+
+=== Empty Stack
+
+[source,postscript]
+----
+% BAD: This will error
+clear          % Empty the stack
+pop            % ERROR: stackunderflow
+----
+
+Always ensure the stack has elements before using `pop`:
+
+[source,postscript]
+----
+% GOOD: Check stack depth first
+count 0 gt {   % If stack not empty
+    pop        % Safe to pop
+} if
+----
+
+=== Accidentally Removing Important Values
+
+[source,postscript]
+----
+% BAD: Lost the value we needed
+10 20 add      % Stack: 30
+pop            % Stack: empty - oops!
+% Value is gone forever
+----
+
+TIP: Use `dup` before `pop` if you might need the value:
+
+[source,postscript]
+----
+% BETTER: Keep a copy
+10 20 add      % Stack: 30
+dup            % Stack: 30 30
+someOperation  % Uses one copy
+pop            % Removes result if not needed
+% Original 30 still available
+----
+
+== Related Commands
+
+* xref:exch.adoc[`exch`] - Exchange top two elements instead of removing
+* xref:dup.adoc[`dup`] - Duplicate top element
+* xref:clear.adoc[`clear`] - Remove all elements from stack
+* xref:roll.adoc[`roll`] - Rotate elements (can achieve similar effects)
+* xref:count.adoc[`count`] - Check stack depth before popping
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental operator available in all PostScript implementations.
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty when `pop` is executed. There must be at least one element on the stack.
++
+[source,postscript]
+----
+clear
+pop     % ERROR: stackunderflow
+----
+
+== Performance Considerations
+
+The `pop` operator is extremely fast and has negligible performance impact. It's a basic stack operation with O(1) constant time complexity.
+
+== Best Practices
+
+1. **Check before popping**: Use `count` to verify stack depth in defensive code
+2. **Document side effects**: If a procedure uses `pop`, document it clearly
+3. **Prefer specific operations**: Sometimes `exch pop` or other combinations are clearer than just `pop`
+4. **Avoid excessive popping**: If you're popping many values, consider whether your stack management could be improved
+
+=== Good Stack Discipline
+
+[source,postscript]
+----
+% Document stack effects clearly
+/myProcedure {  % x y z -> result
+    % Takes three arguments, returns one
+    add add       % Sum all three
+    % Stack automatically cleaned: consumed x, y, z; produced result
+} def
+----
+
+== See Also
+
+* xref:../../syntax/operators.adoc[Operators Overview] - Understanding PostScript operators
+* xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
+* xref:index.adoc[Stack Manipulation] - All stack operators
+* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 614)
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

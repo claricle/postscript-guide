@@ -1,0 +1,226 @@
+---
+layout: default
+title: Control Flow
+parent: Command Reference
+nav_order: 5
+---
+
+== Control Flow
+
+Control flow operations enable conditional execution, loops, and program flow control in PostScript. These commands provide the foundation for decision-making and repetitive operations.
+
+== Overview
+
+PostScript control flow operates through:
+
+* **Conditional execution**: Execute code based on boolean conditions
+* **Iteration**: Repeat operations multiple times or over collections
+* **Flow control**: Exit loops early, handle errors, terminate execution
+* **Dynamic execution**: Execute objects programmatically
+
+== Command Categories
+
+=== Conditional Execution
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:if.adoc[`if`]
+| Execute procedure if condition is true
+
+| xref:ifelse.adoc[`ifelse`]
+| Execute one of two procedures based on condition
+|===
+
+=== Iteration
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:for.adoc[`for`]
+| Loop with numeric control variable
+
+| xref:repeat.adoc[`repeat`]
+| Execute procedure a fixed number of times
+
+| xref:loop.adoc[`loop`]
+| Execute procedure indefinitely until exit
+
+| xref:../array-string/forall.adoc[`forall`]
+| Iterate over array, string, or dictionary elements
+|===
+
+=== Flow Control
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:exit.adoc[`exit`]
+| Terminate innermost loop early
+
+| xref:stop.adoc[`stop`]
+| Terminate stopped context
+
+| xref:stopped.adoc[`stopped`]
+| Execute object with error catching
+
+| xref:quit.adoc[`quit`]
+| Terminate interpreter
+|===
+
+=== Dynamic Execution
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:exec.adoc[`exec`]
+| Execute an object
+
+| xref:../array-string/cvx.adoc[`cvx`]
+| Convert to executable attribute
+|===
+
+== Common Patterns
+
+=== Conditional Execution
+
+[source,postscript]
+----
+% Simple conditional
+x 0 gt {
+  (positive) print
+} if
+
+% Two-way conditional
+x 0 gt {
+  (positive) print
+} {
+  (non-positive) print
+} ifelse
+----
+
+=== Numeric Iteration
+
+[source,postscript]
+----
+% Count from 1 to 10
+1 1 10 {
+  % Loop body, current value on stack
+  =
+} for
+
+% Count down
+10 -1 1 {
+  % 10, 9, 8, ..., 1
+} for
+----
+
+=== Collection Iteration
+
+[source,postscript]
+----
+% Process array elements
+[1 2 3 4 5] {
+  10 mul  % Multiply each by 10
+} forall
+
+% Process string characters
+(hello) {
+  % Each character code pushed
+  =
+} forall
+----
+
+=== Error Handling
+
+[source,postscript]
+----
+{
+  % Code that might fail
+  riskyOperation
+} stopped {
+  % Handle error
+  (Operation failed) print
+} if
+----
+
+== Loop Types Comparison
+
+[cols="2,3,2"]
+|===
+| Loop Type | Use When | Control Variable
+
+| [`for`](for.adoc)
+| Numeric sequence needed
+| Yes
+
+| [`repeat`](repeat.adoc)
+| Simple fixed repetition
+| No
+
+| [`loop`](loop.adoc)
+| Indefinite looping
+| No
+
+| xref:../array-string/forall.adoc[`forall`]
+| Iterating collections
+| Yes (element)
+|===
+
+== Important Considerations
+
+=== Boolean Context
+
+Conditionals require boolean values:
+
+[source,postscript]
+----
+true { } if      % Correct
+0 { } if         % Error: typecheck (0 is not boolean)
+----
+
+=== Procedure Objects
+
+Control flow operators require procedures (executable arrays):
+
+[source,postscript]
+----
+{ code } if      % Correct: { } creates procedure
+[code] if        % Wrong: [ ] creates literal array
+----
+
+=== Loop Termination
+
+* [`exit`](exit.adoc) exits innermost loop only
+* [`stop`](stop.adoc) exits stopped context
+* Infinite loops possible with [`loop`](loop.adoc)
+
+=== Stack Effects
+
+Procedures may leave values on stack:
+
+[source,postscript]
+----
+5 { 10 } repeat  % Leaves 10 10 10 10 10 on stack
+5 { } repeat     % Leaves nothing
+----
+
+== Common Pitfalls
+
+WARNING: *Not C-Style Booleans* - PostScript uses true/false, not 0/1 or nil/non-nil.
+
+WARNING: *Procedures Not Blocks* - Use `{ }` not `[ ]` for code blocks.
+
+WARNING: *Stack Accumulation* - Loop bodies that don't consume values will accumulate on stack.
+
+TIP: *Use exit Carefully* - Only works within loop contexts (for, repeat, loop, forall).
+
+== See Also
+
+* xref:../dictionary/index.adoc[Dictionary Operations] - For scoping with begin/end
+* xref:../array-string/index.adoc[Array Operations] - For forall iteration
+* Error Handling (to be documented) - For comprehensive error management

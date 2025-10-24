@@ -1,0 +1,159 @@
+---
+layout: default
+title: Practical Examples
+nav_order: 8
+---
+
+== Practical Examples
+
+Real-world PostScript code examples demonstrating common tasks and techniques.
+
+== Hello World
+
+Your first PostScript program:
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+/Helvetica findfont 12 scalefont setfont
+100 700 moveto
+(Hello, PostScript!) show
+showpage
+----
+
+== Drawing Basic Shapes
+
+=== Rectangle
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 0 rlineto
+0 150 rlineto
+-200 0 rlineto
+closepath
+0.5 setgray fill
+----
+
+=== Circle
+
+[source,postscript]
+----
+newpath
+200 200 50 0 360 arc
+closepath
+0 setgray stroke
+----
+
+=== Triangle
+
+[source,postscript]
+----
+newpath
+150 100 moveto
+250 100 lineto
+200 200 lineto
+closepath
+1 0 0 setrgbcolor fill
+----
+
+== Text Examples
+
+=== Centered Text
+
+[source,postscript]
+----
+/Helvetica findfont 24 scalefont setfont
+(PostScript) stringwidth pop 2 div
+300 exch sub 400 moveto
+(PostScript) show
+----
+
+=== Multiple Lines
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+100 700 moveto (Line 1) show
+100 680 moveto (Line 2) show
+100 660 moveto (Line 3) show
+----
+
+== Color Examples
+
+=== RGB Colors
+
+[source,postscript]
+----
+% Red square
+1 0 0 setrgbcolor
+0 0 100 100 rectfill
+
+% Green square
+0 1 0 setrgbcolor
+110 0 100 100 rectfill
+
+% Blue square
+0 0 1 setrgbcolor
+220 0 100 100 rectfill
+----
+
+=== Grayscale Gradient
+
+[source,postscript]
+----
+0 0.1 1 {
+  /gray exch def
+  gray setgray
+  gray 10 mul 0 10 100 rectfill
+} for
+----
+
+== Practical Techniques
+
+=== Coordinate Transformation
+
+[source,postscript]
+----
+gsave
+  300 400 translate
+  45 rotate
+  0 0 100 50 rectfill
+grestore
+----
+
+=== Clipping
+
+[source,postscript]
+----
+gsave
+  newpath 150 150 100 0 360 arc clip
+  % Draw within circular clip
+  0 0 300 300 rectfill
+grestore
+----
+
+=== Reusable Procedures
+
+[source,postscript]
+----
+/box {  % x y width height => -
+  gsave
+    newpath
+    moveto
+    dup 0 rlineto
+    exch 0 exch rlineto
+    neg 0 rlineto
+    closepath stroke
+  grestore
+} def
+
+100 100 50 75 box
+----
+
+== See Also
+
+* xref:../commands/index.adoc[Command Reference] - Complete operator documentation
+* xref:../usage/basic/index.adoc[Basic Usage] - Fundamental concepts
+* xref:../usage/advanced/index.adoc[Advanced Usage] - Advanced techniques

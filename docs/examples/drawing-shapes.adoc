@@ -1,0 +1,1286 @@
+---
+layout: default
+title: Drawing Shapes
+parent: Practical Examples
+nav_order: 4
+---
+
+== Drawing Shapes
+
+Creating vector graphics with PostScript's powerful path construction and painting operators.
+
+=== Introduction
+
+PostScript excels at drawing precise vector graphics. This guide covers everything from basic shapes to complex curves, transformations, and fills. All examples produce scalable, device-independent graphics.
+
+=== Basic Rectangle
+
+The simplest shape using path construction commands.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Position and size
+/x 100 def                              % X coordinate <1>
+/y 400 def                              % Y coordinate
+/width 200 def                          % Rectangle width
+/height 150 def                         % Rectangle height
+
+% Draw rectangle
+newpath                                 % Start new path <2>
+x y moveto                              % Move to bottom-left corner <3>
+width 0 rlineto                         % Draw bottom edge <4>
+0 height rlineto                        % Draw right edge
+width neg 0 rlineto                     % Draw top edge
+closepath                               % Close path <5>
+
+% Paint the rectangle
+1 setlinewidth                          % Set line width <6>
+stroke                                  % Draw the outline <7>
+
+showpage
+----
+<1> Define position and size as variables for easy modification
+<2> Use [`newpath`](../commands/path-construction/newpath.adoc) to start a new path
+<3> Use [`moveto`](../commands/path-construction/moveto.adoc) to position at starting point
+<4> Use [`rlineto`](../commands/path-construction/rlineto.adoc) for relative line drawing
+<5> Use [`closepath`](../commands/path-construction/closepath.adoc) to complete the shape
+<6> Use [`setlinewidth`](../commands/graphics-state/setlinewidth.adoc) to control line thickness
+<7> Use [`stroke`](../commands/painting/stroke.adoc) to draw the outlined path
+
+==== Expected Output
+
+A rectangle outline at position (100, 400) with dimensions 200×150 points, drawn with a 1-point line.
+
+==== Alternative: Using rectfill and rectstroke
+
+PostScript provides convenience operators for rectangles:
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Stroked rectangle
+100 400 200 150 rectstroke              % x y width height rectstroke <1>
+
+% Filled rectangle
+350 400 200 150 rectfill                % x y width height rectfill <2>
+
+showpage
+----
+<1> Use [`rectstroke`](../commands/painting/rectstroke.adoc) to draw rectangle outline
+<2> Use [`rectfill`](../commands/painting/rectfill.adoc) to draw filled rectangle
+
+=== Circle and Ellipse
+
+Drawing circular and elliptical shapes using the arc operator.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Perfect circle
+gsave                                   % Save graphics state
+  newpath
+  200 600 75 0 360 arc                  % x y radius startAngle endAngle <1>
+  2 setlinewidth
+  stroke
+grestore
+
+% Filled circle
+gsave
+  newpath
+  200 400 50 0 360 arc
+  0.7 setgray                           % Gray fill <2>
+  fill                                  % Fill the circle <3>
+grestore
+
+% Ellipse using scale transformation
+gsave
+  400 600 translate                     % Move origin to ellipse center <4>
+  1 0.6 scale                           % Scale Y to 60% <5>
+  newpath
+  0 0 75 0 360 arc                      % Draw circle at origin
+  stroke                                % Stroke after scaling to create ellipse
+grestore
+
+% Filled ellipse
+gsave
+  400 400 translate
+  0.5 1 scale                           % Scale X to 50%
+  newpath
+  0 0 50 0 360 arc
+  0.5 setgray
+  fill
+grestore
+
+% Arc (partial circle)
+gsave
+  newpath
+  100 200 60 45 225 arc                 % Draw 180-degree arc <6>
+  3 setlinewidth
+  stroke
+grestore
+
+% Pie slice
+gsave
+  newpath
+  300 200 60 0 120 arc                  % Draw arc
+  0 0 lineto                            % Line to center <7>
+  closepath                             % Close the path
+  0.8 setgray
+  fill
+grestore
+
+showpage
+----
+<1> Use [`arc`](../commands/path-construction/arc.adoc) with center, radius, and angle range (degrees)
+<2> Use [`setgray`](../commands/graphics-state/setgray.adoc) to set fill color (0=black, 1=white)
+<3> Use [`fill`](../commands/painting/fill.adoc) to paint the interior
+<4> Use [`translate`](../commands/transformations/translate.adoc) to move coordinate origin
+<5> Use [`scale`](../commands/transformations/scale.adoc) to create ellipse from circle
+<6> Partial arc from 45° to 225° (180° arc)
+<7> Line to center point (0,0 after translation) for pie slice
+
+==== Expected Output
+
+* Perfect circle outline at (200, 600)
+* Filled gray circle at (200, 400)
+* Horizontal ellipse at (400, 600)
+* Vertical filled ellipse at (400, 400)
+* 180-degree arc at (100, 200)
+* Gray pie slice at (300, 200)
+
+==== Arc Direction
+
+* `arc` draws counter-clockwise from start angle to end angle
+* Use [`arcn`](../commands/path-construction/arcn.adoc) for clockwise arcs
+* Angles are measured from the positive X-axis
+
+=== Triangles and Polygons
+
+Creating multi-sided shapes with straight edges.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Equilateral triangle
+gsave
+  newpath
+  100 600 moveto                        % Start at top point
+  50 13.4 rlineto                       % Right side (60° angle) <1>
+  -100 0 rlineto                        % Base
+  closepath
+  stroke
+grestore
+
+% Filled right triangle
+gsave
+  newpath
+  250 600 moveto
+  100 0 rlineto                         % Base
+  0 -100 rlineto                        % Height
+  closepath                             % Hypotenuse
+  0.7 setgray
+  fill
+grestore
+
+% Isosceles triangle
+gsave
+  newpath
+  450 550 moveto                        % Top point
+  60 -100 rlineto                       % Right side
+  -120 0 rlineto                        % Base
+  closepath
+  stroke
+grestore
+
+% Pentagon (5 sides)
+gsave
+  150 350 translate                     % Center at (150, 350)
+  newpath
+  0 60 moveto                           % Start at top <2>
+  1 1 5 {                               % Loop 5 times <3>
+    pop                                 % Remove loop counter
+    72 rotate                           % Rotate 72° (360/5) <4>
+    0 60 lineto                         % Draw to next vertex
+  } for
+  closepath
+  2 setlinewidth
+  stroke
+grestore
+
+% Hexagon (6 sides)
+gsave
+  350 350 translate
+  newpath
+  60 0 moveto                           % Start at right <5>
+  1 1 6 {
+    pop
+    60 rotate                           % Rotate 60° (360/6)
+    60 0 lineto
+  } for
+  closepath
+  0.6 setgray
+  gsave
+    fill                                % Fill first
+  grestore
+  0 setgray
+  stroke                                % Then stroke outline <6>
+grestore
+
+% Octagon (8 sides)
+gsave
+  550 350 translate
+  newpath
+  50 0 moveto
+  1 1 8 {
+    pop
+    45 rotate                           % Rotate 45° (360/8)
+    50 0 lineto
+  } for
+  closepath
+  stroke
+grestore
+
+% Star (5 points)
+gsave
+  150 150 translate
+  newpath
+  0 60 moveto                           % Outer point
+  1 1 5 {
+    pop
+    144 rotate                          % 144° for 5-point star <7>
+    0 60 lineto
+  } for
+  closepath
+  0.8 setgray
+  fill
+grestore
+
+% General polygon procedure
+/polygon {                              % n radius polygon <8>
+  /radius exch def
+  /n exch def
+  /angle 360 n div def                  % Calculate angle between vertices
+
+  newpath
+  radius 0 moveto                       % Start at right
+  1 1 n {
+    pop
+    angle rotate
+    radius 0 lineto
+  } for
+  closepath
+} def
+
+% Use polygon procedure for nonagon (9 sides)
+gsave
+  350 150 translate
+  9 50 polygon                          % 9-sided polygon with radius 50 <9>
+  stroke
+grestore
+
+% Use polygon for filled dodecagon (12 sides)
+gsave
+  550 150 translate
+  12 50 polygon
+  0.5 setgray
+  fill
+grestore
+
+showpage
+----
+<1> Use trigonometry: height = base × tan(60°) ≈ base × 0.866
+<2> Start at top point (0, 60) from translated origin
+<3> Use [`for`](../commands/control-flow/for.adoc) loop to repeat vertices
+<4> Use [`rotate`](../commands/transformations/rotate.adoc) to position for next vertex
+<5> Starting at (radius, 0) simplifies the math
+<6> Fill first, then stroke to get outline on top of fill
+<7> 144° rotation creates star points (alternate vertices)
+<8> Define reusable polygon procedure
+<9> Call polygon procedure with sides and radius
+
+==== Expected Output
+
+A variety of polygons demonstrating different approaches:
+
+* Basic triangles (equilateral, right, isosceles)
+* Regular polygons from pentagon to dodecagon
+* Five-pointed star
+* Both outlined and filled examples
+
+==== Regular Polygon Formula
+
+For an n-sided regular polygon:
+
+* Rotation angle = 360° / n
+* Use `translate` to position center
+* Use `rotate` and `lineto` in a loop
+
+=== Complex Shapes and Curves
+
+Creating sophisticated shapes using Bézier curves.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Smooth curve using curveto
+gsave
+  newpath
+  100 600 moveto
+  150 650 200 650 250 600 curveto       % x1 y1 x2 y2 x3 y3 <1>
+  3 setlinewidth
+  stroke
+grestore
+
+% S-curve
+gsave
+  newpath
+  100 500 moveto
+  150 550 200 450 250 500 curveto       % First curve
+  300 550 350 450 400 500 curveto       % Second curve <2>
+  2 setlinewidth
+  stroke
+grestore
+
+% Closed curved shape (blob)
+gsave
+  newpath
+  500 600 moveto
+  550 650 600 650 650 600 curveto       % Top curve
+  650 550 650 500 600 450 curveto       % Right curve
+  550 450 500 450 450 500 curveto       % Bottom curve
+  450 550 450 600 500 600 curveto       % Left curve (back to start)
+  0.7 setgray
+  fill
+grestore
+
+% Heart shape
+gsave
+  newpath
+  300 300 moveto                        % Bottom point
+  300 350 250 375 225 375 curveto       % Left bottom curve
+  200 375 175 350 175 325 curveto       % Left top curve
+  175 290 200 270 225 270 curveto       % Left inner curve
+  250 270 275 280 300 300 curveto       % Connect to center
+
+  300 300 moveto                        % Start right side
+  325 280 350 270 375 270 curveto       % Right inner curve
+  400 270 425 290 425 325 curveto       % Right top curve
+  425 350 400 375 375 375 curveto       % Right bottom curve
+  350 375 300 350 300 300 curveto       % Right bottom to point
+
+  1 0 0 setrgbcolor                     % Red color <3>
+  fill
+grestore
+
+% Leaf shape
+gsave
+  newpath
+  500 300 moveto                        % Base of leaf
+  500 350 525 400 525 450 curveto       % Right side up
+  525 400 500 350 500 300 curveto       % Right side down
+  500 300 moveto                        % Back to base
+  500 350 475 400 475 450 curveto       % Left side up
+  475 400 500 350 500 300 curveto       % Left side down
+
+  0 0.5 0 setrgbcolor                   % Green color <4>
+  fill
+
+  % Leaf vein
+  0 setgray
+  1 setlinewidth
+  500 300 moveto
+  500 450 lineto
+  stroke
+grestore
+
+% Cloud shape using multiple arcs
+gsave
+  newpath
+  100 100 30 0 180 arc                  % Left arc
+  140 130 35 180 0 arcn                 % Top-left arc (counter-clockwise) <5>
+  200 130 30 180 0 arcn                 % Top-right arc
+  230 100 35 0 180 arc                  % Right arc
+  closepath
+  0.9 setgray
+  fill
+  0 setgray
+  stroke
+grestore
+
+% Infinity symbol using curves
+gsave
+  2 setlinewidth
+  newpath
+  400 100 moveto
+  400 140 440 160 480 140 curveto       % Right top curve
+  520 120 520 80 480 60 curveto         % Right bottom curve
+  440 40 400 60 400 100 curveto         % Right middle
+  400 100 moveto
+  400 60 360 40 320 60 curveto          % Left bottom curve
+  280 80 280 120 320 140 curveto        % Left top curve
+  360 160 400 140 400 100 curveto       % Left middle
+  stroke
+grestore
+
+showpage
+----
+<1> Use [`curveto`](../commands/path-construction/curveto.adoc) with two control points and end point
+<2> Chain multiple curves for smooth continuous paths
+<3> Use [`setrgbcolor`](../commands/graphics-state/setrgbcolor.adoc) for red, green, blue colors
+<4> RGB values: (0, 0.5, 0) for green
+<5> Use [`arcn`](../commands/path-construction/arcn.adoc) for clockwise arcs
+
+==== Expected Output
+
+Complex organic shapes:
+
+* Smooth wave curves
+* Filled blob shape
+* Red heart
+* Green leaf with vein
+* Gray cloud
+* Infinity symbol
+
+==== Bézier Curve Tips
+
+* `curveto` uses cubic Bézier curves with two control points
+* Control points pull the curve toward them
+* Smooth joins require aligned control points
+* Use `rcurveto` for relative curves
+
+=== Filled vs Stroked Shapes
+
+Understanding the difference between fill and stroke operations.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Stroked only (outline)
+gsave
+  newpath
+  100 650 50 0 360 arc
+  2 setlinewidth
+  stroke                                % Only outline <1>
+grestore
+
+% Filled only (no outline)
+gsave
+  newpath
+  250 650 50 0 360 arc
+  0.7 setgray
+  fill                                  % Only interior <2>
+grestore
+
+% Both filled and stroked
+gsave
+  newpath
+  400 650 50 0 360 arc
+  0.7 setgray
+  gsave
+    fill                                % Fill first <3>
+  grestore
+  0 setgray
+  2 setlinewidth
+  stroke                                % Stroke second <4>
+grestore
+
+% Demonstrating path consumption
+gsave
+  newpath
+  100 500 50 0 360 arc
+  fill                                  % fill consumes the path <5>
+  % stroke would do nothing here - path is gone
+grestore
+
+% Preserving path for multiple operations
+gsave
+  newpath
+  250 500 moveto
+  300 500 lineto
+  300 550 lineto
+  250 550 lineto
+  closepath
+
+  gsave
+    0.8 setgray
+    fill                                % First operation <6>
+  grestore
+
+  0 setgray
+  3 setlinewidth
+  stroke                                % Second operation <7>
+grestore
+
+% Different line styles
+/y 380 def
+/styles [
+  [[]]                                  % Solid <8>
+  [[5 5]]                               % Dashed <9>
+  [[10 5]]                              % Long dash
+  [[2 3]]                               % Dotted
+  [[10 5 2 5]]                          % Dash-dot <10>
+  [[10 5 2 5 2 5]]                      % Dash-dot-dot
+] def
+
+0 1 5 {                                 % Loop through styles <11>
+  /i exch def
+  gsave
+    newpath
+    100 y moveto
+    200 y lineto
+    styles i get 0 setdash              % Set dash pattern <12>
+    2 setlinewidth
+    stroke
+  grestore
+  /y y 30 sub def                       % Move down for next line
+} for
+
+% Line cap styles
+gsave
+  3 {                                   % Loop 3 times
+    /cap exch def                       % 0, 1, 2 for cap styles
+    newpath
+    350 650 cap 30 mul sub moveto
+    450 650 cap 30 mul sub lineto
+    cap setlinecap                      % Set cap style <13>
+    15 setlinewidth
+    stroke
+
+    % Label
+    /Courier findfont 10 scalefont setfont
+    460 645 cap 30 mul sub moveto
+    cap 0 eq { (Butt cap) } if
+    cap 1 eq { (Round cap) } if
+    cap 2 eq { (Square cap) } if
+    show
+  } for
+grestore
+
+% Line join styles
+gsave
+  3 {
+    /join exch def                      % 0, 1, 2 for join styles
+    newpath
+    350 450 join 50 mul sub moveto
+    400 450 join 50 mul sub lineto
+    420 480 join 50 mul sub lineto
+    join setlinejoin                    % Set join style <14>
+    10 setlinewidth
+    stroke
+
+    % Label
+    /Courier findfont 10 scalefont setfont
+    430 460 join 50 mul sub moveto
+    join 0 eq { (Miter join) } if
+    join 1 eq { (Round join) } if
+    join 2 eq { (Bevel join) } if
+    show
+  } for
+grestore
+
+showpage
+----
+<1> [`stroke`](../commands/painting/stroke.adoc) draws only the path outline
+<2> [`fill`](../commands/painting/fill.adoc) paints only the interior
+<3> Fill first to keep it under the stroke
+<4> Stroke second to draw outline on top
+<5> Both `fill` and `stroke` consume the path
+<6> Use `gsave` before first operation to preserve path
+<7> Path is restored with `grestore`, allowing second operation
+<8> Empty array `[]` creates solid line
+<9> `[5 5]` means 5-point dash, 5-point gap
+<10> `[10 5 2 5]` means 10-point dash, 5-point gap, 2-point dash, 5-point gap
+<11> Loop through each style pattern
+<12> Use [`setdash`](../commands/graphics-state/setdash.adoc) to apply dash pattern
+<13> Use [`setlinecap`](../commands/graphics-state/setlinecap.adoc): 0=butt, 1=round, 2=square
+<14> Use [`setlinejoin`](../commands/graphics-state/setlinejoin.adoc): 0=miter, 1=round, 2=bevel
+
+==== Expected Output
+
+Demonstrations of:
+
+* Stroke-only circle (outline)
+* Fill-only circle (solid gray)
+* Filled and stroked circle (gray with black outline)
+* Various line dash patterns
+* Three line cap styles (butt, round, square)
+* Three line join styles (miter, round, bevel)
+
+==== Fill and Stroke Guidelines
+
+**Order matters**:
+
+1. Fill shapes first (interior)
+2. Stroke paths second (outline)
+
+**Path preservation**:
+
+* Both `fill` and `stroke` consume the path
+* Use `gsave`/`grestore` to preserve path for multiple operations
+
+=== Combining Multiple Shapes
+
+Creating complex graphics by layering and combining shapes.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Simple house
+gsave
+  % House body (rectangle)
+  100 400 100 80 rectfill               % x y width height
+
+  % Roof (triangle)
+  newpath
+  100 480 moveto
+  150 520 lineto
+  200 480 lineto
+  closepath
+  0.5 setgray
+  fill
+
+  % Door
+  1 setgray                             % White door
+  130 400 20 40 rectfill
+
+  % Window
+  165 445 15 15 rectfill
+grestore
+
+% Traffic light
+gsave
+  % Pole
+  0.3 setgray
+  295 300 10 150 rectfill
+
+  % Housing
+  0.2 setgray
+  280 440 40 110 rectfill
+
+  % Red light
+  newpath
+  300 520 12 0 360 arc
+  1 0 0 setrgbcolor
+  fill
+
+  % Yellow light
+  newpath
+  300 490 12 0 360 arc
+  1 1 0 setrgbcolor
+  fill
+
+  % Green light
+  newpath
+  300 460 12 0 360 arc
+  0 1 0 setrgbcolor
+  fill
+grestore
+
+% Tree
+gsave
+  % Trunk
+  0.4 0.2 0 setrgbcolor                 % Brown
+  440 300 20 100 rectfill
+
+  % Foliage (three circles)
+  0 0.6 0 setrgbcolor                   % Green
+  newpath
+  430 410 25 0 360 arc
+  fill
+
+  newpath
+  450 435 30 0 360 arc
+  fill
+
+  newpath
+  470 410 25 0 360 arc
+  fill
+grestore
+
+% Robot face
+gsave
+  % Head
+  0.7 0.7 0.8 setrgbcolor               % Light blue-gray
+  100 100 80 100 rectfill
+
+  % Antenna
+  0.3 setgray
+  135 200 10 30 rectfill
+  newpath
+  140 230 8 0 360 arc
+  1 0 0 setrgbcolor
+  fill
+
+  % Eyes
+  0 setgray
+  120 150 15 15 rectfill
+  160 150 15 15 rectfill
+
+  % Nose (triangle)
+  newpath
+  140 130 moveto
+  135 120 lineto
+  145 120 lineto
+  closepath
+  fill
+
+  % Mouth (line with circles)
+  1 setlinewidth
+  110 100 moveto
+  170 100 lineto
+  stroke
+
+  newpath
+  110 100 3 0 360 arc
+  fill
+
+  newpath
+  170 100 3 0 360 arc
+  fill
+grestore
+
+% Target (concentric circles)
+gsave
+  350 150 translate
+
+  % Outer circle
+  newpath
+  0 0 60 0 360 arc
+  1 0 0 setrgbcolor
+  fill
+
+  % Middle circle
+  newpath
+  0 0 40 0 360 arc
+  1 1 1 setrgbcolor
+  fill
+
+  % Inner circle
+  newpath
+  0 0 20 0 360 arc
+  1 0 0 setrgbcolor
+  fill
+
+  % Bull's-eye
+  newpath
+  0 0 5 0 360 arc
+  0 0 0 setrgbcolor
+  fill
+grestore
+
+% Flower
+gsave
+  550 150 translate
+
+  % Stem
+  0 0.5 0 setrgbcolor
+  -2 -80 4 80 rectfill
+
+  % Petals (5 circles around center)
+  0 1 4 {
+    72 mul rotate                       % Rotate for each petal
+    newpath
+    0 15 10 0 360 arc
+    1 0.8 0.9 setrgbcolor               % Pink
+    fill
+  } for
+
+  % Center
+  newpath
+  0 0 8 0 360 arc
+  1 1 0 setrgbcolor                     % Yellow center
+  fill
+grestore
+
+showpage
+----
+
+==== Expected Output
+
+A collection of composite images:
+
+* Simple house with roof, door, and window
+* Traffic light with colored lights
+* Tree with brown trunk and green foliage
+* Robot face with antenna, eyes, nose, and mouth
+* Target with red and white concentric circles
+* Flower with pink petals and yellow center
+
+==== Composition Strategies
+
+* **Layer from back to front**: Draw background elements first
+* **Use gsave/grestore**: Isolate color changes
+* **Translate for groups**: Position complex objects as a unit
+* **Build reusable procedures**: Create libraries of common shapes
+
+=== Shape Transformations
+
+Applying geometric transformations to shapes.
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+
+% Original square (reference)
+gsave
+  0.9 setgray
+  100 650 40 40 rectfill
+  0 setgray
+  /Courier findfont 8 scalefont setfont
+  100 630 moveto
+  (Original) show
+grestore
+
+% Translated square
+gsave
+  200 100 translate                     % Move origin <1>
+  0.7 setgray
+  0 550 40 40 rectfill                  % Draw at new coordinates
+  0 setgray
+  /Courier findfont 8 scalefont setfont
+  0 530 moveto
+  (Translated) show
+grestore
+
+% Rotated square
+gsave
+  350 670 translate                     % Move to rotation center
+  45 rotate                             % Rotate 45 degrees <2>
+  0.7 setgray
+  -20 -20 40 40 rectfill                % Center at origin
+  0 setgray
+  /Courier findfont 8 scalefont setfont
+  -25 -35 moveto
+  (Rotated 45°) show
+grestore
+
+% Scaled square
+gsave
+  500 670 translate
+  2 1.5 scale                           % Scale X by 2, Y by 1.5 <3>
+  0.7 setgray
+  -20 -20 40 40 rectfill
+  0 setgray
+  /Courier findfont 8 scalefont setfont
+  -30 -40 moveto
+  (Scaled) show
+grestore
+
+% Multiple transformations
+gsave
+  150 500 translate
+  30 rotate
+  1.5 1.5 scale
+  0.7 setgray
+  -20 -20 40 40 rectfill
+  0 setgray
+  /Courier findfont 8 scalefont setfont
+  -35 -45 moveto
+  (Multi-transform) show
+grestore
+
+% Rotation pattern
+gsave
+  400 500 translate
+  0.8 setgray
+  12 {                                  % Repeat 12 times
+    0 0 30 10 rectfill                  % Draw rectangle
+    30 rotate                           % Rotate 30° (360/12)
+  } repeat
+grestore
+
+% Spiral using scaling and rotation
+gsave
+  150 300 translate
+  0.6 setgray
+  1 setlinewidth
+  newpath
+  0 0 moveto
+  36 {                                  % 36 iterations
+    10 0 rlineto                        % Draw line segment
+    10 rotate                           % Rotate 10°
+    1.05 1.05 scale                     % Scale up slightly <4>
+  } repeat
+  stroke
+grestore
+
+% Circular pattern
+gsave
+  400 300 translate
+  12 {
+    gsave
+      45 0 translate                    % Move out from center
+      newpath
+      0 0 8 0 360 arc
+      0.6 setgray
+      fill
+    grestore
+    30 rotate                           % Rotate for next circle
+  } repeat
+grestore
+
+% Hexagonal pattern
+gsave
+  150 100 translate
+  6 {
+    gsave
+      40 0 translate
+      6 20 polygon
+      0.7 setgray
+      fill
+      0 setgray
+      stroke
+    grestore
+    60 rotate
+  } repeat
+grestore
+
+% Define polygon procedure (needed for above)
+/polygon {
+  /radius exch def
+  /n exch def
+  /angle 360 n div def
+  newpath
+  radius 0 moveto
+  1 1 n {
+    pop
+    angle rotate
+    radius 0 lineto
+  } for
+  closepath
+} def
+
+% Kaleidoscope pattern
+gsave
+  500 100 translate
+  8 {
+    gsave
+      newpath
+      0 0 moveto
+      30 0 lineto
+      30 10 lineto
+      0 10 lineto
+      closepath
+      0.5 0.7 0.9 setrgbcolor
+      fill
+
+      newpath
+      0 10 moveto
+      30 10 lineto
+      15 35 lineto
+      closepath
+      0.9 0.5 0.7 setrgbcolor
+      fill
+    grestore
+    45 rotate
+  } repeat
+grestore
+
+showpage
+----
+<1> [`translate`](../commands/transformations/translate.adoc) moves the origin
+<2> [`rotate`](../commands/transformations/rotate.adoc) rotates subsequent drawings
+<3> [`scale`](../commands/transformations/scale.adoc) changes size (x-scale y-scale)
+<4> Gradual scaling creates spiral effect
+
+==== Expected Output
+
+Various transformation examples:
+
+* Original reference square
+* Translated, rotated, and scaled variations
+* Rotation pattern (spoke wheel)
+* Spiral using progressive scaling
+* Circular and hexagonal arrangements
+* Colorful kaleidoscope pattern
+
+==== Transformation Order
+
+Transformations are applied in reverse order from how they appear in code:
+
+[source,postscript]
+----
+translate
+rotate
+scale
+% Object is: scaled, then rotated, then translated
+----
+
+Always use `gsave`/`grestore` to isolate transformations.
+
+=== Pattern Fills
+
+Creating repeating patterns for fills (Level 2 feature).
+
+==== Code
+
+[source,postscript]
+----
+%!PS-Adobe-3.0
+%%LanguageLevel: 2
+
+% Note: Pattern fills require PostScript Level 2 or higher
+
+% Simple stripe pattern
+<<
+  /PatternType 1                        % Tiling pattern <1>
+  /PaintType 1                          % Colored pattern <2>
+  /TilingType 1                         % Constant spacing <3>
+  /BBox [0 0 20 20]                     % Pattern bounding box <4>
+  /XStep 20                             % Horizontal repeat <5>
+  /YStep 20                             % Vertical repeat <6>
+  /PaintProc {                          % Drawing procedure <7>
+    pop                                 % Remove dict from stack
+    newpath
+    0 0 moveto
+    20 20 lineto
+    1 setlinewidth
+    stroke
+  } bind                                % Bind for efficiency <8>
+>> matrix makepattern                   % Create pattern <9>
+/DiagonalStripes exch def               % Store pattern <10>
+
+% Apply pattern to rectangle
+gsave
+  DiagonalStripes setpattern            % Set as current pattern <11>
+  100 600 200 150 rectfill              % Fill with pattern
+grestore
+
+% Dot pattern
+<<
+  /PatternType 1
+  /PaintType 1
+  /TilingType 1
+  /BBox [0 0 15 15]
+  /XStep 15
+  /YStep 15
+  /PaintProc {
+    pop
+    newpath
+    7.5 7.5 3 0 360 arc                % Circle in center
+    fill
+  } bind
+>> matrix makepattern
+/Dots exch def
+
+% Apply dot pattern to circle
+gsave
+  Dots setpattern
+  newpath
+  400 675 75 0 360 arc
+  fill
+grestore
+
+% Checkerboard pattern
+<<
+  /PatternType 1
+  /PaintType 1
+  /TilingType 1
+  /BBox [0 0 20 20]
+  /XStep 20
+  /YStep 20
+  /PaintProc {
+    pop
+    0 0 10 10 rectfill                  % Bottom-left square
+    10 10 10 10 rectfill                % Top-right square
+  } bind
+>> matrix makepattern
+/Checkerboard exch def
+
+% Apply checkerboard to shape
+gsave
+  Checkerboard setpattern
+  newpath
+  200 400 moveto
+  250 450 lineto
+  300 400 lineto
+  250 350 lineto
+  closepath
+  fill
+grestore
+
+% Crosshatch pattern
+<<
+  /PatternType 1
+  /PaintType 1
+  /TilingType 1
+  /BBox [0 0 10 10]
+  /XStep 10
+  /YStep 10
+  /PaintProc {
+    pop
+    0.5 setlinewidth
+    newpath
+    0 0 moveto 10 10 lineto
+    0 10 moveto 10 0 lineto
+    stroke
+  } bind
+>> matrix makepattern
+/Crosshatch exch def
+
+% Apply crosshatch
+gsave
+  Crosshatch setpattern
+  450 350 150 100 rectfill
+grestore
+
+% Brick pattern
+<<
+  /PatternType 1
+  /PaintType 1
+  /TilingType 1
+  /BBox [0 0 40 20]
+  /XStep 40
+  /YStep 20
+  /PaintProc {
+    pop
+    % Draw brick outline
+    0 0 40 20 rectstroke
+    0 0 20 20 rectstroke
+    20 0 20 20 rectstroke
+  } bind
+>> matrix makepattern
+/Bricks exch def
+
+% Apply brick pattern
+gsave
+  Bricks setpattern
+  100 150 250 150 rectfill
+grestore
+
+% Wave pattern
+<<
+  /PatternType 1
+  /PaintType 1
+  /TilingType 1
+  /BBox [0 0 30 20]
+  /XStep 30
+  /YStep 20
+  /PaintProc {
+    pop
+    newpath
+    0 10 moveto
+    5 15 10 15 15 10 curveto
+    20 5 25 5 30 10 curveto
+    0.5 setlinewidth
+    stroke
+  } bind
+>> matrix makepattern
+/Waves exch def
+
+% Apply wave pattern
+gsave
+  Waves setpattern
+  newpath
+  450 200 75 0 360 arc
+  fill
+grestore
+
+showpage
+%%EOF
+----
+<1> PatternType 1 = tiling pattern
+<2> PaintType 1 = colored, 2 = uncolored
+<3> TilingType 1 = constant spacing
+<4> BBox defines pattern cell boundaries
+<5> XStep = horizontal repeat distance
+<6> YStep = vertical repeat distance
+<7> PaintProc = procedure to draw one pattern cell
+<8> `bind` optimizes procedure execution
+<9> `makepattern` creates pattern from dictionary
+<10> Store pattern in variable for reuse
+<11> `setpattern` activates pattern for filling
+
+==== Expected Output
+
+Shapes filled with various patterns:
+
+* Rectangle with diagonal stripes
+* Circle with dots
+* Diamond with checkerboard
+* Rectangle with crosshatch
+* Rectangle with brick pattern
+* Circle with wave pattern
+
+==== Pattern Fill Notes
+
+* Requires PostScript Level 2 or higher
+* Patterns tile seamlessly across filled areas
+* More efficient than manually drawing repeating elements
+* Can be transformed with matrices for rotation/scaling
+
+=== Troubleshooting
+
+==== Common Issues
+
+**Shape not appearing**:
+
+* Ensure `stroke` or `fill` is called after defining path
+* Check coordinates are within page bounds (0-612, 0-792)
+* Verify `newpath` is called before starting shape
+* Don't forget `showpage` at the end
+
+**Incomplete shapes**:
+
+* Use `closepath` to connect last point to first
+* Ensure all segments are properly connected
+* Check for missing `lineto` or `curveto` commands
+
+**Wrong colors**:
+
+* Remember `setgray` (0=black, 1=white)
+* Use `setrgbcolor` for color (values 0-1 for each component)
+* Color applies to next `fill` or `stroke` operation
+
+**Transformations not working**:
+
+* Use `gsave` before and `grestore` after transformations
+* Remember transformation order: scale, rotate, translate (in reverse)
+* Translate to desired center point before rotating
+
+**Patterns not displaying** (Level 2+):
+
+* Check PostScript level with `%%LanguageLevel: 2`
+* Ensure pattern is created with `makepattern`
+* Call `setpattern` before `fill`
+
+=== Performance Tips
+
+* **Reuse procedures**: Define common shapes once
+* **Minimize path segments**: Use curves instead of many short lines
+* **Batch operations**: Draw multiple shapes before stroke/fill when possible
+* **Use patterns**: More efficient than drawing repetitive elements
+
+=== See Also
+
+* xref:hello-world.adoc[Hello World] - Basic PostScript structure
+* xref:text-layout.adoc[Text Layout] - Combining text with shapes
+* xref:color-gradients.adoc[Color Gradients] - Advanced coloring
+* xref:../commands/path-construction/index.adoc[Path Construction] - Path building commands
+* xref:../commands/painting/index.adoc[Painting] - Fill and stroke operations
+* xref:../commands/transformations/index.adoc[Transformations] - Geometric transforms
+* xref:../levels/level-2.adoc[Level 2] - Pattern fills and advanced features
+* xref:index.adoc[More Examples]
+* xref:../commands/index.adoc[Command Reference]

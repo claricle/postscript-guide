@@ -1,0 +1,127 @@
+---
+layout: default
+title: log
+parent: Arithmetic and Math
+grand_parent: Command Reference
+nav_order: 16
+permalink: /commands/arithmetic-math/log/
+---
+= log
+:description: Common logarithm (base 10)
+:keywords: postscript, math, log, logarithm, base 10
+
+[.lead]
+Returns the common logarithm (base 10) of a number.
+
+== Description
+
+The `log` operator pops a positive number from the operand stack and pushes its common logarithm (logarithm base 10). The operand must be positive; zero or negative values cause a `rangecheck` error. The result is always a real number.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+num log real
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num` (integer or real) - Positive number
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`real` (real) - Base-10 logarithm of num
+|===
+
+== Parameters
+
+`num`:: A positive number (integer or real, must be > 0)
+
+== Return Values
+
+`real`:: log₁₀(num) - the common logarithm (always real)
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Powers of 10
+10 log         % → 1.0 (log₁₀(10) = 1)
+100 log        % → 2.0 (log₁₀(100) = 2)
+1000 log       % → 3.0 (log₁₀(1000) = 3)
+
+% Other values
+1 log          % → 0.0 (log₁₀(1) = 0)
+2 log          % → 0.30103
+----
+
+=== Domain Restriction
+
+[source,postscript]
+----
+% WRONG: Non-positive arguments
+0 log          % ERROR: rangecheck
+-5 log         % ERROR: rangecheck
+
+% CORRECT: Validate input
+/safeLog {  % num default -> result
+    exch dup 0 gt {
+        log exch pop
+    } {
+        pop
+    } ifelse
+} def
+
+-5 0 safeLog   % → 0 (returns default)
+10 0 safeLog   % → 1.0
+----
+
+== Related Commands
+
+* xref:ln.adoc[`ln`] - Natural logarithm (base e)
+* xref:exp.adoc[`exp`] - Exponentiation
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty.
+
+`typecheck`::
+The operand is not a number.
+
+`rangecheck`::
+The operand is zero or negative.
++
+[source,postscript]
+----
+0 log          % ERROR: rangecheck
+-10 log        % ERROR: rangecheck
+----
+
+== See Also
+
+* xref:index.adoc[Arithmetic and Math] - All arithmetic operators
+
+---
+
+[.text-small]
+_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

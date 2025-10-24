@@ -1,0 +1,154 @@
+---
+layout: default
+title: if
+parent: Control Flow
+grand_parent: Command Reference
+nav_order: 1
+---
+
+== if
+
+Conditionally executes a procedure based on a boolean value.
+
+=== Syntax
+
+----
+bool proc if → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `bool` (boolean value)
+
+| 0
+| `proc` (procedure to execute)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (varies)
+| Results from procedure (if executed)
+|===
+
+=== Description
+
+[`if`](if.adoc) removes both operands from the stack, then executes _proc_ if _bool_ is `true`. If _bool_ is `false`, _proc_ is not executed.
+
+The [`if`](if.adoc) operator itself pushes no results, but _proc_ may push results onto the stack.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Simple conditional
+[source,postscript]
+----
+3 4 lt { (3 is less than 4) } if
+% Prints the string (condition is true)
+----
+
+.Conditional definition
+[source,postscript]
+----
+/DEBUG true def
+DEBUG { (Debug mode enabled) print } if
+----
+
+.No execution when false
+[source,postscript]
+----
+false { (This won't print) } if
+% Nothing happens
+----
+
+=== Common Use Cases
+
+==== Validation
+
+[source,postscript]
+----
+x 0 lt {
+  /rangecheck cvx exec
+} if
+----
+
+==== Optional Operations
+
+[source,postscript]
+----
+/verbose where {
+  pop verbose {
+    (Processing...) print
+  } if
+} if
+----
+
+==== Conditional Setup
+
+[source,postscript]
+----
+/isColor currentpagedevice /ProcessColorModel get
+         /DeviceRGB eq def
+isColor {
+  % Setup for color output
+  setupColorRendering
+} if
+----
+
+=== Common Pitfalls
+
+WARNING: *Requires Boolean* - Operand must be `true` or `false`, not 0/1 or other values.
+
+[source,postscript]
+----
+1 { code } if        % Error: typecheck
+true { code } if     % Correct
+----
+
+WARNING: *Requires Procedure* - Second operand must be executable array (procedure).
+
+[source,postscript]
+----
+true [code] if       % Error: literal array
+true { code } if     % Correct: executable array
+----
+
+TIP: *Use ifelse for Two-Way* - For true/false cases, xref:ifelse.adoc[`ifelse`] is more convenient than nested [`if`](if.adoc) statements.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| First operand not boolean, or second not procedure
+|===
+
+=== Implementation Notes
+
+* Very fast conditional evaluation
+* Procedure not executed if condition false (no overhead)
+* Procedure executed in current context (same dict stack, graphics state)
+
+=== See Also
+
+* xref:ifelse.adoc[`ifelse`] - Two-way conditional
+* xref:loop.adoc[`loop`] - Indefinite repetition
+* xref:stopped.adoc[`stopped`] - Error catching
+* Comparison operators: `eq`, `ne`, `lt`, `le`, `gt`, `ge`
+* Boolean operators: `and`, `or`, `not`

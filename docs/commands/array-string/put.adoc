@@ -1,0 +1,206 @@
+---
+layout: default
+title: put
+parent: Array and String Operations
+grand_parent: Command Reference
+nav_order: 7
+---
+
+== put
+
+Stores a value into an array, dictionary, or string element.
+
+=== Syntax
+
+----
+array index any put → –
+dict key any put → –
+string index int put → –
+----
+
+=== Stack Effects
+
+.Array/String Modification
+[cols="1,3"]
+|===
+| Level | Object
+
+| 2
+| `array` or `string`
+
+| 1
+| `index` (integer)
+
+| 0
+| `any` (value to store)
+|===
+
+.Dictionary Modification
+[cols="1,3"]
+|===
+| Level | Object
+
+| 2
+| `dict`
+
+| 1
+| `key`
+
+| 0
+| `any` (value to store)
+|===
+
+.After (all forms)
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Composite object modified in place
+|===
+
+=== Description
+
+[`put`](put.adoc) replaces a single element in a composite object:
+
+* For arrays: stores _any_ at position _index_ (0 to n-1)
+* For strings: stores integer _int_ (0-255) at position _index_
+* For dictionaries: associates _any_ with _key_ (creates new entry if key doesn't exist)
+
+The composite object is modified in place. If the array or dictionary value is in global VM and _any_ is in local VM, an [`invalidaccess`] error occurs.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Array element modification
+[source,postscript]
+----
+/ar [5 17 3 8] def
+ar 2 (abcd) put
+ar  % Now [5 17 (abcd) 8]
+----
+
+.Dictionary entry creation
+[source,postscript]
+----
+/d 5 dict def
+d /abc 123 put
+d { } forall  % Shows /abc 123
+----
+
+.String modification
+[source,postscript]
+----
+/st (abc) def
+st 0 65 put      % 65 is ASCII 'A'
+st               % Now (Abc)
+----
+
+.Coordinate update
+[source,postscript]
+----
+/point [100 200] def
+point 0 150 put  % Change x to 150
+point            % Now [150 200]
+----
+
+=== Common Use Cases
+
+==== Array Element Updates
+
+[source,postscript]
+----
+/colors [/red /green /blue] def
+colors 1 /yellow put  % Replace green with yellow
+----
+
+==== Dictionary Configuration
+
+[source,postscript]
+----
+/config 10 dict def
+config /FontSize 12 put
+config /FontName /Helvetica put
+----
+
+==== String Character Replacement
+
+[source,postscript]
+----
+(hello) dup 0 72 put  % Change 'h' to 'H': (Hello)
+----
+
+=== Common Pitfalls
+
+WARNING: *String Values Must Be Integers* - Strings store character codes (0-255), not character strings.
+
+[source,postscript]
+----
+(abc) 0 (X) put   % Error: must be integer
+(abc) 0 88 put    % Correct: 88 is ASCII 'X'
+----
+
+WARNING: *Index Range* - Array/string index must be 0 to length-1.
+
+[source,postscript]
+----
+[1 2 3] 3 99 put  % Error: index 3 out of range
+----
+
+WARNING: *Packed Arrays are Read-Only* - Cannot use [`put`](put.adoc) on packed arrays.
+
+[source,postscript]
+----
+currentpacking true setpacking
+{ 1 2 3 } 0 99 put  % Error: packed array
+----
+
+WARNING: *Dictionary Size (Level 1)* - In Level 1, if dictionary is full, [`dictfull`] error occurs.
+
+TIP: *Dictionary Auto-Expands (Level 2)* - In Level 2, dictionaries automatically expand when needed.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`dictfull`]
+| Dictionary full (Level 1 only)
+
+| [`invalidaccess`]
+| Object in global VM contains local VM value, or object is read-only
+
+| [`rangecheck`]
+| Index out of bounds, or int not in 0-255 for strings
+
+| [`stackunderflow`]
+| Fewer than 3 operands on stack
+
+| [`typecheck`]
+| Wrong operand types
+|===
+
+=== Implementation Notes
+
+* Modifies the object in place (does not create a copy)
+* For composite values (arrays, dicts), stores by reference
+* Dictionary lookup to check for existing key
+* In Level 2, dictionaries grow automatically when needed
+
+=== Performance Considerations
+
+* Array and string [`put`](put.adoc) are very fast (direct indexing)
+* Dictionary [`put`](put.adoc) slightly slower (hash table operation)
+* Repeated dictionary puts in Level 1 may trigger slow rehashing if dictionary grows full
+* For bulk updates, consider xref:putinterval.adoc[`putinterval`]
+
+=== See Also
+
+* xref:get.adoc[`get`] - Get element from array/string/dictionary
+* xref:putinterval.adoc[`putinterval`] - Put subarray/substring
+* xref:astore.adoc[`astore`] - Store multiple elements into array
+* xref:length.adoc[`length`] - Get length of array/string
