@@ -882,6 +882,7 @@ exporter /exportCSV exec
 
 [source,postscript]
 ----
+{% raw %}
 /processTemplate {  % templateFile dataDict outputFile -> -
   3 dict begin
     /outFile exch def
@@ -937,6 +938,7 @@ exporter /exportCSV exec
   /name (John Doe)
   /email (john@example.com)
 >> (template.txt) (output.txt) processTemplate
+{% endraw %}
 ----
 
 ==== Example 4: Batch File Processor
