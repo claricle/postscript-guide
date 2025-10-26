@@ -46,16 +46,14 @@ jobs:
           --verbose
           --no-progress
           --config lychee.toml
-          --format markdown
-          --output link-check-results.md
           --base '_site'
           --cache
           --max-cache-age 1d
           --root-dir /
           '_site/**/*.html'
         fail: true
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        output: link-check-results.md
+        format: markdown
 
     - name: Link Checker (Source AsciiDoc)
       uses: lycheeverse/lychee-action@v2
@@ -65,12 +63,10 @@ jobs:
           --verbose
           --no-progress
           --config lychee.toml
-          --format markdown
-          --output link-check-source.md
           'docs/**/*.adoc'
         fail: true
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        output: link-check-source.md
+        format: markdown
 
     - name: Upload link check results
       if: always()
