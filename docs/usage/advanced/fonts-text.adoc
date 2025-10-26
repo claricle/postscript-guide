@@ -1153,12 +1153,12 @@ grestore
 
 === See Also
 
-* xref:../../commands/font-text/index.adoc[Font & Text Commands] - Complete command reference
-* xref:../../commands/font-text/show.adoc[show] - Display text
-* xref:../../commands/font-text/findfont.adoc[findfont] - Find font
-* xref:../../commands/font-text/scalefont.adoc[scalefont] - Scale font
-* xref:../../commands/font-text/setfont.adoc[setfont] - Set current font
-* xref:../../commands/font-text/stringwidth.adoc[stringwidth] - Measure text
-* xref:../../commands/font-text/charpath.adoc[charpath] - Text to path
-* xref:color-spaces.adoc[Color Spaces] - Text colors
-* xref:../basic/graphics-state.adoc[Graphics State] - Text rendering state
+* link:/docs/commands/references/[Font & Text Commands] - Complete command reference
+* link:/docs/commands/references/show/[show] - Display text
+* link:/docs/commands/references/findfont/[findfont] - Find font
+* link:/docs/commands/references/scalefont/[scalefont] - Scale font
+* link:/docs/commands/references/setfont/[setfont] - Set current font
+* link:/docs/commands/references/stringwidth/[stringwidth] - Measure text
+* link:/docs/commands/references/charpath/[charpath] - Text to path
+* link:/docs/usage/advanced/color-spaces/[Color Spaces] - Text colors
+* link:/docs/usage/basic/graphics-state/[Graphics State] - Text rendering state

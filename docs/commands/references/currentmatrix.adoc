@@ -1,0 +1,257 @@
+---
+layout: default
+title: currentmatrix
+parent: Command Reference
+nav_order: 8
+---
+
+== currentmatrix
+
+Gets the current transformation matrix from the graphics state.
+
+=== Syntax
+
+----
+matrix currentmatrix → matrix
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (array)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (modified array)
+|===
+
+=== Description
+
+link:/docs/commands/references/currentmatrix/[`currentmatrix`] replaces the value of `matrix` with the current transformation matrix (CTM) from the graphics state and pushes the modified matrix back on the operand stack.
+
+The CTM defines the transformation from user space coordinates to device space coordinates. It is modified by transformation operators like link:/docs/commands/references/translate/[`translate`], link:/docs/commands/references/scale/[`scale`], link:/docs/commands/references/rotate/[`rotate`], and link:/docs/commands/references/concat/[`concat`].
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Getting the CTM
+[source,postscript]
+----
+matrix currentmatrix  % Get current transformation
+% → e.g., [2 0 0 2 100 100]
+----
+
+.Saving and restoring CTM
+[source,postscript]
+----
+matrix currentmatrix  % Save CTM
+/savedCTM exch def
+
+% ... perform transformations ...
+
+savedCTM setmatrix    % Restore CTM
+----
+
+.Examining transformations
+[source,postscript]
+----
+100 100 translate
+2 2 scale
+45 rotate
+matrix currentmatrix
+% Shows combined transformation matrix
+----
+
+=== Common Use Cases
+
+==== Preserving Transformation State
+
+[source,postscript]
+----
+% Better than gsave/grestore when you only need CTM
+matrix currentmatrix
+/savedMatrix exch def
+
+% Complex transformations
+100 200 translate
+3 1.5 scale
+
+% Restore
+savedMatrix setmatrix
+----
+
+==== Analyzing Current Transformation
+
+[source,postscript]
+----
+% Check current scale
+matrix currentmatrix
+dup 0 get  % a component (x-scale)
+exch 3 get % d component (y-scale)
+% Now have x and y scale factors on stack
+----
+
+==== Building on Current Transformation
+
+[source,postscript]
+----
+% Get current, modify, apply
+matrix currentmatrix
+45 rotate  % Modify matrix
+concat     % Apply modified matrix
+----
+
+==== Coordinate Space Conversion
+
+[source,postscript]
+----
+% Get CTM for manual coordinate transformation
+/ctm matrix currentmatrix def
+% Use with transform operator
+----
+
+=== Common Pitfalls
+
+WARNING: *Modifies Input Array* - link:/docs/commands/references/currentmatrix/[`currentmatrix`] modifies the array you provide.
+
+[source,postscript]
+----
+/m [0 0 0 0 0 0] def
+m currentmatrix pop
+% m now contains CTM, original values lost
+----
+
+WARNING: *Not a Copy* - The returned array is the one you provided, not a new array.
+
+[source,postscript]
+----
+matrix currentmatrix
+dup setmatrix
+% Both stack entries refer to same array
+----
+
+TIP: *Use with gsave/grestore* - For complete state saving, use link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`]:
+
+[source,postscript]
+----
+% Only saves CTM:
+matrix currentmatrix /saved exch def
+% ... transformations ...
+saved setmatrix
+
+% Saves entire graphics state:
+gsave
+% ... transformations ...
+grestore
+----
+
+TIP: *Reuse Arrays* - For efficiency, reuse matrix arrays:
+
+[source,postscript]
+----
+/workMatrix 6 array def
+% Reuse many times:
+workMatrix currentmatrix ...
+workMatrix currentmatrix ...
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| Array has fewer than 6 elements
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand is not an array
+|===
+
+=== Implementation Notes
+
+* The CTM is stored internally in device space
+* Very large transformations may experience precision loss
+* The CTM is part of the graphics state
+* Modified by link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`]
+* The array must have at least 6 elements
+
+=== Matrix Interpretation
+
+The returned matrix [a b c d tx ty] transforms coordinates:
+
+----
+x_device = a×x_user + c×y_user + tx
+y_device = b×x_user + d×y_user + ty
+----
+
+Components represent:
+
+* `a`, `d`: scaling in x and y
+* `b`, `c`: rotation/shearing
+* `tx`, `ty`: translation
+
+=== Extracting Transformation Components
+
+[source,postscript]
+----
+% Get translation
+matrix currentmatrix
+dup 4 get /tx exch def
+5 get /ty exch def
+
+% Get scale (assuming no rotation)
+matrix currentmatrix
+dup 0 get /sx exch def
+3 get /sy exch def
+
+% Get rotation (assuming uniform scale)
+matrix currentmatrix
+dup 1 get exch 0 get
+atan /angle exch def
+----
+
+=== Performance Considerations
+
+* Very fast operation
+* No matrix computation required
+* Just copies 6 values from graphics state
+* Reusing arrays avoids allocation overhead
+
+=== Relationship to Graphics State
+
+The CTM is modified by:
+
+* link:/docs/commands/references/translate/[`translate`]
+* link:/docs/commands/references/scale/[`scale`]
+* link:/docs/commands/references/rotate/[`rotate`]
+* link:/docs/commands/references/concat/[`concat`]
+* link:/docs/commands/references/setmatrix/[`setmatrix`]
+* link:/docs/commands/references/initmatrix/[`initmatrix`]
+* link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`]
+
+=== See Also
+
+* link:/docs/commands/references/setmatrix/[`setmatrix`] - Set the CTM
+* link:/docs/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
+* link:/docs/commands/references/initmatrix/[`initmatrix`] - Reset CTM to default
+* link:/docs/commands/references/concat/[`concat`] - Concatenate matrix with CTM
+* link:/docs/commands/references/transform/[`transform`] - Transform coordinates by CTM
+* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state

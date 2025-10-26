@@ -1,0 +1,132 @@
+---
+layout: default
+title: cvr
+parent: Command Reference
+nav_order: 20
+---
+
+== cvr
+
+Converts a number or string to a real number.
+
+=== Syntax
+
+----
+num cvr → real
+string cvr → real
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `num` (integer or real) or `string`
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `real` (real number result)
+|===
+
+=== Description
+
+link:/docs/commands/references/cvr/[`cvr`] (convert to real) converts an integer, real, or string to a real number:
+
+* **Integer operand**: Converts to real
+* **Real operand**: Returns it unchanged
+* **String operand**: Parses as PostScript number, converts to real if integer
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Converting integer to real
+[source,postscript]
+----
+42 cvr           % Result: 42.0
+-17 cvr          % Result: -17.0
+----
+
+.Real pass-through
+[source,postscript]
+----
+3.14159 cvr      % Result: 3.14159 (unchanged)
+----
+
+.String conversion
+[source,postscript]
+----
+(123) cvr        % Result: 123.0
+(3.14) cvr       % Result: 3.14
+(1.5E2) cvr      % Result: 150.0
+----
+
+=== Common Use Cases
+
+==== Ensuring Real Arithmetic
+
+[source,postscript]
+----
+width cvr height cvr div  % Real division
+----
+
+==== Configuration Parsing
+
+[source,postscript]
+----
+configfile readline {
+  token { cvr /scale exch def } if
+} if
+----
+
+=== Common Pitfalls
+
+WARNING: *String Must Be Valid Number* - String must contain valid PostScript number syntax.
+
+[source,postscript]
+----
+(abc) cvr        % Error: syntaxerror
+----
+
+TIP: *Use for Precision* - Convert integers to reals before division to avoid integer truncation.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| String has no-access attribute
+
+| [`limitcheck`]
+| Number exceeds implementation limits
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`syntaxerror`]
+| String not valid number syntax
+
+| [`typecheck`]
+| Operand not number or string
+
+| [`undefinedresult`]
+| Invalid number in string
+|===
+
+=== See Also
+
+* link:/docs/commands/references/cvi/[`cvi`] - Convert to integer
+* link:/docs/commands/references/cvs/[`cvs`] - Convert to string
+* link:/docs/commands/references/type/[`type`] - Get object type

@@ -1,0 +1,168 @@
+---
+layout: default
+title: known
+parent: Command Reference
+nav_order: 7
+---
+
+== known
+
+Tests whether a specific dictionary contains a given key.
+
+=== Syntax
+
+----
+dict key known → bool
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `dict` (dictionary to check)
+
+| 0
+| `key` (key to search for)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `bool` (true if key exists, false otherwise)
+|===
+
+=== Description
+
+link:/docs/commands/references/known/[`known`] returns `true` if there is an entry in dictionary _dict_ whose key is _key_. Otherwise, it returns `false`.
+
+The dictionary does not need to be on the dictionary stack - it can be any dictionary object.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Checking for key
+[source,postscript]
+----
+/mydict 5 dict def
+mydict /total 0 put
+mydict /total known   % Returns true
+mydict /badname known % Returns false
+----
+
+.Conditional definition
+[source,postscript]
+----
+currentdict /myvar known not {
+  /myvar defaultValue def
+} if
+----
+
+.Safe access
+[source,postscript]
+----
+dict /key known {
+  dict /key get
+  % Use value
+} {
+  % Use default
+} ifelse
+----
+
+=== Common Use Cases
+
+==== Checking Before Access
+
+[source,postscript]
+----
+/safeGet {  % dict key => value or null
+  2 copy known {
+    get
+  } {
+    pop pop null
+  } ifelse
+} def
+----
+
+==== Optional Parameters
+
+[source,postscript]
+----
+/processOptions {  % dict =>
+  dup /verbose known {
+    /verbose get { (Verbose mode) print } if
+  } if
+
+  dup /output known {
+    /output get setOutputFile
+  } if
+
+  pop
+} def
+----
+
+==== Feature Detection
+
+[source,postscript]
+----
+systemdict /setpagedevice known {
+  % Level 2 features available
+} {
+  % Level 1 only
+} ifelse
+----
+
+=== Common Pitfalls
+
+WARNING: *Checks Specific Dictionary Only* - link:/docs/commands/references/known/[`known`] does NOT search the dictionary stack, only the specified dictionary.
+
+[source,postscript]
+----
+/x 42 def  % In current dict
+
+5 dict /x known  % Returns false (wrong dict!)
+currentdict /x known  % Returns true
+----
+
+WARNING: *Different from where* - link:/docs/commands/references/known/[`known`] checks one dictionary; link:/docs/commands/references/where/[`where`] searches the entire dictionary stack.
+
+TIP: *Use for Validation* - Check before link:../array-string/get/[`get`] to avoid [`undefined`] errors.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| Dictionary has no-access attribute
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| First operand not a dictionary
+|===
+
+=== Implementation Notes
+
+* Very fast operation (hash table lookup)
+* Does not modify dictionary
+* Can be used on any dictionary (not just those on dict stack)
+* Returns immediately after checking
+
+=== See Also
+
+* link:/docs/commands/references/where/[`where`] - Search dictionary stack for key
+* link:/docs/commands/references/load/[`load`] - Get value from dictionary stack
+* link:/docs/commands/references/get/[`get`] - Get value from specific dictionary
+* link:/docs/commands/references/def/[`def`] - Define key-value pair

@@ -73,7 +73,7 @@ Comprehensive comparison of features across PostScript Levels 1, 2, and 3.
 
 == See Also
 
-* xref:level-1.adoc[PostScript Level 1]
-* xref:level-2.adoc[PostScript Level 2]
-* xref:level-3.adoc[PostScript Level 3]
-* xref:index.adoc[PostScript Levels Overview]
+* link:/docs/levels/level-1/[PostScript Level 1]
+* link:/docs/levels/level-2/[PostScript Level 2]
+* link:/docs/levels/level-3/[PostScript Level 3]
+* link:/docs/levels/[PostScript Levels Overview]

@@ -51,3 +51,10 @@ FIXME
 
 # PostScript.org site unavailable
 https://www.postscript.org/
+
+# Schema.org may be temporarily unavailable
+https://schema.org/
+
+# Internal files
+file:///home/runner/work/postscript-guide/postscript-guide/LICENSE
+file:///home/runner/work/postscript-guide/postscript-guide/docs/LINK_CHECKING.md

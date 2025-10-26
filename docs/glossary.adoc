@@ -60,5 +60,5 @@ Definitions of PostScript-specific terminology.
 
 === See Also
 
-* xref:syntax/index.adoc[Language Syntax]
-* xref:commands/index.adoc[Command Reference]
+* link:/docs/syntax/[Language Syntax]
+* link:/docs/commands/[Command Reference]

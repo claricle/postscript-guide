@@ -1,0 +1,262 @@
+---
+layout: default
+title: matrix
+parent: Command Reference
+nav_order: 5
+---
+
+== matrix
+
+Creates an identity transformation matrix.
+
+=== Syntax
+
+----
+- matrix → matrix
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No operands required
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (6-element array)
+|===
+
+=== Description
+
+link:/docs/commands/references/matrix/[`matrix`] creates a 6-element array object, fills it with the values of an identity matrix [1.0 0.0 0.0 1.0 0.0 0.0], and pushes this array on the operand stack.
+
+The array is allocated in local or global VM according to the current VM allocation mode.
+
+The identity matrix transforms any coordinate to itself without change.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Creating an identity matrix
+[source,postscript]
+----
+matrix  % → [1.0 0.0 0.0 1.0 0.0 0.0]
+----
+
+.Building a transformation matrix
+[source,postscript]
+----
+matrix              % Start with identity
+100 200 translate  % Modify to translation matrix
+% → [1.0 0.0 0.0 1.0 100.0 200.0]
+----
+
+.Multiple matrices
+[source,postscript]
+----
+matrix /m1 exch def
+matrix /m2 exch def
+% Now have two independent matrices
+----
+
+=== Common Use Cases
+
+==== Saving Current Transformation
+
+[source,postscript]
+----
+matrix currentmatrix  % Save CTM
+% ... perform transformations ...
+setmatrix             % Restore CTM
+----
+
+==== Building Custom Transformations
+
+[source,postscript]
+----
+% Build transformation incrementally
+matrix
+50 100 translate   % Add translation
+2 2 scale          % Add scaling
+45 rotate          % Add rotation
+% Matrix now contains combined transformation
+----
+
+==== Matrix Arithmetic
+
+[source,postscript]
+----
+% Multiply two transformation matrices
+/m1 matrix 100 0 translate def
+/m2 matrix 45 rotate def
+/m3 matrix def
+m1 m2 m3 concatmatrix  % m3 = m1 × m2
+----
+
+==== Temporary Transformations
+
+[source,postscript]
+----
+% Apply transformation without affecting CTM
+matrix currentmatrix  % Save CTM
+/savedCTM exch def
+
+100 100 translate
+2 2 scale
+% ... draw content ...
+
+savedCTM setmatrix   % Restore CTM
+----
+
+=== Common Pitfalls
+
+WARNING: *Not Just Array Creation* - link:/docs/commands/references/matrix/[`matrix`] creates an array AND fills it with identity matrix values.
+
+[source,postscript]
+----
+% These are different:
+matrix              % → [1.0 0.0 0.0 1.0 0.0 0.0]
+6 array             % → [null null null null null null]
+----
+
+WARNING: *VM Allocation* - Matrix arrays are allocated in VM and consume memory.
+
+[source,postscript]
+----
+% Creating many matrices can consume VM
+1 1 1000 {
+  pop
+  matrix  % Each creates a new array
+} for
+% Better: reuse matrices when possible
+----
+
+TIP: *Reuse Matrices* - For efficiency, reuse matrix arrays rather than creating new ones:
+
+[source,postscript]
+----
+% Create once:
+/myMatrix matrix def
+
+% Reuse multiple times:
+myMatrix currentmatrix pop
+myMatrix 100 100 translate pop
+----
+
+TIP: *Equivalent to Array Creation* - This is equivalent to link:/docs/commands/references/matrix/[`matrix`]:
+
+[source,postscript]
+----
+6 array identmatrix  % Same as: matrix
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackoverflow`]
+| Operand stack overflow
+
+| [`VMerror`]
+| Insufficient VM for array allocation
+|===
+
+=== Implementation Notes
+
+* The created array always has exactly 6 elements
+* Elements are initialized to real numbers (1.0, 0.0) even if integers would suffice
+* The array is a standard PostScript array, not a special matrix type
+* The array can be modified like any other array
+* Created arrays are subject to normal garbage collection
+
+=== Identity Matrix Properties
+
+The identity matrix [1 0 0 1 0 0] has these properties:
+
+* Transforms any point (x, y) to itself: (x', y') = (x, y)
+* Is the multiplicative identity: I × M = M × I = M
+* Has a determinant of 1
+* Is its own inverse: I⁻¹ = I
+
+=== Matrix Format
+
+The 6-element matrix array represents:
+
+----
+[a b c d tx ty]
+----
+
+Which transforms coordinates:
+
+----
+x' = a×x + c×y + tx
+y' = b×x + d×y + ty
+----
+
+For the identity matrix [1 0 0 1 0 0]:
+
+----
+x' = 1×x + 0×y + 0 = x
+y' = 0×x + 1×y + 0 = y
+----
+
+=== Memory Management
+
+[source,postscript]
+----
+% Matrices are composite objects
+/m1 matrix def
+/m2 m1 def        % m2 shares value with m1
+m1 0 99 put       % Modifies both m1 and m2
+
+% To create independent copy:
+/m1 matrix def
+/m2 m1 length array def
+m1 m2 copy pop    % m2 is independent copy
+----
+
+=== Performance Considerations
+
+* Creating a matrix is a lightweight operation
+* The cost is similar to creating any 6-element array
+* Reusing matrices is more efficient than creating new ones
+* Matrix operations (concat, transform) are optimized
+
+=== Relationship to Other Operators
+
+[source,postscript]
+----
+% These are equivalent:
+matrix
+
+6 array identmatrix
+
+[1.0 0.0 0.0 1.0 0.0 0.0]  % Literal array
+
+% Common usage pattern:
+matrix currentmatrix  % Get CTM into new matrix
+----
+
+=== See Also
+
+* link:/docs/commands/references/identmatrix/[`identmatrix`] - Initialize array as identity matrix
+* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current transformation matrix
+* link:/docs/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
+* link:/docs/commands/references/setmatrix/[`setmatrix`] - Set transformation matrix
+* link:/docs/commands/references/concat/[`concat`] - Concatenate matrix with CTM
+* link:/docs/commands/references/concatmatrix/[`concatmatrix`] - Multiply two matrices
+* link:/docs/commands/references/array/[`array`] - Create array

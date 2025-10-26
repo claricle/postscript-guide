@@ -1,0 +1,148 @@
+---
+layout: default
+title: setfont
+parent: Command Reference
+nav_order: 4
+---
+
+== setfont
+
+Establish current font in graphics state.
+
+=== Syntax
+
+----
+font setfont → -
+----
+
+=== Stack Effects
+
+**Before:**
+```
+font
+```
+
+**After:**
+```
+(empty)
+```
+
+=== Description
+
+link:/docs/commands/references/setfont/[`setfont`] establishes the font dictionary parameter in the graphics state. This specifies the font to be used by subsequent character operators, such as link:/docs/commands/references/show/[`show`] and link:/docs/commands/references/stringwidth/[`stringwidth`]. The `font` must be a valid font dictionary previously returned by link:/docs/commands/references/findfont/[`findfont`], link:/docs/commands/references/scalefont/[`scalefont`], or link:/docs/commands/references/makefont/[`makefont`].
+
+The font remains current until changed by another link:/docs/commands/references/setfont/[`setfont`] or `selectfont` operation, or until the graphics state is restored by `grestore` or `grestoreall`.
+
+=== Parameters
+
+**font** (`dictionary`)
+: A valid font dictionary to establish as the current font
+
+=== Examples
+
+==== Basic Font Setup
+
+[source,postscript]
+----
+/Helvetica findfont    % Obtain prototype Helvetica font
+10 scalefont           % Scale it to 10-unit size
+setfont                % Establish it as current font
+----
+
+==== Multiple Font Changes
+
+[source,postscript]
+----
+% Set up multiple fonts
+/Helvetica findfont 12 scalefont /H12 exch def
+/Times-Roman findfont 10 scalefont /T10 exch def
+
+% Use Helvetica for heading
+H12 setfont
+100 700 moveto (Heading) show
+
+% Use Times for body
+T10 setfont
+100 680 moveto (Body text) show
+----
+
+==== Font with Graphics State Save/Restore
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+
+gsave
+  /Times-Roman findfont 10 scalefont setfont
+  100 100 moveto (Times Roman text) show
+grestore
+
+% Helvetica is restored as current font
+100 80 moveto (Back to Helvetica) show
+----
+
+=== Errors
+
+**invalidfont**
+: If `font` is not a well-formed font dictionary
+
+**stackunderflow**
+: If no operand is on the stack
+
+**typecheck**
+: If the operand is not a dictionary
+
+=== Font Dictionary Requirements
+
+A valid font dictionary must contain at least:
+
+- **FontType** - Integer identifying the font type (1, 3, etc.)
+- **FontMatrix** - Transformation matrix from character space to user space
+- **Encoding** - Array mapping character codes to names
+- **FID** - Font identifier (inserted by `definefont`)
+
+For Type 1 fonts:
+- **CharStrings** - Dictionary of character programs
+- **PaintType** - Integer (0 or 2)
+- **FontInfo** - Dictionary of font information (optional but common)
+
+For Type 3 fonts:
+- **BuildChar** or **BuildGlyph** - Character construction procedure
+- **FontBBox** - Bounding box for all characters
+
+=== Graphics State Impact
+
+link:/docs/commands/references/setfont/[`setfont`] only modifies the font parameter of the graphics state. It does not affect:
+
+- Current transformation matrix
+- Current path
+- Current point
+- Current color
+- Any other graphics state parameters
+
+=== Interaction with Other Operators
+
+[source,postscript]
+----
+% Font is part of graphics state
+gsave
+  /Times-Roman findfont 12 scalefont setfont
+  % Do some text operations
+grestore
+% Previous font is restored
+
+% Font persists across most operations
+newpath
+/Helvetica findfont 10 scalefont setfont
+100 100 moveto (Text) show
+% Font is still Helvetica
+----
+
+=== See Also
+
+- link:/docs/commands/references/currentfont/[`currentfont`] - Get current font dictionary
+- link:/docs/commands/references/findfont/[`findfont`] - Obtain font dictionary by name
+- link:/docs/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor
+- link:/docs/commands/references/makefont/[`makefont`] - Transform font by matrix
+- link:/docs/commands/references/show/[`show`] - Paint text string at current point
+- link:/docs/commands/references/stringwidth/[`stringwidth`] - Calculate text width

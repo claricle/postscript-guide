@@ -1015,15 +1015,15 @@ Instance /sharedMethod Lookup exec
 
 === See Also
 
-* xref:objects.adoc[Objects] - Dictionary object model
-* xref:arrays.adoc[Arrays] - Similar composite structure
-* xref:procedures.adoc[Procedures] - Local variables with dictionaries
-* xref:operators.adoc[Operators] - Dictionary operators
-* xref:tokens.adoc[Tokens] - Name syntax for keys
-* xref:../commands/dictionary/dict.adoc[dict] - Create dictionaries
-* xref:../commands/dictionary/begin.adoc[begin] - Push onto dict stack
-* xref:../commands/dictionary/end.adoc[end] - Pop from dict stack
-* xref:../commands/dictionary/def.adoc[def] - Define entries
-* xref:../commands/dictionary/load.adoc[load] - Look up values
-* xref:../commands/dictionary/where.adoc[where] - Find definitions
-* xref:index.adoc[Language Syntax Overview]
+* link:/docs/syntax/objects/[Objects] - Dictionary object model
+* link:/docs/syntax/arrays/[Arrays] - Similar composite structure
+* link:/docs/syntax/procedures/[Procedures] - Local variables with dictionaries
+* link:/docs/syntax/operators/[Operators] - Dictionary operators
+* link:/docs/syntax/tokens/[Tokens] - Name syntax for keys
+* link:/docs/commands/references/dict/[dict] - Create dictionaries
+* link:/docs/commands/references/begin/[begin] - Push onto dict stack
+* link:/docs/commands/references/end/[end] - Pop from dict stack
+* link:/docs/commands/references/def/[def] - Define entries
+* link:/docs/commands/references/load/[load] - Look up values
+* link:/docs/commands/references/where/[where] - Find definitions
+* link:/docs/syntax/[Language Syntax Overview]

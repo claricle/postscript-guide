@@ -1003,8 +1003,8 @@ ErrorHandlingTests {
 
 === See Also
 
-* xref:../debugging.adoc[Debugging] - Debugging techniques
-* xref:file-operations.adoc[File Operations] - File error handling
-* xref:resource-management.adoc[Resource Management] - Resource errors
-* xref:../../commands/error-handling/index.adoc[Error Handling Commands] - Error operators
-* xref:../../commands/control-flow/stopped.adoc[stopped] - Error catching
+* link:/docs/usage/debugging/[Debugging] - Debugging techniques
+* link:/docs/usage/advanced/file-operations/[File Operations] - File error handling
+* link:/docs/usage/advanced/resource-management/[Resource Management] - Resource errors
+* link:/docs/commands/references/[Error Handling Commands] - Error operators
+* link:/docs/commands/references/stopped/[stopped] - Error catching

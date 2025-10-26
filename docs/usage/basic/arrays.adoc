@@ -974,12 +974,12 @@ idx arr length lt {
 
 === See Also
 
-* xref:../../syntax/arrays.adoc[Array Syntax] - Array syntax details
-* xref:procedures.adoc[Procedures] - Using arrays in procedures
-* xref:composite-objects.adoc[Composite Objects] - Complex data structures
-* xref:../../commands/array-string/array.adoc[array] - Create array
-* xref:../../commands/array-string/aload.adoc[aload] - Unpack array
-* xref:../../commands/array-string/astore.adoc[astore] - Pack array
-* xref:../../commands/array-string/get.adoc[get] - Get element
-* xref:../../commands/array-string/put.adoc[put] - Set element
-* xref:../../commands/array-string/forall.adoc[forall] - Iterate array
+* link:/docs/syntax/arrays/[Array Syntax] - Array syntax details
+* link:/docs/usage/basic/procedures/[Procedures] - Using arrays in procedures
+* link:/docs/usage/basic/composite-objects/[Composite Objects] - Complex data structures
+* link:/docs/commands/references/array/[array] - Create array
+* link:/docs/commands/references/aload/[aload] - Unpack array
+* link:/docs/commands/references/astore/[astore] - Pack array
+* link:/docs/commands/references/get/[get] - Get element
+* link:/docs/commands/references/put/[put] - Set element
+* link:/docs/commands/references/forall/[forall] - Iterate array

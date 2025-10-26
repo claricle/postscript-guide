@@ -1,9 +1,8 @@
 ---
 layout: default
 title: Painting
-parent: Command Reference
+parent: Commands
 nav_order: 8
-has_children: true
 ---
 
 == Painting
@@ -26,19 +25,19 @@ PostScript provides three primary painting operations:
 |===
 | Command | Description
 
-| xref:../fill.adoc[`fill`]
+| link:/docs/commands/references/fill/[`fill`]
 | Fill path interior (non-zero winding rule)
 
-| xref:../eofill.adoc[`eofill`]
+| link:/docs/commands/references/eofill/[`eofill`]
 | Fill path interior (even-odd rule)
 
-| xref:../ufill.adoc[`ufill`]
+| link:/docs/commands/references/ufill/[`ufill`]
 | Fill user path (Level 2)
 
-| xref:../ueofill.adoc[`ueofill`]
+| link:/docs/commands/references/ueofill/[`ueofill`]
 | Even-odd fill user path (Level 2)
 
-| xref:../rectfill.adoc[`rectfill`]
+| link:/docs/commands/references/rectfill/[`rectfill`]
 | Fill rectangles (Level 2)
 |===
 
@@ -48,19 +47,19 @@ PostScript provides three primary painting operations:
 |===
 | Command | Description
 
-| xref:../stroke.adoc[`stroke`]
+| link:/docs/commands/references/stroke/[`stroke`]
 | Paint along path
 
-| xref:../strokepath.adoc[`strokepath`]
+| link:/docs/commands/references/strokepath/[`strokepath`]
 | Convert stroke to outline path
 
-| xref:../ustroke.adoc[`ustroke`]
+| link:/docs/commands/references/ustroke/[`ustroke`]
 | Stroke user path (Level 2)
 
-| xref:../ustrokepath.adoc[`ustrokepath`]
+| link:/docs/commands/references/ustrokepath/[`ustrokepath`]
 | Convert user path stroke to outline (Level 2)
 
-| xref:../rectstroke.adoc[`rectstroke`]
+| link:/docs/commands/references/rectstroke/[`rectstroke`]
 | Stroke rectangles (Level 2)
 |===
 
@@ -70,20 +69,20 @@ PostScript provides three primary painting operations:
 |===
 | Command | Description
 
-| xref:../clip.adoc[`clip`]
+| link:/docs/commands/references/clip/[`clip`]
 | Intersect clipping path (non-zero winding)
 
-| xref:../eoclip.adoc[`eoclip`]
+| link:/docs/commands/references/eoclip/[`eoclip`]
 | Intersect clipping path (even-odd rule)
 
-| xref:../clippath.adoc[`clippath`]
+| link:/docs/commands/references/clippath/[`clippath`]
 | Set current path to clipping path
 
-| xref:../rectclip.adoc[`rectclip`]
+| link:/docs/commands/references/rectclip/[`rectclip`]
 | Clip to rectangles (Level 2)
 |===
 
 == See Also
 
-* xref:../path-construction/index.adoc[Path Construction]
-* xref:../graphics-state/index.adoc[Graphics State]
+* link:/docs/commands/references/[Path Construction]
+* link:/docs/commands/references/[Graphics State]

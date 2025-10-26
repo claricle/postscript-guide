@@ -1,0 +1,200 @@
+---
+layout: default
+title: begin
+parent: Command Reference
+nav_order: 2
+---
+
+== begin
+
+Pushes a dictionary onto the dictionary stack, making it the current dictionary.
+
+=== Syntax
+
+----
+dict begin → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `dict` (dictionary to push)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Dictionary stack increased by one
+|===
+
+=== Description
+
+link:/docs/commands/references/begin/[`begin`] pushes _dict_ onto the dictionary stack, making it the current dictionary. This dictionary becomes the first one consulted during:
+
+* Implicit name lookup by the interpreter
+* link:/docs/commands/references/def/[`def`] - defines in current dictionary
+* link:/docs/commands/references/load/[`load`] - searches dictionary stack
+* link:/docs/commands/references/store/[`store`] - searches dictionary stack
+* link:/docs/commands/references/where/[`where`] - searches dictionary stack
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Basic dictionary scope
+[source,postscript]
+----
+5 dict begin
+  /x 10 def
+  /y 20 def
+  x y add  % Uses local definitions
+end
+% x and y no longer in scope
+----
+
+.Nested dictionaries
+[source,postscript]
+----
+/outer 5 dict def
+outer begin
+  /outerVar 1 def
+
+  10 dict begin
+    /innerVar 2 def
+    outerVar innerVar add  % Can access outer scope
+  end
+end
+----
+
+.Configuration block
+[source,postscript]
+----
+/config 10 dict def
+config begin
+  /fontSize 12 def
+  /fontName /Helvetica def
+  fontName findfont fontSize scalefont setfont
+end
+----
+
+=== Common Use Cases
+
+==== Temporary Namespace
+
+[source,postscript]
+----
+/doWork {
+  10 dict begin
+    % All defs here go into local dict
+    /temp1 value1 def
+    /temp2 value2 def
+    % Work with temp variables
+  end
+} def
+----
+
+==== Module Pattern
+
+[source,postscript]
+----
+/MyModule 20 dict def
+MyModule begin
+  /private-func { % implementation } def
+  /public-func { private-func } def
+end
+/MyModule.public MyModule /public-func get def
+----
+
+==== Font Manipulation
+
+[source,postscript]
+----
+/Helvetica findfont
+dup maxlength dict begin
+  { 1 index /FID ne { def } { pop pop } ifelse } forall
+  /Encoding ISOLatin1Encoding def
+  currentdict
+end
+/Helvetica-ISO exch definefont pop
+----
+
+=== Common Pitfalls
+
+WARNING: *Must Match with end* - Every link:/docs/commands/references/begin/[`begin`] must have a corresponding link:/docs/commands/references/end/[`end`]. Unmatched begins cause [`dictstackoverflow`].
+
+[source,postscript]
+----
+dict1 begin
+dict2 begin
+% Missing ends will overflow stack eventually
+----
+
+WARNING: *Dictionary Must Be Readable* - Dictionary must not have no-access attribute.
+
+TIP: *Use gsave/grestore for Safety* - When using begin/end with graphics state changes:
+
+[source,postscript]
+----
+gsave
+  mydict begin
+    % Graphics operations
+  end
+grestore
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`dictstackoverflow`]
+| Dictionary stack has grown too large
+
+| [`invalidaccess`]
+| Dictionary has no-access attribute
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand is not a dictionary
+|===
+
+=== Implementation Notes
+
+* Dictionary stack typically allows 20-250 dictionaries
+* Standard stack contains at minimum: systemdict, userdict
+* Level 2 adds globaldict to standard stack
+* Stack operations affect name lookup immediately
+
+=== Dictionary Stack Structure
+
+.Typical stack (top to bottom)
+[source]
+----
+User dictionary (via begin)
+User dictionary (via begin)
+...
+userdict
+globaldict (Level 2)
+systemdict
+----
+
+=== See Also
+
+* link:/docs/commands/references/end/[`end`] - Pop dictionary from stack
+* link:/docs/commands/references/currentdict/[`currentdict`] - Get current dictionary
+* link:/docs/commands/references/def/[`def`] - Define in current dictionary
+* link:/docs/commands/references/dictstack/[`dictstack`] - Examine dictionary stack
+* link:/docs/commands/references/countdictstack/[`countdictstack`] - Count stack depth

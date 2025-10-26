@@ -17,7 +17,7 @@ PostScript Level 2 added significant capabilities while maintaining backward com
 
 === Color Support
 
-* **RGB Color**: link:../commands/graphics-state/setrgbcolor.adoc[`setrgbcolor`], `currentrgbcolor`
+* **RGB Color**: link:../commands/graphics-state/setrgbcolor/[`setrgbcolor`], `currentrgbcolor`
 * **CMYK Color**: `setcmykcolor`, `currentcmykcolor`
 * **HSB Color**: `sethsbcolor`, `currenthsbcolor`
 * **Color Spaces**: `setcolorspace`, `setcolor`
@@ -75,7 +75,7 @@ Level 2 maintains full backward compatibility:
 
 == See Also
 
-* xref:level-1.adoc[PostScript Level 1] - Original specification
-* xref:level-3.adoc[PostScript Level 3] - Latest features
-* xref:comparison.adoc[Version Comparison] - Detailed feature comparison
-* xref:index.adoc[PostScript Levels Overview]
+* link:/docs/levels/level-1/[PostScript Level 1] - Original specification
+* link:/docs/levels/level-3/[PostScript Level 3] - Latest features
+* link:/docs/levels/comparison/[Version Comparison] - Detailed feature comparison
+* link:/docs/levels/[PostScript Levels Overview]

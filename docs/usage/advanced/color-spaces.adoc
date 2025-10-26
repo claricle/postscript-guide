@@ -971,10 +971,10 @@ grestore
 
 === See Also
 
-* xref:../basic/graphics-state.adoc[Graphics State] - Color state management
-* xref:patterns.adoc[Patterns] - Color patterns
-* xref:../../commands/graphics-state/setrgbcolor.adoc[setrgbcolor] - Set RGB color
-* xref:../../commands/graphics-state/setcmykcolor.adoc[setcmykcolor] - Set CMYK color
-* xref:../../commands/graphics-state/setgray.adoc[setgray] - Set gray color
-* xref:../../commands/graphics-state/sethsbcolor.adoc[sethsbcolor] - Set HSB color
-* xref:../../commands/graphics-state/currentrgbcolor.adoc[currentrgbcolor] - Get current RGB
+* link:/docs/usage/basic/graphics-state/[Graphics State] - Color state management
+* link:/docs/usage/advanced/patterns/[Patterns] - Color patterns
+* link:/docs/commands/references/setrgbcolor/[setrgbcolor] - Set RGB color
+* link:/docs/commands/references/setcmykcolor/[setcmykcolor] - Set CMYK color
+* link:/docs/commands/references/setgray/[setgray] - Set gray color
+* link:/docs/commands/references/sethsbcolor/[sethsbcolor] - Set HSB color
+* link:/docs/commands/references/currentrgbcolor/[currentrgbcolor] - Get current RGB

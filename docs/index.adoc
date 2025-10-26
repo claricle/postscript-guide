@@ -51,89 +51,89 @@ PostScript is a stack-based, interpreted programming language created by Adobe S
 
 == Documentation Sections
 
-=== xref:docs/levels/index.adoc[PostScript Levels]
+=== link:/docs/levels/[PostScript Levels]
 
 Learn about the evolution of PostScript through its three major versions:
 
-* xref:docs/levels/level-1.adoc[PostScript Level 1] - The original specification
-* xref:docs/levels/level-2.adoc[PostScript Level 2] - Color and composite fonts
-* xref:docs/levels/level-3.adoc[PostScript Level 3] - Advanced imaging features
-* xref:docs/levels/comparison.adoc[Version Comparison] - Feature comparison across levels
+* link:/docs/levels/level-1/[PostScript Level 1] - The original specification
+* link:/docs/levels/level-2/[PostScript Level 2] - Color and composite fonts
+* link:/docs/levels/level-3/[PostScript Level 3] - Advanced imaging features
+* link:/docs/levels/comparison/[Version Comparison] - Feature comparison across levels
 
-=== xref:docs/syntax/index.adoc[Language Syntax]
+=== link:/docs/syntax/[Language Syntax]
 
 Understanding PostScript's unique syntax and data structures:
 
-* xref:docs/syntax/tokens.adoc[Tokens] - Basic lexical elements
-* xref:docs/syntax/objects.adoc[Objects] - Data types and object model
-* xref:docs/syntax/operators.adoc[Operators] - Built-in operations
-* xref:docs/syntax/procedures.adoc[Procedures] - Executable arrays and user-defined functions
-* xref:docs/syntax/arrays.adoc[Arrays] - Ordered collections
-* xref:docs/syntax/dictionaries.adoc[Dictionaries] - Key-value associations
-* xref:docs/syntax/strings.adoc[Strings] - Text and binary data
-* xref:docs/syntax/data-types.adoc[Data Types] - Complete type system
+* link:/docs/syntax/tokens/[Tokens] - Basic lexical elements
+* link:/docs/syntax/objects/[Objects] - Data types and object model
+* link:/docs/syntax/operators/[Operators] - Built-in operations
+* link:/docs/syntax/procedures/[Procedures] - Executable arrays and user-defined functions
+* link:/docs/syntax/arrays/[Arrays] - Ordered collections
+* link:/docs/syntax/dictionaries/[Dictionaries] - Key-value associations
+* link:/docs/syntax/strings/[Strings] - Text and binary data
+* link:/docs/syntax/data-types/[Data Types] - Complete type system
 
-=== xref:docs/usage/index.adoc[Usage Guides]
+=== link:/docs/usage/[Usage Guides]
 
-==== xref:docs/usage/basic/index.adoc[Basic Usage]
+==== link:/docs/usage/basic/[Basic Usage]
 
 Essential concepts for PostScript programming:
 
-* xref:docs/usage/basic/stack-operations.adoc[Stack Operations] - Working with the operand stack
-* xref:docs/usage/basic/coordinate-systems.adoc[Coordinate Systems] - User space and device space
-* xref:docs/usage/basic/graphics-state.adoc[Graphics State] - Managing rendering parameters
-* xref:docs/usage/basic/path-construction.adoc[Path Construction] - Building vector shapes
-* xref:docs/usage/basic/painting.adoc[Painting Operations] - Filling and stroking paths
+* link:/docs/usage/basic/stack-operations/[Stack Operations] - Working with the operand stack
+* link:/docs/usage/basic/coordinate-systems/[Coordinate Systems] - User space and device space
+* link:/docs/usage/basic/graphics-state/[Graphics State] - Managing rendering parameters
+* link:/docs/usage/basic/path-construction/[Path Construction] - Building vector shapes
+* link:/docs/usage/basic/painting/[Painting Operations] - Filling and stroking paths
 
-==== xref:docs/usage/advanced/index.adoc[Advanced Usage]
+==== link:/docs/usage/advanced/[Advanced Usage]
 
 Advanced features and techniques:
 
-* xref:docs/usage/advanced/fonts-text.adoc[Fonts and Text] - Typography and text rendering
-* xref:docs/usage/advanced/color-spaces.adoc[Color Spaces] - Color models and management
-* xref:docs/usage/advanced/patterns.adoc[Patterns] - Tiling patterns and textures
-* xref:docs/usage/advanced/forms.adoc[Forms] - Cached graphical objects
-* xref:docs/usage/advanced/images.adoc[Images] - Raster image handling
-* xref:docs/usage/advanced/device-control.adoc[Device Control] - Output device management
-* xref:docs/usage/advanced/file-operations.adoc[File Operations] - File I/O and streams
-* xref:docs/usage/advanced/error-handling.adoc[Error Handling] - Exception management
-* xref:docs/usage/advanced/resource-management.adoc[Resource Management] - Memory and resources
+* link:/docs/usage/advanced/fonts-text/[Fonts and Text] - Typography and text rendering
+* link:/docs/usage/advanced/color-spaces/[Color Spaces] - Color models and management
+* link:/docs/usage/advanced/patterns/[Patterns] - Tiling patterns and textures
+* link:/docs/usage/advanced/forms/[Forms] - Cached graphical objects
+* link:/docs/usage/advanced/images/[Images] - Raster image handling
+* link:/docs/usage/advanced/device-control/[Device Control] - Output device management
+* link:/docs/usage/advanced/file-operations/[File Operations] - File I/O and streams
+* link:/docs/usage/advanced/error-handling/[Error Handling] - Exception management
+* link:/docs/usage/advanced/resource-management/[Resource Management] - Memory and resources
 
-=== xref:docs/commands/index.adoc[Command Reference]
+=== link:/docs/commands/[Command Reference]
 
 Complete reference for all PostScript operators, organized by category:
 
-* xref:docs/commands/stack-manipulation/index.adoc[Stack Manipulation] - Stack operations
-* xref:docs/commands/arithmetic-math/index.adoc[Arithmetic and Math] - Mathematical operations
-* xref:docs/commands/array-string/index.adoc[Array and String Operations] - Collection manipulation
-* xref:docs/commands/dictionary/index.adoc[Dictionary Operations] - Key-value store operations
-* xref:docs/commands/graphics-state/index.adoc[Graphics State] - Graphics parameters
-* xref:docs/commands/path-construction/index.adoc[Path Construction] - Path building
-* xref:docs/commands/painting/index.adoc[Painting] - Rendering operations
-* xref:docs/commands/transformations/index.adoc[Coordinate Transformations] - CTM operations
-* xref:docs/commands/font-text/index.adoc[Font and Text] - Typography operators
-* xref:docs/commands/color/index.adoc[Color] - Color operations
-* xref:docs/commands/image/index.adoc[Image] - Image rendering
-* xref:docs/commands/device-output/index.adoc[Device and Output] - Device control
-* xref:docs/commands/file-io/index.adoc[File and I/O] - File operations
-* xref:docs/commands/control-flow/index.adoc[Control Flow] - Program flow control
-* xref:docs/commands/resource-management/index.adoc[Resource Management] - VM and resources
-* xref:docs/commands/error-handling/index.adoc[Error Handling] - Error management
+* link:/docs/commands/references/[Stack Manipulation] - Stack operations
+* link:/docs/commands/references/[Arithmetic and Math] - Mathematical operations
+* link:/docs/commands/references/[Array and String Operations] - Collection manipulation
+* link:/docs/commands/references/[Dictionary Operations] - Key-value store operations
+* link:/docs/commands/references/[Graphics State] - Graphics parameters
+* link:/docs/commands/references/[Path Construction] - Path building
+* link:/docs/commands/references/[Painting] - Rendering operations
+* link:/docs/commands/references/[Coordinate Transformations] - CTM operations
+* link:/docs/commands/references/[Font and Text] - Typography operators
+* link:/docs/commands/references/[Color] - Color operations
+* link:/docs/commands/references/[Image] - Image rendering
+* link:/docs/commands/references/[Device and Output] - Device control
+* link:/docs/commands/references/[File and I/O] - File operations
+* link:/docs/commands/references/[Control Flow] - Program flow control
+* link:/docs/commands/references/[Resource Management] - VM and resources
+* link:/docs/commands/references/[Error Handling] - Error management
 
-Or browse xref:docs/commands/by-category.adoc[by category] or xref:docs/commands/index.adoc[alphabetically].
+Or browse link:/docs/commands/by-category/[by category] or link:/docs/commands/[alphabetically].
 
-=== xref:docs/examples/index.adoc[Practical Examples]
+=== link:/docs/examples/[Practical Examples]
 
 Real-world code examples and use cases:
 
-* xref:docs/examples/hello-world.adoc[Hello World] - Your first PostScript program
-* xref:docs/examples/drawing-shapes.adoc[Drawing Shapes] - Creating vector graphics
-* xref:docs/examples/text-layout.adoc[Text Layout] - Working with fonts and text
-* xref:docs/examples/color-gradients.adoc[Color and Gradients] - Advanced color techniques
-* xref:docs/examples/image-manipulation.adoc[Image Manipulation] - Working with raster images
-* xref:docs/examples/pdf-generation.adoc[PDF Generation] - Creating PDF documents
+* link:/docs/examples/hello-world/[Hello World] - Your first PostScript program
+* link:/docs/examples/drawing-shapes/[Drawing Shapes] - Creating vector graphics
+* link:/docs/examples/text-layout/[Text Layout] - Working with fonts and text
+* link:/docs/examples/color-gradients/[Color and Gradients] - Advanced color techniques
+* link:/docs/examples/image-manipulation/[Image Manipulation] - Working with raster images
+* link:/docs/examples/pdf-generation/[PDF Generation] - Creating PDF documents
 
-=== xref:docs/glossary.adoc[Glossary]
+=== link:/docs/glossary/[Glossary]
 
 Definitions of PostScript-specific terminology and concepts.
 

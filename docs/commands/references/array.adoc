@@ -1,0 +1,158 @@
+---
+layout: default
+title: array
+parent: Command Reference
+nav_order: 1
+---
+
+== array
+
+Creates a new array of specified length with elements initialized to null.
+
+=== Syntax
+
+----
+int array → array
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `int` (non-negative integer)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `array` (new array of length int)
+|===
+
+=== Description
+
+link:/docs/commands/references/array/[`array`] creates a new array object of length _int_, with each element initialized to null. The array is allocated in local or global VM according to the current VM allocation mode.
+
+The _int_ operand must be:
+
+* A non-negative integer
+* Not greater than the maximum allowable array length (implementation-dependent)
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Creating a simple array
+[source,postscript]
+----
+3 array  % Creates [null null null]
+----
+
+.Creating and populating an array
+[source,postscript]
+----
+3 array          % [null null null]
+dup 0 42 put     % [42 null null]
+dup 1 (hello) put  % [42 (hello) null]
+dup 2 /name put  % [42 (hello) /name]
+----
+
+.Dynamic array with loop
+[source,postscript]
+----
+5 array          % Create 5-element array
+0 1 4 {          % Loop from 0 to 4
+  2 copy         % Duplicate index and array
+  exch           % index array → array index
+  dup 10 mul     % Multiply index by 10
+  put            % Store in array
+} for
+% Result: [0 10 20 30 40]
+----
+
+=== Common Use Cases
+
+==== Building Data Structures
+
+[source,postscript]
+----
+% Create a point structure
+2 array
+dup 0 100 put  % x coordinate
+dup 1 200 put  % y coordinate
+----
+
+==== Temporary Storage
+
+[source,postscript]
+----
+% Store interim calculation results
+10 array
+% ... fill with computed values ...
+----
+
+=== Common Pitfalls
+
+WARNING: *Uninitialized Elements* - Remember that link:/docs/commands/references/array/[`array`] initializes all elements to null. You must explicitly populate the array before using its elements.
+
+[source,postscript]
+----
+3 array
+0 get   % Returns null, not an error
+----
+
+WARNING: *VM Allocation* - Arrays are allocated in VM. Creating many large arrays can exhaust available memory.
+
+TIP: *Array Literals vs. array Operator* - For known, fixed-size arrays, use the literal syntax `[ ... ]` instead. Use link:/docs/commands/references/array/[`array`] when the size is computed dynamically.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`limitcheck`]
+| _int_ exceeds implementation's maximum array length
+
+| [`rangecheck`]
+| _int_ is negative
+
+| [`stackunderflow`]
+| Fewer than 1 operand on stack
+
+| [`typecheck`]
+| Operand is not an integer
+
+| [`VMerror`]
+| Insufficient VM to allocate array
+|===
+
+=== Implementation Notes
+
+* Most PostScript implementations support arrays up to at least 65,535 elements
+* Array allocation is typically faster for small arrays
+* Consider using link:/docs/commands/references/packedarray/[`packedarray`] for read-only data (Level 2)
+
+=== Performance Considerations
+
+* Creating many small arrays is more efficient than a few large ones
+* Pre-allocating arrays of known size is more efficient than growing them dynamically
+* For large datasets, consider using dictionaries as an alternative
+
+=== See Also
+
+* link:/docs/commands/references/left-bracket/[`[`] - Begin array construction
+* link:/docs/commands/references/right-bracket/[`]`] - End array construction
+* link:/docs/commands/references/astore/[`astore`] - Store stack elements into array
+* link:/docs/commands/references/packedarray/[`packedarray`] - Create read-only packed array (Level 2)
+* link:/docs/commands/references/length/[`length`] - Get array length
+* link:/docs/commands/references/get/[`get`] - Get array element
+* link:/docs/commands/references/put/[`put`] - Put value into array

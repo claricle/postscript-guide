@@ -1115,10 +1115,10 @@ x 5 add
 
 === See Also
 
-* xref:../../syntax/procedures.adoc[Procedure Syntax] - Syntax details
-* xref:arrays.adoc[Arrays] - Array operations
-* xref:composite-objects.adoc[Composite Objects] - Complex data structures
-* xref:../../commands/control-flow/index.adoc[Control Flow Commands] - Control structures
-* xref:../../commands/control-flow/exec.adoc[exec] - Execute procedure
-* xref:../../commands/dictionary/def.adoc[def] - Define procedure
-* xref:../debugging.adoc[Debugging] - Debugging procedures
+* link:/docs/syntax/procedures/[Procedure Syntax] - Syntax details
+* link:/docs/usage/basic/arrays/[Arrays] - Array operations
+* link:/docs/usage/basic/composite-objects/[Composite Objects] - Complex data structures
+* link:/docs/commands/references/[Control Flow Commands] - Control structures
+* link:/docs/commands/references/exec/[exec] - Execute procedure
+* link:/docs/commands/references/def/[def] - Define procedure
+* link:/docs/usage/debugging/[Debugging] - Debugging procedures

@@ -1016,8 +1016,8 @@ restore
 
 === See Also
 
-* xref:error-handling.adoc[Error Handling] - Resource errors
-* xref:file-operations.adoc[File Operations] - File resource management
-* xref:../basic/procedures.adoc[Procedures] - Procedure optimization
-* xref:../debugging.adoc[Debugging] - Resource debugging
-* xref:device-control.adoc[Device Control] - Device resources
+* link:/docs/usage/advanced/error-handling/[Error Handling] - Resource errors
+* link:/docs/usage/advanced/file-operations/[File Operations] - File resource management
+* link:/docs/usage/basic/procedures/[Procedures] - Procedure optimization
+* link:/docs/usage/debugging/[Debugging] - Resource debugging
+* link:/docs/usage/advanced/device-control/[Device Control] - Device resources

@@ -1,0 +1,347 @@
+---
+layout: default
+title: mark
+parent: Command Reference
+nav_order: 9
+---
+= mark
+
+Pushes a mark object onto the operand stack to serve as a delimiter or reference point.
+
+== Description
+
+The `mark` operator pushes a special mark object onto the operand stack. This object has its own unique type (`marktype`) and serves as a stack delimiter that can be detected by operators like link:/docs/commands/references/counttomark/[`counttomark`] and link:/docs/commands/references/cleartomark/[`cleartomark`].
+
+Marks are commonly used to delimit variable-length argument lists, allowing operators to process all stack elements down to the mark. The most familiar use is in array construction, where `[` is a synonym for `mark` and `]` creates an array from all elements up to the mark.
+
+All mark objects are identical. The stack may contain any number of marks at once.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+- mark mark
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|_(any existing stack contents)_
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`mark` - A mark object (type: marktype)
+
+|Below
+|_(previous stack contents unchanged)_
+|===
+
+== Parameters
+
+None. `mark` takes no operands.
+
+== Return Values
+
+A mark object of type `marktype`.
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Push a mark
+mark                % Stack: mark
+type                % Stack: /marktype
+
+% Marks can be mixed with other types
+1 2 mark 3 4        % Stack: 1 2 mark 3 4
+----
+
+=== Array Construction
+
+[source,postscript]
+----
+% [ is equivalent to mark
+mark 1 2 3 ] cvx    % Stack: [1 2 3]
+[ 1 2 3 ]           % Stack: [1 2 3] (same result)
+
+% The opening bracket [ is just mark
+[                   % Pushes a mark
+1 2 3
+]                   % Creates array from elements after mark
+----
+
+=== Variable-Length Arguments
+
+[source,postscript]
+----
+% Function that takes variable number of arguments
+/sum {              % mark n1 n2 ... nk -> sum
+    0               % Initialize sum
+    {
+        counttomark 0 eq { exit } if
+        add
+    } loop
+    exch pop        % Remove mark
+} def
+
+% Usage
+mark 1 2 3 4 5 sum  % Stack: 15
+mark 10 20 sum      % Stack: 30
+----
+
+=== Nested Marks
+
+[source,postscript]
+----
+% Marks can be nested
+mark 1 2 mark 3 4 ] ]
+% Stack: [1 2 [3 4]]
+% Inner mark creates inner array
+% Outer mark creates outer array
+----
+
+== Advanced Examples
+
+=== Safe Mark-Based Processing
+
+[source,postscript]
+----
+% Process elements between marks safely
+/processBetweenMarks {  % mark elem1 ... elemn proc -> result
+    counttomark         % Count elements to process
+    1 sub              % Exclude the proc itself
+    {
+        % Process each element
+        2 copy exch exec
+        exch
+    } repeat
+    pop                % Remove count
+    exch pop           % Remove mark
+} def
+
+% Usage
+mark 1 2 3 4 5 { 2 mul } processBetweenMarks
+% Processes: 2 4 6 8 10
+----
+
+=== Dictionary Construction Pattern
+
+[source,postscript]
+----
+% Create dictionary from mark-delimited key-value pairs
+/makeDict {         % mark /key1 val1 /key2 val2 ... -> dict
+    counttomark 2 idiv  % Count pairs
+    dict begin
+        {
+            counttomark 0 eq { exit } if
+            exch def
+        } loop
+    currentdict end
+    exch pop        % Remove mark
+} def
+
+% Usage
+mark
+    /name (PostScript)
+    /version 3
+    /year 1999
+makeDict
+----
+
+=== Mark Stack Depth Management
+
+[source,postscript]
+----
+% Execute procedure with mark-protected stack
+/withMark {         % mark proc -> (executes proc, cleans to mark)
+    exec
+    cleartomark
+} def
+
+% Usage
+mark
+1 2 3               % Some values
+{ 10 20 add }       % Procedure adds 2 more values
+withMark            % Stack cleaned back to original state
+----
+
+=== Finding Marks
+
+[source,postscript]
+----
+% Count marks on stack
+/countMarks {       % ... -> ... n
+    0               % Counter
+    count 1 sub 0 1 3 -1 roll {
+        index type /marktype eq {
+            1 add
+        } if
+    } for
+} def
+
+mark 1 2 mark 3 4
+countMarks          % Stack: mark 1 2 mark 3 4 2
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: Unmatched marks (marks without corresponding `cleartomark` or `]`) accumulate on the stack and can cause problems.
+
+=== Unmatched Marks
+
+[source,postscript]
+----
+% BAD: Leaving marks on stack
+mark 1 2 3
+% Mark never removed!
+% Later operations might fail
+
+% GOOD: Always pair mark with removal
+mark 1 2 3 cleartomark
+% Or: mark 1 2 3 ]
+----
+
+=== Mark vs [
+
+[source,postscript]
+----
+% mark and [ are identical
+mark                % Stack: mark
+[                   % Stack: mark (exactly the same)
+
+% Both create same object
+mark type           % /marktype
+[ type              % /marktype
+
+% Difference is convention:
+% Use [ with ]
+% Use mark with cleartomark or counttomark
+----
+
+=== Marks in Error Conditions
+
+[source,postscript]
+----
+% cleartomark with no mark causes error
+1 2 3 cleartomark   % ERROR: unmatchedmark
+
+% Always ensure mark exists
+mark
+1 2 3
+cleartomark         % OK
+
+% Or check first
+count 0 gt {
+    0 index type /marktype eq {
+        cleartomark
+    } if
+} if
+----
+
+TIP: Always ensure marks are properly matched with either link:/docs/commands/references/cleartomark/[`cleartomark`], `]`, or explicit removal. Unmatched marks can interfere with later operations.
+
+=== Multiple Marks
+
+[source,postscript]
+----
+% cleartomark only removes to FIRST mark
+mark 1 2 mark 3 4 cleartomark
+% Stack: mark 1 2 (removed inner mark and 3 4)
+
+count               % Stack: mark 1 2 3
+cleartomark         % Stack: (empty)
+----
+
+== Related Commands
+
+* link:/docs/commands/references/cleartomark/[`cleartomark`] - Remove elements up to and including mark
+* link:/docs/commands/references/counttomark/[`counttomark`] - Count elements to nearest mark
+* `[` - Synonym for mark (used with `]`)
+* `]` - Create array from elements after mark
+* link:/docs/commands/references/pop/[`pop`] - Remove single element (including marks)
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental operator available in all PostScript implementations.
+
+== Error Conditions
+
+`stackoverflow`::
+The operand stack is full and cannot accommodate the mark object.
++
+[source,postscript]
+----
+% (Only if stack is at capacity)
+----
+
+== Performance Considerations
+
+Pushing a mark is a very fast O(1) operation, identical in cost to pushing any other object.
+
+However, operations that search for marks (like link:/docs/commands/references/counttomark/[`counttomark`]) must scan the stack, which is O(n) where n is the distance to the mark.
+
+== Best Practices
+
+1. **Use with paired operations**: Always pair `mark` with link:/docs/commands/references/cleartomark/[`cleartomark`] or `]`
+2. **Prefer [ ] for arrays**: Use `[` and `]` for array construction (more readable)
+3. **Use mark for variable args**: Use `mark` when implementing variable-argument procedures
+4. **Document mark usage**: Make it clear when procedures expect marks on the stack
+5. **Clean up marks**: Never leave unmatched marks on the stack
+
+=== Good Pattern: Variable Arguments
+
+[source,postscript]
+----
+% Define procedure taking variable arguments
+/myProc {           % mark arg1 arg2 ... argn -> result
+    % Process all arguments after mark
+    0 {
+        counttomark 0 eq { exit } if
+        add
+    } loop
+    exch pop        % Remove mark
+} def
+
+% Call with different argument counts
+mark 1 2 3 myProc       % Works with 3 args
+mark 1 2 3 4 5 myProc   % Works with 5 args
+----
+
+=== Array Construction Convention
+
+[source,postscript]
+----
+% GOOD: Use [ ] for arrays (clearer)
+[ 1 2 3 4 5 ]
+
+% AVOID: Using mark explicitly for arrays
+mark 1 2 3 4 5 ]        % Correct but less clear
+
+% mark is better for non-array uses
+mark /key1 val1 /key2 val2
+% ... process key-value pairs ...
+cleartomark
+----
+
+== See Also
+
+* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/docs/usage/basic/arrays/[Arrays] - Using marks for array construction
+* link:/docs/commands/references/[Stack Manipulation] - All stack operators

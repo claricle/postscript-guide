@@ -1,0 +1,358 @@
+---
+layout: default
+title: cleartomark
+parent: Command Reference
+nav_order: 10
+---
+= cleartomark
+
+Removes all elements from the operand stack down to and including the topmost mark object.
+
+== Description
+
+The `cleartomark` operator pops the operand stack repeatedly until it encounters a mark object, which it also pops and discards. All objects between the top of the stack and the mark (exclusive of the mark itself) are discarded along with the mark.
+
+This operator is commonly used to clean up after variable-argument operations or to discard intermediate results that were accumulated after placing a mark. It's the complement to link:/docs/commands/references/mark/[`mark`] for managing stack segments.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+mark obj1 ... objn cleartomark -
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`objn` - Topmost object to remove
+
+|...
+|`obj2, obj1` - Intermediate objects
+
+|Bottom (of segment)
+|`mark` - Mark object delimiting the segment
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|
+|_(All elements down to and including mark are removed)_
+|===
+
+== Parameters
+
+Requires at least one mark object on the stack. All objects above the topmost mark, plus the mark itself, will be removed.
+
+`obj1 ... objn`:: Any objects (of any type) between the top of the stack and the nearest mark. These will all be discarded.
+
+`mark`:: A mark object (type `marktype`) that delimits the stack segment to remove.
+
+== Return Values
+
+None. Elements are removed from the stack, leaving what was below the mark.
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Simple cleartomark
+mark 1 2 3 cleartomark
+count               % Stack: 0 (all removed)
+
+% Preserve elements below mark
+10 20 mark 1 2 3 cleartomark
+count               % Stack: 10 20 2
+----
+
+=== Cleaning Up After Operations
+
+[source,postscript]
+----
+% Protect initial stack state
+1 2 3               % Initial values
+mark                % Mark the position
+10 20 30 add        % Do some work (leaves 10 50)
+cleartomark         % Clean up work area
+                    % Stack: 1 2 3 (restored)
+----
+
+=== Variable Argument Cleanup
+
+[source,postscript]
+----
+% Function that processes args then cleans up
+/processAndClean {  % mark arg1 ... argn -> result
+    % Calculate sum
+    0 {
+        counttomark 0 eq { exit } if
+        add
+    } loop
+    % Leave result, remove mark
+    exch pop
+} def
+
+mark 1 2 3 4 5 processAndClean
+% Stack: 15 (mark and args removed, result remains)
+----
+
+=== Nested Marks
+
+[source,postscript]
+----
+% cleartomark only removes to FIRST mark
+mark 1 2 mark 3 4 cleartomark
+% Stack: mark 1 2 (inner mark and 3 4 removed)
+
+cleartomark
+% Stack: (empty - outer mark and 1 2 removed)
+----
+
+== Advanced Examples
+
+=== Safe Execution with Cleanup
+
+[source,postscript]
+----
+% Execute procedure with guaranteed cleanup
+/withCleanup {      % mark proc -> (executes proc, cleans on exit or error)
+    {
+        exec
+        cleartomark
+    } stopped {
+        cleartomark     % Clean up even on error
+        stop            % Re-raise error
+    } if
+} def
+
+% Usage
+10 20 mark
+{ 2 mul add }       % Some operation
+withCleanup
+% Stack: 50 (intermediate mark removed)
+----
+
+=== Stack State Restoration
+
+[source,postscript]
+----
+% Save and restore stack state
+/saveStack {        % -> array
+    count array astore
+} def
+
+/restoreStack {     % array -> (restores stack)
+    mark exch aload pop
+    cleartomark     % Remove mark, keep elements
+} def
+
+1 2 3
+saveStack           % Save state
+10 20 30            % Modify stack
+exch                % Restore state
+restoreStack
+% Stack: 1 2 3 (restored)
+----
+
+=== Bounded Stack Operations
+
+[source,postscript>
+----
+% Execute with stack depth limit
+/withLimit {        % mark maxdepth proc -> ...
+    mark            % Inner mark
+    3 -1 roll exec  % Execute proc
+
+    % Check if exceeded limit
+    counttomark 3 -1 roll gt {
+        (Stack limit exceeded) print
+        cleartomark cleartomark
+    } {
+        pop         % Remove maxdepth
+        cleartomark % Remove inner mark
+        exch pop    % Remove outer mark
+    } ifelse
+} def
+----
+
+=== Dictionary Building Pattern
+
+[source,postscript]
+----
+% Build dictionary from marked key-value pairs
+/dictFromMark {     % mark /key1 val1 ... /keyn valn -> dict
+    counttomark 2 idiv  % Count pairs
+    dict begin
+        counttomark 2 idiv {
+            def
+        } repeat
+    currentdict end
+    exch pop        % Remove mark
+} def
+
+mark
+/name (PostScript)
+/version 3
+dictFromMark
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: If no mark exists on the stack, `cleartomark` causes an `unmatchedmark` error.
+
+=== No Mark on Stack
+
+[source,postscript]
+----
+% BAD: No mark to clear to
+clear
+1 2 3
+cleartomark         % ERROR: unmatchedmark
+
+% GOOD: Always ensure mark exists
+mark 1 2 3
+cleartomark         % OK
+----
+
+=== Only Removes to First Mark
+
+[source,postscript]
+----
+% CAUTION: Only clears to nearest mark
+mark 1 2 mark 3 4 5
+cleartomark
+% Stack: mark 1 2 (NOT empty!)
+% Only inner segment removed
+
+% To clear both segments:
+cleartomark
+% Stack: (now empty)
+----
+
+=== Mark Below Current Segment
+
+[source,postscript]
+----
+% Elements below mark are preserved
+10 20 30            % Bottom elements
+mark                % Mark
+1 2 3               % Top elements
+cleartomark
+% Stack: 10 20 30 (top elements and mark removed)
+----
+
+TIP: Always pair link:/docs/commands/references/mark/[`mark`] with `cleartomark` to avoid accumulating marks on the stack. Verify mark existence before calling `cleartomark` in defensive code.
+
+=== Clearing Empty Segment
+
+[source,postscript]
+----
+% cleartomark with mark on top
+mark cleartomark    % Stack: (empty)
+% Valid: removes just the mark
+
+% Equivalent to:
+mark pop            % Stack: (empty)
+----
+
+== Related Commands
+
+* link:/docs/commands/references/mark/[`mark`] - Push a mark object onto stack
+* link:/docs/commands/references/counttomark/[`counttomark`] - Count elements to nearest mark
+* link:/docs/commands/references/clear/[`clear`] - Remove all elements from stack
+* link:/docs/commands/references/pop/[`pop`] - Remove single element
+* `]` - Create array and remove mark (essentially cleartomark + array construction)
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental operator available in all PostScript implementations.
+
+== Error Conditions
+
+`unmatchedmark`::
+No mark object is found on the operand stack when searching from top to bottom.
++
+[source,postscript]
+----
+clear
+1 2 3
+cleartomark         % ERROR: unmatchedmark
+----
+
+== Performance Considerations
+
+The `cleartomark` operator has O(n) time complexity where n is the number of elements between the top of the stack and the mark. This is generally very fast since most marked segments are small.
+
+The operator must scan the stack to find the mark, so very deep marks are slightly more expensive to clear.
+
+== Best Practices
+
+1. **Always pair with mark**: Every link:/docs/commands/references/mark/[`mark`] should have a matching `cleartomark` or `]`
+2. **Use for cleanup**: Excellent for cleaning up intermediate results
+3. **Check for mark**: In defensive code, verify mark exists before calling
+4. **Document mark usage**: Make it clear when procedures use marked segments
+5. **Prefer over manual popping**: `cleartomark` is safer than counting and popping
+
+=== Good Pattern: Guaranteed Cleanup
+
+[source,postscript]
+----
+% Always clean up, even on error
+/safeOperation {    % args... -> result
+    mark            % Protect stack
+    {
+        % Do risky operations
+        % ... operations ...
+        % Leave result on stack
+    } stopped {
+        cleartomark % Clean up on error
+        stop        % Re-raise
+    } {
+        % Success: clean up and keep result
+        exch cleartomark
+    } ifelse
+} def
+----
+
+=== Verifying Mark Exists
+
+[source,postscript]
+----
+% Safe cleartomark
+/safeClearToMark {
+    % Scan for mark
+    false           % Found flag
+    count 1 sub 0 1 3 -1 roll {
+        index type /marktype eq {
+            pop true exit
+        } if
+    } for
+
+    % Clear if found
+    {
+        cleartomark
+    } {
+        (No mark found) print
+    } ifelse
+} def
+----
+
+== See Also
+
+* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/docs/usage/error-handling/[Error Handling] - Using marks for cleanup
+* link:/docs/commands/references/[Stack Manipulation] - All stack operators

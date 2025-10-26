@@ -903,8 +903,8 @@ someValue debugType
 
 === See Also
 
-* xref:error-handling.adoc[Error Handling] - Error management
-* xref:advanced/error-handling.adoc[Advanced Error Handling] - Complex error scenarios
-* xref:advanced/resource-management.adoc[Resource Management] - Memory debugging
-* xref:basic/stack-operations.adoc[Stack Operations] - Stack manipulation
-* xref:basic/procedures.adoc[Procedures] - Procedure debugging
+* link:/docs/usage/error-handling/[Error Handling] - Error management
+* link:/docs/usage/advanced/error-handling/[Advanced Error Handling] - Complex error scenarios
+* link:/docs/usage/advanced/resource-management/[Resource Management] - Memory debugging
+* link:/docs/usage/basic/stack-operations/[Stack Operations] - Stack manipulation
+* link:/docs/usage/basic/procedures/[Procedures] - Procedure debugging

@@ -1,0 +1,171 @@
+---
+layout: default
+title: string
+parent: Command Reference
+nav_order: 13
+---
+
+== string
+
+Creates a new string of specified length with all elements initialized to zero.
+
+=== Syntax
+
+----
+int string → string
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `int` (non-negative integer)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `string` (new string of length int)
+|===
+
+=== Description
+
+link:/docs/commands/references/string/[`string`] creates a string object of length _int_, with each element initialized to the integer 0 (null character). The string is allocated in local or global VM according to the current VM allocation mode.
+
+The _int_ operand must be:
+* A non-negative integer
+* Not greater than the maximum allowable string length (implementation-dependent)
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Creating a string
+[source,postscript]
+----
+10 string  % Creates string of 10 null characters
+----
+
+.Building a string
+[source,postscript]
+----
+3 string
+dup 0 65 put  % 'A'
+dup 1 66 put  % 'B'
+dup 2 67 put  % 'C'
+% Result: (ABC)
+----
+
+.Buffer allocation
+[source,postscript]
+----
+/buffer 100 string def  % Allocate 100-char buffer
+----
+
+=== Common Use Cases
+
+==== String Buffer Creation
+
+[source,postscript]
+----
+% Create buffer for cvs
+20 string /buf exch def
+123 buf cvs  % Convert number to string
+----
+
+==== File I/O Buffers
+
+[source,postscript]
+----
+/readbuf 256 string def
+file readbuf readline
+----
+
+==== Dynamic String Construction
+
+[source,postscript]
+----
+% Calculate required size
+text1 length text2 length add string
+% Build composite string
+dup 0 text1 putinterval
+dup text1 length text2 putinterval
+----
+
+=== Common Pitfalls
+
+WARNING: *All Elements Initialized to Zero* - The string contains null characters (ASCII 0), not spaces or empty.
+
+[source,postscript]
+----
+5 string  % Not empty, contains 5 null chars
+----
+
+WARNING: *String Literals vs. string Operator* - For known text, use string literals `(...)`. Use link:/docs/commands/references/string/[`string`] for dynamic buffers.
+
+[source,postscript]
+----
+(Hello)     % Literal string (preferred for constants)
+5 string    % Dynamic allocation (for buffers)
+----
+
+TIP: *Calculate Size Dynamically* - Use link:/docs/commands/references/length/[`length`] to determine buffer sizes.
+
+[source,postscript]
+----
+original length string  % Same size as original
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`limitcheck`]
+| _int_ exceeds maximum string length
+
+| [`rangecheck`]
+| _int_ is negative
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand is not an integer
+
+| [`VMerror`]
+| Insufficient VM to allocate string
+|===
+
+=== Implementation Notes
+
+* Most implementations support strings up to 65,535 characters
+* Strings are mutable (can be modified after creation)
+* String elements are integers 0-255 (byte values)
+* Strings allocated in current VM (local or global)
+
+=== Performance Considerations
+
+* Creating strings is very fast
+* Pre-allocate buffers for repeated use
+* Strings are more memory-efficient than arrays for byte data
+* Consider reusing buffers instead of creating many temporary strings
+
+=== See Also
+
+* link:/docs/commands/references/length/[`length`] - Get string length
+* link:/docs/commands/references/get/[`get`] - Get character code
+* link:/docs/commands/references/put/[`put`] - Put character code
+* link:/docs/commands/references/getinterval/[`getinterval`] - Get substring
+* link:/docs/commands/references/putinterval/[`putinterval`] - Put substring
+* link:/docs/commands/references/cvs/[`cvs`] - Convert object to string

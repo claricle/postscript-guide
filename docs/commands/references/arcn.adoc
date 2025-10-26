@@ -1,0 +1,224 @@
+---
+layout: default
+title: arcn
+parent: Command Reference
+nav_order: 8
+---
+
+== arcn
+
+Appends a clockwise circular arc to the current path.
+
+=== Syntax
+
+----
+x y r ang1 ang2 arcn → -
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 4
+| `ang2` (number - ending angle in degrees)
+
+| 3
+| `ang1` (number - starting angle in degrees)
+
+| 2
+| `r` (number - radius)
+
+| 1
+| `y` (number - center y-coordinate)
+
+| 0
+| `x` (number - center x-coordinate)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Stack cleared of operands
+|===
+
+=== Description
+
+link:/docs/commands/references/arcn/[`arcn`] (arc negative) behaves like link:/docs/commands/references/arc/[`arc`], but builds its arc segment in a clockwise direction in user space instead of counterclockwise.
+
+The arc has (x, y) as center, r as radius, ang1 as the angle from (x, y) to the first endpoint, and ang2 as the angle from (x, y) to the second endpoint. Angles are measured in degrees counterclockwise from the positive x-axis.
+
+If there is a current point, link:/docs/commands/references/arcn/[`arcn`] includes a straight line segment from the current point to the first endpoint of the arc. The second endpoint of the arc becomes the new current point.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Drawing a clockwise arc
+[source,postscript]
+----
+newpath
+200 200 50 90 0 arcn     % Clockwise from 90° to 0°
+stroke
+----
+
+.Creating a windshield wiper shape
+[source,postscript]
+----
+newpath
+200 200 100 0 90 arc     % Outer arc counterclockwise
+200 200 50 90 0 arcn     % Inner arc clockwise
+closepath
+fill
+----
+
+.Drawing a crescent moon
+[source,postscript]
+----
+newpath
+200 200 50 90 -90 arc    % Outer arc (right half)
+180 200 50 -90 90 arcn   % Inner arc (offset left)
+closepath
+fill
+----
+
+=== Common Use Cases
+
+==== Creating Ring Shapes
+
+[source,postscript]
+----
+/drawRing {
+  % cx cy outerRadius innerRadius
+  /ir exch def
+  /or exch def
+  /cy exch def
+  /cx exch def
+
+  newpath
+  cx cy or 0 360 arc      % Outer circle counterclockwise
+  cx cy ir 0 -360 arcn    % Inner circle clockwise (cuts hole)
+  closepath
+} def
+
+200 200 80 50 drawRing
+fill
+----
+
+==== Drawing Pac-Man
+
+[source,postscript]
+----
+/drawPacMan {
+  % x y radius mouthAngle
+  /mouth exch def
+  /r exch def
+  /y exch def
+  /x exch def
+
+  newpath
+  x y moveto
+  x y r mouth 360 mouth sub arc
+  closepath
+} def
+
+200 200 50 45 drawPacMan
+1 1 0 setrgbcolor
+fill
+----
+
+==== Creating Donut Charts
+
+[source,postscript]
+----
+/drawSegment {
+  % cx cy outer inner startAng endAng
+  /endAng exch def
+  /startAng exch def
+  /inner exch def
+  /outer exch def
+  /cy exch def
+  /cx exch def
+
+  newpath
+  cx cy outer startAng endAng arc
+  cx cy inner endAng startAng arcn    % Reverse direction
+  closepath
+} def
+
+% Draw donut chart segments
+200 200 100 60 0 120 drawSegment
+0.8 0.2 0.2 setrgbcolor fill
+
+200 200 100 60 120 240 drawSegment
+0.2 0.8 0.2 setrgbcolor fill
+
+200 200 100 60 240 360 drawSegment
+0.2 0.2 0.8 setrgbcolor fill
+----
+
+=== Common Pitfalls
+
+WARNING: *Clockwise Means Negative Direction* - Even though you specify ang1 to ang2, link:/docs/commands/references/arcn/[`arcn`] draws clockwise (decreasing angles).
+
+[source,postscript]
+----
+% These produce the same arc shape:
+200 200 50 90 0 arcn     % Clockwise from 90° to 0°
+200 200 50 0 90 arc      % Counterclockwise from 0° to 90°
+----
+
+WARNING: *Angle Order Still Matters* - ang1 is the start angle, ang2 is the end angle, but the arc goes clockwise from start to end.
+
+[source,postscript]
+----
+200 200 50 0 90 arcn     % Goes 270° clockwise (0→-90→-180→-270→90)
+200 200 50 90 0 arcn     % Goes 90° clockwise (90→45→0)
+----
+
+TIP: *Use for Interior Paths* - link:/docs/commands/references/arcn/[`arcn`] is essential for creating holes in shapes when combined with link:/docs/commands/references/arc/[`arc`], as opposite directions create non-overlapping regions.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`limitcheck`]
+| Path becomes too complex for implementation
+
+| [`stackunderflow`]
+| Fewer than 5 operands on stack
+
+| [`typecheck`]
+| Any operand is not a number
+|===
+
+=== Implementation Notes
+
+* Internally represented as Bézier cubic curves
+* Direction matters for fill rules (non-zero winding number)
+* Clockwise and counterclockwise arcs can create holes in filled shapes
+* Same accuracy considerations as link:/docs/commands/references/arc/[`arc`]
+* Produces elliptical curves if CTM has non-uniform scaling
+
+=== Performance Considerations
+
+* Same performance characteristics as link:/docs/commands/references/arc/[`arc`]
+* No additional overhead for clockwise direction
+* Useful for efficient hole creation in complex paths
+
+=== See Also
+
+* link:/docs/commands/references/arc/[`arc`] - Counterclockwise arc
+* link:/docs/commands/references/arct/[`arct`] - Arc defined by tangent lines
+* link:/docs/commands/references/arcto/[`arcto`] - Like arct but returns tangent points
+* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/docs/commands/references/moveto/[`moveto`] - Set current point

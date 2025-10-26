@@ -1175,7 +1175,7 @@ file string readline {
 
 === See Also
 
-* xref:error-handling.adoc[Error Handling] - File operation errors
-* xref:resource-management.adoc[Resource Management] - Managing file resources
-* xref:../basic/procedures.adoc[Procedures] - File processing procedures
-* xref:../../commands/index.adoc[Command Reference] - File operators
+* link:/docs/usage/advanced/error-handling/[Error Handling] - File operation errors
+* link:/docs/usage/advanced/resource-management/[Resource Management] - Managing file resources
+* link:/docs/usage/basic/procedures/[Procedures] - File processing procedures
+* link:/docs/commands/[Command Reference] - File operators

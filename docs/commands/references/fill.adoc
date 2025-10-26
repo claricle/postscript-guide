@@ -1,0 +1,316 @@
+---
+layout: default
+title: fill
+parent: Command Reference
+nav_order: 1
+---
+
+== fill
+
+Paints the area enclosed by the current path with the current color.
+
+=== Syntax
+
+----
+- fill → -
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No operands required
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No results
+|===
+
+=== Description
+
+link:/docs/commands/references/fill/[`fill`] paints the area enclosed by the current path with the current color. Any previous contents of that area on the current page are obscured, so areas may be erased by filling with color set to white.
+
+Before painting, link:/docs/commands/references/fill/[`fill`] implicitly closes any open subpaths of the current path. The inside of the current path is determined by the normal non-zero winding number rule.
+
+link:/docs/commands/references/fill/[`fill`] implicitly performs a link:/docs/commands/references/newpath/[`newpath`] after it has finished filling the current path. To preserve the current path across a fill operation, use the sequence:
+
+[source,postscript]
+----
+gsave fill grestore
+----
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Filling a simple rectangle
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath
+fill
+----
+
+.Filling with a specific color
+[source,postscript]
+----
+0.5 setgray          % Set gray level to 50%
+newpath
+150 150 moveto
+250 150 lineto
+250 250 lineto
+150 250 lineto
+closepath
+fill
+----
+
+.Filling multiple overlapping paths
+[source,postscript]
+----
+% First shape
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath
+fill
+
+% Second overlapping shape
+newpath
+150 150 moveto
+250 150 lineto
+250 250 lineto
+150 250 lineto
+closepath
+fill
+----
+
+=== Common Use Cases
+
+==== Filling Complex Shapes
+
+[source,postscript]
+----
+/drawStar {
+  % x y radius drawStar
+  /r exch def
+  /y exch def
+  /x exch def
+
+  newpath
+  x y r add moveto
+  0 1 4 {
+    72 mul rotate
+    x y r add lineto
+    36 rotate
+    x y r 0.382 mul add lineto
+    36 neg rotate
+  } for
+  closepath
+  fill
+} def
+
+200 200 50 drawStar
+----
+
+==== Erasing Areas
+
+[source,postscript]
+----
+% Draw something
+0 setgray
+newpath
+100 100 moveto
+200 200 lineto
+stroke
+
+% Erase part of it with white fill
+1 setgray              % White
+newpath
+120 120 40 0 360 arc
+closepath
+fill
+----
+
+==== Using Non-Zero Winding Rule
+
+[source,postscript]
+----
+% Outer rectangle (counterclockwise)
+newpath
+50 50 moveto
+250 50 lineto
+250 250 lineto
+50 250 lineto
+closepath
+
+% Inner rectangle (counterclockwise - same direction)
+100 100 moveto
+200 100 lineto
+200 200 lineto
+100 200 lineto
+closepath
+
+fill  % Both rectangles filled (non-zero winding rule)
+----
+
+=== Common Pitfalls
+
+WARNING: *Path Consumed After Fill* - link:/docs/commands/references/fill/[`fill`] clears the current path after execution. Use link:/docs/commands/references/gsave/[`gsave`] and link:/docs/commands/references/grestore/[`grestore`] to preserve it.
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+fill
+% Current path is now empty!
+----
+
+WARNING: *Open Subpaths* - Open subpaths are implicitly closed before filling. This may produce unexpected results if you intended the path to remain open.
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+% Path auto-closes to (100,100) before fill
+fill
+----
+
+TIP: *Preserve Path for Multiple Operations* - To both fill and stroke the same path, use save/restore:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+closepath
+
+gsave
+  fill
+grestore
+stroke
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`limitcheck`]
+| Path becomes too complex for implementation
+|===
+
+=== Implementation Notes
+
+* link:/docs/commands/references/fill/[`fill`] uses the non-zero winding number rule to determine which areas are inside the path
+* Overlapping subpaths may create holes or fills depending on their direction
+* The current color and color space determine the fill color
+* Clipping is applied after the fill area is determined
+* Very complex paths may exceed implementation limits
+
+=== Interaction with Graphics State
+
+link:/docs/commands/references/fill/[`fill`] is affected by:
+
+* Current color and color space
+* Current clipping path
+* Current transformation matrix (CTM)
+* Flatness parameter (for curved paths)
+
+link:/docs/commands/references/fill/[`fill`] does not affect:
+
+* Line width or line parameters
+* Current point (path is cleared)
+* Graphics state stack
+
+=== Best Practices
+
+==== Separate Path Construction from Painting
+
+[source,postscript]
+----
+/myShape {
+  newpath
+  100 100 moveto
+  200 100 lineto
+  200 200 lineto
+  100 200 lineto
+  closepath
+} def
+
+% Use the shape multiple times
+0.3 setgray
+myShape fill
+
+0.8 setgray
+myShape fill
+----
+
+==== Use Appropriate Winding Rule
+
+[source,postscript]
+----
+% For simple fills, fill is fine
+newpath
+100 100 50 0 360 arc
+closepath
+fill
+
+% For complex shapes with holes, consider eofill
+% (see eofill documentation)
+----
+
+==== Always Start with newpath
+
+[source,postscript]
+----
+% Good practice
+newpath
+100 100 moveto
+200 200 lineto
+fill
+
+% Bad practice - may have leftover path segments
+100 100 moveto
+200 200 lineto
+fill
+----
+
+=== Performance Considerations
+
+* Simple convex paths fill faster than complex concave paths
+* Paths with many segments take longer to fill
+* Very large fill areas may be slower on some devices
+* Avoid unnecessarily complex paths when simple ones will do
+
+=== See Also
+
+* link:/docs/commands/references/eofill/[`eofill`] - Fill using even-odd rule
+* link:/docs/commands/references/stroke/[`stroke`] - Paint path outline
+* link:/docs/commands/references/clip/[`clip`] - Clip to path interior
+* link:/docs/commands/references/ufill/[`ufill`] - Fill user path (Level 2)
+* link:/docs/commands/references/newpath/[`newpath`] - Clear current path
+* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/docs/commands/references/setgray/[`setgray`] - Set gray color
+* link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color

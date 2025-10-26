@@ -977,9 +977,9 @@ colorimage
 
 === See Also
 
-* xref:color-spaces.adoc[Color Spaces] - Image color models
-* xref:patterns.adoc[Patterns] - Image-based patterns
-* xref:../basic/coordinate-systems.adoc[Coordinate Systems] - Image transformations
-* xref:../basic/painting.adoc[Painting] - Image rendering
-* xref:file-operations.adoc[File Operations] - Loading image data
-* xref:resource-management.adoc[Resource Management] - Image memory management
+* link:/docs/usage/advanced/color-spaces/[Color Spaces] - Image color models
+* link:/docs/usage/advanced/patterns/[Patterns] - Image-based patterns
+* link:/docs/usage/basic/coordinate-systems/[Coordinate Systems] - Image transformations
+* link:/docs/usage/basic/painting/[Painting] - Image rendering
+* link:/docs/usage/advanced/file-operations/[File Operations] - Loading image data
+* link:/docs/usage/advanced/resource-management/[Resource Management] - Image memory management

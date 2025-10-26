@@ -1,0 +1,416 @@
+---
+layout: default
+title: strokepath
+parent: Command Reference
+nav_order: 6
+---
+
+== strokepath
+
+Converts the stroke of the current path to an outline path.
+
+=== Syntax
+
+----
+- strokepath → -
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No operands required
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No results (current path is modified)
+|===
+
+=== Description
+
+link:/docs/commands/references/strokepath/[`strokepath`] replaces the current path with one enclosing the shape that would result if the link:/docs/commands/references/stroke/[`stroke`] operator were applied to the current path. The path resulting from link:/docs/commands/references/strokepath/[`strokepath`] is suitable as the implicit operand to link:/docs/commands/references/fill/[`fill`], link:/docs/commands/references/clip/[`clip`], or `pathbbox`.
+
+In general, this path is not suitable for link:/docs/commands/references/stroke/[`stroke`], as it may contain interior segments or disconnected subpaths produced by link:/docs/commands/references/strokepath/[`strokepath`]'s stroke-to-outline conversion process.
+
+link:/docs/commands/references/strokepath/[`strokepath`] uses the current line width, line cap, line join, miter limit, and dash pattern to determine the outline. Unlike link:/docs/commands/references/stroke/[`stroke`], link:/docs/commands/references/strokepath/[`strokepath`] does not consume the path—it modifies it in place.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Converting stroke to fillable path
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+
+10 setlinewidth
+strokepath  % Convert to outline
+
+% Now can fill instead of stroke
+fill
+----
+
+.Creating outlined text
+[source,postscript]
+----
+/Helvetica-Bold findfont 72 scalefont setfont
+
+newpath
+100 100 moveto
+(OUTLINE) true charpath
+
+2 setlinewidth
+strokepath
+
+% Fill with gradient or pattern
+0.5 setgray
+fill
+----
+
+.Double-stroke effect
+[source,postscript]
+----
+newpath
+50 150 moveto
+250 150 lineto
+
+% First, wide stroke
+10 setlinewidth
+gsave
+  strokepath
+  0.8 setgray
+  fill
+grestore
+
+% Then, narrow stroke
+2 setlinewidth
+0 setgray
+stroke
+----
+
+=== Common Use Cases
+
+==== Creating Offset Paths
+
+[source,postscript]
+----
+/offsetPath {
+  % width offsetPath - creates offset outline
+  setlinewidth
+  strokepath
+} def
+
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+
+5 offsetPath  % 5-unit offset
+fill
+----
+
+==== Text Effects
+
+[source,postscript]
+----
+/outlineText {
+  % string outlineText
+  /Helvetica-Bold findfont 60 scalefont setfont
+  newpath
+  100 150 moveto
+  true charpath
+
+  % Convert to outline
+  3 setlinewidth
+  strokepath
+
+  % Fill outline
+  fill
+} def
+
+(TEXT) outlineText
+----
+
+==== Complex Path Manipulation
+
+[source,postscript]
+----
+% Create complex stroked shape for clipping
+newpath
+100 100 50 0 360 arc
+
+10 setlinewidth
+strokepath
+
+% Use as clipping path
+clip
+newpath
+
+% Draw clipped content
+% ...
+----
+
+=== Common Pitfalls
+
+WARNING: *Result Not Suitable for Stroking* - The outline path may contain interior segments and disconnected subpaths.
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+
+10 setlinewidth
+strokepath
+
+% Don't do this - unpredictable results
+stroke  % May show interior segments
+
+% Instead, use fill
+fill    % Correct usage
+----
+
+WARNING: *Path Not Consumed* - Unlike link:/docs/commands/references/stroke/[`stroke`], link:/docs/commands/references/strokepath/[`strokepath`] modifies the path in place.
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+
+strokepath
+% Path still exists (but modified)
+% Must explicitly clear if needed
+newpath
+----
+
+WARNING: *Affected by Line Parameters* - All current line parameters affect the result.
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+
+% These all affect strokepath result:
+5 setlinewidth
+1 setlinecap
+1 setlinejoin
+[5 3] 0 setdash
+
+strokepath  % Outline includes all effects
+----
+
+TIP: *Use for Path Inspection* - link:/docs/commands/references/strokepath/[`strokepath`] makes the stroke boundary explicit:
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto
+
+5 setlinewidth
+strokepath
+
+% Now can use pathbbox to get stroke bounds
+pathbbox  % Returns bounding box of stroked path
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`limitcheck`]
+| Path becomes too complex for implementation
+|===
+
+=== Implementation Notes
+
+* The algorithm creates outlines for each path segment
+* Line caps create closed paths at endpoints
+* Line joins create appropriate corner fills
+* Dash patterns create separate path segments
+* Very complex paths may exceed limits
+* The resulting path may be quite complex
+
+=== Interaction with Line Parameters
+
+.Line Width
+* Determines the offset distance from original path
+* Wider lines create larger outlines
+
+.Line Cap
+* Butt cap (0): Square ends at path endpoints
+* Round cap (1): Semicircular extensions
+* Square cap (2): Square extensions
+
+.Line Join
+* Miter join (0): Sharp corners (subject to miter limit)
+* Round join (1): Rounded corners
+* Bevel join (2): Beveled corners
+
+.Dash Pattern
+* Creates separate outline segments for each dash
+* Gaps in dash pattern become gaps in outline
+* More complex resulting path
+
+.Miter Limit
+* Controls when miters convert to bevels
+* Only relevant for miter joins
+
+=== Best Practices
+
+==== Save Graphics State for Parameters
+
+[source,postscript]
+----
+gsave
+  10 setlinewidth
+  1 setlinecap
+  1 setlinejoin
+
+  newpath
+  100 100 moveto
+  200 200 lineto
+
+  strokepath
+  fill
+grestore
+----
+
+==== Use for Advanced Effects
+
+[source,postscript]
+----
+% Create "hollow" stroke
+newpath
+100 150 moveto
+200 150 lineto
+
+% Outer stroke
+15 setlinewidth
+gsave
+  strokepath
+  gsave
+    fill
+  grestore
+
+  % Inner "knockout"
+  5 setlinewidth
+  strokepath
+  1 setgray
+  fill
+grestore
+----
+
+==== Combine with Clipping
+
+[source,postscript]
+----
+% Use stroked outline as clip
+newpath
+150 150 75 0 360 arc
+
+10 setlinewidth
+strokepath
+clip
+newpath
+
+% Draw clipped graphics
+% ...
+----
+
+=== Comparison with stroke
+
+.stroke operator
+* Paints the stroke directly to page
+* Consumes the path
+* Cannot be further manipulated
+* Faster for simple rendering
+
+.strokepath operator
+* Converts stroke to outline path
+* Path remains (but modified)
+* Can be filled, clipped, or analyzed
+* Allows advanced effects
+* Slightly slower
+
+=== Performance Considerations
+
+* More complex than simple link:/docs/commands/references/stroke/[`stroke`]
+* Dash patterns significantly increase complexity
+* Round caps/joins create more path segments than butt/miter
+* Very wide lines create large outlines
+* Use sparingly for best performance
+
+=== Advanced Techniques
+
+==== Creating Parallel Paths
+
+[source,postscript]
+----
+/parallelPath {
+  % offset parallelPath - creates parallel path
+  2 mul setlinewidth
+  strokepath
+} def
+
+newpath
+100 100 moveto
+200 100 lineto
+200 200 lineto
+
+5 parallelPath  % 5 units offset on each side
+----
+
+==== Variable Width Strokes
+
+[source,postscript]
+----
+% Simulate variable width by combining paths
+newpath
+100 150 moveto
+150 150 lineto
+
+2 setlinewidth
+strokepath
+
+gsave fill grestore
+
+150 150 moveto
+200 150 lineto
+
+10 setlinewidth
+strokepath
+
+fill
+----
+
+=== See Also
+
+* link:/docs/commands/references/stroke/[`stroke`] - Paint stroke directly
+* link:/docs/commands/references/fill/[`fill`] - Fill path interior
+* link:/docs/commands/references/clip/[`clip`] - Use path for clipping
+* link:/docs/commands/references/ustrokepath/[`ustrokepath`] - Stroke path for user path (Level 2)
+* `pathbbox` - Get path bounding box
+* `flattenpath` - Convert curves to lines
+* link:/docs/commands/references/setlinewidth/[`setlinewidth`] - Set line width
+* link:/docs/commands/references/setlinecap/[`setlinecap`] - Set line cap style
+* link:/docs/commands/references/setlinejoin/[`setlinejoin`] - Set line join style
+* link:/docs/commands/references/setmiterlimit/[`setmiterlimit`] - Set miter limit
+* link:/docs/commands/references/setdash/[`setdash`] - Set dash pattern

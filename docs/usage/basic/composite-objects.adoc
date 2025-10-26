@@ -1048,9 +1048,9 @@ cache /key1 get  % Fast O(1) lookup
 
 === See Also
 
-* xref:arrays.adoc[Arrays] - Array operations
-* xref:procedures.adoc[Procedures] - Executable arrays
-* xref:../../syntax/dictionaries.adoc[Dictionaries] - Dictionary syntax
-* xref:../../syntax/arrays.adoc[Array Syntax] - Array syntax
-* xref:../../commands/dictionary/index.adoc[Dictionary Commands] - Dictionary operations
-* xref:../../commands/array-string/index.adoc[Array Commands] - Array operations
+* link:/docs/usage/basic/arrays/[Arrays] - Array operations
+* link:/docs/usage/basic/procedures/[Procedures] - Executable arrays
+* link:/docs/syntax/dictionaries/[Dictionaries] - Dictionary syntax
+* link:/docs/syntax/arrays/[Array Syntax] - Array syntax
+* link:/docs/commands/references/[Dictionary Commands] - Dictionary operations
+* link:/docs/commands/references/[Array Commands] - Array operations

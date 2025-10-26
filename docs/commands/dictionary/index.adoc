@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Dictionary Operations
-parent: Command Reference
+parent: Commands
 nav_order: 4
 ---
 
@@ -25,7 +25,7 @@ PostScript maintains a dictionary stack that controls name lookup:
 * Top dictionary is searched first (current dictionary)
 * Search proceeds down the stack until name is found
 * Standard dictionaries: `systemdict`, `globaldict` (Level 2), `userdict`
-* User dictionaries can be pushed/popped with xref:../begin.adoc[`begin`] / xref:../end.adoc[`end`]
+* User dictionaries can be pushed/popped with link:/docs/commands/references/begin/[`begin`] / link:/docs/commands/references/end/[`end`]
 
 == Command Categories
 
@@ -35,7 +35,7 @@ PostScript maintains a dictionary stack that controls name lookup:
 |===
 | Command | Description
 
-| xref:../dict.adoc[`dict`]
+| link:/docs/commands/references/dict/[`dict`]
 | Create new dictionary with initial capacity
 |===
 
@@ -45,19 +45,19 @@ PostScript maintains a dictionary stack that controls name lookup:
 |===
 | Command | Description
 
-| xref:../begin.adoc[`begin`]
+| link:/docs/commands/references/begin/[`begin`]
 | Push dictionary onto dictionary stack
 
-| xref:../end.adoc[`end`]
+| link:/docs/commands/references/end/[`end`]
 | Pop dictionary from dictionary stack
 
-| xref:../currentdict.adoc[`currentdict`]
+| link:/docs/commands/references/currentdict/[`currentdict`]
 | Get current dictionary (top of stack)
 
-| xref:../countdictstack.adoc[`countdictstack`]
+| link:/docs/commands/references/countdictstack/[`countdictstack`]
 | Count dictionaries on stack
 
-| xref:../dictstack.adoc[`dictstack`]
+| link:/docs/commands/references/dictstack/[`dictstack`]
 | Copy dictionary stack to array
 |===
 
@@ -67,22 +67,22 @@ PostScript maintains a dictionary stack that controls name lookup:
 |===
 | Command | Description
 
-| xref:../def.adoc[`def`]
+| link:/docs/commands/references/def/[`def`]
 | Define key-value pair in current dictionary
 
-| xref:../load.adoc[`load`]
+| link:/docs/commands/references/load/[`load`]
 | Look up and return value from dictionary stack
 
-| xref:../store.adoc[`store`]
+| link:/docs/commands/references/store/[`store`]
 | Store value in dictionary stack (create if needed)
 
-| xref:../known.adoc[`known`]
+| link:/docs/commands/references/known/[`known`]
 | Check if key exists in specific dictionary
 
-| xref:../where.adoc[`where`]
+| link:/docs/commands/references/where/[`where`]
 | Find which dictionary contains key
 
-| xref:../undef.adoc[`undef`]
+| link:/docs/commands/references/undef/[`undef`]
 | Remove key from dictionary (Level 2)
 |===
 
@@ -92,19 +92,19 @@ PostScript maintains a dictionary stack that controls name lookup:
 |===
 | Command | Description
 
-| xref:../maxlength.adoc[`maxlength`]
+| link:/docs/commands/references/maxlength/[`maxlength`]
 | Get maximum capacity
 
-| xref:../array-string/length.adoc[`length`]
+| link:/docs/commands/references/length/[`length`]
 | Get current number of entries
 
-| xref:../array-string/get.adoc[`get`]
+| link:/docs/commands/references/get/[`get`]
 | Get value for specific key
 
-| xref:../array-string/put.adoc[`put`]
+| link:/docs/commands/references/put/[`put`]
 | Put key-value pair
 
-| xref:../array-string/forall.adoc[`forall`]
+| link:/docs/commands/references/forall/[`forall`]
 | Iterate over all key-value pairs
 |===
 
@@ -194,7 +194,7 @@ The standard dictionary stack (bottom to top):
 
 == Common Pitfalls
 
-WARNING: *Dictionary Stack Balance* - Every xref:../begin.adoc[`begin`] must have matching xref:../end.adoc[`end`]. Unbalanced stacks cause [`dictstackunderflow`] or [`dictstackoverflow`].
+WARNING: *Dictionary Stack Balance* - Every link:/docs/commands/references/begin/[`begin`] must have matching link:/docs/commands/references/end/[`end`]. Unbalanced stacks cause [`dictstackunderflow`] or [`dictstackoverflow`].
 
 WARNING: *Fixed Capacity (Level 1)* - In Level 1, exceeding dictionary capacity causes [`dictfull`] error. Always allocate sufficient space.
 
@@ -212,6 +212,6 @@ end
 
 == See Also
 
-* xref:../stack-manipulation/index.adoc[Stack Manipulation] - For general stack operations
-* xref:../array-string/index.adoc[Array and String Operations] - Similar composite types
+* link:/docs/commands/references/[Stack Manipulation] - For general stack operations
+* link:/docs/commands/references/[Array and String Operations] - Similar composite types
 * Control Flow (to be documented) - Scoping with dictionaries

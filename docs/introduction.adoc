@@ -130,12 +130,12 @@ showpage
 
 === Learning Path
 
-1. **Start with basics** - xref:commands/stack-manipulation/index.adoc[Stack Operations]
-2. **Learn arithmetic** - xref:commands/arithmetic-math/index.adoc[Math Commands]
-3. **Understand data** - xref:commands/array-string/index.adoc[Arrays and Strings]
-4. **Master dictionaries** - xref:commands/dictionary/index.adoc[Dictionary Operations]
-5. **Control flow** - xref:commands/control-flow/index.adoc[Conditionals and Loops]
-6. **Graphics** - xref:commands/graphics-state/index.adoc[Graphics State] and Path Construction
+1. **Start with basics** - link:/docs/commands/references/[Stack Operations]
+2. **Learn arithmetic** - link:/docs/commands/references/[Math Commands]
+3. **Understand data** - link:/docs/commands/references/[Arrays and Strings]
+4. **Master dictionaries** - link:/docs/commands/references/[Dictionary Operations]
+5. **Control flow** - link:/docs/commands/references/[Conditionals and Loops]
+6. **Graphics** - link:/docs/commands/references/[Graphics State] and Path Construction
 
 == About This Guide
 
@@ -156,7 +156,7 @@ This reference provides:
 
 == See Also
 
-* xref:levels/index.adoc[PostScript Levels] - Version history and features
-* xref:commands/index.adoc[Command Reference] - Complete operator reference
-* xref:syntax/index.adoc[Language Syntax] - Grammar and structure
-* xref:examples/index.adoc[Examples] - Practical code samples
+* link:/docs/levels/[PostScript Levels] - Version history and features
+* link:/docs/commands/[Command Reference] - Complete operator reference
+* link:/docs/syntax/[Language Syntax] - Grammar and structure
+* link:/docs/examples/[Examples] - Practical code samples

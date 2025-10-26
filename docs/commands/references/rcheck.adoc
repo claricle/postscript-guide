@@ -1,0 +1,183 @@
+---
+layout: default
+title: rcheck
+parent: Command Reference
+nav_order: 25
+---
+
+== rcheck
+
+Tests whether an object's access attribute permits reading its value.
+
+=== Syntax
+
+----
+array rcheck → bool
+packedarray rcheck → bool
+dict rcheck → bool
+file rcheck → bool
+string rcheck → bool
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| Composite object
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `bool` (true if readable, false otherwise)
+|===
+
+=== Description
+
+link:/docs/commands/references/rcheck/[`rcheck`] tests whether the operand's access attribute permits its value to be read explicitly by PostScript operators.
+
+Returns:
+* `true` if access is **unlimited** or **readonly**
+* `false` if access is **executeonly** or **noaccess**
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Readable objects
+[source,postscript]
+----
+[1 2 3] rcheck          % true (unlimited)
+(text) readonly rcheck  % true (readonly)
+----
+
+.Non-readable objects
+[source,postscript]
+----
+{ code } executeonly rcheck  % false
+{ code } noaccess rcheck     % false
+----
+
+.File objects
+[source,postscript]
+----
+(file.ps) (r) file rcheck  % true (read mode)
+(file.ps) (w) file rcheck  % false (write mode)
+----
+
+=== Common Use Cases
+
+==== Safe Access
+
+[source,postscript]
+----
+/safe-get {
+  2 copy rcheck {
+    get
+  } {
+    pop pop null
+  } ifelse
+} def
+----
+
+==== Validation
+
+[source,postscript]
+----
+/validate-readable {
+  dup rcheck not {
+    /invalidaccess cvx exec
+  } if
+} def
+----
+
+==== Permission Checking
+
+[source,postscript]
+----
+dict rcheck {
+  % Can read dictionary
+  dict { pop = } forall
+} {
+  % Cannot read
+  (Dictionary not readable) print
+} ifelse
+----
+
+=== Common Pitfalls
+
+WARNING: *Execute-Only ≠ No Read* - Execute-only objects cannot be read but can be executed.
+
+[source,postscript]
+----
+{ 1 2 add } executeonly
+dup rcheck         % false (cannot read)
+dup exec           % Works! (can execute)
+----
+
+WARNING: *Confusing rcheck with xcheck* - link:/docs/commands/references/rcheck/[`rcheck`] tests read access, link:/docs/commands/references/xcheck/[`xcheck`] tests executable attribute.
+
+TIP: *Check Before Reading* - Use link:/docs/commands/references/rcheck/[`rcheck`] before operations that read object values.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand not a composite object or file
+|===
+
+=== Access Attributes
+
+[cols="2,2,2,2"]
+|===
+| Attribute | Can Read? | Can Write? | Can Execute?
+
+| Unlimited
+| Yes
+| Yes
+| Yes
+
+| Readonly
+| Yes
+| No
+| Yes
+
+| Executeonly
+| No
+| No
+| Yes
+
+| Noaccess
+| No
+| No
+| No
+|===
+
+=== Implementation Notes
+
+* Fast operation (checks access bits)
+* Does not modify the object
+* Works only on composite objects and files
+* Simple objects (numbers, booleans) have no access attribute
+
+=== See Also
+
+* link:/docs/commands/references/wcheck/[`wcheck`] - Test if writable
+* link:/docs/commands/references/xcheck/[`xcheck`] - Test if executable
+* Access operators: `readonly`, `executeonly`, `noaccess`
+* link:/docs/commands/references/type/[`type`] - Get object type

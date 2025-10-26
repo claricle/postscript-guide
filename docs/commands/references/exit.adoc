@@ -1,0 +1,186 @@
+---
+layout: default
+title: exit
+parent: Command Reference
+nav_order: 6
+---
+
+== exit
+
+Terminates the innermost enclosing loop.
+
+=== Syntax
+
+----
+– exit → –
+----
+
+=== Stack Effects
+
+.Before/After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| Exits innermost loop context
+|===
+
+=== Description
+
+link:/docs/commands/references/exit/[`exit`] terminates execution of the innermost, dynamically enclosing looping context, regardless of lexical relationship.
+
+Valid looping contexts created by:
+
+* link:/docs/commands/references/for/[`for`]
+* link:/docs/commands/references/repeat/[`repeat`]
+* link:/docs/commands/references/loop/[`loop`]
+* link:/docs/commands/references/../array-string/forall/[`forall`]
+* `pathforall`, `kshow`, `cshow`, `filenameforall`, `resourceforall`
+
+link:/docs/commands/references/exit/[`exit`] pops the execution stack to the level of the loop operator, then resumes execution at the next object after that operator.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Exit from for loop
+[source,postscript]
+----
+0 1 10 {
+  dup 5 eq { exit } if
+  =
+} for
+% Prints: 0 1 2 3 4 (stops at 5)
+----
+
+.Exit from repeat
+[source,postscript]
+----
+10 {
+  randomCondition { exit } if
+  doWork
+} repeat
+----
+
+.Exit from loop
+[source,postscript]
+----
+{
+  getData
+  dup endMarker eq { pop exit } if
+  process
+} loop
+----
+
+.Exit from forall
+[source,postscript]
+----
+[1 2 3 4 5] {
+  dup 3 eq { exit } if
+  10 mul
+} forall
+% Stack: 10 20 (stopped at 3)
+----
+
+=== Common Use Cases
+
+==== Search with Early Exit
+
+[source,postscript]
+----
+/findInArray {  % array value => index or -1
+  false 0
+  3 -1 roll {
+    3 index eq {
+      exch pop true exch exit
+    } if
+    1 add
+  } forall
+  exch { } { pop -1 } ifelse
+} def
+----
+
+==== Conditional Loop Termination
+
+[source,postscript]
+----
+{
+  processItem
+  shouldStop { exit } if
+} loop
+----
+
+==== Breaking from Nested Loops
+
+[source,postscript]
+----
+/found false def
+1 1 10 {
+  /i exch def
+  1 1 10 {
+    /j exch def
+    i j testCondition {
+      /found true def
+      exit  % Exits inner loop only
+    } if
+  } for
+  found { exit } if  % Exit outer loop
+} for
+----
+
+=== Common Pitfalls
+
+WARNING: *Must Be in Loop* - link:/docs/commands/references/exit/[`exit`] only works within a looping context.
+
+[source,postscript]
+----
+{ exit } if  % Error: invalidexit (not in loop)
+----
+
+WARNING: *Exits Innermost Loop Only* - In nested loops, only exits the immediately enclosing loop.
+
+[source,postscript]
+----
+1 1 10 {
+  1 1 10 {
+    exit  % Only exits inner loop
+  } for
+} for
+----
+
+WARNING: *Cannot Exit run or stopped* - Attempting to exit these contexts causes [`invalidexit`].
+
+[source,postscript]
+----
+{ { exit } loop } stopped  % Error: invalidexit
+----
+
+TIP: *Use Flag for Outer Loop Exit* - Set a flag variable to exit multiple levels.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidexit`]
+| No enclosing loop context, or attempted to exit `run`/`stopped`
+|===
+
+=== Implementation Notes
+
+* Unwinds execution stack to loop level
+* Very fast operation
+* Does not affect operand or dictionary stacks
+* Only affects execution flow
+
+=== See Also
+
+* link:/docs/commands/references/for/[`for`] - Numeric loop
+* link:/docs/commands/references/repeat/[`repeat`] - Fixed repetition
+* link:/docs/commands/references/loop/[`loop`] - Indefinite loop
+* link:/docs/commands/references/stop/[`stop`] - Exit stopped context
+* link:/docs/commands/references/forall/[`forall`] - Collection iteration

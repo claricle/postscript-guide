@@ -1,0 +1,282 @@
+---
+layout: default
+title: setmiterlimit
+parent: Command Reference
+nav_order: 15
+---
+
+== setmiterlimit
+
+Sets the miter limit for line joins.
+
+=== Syntax
+
+----
+num setmiterlimit → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `num` (miter limit value, ≥ 1.0)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Miter limit parameter set
+|===
+
+=== Description
+
+link:/docs/commands/references/setmiterlimit/[`setmiterlimit`] sets the miter limit parameter in the graphics state to _num_. This parameter controls when sharp miter joins are converted to bevel joins during stroking operations.
+
+The miter limit is the **maximum ratio** of miter length to line width. When the ratio exceeds this limit (at very sharp angles), a bevel join is used instead of a miter join.
+
+* **num ≥ 1.0**: Required (values < 1.0 are treated as 1.0)
+* **Higher values**: Allow sharper angles before beveling
+* **Lower values**: Bevel more angles (1.0 bevels all)
+* **Default**: Typically 10.0
+
+The miter limit only applies when the line join style is 0 (miter). It has no effect for round (1) or bevel (2) joins.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Standard miter limit
+[source,postscript]
+----
+10 setmiterlimit
+0 setlinejoin  % Miter joins
+drawSharpAngles
+----
+
+.Force all bevels
+[source,postscript]
+----
+1 setmiterlimit  % Minimum value
+0 setlinejoin
+drawAngles  % All corners beveled
+----
+
+.Permissive miter limit
+[source,postscript]
+----
+100 setmiterlimit  % Very permissive
+0 setlinejoin
+drawVerySharpAngles  % Even sharp angles stay mitered
+----
+
+.Comparing limits
+[source,postscript]
+----
+% Same angle, different limits
+gsave
+  1 setmiterlimit
+  0 0 moveto 50 10 lineto 100 0 lineto stroke
+grestore
+
+gsave
+  10 setmiterlimit
+  0 20 moveto 50 30 lineto 100 20 lineto stroke
+grestore
+----
+
+=== Common Use Cases
+
+==== Technical Drawing Standards
+
+[source,postscript]
+----
+/TechnicalDrawing {
+  10 setmiterlimit  % Standard
+  0 setlinejoin     % Miter joins
+  0.5 setlinewidth
+} def
+----
+
+==== Preventing Spikes
+
+[source,postscript]
+----
+/SafeDrawing {
+  2 setmiterlimit   % Conservative
+  0 setlinejoin
+  % Prevents extremely sharp spikes
+} def
+----
+
+==== Angle-Adaptive Limits
+
+[source,postscript]
+----
+/SetLimitForAngle {
+  % angle in degrees on stack
+  2 div sin      % sin(angle/2)
+  1 exch div     % 1/sin(angle/2)
+  setmiterlimit
+} def
+
+% Allow 30-degree angles
+30 SetLimitForAngle
+----
+
+==== Consistent Corner Treatment
+
+[source,postscript]
+----
+/UniformCorners {
+  % Bevel all sharp corners
+  1.415 setmiterlimit  % Bevels angles < 90°
+  0 setlinejoin
+} def
+----
+
+=== Common Pitfalls
+
+WARNING: *Only Affects Miter Joins* - Has no effect unless line join is 0 (miter).
+
+[source,postscript]
+----
+1 setlinejoin       % Round joins
+1 setmiterlimit     % No effect
+----
+
+WARNING: *Minimum Value is 1* - Values less than 1.0 are clamped to 1.0.
+
+[source,postscript]
+----
+0.5 setmiterlimit
+currentmiterlimit   % Returns 1.0
+----
+
+WARNING: *Width-Independent* - Miter limit is a ratio, independent of line width.
+
+[source,postscript]
+----
+10 setmiterlimit
+1 setlinewidth   % Limit applies same
+10 setlinewidth  % Limit applies same
+----
+
+TIP: *Use 1.0 to Force Bevels* - Minimum limit (1.0) bevels all corners.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| _num_ is negative or NaN
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand not a number
+|===
+
+=== Implementation Notes
+
+* Values < 1.0 are clamped to 1.0 (no error)
+* Only meaningful for miter joins (line join = 0)
+* Ratio of miter length to line width
+* Fast parameter setting
+* Default typically 10.0
+* Widely supported (Level 1)
+
+=== Miter Limit Formula
+
+The relationship between miter limit and cutoff angle:
+
+----
+miterLimit = 1 / sin(θ/2)
+
+Where θ is the angle between line segments
+----
+
+Common values:
+
+[cols="1,1,2"]
+|===
+| Limit | Angle | Usage
+
+| 1.0
+| 180° (straight)
+| Bevels all (no miters)
+
+| 1.414
+| 90°
+| Bevels right angles and sharper
+
+| 2.0
+| ~60°
+| Bevels acute angles
+
+| 4.0
+| ~29°
+| Standard for CAD
+
+| 10.0
+| ~11.5°
+| PostScript default
+
+| ∞
+| 0°
+| Never bevels (allows all)
+|===
+
+=== Visual Effect
+
+.Low Limit (1.415)
+[source,postscript]
+----
+1.415 setmiterlimit
+0 setlinejoin
+% Corners at 90° and sharper: beveled
+% Corners > 90°: mitered
+----
+
+.High Limit (100)
+[source,postscript]
+----
+100 setmiterlimit
+0 setlinejoin
+% Almost all corners: mitered
+% Only extremely sharp angles: beveled
+----
+
+=== Miter Length Calculation
+
+For a given angle, the miter length is:
+
+----
+miterLength = lineWidth / sin(θ/2)
+
+ratio = miterLength / lineWidth
+      = 1 / sin(θ/2)
+
+If ratio > miterLimit:
+  use bevel join
+Else:
+  use miter join
+----
+
+=== See Also
+
+* link:/docs/commands/references/setlinejoin/[`setlinejoin`] - Set line join style
+* link:/docs/commands/references/currentmiterlimit/[`currentmiterlimit`] - Get current miter limit
+* link:/docs/commands/references/setlinewidth/[`setlinewidth`] - Set line width
+* link:/docs/commands/references/setlinecap/[`setlinecap`] - Set line cap style

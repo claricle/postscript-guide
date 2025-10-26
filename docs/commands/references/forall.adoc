@@ -1,0 +1,211 @@
+---
+layout: default
+title: forall
+parent: Command Reference
+nav_order: 11
+---
+
+== forall
+
+Executes a procedure for each element of an array, packed array, dictionary, or string.
+
+=== Syntax
+
+----
+array proc forall → –
+packedarray proc forall → –
+dict proc forall → –
+string proc forall → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| Composite object (array, packed array, dict, or string)
+
+| 0
+| `proc` (procedure to execute)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (varies)
+| Results from procedure executions
+|===
+
+=== Description
+
+link:/docs/commands/references/forall/[`forall`] enumerates elements of the first operand, executing _proc_ for each:
+
+* **Arrays/packed arrays**: Pushes each element and executes _proc_
+* **Strings**: Pushes each character code (0-255) and executes _proc_
+* **Dictionaries**: Pushes each key-value pair and executes _proc_
+
+For arrays and strings, elements are processed in index order (0 to n-1). For dictionaries, the order is arbitrary.
+
+If the composite object is empty (length 0), link:/docs/commands/references/forall/[`forall`] does not execute _proc_ at all.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Array summation
+[source,postscript]
+----
+0 [13 29 3 -8 21] { add } forall
+% Result: 58
+----
+
+.String character codes
+[source,postscript]
+----
+(abc) { = } forall
+% Prints: 97, 98, 99
+----
+
+.Dictionary enumeration
+[source,postscript]
+----
+/d 2 dict def
+d /abc 123 put
+d /xyz (test) put
+d { } forall
+% Stack: /xyz (test) /abc 123 (order varies)
+----
+
+.Array transformation
+[source,postscript]
+----
+[1 2 3 4] { 10 mul } forall
+% Stack: 10 20 30 40
+----
+
+=== Common Use Cases
+
+==== Array Processing
+
+[source,postscript]
+----
+% Sum array elements
+0 exch { add } forall
+
+% Count elements
+0 exch { pop 1 add } forall
+
+% Find maximum
+-999999 exch { max } forall
+----
+
+==== String Analysis
+
+[source,postscript]
+----
+% Count uppercase letters
+0 exch {
+  dup 65 ge exch 90 le and
+  { 1 add } if
+} forall
+----
+
+==== Dictionary Operations
+
+[source,postscript]
+----
+% Copy all entries to another dict
+sourcedict {
+  targetdict 3 1 roll put
+} forall
+----
+
+=== Common Pitfalls
+
+WARNING: *Procedure Must Handle Stack* - Each element (or key-value pair) is left on the stack for _proc_ to process.
+
+[source,postscript]
+----
+[1 2 3] { } forall  % Leaves 1 2 3 on stack
+[1 2 3] { pop } forall  % Removes all elements
+----
+
+WARNING: *Dictionary Order is Arbitrary* - Dictionaries enumerate in unpredictable order.
+
+[source,postscript]
+----
+mydict { } forall  % Order not guaranteed
+----
+
+WARNING: *Modifying During Iteration* - Adding/removing dictionary entries during link:/docs/commands/references/forall/[`forall`] may or may not affect iteration.
+
+TIP: *Use exit for Early Termination* - Execute [`exit`] within _proc_ to stop iteration.
+
+[source,postscript]
+----
+[1 2 3 4 5] {
+  dup 3 eq { exit } if
+} forall  % Stops at 3
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| Object has no-access attribute
+
+| [`stackoverflow`]
+| Procedure pushes too many objects
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| First operand wrong type, or second not procedure
+|===
+
+=== Implementation Notes
+
+* Elements are processed in place (not copied to stack first)
+* For dictionaries, each iteration pushes key then value
+* New dictionary entries during iteration may or may not be processed
+* For strings, each element is a new integer object (0-255)
+
+=== Performance Considerations
+
+* More efficient than manual iteration with loops
+* Minimal overhead per element
+* For large collections, most efficient iteration method
+* Procedure call overhead is small
+
+=== Comparison with Loops
+
+[source,postscript]
+----
+% Using forall
+[1 2 3 4] { 10 mul } forall
+
+% Using for loop
+0 1 3 {
+  [1 2 3 4] exch get 10 mul
+} for
+----
+
+link:/docs/commands/references/forall/[`forall`] is simpler and more efficient.
+
+=== See Also
+
+* link:/docs/commands/references/aload/[`aload`] - Load all elements onto stack
+* link:/docs/commands/references/get/[`get`] - Get single element
+* link:/docs/commands/references/length/[`length`] - Get number of elements
+* Control Flow: `for`, `repeat`, `loop` - Other iteration constructs

@@ -1,0 +1,192 @@
+---
+layout: default
+title: cvi
+parent: Command Reference
+nav_order: 19
+---
+
+== cvi
+
+Converts a number or string to an integer.
+
+=== Syntax
+
+----
+num cvi → int
+string cvi → int
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `num` (integer or real) or `string`
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `int` (integer result)
+|===
+
+=== Description
+
+link:/docs/commands/references/cvi/[`cvi`] (convert to integer) converts an integer, real, or string to an integer result:
+
+* **Integer operand**: Returns it unchanged
+* **Real operand**: Truncates fractional part (rounds toward 0) and converts to integer
+* **String operand**: Parses as PostScript number syntax, then converts to integer if needed
+
+A [`rangecheck`] error occurs if a real is too large to convert to an integer.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Converting from string
+[source,postscript]
+----
+(3.3E1) cvi      % Result: 33
+(123) cvi        % Result: 123
+(-456) cvi       % Result: -456
+----
+
+.Converting from real
+[source,postscript]
+----
+-47.8 cvi        % Result: -47
+520.9 cvi        % Result: 520
+3.14159 cvi      % Result: 3
+----
+
+.Integer pass-through
+[source,postscript]
+----
+42 cvi           % Result: 42 (unchanged)
+----
+
+=== Common Use Cases
+
+==== String to Integer Parsing
+
+[source,postscript]
+----
+(100) cvi /width exch def
+(200) cvi /height exch def
+----
+
+==== Truncating Reals
+
+[source,postscript]
+----
+x cvi  % Remove fractional part
+----
+
+==== Array Index Calculation
+
+[source,postscript]
+----
+position cellsize div cvi  % Integer cell index
+----
+
+=== Common Pitfalls
+
+WARNING: *Truncation, Not Rounding* - link:/docs/commands/references/cvi/[`cvi`] truncates toward zero, not to nearest integer.
+
+[source,postscript]
+----
+3.9 cvi          % Result: 3 (not 4)
+-3.9 cvi         % Result: -3 (not -4)
+----
+
+WARNING: *Range Limits* - Very large reals cannot be converted.
+
+[source,postscript]
+----
+1.0e100 cvi      % Error: rangecheck
+----
+
+WARNING: *String Syntax* - String must contain valid PostScript number syntax.
+
+[source,postscript]
+----
+(abc) cvi        % Error: syntaxerror
+(12x) cvi        % Error: syntaxerror
+----
+
+TIP: *Use round/floor/ceiling* - For other rounding behavior, use link:/docs/commands/references/round/[`round`], link:/docs/commands/references/floor/[`floor`], or link:/docs/commands/references/ceiling/[`ceiling`] before link:/docs/commands/references/cvi/[`cvi`].
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| String has no-access attribute
+
+| [`rangecheck`]
+| Real too large for integer conversion
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`syntaxerror`]
+| String not valid number syntax
+
+| [`typecheck`]
+| Operand not number or string
+
+| [`undefinedresult`]
+| String parses to invalid number
+|===
+
+=== Implementation Notes
+
+* Truncation performed before conversion
+* Integer range typically ±2³¹-1 (32-bit implementations)
+* String parsing follows full PostScript syntax (including radix notation)
+* Same conversion as implicit coercion in many operators
+
+=== Comparison with Other Conversion Operators
+
+[cols="2,3"]
+|===
+| Operator | Result
+
+| link:/docs/commands/references/cvi/[`cvi`]
+| Truncate toward 0, convert to integer
+
+| link:/docs/commands/references/cvr/[`cvr`]
+| Convert to real
+
+| link:/docs/commands/references/round/[`round`]
+| Round to nearest, keep type
+
+| link:/docs/commands/references/floor/[`floor`]
+| Round down, keep type
+
+| link:/docs/commands/references/ceiling/[`ceiling`]
+| Round up, keep type
+
+| link:/docs/commands/references/truncate/[`truncate`]
+| Round toward 0, keep type
+|===
+
+=== See Also
+
+* link:/docs/commands/references/cvr/[`cvr`] - Convert to real
+* link:/docs/commands/references/cvs/[`cvs`] - Convert to string
+* link:/docs/commands/references/round/[`round`] - Round to nearest
+* link:/docs/commands/references/floor/[`floor`] - Round down
+* link:/docs/commands/references/ceiling/[`ceiling`] - Round up
+* link:/docs/commands/references/truncate/[`truncate`] - Round toward zero

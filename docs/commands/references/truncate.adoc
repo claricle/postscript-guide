@@ -1,0 +1,105 @@
+---
+layout: default
+title: truncate
+parent: Command Reference
+nav_order: 12
+---
+= truncate
+
+Truncates a number toward zero by removing its fractional part.
+
+== Description
+
+The `truncate` operator pops a number from the operand stack and pushes the integer part of that number, discarding the fractional part. Truncation is always toward zero (for positive numbers, rounds down; for negative numbers, rounds up). The type of the result is the same as the type of the operand.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+num1 truncate num2
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num1` (integer or real) - Number to truncate
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num2` (integer or real) - Integer part of num1 (same type)
+|===
+
+== Parameters
+
+`num1`:: Any number (integer or real)
+
+== Return Values
+
+`num2`:: The integer part of num1 with fractional part removed (type matches num1)
+
+== Examples
+
+=== Basic Truncation
+
+[source,postscript]
+----
+% Positive numbers truncate down
+3.2 truncate   % → 3.0
+3.9 truncate   % → 3.0
+
+% Negative numbers truncate up (toward zero)
+-4.8 truncate  % → -4.0 (toward zero)
+-4.1 truncate  % → -4.0
+
+% Integers unchanged
+99 truncate    % → 99
+----
+
+=== Extracting Integer Part
+
+[source,postscript]
+----
+% Get integer and fractional parts
+/getParts {  % num -> intPart fracPart
+    dup truncate     % num intPart
+    2 copy sub       % num intPart fracPart
+    3 1 roll pop     % intPart fracPart
+} def
+
+3.7 getParts   % → 3.0 0.7
+-5.3 getParts  % → -5.0 -0.3
+----
+
+== Related Commands
+
+* link:/docs/commands/references/ceiling/[`ceiling`] - Round up
+* link:/docs/commands/references/floor/[`floor`] - Round down
+* link:/docs/commands/references/round/[`round`] - Round to nearest
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty.
+
+`typecheck`::
+The operand is not a number.
+
+== See Also
+
+* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
