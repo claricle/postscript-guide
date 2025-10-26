@@ -2,12 +2,132 @@
 layout: default
 title: Path Construction
 parent: Command Reference
+nav_order: 7
+has_children: true
 ---
 
 == Path Construction
 
-Commands for building vector paths.
+Commands for building vector paths in PostScript. Paths are the fundamental building blocks for all graphics operations - they define shapes that can then be filled, stroked, or used for clipping.
 
-== Status
+== Overview
 
-Under development.
+Path construction in PostScript follows a three-step process:
+
+1. **Construct** - Build the path using moveto, lineto, curveto, arc, etc.
+2. **Paint** - Apply fill, stroke, or clip operations
+3. **Reset** - Use newpath to start fresh
+
+== Command Categories
+
+=== Basic Path Operations
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:newpath.adoc[`newpath`]
+| Initialize path to empty
+
+| xref:moveto.adoc[`moveto`]
+| Set current point (start new subpath)
+
+| xref:lineto.adoc[`lineto`]
+| Add straight line to current point
+
+| xref:curveto.adoc[`curveto`]
+| Add Bézier curve to path
+
+| xref:closepath.adoc[`closepath`]
+| Close current subpath
+
+| xref:currentpoint.adoc[`currentpoint`]
+| Get coordinates of current point
+|===
+
+=== Relative Path Operations
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:rmoveto.adoc[`rmoveto`]
+| Relative moveto
+
+| xref:rlineto.adoc[`rlineto`]
+| Relative lineto
+
+| xref:rcurveto.adoc[`rcurveto`]
+| Relative curveto
+|===
+
+=== Arc Operations
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:arc.adoc[`arc`]
+| Add counterclockwise circular arc
+
+| xref:arcn.adoc[`arcn`]
+| Add clockwise circular arc
+
+| xref:arct.adoc[`arct`]
+| Add arc defined by tangent lines
+
+| xref:arcto.adoc[`arcto`]
+| Like arct but returns tangent points
+|===
+
+== Common Patterns
+
+=== Rectangle
+
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 0 rlineto
+0 150 rlineto
+-200 0 rlineto
+closepath
+----
+
+=== Circle
+
+[source,postscript]
+----
+newpath
+200 200 50 0 360 arc
+closepath
+----
+
+=== Rounded Rectangle
+
+[source,postscript]
+----
+/roundrect {  % x y width height radius
+  /r exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  newpath
+  x r add y moveto
+  x w add y x w add y h add r arcto 4 { pop } repeat
+  x w add y h add x y h add r arcto 4 { pop } repeat
+  x y h add x y r arcto 4 { pop } repeat
+  x y x w add y r arcto 4 { pop } repeat
+  closepath
+} def
+
+50 50 200 100 10 roundrect
+----
+
+== See Also
+
+* xref:../painting/index.adoc[Painting] - Fill and stroke paths
+* xref:../graphics-state/index.adoc[Graphics State] - Line parameters
+* xref:../transformations/index.adoc[Transformations] - Coordinate systems

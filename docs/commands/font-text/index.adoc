@@ -1,13 +1,88 @@
 ---
 layout: default
-title: Font Text
+title: Font and Text
 parent: Command Reference
+nav_order: 10
+has_children: true
 ---
 
-== Font Text
+== Font and Text
 
-Documentation for font-text commands.
+Commands for typography, font handling, and text rendering in PostScript.
 
-== Status
+== Overview
 
-Under development.
+PostScript provides comprehensive font and text capabilities including font selection, scaling, transformation, and sophisticated text rendering with kerning and character-level control.
+
+== Command Categories
+
+=== Font Selection
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:findfont.adoc[`findfont`]
+| Obtain font dictionary by name
+
+| xref:scalefont.adoc[`scalefont`]
+| Scale font uniformly
+
+| xref:makefont.adoc[`makefont`]
+| Transform font by matrix
+
+| xref:setfont.adoc[`setfont`]
+| Establish current font
+
+| xref:currentfont.adoc[`currentfont`]
+| Get current font
+
+| xref:definefont.adoc[`definefont`]
+| Register font
+
+| xref:undefinefont.adoc[`undefinefont`]
+| Remove font (Level 2)
+|===
+
+=== Text Rendering
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:show.adoc[`show`]
+| Paint text string
+
+| xref:ashow.adoc[`ashow`]
+| Show with spacing adjustment
+
+| xref:widthshow.adoc[`widthshow`]
+| Show with selective width adjustment
+
+| xref:awidthshow.adoc[`awidthshow`]
+| Combined spacing adjustment
+
+| xref:kshow.adoc[`kshow`]
+| Show with kerning
+
+| xref:cshow.adoc[`cshow`]
+| Show with per-character control (Level 2)
+|===
+
+=== Text Measurement
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:stringwidth.adoc[`stringwidth`]
+| Calculate text width
+
+| xref:charpath.adoc[`charpath`]
+| Get character outlines
+|===
+
+== See Also
+
+* xref:../../usage/advanced/fonts-text.adoc[Font & Text Guide]
+* xref:../graphics-state/index.adoc[Graphics State]

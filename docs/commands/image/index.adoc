@@ -2,12 +2,28 @@
 layout: default
 title: Image
 parent: Command Reference
+has_children: true
 ---
 
 == Image
 
-Documentation for image commands.
+Commands for image operations in PostScript.
+
+== Overview
+
+This category contains PostScript operators for image.
 
 == Status
 
-Under development.
+This category is ready for command documentation to be added. Commands in this category include operators from the PostScript Language Reference Manual.
+
+See other completed categories for documentation examples:
+* xref:../path-construction/index.adoc[Path Construction]
+* xref:../painting/index.adoc[Painting]
+* xref:../transformations/index.adoc[Transformations]
+* xref:../font-text/index.adoc[Font & Text]
+
+== See Also
+
+* xref:../index.adoc[Command Reference Overview]
+* xref:../../syntax/index.adoc[Language Syntax]

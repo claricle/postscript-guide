@@ -2,12 +2,88 @@
 layout: default
 title: Painting
 parent: Command Reference
+nav_order: 8
+has_children: true
 ---
 
 == Painting
 
-Commands for rendering paths and shapes.
+Commands for rendering paths and graphics to the page. Painting operations take paths and graphics state parameters to produce visible output.
 
-== Status
+== Overview
 
-Under development.
+PostScript provides three primary painting operations:
+
+* **Fill** - Paint inside of path
+* **Stroke** - Paint along path
+* **Clip** - Restrict subsequent painting to path interior
+
+== Command Categories
+
+=== Fill Operations
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:fill.adoc[`fill`]
+| Fill path interior (non-zero winding rule)
+
+| xref:eofill.adoc[`eofill`]
+| Fill path interior (even-odd rule)
+
+| xref:ufill.adoc[`ufill`]
+| Fill user path (Level 2)
+
+| xref:ueofill.adoc[`ueofill`]
+| Even-odd fill user path (Level 2)
+
+| xref:rectfill.adoc[`rectfill`]
+| Fill rectangles (Level 2)
+|===
+
+=== Stroke Operations
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:stroke.adoc[`stroke`]
+| Paint along path
+
+| xref:strokepath.adoc[`strokepath`]
+| Convert stroke to outline path
+
+| xref:ustroke.adoc[`ustroke`]
+| Stroke user path (Level 2)
+
+| xref:ustrokepath.adoc[`ustrokepath`]
+| Convert user path stroke to outline (Level 2)
+
+| xref:rectstroke.adoc[`rectstroke`]
+| Stroke rectangles (Level 2)
+|===
+
+=== Clipping Operations
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| xref:clip.adoc[`clip`]
+| Intersect clipping path (non-zero winding)
+
+| xref:eoclip.adoc[`eoclip`]
+| Intersect clipping path (even-odd rule)
+
+| xref:clippath.adoc[`clippath`]
+| Set current path to clipping path
+
+| xref:rectclip.adoc[`rectclip`]
+| Clip to rectangles (Level 2)
+|===
+
+== See Also
+
+* xref:../path-construction/index.adoc[Path Construction]
+* xref:../graphics-state/index.adoc[Graphics State]
