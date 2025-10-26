@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Stack Manipulation
-parent: Command Reference
+parent: Commands
 nav_order: 1
 ---
 = Stack Manipulation
@@ -18,37 +18,37 @@ The operand stack is fundamental to PostScript execution. These operators provid
 |===
 |Command |Description
 
-|xref:../pop.adoc[`pop`]
+|link:/docs/commands/references/pop/[`pop`]
 |Remove the top element from the stack
 
-|xref:../exch.adoc[`exch`]
+|link:/docs/commands/references/exch/[`exch`]
 |Exchange the top two stack elements
 
-|xref:../dup.adoc[`dup`]
+|link:/docs/commands/references/dup/[`dup`]
 |Duplicate the top element
 
-|xref:../copy.adoc[`copy`]
+|link:/docs/commands/references/copy/[`copy`]
 |Copy top n elements or duplicate composite object values
 
-|xref:../psindex.adoc[`psindex`]
+|link:/docs/commands/references/psindex/[`psindex`]
 |Duplicate the nth element from the top
 
-|xref:../roll.adoc[`roll`]
+|link:/docs/commands/references/roll/[`roll`]
 |Roll n elements j times
 
-|xref:../count.adoc[`count`]
+|link:/docs/commands/references/count/[`count`]
 |Count elements on the stack
 
-|xref:../clear.adoc[`clear`]
+|link:/docs/commands/references/clear/[`clear`]
 |Remove all elements from the stack
 
-|xref:../mark.adoc[`mark`]
+|link:/docs/commands/references/mark/[`mark`]
 |Push a mark object onto the stack
 
-|xref:../cleartomark.adoc[`cleartomark`]
+|link:/docs/commands/references/cleartomark/[`cleartomark`]
 |Pop elements down to and including a mark
 
-|xref:../counttomark.adoc[`counttomark`]
+|link:/docs/commands/references/counttomark/[`counttomark`]
 |Count elements down to a mark
 |===
 
@@ -70,6 +70,6 @@ a b c d 3 index     % Copy element 3 positions down
 
 == See Also
 
-* xref:../index.adoc[Command Reference] - All PostScript commands
-* xref:../../syntax/operators.adoc[Operators Overview]
-* xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide]
+* link:/docs/commands/[Command Reference] - All PostScript commands
+* link:/docs/syntax/operators/[Operators Overview]
+* link:/docs/usage/basic/stack-operations/[Stack Operations Guide]

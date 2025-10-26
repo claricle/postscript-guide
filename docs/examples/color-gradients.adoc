@@ -192,10 +192,10 @@ Understanding RGB, CMYK, HSB, and grayscale color models.
 showpage
 ----
 <1> Loop to create grayscale spectrum
-<2> Use link:../commands/graphics-state/setgray.adoc[`setgray`] for grayscale (0=black, 1=white)
-<3> Use link:../commands/graphics-state/setrgbcolor.adoc[`setrgbcolor`] for red, green, blue (0.0-1.0 each)
-<4> Use link:../commands/graphics-state/setcmykcolor.adoc[`setcmykcolor`] for cyan, magenta, yellow, black
-<5> Use link:../commands/graphics-state/sethsbcolor.adoc[`sethsbcolor`] for hue (0-1 = 0-360°), saturation, brightness
+<2> Use link:../commands/graphics-state/setgray/[`setgray`] for grayscale (0=black, 1=white)
+<3> Use link:../commands/graphics-state/setrgbcolor/[`setrgbcolor`] for red, green, blue (0.0-1.0 each)
+<4> Use link:../commands/graphics-state/setcmykcolor/[`setcmykcolor`] for cyan, magenta, yellow, black
+<5> Use link:../commands/graphics-state/sethsbcolor/[`sethsbcolor`] for hue (0-1 = 0-360°), saturation, brightness
 
 ==== Expected Output
 
@@ -617,8 +617,8 @@ showpage
 <17> ShadingType 6 = Coons patch mesh (Level 3)
 <18> Define patch corner coordinates
 <19> Define colors at each corner
-<20> Use link:../commands/painting/clip.adoc[`clip`] to restrict gradient to shape
-<21> Use link:../commands/font-text/charpath.adoc[`charpath`] to convert text to path
+<20> Use link:../commands/painting/clip/[`clip`] to restrict gradient to shape
+<21> Use link:../commands/font-text/charpath/[`charpath`] to convert text to path
 
 ==== Expected Output
 
@@ -1130,13 +1130,13 @@ Transparency demonstrations:
 
 === See Also
 
-* xref:drawing-shapes.adoc[Drawing Shapes] - Shapes to fill with gradients
-* xref:text-layout.adoc[Text Layout] - Gradient text effects
-* xref:image-manipulation.adoc[Image Manipulation] - Color in images
-* xref:../levels/level-2.adoc[Level 2] - Shading functions
-* xref:../levels/level-3.adoc[Level 3] - Transparency
-* xref:../commands/graphics-state/setrgbcolor.adoc[setrgbcolor] - RGB colors
-* xref:../commands/graphics-state/setcmykcolor.adoc[setcmykcolor] - CMYK colors
-* xref:../commands/graphics-state/sethsbcolor.adoc[sethsbcolor] - HSB colors
-* xref:index.adoc[More Examples]
-* xref:../commands/index.adoc[Command Reference]
+* link:/docs/examples/drawing-shapes/[Drawing Shapes] - Shapes to fill with gradients
+* link:/docs/examples/text-layout/[Text Layout] - Gradient text effects
+* link:/docs/examples/image-manipulation/[Image Manipulation] - Color in images
+* link:/docs/levels/level-2/[Level 2] - Shading functions
+* link:/docs/levels/level-3/[Level 3] - Transparency
+* link:/docs/commands/references/setrgbcolor/[setrgbcolor] - RGB colors
+* link:/docs/commands/references/setcmykcolor/[setcmykcolor] - CMYK colors
+* link:/docs/commands/references/sethsbcolor/[sethsbcolor] - HSB colors
+* link:/docs/examples/[More Examples]
+* link:/docs/commands/[Command Reference]

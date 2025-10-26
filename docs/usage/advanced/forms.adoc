@@ -1166,9 +1166,9 @@ grid exec
 
 === See Also
 
-* xref:../basic/procedures.adoc[Procedures] - Procedure basics
-* xref:patterns.adoc[Patterns] - Repeating patterns
-* xref:resource-management.adoc[Resource Management] - Optimizing resources
-* xref:../basic/graphics-state.adoc[Graphics State] - State management
-* xref:../basic/coordinate-systems.adoc[Coordinate Systems] - Form positioning
-* xref:../../commands/control-flow/exec.adoc[exec] - Execute forms
+* link:/docs/usage/basic/procedures/[Procedures] - Procedure basics
+* link:/docs/usage/advanced/patterns/[Patterns] - Repeating patterns
+* link:/docs/usage/advanced/resource-management/[Resource Management] - Optimizing resources
+* link:/docs/usage/basic/graphics-state/[Graphics State] - State management
+* link:/docs/usage/basic/coordinate-systems/[Coordinate Systems] - Form positioning
+* link:/docs/commands/references/exec/[exec] - Execute forms

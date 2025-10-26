@@ -1,0 +1,86 @@
+---
+layout: default
+title: cos
+parent: Command Reference
+nav_order: 18
+---
+= cos
+
+Returns the cosine of an angle in degrees.
+
+== Description
+
+The `cos` operator pops an angle (in degrees) from the operand stack and pushes its cosine value. The angle is interpreted in degrees, not radians. The result is always a real number.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+angle cos real
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`angle` (integer or real) - Angle in degrees
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`real` (real) - Cosine of angle
+|===
+
+== Parameters
+
+`angle`:: An angle in degrees (integer or real)
+
+== Return Values
+
+`real`:: cos(angle) where angle is in degrees (always real, range -1.0 to 1.0)
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Key angles
+0 cos          % → 1.0 (cos(0°))
+60 cos         % → 0.5 (cos(60°))
+90 cos         % → 0.0 (cos(90°))
+180 cos        % → -1.0 (cos(180°))
+----
+
+WARNING: PostScript uses *degrees*, not radians!
+
+== Related Commands
+
+* link:/docs/commands/references/sin/[`sin`] - Sine (degrees)
+* link:/docs/commands/references/atan/[`atan`] - Arctangent (returns degrees)
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty.
+
+`typecheck`::
+The operand is not a number.
+
+== See Also
+
+* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators

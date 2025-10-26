@@ -1,0 +1,159 @@
+---
+layout: default
+title: cvlit
+parent: Command Reference
+nav_order: 21
+---
+
+== cvlit
+
+Converts an object to have the literal attribute.
+
+=== Syntax
+
+----
+any cvlit → any
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `any` (any object)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `any` (same object with literal attribute)
+|===
+
+=== Description
+
+link:/docs/commands/references/cvlit/[`cvlit`] (convert to literal) changes the attribute of the object on top of the operand stack from executable to literal.
+
+The object itself is unchanged - only its executable/literal attribute is modified. This affects how the PostScript interpreter treats the object when it is encountered during execution.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Converting name to literal
+[source,postscript]
+----
+/abc cvlit       % Result: /abc (literal name)
+abc cvlit        % Result: /abc (was executable, now literal)
+----
+
+.Converting procedure
+[source,postscript]
+----
+{ 1 2 add } cvlit  % Result: { 1 2 add } (won't execute)
+----
+
+.Already literal
+[source,postscript]
+----
+/name cvlit      % Result: /name (no change)
+123 cvlit        % Result: 123 (no change)
+----
+
+=== Common Use Cases
+
+==== Preventing Execution
+
+[source,postscript]
+----
+/proc { complicated code } def
+proc cvlit       % Get procedure without executing
+% ... later ...
+cvx exec         % Execute when ready
+----
+
+==== Building Literal Arrays
+
+[source,postscript]
+----
+[ /add /mul /sub ] {
+  cvlit          % Make each operator literal
+} forall
+3 array astore
+% Literal array of operator names
+----
+
+==== Name Table Inspection
+
+[source,postscript]
+----
+currentdict {
+  exch cvlit exch  % Convert key to literal
+  % Process key-value pair
+} forall
+----
+
+=== Common Pitfalls
+
+WARNING: *Effect on Interpretation* - Literal objects are not executed when encountered by the interpreter.
+
+[source,postscript]
+----
+{ 1 2 add } cvlit exec  % Executes (push entire proc)
+{ 1 2 add } exec        % Executes (pushes 3)
+----
+
+TIP: *Most Objects Are Literal* - Numbers, strings, arrays created with `[ ]`, etc. are already literal.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackunderflow`]
+| No operand on stack
+|===
+
+=== Implementation Notes
+
+* Only changes the executable/literal attribute bit
+* Does not create a new object (modifies in place)
+* Works on any object type
+* Complementary to link:/docs/commands/references/cvx/[`cvx`]
+
+=== Executable vs. Literal Comparison
+
+[cols="2,3,3"]
+|===
+| Object | Literal Behavior | Executable Behavior
+
+| Name
+| Pushed on stack
+| Looked up and executed
+
+| Array/Procedure
+| Pushed on stack
+| Elements executed sequentially
+
+| Number/String
+| Pushed on stack
+| Pushed on stack (same)
+
+| Operator
+| Pushed on stack
+| Executed
+|===
+
+=== See Also
+
+* link:/docs/commands/references/cvx/[`cvx`] - Convert to executable
+* link:/docs/commands/references/xcheck/[`xcheck`] - Test if executable
+* link:/docs/commands/references/type/[`type`] - Get object type

@@ -1,0 +1,265 @@
+---
+layout: default
+title: grestoreall
+parent: Command Reference
+nav_order: 9
+---
+
+== grestoreall
+
+Restores graphics state to bottommost saved level.
+
+=== Syntax
+
+----
+– grestoreall → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| –
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Graphics state stack cleared to bottommost level
+|===
+
+=== Description
+
+link:/docs/commands/references/grestoreall/[`grestoreall`] performs the equivalent of executing link:/docs/commands/references/grestore/[`grestore`] repeatedly until there are no saved graphics states remaining on the graphics state stack. After executing link:/docs/commands/references/grestoreall/[`grestoreall`], the current graphics state is the bottommost one that was saved by the first link:/docs/commands/references/gsave/[`gsave`] or by link:../resource-management/save/[`save`].
+
+This operator:
+
+* Restores graphics state to the initial level
+* Clears all intermediate saved states
+* Resets the current path to empty
+* Does not affect the operand or dictionary stacks
+
+link:/docs/commands/references/grestoreall/[`grestoreall`] is particularly useful for error recovery and cleanup, ensuring a known graphics state regardless of how many link:/docs/commands/references/gsave/[`gsave`] operations have been performed.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Error recovery
+[source,postscript]
+----
+% May have unknown gsave depth
+drawComplexFigure  % Unknown number of gsaves
+
+% Ensure clean state
+grestoreall
+% Now at bottommost level
+----
+
+.Cleanup after nested operations
+[source,postscript]
+----
+gsave
+  gsave
+    gsave
+      % Deep nesting
+      drawContent
+    grestore
+  grestore
+grestore
+
+% Simpler cleanup
+gsave
+gsave
+gsave
+drawContent
+grestoreall  % All undone at once
+----
+
+.Guaranteed reset
+[source,postscript]
+----
+/DrawSafe {
+  % Save known state
+  gsave
+
+  % Call potentially unsafe code
+  drawUnknownContent
+
+  % Ensure cleanup regardless of gsave count
+  grestoreall
+
+  % Restore to known state
+  grestore
+} def
+----
+
+.Exception handling
+[source,postscript]
+----
+{
+  % Operation that might gsave multiple times
+  complexOperation
+} stopped {
+  % On error, clean up graphics state
+  grestoreall
+  handleError
+} if
+----
+
+=== Common Use Cases
+
+==== Error Recovery
+
+[source,postscript]
+----
+/SafeExecute {
+  % code
+  {
+    gsave
+    exec
+    grestore
+  } stopped {
+    % Clean up on error
+    grestoreall
+    % Re-establish base state
+    initializeGraphicsState
+  } if
+} def
+----
+
+==== Nested Drawing Cleanup
+
+[source,postscript]
+----
+/DrawWithUnknownDepth {
+  % Don't know how many gsaves were done
+  callThirdPartyCode
+
+  % Ensure we're back to base
+  grestoreall
+} def
+----
+
+==== State Reset
+
+[source,postscript]
+----
+/ResetGraphicsState {
+  grestoreall
+  initgraphics
+  initmatrix
+} def
+----
+
+==== Page Boundary
+
+[source,postscript]
+----
+/EndPage {
+  % Restore to page start state
+  grestoreall
+
+  % Show page
+  showpage
+} def
+----
+
+=== Common Pitfalls
+
+WARNING: *Clears ALL Saved States* - link:/docs/commands/references/grestoreall/[`grestoreall`] removes all graphics states, not just one.
+
+[source,postscript]
+----
+gsave  % State 1
+gsave  % State 2
+gsave  % State 3
+
+grestoreall  % Back to state 0 (not state 2)
+----
+
+WARNING: *Does Not Restore Operand Stack* - Only graphics state is affected.
+
+[source,postscript]
+----
+1 2 3
+gsave
+4 5 6
+grestoreall
+% Stack: 1 2 3 4 5 6 (not 1 2 3)
+----
+
+WARNING: *Current Path Reset* - Like link:/docs/commands/references/grestore/[`grestore`], the current path becomes empty.
+
+[source,postscript]
+----
+newpath 0 0 moveto 100 100 lineto
+gsave
+grestoreall
+% Path is now empty
+----
+
+TIP: *Use for Error Handling* - Ideal for ensuring clean state after errors.
+
+=== Error Conditions
+
+No errors under normal operation. link:/docs/commands/references/grestoreall/[`grestoreall`] succeeds even if no graphics states were saved.
+
+=== Implementation Notes
+
+* Equivalent to repeated link:/docs/commands/references/grestore/[`grestore`] until no saved states remain
+* Very fast operation
+* Safe to call even if no states are saved
+* Does not generate errors
+* Clears current path
+* Ideal for cleanup and error recovery
+* Often used with [`stopped`]
+
+=== Graphics State Stack Behavior
+
+.Before grestoreall
+[source]
+----
+Current State (level 3) ← current
+Saved State 2
+Saved State 1
+Saved State 0          ← bottommost
+----
+
+.After grestoreall
+[source]
+----
+Saved State 0          ← current (bottommost)
+----
+
+=== Interaction with save/restore
+
+link:/docs/commands/references/grestoreall/[`grestoreall`] restores graphics state to the bottommost level **within the current save context**. It does not cross link:../resource-management/save/[`save`] boundaries:
+
+[source,postscript]
+----
+gsave              % Graphics state 1
+save               % VM snapshot
+gsave              % Graphics state 2
+grestoreall        % Restores to state after save
+% Still within save context
+restore            % Returns to before save
+% Now at graphics state 1
+----
+
+=== See Also
+
+* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/docs/commands/references/grestore/[`grestore`] - Restore one graphics state
+* link:/docs/commands/references/gstate/[`gstate`] - Create graphics state object
+* link:/docs/commands/references/setgstate/[`setgstate`] - Set graphics state from object
+* link:/docs/commands/references/stopped/[`stopped`] - Error handling

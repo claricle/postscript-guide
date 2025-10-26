@@ -1,0 +1,265 @@
+---
+layout: default
+title: currentpoint
+parent: Command Reference
+nav_order: 13
+---
+
+== currentpoint
+
+Returns the x and y coordinates of the current point.
+
+=== Syntax
+
+----
+- currentpoint → x y
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No operands required
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `y` (number - current point y-coordinate)
+
+| 0
+| `x` (number - current point x-coordinate)
+|===
+
+=== Description
+
+link:/docs/commands/references/currentpoint/[`currentpoint`] returns the x and y coordinates of the current point in the graphics state (i.e., the trailing endpoint of the current path).
+
+If the current point is undefined because the current path is empty, link:/docs/commands/references/currentpoint/[`currentpoint`] executes the [`nocurrentpoint`] error.
+
+The current point is reported in the **user coordinate system**. Points entered into a path are immediately converted to device coordinates by the current transformation matrix (CTM); existing points are not changed by subsequent modifications to the CTM. link:/docs/commands/references/currentpoint/[`currentpoint`] computes the user space coordinate that corresponds to the current point according to the current value of the CTM. If a current point is set and then the CTM is changed, link:/docs/commands/references/currentpoint/[`currentpoint`] will report a different position in user space than it did before.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Getting current position
+[source,postscript]
+----
+newpath
+100 150 moveto
+currentpoint             % Returns: 100 150
+pop pop
+----
+
+.Saving current position
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 200 lineto
+
+currentpoint             % Get endpoint
+/y exch def
+/x exch def
+
+% Can now return to this point
+50 50 lineto
+x y lineto               % Back to (200, 200)
+----
+
+.Relative positioning
+[source,postscript]
+----
+100 100 moveto
+currentpoint             % 100 100
+exch 50 add exch         % Add 50 to x
+lineto                   % Draw to (150, 100)
+----
+
+=== Common Use Cases
+
+==== Implementing Relative Operations
+
+[source,postscript]
+----
+/rmoveto_manual {
+  % dx dy
+  /dy exch def
+  /dx exch def
+  currentpoint
+  dy add exch
+  dx add exch
+  moveto
+} def
+
+100 100 moveto
+50 30 rmoveto_manual     % Moves to (150, 130)
+----
+
+==== Saving and Restoring Position
+
+[source,postscript]
+----
+/savecurrentpoint {
+  currentpoint
+  /savedY exch def
+  /savedX exch def
+} def
+
+/restorecurrentpoint {
+  savedX savedY moveto
+} def
+
+100 100 moveto
+savecurrentpoint
+200 200 lineto
+restorecurrentpoint       % Back to (100, 100)
+----
+
+==== Computing Path Dimensions
+
+[source,postscript]
+----
+/pathLength {
+  % Approximates total path length
+  /totalLength 0 def
+  {
+    /y1 exch def /x1 exch def
+    currentpoint
+    /y0 exch def /x0 exch def
+    x1 x0 sub dup mul y1 y0 sub dup mul add sqrt
+    totalLength add /totalLength exch def
+    x1 y1 moveto
+  } % line procedure
+  {} % curve procedure (simplified)
+  {} % move procedure
+  {} % close procedure
+  pathforall
+  totalLength
+} def
+----
+
+==== Creating Custom Path Operations
+
+[source,postscript]
+----
+/drawArrowhead {
+  % Draws arrowhead at current point
+  % Assumes path direction is known
+  gsave
+  currentpoint translate   % Move origin to current point
+  % Draw arrowhead at origin
+  newpath
+  0 0 moveto
+  -10 5 lineto
+  -10 -5 lineto
+  closepath
+  fill
+  grestore
+} def
+
+100 100 moveto
+200 200 lineto
+drawArrowhead
+----
+
+=== Common Pitfalls
+
+WARNING: *Requires Current Point* - link:/docs/commands/references/currentpoint/[`currentpoint`] fails if the path is empty or only contains link:/docs/commands/references/moveto/[`moveto`] operations that were superseded.
+
+[source,postscript]
+----
+newpath
+currentpoint             % Error: nocurrentpoint
+----
+
+WARNING: *CTM Affects Results* - The coordinates returned are in current user space. Changing the CTM changes the reported coordinates.
+
+[source,postscript]
+----
+100 100 moveto
+currentpoint             % Returns: 100 100
+
+2 2 scale                % Change CTM
+currentpoint             % Returns: 50 50 (in new user space)
+----
+
+WARNING: *Not Affected by gsave/grestore* - The current point is part of the graphics state and is saved/restored by `gsave`/`grestore`.
+
+[source,postscript]
+----
+100 100 moveto
+gsave
+200 200 lineto
+currentpoint             % Returns: 200 200
+grestore
+currentpoint             % Returns: 100 100 (restored)
+----
+
+TIP: *Use for Position-Dependent Drawing* - link:/docs/commands/references/currentpoint/[`currentpoint`] is essential for drawing elements that depend on the current path position, like arrowheads or labels.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`nocurrentpoint`]
+| Current path is empty (no current point defined)
+
+| [`stackoverflow`]
+| Operand stack is full (cannot push two values)
+
+| [`undefinedresult`]
+| Numeric overflow in coordinate transformation
+|===
+
+=== Implementation Notes
+
+* Returns coordinates in current user space
+* Coordinates are computed from device space using inverse CTM
+* May have rounding errors due to coordinate transformations
+* The current point exists only after path construction operations
+* Superseded link:/docs/commands/references/moveto/[`moveto`] operations don't leave a current point
+
+=== Coordinate Transformation
+
+The current point is stored internally in device space. link:/docs/commands/references/currentpoint/[`currentpoint`] performs this transformation:
+
+----
+device_point → CTM⁻¹ → user_point
+----
+
+This means:
+
+[source,postscript]
+----
+matrix currentmatrix /ctm exch def
+100 100 moveto            % Set point in user space
+currentpoint              % Get it back
+% Stack: 100 100 (approximately, may have rounding)
+----
+
+=== Performance Considerations
+
+* Very fast operation
+* Involves matrix inversion (minimal overhead)
+* No memory allocation
+* Useful for avoiding redundant coordinate calculations
+
+=== See Also
+
+* link:/docs/commands/references/moveto/[`moveto`] - Set current point (absolute)
+* link:/docs/commands/references/rmoveto/[`rmoveto`] - Set current point (relative)
+* link:/docs/commands/references/lineto/[`lineto`] - Add line to current point
+* link:/docs/commands/references/newpath/[`newpath`] - Clear current path

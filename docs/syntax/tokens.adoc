@@ -598,11 +598,11 @@ name        % Executable name (looked up)
 
 === See Also
 
-* xref:objects.adoc[Objects] - PostScript object model
-* xref:data-types.adoc[Data Types] - Complete type system
-* xref:strings.adoc[Strings] - Detailed string documentation
-* xref:operators.adoc[Operators] - Operator execution
-* xref:../commands/array-string/cvs.adoc[cvs] - Convert to string
-* xref:../commands/array-string/token.adoc[token] - Token scanning
-* xref:index.adoc[Language Syntax Overview]
-* xref:../commands/index.adoc[Command Reference]
+* link:/docs/syntax/objects/[Objects] - PostScript object model
+* link:/docs/syntax/data-types/[Data Types] - Complete type system
+* link:/docs/syntax/strings/[Strings] - Detailed string documentation
+* link:/docs/syntax/operators/[Operators] - Operator execution
+* link:/docs/commands/references/cvs/[cvs] - Convert to string
+* link:/docs/commands/references/token/[token] - Token scanning
+* link:/docs/syntax/[Language Syntax Overview]
+* link:/docs/commands/[Command Reference]

@@ -53,7 +53,7 @@ Level 3 maintains full compatibility with Level 1 and Level 2:
 
 == See Also
 
-* xref:level-1.adoc[PostScript Level 1] - Original specification
-* xref:level-2.adoc[PostScript Level 2] - Color and fonts
-* xref:comparison.adoc[Version Comparison] - Feature comparison
-* xref:index.adoc[PostScript Levels Overview]
+* link:/docs/levels/level-1/[PostScript Level 1] - Original specification
+* link:/docs/levels/level-2/[PostScript Level 2] - Color and fonts
+* link:/docs/levels/comparison/[Version Comparison] - Feature comparison
+* link:/docs/levels/[PostScript Levels Overview]

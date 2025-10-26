@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Arithmetic and Math
-parent: Command Reference
+parent: Commands
 nav_order: 2
 ---
 
@@ -17,54 +17,54 @@ PostScript provides a comprehensive set of arithmetic and mathematical operators
 
 The fundamental arithmetic operations:
 
-* xref:../add.adoc[`add`] - Add two numbers
-* xref:../sub.adoc[`sub`] - Subtract two numbers
-* xref:../mul.adoc[`mul`] - Multiply two numbers
-* xref:../div.adoc[`div`] - Divide (real result)
-* xref:../idiv.adoc[`idiv`] - Integer division
-* xref:../mod.adoc[`mod`] - Modulo (remainder)
+* link:/docs/commands/references/add/[`add`] - Add two numbers
+* link:/docs/commands/references/sub/[`sub`] - Subtract two numbers
+* link:/docs/commands/references/mul/[`mul`] - Multiply two numbers
+* link:/docs/commands/references/div/[`div`] - Divide (real result)
+* link:/docs/commands/references/idiv/[`idiv`] - Integer division
+* link:/docs/commands/references/mod/[`mod`] - Modulo (remainder)
 
 ==== Unary Operations
 
 Operations on a single number:
 
-* xref:../abs.adoc[`abs`] - Absolute value
-* xref:../neg.adoc[`neg`] - Negate
-* xref:../ceiling.adoc[`ceiling`] - Round up to integer
-* xref:../floor.adoc[`floor`] - Round down to integer
-* xref:../round.adoc[`round`] - Round to nearest integer
-* xref:../truncate.adoc[`truncate`] - Truncate to integer
+* link:/docs/commands/references/abs/[`abs`] - Absolute value
+* link:/docs/commands/references/neg/[`neg`] - Negate
+* link:/docs/commands/references/ceiling/[`ceiling`] - Round up to integer
+* link:/docs/commands/references/floor/[`floor`] - Round down to integer
+* link:/docs/commands/references/round/[`round`] - Round to nearest integer
+* link:/docs/commands/references/truncate/[`truncate`] - Truncate to integer
 
 ==== Exponential and Logarithmic
 
 Power and logarithm functions:
 
-* xref:../sqrt.adoc[`sqrt`] - Square root
-* xref:../exp.adoc[`exp`] - Exponential (base^exponent)
-* xref:../ln.adoc[`ln`] - Natural logarithm (base e)
-* xref:../log.adoc[`log`] - Common logarithm (base 10)
+* link:/docs/commands/references/sqrt/[`sqrt`] - Square root
+* link:/docs/commands/references/exp/[`exp`] - Exponential (base^exponent)
+* link:/docs/commands/references/ln/[`ln`] - Natural logarithm (base e)
+* link:/docs/commands/references/log/[`log`] - Common logarithm (base 10)
 
 ==== Trigonometric
 
 Trigonometric functions (angles in degrees):
 
-* xref:../sin.adoc[`sin`] - Sine
-* xref:../cos.adoc[`cos`] - Cosine
-* xref:../atan.adoc[`atan`] - Arctangent
+* link:/docs/commands/references/sin/[`sin`] - Sine
+* link:/docs/commands/references/cos/[`cos`] - Cosine
+* link:/docs/commands/references/atan/[`atan`] - Arctangent
 
 ==== Bitwise Operations
 
 Operations on integer bit patterns:
 
-* xref:../bitshift.adoc[`bitshift`] - Bitwise shift left or right
+* link:/docs/commands/references/bitshift/[`bitshift`] - Bitwise shift left or right
 
 ==== Random Numbers
 
 Pseudo-random number generation:
 
-* xref:../rand.adoc[`rand`] - Generate random integer
-* xref:../srand.adoc[`srand`] - Seed random generator
-* xref:../rrand.adoc[`rrand`] - Get/set random seed
+* link:/docs/commands/references/rand/[`rand`] - Generate random integer
+* link:/docs/commands/references/srand/[`srand`] - Seed random generator
+* link:/docs/commands/references/rrand/[`rrand`] - Get/set random seed
 
 === Type Coercion Rules
 
@@ -186,5 +186,5 @@ Real numbers have finite precision. Avoid comparing reals for exact equality:
 
 === See Also
 
-* xref:../../levels/index.adoc[PostScript Language Levels]
-* xref:../stack-manipulation/index.adoc[Stack Manipulation]
+* link:/docs/levels/[PostScript Language Levels]
+* link:/docs/commands/references/[Stack Manipulation]

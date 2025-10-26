@@ -1,0 +1,240 @@
+---
+layout: default
+title: currentdash
+parent: Command Reference
+nav_order: 14
+---
+
+== currentdash
+
+Returns current dash pattern and offset.
+
+=== Syntax
+
+----
+– currentdash → array offset
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| –
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `array` (dash pattern array)
+
+| 0
+| `offset` (dash offset value)
+|===
+
+=== Description
+
+link:/docs/commands/references/currentdash/[`currentdash`] returns the current dash pattern array and offset parameter from the graphics state. These are the values most recently set by link:/docs/commands/references/setdash/[`setdash`].
+
+The dash pattern array specifies the pattern of dashes and gaps:
+
+* **Empty array `[]`**: solid line (no dashing)
+* **One element `[a]`**: alternating a-unit dashes and a-unit gaps
+* **Multiple elements `[a b c...]`**: sequence of dash/gap lengths that repeats
+
+The offset specifies the distance into the pattern at which to start the dash.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Querying solid line (no dash)
+[source,postscript]
+----
+[] 0 setdash
+currentdash
+% Stack: [] 0
+----
+
+.Querying dash pattern
+[source,postscript]
+----
+[3 5] 2 setdash
+currentdash
+% Stack: [3 5] 2
+----
+
+.Saving and restoring dash pattern
+[source,postscript]
+----
+currentdash             % Save both
+/savedOffset exch def
+/savedArray exch def
+
+[10 5 2 5] 0 setdash   % Change
+drawDashedLines
+
+savedArray savedOffset setdash  % Restore
+----
+
+.Modifying current pattern
+[source,postscript]
+----
+currentdash
+pop                     % Remove offset
+% Modify array elements
+0 6 put                 % Change first element
+0 setdash               % Apply modified pattern
+----
+
+=== Common Use Cases
+
+==== Dash State Preservation
+
+[source,postscript]
+----
+/DrawWithCustomDash {
+  % array offset on stack
+  currentdash           % Save current
+  4 2 roll              % Bring new values forward
+  setdash
+
+  drawShape
+
+  setdash               % Restore
+} def
+
+% Usage
+[5 3] 0 DrawWithCustomDash
+----
+
+==== Checking for Solid Lines
+
+[source,postscript]
+----
+/IsSolid {
+  currentdash
+  pop                   % Remove offset
+  length 0 eq           % Empty array?
+} def
+
+IsSolid {
+  % Solid line
+  drawSolid
+} {
+  % Dashed line
+  drawDashed
+} ifelse
+----
+
+==== Pattern Analysis
+
+[source,postscript]
+----
+/GetDashLength {
+  % Returns total pattern length
+  currentdash
+  pop                   % Remove offset
+  0 exch                % Accumulator
+  { add } forall
+} def
+
+GetDashLength
+% Stack: total pattern length
+----
+
+==== Doubling Dash Pattern
+
+[source,postscript]
+----
+/DoubleDashPattern {
+  currentdash
+  exch                  % offset array
+  [ exch { 2 mul } forall ]
+  exch 2 mul            % Double offset too
+  setdash
+} def
+----
+
+=== Common Pitfalls
+
+WARNING: *Returned Array is Copy* - Modifying returned array requires calling link:/docs/commands/references/setdash/[`setdash`].
+
+[source,postscript]
+----
+currentdash pop
+0 10 put                % Modifies array
+% Pattern unchanged until setdash called
+0 setdash
+----
+
+WARNING: *Array Can Be Empty* - Empty array means solid line.
+
+[source,postscript]
+----
+currentdash pop
+length                  % Could be 0
+dup 0 eq {
+  % Handle solid line case
+} if
+----
+
+TIP: *Save Both Values* - Always save both array and offset for complete restoration.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackoverflow`]
+| Fewer than 2 free stack positions
+|===
+
+=== Implementation Notes
+
+* Fast query operation
+* No modification to graphics state
+* Returns copy of dash array
+* Returns both array and offset
+* Default is `[] 0` (solid line)
+* Widely supported (Level 1)
+
+=== Dash Pattern Behavior
+
+Common patterns:
+
+[source,postscript]
+----
+[] 0           % Solid line: ─────────────
+[3] 0          % Equal dash/gap: ───   ───   ───
+[5 3] 0        % Long dash, short gap: ─────   ─────
+[10 3 3 3] 0   % Dash-dot: ──────────   ───   ──────────
+[2 2] 0        % Dots: ──  ──  ──  ──
+[2 2] 1        % Dots offset: ── ── ── ──
+----
+
+=== Pattern Offset Effect
+
+[source,postscript]
+----
+% Pattern: [6 3]
+[6 3] 0 setdash   % ██████   ███████   ██████
+[6 3] 3 setdash   % ███   ██████   ██████   ███
+[6 3] 6 setdash   % ██████   ██████   ██████
+----
+
+=== See Also
+
+* link:/docs/commands/references/setdash/[`setdash`] - Set dash pattern
+* link:/docs/commands/references/currentlinewidth/[`currentlinewidth`] - Get line width
+* link:/docs/commands/references/currentlinecap/[`currentlinecap`] - Get line cap style
+* link:/docs/commands/references/currentlinejoin/[`currentlinejoin`] - Get line join style

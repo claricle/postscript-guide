@@ -1,0 +1,204 @@
+---
+layout: default
+title: packedarray
+parent: Command Reference
+nav_order: 12
+---
+
+== packedarray
+
+Creates a read-only packed array from objects on the stack (Level 2).
+
+=== Syntax
+
+----
+any₀ ... anyₙ₋₁ n packedarray → packedarray
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| n
+| `any₀`
+
+| ...
+| ...
+
+| 1
+| `anyₙ₋₁`
+
+| 0
+| `n` (number of elements)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `packedarray` (containing any₀ through anyₙ₋₁)
+|===
+
+=== Description
+
+link:/docs/commands/references/packedarray/[`packedarray`] creates a packed array object of length _n_ containing the objects any₀ through anyₙ₋₁ as elements. It:
+
+1. Removes the integer _n_ from the stack
+2. Removes _n_ objects from the stack
+3. Creates a packed array containing those objects
+4. Pushes the packed array on the stack
+
+The resulting object:
+* Has type `packedarraytype`
+* Has the literal attribute
+* Has readonly access (cannot be modified)
+* Is more memory-efficient than regular arrays
+
+The packed array is allocated in local or global VM according to the current VM allocation mode.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Basic packed array
+[source,postscript]
+----
+1 2 3 3 packedarray
+% Creates read-only packed array
+----
+
+.Storing procedures
+[source,postscript]
+----
+/add /mul /sub 3 packedarray
+% Packed array of operators
+----
+
+.Mixed types
+[source,postscript]
+----
+42 (text) /name 3 packedarray
+% Packed array: <42 (text) /name>
+----
+
+=== Common Use Cases
+
+==== Procedure Definitions
+
+[source,postscript]
+----
+% In Level 2, procedure bodies are packed arrays
+true setpacking
+{ 1 2 add }  % Creates packed array
+----
+
+==== Read-Only Data
+
+[source,postscript]
+----
+/constants 1 2 3.14159 3 packedarray def
+% Constants cannot be accidentally modified
+----
+
+==== Memory-Efficient Storage
+
+[source,postscript]
+----
+% Packed arrays use less memory
+/data many values here n packedarray def
+----
+
+=== Common Pitfalls
+
+WARNING: *Cannot Modify Packed Arrays* - Packed arrays are read-only. Attempting to use link:/docs/commands/references/put/[`put`] or link:/docs/commands/references/putinterval/[`putinterval`] causes [`invalidaccess`] error.
+
+[source,postscript]
+----
+1 2 3 3 packedarray
+dup 0 99 put  % Error: cannot modify
+----
+
+WARNING: *Global/Local VM Restrictions* - If packed array is in global VM and any element is in local VM, [`invalidaccess`] error occurs.
+
+TIP: *Use for Procedures* - In Level 2, enable packing mode with `true setpacking` to create packed array procedures automatically.
+
+[source,postscript]
+----
+true setpacking
+{ add mul }  % Automatically creates packed array
+false setpacking
+----
+
+TIP: *Read Operations Work Normally* - Can use link:/docs/commands/references/get/[`get`], link:/docs/commands/references/getinterval/[`getinterval`], link:/docs/commands/references/aload/[`aload`], link:/docs/commands/references/forall/[`forall`], etc.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| Packed array in global VM contains local VM objects
+
+| [`rangecheck`]
+| _n_ is negative or exceeds implementation limit
+
+| [`stackunderflow`]
+| Fewer than n+1 objects on stack
+
+| [`typecheck`]
+| Top operand is not an integer
+
+| [`VMerror`]
+| Insufficient VM to allocate packed array
+|===
+
+=== Implementation Notes
+
+* Packed arrays typically use 50-60% less memory than regular arrays
+* Elements are stored more compactly
+* Created with readonly and literal attributes
+* Type is `packedarraytype`, distinct from `arraytype`
+* Can be used anywhere regular arrays are accepted (for read operations)
+
+=== Comparison with Regular Arrays
+
+[cols="2,3,3"]
+|===
+| Feature | Regular Array | Packed Array
+
+| Memory usage
+| More
+| Less (50-60% savings)
+
+| Modifiable
+| Yes
+| No (readonly)
+
+| Access speed
+| Slightly faster
+| Slightly slower
+
+| Creation
+| `[ ... ]` or `array`
+| `packedarray` or procedures with packing on
+
+| Type
+| `arraytype`
+| `packedarraytype`
+|===
+
+=== See Also
+
+* link:/docs/commands/references/array/[`array`] - Create regular (modifiable) array
+* link:/docs/commands/references/left-bracket/[`[`] / link:/docs/commands/references/right-bracket/[`]`] - Array literal syntax
+* link:/docs/commands/references/aload/[`aload`] - Load packed array elements
+* link:/docs/commands/references/get/[`get`] - Get packed array element
+* link:/docs/commands/references/forall/[`forall`] - Iterate over packed array

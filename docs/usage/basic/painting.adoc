@@ -1010,10 +1010,10 @@ stroke
 
 === See Also
 
-* xref:path-construction.adoc[Path Construction] - Building paths
-* xref:graphics-state.adoc[Graphics State] - Controlling appearance
-* xref:../../commands/painting/index.adoc[Painting Commands] - Complete command reference
-* xref:../../commands/painting/fill.adoc[fill] - Fill path
-* xref:../../commands/painting/stroke.adoc[stroke] - Stroke path
-* xref:../../commands/painting/clip.adoc[clip] - Set clipping path
-* xref:../advanced/patterns.adoc[Patterns] - Advanced pattern fills
+* link:/docs/usage/basic/path-construction/[Path Construction] - Building paths
+* link:/docs/usage/basic/graphics-state/[Graphics State] - Controlling appearance
+* link:/docs/commands/references/[Painting Commands] - Complete command reference
+* link:/docs/commands/references/fill/[fill] - Fill path
+* link:/docs/commands/references/stroke/[stroke] - Stroke path
+* link:/docs/commands/references/clip/[clip] - Set clipping path
+* link:/docs/usage/advanced/patterns/[Patterns] - Advanced pattern fills

@@ -1,0 +1,297 @@
+---
+layout: default
+title: stringwidth
+parent: Command Reference
+nav_order: 14
+---
+
+== stringwidth
+
+Calculate text width and displacement.
+
+=== Syntax
+
+----
+string stringwidth → wx wy
+----
+
+=== Stack Effects
+
+**Before:**
+```
+string
+```
+
+**After:**
+```
+wx wy
+```
+
+=== Description
+
+link:/docs/commands/references/stringwidth/[`stringwidth`] calculates the change in the current point that would occur if `string` were given as the operand to link:/docs/commands/references/show/[`show`] with the current font. `wx` and `wy` are computed by adding together the width vectors of all the individual characters in `string` and converting the result to user space.
+
+They form a distance vector in x and y describing the width of the entire string in user space. To obtain the character widths, link:/docs/commands/references/stringwidth/[`stringwidth`] may execute the descriptions of one or more of the characters in the current font and may cause the results to be placed in the font cache.
+
+However, link:/docs/commands/references/stringwidth/[`stringwidth`] prevents the graphics operators that are executed from painting anything into the current page.
+
+Note that the "width" of a string is defined as movement of the current point. It has nothing to do with the dimensions of the character outlines (see link:/docs/commands/references/charpath/[`charpath`]) and `pathbbox`.
+
+=== Parameters
+
+**string** (`string`)
+: The text to measure
+
+=== Returns
+
+**wx** (`number`)
+: X component of the total width vector in user space
+
+**wy** (`number`)
+: Y component of the total width vector in user space
+
+=== Examples
+
+==== Basic Width Measurement
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+(Hello, World!) stringwidth
+% Returns wx and wy
+pop  % Usually only wx is needed
+----
+
+==== Centering Text
+
+[source,postscript]
+----
+/centerText {  % string centerText -
+  dup stringwidth pop  % Get width (wx)
+  2 div neg            % Calculate offset
+  0 rmoveto            % Move left by half width
+  show                 % Show centered
+} def
+
+300 400 moveto
+(Centered Text) centerText
+----
+
+==== Right-Aligned Text
+
+[source,postscript]
+----
+/rightShow {  % string x y rightShow -
+  moveto
+  dup stringwidth pop neg 0 rmoveto
+  show
+} def
+
+(Right aligned) 500 700 rightShow
+----
+
+==== Calculating Text Bounding Box
+
+[source,postscript]
+----
+% Note: stringwidth gives displacement, not bounding box!
+% For actual bbox, use charpath + pathbbox
+
+/textBBox {  % string textBBox llx lly urx ury
+  gsave
+    newpath
+    0 0 moveto
+    true charpath  % Get character outlines
+    pathbbox       % Get bounding box
+  grestore
+} def
+
+(Text) textBBox  % Returns actual visual bounds
+----
+
+==== Fitting Text to Width
+
+[source,postscript]
+----
+/fitToWidth {  % string targetWidth fitToWidth -
+  1 index stringwidth pop  % Get current width
+  1 index exch div         % Calculate scale factor
+
+  % Scale font to fit
+  currentfont
+  exch scalefont setfont
+  show
+} def
+
+100 700 moveto
+(Text to fit) 300 fitToWidth
+----
+
+=== Errors
+
+**invalidaccess**
+: Font or string has restricted access
+
+**invalidfont**
+: Current font is not valid
+
+**rangecheck**
+: Character code exceeds encoding bounds
+
+**stackunderflow**
+: No operand on stack
+
+**typecheck**
+: Operand is not a string
+
+=== Width Vector Calculation
+
+For a string "ABC":
+
+----
+stringwidth("ABC") = width(A) + width(B) + width(C)
+----
+
+Where each character width is a 2D vector:
+
+----
+width(c) = (wx(c), wy(c))
+----
+
+The total is the vector sum in user space.
+
+=== Coordinate System
+
+The width is returned in **user space**, not character space:
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+(ABC) stringwidth  % Returns user space width
+
+% After CTM change, same string has different width
+2 2 scale
+(ABC) stringwidth  % Returns 2× larger values
+----
+
+=== Common Patterns
+
+==== Multi-Line Text Width
+
+[source,postscript]
+----
+/maxLineWidth {  % array-of-strings maxLineWidth width
+  0  % Initialize max width
+  exch {
+    stringwidth pop  % Get width of each line
+    2 copy lt { exch } if pop
+  } forall
+} def
+
+[(Line 1)
+ (Longer line 2)
+ (Short)] maxLineWidth
+% Returns width of widest line
+----
+
+==== Truncating Text to Fit
+
+[source,postscript]
+----
+/truncateToFit {  % string maxWidth truncateToFit substring
+  1 index stringwidth pop  % Check if fits
+  1 index le {
+    % Fits as-is
+    pop
+  } {
+    % Too wide: truncate
+    0 1 2 index length 1 sub {
+      2 index 0 1 index getinterval
+      dup stringwidth pop
+      3 index lt { exit } if
+      pop
+    } for
+    % Add ellipsis
+    (...) concatstrings
+    exch pop
+  } ifelse
+} def
+
+(Very long text that needs truncation) 200 truncateToFit
+----
+
+==== Column Width Calculation
+
+[source,postscript]
+----
+/calculateColumnWidth {  % array-of-paragraphs calculateColumnWidth width
+  % Find maximum width needed for array of text
+  0  % Initialize max
+  {
+    % For each paragraph (array of lines)
+    {
+      stringwidth pop
+      2 copy lt { exch } if pop
+    } forall
+  } forall
+} def
+----
+
+=== Width vs. Bounding Box
+
+[cols="2,3"]
+|===
+| Measurement | Purpose
+
+| **stringwidth**
+| Current point displacement (typographic width)
+
+| **charpath + pathbbox**
+| Visual bounding box (ink bounds)
+|===
+
+Example difference:
+
+[source,postscript]
+----
+% Typographic width (includes sidebearings)
+(Text) stringwidth pop  % e.g., 120 units
+
+% Visual width (actual ink)
+gsave
+  newpath 0 0 moveto
+  (Text) true charpath
+  pathbbox
+grestore
+pop exch pop sub  % e.g., 115 units (tighter)
+----
+
+=== Performance Considerations
+
+- Fast operation (similar cost to link:/docs/commands/references/show/[`show`])
+- May trigger character caching
+- Does not paint (no output overhead)
+- Can be called repeatedly without side effects
+- Useful for layout calculations before rendering
+
+=== Vertical Writing Modes
+
+For vertical writing fonts, `wy` may be non-zero:
+
+[source,postscript]
+----
+% Vertical font example
+/VerticalFont findfont 12 scalefont setfont
+(縦書き) stringwidth
+% wx may be small or zero
+% wy contains the vertical advancement
+----
+
+=== See Also
+
+- link:/docs/commands/references/show/[`show`] - Paint text string
+- link:/docs/commands/references/charpath/[`charpath`] - Get character outlines as path
+- `pathbbox` - Get path bounding box
+- link:/docs/commands/references/setfont/[`setfont`] - Establish current font
+- link:/docs/commands/references/ashow/[`ashow`] - Show with spacing adjustment
+- link:/docs/commands/references/widthshow/[`widthshow`] - Show with selective adjustment

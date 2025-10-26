@@ -988,13 +988,13 @@ value dup 0 lt {
 
 === See Also
 
-* xref:procedures.adoc[Procedures] - User-defined executable arrays
-* xref:objects.adoc[Objects] - Object execution model
-* xref:tokens.adoc[Tokens] - Operator name syntax
-* xref:data-types.adoc[Data Types] - Operand types
-* xref:../commands/control-flow/index.adoc[Control Flow Commands]
-* xref:../commands/stack-manipulation/index.adoc[Stack Manipulation Commands]
-* xref:../commands/arithmetic-math/index.adoc[Arithmetic Commands]
-* xref:../commands/array-string/index.adoc[Array and String Commands]
-* xref:../commands/dictionary/index.adoc[Dictionary Commands]
-* xref:index.adoc[Language Syntax Overview]
+* link:/docs/syntax/procedures/[Procedures] - User-defined executable arrays
+* link:/docs/syntax/objects/[Objects] - Object execution model
+* link:/docs/syntax/tokens/[Tokens] - Operator name syntax
+* link:/docs/syntax/data-types/[Data Types] - Operand types
+* link:/docs/commands/references/[Control Flow Commands]
+* link:/docs/commands/references/[Stack Manipulation Commands]
+* link:/docs/commands/references/[Arithmetic Commands]
+* link:/docs/commands/references/[Array and String Commands]
+* link:/docs/commands/references/[Dictionary Commands]
+* link:/docs/syntax/[Language Syntax Overview]

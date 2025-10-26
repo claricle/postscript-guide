@@ -1,0 +1,189 @@
+---
+layout: default
+title: identmatrix
+parent: Command Reference
+nav_order: 6
+---
+
+== identmatrix
+
+Replaces array contents with identity matrix values.
+
+=== Syntax
+
+----
+matrix identmatrix → matrix
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (array)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (modified array)
+|===
+
+=== Description
+
+link:/docs/commands/references/identmatrix/[`identmatrix`] replaces the value of `matrix` with the identity matrix [1.0 0.0 0.0 1.0 0.0 0.0] and pushes the modified matrix back on the operand stack.
+
+The identity matrix transforms any coordinate to itself without change.
+
+The `matrix` operand must be an array with at least 6 elements. Only the first 6 elements are modified.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Initializing a matrix
+[source,postscript]
+----
+6 array identmatrix  % → [1.0 0.0 0.0 1.0 0.0 0.0]
+----
+
+.Resetting an existing matrix
+[source,postscript]
+----
+/m [2 0 0 2 100 100] def
+m identmatrix        % → [1.0 0.0 0.0 1.0 0.0 0.0]
+% m is now the identity matrix
+----
+
+.Equivalent to matrix
+[source,postscript]
+----
+% These produce the same result:
+matrix
+6 array identmatrix
+----
+
+=== Common Use Cases
+
+==== Reusing Matrix Arrays
+
+[source,postscript]
+----
+% Create reusable matrix
+/workMatrix 6 array def
+
+% Reset to identity before use
+workMatrix identmatrix
+100 100 translate
+% Use transformed matrix
+
+% Reset again
+workMatrix identmatrix
+45 rotate
+% Use newly transformed matrix
+----
+
+==== Matrix Initialization
+
+[source,postscript]
+----
+% Initialize multiple matrices
+/matrices [
+  6 array identmatrix
+  6 array identmatrix
+  6 array identmatrix
+] def
+----
+
+=== Common Pitfalls
+
+WARNING: *Array Size* - The array must have at least 6 elements.
+
+[source,postscript]
+----
+4 array identmatrix  % Error: rangecheck
+6 array identmatrix  % OK
+8 array identmatrix  % OK (only first 6 modified)
+----
+
+WARNING: *Modifies Existing Array* - Unlike link:/docs/commands/references/matrix/[`matrix`], link:/docs/commands/references/identmatrix/[`identmatrix`] modifies an existing array.
+
+[source,postscript]
+----
+matrix               % Creates new array
+6 array identmatrix  % Uses existing array
+----
+
+TIP: *Use with Preallocated Arrays* - link:/docs/commands/references/identmatrix/[`identmatrix`] is useful when you want to reuse arrays:
+
+[source,postscript]
+----
+% Inefficient - creates many arrays:
+{
+  matrix currentmatrix
+  % use matrix
+} repeat
+
+% Efficient - reuses one array:
+/m 6 array def
+{
+  m identmatrix currentmatrix
+  % use matrix
+} repeat
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| Array has fewer than 6 elements
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand is not an array
+|===
+
+=== Implementation Notes
+
+* Only the first 6 elements are modified
+* Elements beyond index 5 are unchanged
+* The array itself is not replaced, only its contents
+* All 6 values are set to real numbers
+
+=== Identity Matrix
+
+The identity matrix has these special properties:
+
+----
+[1 0 0 1 0 0]
+
+x' = 1×x + 0×y + 0 = x
+y' = 0×x + 1×y + 0 = y
+----
+
+Properties:
+
+* Preserves all coordinates
+* Is its own inverse: I⁻¹ = I
+* Is the multiplicative identity: I × M = M × I = M for any matrix M
+* Has determinant = 1
+
+=== See Also
+
+* link:/docs/commands/references/matrix/[`matrix`] - Create new identity matrix array
+* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current transformation
+* link:/docs/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
+* link:/docs/commands/references/initmatrix/[`initmatrix`] - Reset CTM to identity

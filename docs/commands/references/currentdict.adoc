@@ -1,0 +1,166 @@
+---
+layout: default
+title: currentdict
+parent: Command Reference
+nav_order: 10
+---
+
+== currentdict
+
+Returns the current dictionary (top of dictionary stack).
+
+=== Syntax
+
+----
+– currentdict → dict
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+|
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `dict` (current dictionary)
+|===
+
+=== Description
+
+link:/docs/commands/references/currentdict/[`currentdict`] pushes the current dictionary (the dictionary on top of the dictionary stack) onto the operand stack.
+
+This does NOT pop the dictionary stack - it just pushes a duplicate reference to the top dictionary.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Getting current dictionary
+[source,postscript]
+----
+currentdict  % Returns userdict (if no begin executed)
+----
+
+.Checking current scope
+[source,postscript]
+----
+5 dict begin
+  currentdict  % Returns the 5-element dict
+  /mykey known % Check if mykey in current dict
+end
+----
+
+.Adding to current dictionary
+[source,postscript]
+----
+currentdict /newkey newvalue put
+% Same as: /newkey newvalue def
+----
+
+=== Common Use Cases
+
+==== Saving Current Dictionary
+
+[source,postscript]
+----
+/savedict currentdict def
+% ... operations that change dict stack ...
+savedict begin
+  % Restore dictionary context
+end
+----
+
+==== Iterating Current Dictionary
+
+[source,postscript]
+----
+currentdict {
+  exch =  % Print key
+  =       % Print value
+} forall
+----
+
+==== Conditional Definitions
+
+[source,postscript]
+----
+currentdict /setting known not {
+  /setting defaultValue def
+} if
+----
+
+=== Common Pitfalls
+
+WARNING: *Does Not Pop Dictionary Stack* - link:/docs/commands/references/currentdict/[`currentdict`] leaves dictionary stack unchanged.
+
+[source,postscript]
+----
+dict begin
+  currentdict  % Stack: dict (dict stack unchanged)
+  % dict stack still has dict on it
+end
+----
+
+WARNING: *Returns Reference* - Modifying the returned dictionary affects the dictionary on the stack.
+
+[source,postscript]
+----
+currentdict /key value put
+% Modifies the dict on the dictionary stack
+----
+
+TIP: *Use for Debugging* - Examine current dictionary during development:
+
+[source,postscript]
+----
+currentdict { exch = = } forall  % Print all entries
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackoverflow`]
+| No room on operand stack
+|===
+
+=== Implementation Notes
+
+* Very fast operation
+* Returns reference to actual dictionary (not a copy)
+* Standard use case for link:/docs/commands/references/def/[`def`] is `currentdict key value put`
+
+=== Typical Dictionary Stack
+
+[source]
+----
+Top    → Local dict (via begin)
+         ...
+         userdict
+         globaldict (Level 2)
+Bottom → systemdict
+----
+
+link:/docs/commands/references/currentdict/[`currentdict`] returns the topmost dictionary.
+
+=== See Also
+
+* link:/docs/commands/references/begin/[`begin`] - Push dictionary onto stack
+* link:/docs/commands/references/end/[`end`] - Pop dictionary from stack
+* link:/docs/commands/references/dictstack/[`dictstack`] - Copy entire dict stack to array
+* link:/docs/commands/references/countdictstack/[`countdictstack`] - Count dictionaries on stack
+* link:/docs/commands/references/def/[`def`] - Define in current dictionary

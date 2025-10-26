@@ -1,0 +1,292 @@
+---
+layout: default
+title: transform
+parent: Command Reference
+nav_order: 13
+---
+
+== transform
+
+Transforms coordinates from user space to device space.
+
+=== Syntax
+
+----
+x y transform → x' y'
+x y matrix transform → x' y'
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `y` (number)
+
+| 0
+| `x` (number)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `y'` (number)
+
+| 0
+| `x'` (number)
+|===
+
+=== Description
+
+With no matrix operand, link:/docs/commands/references/transform/[`transform`] transforms the user space coordinate (x, y) by the current transformation matrix (CTM) to produce the corresponding device space coordinate (x', y').
+
+If the `matrix` operand is supplied, link:/docs/commands/references/transform/[`transform`] transforms (x, y) by `matrix` rather than by the CTM.
+
+This operator is useful for converting user space coordinates (the ones used in path construction) to device space coordinates (actual pixel positions).
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Basic coordinate transformation
+[source,postscript]
+----
+initmatrix
+100 200 transform
+% → 100.0 200.0 (no transformation)
+
+72 72 scale
+1 1 transform
+% → 72.0 72.0 (1 inch in each direction)
+----
+
+.Using explicit matrix
+[source,postscript]
+----
+/m [2 0 0 2 100 100] def
+50 50 m transform
+% → 200.0 200.0
+% (50×2 + 100, 50×2 + 100)
+----
+
+.Determining device coordinates
+[source,postscript]
+----
+% Where will this point appear on device?
+100 100 translate
+2 2 scale
+50 75 transform
+% → 200.0 250.0
+% (50×2 + 100, 75×2 + 100)
+----
+
+=== Common Use Cases
+
+==== Converting to Device Coordinates
+
+[source,postscript]
+----
+% Find device position of a user point
+/userX 100 def
+/userY 200 def
+userX userY transform
+/deviceY exch def
+/deviceX exch def
+% Now have device coordinates
+----
+
+==== Computing Bounding Boxes
+
+[source,postscript]
+----
+% Transform all corners of a rectangle
+/transformRect {  % x y width height -> x' y' x'' y''
+  % Transform all four corners
+  4 dict begin
+    /h exch def /w exch def /y exch def /x exch def
+    x y transform
+    x w add y transform
+    x y h add transform
+    x w add y h add transform
+  end
+} def
+----
+
+==== Hit Testing
+
+[source,postscript]
+----
+% Check if device point hits user space rectangle
+/deviceX 250 def
+/deviceY 300 def
+
+% Transform to user space
+deviceX deviceY itransform
+/userY exch def
+/userX exch def
+
+% Check if in rectangle
+userX 0 ge userX 100 le and
+userY 0 ge userY 100 le and
+{ (Hit!) } { (Miss) } ifelse print
+----
+
+==== Image Positioning
+
+[source,postscript]
+----
+% Determine where image corners will appear
+/imageMatrix [100 0 0 -100 0 100] def
+0 0 imageMatrix transform       % Bottom-left
+/y1 exch def /x1 exch def
+100 100 imageMatrix transform   % Top-right
+/y2 exch def /x2 exch def
+----
+
+=== Common Pitfalls
+
+WARNING: *Position-Dependent* - link:/docs/commands/references/transform/[`transform`] includes translation. Use link:/docs/commands/references/dtransform/[`dtransform`] for distances.
+
+[source,postscript]
+----
+% For point transformation:
+100 100 transform  % Correct
+
+% For distance/vector transformation:
+100 100 dtransform % Correct (ignores translation)
+100 100 transform  % Wrong (includes translation)
+----
+
+WARNING: *CTM Changes* - The result depends on the current CTM at the time of execution.
+
+[source,postscript]
+----
+100 100 transform  % Result A
+
+2 2 scale
+100 100 transform  % Result B (different from A)
+----
+
+TIP: *Use for Debugging* - link:/docs/commands/references/transform/[`transform`] helps understand coordinate mappings:
+
+[source,postscript]
+----
+% See where user coordinates map to
+/showTransform {
+  gsave
+    dup exch dup transform
+    (User: ) print exch ==only ( ) print ==only
+    ( -> Device: ) print exch ==only ( ) print ==
+  grestore
+} def
+
+100 100 showTransform
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| Matrix operand does not have exactly 6 elements
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack (first form) or fewer than 3 (second form)
+
+| [`typecheck`]
+| Operands are not numbers, or matrix operand is not an array
+|===
+
+=== Implementation Notes
+
+* Transformation is a simple matrix multiplication
+* Very fast operation
+* No rounding or approximation (exact computation)
+* The inverse operation is link:/docs/commands/references/itransform/[`itransform`]
+
+=== Transformation Formula
+
+For CTM = [a b c d tx ty]:
+
+----
+x' = a×x + c×y + tx
+y' = b×x + d×y + ty
+----
+
+Example with CTM = [2 0 0 2 100 100]:
+
+----
+(50, 50) transforms to:
+x' = 2×50 + 0×50 + 100 = 200
+y' = 0×50 + 2×50 + 100 = 200
+→ (200, 200)
+----
+
+=== Coordinate Spaces
+
+PostScript uses multiple coordinate spaces:
+
+[cols="2,3"]
+|===
+| Space | Description
+
+| **User Space**
+| Coordinate system for path construction (what you specify)
+
+| **Device Space**
+| Actual pixel coordinates on output device
+
+| **CTM**
+| Transforms user space to device space
+|===
+
+[source,postscript]
+----
+% User space point
+100 200
+
+% Transform to device space
+transform
+
+% Result is device space coordinate
+% (actual pixel position)
+----
+
+=== Relationship to Path Construction
+
+[source,postscript]
+----
+% Path construction uses implicit transform
+100 100 moveto  % Internally calls: 100 100 transform
+
+% Explicit transformation
+100 100 transform moveto  % Wrong! Transforms twice
+
+% Path coordinates are automatically transformed
+% by CTM during construction
+----
+
+=== Performance Considerations
+
+* Very fast operation (simple arithmetic)
+* No memory allocation
+* Can be called frequently without concern
+* Inline computation, no function call overhead
+
+=== See Also
+
+* link:/docs/commands/references/itransform/[`itransform`] - Inverse coordinate transformation (device to user)
+* link:/docs/commands/references/dtransform/[`dtransform`] - Distance vector transformation
+* link:/docs/commands/references/idtransform/[`idtransform`] - Inverse distance transformation
+* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/docs/commands/references/concat/[`concat`] - Modify CTM

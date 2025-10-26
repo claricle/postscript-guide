@@ -1,0 +1,244 @@
+---
+layout: default
+title: show
+parent: Command Reference
+nav_order: 8
+---
+
+== show
+
+Paint text string at current point.
+
+=== Syntax
+
+----
+string show → -
+----
+
+=== Stack Effects
+
+**Before:**
+```
+string
+```
+
+**After:**
+```
+(empty)
+```
+
+=== Description
+
+link:/docs/commands/references/show/[`show`] paints the characters identified by the elements of `string` on the current page starting at the current point, using the font face, size, and orientation specified by the most recent link:/docs/commands/references/setfont/[`setfont`] or `selectfont`.
+
+The spacing from each character of the string to the next is determined by the character's width, which is an (x, y) displacement that is part of the character's definition. When it is finished, link:/docs/commands/references/show/[`show`] adjusts the current point in the graphics state by the sum of the widths of all the characters shown.
+
+link:/docs/commands/references/show/[`show`] requires that the current point initially be defined (for example, by `moveto`); otherwise, it executes the error `nocurrentpoint`.
+
+If a character code would index beyond the end of the font's Encoding, or the character mapping algorithm goes out of bounds in other ways, a `rangecheck` error occurs.
+
+=== Parameters
+
+**string** (`string`)
+: The text to display, where each byte is a character code
+
+=== Character Encoding
+
+Characters are encoded as integers 0-255 in the string:
+- Each byte indexes into the font's `Encoding` array
+- The `Encoding` maps character codes to character names
+- Character names map to glyph descriptions in `CharStrings`
+
+=== Examples
+
+==== Basic Text Display
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+100 700 moveto
+(Hello, World!) show
+----
+
+==== Multiple Lines of Text
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+
+100 700 moveto (Line 1) show
+100 685 moveto (Line 2) show
+100 670 moveto (Line 3) show
+----
+
+==== Text with Current Point Tracking
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+100 700 moveto
+
+(Hello ) show
+currentpoint       % Get position after "Hello "
+(World!) show      % Continue from that point
+----
+
+==== Centered Text
+
+[source,postscript]
+----
+/centerText {  % string centerText -
+  dup stringwidth pop  % Get text width
+  2 div               % Half width
+  neg 0               % Negative offset
+  rmoveto             % Move back
+  show                % Show text
+} def
+
+300 400 moveto
+(Centered Text) centerText
+----
+
+=== Errors
+
+**invalidaccess**
+: Font or string has restricted access
+
+**invalidfont**
+: Current font is not valid
+
+**nocurrentpoint**
+: Current point is not defined
+
+**rangecheck**
+: Character code exceeds encoding bounds
+
+**stackunderflow**
+: No operand on stack
+
+**typecheck**
+: Operand is not a string
+
+=== Current Point Behavior
+
+The current point is updated by the sum of all character widths:
+
+[source,postscript]
+----
+100 100 moveto
+currentpoint pop pop  % x=100, y=100
+
+(ABC) show
+currentpoint pop pop  % x=100+width(A)+width(B)+width(C), y=100
+----
+
+For most fonts, character widths move the current point horizontally. However, some fonts (particularly vertical writing fonts) may have vertical width components.
+
+=== Character Width Vectors
+
+Each character has a width vector (wx, wy):
+
+----
+width = (wx, wy)
+----
+
+After showing character `c`:
+
+----
+currentpoint' = currentpoint + width(c)
+----
+
+For a string "ABC":
+
+----
+currentpoint' = currentpoint + width(A) + width(B) + width(C)
+----
+
+=== Common Patterns
+
+==== Right-Aligned Text
+
+[source,postscript]
+----
+/rightShow {  % string x y rightShow -
+  moveto
+  dup stringwidth pop neg 0 rmoveto
+  show
+} def
+
+(Right aligned) 500 700 rightShow
+----
+
+==== Text on a Path
+
+[source,postscript]
+----
+% Show text along a curved path
+newpath
+200 200 100 0 180 arc
+
+% Convert path to show operations
+/charpath true charpath
+gsave
+  0 setgray fill
+grestore
+----
+
+==== Vertical Text
+
+[source,postscript]
+----
+% Rotate for vertical text
+gsave
+  100 700 translate
+  90 rotate
+  0 0 moveto (Vertical) show
+grestore
+----
+
+=== Performance Considerations
+
+- link:/docs/commands/references/show/[`show`] is the fastest text rendering operator
+- Characters are cached for efficiency
+- Font cache improves performance for repeated characters
+- Use link:/docs/commands/references/show/[`show`] over link:/docs/commands/references/charpath/[`charpath`] when possible
+
+=== Comparison with Other Text Operators
+
+[cols="2,3"]
+|===
+| Operator | Purpose
+
+| link:/docs/commands/references/show/[`show`]
+| Basic text painting (fastest)
+
+| link:/docs/commands/references/ashow/[`ashow`]
+| Add uniform spacing to all characters
+
+| link:/docs/commands/references/widthshow/[`widthshow`]
+| Adjust width of specific character
+
+| link:/docs/commands/references/awidthshow/[`awidthshow`]
+| Combine link:/docs/commands/references/ashow/[`ashow`] and link:/docs/commands/references/widthshow/[`widthshow`]
+
+| link:/docs/commands/references/kshow/[`kshow`]
+| Execute procedure between characters (kerning)
+
+| link:/docs/commands/references/cshow/[`cshow`]
+| Execute procedure for each character (Level 2)
+
+| link:/docs/commands/references/charpath/[`charpath`]
+| Get character outlines as path
+|===
+
+=== See Also
+
+- link:/docs/commands/references/ashow/[`ashow`] - Show with character spacing adjustment
+- link:/docs/commands/references/widthshow/[`widthshow`] - Show with selective character width adjustment
+- link:/docs/commands/references/awidthshow/[`awidthshow`] - Combine ashow and widthshow
+- link:/docs/commands/references/kshow/[`kshow`] - Show with kerning procedure
+- link:/docs/commands/references/cshow/[`cshow`] - Show with procedure per character (Level 2)
+- link:/docs/commands/references/charpath/[`charpath`] - Get character outlines as path
+- link:/docs/commands/references/stringwidth/[`stringwidth`] - Calculate text width
+- link:/docs/commands/references/setfont/[`setfont`] - Establish current font
+- `moveto` - Set current point

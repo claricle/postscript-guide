@@ -807,9 +807,9 @@ moveto              % But moveto expects user coordinates!
 
 === See Also
 
-* xref:graphics-state.adoc[Graphics State] - Saving and restoring state
-* xref:../../commands/transformations/index.adoc[Transformation Commands] - Complete transformation reference
-* xref:../../commands/transformations/translate.adoc[translate] - Translation details
-* xref:../../commands/transformations/scale.adoc[scale] - Scaling details
-* xref:../../commands/transformations/rotate.adoc[rotate] - Rotation details
-* xref:path-construction.adoc[Path Construction] - Building paths in user space
+* link:/docs/usage/basic/graphics-state/[Graphics State] - Saving and restoring state
+* link:/docs/commands/references/[Transformation Commands] - Complete transformation reference
+* link:/docs/commands/references/translate/[translate] - Translation details
+* link:/docs/commands/references/scale/[scale] - Scaling details
+* link:/docs/commands/references/rotate/[rotate] - Rotation details
+* link:/docs/usage/basic/path-construction/[Path Construction] - Building paths in user space

@@ -911,12 +911,12 @@ Arrays of procedures enable dispatch tables and strategy patterns.
 
 === See Also
 
-* xref:arrays.adoc[Arrays] - Array structure and operations
-* xref:operators.adoc[Operators] - Built-in operations
-* xref:dictionaries.adoc[Dictionaries] - Local variable implementation
-* xref:objects.adoc[Objects] - Executable vs literal objects
-* xref:../commands/control-flow/index.adoc[Control Flow Commands]
-* xref:../commands/dictionary/def.adoc[def] - Define procedures
-* xref:../commands/control-flow/exec.adoc[exec] - Execute procedures
-* xref:../usage/basic/procedures.adoc[Procedures Usage Guide]
-* xref:index.adoc[Language Syntax Overview]
+* link:/docs/syntax/arrays/[Arrays] - Array structure and operations
+* link:/docs/syntax/operators/[Operators] - Built-in operations
+* link:/docs/syntax/dictionaries/[Dictionaries] - Local variable implementation
+* link:/docs/syntax/objects/[Objects] - Executable vs literal objects
+* link:/docs/commands/references/[Control Flow Commands]
+* link:/docs/commands/references/def/[def] - Define procedures
+* link:/docs/commands/references/exec/[exec] - Execute procedures
+* link:/docs/usage/basic/procedures/[Procedures Usage Guide]
+* link:/docs/syntax/[Language Syntax Overview]

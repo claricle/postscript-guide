@@ -1,0 +1,210 @@
+---
+layout: default
+title: lineto
+parent: Command Reference
+nav_order: 3
+---
+
+== lineto
+
+Appends a straight line segment to the current path.
+
+=== Syntax
+
+----
+x y lineto → -
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `y` (number - endpoint y-coordinate)
+
+| 0
+| `x` (number - endpoint x-coordinate)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Stack cleared of operands
+|===
+
+=== Description
+
+link:/docs/commands/references/lineto/[`lineto`] appends a straight line segment to the current path. The line extends from the current point to the point (x, y) in user space; (x, y) then becomes the new current point.
+
+If the current point is undefined because the current path is empty, link:/docs/commands/references/lineto/[`lineto`] executes the [`nocurrentpoint`] error.
+
+The coordinates are interpreted as user space coordinates and are transformed by the current transformation matrix (CTM) when the path is constructed.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Drawing a simple line
+[source,postscript]
+----
+newpath
+100 100 moveto
+300 100 lineto           % Horizontal line
+stroke
+----
+
+.Drawing a triangle
+[source,postscript]
+----
+newpath
+100 100 moveto
+200 100 lineto           % Base
+150 200 lineto           % Right side
+closepath                % Left side (automatic)
+fill
+----
+
+.Drawing a polyline
+[source,postscript]
+----
+newpath
+50 50 moveto
+100 150 lineto
+150 100 lineto
+200 200 lineto
+250 50 lineto
+stroke
+----
+
+=== Common Use Cases
+
+==== Drawing Rectangles
+
+[source,postscript]
+----
+/drawRect {              % x y width height
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+  newpath
+  x y moveto
+  x w add y lineto
+  x w add y h add lineto
+  x y h add lineto
+  closepath
+} def
+
+100 100 200 150 drawRect
+stroke
+----
+
+==== Creating Grid Lines
+
+[source,postscript]
+----
+% Draw vertical lines
+0 10 500 {
+  dup 0 moveto
+  500 lineto
+} for
+stroke
+
+% Draw horizontal lines
+0 10 500 {
+  0 exch moveto
+  500 exch lineto
+} for
+stroke
+----
+
+==== Connecting Points
+
+[source,postscript]
+----
+/points [
+  100 100
+  200 150
+  300 100
+  400 200
+] def
+
+newpath
+points 0 get points 1 get moveto
+2 2 points length 1 sub {
+  /i exch def
+  points i get points i 1 add get lineto
+} for
+stroke
+----
+
+=== Common Pitfalls
+
+WARNING: *No Current Point* - link:/docs/commands/references/lineto/[`lineto`] requires an established current point. Always use link:/docs/commands/references/moveto/[`moveto`] first.
+
+[source,postscript]
+----
+newpath
+200 200 lineto           % Error: nocurrentpoint
+----
+
+WARNING: *Coordinates Not Cumulative* - Unlike link:/docs/commands/references/rlineto/[`rlineto`], coordinates are absolute positions, not offsets.
+
+[source,postscript]
+----
+100 100 moveto
+50 50 lineto             % Goes to (50, 50), not (150, 150)
+----
+
+TIP: *Use for Straight Segments* - For curved paths, use link:/docs/commands/references/curveto/[`curveto`] or link:/docs/commands/references/arc/[`arc`] instead of approximating with many short line segments.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`limitcheck`]
+| Path becomes too complex for implementation
+
+| [`nocurrentpoint`]
+| Current path is empty (no current point defined)
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| Operands are not numbers
+|===
+
+=== Implementation Notes
+
+* Creates a straight line segment in device space after CTM transformation
+* The endpoint becomes the new current point
+* Lines are not rendered until a painting operator is executed
+* Multiple consecutive link:/docs/commands/references/lineto/[`lineto`] operations create a polyline
+* Line appearance depends on current line width, dash pattern, and line cap settings
+
+=== Performance Considerations
+
+* Very efficient for straight segments
+* Large numbers of line segments may hit implementation limits
+* For complex paths, consider simplification algorithms
+* Straight lines are faster to render than curves
+
+=== See Also
+
+* link:/docs/commands/references/rlineto/[`rlineto`] - Relative lineto
+* link:/docs/commands/references/moveto/[`moveto`] - Move to point without drawing
+* link:/docs/commands/references/curveto/[`curveto`] - Draw curved segment
+* link:/docs/commands/references/arc/[`arc`] - Draw circular arc
+* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/docs/commands/references/currentpoint/[`currentpoint`] - Get current point

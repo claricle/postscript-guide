@@ -1,0 +1,294 @@
+---
+layout: default
+title: idiv
+parent: Command Reference
+nav_order: 5
+---
+= idiv
+
+Divides two integers and returns the integer quotient, discarding any fractional part.
+
+== Description
+
+The `idiv` operator pops two integers from the operand stack, divides int1 by int2, and pushes the integer part of the quotient back onto the stack. Any fractional part is discarded (truncated toward zero). Both operands *must be integers*, and the result is always an integer.
+
+For division that preserves fractional parts, use link:/docs/commands/references/div/[`div`]. For the remainder of integer division, use link:/docs/commands/references/mod/[`mod`].
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+int1 int2 idiv quotient
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`int2` (integer) - Divisor (must be non-zero)
+
+|Top-1
+|`int1` (integer) - Dividend
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`quotient` (integer) - Integer part of int1 ÷ int2
+|===
+
+== Parameters
+
+`int1`:: The dividend - the integer to be divided
+`int2`:: The divisor - the integer to divide by (must be non-zero)
+
+== Return Values
+
+`quotient`:: The integer quotient of int1 ÷ int2, truncated toward zero
+
+== Examples
+
+=== Basic Integer Division
+
+[source,postscript]
+----
+% Simple division
+3 2 idiv       % → 1 (3 ÷ 2 = 1 remainder 1)
+4 2 idiv       % → 2 (exact division)
+7 3 idiv       % → 2 (7 ÷ 3 = 2 remainder 1)
+
+% Larger numbers
+100 7 idiv     % → 14 (100 ÷ 7 = 14 remainder 2)
+----
+
+=== Truncation Behavior
+
+[source,postscript]
+----
+% Positive dividend truncates toward zero
+7 2 idiv       % → 3 (not 3.5, truncated down)
+5 2 idiv       % → 2 (not 2.5, truncated down)
+
+% Negative dividend also truncates toward zero
+-7 2 idiv      % → -3 (not -3.5, truncated up toward zero)
+-5 2 idiv      % → -2 (not -2.5, truncated up toward zero)
+
+% Negative divisor
+7 -2 idiv      % → -3
+-7 -2 idiv     % → 3
+----
+
+=== Quotient and Remainder
+
+[source,postscript]
+----
+% Get both quotient and remainder
+/divmod {  % int1 int2 -> quotient remainder
+    2 copy idiv    % int1 int2 quotient
+    3 1 roll       % quotient int1 int2
+    mod            % quotient remainder
+} def
+
+17 5 divmod    % → 3 2 (17 = 5×3 + 2)
+----
+
+=== Array Chunking
+
+[source,postscript]
+----
+% Calculate number of chunks needed
+/numChunks {  % totalItems chunkSize -> numChunks
+    idiv
+    % Note: this truncates, so may need to add 1
+    % if there's a remainder
+} def
+
+100 7 numChunks  % → 14 (need 15 if accounting for remainder)
+
+% Better version that rounds up
+/numChunksRoundUp {  % totalItems chunkSize -> numChunks
+    2 copy mod 0 ne { % Check if there's a remainder
+        idiv 1 add    % Add 1 if remainder exists
+    } {
+        idiv          % Exact division
+    } ifelse
+} def
+
+100 7 numChunksRoundUp  % → 15 (accounts for remainder)
+----
+
+== Advanced Examples
+
+=== Grid Calculations
+
+[source,postscript]
+----
+% Convert linear index to 2D grid coordinates
+/indexToGrid {  % index width -> row col
+    2 copy mod     % index width col
+    3 1 roll idiv  % col row
+    exch           % row col
+} def
+
+23 5 indexToGrid  % → 4 3 (row 4, col 3 in 5-wide grid)
+----
+
+=== Time Conversion
+
+[source,postscript]
+----
+% Convert seconds to hours, minutes, seconds
+/secondsToHMS {  % totalSeconds -> hours minutes seconds
+    dup 3600 idiv             % totalSeconds hours
+    exch 3600 mod             % hours remainingSeconds
+    dup 60 idiv               % hours remainingSeconds minutes
+    exch 60 mod               % hours minutes seconds
+} def
+
+3665 secondsToHMS  % → 1 1 5 (1 hour, 1 minute, 5 seconds)
+----
+
+=== Integer Scaling
+
+[source,postscript]
+----
+% Scale integer maintaining integer result
+/scaleInt {  % value scale divisor -> scaled
+    % Computes (value * scale) / divisor as integer
+    3 -1 roll mul exch idiv
+} def
+
+100 150 100 scaleInt  % → 150 (scale by 1.5)
+200 75 100 scaleInt   % → 150 (scale by 0.75)
+----
+
+== Edge Cases and Common Pitfalls
+
+WARNING: Division by zero causes `undefinedresult` error.
+
+=== Division by Zero
+
+[source,postscript]
+----
+% WRONG: Division by zero
+10 0 idiv      % ERROR: undefinedresult
+
+% CORRECT: Validate divisor
+/safeIdiv {  % int1 int2 -> quotient|0
+    dup 0 eq {
+        pop pop 0
+    } {
+        idiv
+    } ifelse
+} def
+----
+
+=== Real Operands Not Allowed
+
+[source,postscript]
+----
+% WRONG: Real operands
+5.5 2 idiv     % ERROR: typecheck
+5 2.0 idiv     % ERROR: typecheck
+
+% CORRECT: Use div for reals, or convert to integer
+5.5 2.0 div    % → 2.75 (use div)
+5.5 cvi 2 idiv % → 2 (convert to integer first)
+----
+
+=== Truncation vs. Floor
+
+[source,postscript]
+----
+% idiv truncates toward zero
+-7 2 idiv      % → -3 (truncates toward zero)
+
+% This differs from floor division
+-7 2 div floor % → -4.0 (floors toward negative infinity)
+
+% Comparison
+7 2 idiv       % → 3
+-7 2 idiv      % → -3 (magnitude 3, truncated toward zero)
+
+7 2 div floor cvi   % → 3
+-7 2 div floor cvi  % → -4 (floored toward -infinity)
+----
+
+== Type Requirements
+
+Both operands *must* be integers. Real numbers will cause a `typecheck` error:
+
+[source,postscript]
+----
+% BAD: Real operands
+3.5 2 idiv          % ERROR: typecheck
+7 2.0 idiv          % ERROR: typecheck
+
+% GOOD: Integer operands
+7 2 idiv            % → 3
+----
+
+== Related Commands
+
+* link:/docs/commands/references/div/[`div`] - Division with real result
+* link:/docs/commands/references/mod/[`mod`] - Modulo (remainder)
+* link:/docs/commands/references/add/[`add`] - Add two numbers
+* link:/docs/commands/references/sub/[`sub`] - Subtract two numbers
+* link:/docs/commands/references/mul/[`mul`] - Multiply two numbers
+* link:/docs/commands/references/truncate/[`truncate`] - Truncate real to integer
+* link:/docs/commands/references/floor/[`floor`] - Round down to integer
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+This is a fundamental arithmetic operator available in all PostScript implementations.
+
+== Performance Considerations
+
+Integer division (`idiv`) is generally faster than real division (`div`):
+
+* Hardware integer division on most processors
+* No floating-point conversion overhead
+* Useful for array indexing and integer arithmetic
+
+[source,postscript]
+----
+% Fast integer array indexing
+/arraySize 100 def
+currentIndex arraySize idiv  % Which page of array?
+----
+
+== Best Practices
+
+1. **Use `idiv` for integer quotients** - counting, indexing, chunking
+2. **Use `div` for mathematical results** - when fractional parts matter
+3. **Combine with `mod`** to get both quotient and remainder
+4. **Check for zero divisor** in user-facing code
+
+=== Integer Division Pattern
+
+[source,postscript]
+----
+% Common pattern: quotient and remainder
+/divideWithRemainder {  % dividend divisor -> quotient remainder
+    2 copy idiv         % dividend divisor quotient
+    3 1 roll mod        % quotient remainder
+} def
+
+23 5 divideWithRemainder  % → 4 3 (23 = 5×4 + 3)
+----
+
+== See Also
+
+* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/docs/levels/[PostScript Language Levels]

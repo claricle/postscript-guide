@@ -1,0 +1,130 @@
+---
+layout: default
+title: cvx
+parent: Command Reference
+nav_order: 22
+---
+
+== cvx
+
+Converts an object to have the executable attribute.
+
+=== Syntax
+
+----
+any cvx → any
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `any` (any object)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `any` (same object with executable attribute)
+|===
+
+=== Description
+
+link:/docs/commands/references/cvx/[`cvx`] (convert to executable) changes the attribute of the object on top of the operand stack from literal to executable.
+
+The object itself is unchanged - only its executable/literal attribute is modified. This affects how the PostScript interpreter treats the object when it is encountered during execution.
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Converting name to executable
+[source,postscript]
+----
+/add cvx         % Result: add (executable)
+----
+
+.Converting procedure
+[source,postscript]
+----
+{ 1 2 add } cvx  % Result: { 1 2 add } (executable)
+----
+
+.String to executable
+[source,postscript]
+----
+(1 2 add) cvx exec  % Executes string contents
+% Result: 3
+----
+
+=== Common Use Cases
+
+==== Dynamic Code Execution
+
+[source,postscript]
+----
+(add mul sub) cvx exec  % Execute string as code
+----
+
+==== Creating Executable Arrays
+
+[source,postscript]
+----
+[ /moveto /lineto /stroke ] cvx
+% Creates executable procedure
+----
+
+==== File Execution
+
+[source,postscript]
+----
+(filename.ps) (r) file cvx exec
+% Read and execute file
+----
+
+=== Common Pitfalls
+
+WARNING: *Execution Context* - Executable objects are executed when encountered by the interpreter.
+
+[source,postscript]
+----
+/proc { 1 2 add } def
+proc              % Executes (pushes 3)
+/proc cvlit       % Literal (pushes procedure)
+----
+
+WARNING: *String Security* - Converting arbitrary strings to executable and executing them can be dangerous.
+
+TIP: *Most Procedures Already Executable* - Procedures created with `{ }` are already executable.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackunderflow`]
+| No operand on stack
+|===
+
+=== Implementation Notes
+
+* Only changes the executable/literal attribute bit
+* Does not create a new object
+* Works on any object type
+* Complementary to link:/docs/commands/references/cvlit/[`cvlit`]
+
+=== See Also
+
+* link:/docs/commands/references/cvlit/[`cvlit`] - Convert to literal
+* link:/docs/commands/references/xcheck/[`xcheck`] - Test if executable
+* link:/docs/commands/references/type/[`type`] - Get object type

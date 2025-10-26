@@ -929,14 +929,14 @@ Interpolate                % Returns (Hello, World!)
 
 === See Also
 
-* xref:tokens.adoc[Tokens] - String token syntax
-* xref:arrays.adoc[Arrays] - Similar indexed structure
-* xref:objects.adoc[Objects] - String object model
-* xref:data-types.adoc[Data Types] - String type details
-* xref:../commands/array-string/string.adoc[string] - Create strings
-* xref:../commands/array-string/get.adoc[get] - Access bytes
-* xref:../commands/array-string/put.adoc[put] - Modify bytes
-* xref:../commands/array-string/search.adoc[search] - Find substrings
-* xref:../commands/array-string/anchorsearch.adoc[anchorsearch] - Prefix search
-* xref:../commands/array-string/cvs.adoc[cvs] - Convert to string
-* xref:index.adoc[Language Syntax Overview]
+* link:/docs/syntax/tokens/[Tokens] - String token syntax
+* link:/docs/syntax/arrays/[Arrays] - Similar indexed structure
+* link:/docs/syntax/objects/[Objects] - String object model
+* link:/docs/syntax/data-types/[Data Types] - String type details
+* link:/docs/commands/references/string/[string] - Create strings
+* link:/docs/commands/references/get/[get] - Access bytes
+* link:/docs/commands/references/put/[put] - Modify bytes
+* link:/docs/commands/references/search/[search] - Find substrings
+* link:/docs/commands/references/anchorsearch/[anchorsearch] - Prefix search
+* link:/docs/commands/references/cvs/[cvs] - Convert to string
+* link:/docs/syntax/[Language Syntax Overview]

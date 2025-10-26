@@ -1,0 +1,354 @@
+---
+layout: default
+title: rotate
+parent: Command Reference
+nav_order: 3
+---
+
+== rotate
+
+Rotates the coordinate system axes.
+
+=== Syntax
+
+----
+angle rotate → -
+angle matrix rotate → matrix
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `angle` (number, in degrees)
+|===
+
+.After (first form)
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| No results
+|===
+
+.After (second form)
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `matrix` (modified matrix)
+|===
+
+=== Description
+
+With no matrix operand, link:/docs/commands/references/rotate/[`rotate`] builds a temporary transformation matrix R and concatenates it with the current transformation matrix (CTM). Precisely, link:/docs/commands/references/rotate/[`rotate`] replaces the CTM by R × CTM.
+
+The effect is to rotate the user coordinate system axes about their origin by `angle` degrees. Positive angles rotate counterclockwise; negative angles rotate clockwise. The position of the user coordinate origin and the sizes of the x and y units are unchanged.
+
+If the `matrix` operand is supplied, link:/docs/commands/references/rotate/[`rotate`] replaces the value of `matrix` by R and pushes the modified matrix back on the operand stack. In this case, link:/docs/commands/references/rotate/[`rotate`] does not affect the CTM.
+
+The rotation matrix R for angle θ (in degrees) has the form:
+
+----
+[cos(θ) sin(θ) -sin(θ) cos(θ) 0 0]
+----
+
+This transforms coordinates according to:
+
+----
+x' = x×cos(θ) - y×sin(θ)
+y' = x×sin(θ) + y×cos(θ)
+----
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Simple rotation
+[source,postscript]
+----
+45 rotate         % Rotate 45 degrees counterclockwise
+0 0 moveto
+100 0 lineto
+stroke            % Line at 45-degree angle
+----
+
+.Rotating text
+[source,postscript]
+----
+/Helvetica findfont 24 scalefont setfont
+100 100 translate
+45 rotate
+0 0 moveto
+(Rotated Text) show
+----
+
+.Multiple rotations
+[source,postscript]
+----
+% Draw 12 lines radiating from origin (like clock)
+/drawLine {
+  newpath
+  0 0 moveto
+  100 0 lineto
+  stroke
+} def
+
+0 1 11 {
+  drawLine
+  30 rotate       % Rotate 30 degrees for next line
+} for
+----
+
+=== Common Use Cases
+
+==== Creating Radial Patterns
+
+[source,postscript]
+----
+/petal {
+  newpath
+  0 0 moveto
+  50 0 lineto
+  40 10 lineto
+  closepath
+  fill
+} def
+
+% Draw flower with 8 petals
+0 1 7 {
+  gsave
+    pop           % Discard loop counter
+    petal
+  grestore
+  45 rotate       % 360/8 = 45 degrees
+} for
+----
+
+==== Rotating Around a Point
+
+[source,postscript]
+----
+% Rotate 45 degrees around point (100, 100)
+100 100 translate  % Move origin to rotation center
+45 rotate          % Rotate
+-100 -100 translate % Move origin back
+% Now coordinate system is rotated around (100, 100)
+----
+
+==== Angled Text Labels
+
+[source,postscript]
+----
+% Label at an angle
+gsave
+  200 300 translate
+  -30 rotate      % Clockwise 30 degrees
+  0 0 moveto
+  (Label) show
+grestore
+----
+
+==== Creating Spirals
+
+[source,postscript]
+----
+/spiral {
+  0 0 moveto
+  0 1 100 {
+    /i exch def
+    i 0 lineto
+    5 rotate
+    i 1 add 0 translate
+  } for
+  stroke
+} def
+----
+
+=== Common Pitfalls
+
+WARNING: *Rotation Center* - link:/docs/commands/references/rotate/[`rotate`] always rotates around the current origin, not around drawn content.
+
+[source,postscript]
+----
+% This rotates around (0,0), not around the rectangle
+100 100 translate
+0 0 50 50 rectfill
+45 rotate         % Rectangle stays at same position!
+
+% To rotate rectangle around its center:
+gsave
+  100 100 translate  % Move to rectangle center
+  45 rotate          % Rotate
+  -25 -25 translate  % Offset by half size
+  0 0 50 50 rectfill
+grestore
+----
+
+WARNING: *Angles in Degrees* - PostScript uses degrees, not radians. Common mistake with mathematical constants.
+
+[source,postscript]
+----
+% Wrong:
+3.14159 rotate    % Tiny rotation (3.14 degrees)
+
+% Right:
+180 rotate        % Half circle rotation
+----
+
+WARNING: *Cumulative Rotations* - Multiple rotations accumulate.
+
+[source,postscript]
+----
+45 rotate
+45 rotate         % Total rotation is 90 degrees
+
+% Use gsave/grestore to isolate:
+gsave
+  45 rotate
+  % Draw content
+grestore
+% Rotation undone
+----
+
+TIP: *Clockwise vs Counterclockwise* - Remember: positive is counterclockwise, negative is clockwise.
+
+[source,postscript]
+----
+90 rotate         % Quarter turn left
+-90 rotate        % Quarter turn right
+----
+
+TIP: *Order Matters* - Rotation before translation is different from translation before rotation.
+
+[source,postscript]
+----
+% These produce different results:
+45 rotate 100 100 translate
+100 100 translate 45 rotate
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| Resulting matrix values exceed implementation limits
+
+| [`stackunderflow`]
+| Fewer than 1 operand on stack (first form) or fewer than 2 (second form)
+
+| [`typecheck`]
+| Operand is not a number, or matrix operand is not an array
+|===
+
+=== Implementation Notes
+
+* Angles greater than 360 or less than -360 are valid and work correctly
+* Very large angles may experience precision loss due to floating-point arithmetic
+* Common angles (0, 90, 180, 270, 360) may be optimized internally
+* Rotation is applied during path construction, not during painting
+* The sin and cos functions use the same angle interpretation
+
+=== Matrix Mathematics
+
+The rotation matrix for link:/docs/commands/references/rotate/[`rotate`] by angle θ is:
+
+----
+R = [cos(θ)  sin(θ)  -sin(θ)  cos(θ)  0  0]
+----
+
+Concatenating with the CTM:
+
+----
+CTM' = R × CTM
+     = [cos(θ)  sin(θ)  -sin(θ)  cos(θ)  0  0] × [a  b  c  d  e  f]
+     = [a×cos(θ)-c×sin(θ)  b×cos(θ)-d×sin(θ)
+        a×sin(θ)+c×cos(θ)  b×sin(θ)+d×cos(θ)  e  f]
+----
+
+=== Graphics State Effects
+
+Rotation affects:
+
+* **Path coordinates**: Rotated around origin
+* **Line width**: Direction-dependent if CTM has non-uniform scaling
+* **Dash pattern**: May appear different at different angles
+* **Text**: Rotated according to the transformation
+* **Images**: Rotated if within transformed coordinate system
+
+=== Special Angles
+
+[cols="1,2,2"]
+|===
+| Angle | Effect | Matrix
+
+| 0°
+| No rotation
+| [1 0 0 1 0 0]
+
+| 90°
+| Quarter turn left
+| [0 1 -1 0 0 0]
+
+| 180°
+| Half turn
+| [-1 0 0 -1 0 0]
+
+| 270° or -90°
+| Quarter turn right
+| [0 -1 1 0 0 0]
+
+| 360°
+| Full circle
+| [1 0 0 1 0 0]
+|===
+
+=== Performance Considerations
+
+* Rotation is slightly more expensive than translation or scaling
+* Common angles may be optimized
+* Very large or very small angles don't impact performance significantly
+* Combining transformations (translate, scale, rotate) into a single matrix can improve performance
+
+=== Combining Transformations
+
+[source,postscript]
+----
+% Create complex transformation
+gsave
+  100 100 translate  % Position
+  45 rotate          % Orientation
+  2 2 scale          % Size
+  % Draw unit-sized content
+  0 0 50 50 rectfill
+grestore
+
+% Equivalent using matrix:
+matrix
+100 100 translate
+45 rotate
+2 2 scale
+concat
+0 0 50 50 rectfill
+----
+
+=== See Also
+
+* link:/docs/commands/references/translate/[`translate`] - Move origin
+* link:/docs/commands/references/scale/[`scale`] - Change unit size
+* link:/docs/commands/references/concat/[`concat`] - Concatenate arbitrary matrix
+* link:/docs/commands/references/setmatrix/[`setmatrix`] - Replace CTM directly
+* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state

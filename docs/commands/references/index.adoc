@@ -1,0 +1,49 @@
+---
+layout: default
+title: Command Reference
+parent: Commands
+nav_order: 1
+has_children: true
+---
+
+= Command Reference
+:toc:
+:toc-title: On This Page
+
+This section contains detailed reference documentation for all PostScript operators and commands, organized alphabetically.
+
+== About This Reference
+
+Each command page includes:
+
+* **Syntax**: The operator signature and stack effects
+* **Description**: What the operator does
+* **Examples**: Practical code examples
+* **Error Conditions**: Possible errors and their causes
+* **Related Commands**: Links to similar or related operators
+* **PostScript Level**: Which language level introduced the operator
+
+== Navigation
+
+Use the sidebar navigation to browse commands alphabetically, or visit the link:/docs/commands/by-category/[Commands by Category] page to find operators organized by functional area.
+
+== Command Categories
+
+For commands organized by functional area, see:
+
+* link:/docs/commands/arithmetic-math/[Arithmetic and Math]
+* link:/docs/commands/array-string/[Array and String Operations]
+* link:/docs/commands/control-flow/[Control Flow]
+* link:/docs/commands/dictionary/[Dictionary Operations]
+* link:/docs/commands/font-text/[Font and Text]
+* link:/docs/commands/graphics-state/[Graphics State]
+* link:/docs/commands/painting/[Painting]
+* link:/docs/commands/path-construction/[Path Construction]
+* link:/docs/commands/stack-manipulation/[Stack Manipulation]
+* link:/docs/commands/transformations/[Coordinate Transformations]
+* link:/docs/commands/color/[Color]
+* link:/docs/commands/image/[Image]
+* link:/docs/commands/device-output/[Device and Output]
+* link:/docs/commands/file-io/[File and I/O]
+* link:/docs/commands/error-handling/[Error Handling]
+* link:/docs/commands/resource-management/[Resource Management]

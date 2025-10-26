@@ -1,0 +1,114 @@
+---
+layout: default
+title: findfont
+parent: Command Reference
+nav_order: 1
+---
+
+== findfont
+
+Obtain font dictionary by name.
+
+=== Syntax
+
+```
+key findfont font
+```
+
+=== Stack Effects
+
+**Before:**
+```
+key
+```
+
+**After:**
+```
+font
+```
+
+=== Description
+
+link:/docs/commands/references/findfont/[`findfont`] obtains a font dictionary identified by the specified `key` and pushes it on the operand stack. The `key` may be a key previously passed to link:/docs/commands/references/definefont/[`definefont`], in which case the font dictionary associated with `key` (in the font directory) is returned.
+
+If `key` is not registered as a font in VM, link:/docs/commands/references/findfont/[`findfont`] takes an action that varies according to the environment in which the PostScript interpreter is operating. In some environments, link:/docs/commands/references/findfont/[`findfont`] may attempt to read a font definition from an external source, such as a file. In other environments, link:/docs/commands/references/findfont/[`findfont`] substitutes a default font or executes the error `invalidfont`.
+
+link:/docs/commands/references/findfont/[`findfont`] is a special case of `findresource` applied to the Font category.
+
+link:/docs/commands/references/findfont/[`findfont`], like `findresource`, normally looks first for fonts defined in local VM, then for fonts defined in global VM. However, if the current VM allocation mode is global, link:/docs/commands/references/findfont/[`findfont`] considers only fonts defined in global VM. If link:/docs/commands/references/findfont/[`findfont`] needs to load a font into VM, it may use either local or global VM, depending on the font. Generally, Type 1 fonts are loaded into global VM; fonts of other types are loaded into local VM.
+
+link:/docs/commands/references/findfont/[`findfont`] is not an operator, but rather a built-in procedure. It may be redefined by a PostScript language program that requires different strategies for finding fonts.
+
+=== Parameters
+
+**key** (`name` or `string`)
+: The name of the font to find (e.g., `/Helvetica`, `/Times-Roman`)
+
+=== Returns
+
+**font** (`dictionary`)
+: The font dictionary associated with the specified key
+
+=== Examples
+
+==== Basic Font Loading
+
+```postscript
+/Helvetica findfont
+% Returns the Helvetica font dictionary
+```
+
+==== Loading and Using a Font
+
+```postscript
+/Times-Roman findfont    % Get Times-Roman font
+12 scalefont             % Scale to 12 points
+setfont                  % Set as current font
+```
+
+==== Font with Fallback
+
+```postscript
+{
+  /MyCustomFont findfont
+} stopped {
+  pop  % Remove error
+  /Helvetica findfont  % Use fallback font
+} if
+```
+
+=== Errors
+
+**invalidfont**
+: If the font name is not valid or the font dictionary is malformed
+
+**stackunderflow**
+: If the operand stack is empty
+
+**typecheck**
+: If `key` is not a name or string
+
+=== Font Discovery
+
+The font discovery mechanism varies by implementation:
+
+1. **Local VM fonts** - Defined by link:/docs/commands/references/definefont/[`definefont`] in local VM
+2. **Global VM fonts** - Defined by link:/docs/commands/references/definefont/[`definefont`] in global VM
+3. **External fonts** - Loaded from font files or other external sources
+4. **Substitution fonts** - Default fonts substituted when requested font not found
+
+=== VM Allocation
+
+When loading fonts from external sources:
+
+- **Type 1 fonts** are typically loaded into global VM
+- **Other font types** are typically loaded into local VM
+- The current VM allocation mode affects which fonts are visible
+
+=== See Also
+
+- link:/docs/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor
+- link:/docs/commands/references/makefont/[`makefont`] - Transform font by matrix
+- link:/docs/commands/references/setfont/[`setfont`] - Establish current font
+- link:/docs/commands/references/definefont/[`definefont`] - Register font in font directory
+- link:/docs/commands/references/currentfont/[`currentfont`] - Get current font dictionary

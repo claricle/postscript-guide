@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Graphics State
-parent: Command Reference
+parent: Commands
 nav_order: 6
 ---
 
@@ -26,8 +26,8 @@ Each parameter has a current value that affects subsequent graphics operations.
 
 PostScript provides a stack for saving and restoring graphics state:
 
-* xref:../gsave.adoc[`gsave`] saves current state
-* xref:../grestore.adoc[`grestore`] restores saved state
+* link:/docs/commands/references/gsave/[`gsave`] saves current state
+* link:/docs/commands/references/grestore/[`grestore`] restores saved state
 * State changes are isolated between save/restore pairs
 * Enables temporary modifications without losing previous state
 
@@ -39,22 +39,22 @@ PostScript provides a stack for saving and restoring graphics state:
 |===
 | Command | Description
 
-| xref:../gsave.adoc[`gsave`]
+| link:/docs/commands/references/gsave/[`gsave`]
 | Push copy of graphics state onto graphics state stack
 
-| xref:../grestore.adoc[`grestore`]
+| link:/docs/commands/references/grestore/[`grestore`]
 | Restore graphics state from top of stack
 
-| xref:../grestoreall.adoc[`grestoreall`]
+| link:/docs/commands/references/grestoreall/[`grestoreall`]
 | Restore to bottommost save level
 
-| xref:../gstate.adoc[`gstate`]
+| link:/docs/commands/references/gstate/[`gstate`]
 | Create gstate object (Level 2)
 
-| xref:../setgstate.adoc[`setgstate`]
+| link:/docs/commands/references/setgstate/[`setgstate`]
 | Set graphics state from gstate object (Level 2)
 
-| xref:../currentgstate.adoc[`currentgstate`]
+| link:/docs/commands/references/currentgstate/[`currentgstate`]
 | Copy current state to gstate object (Level 2)
 |===
 
@@ -64,34 +64,34 @@ PostScript provides a stack for saving and restoring graphics state:
 |===
 | Command | Description
 
-| xref:../setlinewidth.adoc[`setlinewidth`]
+| link:/docs/commands/references/setlinewidth/[`setlinewidth`]
 | Set line width for stroking
 
-| xref:../setlinecap.adoc[`setlinecap`]
+| link:/docs/commands/references/setlinecap/[`setlinecap`]
 | Set line cap style (butt, round, square)
 
-| xref:../setlinejoin.adoc[`setlinejoin`]
+| link:/docs/commands/references/setlinejoin/[`setlinejoin`]
 | Set line join style (miter, round, bevel)
 
-| xref:../setmiterlimit.adoc[`setmiterlimit`]
+| link:/docs/commands/references/setmiterlimit/[`setmiterlimit`]
 | Set miter limit for sharp corners
 
-| xref:../setdash.adoc[`setdash`]
+| link:/docs/commands/references/setdash/[`setdash`]
 | Set dash pattern for lines
 
-| xref:../currentlinewidth.adoc[`currentlinewidth`]
+| link:/docs/commands/references/currentlinewidth/[`currentlinewidth`]
 | Get current line width
 
-| xref:../currentlinecap.adoc[`currentlinecap`]
+| link:/docs/commands/references/currentlinecap/[`currentlinecap`]
 | Get current line cap
 
-| xref:../currentlinejoin.adoc[`currentlinejoin`]
+| link:/docs/commands/references/currentlinejoin/[`currentlinejoin`]
 | Get current line join
 
-| xref:../currentmiterlimit.adoc[`currentmiterlimit`]
+| link:/docs/commands/references/currentmiterlimit/[`currentmiterlimit`]
 | Get current miter limit
 
-| xref:../currentdash.adoc[`currentdash`]
+| link:/docs/commands/references/currentdash/[`currentdash`]
 | Get current dash pattern
 |===
 
@@ -101,28 +101,28 @@ PostScript provides a stack for saving and restoring graphics state:
 |===
 | Command | Description
 
-| xref:../setgray.adoc[`setgray`]
+| link:/docs/commands/references/setgray/[`setgray`]
 | Set gray level (0=black, 1=white)
 
-| xref:../setrgbcolor.adoc[`setrgbcolor`]
+| link:/docs/commands/references/setrgbcolor/[`setrgbcolor`]
 | Set RGB color
 
-| xref:../setcmykcolor.adoc[`setcmykcolor`]
+| link:/docs/commands/references/setcmykcolor/[`setcmykcolor`]
 | Set CMYK color (Level 2)
 
-| xref:../sethsbcolor.adoc[`sethsbcolor`]
+| link:/docs/commands/references/sethsbcolor/[`sethsbcolor`]
 | Set HSB color
 
-| xref:../currentgray.adoc[`currentgray`]
+| link:/docs/commands/references/currentgray/[`currentgray`]
 | Get current gray value
 
-| xref:../currentrgbcolor.adoc[`currentrgbcolor`]
+| link:/docs/commands/references/currentrgbcolor/[`currentrgbcolor`]
 | Get current RGB color
 
-| xref:../currentcmykcolor.adoc[`currentcmykcolor`]
+| link:/docs/commands/references/currentcmykcolor/[`currentcmykcolor`]
 | Get current CMYK color (Level 2)
 
-| xref:../currenthsbcolor.adoc[`currenthsbcolor`]
+| link:/docs/commands/references/currenthsbcolor/[`currenthsbcolor`]
 | Get current HSB color
 |===
 
@@ -172,8 +172,8 @@ grestore
 Graphics state changes affect all subsequent operations until:
 
 * Another state change occurs
-* xref:../grestore.adoc[`grestore`] restores previous state
-* xref:../initgraphics.adoc[`initgraphics`] resets to defaults
+* link:/docs/commands/references/grestore/[`grestore`] restores previous state
+* link:/docs/commands/initgraphics/[`initgraphics`] resets to defaults
 * Page is complete (showpage)
 
 === save vs. gsave
@@ -182,13 +182,13 @@ Graphics state changes affect all subsequent operations until:
 |===
 | Operator | Saves | Restores
 
-| xref:../dictionary/begin.adoc[`save`]
+| link:/docs/commands/references/begin/[`save`]
 | VM + graphics state
 | [`restore`]
 
-| xref:../gsave.adoc[`gsave`]
+| link:/docs/commands/references/gsave/[`gsave`]
 | Graphics state only
-| xref:../grestore.adoc[`grestore`]
+| link:/docs/commands/references/grestore/[`grestore`]
 |===
 
 === Device Dependence
@@ -202,9 +202,9 @@ Some parameters are device-dependent:
 
 == Common Pitfalls
 
-WARNING: *Unbalanced gsave/grestore* - Every xref:../gsave.adoc[`gsave`] must have matching xref:../grestore.adoc[`grestore`].
+WARNING: *Unbalanced gsave/grestore* - Every link:/docs/commands/references/gsave/[`gsave`] must have matching link:/docs/commands/references/grestore/[`grestore`].
 
-WARNING: *Color Space* - Color operators may switch color space (e.g., xref:../setgray.adoc[`setgray`]) → DeviceGray.
+WARNING: *Color Space* - Color operators may switch color space (e.g., link:/docs/commands/references/setgray/[`setgray`]) → DeviceGray.
 
 WARNING: *Dash Pattern Reset* - Empty dash array `[]` resets to solid lines.
 

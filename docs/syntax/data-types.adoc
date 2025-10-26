@@ -1209,18 +1209,18 @@ obj cvx                    % To executable
 
 === See Also
 
-* xref:objects.adoc[Objects] - Object model and attributes
-* xref:tokens.adoc[Tokens] - Type literal syntax
-* xref:operators.adoc[Operators] - Type-specific operations
-* xref:strings.adoc[Strings] - String type details
-* xref:arrays.adoc[Arrays] - Array type details
-* xref:dictionaries.adoc[Dictionaries] - Dictionary type details
-* xref:procedures.adoc[Procedures] - Array type as procedures
-* xref:../commands/array-string/type.adoc[type] - Get object type
-* xref:../commands/array-string/cvi.adoc[cvi] - Convert to integer
-* xref:../commands/array-string/cvr.adoc[cvr] - Convert to real
-* xref:../commands/array-string/cvs.adoc[cvs] - Convert to string
-* xref:../commands/array-string/cvn.adoc[cvn] - Convert to name
-* xref:../commands/array-string/cvlit.adoc[cvlit] - Make literal
-* xref:../commands/array-string/cvx.adoc[cvx] - Make executable
-* xref:index.adoc[Language Syntax Overview]
+* link:/docs/syntax/objects/[Objects] - Object model and attributes
+* link:/docs/syntax/tokens/[Tokens] - Type literal syntax
+* link:/docs/syntax/operators/[Operators] - Type-specific operations
+* link:/docs/syntax/strings/[Strings] - String type details
+* link:/docs/syntax/arrays/[Arrays] - Array type details
+* link:/docs/syntax/dictionaries/[Dictionaries] - Dictionary type details
+* link:/docs/syntax/procedures/[Procedures] - Array type as procedures
+* link:/docs/commands/references/type/[type] - Get object type
+* link:/docs/commands/references/cvi/[cvi] - Convert to integer
+* link:/docs/commands/references/cvr/[cvr] - Convert to real
+* link:/docs/commands/references/cvs/[cvs] - Convert to string
+* link:/docs/commands/references/cvn/[cvn] - Convert to name
+* link:/docs/commands/references/cvlit/[cvlit] - Make literal
+* link:/docs/commands/references/cvx/[cvx] - Make executable
+* link:/docs/syntax/[Language Syntax Overview]

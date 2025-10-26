@@ -1,0 +1,209 @@
+---
+layout: default
+title: definefont
+parent: Command Reference
+nav_order: 6
+---
+
+== definefont
+
+Register font in font directory.
+
+=== Syntax
+
+----
+key font definefont → font
+----
+
+=== Stack Effects
+
+**Before:**
+```
+key font
+```
+
+**After:**
+```
+font
+```
+
+=== Description
+
+link:/docs/commands/references/definefont/[`definefont`] registers `font` as a font dictionary associated with `key` (usually a name). link:/docs/commands/references/definefont/[`definefont`] first checks that `font` is a well-formed font dictionary—in other words, contains all required key-value pairs. It inserts an additional entry whose key is `FID` and whose value is an object of type `fontID`. The dictionary must be large enough to accommodate this additional entry. It makes the dictionary's access read-only. Finally, it associates `key` with `font` in the font directory.
+
+In Level 2, it is permissible to associate a font dictionary with more than one key. If `font` has already been registered, link:/docs/commands/references/definefont/[`definefont`] does not alter it in any way.
+
+If `font` is a composite font, link:/docs/commands/references/definefont/[`definefont`] also inserts the entries `MIDVector` and `CurMID`, and adds entries `PrefEnc`, `EscChar`, `ShiftIn`, and `ShiftOut` if they are required and are not already present. All the descendant fonts must have been registered by link:/docs/commands/references/definefont/[`definefont`] previously.
+
+Subsequent invocation of link:/docs/commands/references/findfont/[`findfont`] with `key` will return `font`. Font registration is subject to the normal semantics of VM. In particular, the lifetime of the definition depends on the VM allocation mode at the time link:/docs/commands/references/definefont/[`definefont`] is executed. A local definition can be undone by a subsequent `restore`.
+
+link:/docs/commands/references/definefont/[`definefont`] is actually a special case of `defineresource` operating on the Font category.
+
+=== Parameters
+
+**key** (`name` or `string`)
+: The name under which to register the font
+
+**font** (`dictionary`)
+: The font dictionary to register (must be well-formed)
+
+=== Returns
+
+**font** (`dictionary`)
+: The same font dictionary, now registered and with `FID` added
+
+=== Examples
+
+==== Registering a Simple Type 3 Font
+
+[source,postscript]
+----
+/MyFont 10 dict begin
+  /FontType 3 def
+  /FontMatrix [0.001 0 0 0.001 0 0] def
+  /FontBBox [0 0 1000 1000] def
+  /Encoding 256 array def
+  0 1 255 { Encoding exch /.notdef put } for
+
+  /BuildChar {
+    % Custom character building code
+    1000 0 setcharwidth
+    newpath
+    100 100 800 800 rectfill
+  } def
+
+  currentdict
+end
+/MyFont exch definefont pop
+----
+
+==== Re-encoding an Existing Font
+
+[source,postscript]
+----
+% Get Helvetica and create custom encoding
+/Helvetica findfont
+dup length dict begin
+  { 1 index /FID ne {def} {pop pop} ifelse } forall
+
+  % Create new encoding array
+  /Encoding 256 array def
+  0 1 255 { Encoding exch /.notdef put } for
+
+  % Define specific characters
+  Encoding 65 /A put
+  Encoding 66 /B put
+  % ... more encodings
+
+  currentdict
+end
+/Helvetica-Custom exch definefont pop
+----
+
+==== Registering with VM Allocation
+
+[source,postscript]
+----
+% Define in global VM for persistence
+true setglobal
+/MyGlobalFont findfont 12 scalefont
+/MyGlobalFont-12 exch definefont pop
+false setglobal
+
+% Font persists across jobs
+----
+
+=== Errors
+
+**limitcheck**
+: Font dictionary is too large for implementation
+
+**rangecheck**
+: Font dictionary values out of acceptable range
+
+**dictfull**
+: Font dictionary doesn't have room for `FID` entry
+
+**invalidfont**
+: Font dictionary is not well-formed or missing required entries
+
+**stackunderflow**
+: Fewer than two operands on stack
+
+**typecheck**
+: `key` is not name/string or `font` is not dictionary
+
+**invalidaccess**
+: Font dictionary access violations
+
+=== Font Dictionary Requirements
+
+==== Required Entries for All Fonts
+
+- **FontType** - Integer (1, 3, 0 for composite)
+- **FontMatrix** - 6-element array
+- **FontBBox** - 4-element array [llx lly urx ury]
+- **Encoding** - 256-element array (for base fonts)
+
+==== Type 1 Font Specific
+
+- **CharStrings** - Dictionary of character descriptions
+- **PaintType** - 0 (filled) or 2 (stroked)
+- **Private** - Dictionary of private font data
+
+==== Type 3 Font Specific
+
+- **BuildChar** or **BuildGlyph** - Character construction procedure
+
+==== Composite Font Specific
+
+- **FMapType** - Font mapping type
+- **FDepVector** - Array of descendant fonts
+
+=== Font Directory
+
+Fonts are stored in `FontDirectory`:
+
+[source,postscript]
+----
+% Access font directory
+FontDirectory /Helvetica known {
+  (Helvetica is defined) =
+} if
+
+% In Level 2, check global fonts too
+GlobalFontDirectory /MyFont known {
+  (MyFont in global VM) =
+} if
+----
+
+=== VM Allocation Behavior
+
+**Local VM (false setglobal):**
+- Font definition removed by `restore`
+- Visible only to current job
+- Descendant composite fonts copied
+
+**Global VM (true setglobal):**
+- Font definition persists across jobs
+- Visible to all contexts
+- Typically used for Type 1 fonts loaded from disk
+
+=== Font Registration Process
+
+link:/docs/commands/references/definefont/[`definefont`] performs these steps:
+
+1. Validates font dictionary structure
+2. Checks required entries exist and are correct type
+3. Adds `FID` (font identifier) entry
+4. Makes dictionary read-only
+5. Stores in `FontDirectory` or `GlobalFontDirectory`
+6. For composite fonts, adds additional entries
+
+=== See Also
+
+- link:/docs/commands/references/findfont/[`findfont`] - Obtain font dictionary by name
+- link:/docs/commands/references/undefinefont/[`undefinefont`] - Remove font from font directory
+- link:/docs/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor
+- link:/docs/commands/references/makefont/[`makefont`] - Transform font by matrix
+- link:/docs/commands/references/setfont/[`setfont`] - Establish current font

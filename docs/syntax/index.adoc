@@ -269,7 +269,7 @@ exec               % Execute: pushes 9
 
 == See Also
 
-* xref:../commands/index.adoc[Command Reference] - All operators
-* xref:../levels/index.adoc[PostScript Levels] - Version features
-* xref:../usage/basic/index.adoc[Basic Usage] - Getting started
-* xref:../examples/index.adoc[Examples] - Code samples
+* link:/docs/commands/[Command Reference] - All operators
+* link:/docs/levels/[PostScript Levels] - Version features
+* link:/docs/usage/basic/[Basic Usage] - Getting started
+* link:/docs/examples/[Examples] - Code samples

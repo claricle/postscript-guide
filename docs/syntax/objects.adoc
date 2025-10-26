@@ -737,13 +737,13 @@ arr wcheck {
 
 === See Also
 
-* xref:data-types.adoc[Data Types] - Complete type system
-* xref:tokens.adoc[Tokens] - Lexical elements
-* xref:arrays.adoc[Arrays] - Array objects
-* xref:dictionaries.adoc[Dictionaries] - Dictionary objects
-* xref:strings.adoc[Strings] - String objects
-* xref:operators.adoc[Operators] - Object manipulation operators
-* xref:../commands/array-string/type.adoc[type] - Get object type
-* xref:../commands/array-string/cvlit.adoc[cvlit] - Make literal
-* xref:../commands/array-string/cvx.adoc[cvx] - Make executable
-* xref:index.adoc[Language Syntax Overview]
+* link:/docs/syntax/data-types/[Data Types] - Complete type system
+* link:/docs/syntax/tokens/[Tokens] - Lexical elements
+* link:/docs/syntax/arrays/[Arrays] - Array objects
+* link:/docs/syntax/dictionaries/[Dictionaries] - Dictionary objects
+* link:/docs/syntax/strings/[Strings] - String objects
+* link:/docs/syntax/operators/[Operators] - Object manipulation operators
+* link:/docs/commands/references/type/[type] - Get object type
+* link:/docs/commands/references/cvlit/[cvlit] - Make literal
+* link:/docs/commands/references/cvx/[cvx] - Make executable
+* link:/docs/syntax/[Language Syntax Overview]

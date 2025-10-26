@@ -184,6 +184,6 @@ end
 
 == See Also
 
-* xref:../basic/index.adoc[Basic Usage] - Start here first
-* xref:../../commands/index.adoc[Command Reference] - All operators
-* xref:../../examples/index.adoc[Examples] - Practical code
+* link:/docs/usage/basic/[Basic Usage] - Start here first
+* link:/docs/commands/[Command Reference] - All operators
+* link:/docs/examples/[Examples] - Practical code

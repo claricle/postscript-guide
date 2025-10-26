@@ -567,14 +567,14 @@ $error /newerror get   % Is new error?
 
 For more detailed error handling:
 
-* **Debugging** - See xref:debugging.adoc[Debugging Guide] for debugging techniques
-* **Advanced Error Handling** - See xref:advanced/error-handling.adoc[Advanced Error Handling] for complex scenarios
-* **Resource Management** - See xref:advanced/resource-management.adoc[Resource Management] for resource-related errors
+* **Debugging** - See link:/docs/usage/debugging/[Debugging Guide] for debugging techniques
+* **Advanced Error Handling** - See link:/docs/usage/advanced/error-handling/[Advanced Error Handling] for complex scenarios
+* **Resource Management** - See link:/docs/usage/advanced/resource-management/[Resource Management] for resource-related errors
 
 === See Also
 
-* xref:debugging.adoc[Debugging] - Debugging techniques
-* xref:advanced/error-handling.adoc[Advanced Error Handling] - Detailed error handling
-* xref:advanced/file-operations.adoc[File Operations] - File error handling
-* xref:basic/stack-operations.adoc[Stack Operations] - Stack error prevention
-* link:../commands/control-flow/stopped.html[stopped command] - Error catching operator
+* link:/docs/usage/debugging/[Debugging] - Debugging techniques
+* link:/docs/usage/advanced/error-handling/[Advanced Error Handling] - Detailed error handling
+* link:/docs/usage/advanced/file-operations/[File Operations] - File error handling
+* link:/docs/usage/basic/stack-operations/[Stack Operations] - Stack error prevention
+* link:/docs/commands/references/stopped/[stopped command] - Error catching operator

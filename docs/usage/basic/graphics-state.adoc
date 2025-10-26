@@ -964,10 +964,10 @@ drawSomething  % Rotated 90° total!
 
 === See Also
 
-* xref:coordinate-systems.adoc[Coordinate Systems] - Transformation matrix details
-* xref:painting.adoc[Painting] - Using graphics state for rendering
-* xref:../../commands/graphics-state/index.adoc[Graphics State Commands] - Complete command reference
-* xref:../../commands/graphics-state/gsave.adoc[gsave] - Save graphics state
-* xref:../../commands/graphics-state/grestore.adoc[grestore] - Restore graphics state
-* xref:../../commands/graphics-state/setlinewidth.adoc[setlinewidth] - Set line width
-* xref:../../commands/graphics-state/setrgbcolor.adoc[setrgbcolor] - Set RGB color
+* link:/docs/usage/basic/coordinate-systems/[Coordinate Systems] - Transformation matrix details
+* link:/docs/usage/basic/painting/[Painting] - Using graphics state for rendering
+* link:/docs/commands/references/[Graphics State Commands] - Complete command reference
+* link:/docs/commands/references/gsave/[gsave] - Save graphics state
+* link:/docs/commands/references/grestore/[grestore] - Restore graphics state
+* link:/docs/commands/references/setlinewidth/[setlinewidth] - Set line width
+* link:/docs/commands/references/setrgbcolor/[setrgbcolor] - Set RGB color

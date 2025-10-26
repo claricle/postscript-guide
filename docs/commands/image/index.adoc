@@ -1,8 +1,7 @@
 ---
 layout: default
 title: Image
-parent: Command Reference
-has_children: true
+parent: Commands
 ---
 
 == Image
@@ -18,12 +17,12 @@ This category contains PostScript operators for image.
 This category is ready for command documentation to be added. Commands in this category include operators from the PostScript Language Reference Manual.
 
 See other completed categories for documentation examples:
-* xref:../path-construction/index.adoc[Path Construction]
-* xref:../painting/index.adoc[Painting]
-* xref:../transformations/index.adoc[Transformations]
-* xref:../font-text/index.adoc[Font & Text]
+* link:/docs/commands/references/[Path Construction]
+* link:/docs/commands/references/[Painting]
+* link:/docs/commands/references/[Transformations]
+* link:/docs/commands/references/[Font & Text]
 
 == See Also
 
-* xref:../index.adoc[Command Reference Overview]
-* xref:../../syntax/index.adoc[Language Syntax]
+* link:/docs/commands/[Command Reference Overview]
+* link:/docs/syntax/[Language Syntax]

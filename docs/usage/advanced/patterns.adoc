@@ -1181,10 +1181,10 @@ grestore
 
 === See Also
 
-* xref:color-spaces.adoc[Color Spaces] - Pattern colors
-* xref:../basic/painting.adoc[Painting] - Filling with patterns
-* xref:../basic/graphics-state.adoc[Graphics State] - Pattern state
-* xref:forms.adoc[Forms] - Cached patterns
-* xref:images.adoc[Images] - Bitmap patterns
-* xref:../../commands/painting/fill.adoc[fill] - Fill with pattern
-* xref:../../commands/painting/clip.adoc[clip] - Pattern clipping
+* link:/docs/usage/advanced/color-spaces/[Color Spaces] - Pattern colors
+* link:/docs/usage/basic/painting/[Painting] - Filling with patterns
+* link:/docs/usage/basic/graphics-state/[Graphics State] - Pattern state
+* link:/docs/usage/advanced/forms/[Forms] - Cached patterns
+* link:/docs/usage/advanced/images/[Images] - Bitmap patterns
+* link:/docs/commands/references/fill/[fill] - Fill with pattern
+* link:/docs/commands/references/clip/[clip] - Pattern clipping

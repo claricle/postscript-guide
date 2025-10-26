@@ -1,0 +1,170 @@
+---
+layout: default
+title: setlinejoin
+parent: Command Reference
+nav_order: 7
+---
+
+== setlinejoin
+
+Sets the line join style for stroking operations.
+
+=== Syntax
+
+----
+int setlinejoin → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `int` (0, 1, or 2)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Line join parameter set
+|===
+
+=== Description
+
+link:/docs/commands/references/setlinejoin/[`setlinejoin`] sets the line join parameter to _int_, which must be 0, 1, or 2. This controls how corners are rendered when path segments meet at an angle during [`stroke`].
+
+**Join styles:**
+* **0** = Miter join: outer edges extended until they meet
+* **1** = Round join: circular arc fills corner
+* **2** = Bevel join: corner filled with triangle
+
+=== PostScript Level
+
+*Level 1* and later
+
+=== Examples
+
+.Different join styles
+[source,postscript]
+----
+10 setlinewidth
+
+0 setlinejoin  % Miter
+0 0 moveto 50 30 lineto 100 0 lineto stroke
+
+1 setlinejoin  % Round
+0 50 moveto 50 80 lineto 100 50 lineto stroke
+
+2 setlinejoin  % Bevel
+0 100 moveto 50 130 lineto 100 100 lineto stroke
+----
+
+.Impact on rectangles
+[source,postscript]
+----
+5 setlinewidth
+
+0 setlinejoin
+0 0 100 100 rectstroke  % Sharp corners
+
+1 setlinejoin
+120 0 100 100 rectstroke  % Rounded corners
+----
+
+=== Common Use Cases
+
+==== Technical Drawings
+
+[source,postscript]
+----
+0 setlinejoin  % Miter - sharp, precise
+0.5 setlinewidth
+drawBlueprintElements
+----
+
+==== Artistic Graphics
+
+[source,postscript]
+----
+1 setlinejoin  % Round - smooth, organic
+drawArtwork
+----
+
+==== CAD Applications
+
+[source,postscript]
+----
+2 setlinejoin  % Bevel - clean, predictable
+drawMechanicalParts
+----
+
+=== Common Pitfalls
+
+WARNING: *Miter Limit* - Very sharp miters may be converted to bevels (see link:/docs/commands/references/setmiterlimit/[`setmiterlimit`]).
+
+[source,postscript]
+----
+0 setlinejoin  % Miter
+1 setmiterlimit  % But convert all to bevel!
+----
+
+WARNING: *Wide Lines* - Join style most visible with wide lines.
+
+[source,postscript]
+----
+0.1 setlinewidth  % Joins barely visible
+10 setlinewidth   % Joins very visible
+----
+
+TIP: *Round for Smooth* - Round joins produce smoothest appearance.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`rangecheck`]
+| _int_ not 0, 1, or 2
+
+| [`stackunderflow`]
+| No operand on stack
+
+| [`typecheck`]
+| Operand not an integer
+|===
+
+=== Line Join Styles
+
+.Visual comparison (10-unit width, 45° angle)
+[source]
+----
+Miter (0):    ╱╲
+              ╱  ╲
+
+Round (1):    ╱⌢╲
+              ╱  ╲
+
+Bevel (2):    ╱─╲
+              ╱  ╲
+----
+
+=== Implementation Notes
+
+* Default value: 0 (miter)
+* Applies to all subsequent strokes
+* Miter joins controlled by miter limit
+* Fast parameter setting
+
+=== See Also
+
+* link:/docs/commands/references/setmiterlimit/[`setmiterlimit`] - Control miter join behavior
+* link:/docs/commands/references/setlinecap/[`setlinecap`] - Set line end style
+* link:/docs/commands/references/setlinewidth/[`setlinewidth`] - Set line width
+* link:/docs/commands/references/currentlinejoin/[`currentlinejoin`] - Get current join

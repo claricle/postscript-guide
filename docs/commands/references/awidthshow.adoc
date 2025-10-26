@@ -1,0 +1,270 @@
+---
+layout: default
+title: awidthshow
+parent: Command Reference
+nav_order: 11
+---
+
+== awidthshow
+
+Combine ashow and widthshow spacing adjustments.
+
+=== Syntax
+
+----
+cx cy char ax ay string awidthshow → -
+----
+
+=== Stack Effects
+
+**Before:**
+```
+cx cy char ax ay string
+```
+
+**After:**
+```
+(empty)
+```
+
+=== Description
+
+link:/docs/commands/references/awidthshow/[`awidthshow`] paints the characters of `string` in a manner similar to link:/docs/commands/references/show/[`show`], but combines the special effects of link:/docs/commands/references/ashow/[`ashow`] and link:/docs/commands/references/widthshow/[`widthshow`].
+
+link:/docs/commands/references/awidthshow/[`awidthshow`] adjusts the width of each character shown by adding `ax` to its x width and `ay` to its y width, thus modifying the spacing between characters. Furthermore, link:/docs/commands/references/awidthshow/[`awidthshow`] modifies the width of each occurrence of the character `char` by an additional amount `(cx, cy)`.
+
+The interpretation of `char` is as described for the link:/docs/commands/references/widthshow/[`widthshow`] operator.
+
+This operator enables fitting a string of text to a specific width by adjusting all of the spaces between characters by a uniform amount, while independently controlling the width of some specific character, such as the space character.
+
+=== Parameters
+
+**cx** (`number`)
+: Additional x width adjustment for target character
+
+**cy** (`number`)
+: Additional y width adjustment for target character
+
+**char** (`integer`)
+: Character code to receive additional adjustment (often space = 32)
+
+**ax** (`number`)
+: Uniform x width adjustment for all characters
+
+**ay** (`number`)
+: Uniform y width adjustment for all characters
+
+**string** (`string`)
+: The text to display
+
+=== Examples
+
+==== Wide Spacing with Extra Wide Word Spacing
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+
+30 60 moveto (Normal spacing) show
+30 46 moveto 6 0 32 0.5 0 (Wide spacing) awidthshow
+% All chars get 0.5 units, spaces get additional 6 units
+----
+
+==== Justified Text with Letter Spacing
+
+[source,postscript]
+----
+/fullyJustify {  % string targetWidth fullyJustify -
+  % string targetWidth
+  1 index stringwidth pop        % Get current width
+  1 index exch sub              % Extra space needed
+  2 index length 1 sub          % Number of char spaces
+  div                           % Base spacing adjustment
+
+  % Apply 60% to all chars, 40% to spaces only
+  dup 0.6 mul                   % ax
+  0 exch                        % ay ax
+  3 index                       % string
+
+  % Count spaces
+  0 exch { dup 32 eq { pop 1 add } { pop } ifelse } forall
+
+  % Calculate space adjustment
+  6 index 4 index sub           % Remaining space
+  1 index div                   % Space adjustment
+  0 exch 32                     % cy cx char
+
+  7 2 roll pop pop              % Clean up
+  awidthshow
+} def
+
+(This line will be fully justified) 400 fullyJustify
+----
+
+==== Proportional Spacing Control
+
+[source,postscript]
+----
+% Tighter overall, but keep normal word spacing
+/Helvetica findfont 12 scalefont setfont
+100 700 moveto
+0 0 32 -0.5 0 (Tight letters, normal words) awidthshow
+----
+
+==== Headline Spacing
+
+[source,postscript]
+----
+% Wide headline with extra-wide word spacing
+/HeadlineShow {  % string HeadlineShow -
+  /Helvetica-Bold findfont 24 scalefont setfont
+  10 0 32 2 0 6 -1 roll awidthshow
+} def
+
+100 700 moveto
+(WIDE HEADLINE TEXT) HeadlineShow
+----
+
+=== Errors
+
+**invalidaccess**
+: Font or string has restricted access
+
+**invalidfont**
+: Current font is not valid
+
+**nocurrentpoint**
+: Current point is not defined
+
+**rangecheck**
+: Character code or mapping out of bounds
+
+**stackunderflow**
+: Fewer than six operands on stack
+
+**typecheck**
+: Operands are not of the correct type
+
+=== Width Calculation
+
+For each character `c` in the string:
+
+----
+if c == char:
+  effectiveWidth(c) = characterWidth(c) + (ax, ay) + (cx, cy)
+else:
+  effectiveWidth(c) = characterWidth(c) + (ax, ay)
+----
+
+The target character receives both the uniform adjustment and the character-specific adjustment.
+
+=== Typical Use: Space Character
+
+The space character (ASCII 32) is the most common target:
+
+[source,postscript]
+----
+% Octal notation for space
+8#040  % Equals 32
+
+% Hexadecimal notation
+16#20  % Equals 32
+
+% Direct decimal
+32
+----
+
+=== Advanced Justification
+
+[source,postscript]
+----
+/smartJustify {  % string width smartJustify -
+  % Calculate total adjustment needed
+  1 index stringwidth pop sub  % width - currentWidth
+
+  % Count spaces
+  0 2 index { dup 32 eq { pop 1 add } { pop } ifelse } forall
+
+  dup 0 eq {
+    % No spaces: distribute evenly across all chars
+    pop
+    2 index length 1 sub div  % adjustment per char-space
+    0 exch 0 0 0 6 -1 roll awidthshow
+  } {
+    % Has spaces: adjust spaces only
+    div  % adjustment per space
+    0 exch 32 0 0 6 -1 roll awidthshow
+  } ifelse
+} def
+
+(Text to justify) 500 smartJustify
+----
+
+=== Composition with Other Operators
+
+[source,postscript]
+----
+% awidthshow can be decomposed as:
+/myAwidthshow {  % cx cy char ax ay string
+  % This is conceptually what awidthshow does
+  {
+    % For each character:
+    % 1. Check if char matches target
+    % 2. Add ax, ay to width
+    % 3. If match, also add cx, cy
+    % 4. Paint character
+    % 5. Adjust current point
+  } forall
+} def
+----
+
+=== Typography Applications
+
+==== Book-Quality Justification
+
+[source,postscript]
+----
+% Professional justification algorithm
+/bookJustify {  % string lineWidth bookJustify -
+  % Prefer adjusting word spacing over letter spacing
+  % Typical ratio: 80% word spacing, 20% letter spacing
+
+  1 index stringwidth pop
+  1 index exch sub  % Space to fill
+
+  % Count spaces
+  0 2 index { dup 32 eq { pop 1 add } { pop } ifelse } forall
+  dup 0 eq {
+    % No spaces: use only letter spacing
+    pop 2 index length 1 sub div
+    0 exch 0 0 0 6 -1 roll awidthshow
+  } {
+    % Has spaces: 80/20 split
+    1 index exch div        % Space per word gap
+    0.8 mul                 % 80% to word spacing
+    dup 5 -1 roll exch sub  % Remaining
+    3 index length 1 sub div % Per letter space
+    0 exch                  % ay ax
+    6 4 roll                % Rearrange
+    32                      % Target space char
+    6 2 roll                % Final order
+    awidthshow
+  } ifelse
+} def
+----
+
+=== Performance Notes
+
+- More expensive than link:/docs/commands/references/show/[`show`], link:/docs/commands/references/ashow/[`ashow`], or link:/docs/commands/references/widthshow/[`widthshow`] alone
+- Two conditional checks per character
+- Still benefits from font caching
+- For best performance, prefer simpler operators when possible
+
+=== See Also
+
+- link:/docs/commands/references/show/[`show`] - Basic text painting
+- link:/docs/commands/references/ashow/[`ashow`] - Uniform character spacing adjustment
+- link:/docs/commands/references/widthshow/[`widthshow`] - Selective character width adjustment
+- link:/docs/commands/references/kshow/[`kshow`] - Show with kerning procedure
+- link:/docs/commands/references/cshow/[`cshow`] - Show with procedure per character
+- link:/docs/commands/references/stringwidth/[`stringwidth`] - Calculate text width

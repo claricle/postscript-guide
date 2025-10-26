@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Array and String Operations
-parent: Command Reference
+parent: Commands
 nav_order: 3
 ---
 
@@ -14,10 +14,10 @@ Array and string operations provide the foundation for data structure manipulati
 Arrays and strings in PostScript share many operational characteristics:
 
 * Both are indexed collections (0-based indexing)
-* Both support element access via xref:../get.adoc[`get`] and xref:../put.adoc[`put`]
-* Both can have subsequences extracted via xref:../getinterval.adoc[`getinterval`]
-* Both can be iterated over using xref:../forall.adoc[`forall`]
-* Both have a xref:../length.adoc[`length`] that can be queried
+* Both support element access via link:/docs/commands/references/get/[`get`] and link:/docs/commands/references/put/[`put`]
+* Both can have subsequences extracted via link:/docs/commands/references/getinterval/[`getinterval`]
+* Both can be iterated over using link:/docs/commands/references/forall/[`forall`]
+* Both have a link:/docs/commands/references/length/[`length`] that can be queried
 
 However, they differ in important ways:
 
@@ -33,22 +33,22 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:../array.adoc[`array`]
+| link:/docs/commands/references/array/[`array`]
 | Create a new array of specified length
 
-| xref:left-bracket.adoc[`[`]
+| link:/docs/commands/references/left-bracket/[`[`]
 | Begin array construction (mark)
 
-| xref:right-bracket.adoc[`]`]
+| link:/docs/commands/references/right-bracket/[`]`]
 | End array construction
 
-| xref:../aload.adoc[`aload`]
+| link:/docs/commands/references/aload/[`aload`]
 | Load all array elements onto stack
 
-| xref:../astore.adoc[`astore`]
+| link:/docs/commands/references/astore/[`astore`]
 | Store stack elements into array
 
-| xref:../packedarray.adoc[`packedarray`]
+| link:/docs/commands/references/packedarray/[`packedarray`]
 | Create read-only packed array (Level 2)
 |===
 
@@ -58,19 +58,19 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:../get.adoc[`get`]
+| link:/docs/commands/references/get/[`get`]
 | Get single element from array/string
 
-| xref:../put.adoc[`put`]
+| link:/docs/commands/references/put/[`put`]
 | Put value into array/string element
 
-| xref:../getinterval.adoc[`getinterval`]
+| link:/docs/commands/references/getinterval/[`getinterval`]
 | Extract subarray or substring
 
-| xref:../putinterval.adoc[`putinterval`]
+| link:/docs/commands/references/putinterval/[`putinterval`]
 | Insert array/string into another
 
-| xref:../length.adoc[`length`]
+| link:/docs/commands/references/length/[`length`]
 | Get length of array/string
 |===
 
@@ -80,7 +80,7 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:../forall.adoc[`forall`]
+| link:/docs/commands/references/forall/[`forall`]
 | Execute procedure for each element
 |===
 
@@ -92,16 +92,16 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:../string.adoc[`string`]
+| link:/docs/commands/references/string/[`string`]
 | Create new string of specified length
 
-| xref:../anchorsearch.adoc[`anchorsearch`]
+| link:/docs/commands/references/anchorsearch/[`anchorsearch`]
 | Search for prefix in string
 
-| xref:../search.adoc[`search`]
+| link:/docs/commands/references/search/[`search`]
 | Search for substring
 
-| xref:../token.adoc[`token`]
+| link:/docs/commands/references/token/[`token`]
 | Parse next token from string/file
 |===
 
@@ -111,25 +111,25 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:../cvs.adoc[`cvs`]
+| link:/docs/commands/references/cvs/[`cvs`]
 | Convert any object to string representation
 
-| xref:../cvn.adoc[`cvn`]
+| link:/docs/commands/references/cvn/[`cvn`]
 | Convert string to name
 
-| xref:../cvr.adoc[`cvr`]
+| link:/docs/commands/references/cvr/[`cvr`]
 | Convert to real number
 
-| xref:../cvi.adoc[`cvi`]
+| link:/docs/commands/references/cvi/[`cvi`]
 | Convert to integer
 
-| xref:../cvlit.adoc[`cvlit`]
+| link:/docs/commands/references/cvlit/[`cvlit`]
 | Convert to literal attribute
 
-| xref:../cvx.adoc[`cvx`]
+| link:/docs/commands/references/cvx/[`cvx`]
 | Convert to executable attribute
 
-| xref:../type.adoc[`type`]
+| link:/docs/commands/references/type/[`type`]
 | Get object type as name
 |===
 
@@ -139,13 +139,13 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:../xcheck.adoc[`xcheck`]
+| link:/docs/commands/references/xcheck/[`xcheck`]
 | Check if object is executable
 
-| xref:../rcheck.adoc[`rcheck`]
+| link:/docs/commands/references/rcheck/[`rcheck`]
 | Check if object is readable
 
-| xref:../wcheck.adoc[`wcheck`]
+| link:/docs/commands/references/wcheck/[`wcheck`]
 | Check if object is writable
 |===
 
@@ -220,6 +220,6 @@ Process all elements in a collection:
 
 == See Also
 
-* xref:../stack-manipulation/index.adoc[Stack Manipulation Commands] - For basic data movement
-* xref:../arithmetic-math/index.adoc[Arithmetic and Math Commands] - For numeric operations
+* link:/docs/commands/references/[Stack Manipulation Commands] - For basic data movement
+* link:/docs/commands/references/[Arithmetic and Math Commands] - For numeric operations
 * Control Flow Commands - For conditional and loop constructs (to be documented)

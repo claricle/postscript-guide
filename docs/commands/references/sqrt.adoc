@@ -1,0 +1,206 @@
+---
+layout: default
+title: sqrt
+parent: Command Reference
+nav_order: 13
+---
+= sqrt
+
+Returns the square root of a number.
+
+== Description
+
+The `sqrt` operator pops a non-negative number from the operand stack and pushes its square root. The operand must be non-negative; negative values cause a `rangecheck` error. The result is always a real number.
+
+This is a Level 1 operator, available in all PostScript implementations.
+
+== Syntax
+
+[source,postscript]
+----
+num sqrt real
+----
+
+=== Stack Effect
+
+.Before Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`num` (integer or real) - Non-negative number
+|===
+
+.After Execution
+[cols="1,3"]
+|===
+|Position |Content
+
+|Top
+|`real` (real) - Square root of num
+|===
+
+== Parameters
+
+`num`:: A non-negative number (integer or real, must be ≥ 0)
+
+== Return Values
+
+`real`:: The square root of num (always a real number)
+
+== Examples
+
+=== Basic Usage
+
+[source,postscript]
+----
+% Perfect squares
+4 sqrt         % → 2.0
+9 sqrt         % → 3.0
+16 sqrt        % → 4.0
+25 sqrt        % → 5.0
+
+% Non-perfect squares
+2 sqrt         % → 1.41421...
+10 sqrt        % → 3.16228...
+----
+
+=== Distance Calculation
+
+[source,postscript]
+----
+% Pythagorean theorem: distance between points
+/distance2D {  % x1 y1 x2 y2 -> dist
+    3 -1 roll sub  % x1 y1 (y2-y1)
+    dup mul        % x1 y1 dy²
+    3 1 roll       % dy² x1 y1
+    exch sub       % dy² (x1-x2)
+    dup mul add    % dx² + dy²
+    sqrt           % √(dx² + dy²)
+} def
+
+0 0 3 4 distance2D  % → 5.0
+----
+
+=== Vector Magnitude
+
+[source,postscript]
+----
+/magnitude {  % [x y] -> mag
+    aload pop dup mul exch dup mul add sqrt
+} def
+
+[3 4] magnitude  % → 5.0
+----
+
+== Advanced Examples
+
+=== Normalize Vector
+
+[source,postscript]
+----
+/normalize {  % [x y] -> [nx ny]
+    dup magnitude    % [x y] mag
+    dup 0 eq {
+        pop pop [0 0]
+    } {
+        exch aload pop  % mag x y
+        2 index div     % mag x (y/mag)
+        3 1 roll div    % (y/mag) (x/mag)
+        exch 2 array astore
+    } ifelse
+} def
+
+[3 4] normalize  % → [0.6 0.8]
+----
+
+=== Quadratic Formula
+
+[source,postscript]
+----
+/quadratic {  % a b c -> root1 root2 or null
+    % Solve ax² + bx + c = 0
+    3 copy             % a b c a b c
+    pop dup mul        % a b c b²
+    4 4 index mul      % a b c b² 4a
+    5 -1 roll mul sub  % a b (b²-4ac)
+    dup 0 lt {
+        % No real roots
+        pop pop pop null
+    } {
+        sqrt           % a b √(b²-4ac)
+        1 index neg    % a b √d (-b)
+        1 index add    % a b √d (-b+√d)
+        3 index 2 mul div  % a b √d root1
+        4 1 roll       % root1 a b √d
+        neg add        % root1 a (-b-√d)
+        exch 2 mul div % root1 root2
+    } ifelse
+} def
+----
+
+== Edge Cases
+
+WARNING: Negative arguments cause `rangecheck` error.
+
+=== Domain Restriction
+
+[source,postscript]
+----
+% WRONG: Negative argument
+-4 sqrt        % ERROR: rangecheck
+
+% CORRECT: Validate input
+/safeSqrt {  % num -> sqrt|0
+    dup 0 lt {
+        pop 0
+    } {
+        sqrt
+    } ifelse
+} def
+
+-4 safeSqrt    % → 0 (safe fallback)
+4 safeSqrt     % → 2.0
+----
+
+=== Zero and Small Numbers
+
+[source,postscript]
+----
+% Zero is valid
+0 sqrt         % → 0.0
+
+% Very small numbers
+0.0001 sqrt    % → 0.01
+1.0e-10 sqrt   % → 1.0e-5
+----
+
+== Related Commands
+
+* link:/docs/commands/references/exp/[`exp`] - Exponentiation
+* link:/docs/commands/references/mul/[`mul`] - Multiplication
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty.
+
+`typecheck`::
+The operand is not a number.
+
+`rangecheck`::
+The operand is negative.
++
+[source,postscript]
+----
+-4 sqrt        % ERROR: rangecheck
+----
+
+== See Also
+
+* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators

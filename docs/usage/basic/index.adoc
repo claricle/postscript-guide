@@ -30,7 +30,7 @@ exch           % Stack: 10 20 30 30
 pop            % Stack: 10 20 30
 ----
 
-See xref:../../commands/stack-manipulation/index.adoc[Stack Manipulation Commands] for complete reference.
+See link:/docs/commands/references/[Stack Manipulation Commands] for complete reference.
 
 === Coordinate Systems
 
@@ -63,7 +63,7 @@ gsave                % Save state
 grestore             % Restore state
 ----
 
-See xref:../../commands/graphics-state/index.adoc[Graphics State Commands].
+See link:/docs/commands/references/[Graphics State Commands].
 
 === Path Construction
 
@@ -138,6 +138,6 @@ newpath
 
 == See Also
 
-* xref:../../commands/index.adoc[Command Reference] - All operators
-* xref:../advanced/index.adoc[Advanced Usage] - Advanced techniques
-* xref:../../examples/index.adoc[Examples] - Code samples
+* link:/docs/commands/[Command Reference] - All operators
+* link:/docs/usage/advanced/[Advanced Usage] - Advanced techniques
+* link:/docs/examples/[Examples] - Code samples

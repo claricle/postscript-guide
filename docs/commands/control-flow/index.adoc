@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Control Flow
-parent: Command Reference
+parent: Commands
 nav_order: 5
 ---
 
@@ -26,10 +26,10 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| xref:../if.adoc[`if`]
+| link:/docs/commands/references/if/[`if`]
 | Execute procedure if condition is true
 
-| xref:../ifelse.adoc[`ifelse`]
+| link:/docs/commands/references/ifelse/[`ifelse`]
 | Execute one of two procedures based on condition
 |===
 
@@ -39,16 +39,16 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| xref:../for.adoc[`for`]
+| link:/docs/commands/references/for/[`for`]
 | Loop with numeric control variable
 
-| xref:../repeat.adoc[`repeat`]
+| link:/docs/commands/references/repeat/[`repeat`]
 | Execute procedure a fixed number of times
 
-| xref:../loop.adoc[`loop`]
+| link:/docs/commands/references/loop/[`loop`]
 | Execute procedure indefinitely until exit
 
-| xref:../array-string/forall.adoc[`forall`]
+| link:/docs/commands/references/forall/[`forall`]
 | Iterate over array, string, or dictionary elements
 |===
 
@@ -58,16 +58,16 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| xref:../exit.adoc[`exit`]
+| link:/docs/commands/references/exit/[`exit`]
 | Terminate innermost loop early
 
-| xref:../stop.adoc[`stop`]
+| link:/docs/commands/references/stop/[`stop`]
 | Terminate stopped context
 
-| xref:../stopped.adoc[`stopped`]
+| link:/docs/commands/references/stopped/[`stopped`]
 | Execute object with error catching
 
-| xref:../quit.adoc[`quit`]
+| link:/docs/commands/references/quit/[`quit`]
 | Terminate interpreter
 |===
 
@@ -77,10 +77,10 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| xref:../exec.adoc[`exec`]
+| link:/docs/commands/references/exec/[`exec`]
 | Execute an object
 
-| xref:../array-string/cvx.adoc[`cvx`]
+| link:/docs/commands/references/cvx/[`cvx`]
 | Convert to executable attribute
 |===
 
@@ -154,19 +154,19 @@ x 0 gt {
 |===
 | Loop Type | Use When | Control Variable
 
-| xref:../for.adoc[`for`]
+| link:/docs/commands/references/for/[`for`]
 | Numeric sequence needed
 | Yes
 
-| xref:../repeat.adoc[`repeat`]
+| link:/docs/commands/references/repeat/[`repeat`]
 | Simple fixed repetition
 | No
 
-| xref:../loop.adoc[`loop`]
+| link:/docs/commands/references/loop/[`loop`]
 | Indefinite looping
 | No
 
-| xref:../array-string/forall.adoc[`forall`]
+| link:/docs/commands/references/forall/[`forall`]
 | Iterating collections
 | Yes (element)
 |===
@@ -195,9 +195,9 @@ Control flow operators require procedures (executable arrays):
 
 === Loop Termination
 
-* xref:../exit.adoc[`exit`] exits innermost loop only
-* xref:../stop.adoc[`stop`] exits stopped context
-* Infinite loops possible with xref:../loop.adoc[`loop`]
+* link:/docs/commands/references/exit/[`exit`] exits innermost loop only
+* link:/docs/commands/references/stop/[`stop`] exits stopped context
+* Infinite loops possible with link:/docs/commands/references/loop/[`loop`]
 
 === Stack Effects
 
@@ -221,6 +221,6 @@ TIP: *Use exit Carefully* - Only works within loop contexts (for, repeat, loop, 
 
 == See Also
 
-* xref:../dictionary/index.adoc[Dictionary Operations] - For scoping with begin/end
-* xref:../array-string/index.adoc[Array Operations] - For forall iteration
+* link:/docs/commands/references/[Dictionary Operations] - For scoping with begin/end
+* link:/docs/commands/references/array-string/[Array Operations] - For forall iteration
 * Error Handling (to be documented) - For comprehensive error management

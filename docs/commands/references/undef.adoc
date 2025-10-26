@@ -1,0 +1,178 @@
+---
+layout: default
+title: undef
+parent: Command Reference
+nav_order: 9
+---
+
+== undef
+
+Removes a key and its associated value from a dictionary (Level 2).
+
+=== Syntax
+
+----
+dict key undef → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 1
+| `dict` (dictionary to modify)
+
+| 0
+| `key` (key to remove)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Dictionary modified (key removed)
+|===
+
+=== Description
+
+link:/docs/commands/references/undef/[`undef`] removes _key_ and its associated value from dictionary _dict_. The dictionary does not need to be on the dictionary stack.
+
+**No error occurs** if _key_ is not present in _dict_ - the operation is simply ignored.
+
+If _dict_ is in local VM, the effect can be undone by [`restore`]. If _dict_ is in global VM, the removal is permanent.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Removing an entry
+[source,postscript]
+----
+/mydict 5 dict def
+mydict /temp 100 put
+mydict /temp undef
+mydict /temp known  % Returns false
+----
+
+.No error if not found
+[source,postscript]
+----
+5 dict /nonexistent undef  % No error
+----
+
+.Cleanup after use
+[source,postscript]
+----
+currentdict /tempVar 42 put
+% ... use tempVar ...
+currentdict /tempVar undef
+----
+
+=== Common Use Cases
+
+==== Removing Temporary Definitions
+
+[source,postscript]
+----
+/cleanup {
+  currentdict /temp1 undef
+  currentdict /temp2 undef
+  currentdict /temp3 undef
+} def
+----
+
+==== Memory Management
+
+[source,postscript]
+----
+% Remove large object reference
+dataDict /largeArray undef
+% Now eligible for garbage collection
+----
+
+==== Dynamic Configuration
+
+[source,postscript]
+----
+config /feature known {
+  config /feature undef  % Disable feature
+} if
+----
+
+=== Common Pitfalls
+
+WARNING: *Level 2 Only* - link:/docs/commands/references/undef/[`undef`] is not available in Level 1 implementations.
+
+[source,postscript]
+----
+% Level 1 workaround: none (can't remove entries)
+----
+
+WARNING: *Silent on Missing Keys* - No error if key doesn't exist. Use link:/docs/commands/references/known/[`known`] first if you need to know.
+
+[source,postscript]
+----
+dict /key undef  % Works even if key not in dict
+----
+
+TIP: *Check Before Undef* - If you need to know whether key existed:
+
+[source,postscript]
+----
+dict key known {
+  dict key undef
+  % Key was removed
+} {
+  % Key didn't exist
+} ifelse
+----
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`invalidaccess`]
+| Dictionary is read-only or has no-access attribute
+
+| [`stackunderflow`]
+| Fewer than 2 operands on stack
+
+| [`typecheck`]
+| First operand not a dictionary
+|===
+
+=== Implementation Notes
+
+* Efficient hash table removal
+* Reduces dictionary length by 1 if key existed
+* Does not shrink dictionary capacity
+* Effect subject to save/restore for local VM dictionaries
+
+=== VM Semantics
+
+[cols="2,3"]
+|===
+| Dictionary in | Effect of undef
+
+| Local VM
+| Can be undone by restore
+
+| Global VM
+| Permanent removal
+|===
+
+=== See Also
+
+* link:/docs/commands/references/def/[`def`] - Define key-value pair
+* link:/docs/commands/references/known/[`known`] - Check if key exists
+* link:/docs/commands/references/put/[`put`] - Add/modify dictionary entry
+* link:/docs/commands/references/where/[`where`] - Find dictionary containing key

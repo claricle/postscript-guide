@@ -565,8 +565,8 @@ rgb2bgr      % Now: 0.0 0.5 1.0 (BGR)
 
 === See Also
 
-* xref:procedures.adoc[Procedures] - Creating reusable code blocks
-* xref:arrays.adoc[Arrays] - Working with array objects
-* xref:../../commands/index.adoc[Command Reference] - Complete operator reference
-* xref:../../syntax/operators.adoc[Operators] - Operator syntax details
-* xref:../debugging.adoc[Debugging] - Debugging techniques
+* link:/docs/usage/basic/procedures/[Procedures] - Creating reusable code blocks
+* link:/docs/usage/basic/arrays/[Arrays] - Working with array objects
+* link:/docs/commands/[Command Reference] - Complete operator reference
+* link:/docs/syntax/operators/[Operators] - Operator syntax details
+* link:/docs/usage/debugging/[Debugging] - Debugging techniques

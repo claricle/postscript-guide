@@ -1,0 +1,293 @@
+---
+layout: default
+title: setcmykcolor
+parent: Command Reference
+nav_order: 8
+---
+
+== setcmykcolor
+
+Sets the current CMYK color for painting operations.
+
+=== Syntax
+
+----
+cyan magenta yellow black setcmykcolor → –
+----
+
+=== Stack Effects
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 3
+| `cyan` (0.0 to 1.0)
+
+| 2
+| `magenta` (0.0 to 1.0)
+
+| 1
+| `yellow` (0.0 to 1.0)
+
+| 0
+| `black` (0.0 to 1.0)
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (empty)
+| Color space set to DeviceCMYK, color set to (c,m,y,k)
+|===
+
+=== Description
+
+link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] sets the color space to DeviceCMYK and sets the current color using cyan, magenta, yellow, and black components.
+
+Each component must be in range 0.0 to 1.0:
+
+* **0.0** = no ink (paper shows through)
+* **1.0** = full ink coverage
+* Values outside range are clamped (no error)
+
+This establishes the color for subsequent painting operations (lines, fills, text). CMYK is a **subtractive** color model primarily used for printing.
+
+**Important:** Color values set by link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] are **not** affected by black generation and undercolor removal operations.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Primary process colors
+[source,postscript]
+----
+1 0 0 0 setcmykcolor  % Cyan
+0 1 0 0 setcmykcolor  % Magenta
+0 0 1 0 setcmykcolor  % Yellow
+0 0 0 1 setcmykcolor  % Black
+----
+
+.Secondary colors
+[source,postscript]
+----
+1 1 0 0 setcmykcolor  % Blue (C+M)
+1 0 1 0 setcmykcolor  % Green (C+Y)
+0 1 1 0 setcmykcolor  % Red (M+Y)
+----
+
+.Rich black
+[source,postscript]
+----
+0.5 0.5 0.5 1 setcmykcolor  % Rich black
+----
+
+.Paper white
+[source,postscript]
+----
+0 0 0 0 setcmykcolor  % White (no ink)
+----
+
+=== Common Use Cases
+
+==== Print Production
+
+[source,postscript]
+----
+% Spot color simulation
+/PantoneBlue {
+  1.0 0.7 0 0.1 setcmykcolor
+} def
+
+/PantoneRed {
+  0 1.0 0.9 0 setcmykcolor
+} def
+----
+
+==== Corporate Colors
+
+[source,postscript]
+----
+/BrandPrimary {
+  0.85 0.15 0 0.05 setcmykcolor
+} def
+
+/BrandSecondary {
+  0 0.75 0.90 0.10 setcmykcolor
+} def
+----
+
+==== Rich Blacks
+
+[source,postscript]
+----
+/RichBlack {
+  % C+M+Y+K for deep black
+  0.6 0.4 0.4 1.0 setcmykcolor
+} def
+
+/CoolBlack {
+  % Cyan-heavy rich black
+  0.7 0.3 0.3 1.0 setcmykcolor
+} def
+
+/WarmBlack {
+  % Magenta/Yellow rich black
+  0.3 0.5 0.5 1.0 setcmykcolor
+} def
+----
+
+==== Duotone Effects
+
+[source,postscript]
+----
+/SepiaTone {
+  % level (0-1)
+  dup dup
+  0 exch 0.3 mul exch 0.6 mul exch
+  setcmykcolor
+} def
+
+% Usage
+0.7 SepiaTone
+----
+
+=== Common Pitfalls
+
+WARNING: *Changes Color Space* - link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] changes color space to DeviceCMYK.
+
+[source,postscript]
+----
+1 0 0 setrgbcolor      % Red (DeviceRGB)
+0 1 1 0 setcmykcolor   % Red (DeviceCMYK - RGB lost!)
+----
+
+WARNING: *Values Clamped* - Out-of-range values adjusted, not rejected.
+
+[source,postscript]
+----
+1.5 0 0 0 setcmykcolor  % Becomes 1.0 0 0 0 (cyan)
+-0.5 0 0 0 setcmykcolor % Becomes 0.0 0 0 0 (white)
+----
+
+WARNING: *Not RGB* - CMYK is subtractive; values work opposite to RGB.
+
+[source,postscript]
+----
+0 0 0 0 setcmykcolor   % White (no ink)
+1 1 1 1 setcmykcolor   % Very dark (all inks)
+----
+
+WARNING: *Level 2 Only* - Not available in Level 1 interpreters.
+
+[source,postscript]
+----
+/languagelevel where {
+  pop languagelevel 2 ge {
+    setcmykcolor
+  } {
+    % Fallback for Level 1
+    % Convert to RGB or gray
+  } ifelse
+} if
+----
+
+TIP: *Use for Print* - CMYK is ideal for offset printing and press output.
+
+=== Error Conditions
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| [`stackunderflow`]
+| Fewer than 4 operands on stack
+
+| [`typecheck`]
+| Any operand not a number
+
+| [`undefined`]
+| Disabled in certain contexts or Level 1
+|===
+
+=== Implementation Notes
+
+* Level 2 operator
+* Sets both color space and color
+* Subtractive color model (print-oriented)
+* Values not affected by black generation/UCR
+* Device converts to native color space if needed
+* Ideal for print production workflows
+
+=== CMYK Color Mixing
+
+[source]
+----
+C + M     = Blue
+C + Y     = Green
+M + Y     = Red
+C + M + Y = Brown/Gray
+K alone   = Black
+No inks   = White (paper)
+----
+
+=== Print Considerations
+
+==== Total Ink Coverage
+
+Monitor total ink to avoid oversaturation:
+
+[source,postscript]
+----
+/TotalInk {
+  % c m y k on stack
+  add add add
+} def
+
+% Check before setting
+0.8 0.6 0.5 0.4 % CMYK values
+4 copy TotalInk
+2.3 gt {
+  % Reduce values if total > 230%
+  pop pop pop pop
+  0.7 0.5 0.4 0.3 setcmykcolor
+} {
+  setcmykcolor
+} ifelse
+----
+
+==== Undercolor Removal (UCR)
+
+Manually implement UCR:
+
+[source,postscript]
+----
+/ApplyUCR {
+  % c m y k on stack
+  % Find minimum of CMY
+  4 copy pop
+  3 copy
+  2 copy lt { exch } if pop
+  2 copy lt { exch } if pop
+  % UCR amount
+  dup 5 1 roll
+  % Subtract from CMY, add to K
+  4 1 roll 3 -1 roll sub
+  3 1 roll 3 -1 roll sub
+  3 1 roll 3 -1 roll sub
+  3 1 roll add
+  setcmykcolor
+} def
+----
+
+=== See Also
+
+* link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
+* link:/docs/commands/references/setgray/[`setgray`] - Set grayscale
+* link:/docs/commands/references/sethsbcolor/[`sethsbcolor`] - Set HSB color
+* link:/docs/commands/references/currentcmykcolor/[`currentcmykcolor`] - Get CMYK color (Level 2)
