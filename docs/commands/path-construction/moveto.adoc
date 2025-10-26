@@ -43,7 +43,7 @@ x y moveto → -
 
 link:moveto.adoc[`moveto`] starts a new subpath of the current path by setting the current point in the graphics state to the user space coordinate (x, y) without adding any line segments to the current path.
 
-If the previous path construction operation was also a link:moveto.adoc[`moveto`] or xref:rmoveto.adoc[`rmoveto`], that point is deleted from the current path and the new link:moveto.adoc[`moveto`] point replaces it.
+If the previous path construction operation was also a link:moveto.adoc[`moveto`] or xref:../rmoveto.adoc[`rmoveto`], that point is deleted from the current path and the new link:moveto.adoc[`moveto`] point replaces it.
 
 The coordinates are interpreted as user space coordinates and are transformed by the current transformation matrix (CTM) to device space when the path is constructed.
 
@@ -127,7 +127,7 @@ fill                     % Fill both squares
 
 === Common Pitfalls
 
-WARNING: *No Current Point Initially* - After xref:newpath.adoc[`newpath`], there is no current point. Always use link:moveto.adoc[`moveto`] to establish one before operations like xref:lineto.adoc[`lineto`] or xref:curveto.adoc[`curveto`].
+WARNING: *No Current Point Initially* - After xref:../newpath.adoc[`newpath`], there is no current point. Always use link:moveto.adoc[`moveto`] to establish one before operations like xref:../lineto.adoc[`lineto`] or xref:../curveto.adoc[`curveto`].
 
 [source,postscript]
 ----
@@ -181,10 +181,10 @@ TIP: *Use for Positioning* - link:moveto.adoc[`moveto`] is essential for positio
 
 === See Also
 
-* xref:rmoveto.adoc[`rmoveto`] - Relative moveto
-* xref:lineto.adoc[`lineto`] - Draw line to point
-* xref:curveto.adoc[`curveto`] - Draw curve to point
-* xref:arc.adoc[`arc`] - Draw circular arc
-* xref:closepath.adoc[`closepath`] - Close current subpath
-* xref:newpath.adoc[`newpath`] - Initialize empty path
-* xref:currentpoint.adoc[`currentpoint`] - Get current point coordinates
+* xref:../rmoveto.adoc[`rmoveto`] - Relative moveto
+* xref:../lineto.adoc[`lineto`] - Draw line to point
+* xref:../curveto.adoc[`curveto`] - Draw curve to point
+* xref:../arc.adoc[`arc`] - Draw circular arc
+* xref:../closepath.adoc[`closepath`] - Close current subpath
+* xref:../newpath.adoc[`newpath`] - Initialize empty path
+* xref:../currentpoint.adoc[`currentpoint`] - Get current point coordinates

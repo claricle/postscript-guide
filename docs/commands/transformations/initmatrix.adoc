@@ -253,8 +253,8 @@ Invalid use cases (common mistakes):
 
 === See Also
 
-* xref:defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
-* xref:setmatrix.adoc[`setmatrix`] - Set CTM explicitly
+* xref:../defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../setmatrix.adoc[`setmatrix`] - Set CTM explicitly
 * xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
 * xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

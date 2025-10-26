@@ -192,12 +192,12 @@ TIP: *Use known/where First* - For dictionaries, use `where` or `known` to check
 * Direct array indexing is very fast
 * String character access is equally fast
 * Dictionary lookup slightly slower but still efficient
-* For sequential access, xref:forall.adoc[`forall`] may be more efficient than repeated link:get.adoc[`get`] calls
+* For sequential access, xref:../forall.adoc[`forall`] may be more efficient than repeated link:get.adoc[`get`] calls
 
 === See Also
 
-* xref:put.adoc[`put`] - Store value in array/string/dictionary
-* xref:getinterval.adoc[`getinterval`] - Get subarray or substring
-* xref:length.adoc[`length`] - Get length of array/string
-* xref:aload.adoc[`aload`] - Load all array elements
-* xref:forall.adoc[`forall`] - Iterate over elements
+* xref:../put.adoc[`put`] - Store value in array/string/dictionary
+* xref:../getinterval.adoc[`getinterval`] - Get subarray or substring
+* xref:../length.adoc[`length`] - Get length of array/string
+* xref:../aload.adoc[`aload`] - Load all array elements
+* xref:../forall.adoc[`forall`] - Iterate over elements

@@ -186,7 +186,7 @@ TIP: *Use Literal Names* - Always use literal names (starting with `/`) for keys
 | link:def.adoc[`def`]
 | Define in **current** dictionary
 
-| xref:store.adoc[`store`]
+| xref:../store.adoc[`store`]
 | Define in **first** dictionary containing key, or current if not found
 
 | xref:../array-string/put.adoc[`put`]
@@ -195,8 +195,8 @@ TIP: *Use Literal Names* - Always use literal names (starting with `/`) for keys
 
 === See Also
 
-* xref:load.adoc[`load`] - Look up value from dictionary stack
-* xref:store.adoc[`store`] - Store with different semantics
+* xref:../load.adoc[`load`] - Look up value from dictionary stack
+* xref:../store.adoc[`store`] - Store with different semantics
 * xref:../array-string/put.adoc[`put`] - Put into specific dictionary
-* xref:begin.adoc[`begin`] - Make dictionary current
-* xref:where.adoc[`where`] - Find which dictionary contains key
+* xref:../begin.adoc[`begin`] - Make dictionary current
+* xref:../where.adoc[`where`] - Find which dictionary contains key

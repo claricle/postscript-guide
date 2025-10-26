@@ -404,9 +404,9 @@ stroke
 
 === See Also
 
-* xref:fill.adoc[`fill`] - Fill path interior
-* xref:strokepath.adoc[`strokepath`] - Convert stroke to outline path
-* xref:ustroke.adoc[`ustroke`] - Stroke user path (Level 2)
+* xref:../fill.adoc[`fill`] - Fill path interior
+* xref:../strokepath.adoc[`strokepath`] - Convert stroke to outline path
+* xref:../ustroke.adoc[`ustroke`] - Stroke user path (Level 2)
 * xref:../graphics-state/setlinewidth.adoc[`setlinewidth`] - Set line width
 * xref:../graphics-state/setlinecap.adoc[`setlinecap`] - Set line cap style
 * xref:../graphics-state/setlinejoin.adoc[`setlinejoin`] - Set line join style

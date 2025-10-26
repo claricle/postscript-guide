@@ -22,25 +22,25 @@ PostScript provides comprehensive font and text capabilities including font sele
 |===
 | Command | Description
 
-| xref:findfont.adoc[`findfont`]
+| xref:../findfont.adoc[`findfont`]
 | Obtain font dictionary by name
 
-| xref:scalefont.adoc[`scalefont`]
+| xref:../scalefont.adoc[`scalefont`]
 | Scale font uniformly
 
-| xref:makefont.adoc[`makefont`]
+| xref:../makefont.adoc[`makefont`]
 | Transform font by matrix
 
-| xref:setfont.adoc[`setfont`]
+| xref:../setfont.adoc[`setfont`]
 | Establish current font
 
-| xref:currentfont.adoc[`currentfont`]
+| xref:../currentfont.adoc[`currentfont`]
 | Get current font
 
-| xref:definefont.adoc[`definefont`]
+| xref:../definefont.adoc[`definefont`]
 | Register font
 
-| xref:undefinefont.adoc[`undefinefont`]
+| xref:../undefinefont.adoc[`undefinefont`]
 | Remove font (Level 2)
 |===
 
@@ -50,22 +50,22 @@ PostScript provides comprehensive font and text capabilities including font sele
 |===
 | Command | Description
 
-| xref:show.adoc[`show`]
+| xref:../show.adoc[`show`]
 | Paint text string
 
-| xref:ashow.adoc[`ashow`]
+| xref:../ashow.adoc[`ashow`]
 | Show with spacing adjustment
 
-| xref:widthshow.adoc[`widthshow`]
+| xref:../widthshow.adoc[`widthshow`]
 | Show with selective width adjustment
 
-| xref:awidthshow.adoc[`awidthshow`]
+| xref:../awidthshow.adoc[`awidthshow`]
 | Combined spacing adjustment
 
-| xref:kshow.adoc[`kshow`]
+| xref:../kshow.adoc[`kshow`]
 | Show with kerning
 
-| xref:cshow.adoc[`cshow`]
+| xref:../cshow.adoc[`cshow`]
 | Show with per-character control (Level 2)
 |===
 
@@ -75,10 +75,10 @@ PostScript provides comprehensive font and text capabilities including font sele
 |===
 | Command | Description
 
-| xref:stringwidth.adoc[`stringwidth`]
+| xref:../stringwidth.adoc[`stringwidth`]
 | Calculate text width
 
-| xref:charpath.adoc[`charpath`]
+| xref:../charpath.adoc[`charpath`]
 | Get character outlines
 |===
 

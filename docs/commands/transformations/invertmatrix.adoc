@@ -183,7 +183,7 @@ myMatrix checkMatrix {
 } if
 ----
 
-TIP: *Use for Coordinate Conversion* - Primary use is with xref:itransform.adoc[`itransform`] and xref:idtransform.adoc[`idtransform`]:
+TIP: *Use for Coordinate Conversion* - Primary use is with xref:../itransform.adoc[`itransform`] and xref:../idtransform.adoc[`idtransform`]:
 
 [source,postscript]
 ----
@@ -325,8 +325,8 @@ fwd inv invertmatrix
 
 === See Also
 
-* xref:concatmatrix.adoc[`concatmatrix`] - Multiply two matrices
-* xref:itransform.adoc[`itransform`] - Inverse coordinate transformation
-* xref:idtransform.adoc[`idtransform`] - Inverse distance transformation
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
-* xref:matrix.adoc[`matrix`] - Create identity matrix
+* xref:../concatmatrix.adoc[`concatmatrix`] - Multiply two matrices
+* xref:../itransform.adoc[`itransform`] - Inverse coordinate transformation
+* xref:../idtransform.adoc[`idtransform`] - Inverse distance transformation
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../matrix.adoc[`matrix`] - Create identity matrix

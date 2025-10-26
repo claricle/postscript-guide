@@ -160,7 +160,7 @@ countdictstack array dictstack  % Always correct size
 
 === See Also
 
-* xref:countdictstack.adoc[`countdictstack`] - Get stack depth
-* xref:begin.adoc[`begin`] - Push dictionary
-* xref:end.adoc[`end`] - Pop dictionary
-* xref:currentdict.adoc[`currentdict`] - Get current dictionary
+* xref:../countdictstack.adoc[`countdictstack`] - Get stack depth
+* xref:../begin.adoc[`begin`] - Push dictionary
+* xref:../end.adoc[`end`] - Pop dictionary
+* xref:../currentdict.adoc[`currentdict`] - Get current dictionary

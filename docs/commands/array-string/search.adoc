@@ -173,7 +173,7 @@ WARNING: *Stack Order* - Results are post, match, pre (reversed from read order)
 % Actually: true (he) (ll) (o)
 ----
 
-TIP: *Use anchorsearch for Prefixes* - If you only need to check the start of a string, xref:anchorsearch.adoc[`anchorsearch`] is simpler.
+TIP: *Use anchorsearch for Prefixes* - If you only need to check the start of a string, xref:../anchorsearch.adoc[`anchorsearch`] is simpler.
 
 === Error Conditions
 
@@ -240,6 +240,6 @@ TIP: *Use anchorsearch for Prefixes* - If you only need to check the start of a 
 
 === See Also
 
-* xref:anchorsearch.adoc[`anchorsearch`] - Test for prefix match
-* xref:token.adoc[`token`] - Parse token from string
-* xref:getinterval.adoc[`getinterval`] - Extract substring
+* xref:../anchorsearch.adoc[`anchorsearch`] - Test for prefix match
+* xref:../token.adoc[`token`] - Parse token from string
+* xref:../getinterval.adoc[`getinterval`] - Extract substring

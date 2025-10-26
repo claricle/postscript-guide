@@ -16,9 +16,8 @@ test\.com
 
 # Adobe URLs that may have rate limiting or be temporarily unavailable
 # We trust these are valid even if temporarily unreachable
-https://www.adobe.com/content/dam/acom/en/devnet/
-https://www.adobe.com/products/postscript/pdfs/
-https://www.adobe.com/products/postscript
+https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf
+https://www.adobe.com/jp/print/postscript/pdfs/PLRM.pdf
 
 # Wikipedia may block certain user agents
 https://en.wikipedia.org/wiki/

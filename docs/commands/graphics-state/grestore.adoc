@@ -159,7 +159,7 @@ All parameters saved by link:gsave.adoc[`gsave`]:
 
 === See Also
 
-* xref:gsave.adoc[`gsave`] - Save graphics state
-* xref:grestoreall.adoc[`grestoreall`] - Restore all levels
-* xref:setgstate.adoc[`setgstate`] - Set from gstate object
+* xref:../gsave.adoc[`gsave`] - Save graphics state
+* xref:../grestoreall.adoc[`grestoreall`] - Restore all levels
+* xref:../setgstate.adoc[`setgstate`] - Set from gstate object
 * `save`, `restore` - VM and graphics state

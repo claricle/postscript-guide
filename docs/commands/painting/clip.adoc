@@ -44,7 +44,7 @@ In general, link:clip.adoc[`clip`] produces a new path whose inside (according t
 
 link:clip.adoc[`clip`] treats an open subpath of the current path as though it were closed; it does not actually alter the path itself. It is permissible for the current path to be empty. The result of executing link:clip.adoc[`clip`] is always a non-empty clipping path, though it may enclose zero area.
 
-Unlike xref:fill.adoc[`fill`] and xref:stroke.adoc[`stroke`], link:clip.adoc[`clip`] does not implicitly perform a xref:../path-construction/newpath.adoc[`newpath`] after it has finished using the current path.
+Unlike xref:../fill.adoc[`fill`] and xref:../stroke.adoc[`stroke`], link:clip.adoc[`clip`] does not implicitly perform a xref:../path-construction/newpath.adoc[`newpath`] after it has finished using the current path.
 
 === PostScript Level
 
@@ -184,7 +184,7 @@ newpath
 clip  % Still limited to intersection
 ----
 
-WARNING: *Path Not Cleared After clip* - Unlike xref:fill.adoc[`fill`] and xref:stroke.adoc[`stroke`], the path remains after link:clip.adoc[`clip`].
+WARNING: *Path Not Cleared After clip* - Unlike xref:../fill.adoc[`fill`] and xref:../stroke.adoc[`stroke`], the path remains after link:clip.adoc[`clip`].
 
 [source,postscript]
 ----
@@ -239,7 +239,7 @@ grestore
 === Implementation Notes
 
 * The clipping path is maintained separately from the current path
-* Clipping is applied during rendering of xref:fill.adoc[`fill`], xref:stroke.adoc[`stroke`], `show`, etc.
+* Clipping is applied during rendering of xref:../fill.adoc[`fill`], xref:../stroke.adoc[`stroke`], `show`, etc.
 * Complex clipping paths may degrade rendering performance
 * The clipping path can become arbitrarily complex through repeated clips
 * Some implementations may have limits on clipping path complexity
@@ -255,8 +255,8 @@ The clipping path is part of the graphics state and is affected by:
 
 The clipping path affects:
 
-* xref:fill.adoc[`fill`] and xref:eofill.adoc[`eofill`] - Clip filled area
-* xref:stroke.adoc[`stroke`] - Clip stroked lines
+* xref:../fill.adoc[`fill`] and xref:../eofill.adoc[`eofill`] - Clip filled area
+* xref:../stroke.adoc[`stroke`] - Clip stroked lines
 * `show` and text operators - Clip character outlines
 * `image` and `imagemask` - Clip images
 * All painting operations
@@ -405,12 +405,12 @@ grestore
 
 === See Also
 
-* xref:eoclip.adoc[`eoclip`] - Clip using even-odd rule
-* xref:clippath.adoc[`clippath`] - Get current clipping path
+* xref:../eoclip.adoc[`eoclip`] - Clip using even-odd rule
+* xref:../clippath.adoc[`clippath`] - Get current clipping path
 * `rectclip` - Clip to rectangles (Level 2)
 * `initclip` - Reset to device default
-* xref:fill.adoc[`fill`] - Fill path
-* xref:stroke.adoc[`stroke`] - Stroke path
+* xref:../fill.adoc[`fill`] - Fill path
+* xref:../stroke.adoc[`stroke`] - Stroke path
 * xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
 * xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state
 * xref:../path-construction/newpath.adoc[`newpath`] - Clear current path

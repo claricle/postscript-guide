@@ -136,7 +136,7 @@ WARNING: *Stack Order* - Objects are stored in reverse stack order: topmost stac
 
 WARNING: *Global/Local VM Restrictions* - If the array is in global VM and any stored object is in local VM, [`invalidaccess`] error occurs.
 
-TIP: *Pre-create Array* - Always create the array first with the correct size using xref:array.adoc[`array`].
+TIP: *Pre-create Array* - Always create the array first with the correct size using xref:../array.adoc[`array`].
 
 === Error Conditions
 
@@ -176,8 +176,8 @@ The `[ ]` syntax is usually more convenient for literal arrays, but link:astore.
 
 === See Also
 
-* xref:aload.adoc[`aload`] - Load array elements onto stack
-* xref:array.adoc[`array`] - Create new array
-* xref:put.adoc[`put`] - Put single value into array
-* xref:putinterval.adoc[`putinterval`] - Put subarray into array
+* xref:../aload.adoc[`aload`] - Load array elements onto stack
+* xref:../array.adoc[`array`] - Create new array
+* xref:../put.adoc[`put`] - Put single value into array
+* xref:../putinterval.adoc[`putinterval`] - Put subarray into array
 * xref:left-bracket.adoc[`[`] / xref:right-bracket.adoc[`]`] - Array literal syntax

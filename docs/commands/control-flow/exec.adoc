@@ -195,5 +195,5 @@ TIP: *Check Executable Attribute* - Use xref:../array-string/xcheck.adoc[`xcheck
 * xref:../array-string/cvx.adoc[`cvx`] - Convert to executable
 * xref:../array-string/cvlit.adoc[`cvlit`] - Convert to literal
 * xref:../array-string/xcheck.adoc[`xcheck`] - Check if executable
-* xref:stopped.adoc[`stopped`] - Execute with error catching
-* xref:if.adoc[`if`] / xref:ifelse.adoc[`ifelse`] - Conditional execution
+* xref:../stopped.adoc[`stopped`] - Execute with error catching
+* xref:../if.adoc[`if`] / xref:../ifelse.adoc[`ifelse`] - Conditional execution

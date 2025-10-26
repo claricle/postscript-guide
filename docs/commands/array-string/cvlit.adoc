@@ -128,7 +128,7 @@ TIP: *Most Objects Are Literal* - Numbers, strings, arrays created with `[ ]`, e
 * Only changes the executable/literal attribute bit
 * Does not create a new object (modifies in place)
 * Works on any object type
-* Complementary to xref:cvx.adoc[`cvx`]
+* Complementary to xref:../cvx.adoc[`cvx`]
 
 === Executable vs. Literal Comparison
 
@@ -155,6 +155,6 @@ TIP: *Most Objects Are Literal* - Numbers, strings, arrays created with `[ ]`, e
 
 === See Also
 
-* xref:cvx.adoc[`cvx`] - Convert to executable
-* xref:xcheck.adoc[`xcheck`] - Test if executable
-* xref:type.adoc[`type`] - Get object type
+* xref:../cvx.adoc[`cvx`] - Convert to executable
+* xref:../xcheck.adoc[`xcheck`] - Test if executable
+* xref:../type.adoc[`type`] - Get object type

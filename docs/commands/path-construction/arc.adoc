@@ -190,7 +190,7 @@ WARNING: *Angle Units* - Angles are in **degrees**, not radians. A full circle i
 200 200 50 0 360 arc    % Correct: full circle
 ----
 
-WARNING: *Counterclockwise Direction* - link:arc.adoc[`arc`] always draws counterclockwise. For clockwise arcs, use xref:arcn.adoc[`arcn`].
+WARNING: *Counterclockwise Direction* - link:arc.adoc[`arc`] always draws counterclockwise. For clockwise arcs, use xref:../arcn.adoc[`arcn`].
 
 [source,postscript]
 ----
@@ -207,13 +207,13 @@ WARNING: *Non-uniform Scaling* - If the CTM has non-uniform scaling, arcs become
 100 100 50 0 360 arc    % Produces an ellipse, not a circle
 ----
 
-TIP: *Connecting Line* - If a current point exists, link:arc.adoc[`arc`] adds a connecting line to the arc's start. Use xref:moveto.adoc[`moveto`] to the start point to avoid this.
+TIP: *Connecting Line* - If a current point exists, link:arc.adoc[`arc`] adds a connecting line to the arc's start. Use xref:../moveto.adoc[`moveto`] to the start point to avoid this.
 
 === Implementation Notes
 
 * Arcs are internally represented as one or more Bézier cubic curves
 * The conversion is accurate enough for faithful arc rendering
-* Programs using `pathforall` will see xref:curveto.adoc[`curveto`] segments
+* Programs using `pathforall` will see xref:../curveto.adoc[`curveto`] segments
 * Angles wrap around: 370° is equivalent to 10°
 * Negative angles are valid: -90° equals 270°
 * Zero radius creates a point (degenerate arc)
@@ -243,9 +243,9 @@ TIP: *Connecting Line* - If a current point exists, link:arc.adoc[`arc`] adds a 
 
 === See Also
 
-* xref:arcn.adoc[`arcn`] - Clockwise arc
-* xref:arct.adoc[`arct`] - Arc defined by tangent lines
-* xref:arcto.adoc[`arcto`] - Like arct but returns tangent points
-* xref:curveto.adoc[`curveto`] - Bézier cubic curve
-* xref:moveto.adoc[`moveto`] - Set current point
-* xref:closepath.adoc[`closepath`] - Close current subpath
+* xref:../arcn.adoc[`arcn`] - Clockwise arc
+* xref:../arct.adoc[`arct`] - Arc defined by tangent lines
+* xref:../arcto.adoc[`arcto`] - Like arct but returns tangent points
+* xref:../curveto.adoc[`curveto`] - Bézier cubic curve
+* xref:../moveto.adoc[`moveto`] - Set current point
+* xref:../closepath.adoc[`closepath`] - Close current subpath

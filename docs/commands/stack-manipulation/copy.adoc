@@ -288,10 +288,10 @@ TIP: The composite form of `copy` performs only one level of copying. Nested com
 
 == Related Commands
 
-* xref:dup.adoc[`dup`] - Duplicate single element (reference only)
-* xref:index.adoc[`index`] - Duplicate nth element
-* xref:roll.adoc[`roll`] - Rotate stack elements
-* xref:pop.adoc[`pop`] - Remove elements
+* xref:../dup.adoc[`dup`] - Duplicate single element (reference only)
+* xref:../index.adoc[`index`] - Duplicate nth element
+* xref:../roll.adoc[`roll`] - Rotate stack elements
+* xref:../pop.adoc[`pop`] - Remove elements
 * `get` - Retrieve individual elements
 * `put` - Store individual elements
 * `putinterval` - Store subsequence
@@ -389,9 +389,3 @@ Attempting to copy into a read-only object, or copying local VM objects into glo
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:../../usage/basic/composite-objects.adoc[Composite Objects] - Understanding object copying
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 375)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

@@ -94,9 +94,9 @@ WARNING: Ties (0.5) always round toward the greater value.
 
 == Related Commands
 
-* xref:ceiling.adoc[`ceiling`] - Round up
-* xref:floor.adoc[`floor`] - Round down
-* xref:truncate.adoc[`truncate`] - Truncate toward zero
+* xref:../ceiling.adoc[`ceiling`] - Round up
+* xref:../floor.adoc[`floor`] - Round down
+* xref:../truncate.adoc[`truncate`] - Truncate toward zero
 
 == PostScript Level
 
@@ -113,8 +113,3 @@ The operand is not a number.
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

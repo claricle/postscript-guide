@@ -1,0 +1,296 @@
+= PostScript Language Guide
+
+image:https://img.shields.io/github/license/metanorma/postscript-guide.svg[License]
+image:https://img.shields.io/github/actions/workflow/status/metanorma/postscript-guide/pages.yml?branch=main[Build Status]
+
+== Purpose
+
+The PostScript Reference Guide is a comprehensive, searchable
+documentation site for the PostScript programming language. It provides
+detailed reference documentation for PostScript operators, syntax, and usage
+patterns across all PostScript levels (Level 1, Level 2, and Level 3).
+
+This project is built with Jekyll and the just-the-docs theme to deliver an
+accessible, well-organized resource for developers, designers, and anyone
+working with PostScript.
+
+The documentation is deployed at:
+https://metanorma.github.io/postscript-guide/
+
+== Features
+
+* <<postscript-levels,PostScript levels documentation>> for Level 1, Level 2,
+  and Level 3 specifications
+* <<language-syntax,Language syntax>> comprehensive coverage of tokens,
+  objects, operators, procedures, arrays, dictionaries, strings, and data types
+* <<operator-reference,Operator reference>> individual pages for 300+
+  PostScript commands, organized by category
+* <<usage-guides,Usage guides>> both basic and advanced tutorials with
+  practical examples
+* <<practical-examples,Practical examples>> real-world use cases and code
+  samples
+* <<link-checking,Link checking>> integrated link validation for documentation
+  quality
+
+[[installation]]
+== Installation
+
+=== Prerequisites
+
+* Ruby 2.7 or higher
+* Bundler gem
+
+=== Installing dependencies
+
+Clone the repository:
+
+[source,bash]
+----
+git clone https://github.com/metanorma/postscript-guide.git
+cd postscript-guide
+----
+
+Install dependencies:
+
+[source,bash]
+----
+bundle install
+----
+
+[[building-locally]]
+== Building locally
+
+Build and serve the site locally:
+
+[source,bash]
+----
+bundle exec jekyll serve
+----
+
+Open your browser to `http://localhost:4000/postscript-guide/`
+
+[[building-for-production]]
+== Building for production
+
+To build the static site without serving:
+
+[source,bash]
+----
+bundle exec jekyll build
+----
+
+The built site will be in the `_site/` directory.
+
+[[link-checking]]
+== Checking links
+
+To verify all links in the documentation:
+
+[source,bash]
+----
+./check-links.sh
+----
+
+This script builds the Jekyll site and runs
+https://github.com/lycheeverse/lychee[Lychee] link checker on the generated
+HTML. It uses the same configuration as the CI pipeline to ensure consistency.
+
+For more details on link checking, see link:docs/LINK_CHECKING.md[].
+
+[[project-structure]]
+== Project structure
+
+[source]
+----
+postscript-guide/
+├── _config.yml              # Jekyll configuration
+├── Gemfile                  # Ruby dependencies
+├── docs/                    # Main documentation
+│   ├── index.adoc          # Landing page
+│   ├── commands/           # Individual command references
+│   │   ├── stack-manipulation/
+│   │   ├── arithmetic-math/
+│   │   ├── array-string/
+│   │   ├── dictionary/
+│   │   ├── graphics-state/
+│   │   ├── path-construction/
+│   │   ├── painting/
+│   │   ├── transformations/
+│   │   ├── font-text/
+│   │   ├── color/
+│   │   ├── image/
+│   │   ├── device-output/
+│   │   ├── file-io/
+│   │   ├── control-flow/
+│   │   ├── resource-management/
+│   │   └── error-handling/
+│   ├── levels/             # PostScript version documentation
+│   ├── syntax/             # Language syntax guides
+│   ├── usage/              # Usage tutorials
+│   │   ├── basic/
+│   │   └── advanced/
+│   ├── examples/           # Practical examples
+│   └── glossary.adoc       # Terminology reference
+----
+
+[[content-format]]
+== Content format
+
+All documentation is written in AsciiDoc format (`.adoc` files) for better
+technical documentation support. The Jekyll AsciiDoc plugin converts these to
+HTML during the build process.
+
+[[command-documentation-template]]
+=== Command documentation template
+
+Each PostScript command follows a consistent structure to ensure comprehensive
+coverage and ease of use.
+
+==== Template sections
+
+Description:: What the command does and when to use it
+
+Syntax:: Stack effect notation showing before/after states
+
+Parameters:: Detailed parameter descriptions
+
+Examples:: Basic and advanced usage examples
+
+Edge cases:: Common pitfalls and warnings
+
+Related commands:: Cross-references to related operators
+
+Error conditions:: Possible errors and their causes
+
+==== Example command page structure
+
+[example]
+====
+[source,asciidoc]
+----
+= dup
+
+== Description
+
+Duplicates the top element on the operand stack.
+
+== Syntax
+
+[source,postscript]
+----
+any dup any any
+----
+
+== Parameters
+
+any:: Any object type
+
+== Examples
+
+=== Basic usage
+
+[source,postscript]
+----
+5 dup
+% Stack: 5 5
+----
+
+=== Advanced usage
+
+[source,postscript]
+----
+/myname dup length
+% Stack: /myname 6
+----
+
+== Related commands
+
+* link:pop.adoc[pop] - Remove top element
+* link:exch.adoc[exch] - Exchange top two elements
+----
+====
+
+[[contributing]]
+== Contributing
+
+Contributions are welcome! Here's how you can help improve the PostScript
+Reference Guide.
+
+[[reporting-issues]]
+=== Reporting issues
+
+* Use the https://github.com/metanorma/postscript-guide/issues[GitHub Issues]
+  page
+* Provide clear descriptions of errors or missing content
+* Include specific examples when possible
+
+[[contributing-content]]
+=== Contributing content
+
+. Fork the repository
+. Create a feature branch (`git checkout -b feature/improve-documentation`)
+. Make your changes following the existing format
+. Test locally with `bundle exec jekyll serve`
+. Commit with clear messages (`git commit -am 'Add missing example for arc
+  operator'`)
+. Push to your fork (`git push origin feature/improve-documentation`)
+. Open a Pull Request
+
+[[style-guidelines]]
+=== Style guidelines
+
+* Use AsciiDoc format for all documentation
+* Follow the established template structure for command pages
+* Include practical, tested examples
+* Add cross-references to related commands
+* Keep descriptions clear and concise
+* Use consistent terminology from the glossary
+* Ensure line wrap at 80 characters except for cross-references and formulas
+* Apply MECE (Mutually Exclusive, Collectively Exhaustive) principles to
+  documentation structure
+
+[[command-documentation-checklist]]
+=== Command documentation checklist
+
+When documenting a command, ensure:
+
+* [ ] Clear, accurate description
+* [ ] Complete stack effect notation
+* [ ] All parameters documented
+* [ ] At least one basic example
+* [ ] Advanced example when applicable
+* [ ] Common pitfalls noted
+* [ ] Related commands cross-referenced
+* [ ] Error conditions listed
+* [ ] PostScript level specified
+
+[[source-materials]]
+== Source materials
+
+This documentation is based on:
+
+* Adobe PostScript Reference Manual (PLRM)
+* PostScript Language Tutorial and Cookbook
+* Community contributions and corrections
+
+[[license]]
+== License
+
+This project is licensed under the MIT License - see the link:LICENSE[] file
+for details.
+
+[[acknowledgments]]
+== Acknowledgments
+
+* Adobe Systems for the PostScript language specification
+* The just-the-docs theme maintainers
+* Contributors to the PostScript documentation community
+
+[[support]]
+== Support
+
+Documentation:: https://metanorma.github.io/postscript-guide/
+
+Issues:: https://github.com/metanorma/postscript-guide/issues
+
+Discussions:: https://github.com/metanorma/postscript-guide/discussions

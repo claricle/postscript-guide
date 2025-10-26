@@ -259,8 +259,8 @@ restore            % Returns to before save
 
 === See Also
 
-* xref:gsave.adoc[`gsave`] - Save graphics state
-* xref:grestore.adoc[`grestore`] - Restore one graphics state
-* xref:gstate.adoc[`gstate`] - Create graphics state object
-* xref:setgstate.adoc[`setgstate`] - Set graphics state from object
+* xref:../gsave.adoc[`gsave`] - Save graphics state
+* xref:../grestore.adoc[`grestore`] - Restore one graphics state
+* xref:../gstate.adoc[`gstate`] - Create graphics state object
+* xref:../setgstate.adoc[`setgstate`] - Set graphics state from object
 * xref:../control-flow/stopped.adoc[`stopped`] - Error handling

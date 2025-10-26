@@ -42,7 +42,7 @@ link:setmatrix.adoc[`setmatrix`] replaces the current transformation matrix (CTM
 
 This establishes an arbitrary transformation from user space to device space without reference to the former CTM. The `matrix` operand must be a 6-element array of numbers representing a transformation matrix.
 
-WARNING: Except in device setup procedures, use of link:setmatrix.adoc[`setmatrix`] should be very rare. PostScript programs should ordinarily modify the CTM using xref:translate.adoc[`translate`], xref:scale.adoc[`scale`], xref:rotate.adoc[`rotate`], and xref:concat.adoc[`concat`] rather than replace it.
+WARNING: Except in device setup procedures, use of link:setmatrix.adoc[`setmatrix`] should be very rare. PostScript programs should ordinarily modify the CTM using xref:../translate.adoc[`translate`], xref:../scale.adoc[`scale`], xref:../rotate.adoc[`rotate`], and xref:../concat.adoc[`concat`] rather than replace it.
 
 === PostScript Level
 
@@ -198,7 +198,7 @@ saved setmatrix       % Restore
 * Very large or very small matrix values may cause precision issues
 * Degenerate matrices (determinant = 0) create non-invertible transformations
 * The matrix operand is not modified
-* Unlike xref:concat.adoc[`concat`], link:setmatrix.adoc[`setmatrix`] completely replaces the CTM
+* Unlike xref:../concat.adoc[`concat`], link:setmatrix.adoc[`setmatrix`] completely replaces the CTM
 
 === Matrix Format
 
@@ -219,8 +219,8 @@ Where:
 
 In well-structured PostScript programs:
 
-1. **Initialization**: Device setup uses xref:initmatrix.adoc[`initmatrix`]
-2. **Modifications**: Use xref:translate.adoc[`translate`], xref:scale.adoc[`scale`], xref:rotate.adoc[`rotate`], xref:concat.adoc[`concat`]
+1. **Initialization**: Device setup uses xref:../initmatrix.adoc[`initmatrix`]
+2. **Modifications**: Use xref:../translate.adoc[`translate`], xref:../scale.adoc[`scale`], xref:../rotate.adoc[`rotate`], xref:../concat.adoc[`concat`]
 3. **State Management**: Use xref:../graphics-state/gsave.adoc[`gsave`]/xref:../graphics-state/grestore.adoc[`grestore`]
 4. **Restoration**: Use xref:../graphics-state/grestore.adoc[`grestore`] or saved matrix with link:setmatrix.adoc[`setmatrix`]
 
@@ -246,16 +246,16 @@ matrix currentmatrix  % Assume [1 0 0 1 0 0]
 * Very fast operation
 * No matrix computation required
 * Just replaces 6 values in graphics state
-* No different in performance from xref:concat.adoc[`concat`]
+* No different in performance from xref:../concat.adoc[`concat`]
 
 === See Also
 
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
-* xref:defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
-* xref:initmatrix.adoc[`initmatrix`] - Reset CTM to default
-* xref:concat.adoc[`concat`] - Concatenate matrix with CTM
-* xref:translate.adoc[`translate`] - Move origin
-* xref:scale.adoc[`scale`] - Change unit size
-* xref:rotate.adoc[`rotate`] - Rotate axes
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
+* xref:../initmatrix.adoc[`initmatrix`] - Reset CTM to default
+* xref:../concat.adoc[`concat`] - Concatenate matrix with CTM
+* xref:../translate.adoc[`translate`] - Move origin
+* xref:../scale.adoc[`scale`] - Change unit size
+* xref:../rotate.adoc[`rotate`] - Rotate axes
 * xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
 * xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

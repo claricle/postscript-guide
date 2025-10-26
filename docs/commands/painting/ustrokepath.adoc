@@ -51,9 +51,9 @@ userpath matrix ustrokepath → -
 
 === Description
 
-link:ustrokepath.adoc[`ustrokepath`] replaces the current path with one enclosing the shape that would result if the xref:ustroke.adoc[`ustroke`] operator were applied to the same operands. The path resulting from link:ustrokepath.adoc[`ustrokepath`] is suitable as the implicit operand to a subsequent xref:fill.adoc[`fill`], xref:clip.adoc[`clip`], or `pathbbox`.
+link:ustrokepath.adoc[`ustrokepath`] replaces the current path with one enclosing the shape that would result if the xref:../ustroke.adoc[`ustroke`] operator were applied to the same operands. The path resulting from link:ustrokepath.adoc[`ustrokepath`] is suitable as the implicit operand to a subsequent xref:../fill.adoc[`fill`], xref:../clip.adoc[`clip`], or `pathbbox`.
 
-In general, this path is not suitable for xref:stroke.adoc[`stroke`], as it may contain interior segments or disconnected subpaths produced by link:ustrokepath.adoc[`ustrokepath`]'s stroke-to-outline conversion process.
+In general, this path is not suitable for xref:../stroke.adoc[`stroke`], as it may contain interior segments or disconnected subpaths produced by link:ustrokepath.adoc[`ustrokepath`]'s stroke-to-outline conversion process.
 
 In the first form, link:ustrokepath.adoc[`ustrokepath`] is equivalent to:
 
@@ -236,7 +236,7 @@ stroke  % Unpredictable results
 fill    % Correct usage
 ----
 
-WARNING: *Current Path Is Modified* - Unlike xref:ustroke.adoc[`ustroke`], the current path is replaced with the outline.
+WARNING: *Current Path Is Modified* - Unlike xref:../ustroke.adoc[`ustroke`], the current path is replaced with the outline.
 
 [source,postscript]
 ----
@@ -321,7 +321,7 @@ link:ustrokepath.adoc[`ustrokepath`] uses these parameters to create the outline
 * Dash pattern - from xref:../graphics-state/setdash.adoc[`setdash`]
 * Current transformation matrix (CTM)
 
-The graphics state is not automatically saved/restored (unlike xref:ustroke.adoc[`ustroke`]).
+The graphics state is not automatically saved/restored (unlike xref:../ustroke.adoc[`ustroke`]).
 
 === Comparison with Other Stroke Operators
 
@@ -495,7 +495,7 @@ fill
 
 === Performance Considerations
 
-* More complex than simple xref:ustroke.adoc[`ustroke`]
+* More complex than simple xref:../ustroke.adoc[`ustroke`]
 * User path format provides some efficiency
 * Dash patterns significantly increase complexity
 * Round caps/joins create more segments
@@ -504,11 +504,11 @@ fill
 
 === See Also
 
-* xref:ustroke.adoc[`ustroke`] - Stroke user path
-* xref:strokepath.adoc[`strokepath`] - Convert stroke to outline (traditional path)
-* xref:ufill.adoc[`ufill`] - Fill user path
-* xref:fill.adoc[`fill`] - Fill path interior
-* xref:clip.adoc[`clip`] - Use path for clipping
+* xref:../ustroke.adoc[`ustroke`] - Stroke user path
+* xref:../strokepath.adoc[`strokepath`] - Convert stroke to outline (traditional path)
+* xref:../ufill.adoc[`ufill`] - Fill user path
+* xref:../fill.adoc[`fill`] - Fill path interior
+* xref:../clip.adoc[`clip`] - Use path for clipping
 * `setbbox` - Set bounding box
 * `ucache` - Enable user path caching
 * `uappend` - Append user path to current path

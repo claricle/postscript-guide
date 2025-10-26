@@ -240,10 +240,10 @@ true ceiling       % ERROR: typecheck
 
 == Related Commands
 
-* xref:floor.adoc[`floor`] - Round down to integer
-* xref:round.adoc[`round`] - Round to nearest integer
-* xref:truncate.adoc[`truncate`] - Truncate toward zero
-* xref:abs.adoc[`abs`] - Absolute value
+* xref:../floor.adoc[`floor`] - Round down to integer
+* xref:../round.adoc[`round`] - Round to nearest integer
+* xref:../truncate.adoc[`truncate`] - Truncate toward zero
+* xref:../abs.adoc[`abs`] - Absolute value
 
 == PostScript Level
 
@@ -320,9 +320,3 @@ The `ceiling` operator is fast:
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
 * xref:../../levels/index.adoc[PostScript Language Levels]
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

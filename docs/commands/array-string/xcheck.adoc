@@ -123,7 +123,7 @@ proc executeonly xcheck  % true
 
 WARNING: *Most Objects Are Literal* - Numbers, strings, and array literals are all literal by default.
 
-TIP: *Combine with type* - Use xref:type.adoc[`type`] to check object type along with executability.
+TIP: *Combine with type* - Use xref:../type.adoc[`type`] to check object type along with executability.
 
 === Error Conditions
 
@@ -191,8 +191,8 @@ TIP: *Combine with type* - Use xref:type.adoc[`type`] to check object type along
 
 === See Also
 
-* xref:cvlit.adoc[`cvlit`] - Convert to literal attribute
-* xref:cvx.adoc[`cvx`] - Convert to executable attribute
-* xref:rcheck.adoc[`rcheck`] - Test if readable
-* xref:wcheck.adoc[`wcheck`] - Test if writable
-* xref:type.adoc[`type`] - Get object type
+* xref:../cvlit.adoc[`cvlit`] - Convert to literal attribute
+* xref:../cvx.adoc[`cvx`] - Convert to executable attribute
+* xref:../rcheck.adoc[`rcheck`] - Test if readable
+* xref:../wcheck.adoc[`wcheck`] - Test if writable
+* xref:../type.adoc[`type`] - Get object type

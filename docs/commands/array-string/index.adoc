@@ -33,7 +33,7 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:array.adoc[`array`]
+| xref:../array.adoc[`array`]
 | Create a new array of specified length
 
 | xref:left-bracket.adoc[`[`]
@@ -42,13 +42,13 @@ However, they differ in important ways:
 | xref:right-bracket.adoc[`]`]
 | End array construction
 
-| xref:aload.adoc[`aload`]
+| xref:../aload.adoc[`aload`]
 | Load all array elements onto stack
 
-| xref:astore.adoc[`astore`]
+| xref:../astore.adoc[`astore`]
 | Store stack elements into array
 
-| xref:packedarray.adoc[`packedarray`]
+| xref:../packedarray.adoc[`packedarray`]
 | Create read-only packed array (Level 2)
 |===
 
@@ -58,19 +58,19 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:get.adoc[`get`]
+| xref:../get.adoc[`get`]
 | Get single element from array/string
 
-| xref:put.adoc[`put`]
+| xref:../put.adoc[`put`]
 | Put value into array/string element
 
-| xref:getinterval.adoc[`getinterval`]
+| xref:../getinterval.adoc[`getinterval`]
 | Extract subarray or substring
 
-| xref:putinterval.adoc[`putinterval`]
+| xref:../putinterval.adoc[`putinterval`]
 | Insert array/string into another
 
-| xref:length.adoc[`length`]
+| xref:../length.adoc[`length`]
 | Get length of array/string
 |===
 
@@ -80,7 +80,7 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:forall.adoc[`forall`]
+| xref:../forall.adoc[`forall`]
 | Execute procedure for each element
 |===
 
@@ -92,16 +92,16 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:string.adoc[`string`]
+| xref:../string.adoc[`string`]
 | Create new string of specified length
 
-| xref:anchorsearch.adoc[`anchorsearch`]
+| xref:../anchorsearch.adoc[`anchorsearch`]
 | Search for prefix in string
 
-| xref:search.adoc[`search`]
+| xref:../search.adoc[`search`]
 | Search for substring
 
-| xref:token.adoc[`token`]
+| xref:../token.adoc[`token`]
 | Parse next token from string/file
 |===
 
@@ -111,25 +111,25 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:cvs.adoc[`cvs`]
+| xref:../cvs.adoc[`cvs`]
 | Convert any object to string representation
 
-| xref:cvn.adoc[`cvn`]
+| xref:../cvn.adoc[`cvn`]
 | Convert string to name
 
-| xref:cvr.adoc[`cvr`]
+| xref:../cvr.adoc[`cvr`]
 | Convert to real number
 
-| xref:cvi.adoc[`cvi`]
+| xref:../cvi.adoc[`cvi`]
 | Convert to integer
 
-| xref:cvlit.adoc[`cvlit`]
+| xref:../cvlit.adoc[`cvlit`]
 | Convert to literal attribute
 
-| xref:cvx.adoc[`cvx`]
+| xref:../cvx.adoc[`cvx`]
 | Convert to executable attribute
 
-| xref:type.adoc[`type`]
+| xref:../type.adoc[`type`]
 | Get object type as name
 |===
 
@@ -139,13 +139,13 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| xref:xcheck.adoc[`xcheck`]
+| xref:../xcheck.adoc[`xcheck`]
 | Check if object is executable
 
-| xref:rcheck.adoc[`rcheck`]
+| xref:../rcheck.adoc[`rcheck`]
 | Check if object is readable
 
-| xref:wcheck.adoc[`wcheck`]
+| xref:../wcheck.adoc[`wcheck`]
 | Check if object is writable
 |===
 

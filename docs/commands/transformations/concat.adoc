@@ -184,7 +184,7 @@ WARNING: *Order of Operations* - Matrix multiplication is not commutative. Order
 [2 0 0 2 0 0] concat     % Then scale
 ----
 
-TIP: *Use Helper Operators* - For simple transformations, use xref:translate.adoc[`translate`], xref:scale.adoc[`scale`], and xref:rotate.adoc[`rotate`] instead of link:concat.adoc[`concat`].
+TIP: *Use Helper Operators* - For simple transformations, use xref:../translate.adoc[`translate`], xref:../scale.adoc[`scale`], and xref:../rotate.adoc[`rotate`] instead of link:concat.adoc[`concat`].
 
 [source,postscript]
 ----
@@ -339,12 +339,12 @@ concat
 
 === See Also
 
-* xref:translate.adoc[`translate`] - Move origin
-* xref:scale.adoc[`scale`] - Change unit size
-* xref:rotate.adoc[`rotate`] - Rotate axes
-* xref:concatmatrix.adoc[`concatmatrix`] - Multiply two matrices
-* xref:setmatrix.adoc[`setmatrix`] - Replace CTM directly
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
-* xref:matrix.adoc[`matrix`] - Create identity matrix
+* xref:../translate.adoc[`translate`] - Move origin
+* xref:../scale.adoc[`scale`] - Change unit size
+* xref:../rotate.adoc[`rotate`] - Rotate axes
+* xref:../concatmatrix.adoc[`concatmatrix`] - Multiply two matrices
+* xref:../setmatrix.adoc[`setmatrix`] - Replace CTM directly
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../matrix.adoc[`matrix`] - Create identity matrix
 * xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
 * xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

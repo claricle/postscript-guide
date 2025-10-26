@@ -35,7 +35,7 @@ PostScript maintains a dictionary stack that controls name lookup:
 |===
 | Command | Description
 
-| xref:dict.adoc[`dict`]
+| xref:../dict.adoc[`dict`]
 | Create new dictionary with initial capacity
 |===
 
@@ -45,19 +45,19 @@ PostScript maintains a dictionary stack that controls name lookup:
 |===
 | Command | Description
 
-| xref:begin.adoc[`begin`]
+| xref:../begin.adoc[`begin`]
 | Push dictionary onto dictionary stack
 
-| xref:end.adoc[`end`]
+| xref:../end.adoc[`end`]
 | Pop dictionary from dictionary stack
 
-| xref:currentdict.adoc[`currentdict`]
+| xref:../currentdict.adoc[`currentdict`]
 | Get current dictionary (top of stack)
 
-| xref:countdictstack.adoc[`countdictstack`]
+| xref:../countdictstack.adoc[`countdictstack`]
 | Count dictionaries on stack
 
-| xref:dictstack.adoc[`dictstack`]
+| xref:../dictstack.adoc[`dictstack`]
 | Copy dictionary stack to array
 |===
 
@@ -67,22 +67,22 @@ PostScript maintains a dictionary stack that controls name lookup:
 |===
 | Command | Description
 
-| xref:def.adoc[`def`]
+| xref:../def.adoc[`def`]
 | Define key-value pair in current dictionary
 
-| xref:load.adoc[`load`]
+| xref:../load.adoc[`load`]
 | Look up and return value from dictionary stack
 
-| xref:store.adoc[`store`]
+| xref:../store.adoc[`store`]
 | Store value in dictionary stack (create if needed)
 
-| xref:known.adoc[`known`]
+| xref:../known.adoc[`known`]
 | Check if key exists in specific dictionary
 
-| xref:where.adoc[`where`]
+| xref:../where.adoc[`where`]
 | Find which dictionary contains key
 
-| xref:undef.adoc[`undef`]
+| xref:../undef.adoc[`undef`]
 | Remove key from dictionary (Level 2)
 |===
 
@@ -92,7 +92,7 @@ PostScript maintains a dictionary stack that controls name lookup:
 |===
 | Command | Description
 
-| xref:maxlength.adoc[`maxlength`]
+| xref:../maxlength.adoc[`maxlength`]
 | Get maximum capacity
 
 | xref:../array-string/length.adoc[`length`]

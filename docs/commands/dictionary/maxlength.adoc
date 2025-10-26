@@ -180,6 +180,6 @@ TIP: *Don't Rely on Exact Values* - In Level 2, maxlength may increase unpredict
 === See Also
 
 * xref:../array-string/length.adoc[`length`] - Get current entry count
-* xref:dict.adoc[`dict`] - Create dictionary with initial capacity
-* xref:def.adoc[`def`] - Add entry to dictionary
-* xref:known.adoc[`known`] - Check if key exists
+* xref:../dict.adoc[`dict`] - Create dictionary with initial capacity
+* xref:../def.adoc[`def`] - Add entry to dictionary
+* xref:../known.adoc[`known`] - Check if key exists

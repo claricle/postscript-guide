@@ -219,8 +219,8 @@ TIP: *Idiom for Getting Value* - Common pattern to get value:
 
 === See Also
 
-* xref:known.adoc[`known`] - Check specific dictionary
-* xref:load.adoc[`load`] - Get value from dictionary stack
-* xref:def.adoc[`def`] - Define in current dictionary
-* xref:store.adoc[`store`] - Store in dictionary stack
+* xref:../known.adoc[`known`] - Check specific dictionary
+* xref:../load.adoc[`load`] - Get value from dictionary stack
+* xref:../def.adoc[`def`] - Define in current dictionary
+* xref:../store.adoc[`store`] - Store in dictionary stack
 * xref:../array-string/get.adoc[`get`] - Get from specific dictionary

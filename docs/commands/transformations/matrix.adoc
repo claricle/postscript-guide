@@ -254,10 +254,10 @@ matrix currentmatrix  % Get CTM into new matrix
 
 === See Also
 
-* xref:identmatrix.adoc[`identmatrix`] - Initialize array as identity matrix
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current transformation matrix
-* xref:defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
-* xref:setmatrix.adoc[`setmatrix`] - Set transformation matrix
-* xref:concat.adoc[`concat`] - Concatenate matrix with CTM
-* xref:concatmatrix.adoc[`concatmatrix`] - Multiply two matrices
+* xref:../identmatrix.adoc[`identmatrix`] - Initialize array as identity matrix
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current transformation matrix
+* xref:../defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
+* xref:../setmatrix.adoc[`setmatrix`] - Set transformation matrix
+* xref:../concat.adoc[`concat`] - Concatenate matrix with CTM
+* xref:../concatmatrix.adoc[`concatmatrix`] - Multiply two matrices
 * xref:../array-string/array.adoc[`array`] - Create array

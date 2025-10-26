@@ -241,9 +241,9 @@ true neg       % ERROR: typecheck
 
 == Related Commands
 
-* xref:abs.adoc[`abs`] - Absolute value
-* xref:sub.adoc[`sub`] - Subtract two numbers
-* xref:add.adoc[`add`] - Add two numbers
+* xref:../abs.adoc[`abs`] - Absolute value
+* xref:../sub.adoc[`sub`] - Subtract two numbers
+* xref:../add.adoc[`add`] - Add two numbers
 
 == PostScript Level
 
@@ -326,9 +326,3 @@ value neg neg  % Same as abs for negative, but keeps positive positive
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
 * xref:../../levels/index.adoc[PostScript Language Levels]
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

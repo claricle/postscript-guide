@@ -49,7 +49,7 @@ With no matrix operand, link:dtransform.adoc[`dtransform`] (delta transform) tra
 
 If the `matrix` operand is supplied, link:dtransform.adoc[`dtransform`] transforms the distance vector by `matrix` rather than by the CTM.
 
-A delta transformation is similar to a normal transformation (xref:transform.adoc[`transform`]), but the translation components (tx and ty) of the transformation matrix are not used. This makes distance vectors position-independent in both user space and device space.
+A delta transformation is similar to a normal transformation (xref:../transform.adoc[`transform`]), but the translation components (tx and ty) of the transformation matrix are not used. This makes distance vectors position-independent in both user space and device space.
 
 This is useful for determining how distances map from user space to device space, such as for line widths, dash patterns, or measuring transformed lengths.
 
@@ -144,7 +144,7 @@ deviceWidth dup mul deviceHeight dup mul add sqrt
 
 === Common Pitfalls
 
-WARNING: *Position-Independent* - link:dtransform.adoc[`dtransform`] ignores translation. Use xref:transform.adoc[`transform`] for points.
+WARNING: *Position-Independent* - link:dtransform.adoc[`dtransform`] ignores translation. Use xref:../transform.adoc[`transform`] for points.
 
 [source,postscript]
 ----
@@ -214,9 +214,9 @@ TIP: *Direction Vectors* - Use for transforming directions without position:
 
 * Translation components (tx, ty) are ignored
 * Only the linear transformation part [a b c d] is used
-* Very fast operation (simpler than full xref:transform.adoc[`transform`])
-* No risk of [`undefinedresult`] error (unlike xref:itransform.adoc[`itransform`])
-* The inverse operation is xref:idtransform.adoc[`idtransform`]
+* Very fast operation (simpler than full xref:../transform.adoc[`transform`])
+* No risk of [`undefinedresult`] error (unlike xref:../itransform.adoc[`itransform`])
+* The inverse operation is xref:../idtransform.adoc[`idtransform`]
 
 === Transformation Formula
 
@@ -244,7 +244,7 @@ dy' = 0×10 + 3×20 = 60
 |===
 | Operation | Use For | Example
 
-| xref:transform.adoc[`transform`]
+| xref:../transform.adoc[`transform`]
 | Absolute positions, points
 | `100 100 moveto`
 
@@ -252,11 +252,11 @@ dy' = 0×10 + 3×20 = 60
 | Distances, vectors, offsets
 | Line width, dash lengths
 
-| xref:itransform.adoc[`itransform`]
+| xref:../itransform.adoc[`itransform`]
 | Device to user positions
 | Mouse coordinates
 
-| xref:idtransform.adoc[`idtransform`]
+| xref:../idtransform.adoc[`idtransform`]
 | Device to user distances
 | Device pixel size
 |===
@@ -311,15 +311,15 @@ dy' = 0×10 + 3×20 = 60
 
 === Performance Considerations
 
-* Faster than xref:transform.adoc[`transform`] (no translation component)
+* Faster than xref:../transform.adoc[`transform`] (no translation component)
 * Simple matrix multiplication
 * Can be called frequently
 * No memory allocation
 
 === See Also
 
-* xref:idtransform.adoc[`idtransform`] - Inverse distance transformation
-* xref:transform.adoc[`transform`] - Transform coordinates (includes translation)
-* xref:itransform.adoc[`itransform`] - Inverse coordinate transformation
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../idtransform.adoc[`idtransform`] - Inverse distance transformation
+* xref:../transform.adoc[`transform`] - Transform coordinates (includes translation)
+* xref:../itransform.adoc[`itransform`] - Inverse coordinate transformation
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current CTM
 * xref:../graphics-state/setlinewidth.adoc[`setlinewidth`] - Set line width

@@ -280,11 +280,11 @@ Both operands *must* be integers. Real numbers or other types will cause a `type
 
 == Related Commands
 
-* xref:idiv.adoc[`idiv`] - Integer division (quotient)
-* xref:div.adoc[`div`] - Division with real result
-* xref:add.adoc[`add`] - Add two numbers
-* xref:sub.adoc[`sub`] - Subtract two numbers
-* xref:mul.adoc[`mul`] - Multiply two numbers
+* xref:../idiv.adoc[`idiv`] - Integer division (quotient)
+* xref:../div.adoc[`div`] - Division with real result
+* xref:../add.adoc[`add`] - Add two numbers
+* xref:../sub.adoc[`sub`] - Subtract two numbers
+* xref:../mul.adoc[`mul`] - Multiply two numbers
 
 == PostScript Level
 
@@ -361,9 +361,3 @@ The `mod` operator is fast, typically implemented as a single hardware instructi
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
 * xref:../../levels/index.adoc[PostScript Language Levels]
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

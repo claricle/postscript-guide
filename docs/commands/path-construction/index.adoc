@@ -26,22 +26,22 @@ Path construction in PostScript follows a three-step process:
 |===
 | Command | Description
 
-| xref:newpath.adoc[`newpath`]
+| xref:../newpath.adoc[`newpath`]
 | Initialize path to empty
 
-| xref:moveto.adoc[`moveto`]
+| xref:../moveto.adoc[`moveto`]
 | Set current point (start new subpath)
 
-| xref:lineto.adoc[`lineto`]
+| xref:../lineto.adoc[`lineto`]
 | Add straight line to current point
 
-| xref:curveto.adoc[`curveto`]
+| xref:../curveto.adoc[`curveto`]
 | Add Bézier curve to path
 
-| xref:closepath.adoc[`closepath`]
+| xref:../closepath.adoc[`closepath`]
 | Close current subpath
 
-| xref:currentpoint.adoc[`currentpoint`]
+| xref:../currentpoint.adoc[`currentpoint`]
 | Get coordinates of current point
 |===
 
@@ -51,13 +51,13 @@ Path construction in PostScript follows a three-step process:
 |===
 | Command | Description
 
-| xref:rmoveto.adoc[`rmoveto`]
+| xref:../rmoveto.adoc[`rmoveto`]
 | Relative moveto
 
-| xref:rlineto.adoc[`rlineto`]
+| xref:../rlineto.adoc[`rlineto`]
 | Relative lineto
 
-| xref:rcurveto.adoc[`rcurveto`]
+| xref:../rcurveto.adoc[`rcurveto`]
 | Relative curveto
 |===
 
@@ -67,16 +67,16 @@ Path construction in PostScript follows a three-step process:
 |===
 | Command | Description
 
-| xref:arc.adoc[`arc`]
+| xref:../arc.adoc[`arc`]
 | Add counterclockwise circular arc
 
-| xref:arcn.adoc[`arcn`]
+| xref:../arcn.adoc[`arcn`]
 | Add clockwise circular arc
 
-| xref:arct.adoc[`arct`]
+| xref:../arct.adoc[`arct`]
 | Add arc defined by tangent lines
 
-| xref:arcto.adoc[`arcto`]
+| xref:../arcto.adoc[`arcto`]
 | Like arct but returns tangent points
 |===
 

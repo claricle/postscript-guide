@@ -45,7 +45,7 @@ link:repeat.adoc[`repeat`] executes _proc_ exactly _int_ times, where _int_ must
 
 The operator removes both operands before executing _proc_ for the first time. If _int_ is 0, _proc_ is not executed at all.
 
-If _proc_ executes xref:exit.adoc[`exit`], the loop terminates prematurely.
+If _proc_ executes xref:../exit.adoc[`exit`], the loop terminates prematurely.
 
 === PostScript Level
 
@@ -128,14 +128,14 @@ WARNING: *Stack Accumulation* - If _proc_ pushes values without consuming them, 
 % Stack has 10 copies of 42!
 ----
 
-WARNING: *No Control Variable* - Unlike xref:for.adoc[`for`], link:repeat.adoc[`repeat`] doesn't provide iteration index.
+WARNING: *No Control Variable* - Unlike xref:../for.adoc[`for`], link:repeat.adoc[`repeat`] doesn't provide iteration index.
 
 [source,postscript]
 ----
 5 { % No way to know which iteration } repeat
 ----
 
-TIP: *Use for if Index Needed* - If you need to know the iteration number, use xref:for.adoc[`for`] instead:
+TIP: *Use for if Index Needed* - If you need to know the iteration number, use xref:../for.adoc[`for`] instead:
 
 [source,postscript]
 ----
@@ -172,7 +172,7 @@ TIP: *Use for if Index Needed* - If you need to know the iteration number, use x
 | Use Case | Operator | Reason
 
 | Need iteration index
-| xref:for.adoc[`for`]
+| xref:../for.adoc[`for`]
 | Provides control variable
 
 | Fixed count, no index
@@ -180,7 +180,7 @@ TIP: *Use for if Index Needed* - If you need to know the iteration number, use x
 | Simpler, faster
 
 | Conditional termination
-| xref:loop.adoc[`loop`]
+| xref:../loop.adoc[`loop`]
 | Exit when condition met
 
 | Iterate collection
@@ -190,7 +190,7 @@ TIP: *Use for if Index Needed* - If you need to know the iteration number, use x
 
 === See Also
 
-* xref:for.adoc[`for`] - Loop with control variable
-* xref:loop.adoc[`loop`] - Indefinite loop
-* xref:exit.adoc[`exit`] - Exit loop early
+* xref:../for.adoc[`for`] - Loop with control variable
+* xref:../loop.adoc[`loop`] - Indefinite loop
+* xref:../exit.adoc[`exit`] - Exit loop early
 * xref:../array-string/forall.adoc[`forall`] - Iterate collections

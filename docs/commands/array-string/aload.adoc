@@ -126,7 +126,7 @@ WARNING: *Stack Overflow* - Loading large arrays can overflow the operand stack.
 1000 array aload  % Might cause stackoverflow
 ----
 
-TIP: *Use with forall* - For processing array elements, xref:forall.adoc[`forall`] is often more appropriate than link:aload.adoc[`aload`].
+TIP: *Use with forall* - For processing array elements, xref:../forall.adoc[`forall`] is often more appropriate than link:aload.adoc[`aload`].
 
 === Error Conditions
 
@@ -152,19 +152,19 @@ TIP: *Use with forall* - For processing array elements, xref:forall.adoc[`forall
 * Elements are shared between the array and stack (not copied)
 * Modifying a composite element affects both the array and the stack value
 * Works identically for arrays and packed arrays
-* The array reference on top of stack can be used to restore values with xref:astore.adoc[`astore`]
+* The array reference on top of stack can be used to restore values with xref:../astore.adoc[`astore`]
 
 === Performance Considerations
 
 * Loading small arrays is efficient
-* For large arrays, consider using xref:get.adoc[`get`] to access specific elements
-* For iteration, xref:forall.adoc[`forall`] is more memory-efficient
+* For large arrays, consider using xref:../get.adoc[`get`] to access specific elements
+* For iteration, xref:../forall.adoc[`forall`] is more memory-efficient
 
 === See Also
 
-* xref:astore.adoc[`astore`] - Store stack into array
-* xref:get.adoc[`get`] - Get single array element
-* xref:getinterval.adoc[`getinterval`] - Get subarray
-* xref:forall.adoc[`forall`] - Iterate over array elements
-* xref:length.adoc[`length`] - Get array length
+* xref:../astore.adoc[`astore`] - Store stack into array
+* xref:../get.adoc[`get`] - Get single array element
+* xref:../getinterval.adoc[`getinterval`] - Get subarray
+* xref:../forall.adoc[`forall`] - Iterate over array elements
+* xref:../length.adoc[`length`] - Get array length
 * xref:../stack-manipulation/pop.adoc[`pop`] - Remove top stack element

@@ -233,11 +233,11 @@ TIP: Use `count` immediately before the operation that needs to know stack depth
 
 == Related Commands
 
-* xref:counttomark.adoc[`counttomark`] - Count elements until a mark
-* xref:clear.adoc[`clear`] - Remove all elements from stack
-* xref:pop.adoc[`pop`] - Remove single element
-* xref:copy.adoc[`copy`] - Copy n elements
-* xref:roll.adoc[`roll`] - Rotate n elements
+* xref:../counttomark.adoc[`counttomark`] - Count elements until a mark
+* xref:../clear.adoc[`clear`] - Remove all elements from stack
+* xref:../pop.adoc[`pop`] - Remove single element
+* xref:../copy.adoc[`copy`] - Copy n elements
+* xref:../roll.adoc[`roll`] - Rotate n elements
 
 == PostScript Level
 
@@ -315,9 +315,3 @@ Use `count` freely for debugging and stack management without performance concer
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:../../usage/debugging.adoc[Debugging Guide] - Using count for debugging
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 378)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

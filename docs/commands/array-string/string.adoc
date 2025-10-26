@@ -164,9 +164,9 @@ original length string  % Same size as original
 
 === See Also
 
-* xref:length.adoc[`length`] - Get string length
-* xref:get.adoc[`get`] - Get character code
-* xref:put.adoc[`put`] - Put character code
-* xref:getinterval.adoc[`getinterval`] - Get substring
-* xref:putinterval.adoc[`putinterval`] - Put substring
-* xref:cvs.adoc[`cvs`] - Convert object to string
+* xref:../length.adoc[`length`] - Get string length
+* xref:../get.adoc[`get`] - Get character code
+* xref:../put.adoc[`put`] - Put character code
+* xref:../getinterval.adoc[`getinterval`] - Get substring
+* xref:../putinterval.adoc[`putinterval`] - Put substring
+* xref:../cvs.adoc[`cvs`] - Convert object to string

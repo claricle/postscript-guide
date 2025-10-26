@@ -50,7 +50,7 @@ x y r ang1 ang2 arcn → -
 
 === Description
 
-link:arcn.adoc[`arcn`] (arc negative) behaves like xref:arc.adoc[`arc`], but builds its arc segment in a clockwise direction in user space instead of counterclockwise.
+link:arcn.adoc[`arcn`] (arc negative) behaves like xref:../arc.adoc[`arc`], but builds its arc segment in a clockwise direction in user space instead of counterclockwise.
 
 The arc has (x, y) as center, r as radius, ang1 as the angle from (x, y) to the first endpoint, and ang2 as the angle from (x, y) to the second endpoint. Angles are measured in degrees counterclockwise from the positive x-axis.
 
@@ -184,7 +184,7 @@ WARNING: *Angle Order Still Matters* - ang1 is the start angle, ang2 is the end 
 200 200 50 90 0 arcn     % Goes 90° clockwise (90→45→0)
 ----
 
-TIP: *Use for Interior Paths* - link:arcn.adoc[`arcn`] is essential for creating holes in shapes when combined with xref:arc.adoc[`arc`], as opposite directions create non-overlapping regions.
+TIP: *Use for Interior Paths* - link:arcn.adoc[`arcn`] is essential for creating holes in shapes when combined with xref:../arc.adoc[`arc`], as opposite directions create non-overlapping regions.
 
 === Error Conditions
 
@@ -207,19 +207,19 @@ TIP: *Use for Interior Paths* - link:arcn.adoc[`arcn`] is essential for creating
 * Internally represented as Bézier cubic curves
 * Direction matters for fill rules (non-zero winding number)
 * Clockwise and counterclockwise arcs can create holes in filled shapes
-* Same accuracy considerations as xref:arc.adoc[`arc`]
+* Same accuracy considerations as xref:../arc.adoc[`arc`]
 * Produces elliptical curves if CTM has non-uniform scaling
 
 === Performance Considerations
 
-* Same performance characteristics as xref:arc.adoc[`arc`]
+* Same performance characteristics as xref:../arc.adoc[`arc`]
 * No additional overhead for clockwise direction
 * Useful for efficient hole creation in complex paths
 
 === See Also
 
-* xref:arc.adoc[`arc`] - Counterclockwise arc
-* xref:arct.adoc[`arct`] - Arc defined by tangent lines
-* xref:arcto.adoc[`arcto`] - Like arct but returns tangent points
-* xref:closepath.adoc[`closepath`] - Close current subpath
-* xref:moveto.adoc[`moveto`] - Set current point
+* xref:../arc.adoc[`arc`] - Counterclockwise arc
+* xref:../arct.adoc[`arct`] - Arc defined by tangent lines
+* xref:../arcto.adoc[`arcto`] - Like arct but returns tangent points
+* xref:../closepath.adoc[`closepath`] - Close current subpath
+* xref:../moveto.adoc[`moveto`] - Set current point

@@ -59,7 +59,7 @@ x1 y1 x2 y2 r arcto → xt1 yt1 xt2 yt2
 
 === Description
 
-link:arcto.adoc[`arcto`] produces the same effect as xref:arct.adoc[`arct`]. It also returns the two tangent point coordinates (xt1, yt1) and (xt2, yt2) in user space.
+link:arcto.adoc[`arcto`] produces the same effect as xref:../arct.adoc[`arct`]. It also returns the two tangent point coordinates (xt1, yt1) and (xt2, yt2) in user space.
 
 The arc is defined by:
 1. A tangent line from the current point (x0, y0) to (x1, y1)
@@ -68,7 +68,7 @@ The arc is defined by:
 
 The arc is tangent to both lines, and the tangent points are returned on the stack.
 
-link:arcto.adoc[`arcto`] is not allowed as an element of a user path, whereas xref:arct.adoc[`arct`] is allowed.
+link:arcto.adoc[`arcto`] is not allowed as an element of a user path, whereas xref:../arct.adoc[`arct`] is allowed.
 
 === PostScript Level
 
@@ -224,7 +224,7 @@ newpath
 
 === Common Pitfalls
 
-WARNING: *Not for User Paths* - Unlike xref:arct.adoc[`arct`], link:arcto.adoc[`arcto`] cannot be used in user paths.
+WARNING: *Not for User Paths* - Unlike xref:../arct.adoc[`arct`], link:arcto.adoc[`arcto`] cannot be used in user paths.
 
 WARNING: *Stack Management* - link:arcto.adoc[`arcto`] leaves four values on the stack. Remember to pop them if not needed.
 
@@ -237,7 +237,7 @@ newpath
 stroke                        % May cause typecheck error
 ----
 
-TIP: *Use When You Need Tangent Points* - If you don't need the tangent points, use xref:arct.adoc[`arct`] instead for cleaner stack management.
+TIP: *Use When You Need Tangent Points* - If you don't need the tangent points, use xref:../arct.adoc[`arct`] instead for cleaner stack management.
 
 === Error Conditions
 
@@ -263,7 +263,7 @@ TIP: *Use When You Need Tangent Points* - If you don't need the tangent points, 
 
 === Implementation Notes
 
-* Identical path construction to xref:arct.adoc[`arct`]
+* Identical path construction to xref:../arct.adoc[`arct`]
 * Returns tangent points in user space coordinates
 * Tangent points are on the original tangent lines, not the arc
 * Useful for geometric calculations and annotations
@@ -271,13 +271,13 @@ TIP: *Use When You Need Tangent Points* - If you don't need the tangent points, 
 
 === Performance Considerations
 
-* Slightly slower than xref:arct.adoc[`arct`] due to returning tangent points
+* Slightly slower than xref:../arct.adoc[`arct`] due to returning tangent points
 * Overhead is minimal for most applications
-* Consider using xref:arct.adoc[`arct`] if tangent points aren't needed
+* Consider using xref:../arct.adoc[`arct`] if tangent points aren't needed
 
 === See Also
 
-* xref:arct.adoc[`arct`] - Arc by tangent (no tangent point return)
-* xref:arc.adoc[`arc`] - Counterclockwise circular arc
-* xref:arcn.adoc[`arcn`] - Clockwise circular arc
-* xref:currentpoint.adoc[`currentpoint`] - Get current point
+* xref:../arct.adoc[`arct`] - Arc by tangent (no tangent point return)
+* xref:../arc.adoc[`arc`] - Counterclockwise circular arc
+* xref:../arcn.adoc[`arcn`] - Clockwise circular arc
+* xref:../currentpoint.adoc[`currentpoint`] - Get current point

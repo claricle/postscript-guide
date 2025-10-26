@@ -11,7 +11,7 @@ Returns the current state of the random number generator.
 
 == Description
 
-The `rrand` operator returns an integer representing the current state of the random number generator used by xref:rand.adoc[`rand`]. This state value can later be passed to xref:srand.adoc[`srand`] to restore the generator to this exact position in its sequence, allowing you to reproduce or continue a specific random sequence.
+The `rrand` operator returns an integer representing the current state of the random number generator used by xref:../rand.adoc[`rand`]. This state value can later be passed to xref:../srand.adoc[`srand`] to restore the generator to this exact position in its sequence, allowing you to reproduce or continue a specific random sequence.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -90,8 +90,8 @@ rand           % Same sequence as after saved state
 
 == Related Commands
 
-* xref:rand.adoc[`rand`] - Generate random integer
-* xref:srand.adoc[`srand`] - Seed random generator
+* xref:../rand.adoc[`rand`] - Generate random integer
+* xref:../srand.adoc[`srand`] - Seed random generator
 
 == PostScript Level
 
@@ -111,8 +111,3 @@ The operand stack is full (cannot push result).
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

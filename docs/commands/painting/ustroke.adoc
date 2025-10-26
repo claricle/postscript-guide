@@ -51,7 +51,7 @@ userpath matrix ustroke → -
 
 === Description
 
-link:ustroke.adoc[`ustroke`] interprets a user path definition and strokes the resulting path as if by xref:stroke.adoc[`stroke`]. The entire operation is effectively enclosed by xref:../graphics-state/gsave.adoc[`gsave`] and xref:../graphics-state/grestore.adoc[`grestore`], so link:ustroke.adoc[`ustroke`] has no lasting effect on the graphics state.
+link:ustroke.adoc[`ustroke`] interprets a user path definition and strokes the resulting path as if by xref:../stroke.adoc[`stroke`]. The entire operation is effectively enclosed by xref:../graphics-state/gsave.adoc[`gsave`] and xref:../graphics-state/grestore.adoc[`grestore`], so link:ustroke.adoc[`ustroke`] has no lasting effect on the graphics state.
 
 In the first form (with no matrix operand), link:ustroke.adoc[`ustroke`] is equivalent to:
 
@@ -60,7 +60,7 @@ In the first form (with no matrix operand), link:ustroke.adoc[`ustroke`] is equi
 gsave newpath uappend stroke grestore
 ----
 
-In the second form, link:ustroke.adoc[`ustroke`] concatenates `matrix` to the CTM after interpreting `userpath`, but before executing xref:stroke.adoc[`stroke`]. The matrix applies to the line width and the dash pattern, if any, but not to the path itself. This form is equivalent to:
+In the second form, link:ustroke.adoc[`ustroke`] concatenates `matrix` to the CTM after interpreting `userpath`, but before executing xref:../stroke.adoc[`stroke`]. The matrix applies to the line width and the dash pattern, if any, but not to the path itself. This form is equivalent to:
 
 [source,postscript]
 ----
@@ -438,10 +438,10 @@ shapePath ustroke
 
 === See Also
 
-* xref:stroke.adoc[`stroke`] - Traditional stroke operator
-* xref:ufill.adoc[`ufill`] - Fill user path
-* xref:ustrokepath.adoc[`ustrokepath`] - Convert user path stroke to outline
-* xref:strokepath.adoc[`strokepath`] - Convert stroke to outline path
+* xref:../stroke.adoc[`stroke`] - Traditional stroke operator
+* xref:../ufill.adoc[`ufill`] - Fill user path
+* xref:../ustrokepath.adoc[`ustrokepath`] - Convert user path stroke to outline
+* xref:../strokepath.adoc[`strokepath`] - Convert stroke to outline path
 * `setbbox` - Set bounding box
 * `ucache` - Enable user path caching
 * `uappend` - Append user path to current path

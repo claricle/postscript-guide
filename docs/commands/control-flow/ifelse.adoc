@@ -149,7 +149,7 @@ x 0 gt { x x mul } { } ifelse  % Unbalanced
 x 0 gt { x x mul } { 0 } ifelse
 ----
 
-TIP: *Use for Single Branch* - If you only need one branch, xref:if.adoc[`if`] is simpler.
+TIP: *Use for Single Branch* - If you only need one branch, xref:../if.adoc[`if`] is simpler.
 
 === Error Conditions
 
@@ -203,8 +203,8 @@ end
 
 === See Also
 
-* xref:if.adoc[`if`] - Single-branch conditional
-* xref:loop.adoc[`loop`] - Indefinite repetition
-* xref:repeat.adoc[`repeat`] - Fixed repetition
+* xref:../if.adoc[`if`] - Single-branch conditional
+* xref:../loop.adoc[`loop`] - Indefinite repetition
+* xref:../repeat.adoc[`repeat`] - Fixed repetition
 * Comparison operators: `eq`, `ne`, `lt`, `le`, `gt`, `ge`
 * Boolean operators: `and`, `or`, `not`

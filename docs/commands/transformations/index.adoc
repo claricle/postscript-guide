@@ -14,28 +14,28 @@ The PostScript coordinate transformation system provides powerful tools for mani
 
 ==== Basic Transformations
 
-* xref:translate.adoc[`translate`] - Move the origin
-* xref:scale.adoc[`scale`] - Change unit size
-* xref:rotate.adoc[`rotate`] - Rotate axes
-* xref:concat.adoc[`concat`] - Concatenate matrix with CTM
+* xref:../translate.adoc[`translate`] - Move the origin
+* xref:../scale.adoc[`scale`] - Change unit size
+* xref:../rotate.adoc[`rotate`] - Rotate axes
+* xref:../concat.adoc[`concat`] - Concatenate matrix with CTM
 
 ==== Matrix Operations
 
-* xref:matrix.adoc[`matrix`] - Create identity matrix
-* xref:identmatrix.adoc[`identmatrix`] - Replace matrix with identity
-* xref:defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current transformation matrix
-* xref:setmatrix.adoc[`setmatrix`] - Replace CTM with matrix
-* xref:initmatrix.adoc[`initmatrix`] - Reset CTM to default
-* xref:concatmatrix.adoc[`concatmatrix`] - Multiply two matrices
-* xref:invertmatrix.adoc[`invertmatrix`] - Invert a matrix
+* xref:../matrix.adoc[`matrix`] - Create identity matrix
+* xref:../identmatrix.adoc[`identmatrix`] - Replace matrix with identity
+* xref:../defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current transformation matrix
+* xref:../setmatrix.adoc[`setmatrix`] - Replace CTM with matrix
+* xref:../initmatrix.adoc[`initmatrix`] - Reset CTM to default
+* xref:../concatmatrix.adoc[`concatmatrix`] - Multiply two matrices
+* xref:../invertmatrix.adoc[`invertmatrix`] - Invert a matrix
 
 ==== Coordinate Transformations
 
-* xref:transform.adoc[`transform`] - Transform user→device coordinates
-* xref:itransform.adoc[`itransform`] - Transform device→user coordinates
-* xref:dtransform.adoc[`dtransform`] - Transform distance vector
-* xref:idtransform.adoc[`idtransform`] - Inverse transform distance vector
+* xref:../transform.adoc[`transform`] - Transform user→device coordinates
+* xref:../itransform.adoc[`itransform`] - Transform device→user coordinates
+* xref:../dtransform.adoc[`dtransform`] - Transform distance vector
+* xref:../idtransform.adoc[`idtransform`] - Inverse transform distance vector
 
 === Transformation Matrix
 
@@ -66,7 +66,7 @@ The CTM maps user space coordinates to device space coordinates. It is part of t
 
 * xref:../graphics-state/gsave.adoc[`gsave`] and xref:../graphics-state/grestore.adoc[`grestore`]
 * Basic transformation commands
-* xref:setmatrix.adoc[`setmatrix`]
+* xref:../setmatrix.adoc[`setmatrix`]
 
 === Common Operations
 

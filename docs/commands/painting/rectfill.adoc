@@ -497,10 +497,10 @@ Benefits of link:rectfill.adoc[`rectfill`]:
 
 === See Also
 
-* xref:fill.adoc[`fill`] - Fill arbitrary path
-* xref:rectstroke.adoc[`rectstroke`] - Stroke rectangles (Level 2)
-* xref:rectclip.adoc[`rectclip`] - Clip to rectangles (Level 2)
-* xref:stroke.adoc[`stroke`] - Stroke path
+* xref:../fill.adoc[`fill`] - Fill arbitrary path
+* xref:../rectstroke.adoc[`rectstroke`] - Stroke rectangles (Level 2)
+* xref:../rectclip.adoc[`rectclip`] - Clip to rectangles (Level 2)
+* xref:../stroke.adoc[`stroke`] - Stroke path
 * xref:../path-construction/newpath.adoc[`newpath`] - Clear current path
 * xref:../graphics-state/setgray.adoc[`setgray`] - Set gray color
 * xref:../graphics-state/setrgbcolor.adoc[`setrgbcolor`] - Set RGB color

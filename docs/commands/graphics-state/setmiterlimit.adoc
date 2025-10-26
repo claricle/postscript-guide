@@ -277,7 +277,7 @@ Else:
 
 === See Also
 
-* xref:setlinejoin.adoc[`setlinejoin`] - Set line join style
-* xref:currentmiterlimit.adoc[`currentmiterlimit`] - Get current miter limit
-* xref:setlinewidth.adoc[`setlinewidth`] - Set line width
-* xref:setlinecap.adoc[`setlinecap`] - Set line cap style
+* xref:../setlinejoin.adoc[`setlinejoin`] - Set line join style
+* xref:../currentmiterlimit.adoc[`currentmiterlimit`] - Get current miter limit
+* xref:../setlinewidth.adoc[`setlinewidth`] - Set line width
+* xref:../setlinecap.adoc[`setlinecap`] - Set line cap style

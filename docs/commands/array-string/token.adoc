@@ -262,8 +262,8 @@ link:token.adoc[`token`] consumes characters differently based on token type:
 
 === See Also
 
-* xref:search.adoc[`search`] - Find substring
-* xref:anchorsearch.adoc[`anchorsearch`] - Test for prefix
-* xref:cvs.adoc[`cvs`] - Convert to string
-* xref:cvn.adoc[`cvn`] - Convert to name
-* xref:cvx.adoc[`cvx`] - Make executable
+* xref:../search.adoc[`search`] - Find substring
+* xref:../anchorsearch.adoc[`anchorsearch`] - Test for prefix
+* xref:../cvs.adoc[`cvs`] - Convert to string
+* xref:../cvn.adoc[`cvn`] - Convert to name
+* xref:../cvx.adoc[`cvx`] - Make executable

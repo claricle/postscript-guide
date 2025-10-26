@@ -230,7 +230,7 @@ end
 mydict /value get   % Stack: 42 (dictionary unaffected)
 ----
 
-TIP: Consider using xref:cleartomark.adoc[`cleartomark`] instead of `clear` when you want to preserve elements below a certain point on the stack.
+TIP: Consider using xref:../cleartomark.adoc[`cleartomark`] instead of `clear` when you want to preserve elements below a certain point on the stack.
 
 === No Error on Empty Stack
 
@@ -245,10 +245,10 @@ count               % Stack: 0
 
 == Related Commands
 
-* xref:pop.adoc[`pop`] - Remove single element
-* xref:cleartomark.adoc[`cleartomark`] - Remove elements up to a mark
-* xref:count.adoc[`count`] - Check if stack is empty
-* xref:mark.adoc[`mark`] - Place marker for selective clearing
+* xref:../pop.adoc[`pop`] - Remove single element
+* xref:../cleartomark.adoc[`cleartomark`] - Remove elements up to a mark
+* xref:../count.adoc[`count`] - Check if stack is empty
+* xref:../mark.adoc[`mark`] - Place marker for selective clearing
 
 == PostScript Level
 
@@ -269,7 +269,7 @@ Clearing is faster than individually popping each element.
 == Best Practices
 
 1. **Use sparingly**: Only clear when you truly need to discard all stack contents
-2. **Consider alternatives**: Use xref:pop.adoc[`pop`] for selective removal or xref:cleartomark.adoc[`cleartomark`] for bounded clearing
+2. **Consider alternatives**: Use xref:../pop.adoc[`pop`] for selective removal or xref:../cleartomark.adoc[`cleartomark`] for bounded clearing
 3. **Error recovery**: Excellent for recovering from errors and resetting to known state
 4. **Document intent**: Always comment why you're clearing the stack
 5. **Test carefully**: Ensure you're not accidentally discarding needed data
@@ -324,9 +324,3 @@ add                 % Use the values
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:../../usage/error-handling.adoc[Error Handling] - Using clear for error recovery
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 337)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

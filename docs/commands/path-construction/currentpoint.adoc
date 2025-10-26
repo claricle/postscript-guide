@@ -176,7 +176,7 @@ drawArrowhead
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - link:currentpoint.adoc[`currentpoint`] fails if the path is empty or only contains xref:moveto.adoc[`moveto`] operations that were superseded.
+WARNING: *Requires Current Point* - link:currentpoint.adoc[`currentpoint`] fails if the path is empty or only contains xref:../moveto.adoc[`moveto`] operations that were superseded.
 
 [source,postscript]
 ----
@@ -231,7 +231,7 @@ TIP: *Use for Position-Dependent Drawing* - link:currentpoint.adoc[`currentpoint
 * Coordinates are computed from device space using inverse CTM
 * May have rounding errors due to coordinate transformations
 * The current point exists only after path construction operations
-* Superseded xref:moveto.adoc[`moveto`] operations don't leave a current point
+* Superseded xref:../moveto.adoc[`moveto`] operations don't leave a current point
 
 === Coordinate Transformation
 
@@ -260,7 +260,7 @@ currentpoint              % Get it back
 
 === See Also
 
-* xref:moveto.adoc[`moveto`] - Set current point (absolute)
-* xref:rmoveto.adoc[`rmoveto`] - Set current point (relative)
-* xref:lineto.adoc[`lineto`] - Add line to current point
-* xref:newpath.adoc[`newpath`] - Clear current path
+* xref:../moveto.adoc[`moveto`] - Set current point (absolute)
+* xref:../rmoveto.adoc[`rmoveto`] - Set current point (relative)
+* xref:../lineto.adoc[`lineto`] - Add line to current point
+* xref:../newpath.adoc[`newpath`] - Clear current path

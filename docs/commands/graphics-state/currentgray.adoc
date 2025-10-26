@@ -222,7 +222,7 @@ gray = 0.0
 
 === See Also
 
-* xref:setgray.adoc[`setgray`] - Set gray color
-* xref:currentrgbcolor.adoc[`currentrgbcolor`] - Get RGB color
-* xref:currentcmykcolor.adoc[`currentcmykcolor`] - Get CMYK color (Level 2)
-* xref:currenthsbcolor.adoc[`currenthsbcolor`] - Get HSB color
+* xref:../setgray.adoc[`setgray`] - Set gray color
+* xref:../currentrgbcolor.adoc[`currentrgbcolor`] - Get RGB color
+* xref:../currentcmykcolor.adoc[`currentcmykcolor`] - Get CMYK color (Level 2)
+* xref:../currenthsbcolor.adoc[`currenthsbcolor`] - Get HSB color

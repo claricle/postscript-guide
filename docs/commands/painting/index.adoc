@@ -26,19 +26,19 @@ PostScript provides three primary painting operations:
 |===
 | Command | Description
 
-| xref:fill.adoc[`fill`]
+| xref:../fill.adoc[`fill`]
 | Fill path interior (non-zero winding rule)
 
-| xref:eofill.adoc[`eofill`]
+| xref:../eofill.adoc[`eofill`]
 | Fill path interior (even-odd rule)
 
-| xref:ufill.adoc[`ufill`]
+| xref:../ufill.adoc[`ufill`]
 | Fill user path (Level 2)
 
-| xref:ueofill.adoc[`ueofill`]
+| xref:../ueofill.adoc[`ueofill`]
 | Even-odd fill user path (Level 2)
 
-| xref:rectfill.adoc[`rectfill`]
+| xref:../rectfill.adoc[`rectfill`]
 | Fill rectangles (Level 2)
 |===
 
@@ -48,19 +48,19 @@ PostScript provides three primary painting operations:
 |===
 | Command | Description
 
-| xref:stroke.adoc[`stroke`]
+| xref:../stroke.adoc[`stroke`]
 | Paint along path
 
-| xref:strokepath.adoc[`strokepath`]
+| xref:../strokepath.adoc[`strokepath`]
 | Convert stroke to outline path
 
-| xref:ustroke.adoc[`ustroke`]
+| xref:../ustroke.adoc[`ustroke`]
 | Stroke user path (Level 2)
 
-| xref:ustrokepath.adoc[`ustrokepath`]
+| xref:../ustrokepath.adoc[`ustrokepath`]
 | Convert user path stroke to outline (Level 2)
 
-| xref:rectstroke.adoc[`rectstroke`]
+| xref:../rectstroke.adoc[`rectstroke`]
 | Stroke rectangles (Level 2)
 |===
 
@@ -70,16 +70,16 @@ PostScript provides three primary painting operations:
 |===
 | Command | Description
 
-| xref:clip.adoc[`clip`]
+| xref:../clip.adoc[`clip`]
 | Intersect clipping path (non-zero winding)
 
-| xref:eoclip.adoc[`eoclip`]
+| xref:../eoclip.adoc[`eoclip`]
 | Intersect clipping path (even-odd rule)
 
-| xref:clippath.adoc[`clippath`]
+| xref:../clippath.adoc[`clippath`]
 | Set current path to clipping path
 
-| xref:rectclip.adoc[`rectclip`]
+| xref:../rectclip.adoc[`rectclip`]
 | Clip to rectangles (Level 2)
 |===
 

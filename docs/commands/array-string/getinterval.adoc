@@ -170,7 +170,7 @@ TIP: *Empty Intervals* - _count_ can be 0, which returns an empty array/string.
 
 === See Also
 
-* xref:putinterval.adoc[`putinterval`] - Insert array/string into another
-* xref:get.adoc[`get`] - Get single element
-* xref:length.adoc[`length`] - Get length
-* xref:aload.adoc[`aload`] - Load all elements onto stack
+* xref:../putinterval.adoc[`putinterval`] - Insert array/string into another
+* xref:../get.adoc[`get`] - Get single element
+* xref:../length.adoc[`length`] - Get length
+* xref:../aload.adoc[`aload`] - Load all elements onto stack

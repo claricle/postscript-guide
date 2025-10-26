@@ -228,11 +228,11 @@ Both operands must be numeric (integer or real). Other types will cause a `typec
 
 == Related Commands
 
-* xref:add.adoc[`add`] - Add two numbers
-* xref:mul.adoc[`mul`] - Multiply two numbers
-* xref:div.adoc[`div`] - Divide two numbers (real result)
-* xref:neg.adoc[`neg`] - Negate a number
-* xref:abs.adoc[`abs`] - Absolute value
+* xref:../add.adoc[`add`] - Add two numbers
+* xref:../mul.adoc[`mul`] - Multiply two numbers
+* xref:../div.adoc[`div`] - Divide two numbers (real result)
+* xref:../neg.adoc[`neg`] - Negate a number
+* xref:../abs.adoc[`abs`] - Absolute value
 
 == PostScript Level
 
@@ -294,9 +294,3 @@ The `sub` operator is a primitive operation with O(1) constant time complexity. 
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
 * xref:../../levels/index.adoc[PostScript Language Levels]
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

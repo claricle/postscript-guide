@@ -124,7 +124,7 @@ true [code] if       % Error: literal array
 true { code } if     % Correct: executable array
 ----
 
-TIP: *Use ifelse for Two-Way* - For true/false cases, xref:ifelse.adoc[`ifelse`] is more convenient than nested link:if.adoc[`if`] statements.
+TIP: *Use ifelse for Two-Way* - For true/false cases, xref:../ifelse.adoc[`ifelse`] is more convenient than nested link:if.adoc[`if`] statements.
 
 === Error Conditions
 
@@ -147,8 +147,8 @@ TIP: *Use ifelse for Two-Way* - For true/false cases, xref:ifelse.adoc[`ifelse`]
 
 === See Also
 
-* xref:ifelse.adoc[`ifelse`] - Two-way conditional
-* xref:loop.adoc[`loop`] - Indefinite repetition
-* xref:stopped.adoc[`stopped`] - Error catching
+* xref:../ifelse.adoc[`ifelse`] - Two-way conditional
+* xref:../loop.adoc[`loop`] - Indefinite repetition
+* xref:../stopped.adoc[`stopped`] - Error catching
 * Comparison operators: `eq`, `ne`, `lt`, `le`, `gt`, `ge`
 * Boolean operators: `and`, `or`, `not`

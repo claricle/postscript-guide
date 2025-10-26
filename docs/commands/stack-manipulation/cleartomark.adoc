@@ -13,7 +13,7 @@ Removes all elements from the operand stack down to and including the topmost ma
 
 The `cleartomark` operator pops the operand stack repeatedly until it encounters a mark object, which it also pops and discards. All objects between the top of the stack and the mark (exclusive of the mark itself) are discarded along with the mark.
 
-This operator is commonly used to clean up after variable-argument operations or to discard intermediate results that were accumulated after placing a mark. It's the complement to xref:mark.adoc[`mark`] for managing stack segments.
+This operator is commonly used to clean up after variable-argument operations or to discard intermediate results that were accumulated after placing a mark. It's the complement to xref:../mark.adoc[`mark`] for managing stack segments.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -253,7 +253,7 @@ cleartomark
 % Stack: 10 20 30 (top elements and mark removed)
 ----
 
-TIP: Always pair xref:mark.adoc[`mark`] with `cleartomark` to avoid accumulating marks on the stack. Verify mark existence before calling `cleartomark` in defensive code.
+TIP: Always pair xref:../mark.adoc[`mark`] with `cleartomark` to avoid accumulating marks on the stack. Verify mark existence before calling `cleartomark` in defensive code.
 
 === Clearing Empty Segment
 
@@ -269,10 +269,10 @@ mark pop            % Stack: (empty)
 
 == Related Commands
 
-* xref:mark.adoc[`mark`] - Push a mark object onto stack
-* xref:counttomark.adoc[`counttomark`] - Count elements to nearest mark
-* xref:clear.adoc[`clear`] - Remove all elements from stack
-* xref:pop.adoc[`pop`] - Remove single element
+* xref:../mark.adoc[`mark`] - Push a mark object onto stack
+* xref:../counttomark.adoc[`counttomark`] - Count elements to nearest mark
+* xref:../clear.adoc[`clear`] - Remove all elements from stack
+* xref:../pop.adoc[`pop`] - Remove single element
 * `]` - Create array and remove mark (essentially cleartomark + array construction)
 
 == PostScript Level
@@ -301,7 +301,7 @@ The operator must scan the stack to find the mark, so very deep marks are slight
 
 == Best Practices
 
-1. **Always pair with mark**: Every xref:mark.adoc[`mark`] should have a matching `cleartomark` or `]`
+1. **Always pair with mark**: Every xref:../mark.adoc[`mark`] should have a matching `cleartomark` or `]`
 2. **Use for cleanup**: Excellent for cleaning up intermediate results
 3. **Check for mark**: In defensive code, verify mark exists before calling
 4. **Document mark usage**: Make it clear when procedures use marked segments
@@ -357,9 +357,3 @@ The operator must scan the stack to find the mark, so very deep marks are slight
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:../../usage/error-handling.adoc[Error Handling] - Using marks for cleanup
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 338)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

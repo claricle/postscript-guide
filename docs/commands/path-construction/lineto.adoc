@@ -149,7 +149,7 @@ stroke
 
 === Common Pitfalls
 
-WARNING: *No Current Point* - link:lineto.adoc[`lineto`] requires an established current point. Always use xref:moveto.adoc[`moveto`] first.
+WARNING: *No Current Point* - link:lineto.adoc[`lineto`] requires an established current point. Always use xref:../moveto.adoc[`moveto`] first.
 
 [source,postscript]
 ----
@@ -157,7 +157,7 @@ newpath
 200 200 lineto           % Error: nocurrentpoint
 ----
 
-WARNING: *Coordinates Not Cumulative* - Unlike xref:rlineto.adoc[`rlineto`], coordinates are absolute positions, not offsets.
+WARNING: *Coordinates Not Cumulative* - Unlike xref:../rlineto.adoc[`rlineto`], coordinates are absolute positions, not offsets.
 
 [source,postscript]
 ----
@@ -165,7 +165,7 @@ WARNING: *Coordinates Not Cumulative* - Unlike xref:rlineto.adoc[`rlineto`], coo
 50 50 lineto             % Goes to (50, 50), not (150, 150)
 ----
 
-TIP: *Use for Straight Segments* - For curved paths, use xref:curveto.adoc[`curveto`] or xref:arc.adoc[`arc`] instead of approximating with many short line segments.
+TIP: *Use for Straight Segments* - For curved paths, use xref:../curveto.adoc[`curveto`] or xref:../arc.adoc[`arc`] instead of approximating with many short line segments.
 
 === Error Conditions
 
@@ -203,9 +203,9 @@ TIP: *Use for Straight Segments* - For curved paths, use xref:curveto.adoc[`curv
 
 === See Also
 
-* xref:rlineto.adoc[`rlineto`] - Relative lineto
-* xref:moveto.adoc[`moveto`] - Move to point without drawing
-* xref:curveto.adoc[`curveto`] - Draw curved segment
-* xref:arc.adoc[`arc`] - Draw circular arc
-* xref:closepath.adoc[`closepath`] - Close current subpath
-* xref:currentpoint.adoc[`currentpoint`] - Get current point
+* xref:../rlineto.adoc[`rlineto`] - Relative lineto
+* xref:../moveto.adoc[`moveto`] - Move to point without drawing
+* xref:../curveto.adoc[`curveto`] - Draw curved segment
+* xref:../arc.adoc[`arc`] - Draw circular arc
+* xref:../closepath.adoc[`closepath`] - Close current subpath
+* xref:../currentpoint.adoc[`currentpoint`] - Get current point

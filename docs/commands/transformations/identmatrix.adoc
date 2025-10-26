@@ -115,7 +115,7 @@ WARNING: *Array Size* - The array must have at least 6 elements.
 8 array identmatrix  % OK (only first 6 modified)
 ----
 
-WARNING: *Modifies Existing Array* - Unlike xref:matrix.adoc[`matrix`], link:identmatrix.adoc[`identmatrix`] modifies an existing array.
+WARNING: *Modifies Existing Array* - Unlike xref:../matrix.adoc[`matrix`], link:identmatrix.adoc[`identmatrix`] modifies an existing array.
 
 [source,postscript]
 ----
@@ -184,7 +184,7 @@ Properties:
 
 === See Also
 
-* xref:matrix.adoc[`matrix`] - Create new identity matrix array
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current transformation
-* xref:defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
-* xref:initmatrix.adoc[`initmatrix`] - Reset CTM to identity
+* xref:../matrix.adoc[`matrix`] - Create new identity matrix array
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current transformation
+* xref:../defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
+* xref:../initmatrix.adoc[`initmatrix`] - Reset CTM to identity

@@ -162,7 +162,7 @@ WARNING: *Increment Sign Matters* - Positive increment counts up, negative count
 5 -1 1 { } for % Executes: 5, 4, 3, 2, 1
 ----
 
-TIP: *Early Exit* - Use xref:exit.adoc[`exit`] to terminate loop early.
+TIP: *Early Exit* - Use xref:../exit.adoc[`exit`] to terminate loop early.
 
 === Error Conditions
 
@@ -197,11 +197,11 @@ TIP: *Early Exit* - Use xref:exit.adoc[`exit`] to terminate loop early.
 | Numeric sequences
 | Yes
 
-| xref:repeat.adoc[`repeat`]
+| xref:../repeat.adoc[`repeat`]
 | Fixed count, no variable needed
 | No
 
-| xref:loop.adoc[`loop`]
+| xref:../loop.adoc[`loop`]
 | Indefinite/conditional termination
 | No
 
@@ -228,8 +228,8 @@ TIP: *Early Exit* - Use xref:exit.adoc[`exit`] to terminate loop early.
 
 === See Also
 
-* xref:repeat.adoc[`repeat`] - Fixed repetition
-* xref:loop.adoc[`loop`] - Indefinite loop
-* xref:exit.adoc[`exit`] - Exit loop early
+* xref:../repeat.adoc[`repeat`] - Fixed repetition
+* xref:../loop.adoc[`loop`] - Indefinite loop
+* xref:../exit.adoc[`exit`] - Exit loop early
 * xref:../array-string/forall.adoc[`forall`] - Iterate collections
-* xref:if.adoc[`if`] / xref:ifelse.adoc[`ifelse`] - Conditionals
+* xref:../if.adoc[`if`] / xref:../ifelse.adoc[`ifelse`] - Conditionals

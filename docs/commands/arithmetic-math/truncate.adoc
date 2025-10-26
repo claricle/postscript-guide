@@ -85,9 +85,9 @@ num1 truncate num2
 
 == Related Commands
 
-* xref:ceiling.adoc[`ceiling`] - Round up
-* xref:floor.adoc[`floor`] - Round down
-* xref:round.adoc[`round`] - Round to nearest
+* xref:../ceiling.adoc[`ceiling`] - Round up
+* xref:../floor.adoc[`floor`] - Round down
+* xref:../round.adoc[`round`] - Round to nearest
 
 == PostScript Level
 
@@ -104,8 +104,3 @@ The operand is not a number.
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

@@ -32,10 +32,11 @@ Terminates the innermost enclosing loop.
 link:exit.adoc[`exit`] terminates execution of the innermost, dynamically enclosing looping context, regardless of lexical relationship.
 
 Valid looping contexts created by:
-* xref:for.adoc[`for`]
-* xref:repeat.adoc[`repeat`]
-* xref:loop.adoc[`loop`]
-* xref:../array-string/forall.adoc[`forall`]
+
+* xref:../for.adoc[`for`]
+* xref:../repeat.adoc[`repeat`]
+* xref:../loop.adoc[`loop`]
+* xref:../../array-string/forall.adoc[`forall`]
 * `pathforall`, `kshow`, `cshow`, `filenameforall`, `resourceforall`
 
 link:exit.adoc[`exit`] pops the execution stack to the level of the loop operator, then resumes execution at the next object after that operator.
@@ -179,8 +180,8 @@ TIP: *Use Flag for Outer Loop Exit* - Set a flag variable to exit multiple level
 
 === See Also
 
-* xref:for.adoc[`for`] - Numeric loop
-* xref:repeat.adoc[`repeat`] - Fixed repetition
-* xref:loop.adoc[`loop`] - Indefinite loop
-* xref:stop.adoc[`stop`] - Exit stopped context
+* xref:../for.adoc[`for`] - Numeric loop
+* xref:../repeat.adoc[`repeat`] - Fixed repetition
+* xref:../loop.adoc[`loop`] - Indefinite loop
+* xref:../stop.adoc[`stop`] - Exit stopped context
 * xref:../array-string/forall.adoc[`forall`] - Collection iteration

@@ -29,12 +29,12 @@ Terminates execution of the innermost stopped context.
 
 === Description
 
-link:stop.adoc[`stop`] terminates execution of the innermost, dynamically enclosing instance of a xref:stopped.adoc[`stopped`] context, without regard to lexical relationship.
+link:stop.adoc[`stop`] terminates execution of the innermost, dynamically enclosing instance of a xref:../stopped.adoc[`stopped`] context, without regard to lexical relationship.
 
 When link:stop.adoc[`stop`] executes:
-1. Pops execution stack down to the xref:stopped.adoc[`stopped`] operator level
+1. Pops execution stack down to the xref:../stopped.adoc[`stopped`] operator level
 2. Pushes `true` on the operand stack
-3. Resumes execution after the xref:stopped.adoc[`stopped`] operator
+3. Resumes execution after the xref:../stopped.adoc[`stopped`] operator
 
 The operand and dictionary stacks are not affected - any objects pushed during stopped context execution remain.
 
@@ -133,7 +133,7 @@ The operand and dictionary stacks are not affected - any objects pushed during s
 
 === Common Pitfalls
 
-WARNING: *Requires stopped Context* - Without enclosing xref:stopped.adoc[`stopped`], prints error and calls link:quit.adoc[`quit`].
+WARNING: *Requires stopped Context* - Without enclosing xref:../stopped.adoc[`stopped`], prints error and calls link:quit.adoc[`quit`].
 
 [source,postscript]
 ----
@@ -194,7 +194,7 @@ TIP: *Use for Error Signaling* - Preferred way to signal errors in custom operat
 
 === See Also
 
-* xref:stopped.adoc[`stopped`] - Create stopped context
-* xref:exit.adoc[`exit`] - Exit loop
-* xref:quit.adoc[`quit`] - Terminate interpreter
+* xref:../stopped.adoc[`stopped`] - Create stopped context
+* xref:../exit.adoc[`exit`] - Exit loop
+* xref:../quit.adoc[`quit`] - Terminate interpreter
 * Error Handling (to be documented)

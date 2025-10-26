@@ -88,10 +88,10 @@ base exponent exp real
 
 == Related Commands
 
-* xref:sqrt.adoc[`sqrt`] - Square root
-* xref:ln.adoc[`ln`] - Natural logarithm
-* xref:log.adoc[`log`] - Base-10 logarithm
-* xref:mul.adoc[`mul`] - Multiplication
+* xref:../sqrt.adoc[`sqrt`] - Square root
+* xref:../ln.adoc[`ln`] - Natural logarithm
+* xref:../log.adoc[`log`] - Base-10 logarithm
+* xref:../mul.adoc[`mul`] - Multiplication
 
 == PostScript Level
 
@@ -116,8 +116,3 @@ Negative base with fractional exponent, or result out of range.
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

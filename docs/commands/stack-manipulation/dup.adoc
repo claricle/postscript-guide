@@ -201,7 +201,7 @@ dup length array copy   % True independent copy
 0 99 put        % Only one array modified
 ----
 
-TIP: Remember that `dup` creates a shallow copy. For composite objects (arrays, dictionaries, strings), use the xref:copy.adoc[`copy`] operator when you need an independent copy of the value.
+TIP: Remember that `dup` creates a shallow copy. For composite objects (arrays, dictionaries, strings), use the xref:../copy.adoc[`copy`] operator when you need an independent copy of the value.
 
 === Dictionary Sharing
 
@@ -215,11 +215,11 @@ TIP: Remember that `dup` creates a shallow copy. For composite objects (arrays, 
 
 == Related Commands
 
-* xref:exch.adoc[`exch`] - Exchange top two elements
-* xref:copy.adoc[`copy`] - Copy multiple elements or create independent copies
-* xref:index.adoc[`index`] - Duplicate nth element from top
-* xref:roll.adoc[`roll`] - Rotate stack elements
-* xref:pop.adoc[`pop`] - Remove top element
+* xref:../exch.adoc[`exch`] - Exchange top two elements
+* xref:../copy.adoc[`copy`] - Copy multiple elements or create independent copies
+* xref:../index.adoc[`index`] - Duplicate nth element from top
+* xref:../roll.adoc[`roll`] - Rotate stack elements
+* xref:../pop.adoc[`pop`] - Remove top element
 
 == PostScript Level
 
@@ -258,7 +258,7 @@ For composite objects, `dup` only copies the reference, not the entire value, ma
 1. **Use for calculations**: `dup` is essential when you need the same value multiple times in a calculation
 2. **Understand object vs. value**: Remember that `dup` copies the object (reference), not the value for composite types
 3. **Document stack effects**: Clearly document when procedures use `dup` to duplicate values
-4. **Consider copy for independence**: Use xref:copy.adoc[`copy`] when you need an independent copy of a composite object
+4. **Consider copy for independence**: Use xref:../copy.adoc[`copy`] when you need an independent copy of a composite object
 5. **Combine with conditionals**: The pattern `dup ... { ... } { ... } ifelse` is very common
 
 === Good Stack Management
@@ -289,9 +289,3 @@ For composite objects, `dup` only copies the reference, not the entire value, ma
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:../../usage/basic/composite-objects.adoc[Composite Objects] - Understanding object vs. value copying
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 397)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

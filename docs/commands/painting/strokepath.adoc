@@ -38,11 +38,11 @@ Converts the stroke of the current path to an outline path.
 
 === Description
 
-link:strokepath.adoc[`strokepath`] replaces the current path with one enclosing the shape that would result if the xref:stroke.adoc[`stroke`] operator were applied to the current path. The path resulting from link:strokepath.adoc[`strokepath`] is suitable as the implicit operand to xref:fill.adoc[`fill`], xref:clip.adoc[`clip`], or `pathbbox`.
+link:strokepath.adoc[`strokepath`] replaces the current path with one enclosing the shape that would result if the xref:../stroke.adoc[`stroke`] operator were applied to the current path. The path resulting from link:strokepath.adoc[`strokepath`] is suitable as the implicit operand to xref:../fill.adoc[`fill`], xref:../clip.adoc[`clip`], or `pathbbox`.
 
-In general, this path is not suitable for xref:stroke.adoc[`stroke`], as it may contain interior segments or disconnected subpaths produced by link:strokepath.adoc[`strokepath`]'s stroke-to-outline conversion process.
+In general, this path is not suitable for xref:../stroke.adoc[`stroke`], as it may contain interior segments or disconnected subpaths produced by link:strokepath.adoc[`strokepath`]'s stroke-to-outline conversion process.
 
-link:strokepath.adoc[`strokepath`] uses the current line width, line cap, line join, miter limit, and dash pattern to determine the outline. Unlike xref:stroke.adoc[`stroke`], link:strokepath.adoc[`strokepath`] does not consume the path—it modifies it in place.
+link:strokepath.adoc[`strokepath`] uses the current line width, line cap, line join, miter limit, and dash pattern to determine the outline. Unlike xref:../stroke.adoc[`stroke`], link:strokepath.adoc[`strokepath`] does not consume the path—it modifies it in place.
 
 === PostScript Level
 
@@ -184,7 +184,7 @@ stroke  % May show interior segments
 fill    % Correct usage
 ----
 
-WARNING: *Path Not Consumed* - Unlike xref:stroke.adoc[`stroke`], link:strokepath.adoc[`strokepath`] modifies the path in place.
+WARNING: *Path Not Consumed* - Unlike xref:../stroke.adoc[`stroke`], link:strokepath.adoc[`strokepath`] modifies the path in place.
 
 [source,postscript]
 ----
@@ -353,7 +353,7 @@ newpath
 
 === Performance Considerations
 
-* More complex than simple xref:stroke.adoc[`stroke`]
+* More complex than simple xref:../stroke.adoc[`stroke`]
 * Dash patterns significantly increase complexity
 * Round caps/joins create more path segments than butt/miter
 * Very wide lines create large outlines
@@ -404,10 +404,10 @@ fill
 
 === See Also
 
-* xref:stroke.adoc[`stroke`] - Paint stroke directly
-* xref:fill.adoc[`fill`] - Fill path interior
-* xref:clip.adoc[`clip`] - Use path for clipping
-* xref:ustrokepath.adoc[`ustrokepath`] - Stroke path for user path (Level 2)
+* xref:../stroke.adoc[`stroke`] - Paint stroke directly
+* xref:../fill.adoc[`fill`] - Fill path interior
+* xref:../clip.adoc[`clip`] - Use path for clipping
+* xref:../ustrokepath.adoc[`ustrokepath`] - Stroke path for user path (Level 2)
 * `pathbbox` - Get path bounding box
 * `flattenpath` - Convert curves to lines
 * xref:../graphics-state/setlinewidth.adoc[`setlinewidth`] - Set line width

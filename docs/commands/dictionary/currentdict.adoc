@@ -160,8 +160,8 @@ link:currentdict.adoc[`currentdict`] returns the topmost dictionary.
 
 === See Also
 
-* xref:begin.adoc[`begin`] - Push dictionary onto stack
-* xref:end.adoc[`end`] - Pop dictionary from stack
-* xref:dictstack.adoc[`dictstack`] - Copy entire dict stack to array
-* xref:countdictstack.adoc[`countdictstack`] - Count dictionaries on stack
-* xref:def.adoc[`def`] - Define in current dictionary
+* xref:../begin.adoc[`begin`] - Push dictionary onto stack
+* xref:../end.adoc[`end`] - Pop dictionary from stack
+* xref:../dictstack.adoc[`dictstack`] - Copy entire dict stack to array
+* xref:../countdictstack.adoc[`countdictstack`] - Count dictionaries on stack
+* xref:../def.adoc[`def`] - Define in current dictionary

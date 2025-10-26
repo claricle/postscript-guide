@@ -235,7 +235,7 @@ Common patterns:
 
 === See Also
 
-* xref:setdash.adoc[`setdash`] - Set dash pattern
-* xref:currentlinewidth.adoc[`currentlinewidth`] - Get line width
-* xref:currentlinecap.adoc[`currentlinecap`] - Get line cap style
-* xref:currentlinejoin.adoc[`currentlinejoin`] - Get line join style
+* xref:../setdash.adoc[`setdash`] - Set dash pattern
+* xref:../currentlinewidth.adoc[`currentlinewidth`] - Get line width
+* xref:../currentlinecap.adoc[`currentlinecap`] - Get line cap style
+* xref:../currentlinejoin.adoc[`currentlinejoin`] - Get line join style

@@ -167,7 +167,7 @@ TIP: *Names vs. Strings as Keys* - Names are more efficient as dictionary keys t
 
 === See Also
 
-* xref:cvs.adoc[`cvs`] - Convert to string
-* xref:type.adoc[`type`] - Get object type
-* xref:cvlit.adoc[`cvlit`] - Make literal
-* xref:cvx.adoc[`cvx`] - Make executable
+* xref:../cvs.adoc[`cvs`] - Convert to string
+* xref:../type.adoc[`type`] - Get object type
+* xref:../cvlit.adoc[`cvlit`] - Make literal
+* xref:../cvx.adoc[`cvx`] - Make executable

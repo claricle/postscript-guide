@@ -250,10 +250,10 @@ The operand must be numeric (integer or real). Other types will cause a `typeche
 
 == Related Commands
 
-* xref:neg.adoc[`neg`] - Negate a number
-* xref:add.adoc[`add`] - Add two numbers
-* xref:sub.adoc[`sub`] - Subtract two numbers
-* xref:sqrt.adoc[`sqrt`] - Square root
+* xref:../neg.adoc[`neg`] - Negate a number
+* xref:../add.adoc[`add`] - Add two numbers
+* xref:../sub.adoc[`sub`] - Subtract two numbers
+* xref:../sqrt.adoc[`sqrt`] - Square root
 
 == PostScript Level
 
@@ -341,9 +341,3 @@ The `abs` operator is extremely fast:
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
 * xref:../../levels/index.adoc[PostScript Language Levels]
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

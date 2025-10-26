@@ -167,7 +167,7 @@ TIP: *Use round/floor/ceiling* - For other rounding behavior, use xref:../arithm
 | link:cvi.adoc[`cvi`]
 | Truncate toward 0, convert to integer
 
-| xref:cvr.adoc[`cvr`]
+| xref:../cvr.adoc[`cvr`]
 | Convert to real
 
 | xref:../arithmetic-math/round.adoc[`round`]
@@ -185,8 +185,8 @@ TIP: *Use round/floor/ceiling* - For other rounding behavior, use xref:../arithm
 
 === See Also
 
-* xref:cvr.adoc[`cvr`] - Convert to real
-* xref:cvs.adoc[`cvs`] - Convert to string
+* xref:../cvr.adoc[`cvr`] - Convert to real
+* xref:../cvs.adoc[`cvs`] - Convert to string
 * xref:../arithmetic-math/round.adoc[`round`] - Round to nearest
 * xref:../arithmetic-math/floor.adoc[`floor`] - Round down
 * xref:../arithmetic-math/ceiling.adoc[`ceiling`] - Round up

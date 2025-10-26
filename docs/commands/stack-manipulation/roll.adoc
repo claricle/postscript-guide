@@ -240,10 +240,10 @@ TIP: The actual rotation is j mod n. Rolling by j and j+n produces identical res
 
 == Related Commands
 
-* xref:exch.adoc[`exch`] - Equivalent to `2 1 roll` or `2 -1 roll`
-* xref:index.adoc[`index`] - Access element without reordering
-* xref:copy.adoc[`copy`] - Duplicate elements
-* xref:pop.adoc[`pop`] - Remove elements
+* xref:../exch.adoc[`exch`] - Equivalent to `2 1 roll` or `2 -1 roll`
+* xref:../index.adoc[`index`] - Access element without reordering
+* xref:../copy.adoc[`copy`] - Duplicate elements
+* xref:../pop.adoc[`pop`] - Remove elements
 
 == PostScript Level
 
@@ -290,9 +290,9 @@ Frequently rotating large numbers of elements may indicate poor stack management
 
 == Best Practices
 
-1. **Use exch for two elements**: `2 1 roll` and `2 -1 roll` both work, but xref:exch.adoc[`exch`] is clearer
+1. **Use exch for two elements**: `2 1 roll` and `2 -1 roll` both work, but xref:../exch.adoc[`exch`] is clearer
 2. **Document rotations**: Always comment what `roll` is doing, as it's not immediately obvious
-3. **Consider index instead**: Sometimes xref:psindex.adoc[`index`] is clearer than `roll` for accessing buried elements
+3. **Consider index instead**: Sometimes xref:../psindex.adoc[`psindex`] is clearer than `roll` for accessing buried elements
 4. **Keep n small**: Large rotations suggest stack management issues
 5. **Use standard patterns**: Establish conventions like `3 1 roll` for rotating three elements
 
@@ -336,9 +336,3 @@ Frequently rotating large numbers of elements may indicate poor stack management
 * xref:../../syntax/operators.adoc[Operators Overview] - Understanding PostScript operators
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 689)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

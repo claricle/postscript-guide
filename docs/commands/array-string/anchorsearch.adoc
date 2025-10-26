@@ -159,7 +159,7 @@ WARNING: *Case Sensitive* - Matching is exact, including case.
 (PostScript) (post) anchorsearch  % false
 ----
 
-TIP: *Use search for Anywhere* - For substring search anywhere in string, use xref:search.adoc[`search`] instead.
+TIP: *Use search for Anywhere* - For substring search anywhere in string, use xref:../search.adoc[`search`] instead.
 
 === Error Conditions
 
@@ -188,6 +188,6 @@ TIP: *Use search for Anywhere* - For substring search anywhere in string, use xr
 
 === See Also
 
-* xref:search.adoc[`search`] - Search for substring anywhere
-* xref:token.adoc[`token`] - Parse token from string
-* xref:getinterval.adoc[`getinterval`] - Extract substring
+* xref:../search.adoc[`search`] - Search for substring anywhere
+* xref:../token.adoc[`token`] - Parse token from string
+* xref:../getinterval.adoc[`getinterval`] - Extract substring

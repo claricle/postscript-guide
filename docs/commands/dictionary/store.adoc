@@ -174,7 +174,7 @@ TIP: *Use store for Updates* - Use link:store.adoc[`store`] when you want to upd
 
 === See Also
 
-* xref:def.adoc[`def`] - Define in current dictionary
-* xref:load.adoc[`load`] - Load from dictionary stack
-* xref:where.adoc[`where`] - Find which dictionary contains key
+* xref:../def.adoc[`def`] - Define in current dictionary
+* xref:../load.adoc[`load`] - Load from dictionary stack
+* xref:../where.adoc[`where`] - Find which dictionary contains key
 * xref:../array-string/put.adoc[`put`] - Put into specific dictionary

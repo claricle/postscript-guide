@@ -243,8 +243,8 @@ The gstate object captures all of the following:
 
 === See Also
 
-* xref:setgstate.adoc[`setgstate`] - Replace graphics state from gstate
-* xref:currentgstate.adoc[`currentgstate`] - Update gstate with current state
-* xref:gsave.adoc[`gsave`] - Save graphics state on stack
-* xref:grestore.adoc[`grestore`] - Restore graphics state from stack
-* xref:grestoreall.adoc[`grestoreall`] - Restore all saved states
+* xref:../setgstate.adoc[`setgstate`] - Replace graphics state from gstate
+* xref:../currentgstate.adoc[`currentgstate`] - Update gstate with current state
+* xref:../gsave.adoc[`gsave`] - Save graphics state on stack
+* xref:../grestore.adoc[`grestore`] - Restore graphics state from stack
+* xref:../grestoreall.adoc[`grestoreall`] - Restore all saved states

@@ -200,8 +200,8 @@ TIP: *Use Ample Buffer Size* - Allocate at least 20-30 characters for number con
 
 === See Also
 
-* xref:cvn.adoc[`cvn`] - Convert string to name
-* xref:cvi.adoc[`cvi`] - Convert to integer
-* xref:cvr.adoc[`cvr`] - Convert to real
-* xref:string.adoc[`string`] - Create string buffer
-* xref:type.adoc[`type`] - Get object type
+* xref:../cvn.adoc[`cvn`] - Convert string to name
+* xref:../cvi.adoc[`cvi`] - Convert to integer
+* xref:../cvr.adoc[`cvr`] - Convert to real
+* xref:../string.adoc[`string`] - Create string buffer
+* xref:../type.adoc[`type`] - Get object type

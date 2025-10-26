@@ -186,11 +186,11 @@ add             % ERROR: typecheck (can't add string and number)
 
 == Related Commands
 
-* xref:dup.adoc[`dup`] - Duplicate top element before exchanging
-* xref:roll.adoc[`roll`] - General stack rotation for multiple elements
-* xref:index.adoc[`index`] - Access elements deeper in the stack
-* xref:pop.adoc[`pop`] - Remove top element
-* xref:copy.adoc[`copy`] - Copy multiple stack elements
+* xref:../dup.adoc[`dup`] - Duplicate top element before exchanging
+* xref:../roll.adoc[`roll`] - General stack rotation for multiple elements
+* xref:../index.adoc[`index`] - Access elements deeper in the stack
+* xref:../pop.adoc[`pop`] - Remove top element
+* xref:../copy.adoc[`copy`] - Copy multiple stack elements
 
 == PostScript Level
 
@@ -240,9 +240,3 @@ The `exch` operator is extremely fast and has negligible performance impact. It'
 * xref:../../syntax/operators.adoc[Operators Overview] - Understanding PostScript operators
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 421)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

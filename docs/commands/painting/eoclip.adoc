@@ -40,7 +40,7 @@ Intersects the current clipping path with the current path using the even-odd ru
 
 link:eoclip.adoc[`eoclip`] intersects the inside of the current clipping path with the inside of the current path to produce a new, smaller current clipping path. The inside of the current path is determined by the even-odd rule, while the inside of the current clipping path is determined by whatever rule was used at the time that path was created.
 
-Except for the choice of insideness rule, the behavior of link:eoclip.adoc[`eoclip`] is identical to that of xref:clip.adoc[`clip`].
+Except for the choice of insideness rule, the behavior of link:eoclip.adoc[`eoclip`] is identical to that of xref:../clip.adoc[`clip`].
 
 The even-odd rule determines whether a point is inside by counting path crossings: an odd number means inside, an even number means outside. This rule is particularly useful for creating clipping regions with holes.
 
@@ -210,7 +210,7 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Different Results from clip* - The even-odd rule produces different results than the non-zero winding number rule used by xref:clip.adoc[`clip`].
+WARNING: *Different Results from clip* - The even-odd rule produces different results than the non-zero winding number rule used by xref:../clip.adoc[`clip`].
 
 [source,postscript]
 ----
@@ -241,7 +241,7 @@ gsave
 grestore
 ----
 
-WARNING: *Path Direction Irrelevant* - Unlike xref:clip.adoc[`clip`], the direction paths are drawn doesn't matter with link:eoclip.adoc[`eoclip`].
+WARNING: *Path Direction Irrelevant* - Unlike xref:../clip.adoc[`clip`], the direction paths are drawn doesn't matter with link:eoclip.adoc[`eoclip`].
 
 [source,postscript]
 ----
@@ -254,7 +254,7 @@ eoclip  % Always creates hole regardless of direction
 newpath
 ----
 
-WARNING: *Path Not Cleared* - Like xref:clip.adoc[`clip`], link:eoclip.adoc[`eoclip`] does not clear the path.
+WARNING: *Path Not Cleared* - Like xref:../clip.adoc[`clip`], link:eoclip.adoc[`eoclip`] does not clear the path.
 
 [source,postscript]
 ----
@@ -389,7 +389,7 @@ grestore
 * Natural for regions with holes
 * Alternating pattern for overlapping paths
 
-.Non-Zero Winding Rule (xref:clip.adoc[`clip`])
+.Non-Zero Winding Rule (xref:../clip.adoc[`clip`])
 * Counts direction of crossings
 * Path direction matters
 * More complex but more flexible
@@ -463,9 +463,9 @@ grestore
 
 === See Also
 
-* xref:clip.adoc[`clip`] - Clip using non-zero winding rule
-* xref:clippath.adoc[`clippath`] - Get current clipping path
-* xref:eofill.adoc[`eofill`] - Fill using even-odd rule
+* xref:../clip.adoc[`clip`] - Clip using non-zero winding rule
+* xref:../clippath.adoc[`clippath`] - Get current clipping path
+* xref:../eofill.adoc[`eofill`] - Fill using even-odd rule
 * `rectclip` - Clip to rectangles (Level 2)
 * `initclip` - Reset to device default
 * xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state

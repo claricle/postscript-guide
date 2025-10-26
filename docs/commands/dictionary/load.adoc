@@ -177,8 +177,8 @@ TIP: *Use where First* - Check if key exists before loading:
 
 === See Also
 
-* xref:store.adoc[`store`] - Store value in dictionary stack
-* xref:def.adoc[`def`] - Define in current dictionary
-* xref:where.adoc[`where`] - Find which dictionary contains key
+* xref:../store.adoc[`store`] - Store value in dictionary stack
+* xref:../def.adoc[`def`] - Define in current dictionary
+* xref:../where.adoc[`where`] - Find which dictionary contains key
 * xref:../array-string/get.adoc[`get`] - Get from specific dictionary
-* xref:known.adoc[`known`] - Check if key exists
+* xref:../known.adoc[`known`] - Check if key exists

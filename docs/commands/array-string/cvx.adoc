@@ -122,10 +122,10 @@ TIP: *Most Procedures Already Executable* - Procedures created with `{ }` are al
 * Only changes the executable/literal attribute bit
 * Does not create a new object
 * Works on any object type
-* Complementary to xref:cvlit.adoc[`cvlit`]
+* Complementary to xref:../cvlit.adoc[`cvlit`]
 
 === See Also
 
-* xref:cvlit.adoc[`cvlit`] - Convert to literal
-* xref:xcheck.adoc[`xcheck`] - Test if executable
-* xref:type.adoc[`type`] - Get object type
+* xref:../cvlit.adoc[`cvlit`] - Convert to literal
+* xref:../xcheck.adoc[`xcheck`] - Test if executable
+* xref:../type.adoc[`type`] - Get object type

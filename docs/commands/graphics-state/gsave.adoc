@@ -194,8 +194,8 @@ TIP: *Use for All Temporary Changes* - Always bracket temporary state changes wi
 
 === See Also
 
-* xref:grestore.adoc[`grestore`] - Restore graphics state
-* xref:grestoreall.adoc[`grestoreall`] - Restore all levels
-* xref:gstate.adoc[`gstate`] - Create gstate object (Level 2)
-* xref:setgstate.adoc[`setgstate`] - Set from gstate (Level 2)
+* xref:../grestore.adoc[`grestore`] - Restore graphics state
+* xref:../grestoreall.adoc[`grestoreall`] - Restore all levels
+* xref:../gstate.adoc[`gstate`] - Create gstate object (Level 2)
+* xref:../setgstate.adoc[`setgstate`] - Set from gstate (Level 2)
 * VM operations: `save`, `restore` - Also save graphics state

@@ -188,11 +188,11 @@ pop            % Removes result if not needed
 
 == Related Commands
 
-* xref:exch.adoc[`exch`] - Exchange top two elements instead of removing
-* xref:dup.adoc[`dup`] - Duplicate top element
-* xref:clear.adoc[`clear`] - Remove all elements from stack
-* xref:roll.adoc[`roll`] - Rotate elements (can achieve similar effects)
-* xref:count.adoc[`count`] - Check stack depth before popping
+* xref:../exch.adoc[`exch`] - Exchange top two elements instead of removing
+* xref:../dup.adoc[`dup`] - Duplicate top element
+* xref:../clear.adoc[`clear`] - Remove all elements from stack
+* xref:../roll.adoc[`roll`] - Rotate elements (can achieve similar effects)
+* xref:../count.adoc[`count`] - Check stack depth before popping
 
 == PostScript Level
 
@@ -239,9 +239,3 @@ The `pop` operator is extremely fast and has negligible performance impact. It's
 * xref:../../syntax/operators.adoc[Operators Overview] - Understanding PostScript operators
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 614)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

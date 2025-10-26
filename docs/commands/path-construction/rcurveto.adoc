@@ -53,7 +53,7 @@ dx1 dy1 dx2 dy2 dx3 dy3 rcurveto → -
 
 === Description
 
-link:rcurveto.adoc[`rcurveto`] (relative curveto) adds a Bézier cubic section to the current path in the same manner as xref:curveto.adoc[`curveto`]. However, the three number pairs are interpreted as displacements relative to the current point (x0, y0) rather than as absolute coordinates.
+link:rcurveto.adoc[`rcurveto`] (relative curveto) adds a Bézier cubic section to the current path in the same manner as xref:../curveto.adoc[`curveto`]. However, the three number pairs are interpreted as displacements relative to the current point (x0, y0) rather than as absolute coordinates.
 
 That is, link:rcurveto.adoc[`rcurveto`] constructs a curve from (x0, y0) to (x0+dx3, y0+dy3), using (x0+dx1, y0+dy1) and (x0+dx2, y0+dy2) as Bézier control points.
 
@@ -171,7 +171,7 @@ fill
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - link:rcurveto.adoc[`rcurveto`] needs a current point. Use xref:moveto.adoc[`moveto`] first.
+WARNING: *Requires Current Point* - link:rcurveto.adoc[`rcurveto`] needs a current point. Use xref:../moveto.adoc[`moveto`] first.
 
 [source,postscript]
 ----
@@ -179,7 +179,7 @@ newpath
 50 50 100 50 150 0 rcurveto      % Error: nocurrentpoint
 ----
 
-WARNING: *All Coordinates Are Relative* - Unlike xref:curveto.adoc[`curveto`], all six parameters are displacements from the current point, not absolute positions.
+WARNING: *All Coordinates Are Relative* - Unlike xref:../curveto.adoc[`curveto`], all six parameters are displacements from the current point, not absolute positions.
 
 [source,postscript]
 ----
@@ -222,15 +222,15 @@ TIP: *Ideal for Patterns* - link:rcurveto.adoc[`rcurveto`] excels at creating re
 
 === Performance Considerations
 
-* No performance difference from xref:curveto.adoc[`curveto`]
+* No performance difference from xref:../curveto.adoc[`curveto`]
 * Reduces coordinate calculation in code
 * More maintainable for relative patterns
 * Can accumulate rounding errors in long sequences
 
 === See Also
 
-* xref:curveto.adoc[`curveto`] - Absolute curveto
-* xref:rlineto.adoc[`rlineto`] - Relative lineto
-* xref:rmoveto.adoc[`rmoveto`] - Relative moveto
-* xref:arc.adoc[`arc`] - Draw circular arc
-* xref:currentpoint.adoc[`currentpoint`] - Get current point
+* xref:../curveto.adoc[`curveto`] - Absolute curveto
+* xref:../rlineto.adoc[`rlineto`] - Relative lineto
+* xref:../rmoveto.adoc[`rmoveto`] - Relative moveto
+* xref:../arc.adoc[`arc`] - Draw circular arc
+* xref:../currentpoint.adoc[`currentpoint`] - Get current point

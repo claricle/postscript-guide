@@ -38,9 +38,9 @@ proc loop → –
 
 === Description
 
-link:loop.adoc[`loop`] repeatedly executes _proc_ until _proc_ executes xref:exit.adoc[`exit`], at which point interpretation resumes after the loop.
+link:loop.adoc[`loop`] repeatedly executes _proc_ until _proc_ executes xref:../exit.adoc[`exit`], at which point interpretation resumes after the loop.
 
-Control also leaves _proc_ if xref:stop.adoc[`stop`] is executed. If _proc_ never executes link:exit.adoc[`exit`] or link:stop.adoc[`stop`], an infinite loop results.
+Control also leaves _proc_ if xref:../stop.adoc[`stop`] is executed. If _proc_ never executes link:exit.adoc[`exit`] or link:stop.adoc[`stop`], an infinite loop results.
 
 === PostScript Level
 
@@ -119,7 +119,7 @@ file {
 
 === Common Pitfalls
 
-WARNING: *Infinite Loops* - Without xref:exit.adoc[`exit`] or xref:stop.adoc[`stop`], loop runs forever.
+WARNING: *Infinite Loops* - Without xref:../exit.adoc[`exit`] or xref:../stop.adoc[`stop`], loop runs forever.
 
 [source,postscript]
 ----
@@ -175,8 +175,8 @@ TIP: *Use External Interrupt* - Infinite loops can be broken via implementation-
 
 === See Also
 
-* xref:exit.adoc[`exit`] - Exit loop
-* xref:for.adoc[`for`] - Numeric loop
-* xref:repeat.adoc[`repeat`] - Fixed repetition
-* xref:stop.adoc[`stop`] - Exit stopped context
+* xref:../exit.adoc[`exit`] - Exit loop
+* xref:../for.adoc[`for`] - Numeric loop
+* xref:../repeat.adoc[`repeat`] - Fixed repetition
+* xref:../stop.adoc[`stop`] - Exit stopped context
 * xref:../array-string/forall.adoc[`forall`] - Iterate collections

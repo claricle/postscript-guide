@@ -170,8 +170,8 @@ TIP: *Use for Monochrome* - Most efficient color operation for monochrome output
 
 === See Also
 
-* xref:setrgbcolor.adoc[`setrgbcolor`] - Set RGB color
-* xref:setcmykcolor.adoc[`setcmykcolor`] - Set CMYK color (Level 2)
-* xref:sethsbcolor.adoc[`sethsbcolor`] - Set HSB color
-* xref:currentgray.adoc[`currentgray`] - Get current gray value
+* xref:../setrgbcolor.adoc[`setrgbcolor`] - Set RGB color
+* xref:../setcmykcolor.adoc[`setcmykcolor`] - Set CMYK color (Level 2)
+* xref:../sethsbcolor.adoc[`sethsbcolor`] - Set HSB color
+* xref:../currentgray.adoc[`currentgray`] - Get current gray value
 * Color operations (to be documented) - Advanced color spaces

@@ -198,8 +198,8 @@ TIP: *Read Operations Work Normally* - Can use link:get.adoc[`get`], link:getint
 
 === See Also
 
-* xref:array.adoc[`array`] - Create regular (modifiable) array
+* xref:../array.adoc[`array`] - Create regular (modifiable) array
 * xref:left-bracket.adoc[`[`] / xref:right-bracket.adoc[`]`] - Array literal syntax
-* xref:aload.adoc[`aload`] - Load packed array elements
-* xref:get.adoc[`get`] - Get packed array element
-* xref:forall.adoc[`forall`] - Iterate over packed array
+* xref:../aload.adoc[`aload`] - Load packed array elements
+* xref:../get.adoc[`get`] - Get packed array element
+* xref:../forall.adoc[`forall`] - Iterate over packed array

@@ -246,10 +246,10 @@ The operand must be numeric (integer or real). Other types will cause a `typeche
 
 == Related Commands
 
-* xref:ceiling.adoc[`ceiling`] - Round up to integer
-* xref:round.adoc[`round`] - Round to nearest integer
-* xref:truncate.adoc[`truncate`] - Truncate toward zero
-* xref:div.adoc[`div`] - Division (returns real)
+* xref:../ceiling.adoc[`ceiling`] - Round up to integer
+* xref:../round.adoc[`round`] - Round to nearest integer
+* xref:../truncate.adoc[`truncate`] - Truncate toward zero
+* xref:../div.adoc[`div`] - Division (returns real)
 
 == PostScript Level
 
@@ -334,9 +334,3 @@ The `floor` operator is fast:
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
 * xref:../../levels/index.adoc[PostScript Language Levels]
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

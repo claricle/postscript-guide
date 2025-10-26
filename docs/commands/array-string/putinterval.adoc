@@ -48,7 +48,7 @@ string1 index string2 putinterval → –
 
 link:putinterval.adoc[`putinterval`] replaces a subsequence of the first operand starting at _index_ with the entire contents of the third operand.
 
-The objects are copied from the source to the destination as if by a sequence of individual xref:get.adoc[`get`] and xref:put.adoc[`put`] operations. For arrays, if copied elements are composite objects, their values are shared between source and destination.
+The objects are copied from the source to the destination as if by a sequence of individual xref:../get.adoc[`get`] and xref:../put.adoc[`put`] operations. For arrays, if copied elements are composite objects, their values are shared between source and destination.
 
 Requirements:
 * _index_ must be valid (0 to length-1)
@@ -181,7 +181,7 @@ TIP: *Efficient Copying* - link:putinterval.adoc[`putinterval`] is more efficien
 
 === See Also
 
-* xref:getinterval.adoc[`getinterval`] - Extract subarray/substring
-* xref:put.adoc[`put`] - Store single element
-* xref:get.adoc[`get`] - Get single element
-* xref:astore.adoc[`astore`] - Store stack into array
+* xref:../getinterval.adoc[`getinterval`] - Extract subarray/substring
+* xref:../put.adoc[`put`] - Store single element
+* xref:../get.adoc[`get`] - Get single element
+* xref:../astore.adoc[`astore`] - Store stack into array

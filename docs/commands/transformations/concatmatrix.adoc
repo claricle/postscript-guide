@@ -309,9 +309,9 @@ m1 temp2 result concatmatrix
 
 === See Also
 
-* xref:concat.adoc[`concat`] - Concatenate matrix with CTM
-* xref:matrix.adoc[`matrix`] - Create identity matrix
-* xref:invertmatrix.adoc[`invertmatrix`] - Invert a matrix
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
-* xref:setmatrix.adoc[`setmatrix`] - Set the CTM
-* xref:transform.adoc[`transform`] - Transform coordinates by matrix
+* xref:../concat.adoc[`concat`] - Concatenate matrix with CTM
+* xref:../matrix.adoc[`matrix`] - Create identity matrix
+* xref:../invertmatrix.adoc[`invertmatrix`] - Invert a matrix
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../setmatrix.adoc[`setmatrix`] - Set the CTM
+* xref:../transform.adoc[`transform`] - Transform coordinates by matrix

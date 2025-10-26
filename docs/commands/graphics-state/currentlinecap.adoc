@@ -178,7 +178,7 @@ Square (2):   [─────]
 
 === See Also
 
-* xref:setlinecap.adoc[`setlinecap`] - Set line cap style
-* xref:currentlinejoin.adoc[`currentlinejoin`] - Get line join style
-* xref:currentlinewidth.adoc[`currentlinewidth`] - Get line width
-* xref:currentdash.adoc[`currentdash`] - Get dash pattern
+* xref:../setlinecap.adoc[`setlinecap`] - Set line cap style
+* xref:../currentlinejoin.adoc[`currentlinejoin`] - Get line join style
+* xref:../currentlinewidth.adoc[`currentlinewidth`] - Get line width
+* xref:../currentdash.adoc[`currentdash`] - Get dash pattern

@@ -178,7 +178,7 @@ R + G + B = White
 
 === See Also
 
-* xref:setgray.adoc[`setgray`] - Set grayscale
-* xref:setcmykcolor.adoc[`setcmykcolor`] - Set CMYK (Level 2)
-* xref:sethsbcolor.adoc[`sethsbcolor`] - Set HSB
-* xref:currentrgbcolor.adoc[`currentrgbcolor`] - Get RGB color
+* xref:../setgray.adoc[`setgray`] - Set grayscale
+* xref:../setcmykcolor.adoc[`setcmykcolor`] - Set CMYK (Level 2)
+* xref:../sethsbcolor.adoc[`sethsbcolor`] - Set HSB
+* xref:../currentrgbcolor.adoc[`currentrgbcolor`] - Get RGB color

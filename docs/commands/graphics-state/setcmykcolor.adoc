@@ -288,7 +288,7 @@ Manually implement UCR:
 
 === See Also
 
-* xref:setrgbcolor.adoc[`setrgbcolor`] - Set RGB color
-* xref:setgray.adoc[`setgray`] - Set grayscale
-* xref:sethsbcolor.adoc[`sethsbcolor`] - Set HSB color
-* xref:currentcmykcolor.adoc[`currentcmykcolor`] - Get CMYK color (Level 2)
+* xref:../setrgbcolor.adoc[`setrgbcolor`] - Set RGB color
+* xref:../setgray.adoc[`setgray`] - Set grayscale
+* xref:../sethsbcolor.adoc[`sethsbcolor`] - Set HSB color
+* xref:../currentcmykcolor.adoc[`currentcmykcolor`] - Get CMYK color (Level 2)

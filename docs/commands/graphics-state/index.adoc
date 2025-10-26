@@ -39,22 +39,22 @@ PostScript provides a stack for saving and restoring graphics state:
 |===
 | Command | Description
 
-| xref:gsave.adoc[`gsave`]
+| xref:../gsave.adoc[`gsave`]
 | Push copy of graphics state onto graphics state stack
 
-| xref:grestore.adoc[`grestore`]
+| xref:../grestore.adoc[`grestore`]
 | Restore graphics state from top of stack
 
-| xref:grestoreall.adoc[`grestoreall`]
+| xref:../grestoreall.adoc[`grestoreall`]
 | Restore to bottommost save level
 
-| xref:gstate.adoc[`gstate`]
+| xref:../gstate.adoc[`gstate`]
 | Create gstate object (Level 2)
 
-| xref:setgstate.adoc[`setgstate`]
+| xref:../setgstate.adoc[`setgstate`]
 | Set graphics state from gstate object (Level 2)
 
-| xref:currentgstate.adoc[`currentgstate`]
+| xref:../currentgstate.adoc[`currentgstate`]
 | Copy current state to gstate object (Level 2)
 |===
 
@@ -64,34 +64,34 @@ PostScript provides a stack for saving and restoring graphics state:
 |===
 | Command | Description
 
-| xref:setlinewidth.adoc[`setlinewidth`]
+| xref:../setlinewidth.adoc[`setlinewidth`]
 | Set line width for stroking
 
-| xref:setlinecap.adoc[`setlinecap`]
+| xref:../setlinecap.adoc[`setlinecap`]
 | Set line cap style (butt, round, square)
 
-| xref:setlinejoin.adoc[`setlinejoin`]
+| xref:../setlinejoin.adoc[`setlinejoin`]
 | Set line join style (miter, round, bevel)
 
-| xref:setmiterlimit.adoc[`setmiterlimit`]
+| xref:../setmiterlimit.adoc[`setmiterlimit`]
 | Set miter limit for sharp corners
 
-| xref:setdash.adoc[`setdash`]
+| xref:../setdash.adoc[`setdash`]
 | Set dash pattern for lines
 
-| xref:currentlinewidth.adoc[`currentlinewidth`]
+| xref:../currentlinewidth.adoc[`currentlinewidth`]
 | Get current line width
 
-| xref:currentlinecap.adoc[`currentlinecap`]
+| xref:../currentlinecap.adoc[`currentlinecap`]
 | Get current line cap
 
-| xref:currentlinejoin.adoc[`currentlinejoin`]
+| xref:../currentlinejoin.adoc[`currentlinejoin`]
 | Get current line join
 
-| xref:currentmiterlimit.adoc[`currentmiterlimit`]
+| xref:../currentmiterlimit.adoc[`currentmiterlimit`]
 | Get current miter limit
 
-| xref:currentdash.adoc[`currentdash`]
+| xref:../currentdash.adoc[`currentdash`]
 | Get current dash pattern
 |===
 
@@ -101,28 +101,28 @@ PostScript provides a stack for saving and restoring graphics state:
 |===
 | Command | Description
 
-| xref:setgray.adoc[`setgray`]
+| xref:../setgray.adoc[`setgray`]
 | Set gray level (0=black, 1=white)
 
-| xref:setrgbcolor.adoc[`setrgbcolor`]
+| xref:../setrgbcolor.adoc[`setrgbcolor`]
 | Set RGB color
 
-| xref:setcmykcolor.adoc[`setcmykcolor`]
+| xref:../setcmykcolor.adoc[`setcmykcolor`]
 | Set CMYK color (Level 2)
 
-| xref:sethsbcolor.adoc[`sethsbcolor`]
+| xref:../sethsbcolor.adoc[`sethsbcolor`]
 | Set HSB color
 
-| xref:currentgray.adoc[`currentgray`]
+| xref:../currentgray.adoc[`currentgray`]
 | Get current gray value
 
-| xref:currentrgbcolor.adoc[`currentrgbcolor`]
+| xref:../currentrgbcolor.adoc[`currentrgbcolor`]
 | Get current RGB color
 
-| xref:currentcmykcolor.adoc[`currentcmykcolor`]
+| xref:../currentcmykcolor.adoc[`currentcmykcolor`]
 | Get current CMYK color (Level 2)
 
-| xref:currenthsbcolor.adoc[`currenthsbcolor`]
+| xref:../currenthsbcolor.adoc[`currenthsbcolor`]
 | Get current HSB color
 |===
 

@@ -241,13 +241,13 @@ Both operands must be numeric (integer or real). Other types will cause a `typec
 
 == Related Commands
 
-* xref:add.adoc[`add`] - Add two numbers
-* xref:sub.adoc[`sub`] - Subtract two numbers
-* xref:div.adoc[`div`] - Divide two numbers (real result)
-* xref:idiv.adoc[`idiv`] - Integer division
-* xref:mod.adoc[`mod`] - Modulo (remainder)
-* xref:exp.adoc[`exp`] - Exponentiation
-* xref:sqrt.adoc[`sqrt`] - Square root
+* xref:../add.adoc[`add`] - Add two numbers
+* xref:../sub.adoc[`sub`] - Subtract two numbers
+* xref:../div.adoc[`div`] - Divide two numbers (real result)
+* xref:../idiv.adoc[`idiv`] - Integer division
+* xref:../mod.adoc[`mod`] - Modulo (remainder)
+* xref:../exp.adoc[`exp`] - Exponentiation
+* xref:../sqrt.adoc[`sqrt`] - Square root
 
 == PostScript Level
 
@@ -321,9 +321,3 @@ price quantity mul       % Less intuitive
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
 * xref:../../levels/index.adoc[PostScript Language Levels]
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

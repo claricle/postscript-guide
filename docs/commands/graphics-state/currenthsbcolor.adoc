@@ -298,8 +298,8 @@ brightness dup dup setrgbcolor
 
 === See Also
 
-* xref:sethsbcolor.adoc[`sethsbcolor`] - Set HSB color
-* xref:currentrgbcolor.adoc[`currentrgbcolor`] - Get RGB color
-* xref:setrgbcolor.adoc[`setrgbcolor`] - Set RGB color
-* xref:currentgray.adoc[`currentgray`] - Get gray value
-* xref:currentcmykcolor.adoc[`currentcmykcolor`] - Get CMYK color
+* xref:../sethsbcolor.adoc[`sethsbcolor`] - Set HSB color
+* xref:../currentrgbcolor.adoc[`currentrgbcolor`] - Get RGB color
+* xref:../setrgbcolor.adoc[`setrgbcolor`] - Set RGB color
+* xref:../currentgray.adoc[`currentgray`] - Get gray value
+* xref:../currentcmykcolor.adoc[`currentcmykcolor`] - Get CMYK color

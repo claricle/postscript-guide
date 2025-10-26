@@ -38,11 +38,11 @@ Paints the area enclosed by the current path using the even-odd rule.
 
 === Description
 
-link:eofill.adoc[`eofill`] paints the inside of the current path with the current color, using the even-odd rule to determine what points are inside. Except for the choice of insideness rule, the behavior of link:eofill.adoc[`eofill`] is identical to that of xref:fill.adoc[`fill`].
+link:eofill.adoc[`eofill`] paints the inside of the current path with the current color, using the even-odd rule to determine what points are inside. Except for the choice of insideness rule, the behavior of link:eofill.adoc[`eofill`] is identical to that of xref:../fill.adoc[`fill`].
 
 The even-odd rule determines whether a point is inside a path by drawing a ray from that point in any direction and counting the number of path segments that the ray crosses. If this number is odd, the point is inside; if even, the point is outside. This rule is useful for creating shapes with holes.
 
-Like xref:fill.adoc[`fill`], link:eofill.adoc[`eofill`] implicitly closes any open subpaths before painting and performs a xref:../path-construction/newpath.adoc[`newpath`] after completion.
+Like xref:../fill.adoc[`fill`], link:eofill.adoc[`eofill`] implicitly closes any open subpaths before painting and performs a xref:../path-construction/newpath.adoc[`newpath`] after completion.
 
 === PostScript Level
 
@@ -148,7 +148,7 @@ eofill  % Counter (hole) in 'O' is preserved
 
 === Common Pitfalls
 
-WARNING: *Different Results from fill* - The even-odd rule produces different results than the non-zero winding number rule used by xref:fill.adoc[`fill`].
+WARNING: *Different Results from fill* - The even-odd rule produces different results than the non-zero winding number rule used by xref:../fill.adoc[`fill`].
 
 [source,postscript]
 ----
@@ -171,7 +171,7 @@ grestore
 eofill    % Even-odd: inner rectangle is a hole
 ----
 
-WARNING: *Path Direction Irrelevant* - Unlike xref:fill.adoc[`fill`], the direction paths are drawn doesn't matter with link:eofill.adoc[`eofill`].
+WARNING: *Path Direction Irrelevant* - Unlike xref:../fill.adoc[`fill`], the direction paths are drawn doesn't matter with link:eofill.adoc[`eofill`].
 
 [source,postscript]
 ----
@@ -233,7 +233,7 @@ eofill  % Creates ring pattern
 * Natural for shapes with holes
 * Alternating fill pattern for overlapping paths
 
-.Non-Zero Winding Rule (xref:fill.adoc[`fill`])
+.Non-Zero Winding Rule (xref:../fill.adoc[`fill`])
 * Counts direction of crossings
 * Path direction matters
 * More complex but more flexible
@@ -308,9 +308,9 @@ stroke    % Then stroke the path
 
 === See Also
 
-* xref:fill.adoc[`fill`] - Fill using non-zero winding rule
-* xref:eoclip.adoc[`eoclip`] - Clip using even-odd rule
-* xref:ueofill.adoc[`ueofill`] - Even-odd fill user path (Level 2)
-* xref:stroke.adoc[`stroke`] - Paint path outline
+* xref:../fill.adoc[`fill`] - Fill using non-zero winding rule
+* xref:../eoclip.adoc[`eoclip`] - Clip using even-odd rule
+* xref:../ueofill.adoc[`ueofill`] - Even-odd fill user path (Level 2)
+* xref:../stroke.adoc[`stroke`] - Paint path outline
 * xref:../path-construction/newpath.adoc[`newpath`] - Clear current path
 * xref:../path-construction/closepath.adoc[`closepath`] - Close current subpath

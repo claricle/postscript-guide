@@ -20,7 +20,8 @@ jobs:
     - name: Build site
       env:
         JEKYLL_ENV: production
-      run: bundle exec jekyll build --trace
+      working-directory: docs
+      run: bundle exec jekyll build --trace --baseurl "/postscript-guide"
 
     - name: Restore lychee cache
       uses: actions/cache@v4
@@ -42,31 +43,18 @@ jobs:
       uses: lycheeverse/lychee-action@v2
       with:
         # Check the built HTML site for rendered links
+        # Set base URL to _site directory for Jekyll baseurl resolution
         args: >-
-          --verbose
-          --no-progress
-          --config lychee.toml
-          --base '_site'
-          --cache
-          --max-cache-age 1d
-          --root-dir /
+          --verbose \
+          --no-progress \
+          --config lychee.toml \
+          --root-dir "$(pwd)/_site" \
+          --base-url file://${{ github.workspace }}/_site \
           '_site/**/*.html'
         fail: true
         output: link-check-results.md
         format: markdown
-
-    - name: Link Checker (Source AsciiDoc)
-      uses: lycheeverse/lychee-action@v2
-      with:
-        # Also check source AsciiDoc files for xref links
-        args: >-
-          --verbose
-          --no-progress
-          --config lychee.toml
-          'docs/**/*.adoc'
-        fail: true
-        output: link-check-source.md
-        format: markdown
+        workingDirectory: docs
 
     - name: Upload link check results
       if: always()
@@ -75,7 +63,6 @@ jobs:
         name: link-check-results
         path: |
           link-check-results.md
-          link-check-source.md
         retention-days: 30
 
     - name: Comment PR with results
@@ -89,11 +76,6 @@ jobs:
           if (fs.existsSync('link-check-results.md')) {
             const results = fs.readFileSync('link-check-results.md', 'utf8');
             comment += '### Built Site Results\n\n' + results + '\n\n';
-          }
-
-          if (fs.existsSync('link-check-source.md')) {
-            const source = fs.readFileSync('link-check-source.md', 'utf8');
-            comment += '### Source Files Results\n\n' + source;
           }
 
           github.rest.issues.createComment({

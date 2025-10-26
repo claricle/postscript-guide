@@ -206,7 +206,7 @@ drawSharpCorners
 
 === See Also
 
-* xref:setmiterlimit.adoc[`setmiterlimit`] - Set miter limit
-* xref:currentlinejoin.adoc[`currentlinejoin`] - Get line join style
-* xref:setlinejoin.adoc[`setlinejoin`] - Set line join style
-* xref:currentlinewidth.adoc[`currentlinewidth`] - Get line width
+* xref:../setmiterlimit.adoc[`setmiterlimit`] - Set miter limit
+* xref:../currentlinejoin.adoc[`currentlinejoin`] - Get line join style
+* xref:../setlinejoin.adoc[`setlinejoin`] - Set line join style
+* xref:../currentlinewidth.adoc[`currentlinewidth`] - Get line width

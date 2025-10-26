@@ -125,7 +125,7 @@ dup rcheck         % false (cannot read)
 dup exec           % Works! (can execute)
 ----
 
-WARNING: *Confusing rcheck with xcheck* - link:rcheck.adoc[`rcheck`] tests read access, xref:xcheck.adoc[`xcheck`] tests executable attribute.
+WARNING: *Confusing rcheck with xcheck* - link:rcheck.adoc[`rcheck`] tests read access, xref:../xcheck.adoc[`xcheck`] tests executable attribute.
 
 TIP: *Check Before Reading* - Use link:rcheck.adoc[`rcheck`] before operations that read object values.
 
@@ -178,7 +178,7 @@ TIP: *Check Before Reading* - Use link:rcheck.adoc[`rcheck`] before operations t
 
 === See Also
 
-* xref:wcheck.adoc[`wcheck`] - Test if writable
-* xref:xcheck.adoc[`xcheck`] - Test if executable
+* xref:../wcheck.adoc[`wcheck`] - Test if writable
+* xref:../xcheck.adoc[`xcheck`] - Test if executable
 * Access operators: `readonly`, `executeonly`, `noaccess`
-* xref:type.adoc[`type`] - Get object type
+* xref:../type.adoc[`type`] - Get object type

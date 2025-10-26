@@ -128,6 +128,6 @@ TIP: *Use for Precision* - Convert integers to reals before division to avoid in
 
 === See Also
 
-* xref:cvi.adoc[`cvi`] - Convert to integer
-* xref:cvs.adoc[`cvs`] - Convert to string
-* xref:type.adoc[`type`] - Get object type
+* xref:../cvi.adoc[`cvi`] - Convert to integer
+* xref:../cvs.adoc[`cvs`] - Convert to string
+* xref:../type.adoc[`type`] - Get object type

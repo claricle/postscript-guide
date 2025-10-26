@@ -11,7 +11,7 @@ Generates a pseudo-random integer.
 
 == Description
 
-The `rand` operator generates and returns a pseudo-random integer in the range 0 to 2³¹ - 1 (2147483647). The sequence is deterministic and can be controlled using xref:srand.adoc[`srand`] to set the seed and xref:rrand.adoc[`rrand`] to get/restore the generator state.
+The `rand` operator generates and returns a pseudo-random integer in the range 0 to 2³¹ - 1 (2147483647). The sequence is deterministic and can be controlled using xref:../srand.adoc[`srand`] to set the seed and xref:../rrand.adoc[`rrand`] to get/restore the generator state.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -135,8 +135,8 @@ rand           % → 1804289383 (same sequence)
 
 == Related Commands
 
-* xref:srand.adoc[`srand`] - Seed random generator
-* xref:rrand.adoc[`rrand`] - Get/set random seed
+* xref:../srand.adoc[`srand`] - Seed random generator
+* xref:../rrand.adoc[`rrand`] - Get/set random seed
 
 == PostScript Level
 
@@ -150,8 +150,3 @@ The operand stack is full (cannot push result).
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

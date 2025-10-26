@@ -134,7 +134,7 @@ WARNING: *Checks Specific Dictionary Only* - link:known.adoc[`known`] does NOT s
 currentdict /x known  % Returns true
 ----
 
-WARNING: *Different from where* - link:known.adoc[`known`] checks one dictionary; xref:where.adoc[`where`] searches the entire dictionary stack.
+WARNING: *Different from where* - link:known.adoc[`known`] checks one dictionary; xref:../where.adoc[`where`] searches the entire dictionary stack.
 
 TIP: *Use for Validation* - Check before link:../array-string/get.adoc[`get`] to avoid [`undefined`] errors.
 
@@ -163,7 +163,7 @@ TIP: *Use for Validation* - Check before link:../array-string/get.adoc[`get`] to
 
 === See Also
 
-* xref:where.adoc[`where`] - Search dictionary stack for key
-* xref:load.adoc[`load`] - Get value from dictionary stack
+* xref:../where.adoc[`where`] - Search dictionary stack for key
+* xref:../load.adoc[`load`] - Get value from dictionary stack
 * xref:../array-string/get.adoc[`get`] - Get value from specific dictionary
-* xref:def.adoc[`def`] - Define key-value pair
+* xref:../def.adoc[`def`] - Define key-value pair

@@ -286,7 +286,7 @@ stroke
 
 === See Also
 
-* xref:currentdash.adoc[`currentdash`] - Get current dash pattern
-* xref:setlinecap.adoc[`setlinecap`] - Set line end style
-* xref:setlinewidth.adoc[`setlinewidth`] - Set line width
-* xref:setlinejoin.adoc[`setlinejoin`] - Set corner style
+* xref:../currentdash.adoc[`currentdash`] - Get current dash pattern
+* xref:../setlinecap.adoc[`setlinecap`] - Set line end style
+* xref:../setlinewidth.adoc[`setlinewidth`] - Set line width
+* xref:../setlinejoin.adoc[`setlinejoin`] - Set corner style

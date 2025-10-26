@@ -18,37 +18,37 @@ The operand stack is fundamental to PostScript execution. These operators provid
 |===
 |Command |Description
 
-|xref:pop.adoc[`pop`]
+|xref:../pop.adoc[`pop`]
 |Remove the top element from the stack
 
-|xref:exch.adoc[`exch`]
+|xref:../exch.adoc[`exch`]
 |Exchange the top two stack elements
 
-|xref:dup.adoc[`dup`]
+|xref:../dup.adoc[`dup`]
 |Duplicate the top element
 
-|xref:copy.adoc[`copy`]
+|xref:../copy.adoc[`copy`]
 |Copy top n elements or duplicate composite object values
 
-|xref:psindex.adoc[`index`]
+|xref:../psindex.adoc[`psindex`]
 |Duplicate the nth element from the top
 
-|xref:roll.adoc[`roll`]
+|xref:../roll.adoc[`roll`]
 |Roll n elements j times
 
-|xref:count.adoc[`count`]
+|xref:../count.adoc[`count`]
 |Count elements on the stack
 
-|xref:clear.adoc[`clear`]
+|xref:../clear.adoc[`clear`]
 |Remove all elements from the stack
 
-|xref:mark.adoc[`mark`]
+|xref:../mark.adoc[`mark`]
 |Push a mark object onto the stack
 
-|xref:cleartomark.adoc[`cleartomark`]
+|xref:../cleartomark.adoc[`cleartomark`]
 |Pop elements down to and including a mark
 
-|xref:counttomark.adoc[`counttomark`]
+|xref:../counttomark.adoc[`counttomark`]
 |Count elements down to a mark
 |===
 

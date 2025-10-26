@@ -13,7 +13,7 @@ Counts the number of elements on the operand stack from the top down to (but not
 
 The `counttomark` operator counts how many elements are on the operand stack between the top and the nearest mark object (searching from top to bottom). The mark itself is not counted, and the stack is left unchanged except for the count value being pushed.
 
-This operator is essential for implementing variable-argument procedures where the number of arguments is not known in advance. It's commonly used with xref:mark.adoc[`mark`] to process all elements in a marked segment.
+This operator is essential for implementing variable-argument procedures where the number of arguments is not known in advance. It's commonly used with xref:../mark.adoc[`mark`] to process all elements in a marked segment.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -289,11 +289,11 @@ counttomark         % Stack: mark 0
 
 == Related Commands
 
-* xref:mark.adoc[`mark`] - Push a mark object onto stack
-* xref:cleartomark.adoc[`cleartomark`] - Remove elements down to and including mark
-* xref:count.adoc[`count`] - Count total stack depth
+* xref:../mark.adoc[`mark`] - Push a mark object onto stack
+* xref:../cleartomark.adoc[`cleartomark`] - Remove elements down to and including mark
+* xref:../count.adoc[`count`] - Count total stack depth
 * `]` - Create array from marked elements
-* xref:pop.adoc[`pop`] - Remove single element
+* xref:../pop.adoc[`pop`] - Remove single element
 
 == PostScript Level
 
@@ -329,7 +329,7 @@ For very deep marks, this can be slightly expensive, but in practice marked segm
 
 == Best Practices
 
-1. **Use with mark**: Always ensure a xref:mark.adoc[`mark`] exists before calling `counttomark`
+1. **Use with mark**: Always ensure a xref:../mark.adoc[`mark`] exists before calling `counttomark`
 2. **Immediate use**: Use the count value immediately; don't store it for later
 3. **Variable arguments**: Ideal for implementing procedures with variable-length argument lists
 4. **Document expectations**: Clearly document when procedures expect marked arguments
@@ -405,9 +405,3 @@ For very deep marks, this can be slightly expensive, but in practice marked segm
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:../../usage/basic/procedures.adoc[Procedures] - Implementing variable-argument functions
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 379)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

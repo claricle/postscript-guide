@@ -11,7 +11,7 @@ Seeds the random number generator with a specific value.
 
 == Description
 
-The `srand` operator pops an integer from the operand stack and uses it to initialize (seed) the random number generator. Executing `srand` with a particular seed value causes subsequent calls to xref:rand.adoc[`rand`] to generate a reproducible, deterministic sequence of pseudo-random numbers.
+The `srand` operator pops an integer from the operand stack and uses it to initialize (seed) the random number generator. Executing `srand` with a particular seed value causes subsequent calls to xref:../rand.adoc[`rand`] to generate a reproducible, deterministic sequence of pseudo-random numbers.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -92,8 +92,8 @@ rand           % Different each run
 
 == Related Commands
 
-* xref:rand.adoc[`rand`] - Generate random integer
-* xref:rrand.adoc[`rrand`] - Get/set random seed
+* xref:../rand.adoc[`rand`] - Generate random integer
+* xref:../rrand.adoc[`rrand`] - Get/set random seed
 
 == PostScript Level
 
@@ -122,8 +122,3 @@ The operand is not an integer.
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

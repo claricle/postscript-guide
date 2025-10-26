@@ -67,8 +67,8 @@ WARNING: PostScript uses *degrees*, not radians!
 
 == Related Commands
 
-* xref:sin.adoc[`sin`] - Sine (degrees)
-* xref:atan.adoc[`atan`] - Arctangent (returns degrees)
+* xref:../sin.adoc[`sin`] - Sine (degrees)
+* xref:../atan.adoc[`atan`] - Arctangent (returns degrees)
 
 == PostScript Level
 
@@ -85,8 +85,3 @@ The operand is not a number.
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

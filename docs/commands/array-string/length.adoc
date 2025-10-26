@@ -135,7 +135,7 @@ WARNING: *Name vs. String* - Name length counts characters in the name, not the 
 (abc) length          % Also returns 3
 ----
 
-TIP: *Use with forall* - For iterating over all elements, xref:forall.adoc[`forall`] is often more convenient than using link:length.adoc[`length`] with a loop.
+TIP: *Use with forall* - For iterating over all elements, xref:../forall.adoc[`forall`] is often more convenient than using link:length.adoc[`length`] with a loop.
 
 === Error Conditions
 
@@ -179,8 +179,8 @@ TIP: *Use with forall* - For iterating over all elements, xref:forall.adoc[`fora
 
 === See Also
 
-* xref:get.adoc[`get`] - Get element at index
-* xref:getinterval.adoc[`getinterval`] - Get subarray/substring
-* xref:forall.adoc[`forall`] - Iterate over all elements
-* xref:array.adoc[`array`] - Create array with specific length
-* xref:string.adoc[`string`] - Create string with specific length
+* xref:../get.adoc[`get`] - Get element at index
+* xref:../getinterval.adoc[`getinterval`] - Get subarray/substring
+* xref:../forall.adoc[`forall`] - Iterate over all elements
+* xref:../array.adoc[`array`] - Create array with specific length
+* xref:../string.adoc[`string`] - Create string with specific length

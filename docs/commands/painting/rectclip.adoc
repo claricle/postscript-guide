@@ -249,7 +249,7 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Clipping Can Only Shrink* - Like xref:clip.adoc[`clip`], you cannot enlarge the clipping region.
+WARNING: *Clipping Can Only Shrink* - Like xref:../clip.adoc[`clip`], you cannot enlarge the clipping region.
 
 [source,postscript]
 ----
@@ -260,7 +260,7 @@ WARNING: *Clipping Can Only Shrink* - Like xref:clip.adoc[`clip`], you cannot en
 0 0 300 300 rectclip  % Still limited to intersection
 ----
 
-WARNING: *Path Is Cleared* - Unlike xref:clip.adoc[`clip`], link:rectclip.adoc[`rectclip`] automatically clears the current path.
+WARNING: *Path Is Cleared* - Unlike xref:../clip.adoc[`clip`], link:rectclip.adoc[`rectclip`] automatically clears the current path.
 
 [source,postscript]
 ----
@@ -321,7 +321,7 @@ grestore
 
 * link:rectclip.adoc[`rectclip`] is optimized for rectangular clipping regions
 * Multiple rectangles create a union clip region
-* Much faster than constructing paths with xref:clip.adoc[`clip`]
+* Much faster than constructing paths with xref:../clip.adoc[`clip`]
 * The current path is automatically cleared after operation
 * All rectangles use non-zero winding number rule
 * Very efficient for simple rectangular masking
@@ -426,7 +426,7 @@ grestore
 === Performance Considerations
 
 * link:rectclip.adoc[`rectclip`] is highly optimized for rectangular regions
-* Much faster than equivalent xref:clip.adoc[`clip`] with constructed paths
+* Much faster than equivalent xref:../clip.adoc[`clip`] with constructed paths
 * Multiple rectangles in one operation are efficient
 * Simple rectangular clips have minimal performance impact
 * More efficient than complex path-based clipping
@@ -566,11 +566,11 @@ drawWindows
 
 === See Also
 
-* xref:clip.adoc[`clip`] - Clip to arbitrary path (non-zero winding)
-* xref:eoclip.adoc[`eoclip`] - Clip to path (even-odd rule)
-* xref:clippath.adoc[`clippath`] - Get current clipping path
-* xref:rectfill.adoc[`rectfill`] - Fill rectangles (Level 2)
-* xref:rectstroke.adoc[`rectstroke`] - Stroke rectangles (Level 2)
+* xref:../clip.adoc[`clip`] - Clip to arbitrary path (non-zero winding)
+* xref:../eoclip.adoc[`eoclip`] - Clip to path (even-odd rule)
+* xref:../clippath.adoc[`clippath`] - Get current clipping path
+* xref:../rectfill.adoc[`rectfill`] - Fill rectangles (Level 2)
+* xref:../rectstroke.adoc[`rectstroke`] - Stroke rectangles (Level 2)
 * `initclip` - Reset to device default clip
 * xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
 * xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

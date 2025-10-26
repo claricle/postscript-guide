@@ -164,7 +164,7 @@ Square (2):   [──────────]
 
 === See Also
 
-* xref:setlinejoin.adoc[`setlinejoin`] - Set corner style
-* xref:setlinewidth.adoc[`setlinewidth`] - Set line width
-* xref:currentlinecap.adoc[`currentlinecap`] - Get current cap
+* xref:../setlinejoin.adoc[`setlinejoin`] - Set corner style
+* xref:../setlinewidth.adoc[`setlinewidth`] - Set line width
+* xref:../currentlinecap.adoc[`currentlinecap`] - Get current cap
 * Stroke operations (to be documented)

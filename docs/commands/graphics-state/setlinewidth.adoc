@@ -180,8 +180,8 @@ Width 5:   ▓▓▓▓▓▓▓▓▓
 
 === See Also
 
-* xref:setlinecap.adoc[`setlinecap`] - Set line end style
-* xref:setlinejoin.adoc[`setlinejoin`] - Set corner style
-* xref:setdash.adoc[`setdash`] - Set dash pattern
-* xref:currentlinewidth.adoc[`currentlinewidth`] - Get current width
+* xref:../setlinecap.adoc[`setlinecap`] - Set line end style
+* xref:../setlinejoin.adoc[`setlinejoin`] - Set corner style
+* xref:../setdash.adoc[`setdash`] - Set dash pattern
+* xref:../currentlinewidth.adoc[`currentlinewidth`] - Get current width
 * Stroke operations (to be documented)

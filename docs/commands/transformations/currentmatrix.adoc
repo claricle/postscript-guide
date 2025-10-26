@@ -40,7 +40,7 @@ matrix currentmatrix → matrix
 
 link:currentmatrix.adoc[`currentmatrix`] replaces the value of `matrix` with the current transformation matrix (CTM) from the graphics state and pushes the modified matrix back on the operand stack.
 
-The CTM defines the transformation from user space coordinates to device space coordinates. It is modified by transformation operators like xref:translate.adoc[`translate`], xref:scale.adoc[`scale`], xref:rotate.adoc[`rotate`], and xref:concat.adoc[`concat`].
+The CTM defines the transformation from user space coordinates to device space coordinates. It is modified by transformation operators like xref:../translate.adoc[`translate`], xref:../scale.adoc[`scale`], xref:../rotate.adoc[`rotate`], and xref:../concat.adoc[`concat`].
 
 === PostScript Level
 
@@ -239,20 +239,20 @@ atan /angle exch def
 
 The CTM is modified by:
 
-* xref:translate.adoc[`translate`]
-* xref:scale.adoc[`scale`]
-* xref:rotate.adoc[`rotate`]
-* xref:concat.adoc[`concat`]
-* xref:setmatrix.adoc[`setmatrix`]
-* xref:initmatrix.adoc[`initmatrix`]
+* xref:../translate.adoc[`translate`]
+* xref:../scale.adoc[`scale`]
+* xref:../rotate.adoc[`rotate`]
+* xref:../concat.adoc[`concat`]
+* xref:../setmatrix.adoc[`setmatrix`]
+* xref:../initmatrix.adoc[`initmatrix`]
 * xref:../graphics-state/gsave.adoc[`gsave`]/xref:../graphics-state/grestore.adoc[`grestore`]
 
 === See Also
 
-* xref:setmatrix.adoc[`setmatrix`] - Set the CTM
-* xref:defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
-* xref:initmatrix.adoc[`initmatrix`] - Reset CTM to default
-* xref:concat.adoc[`concat`] - Concatenate matrix with CTM
-* xref:transform.adoc[`transform`] - Transform coordinates by CTM
+* xref:../setmatrix.adoc[`setmatrix`] - Set the CTM
+* xref:../defaultmatrix.adoc[`defaultmatrix`] - Get device default matrix
+* xref:../initmatrix.adoc[`initmatrix`] - Reset CTM to default
+* xref:../concat.adoc[`concat`] - Concatenate matrix with CTM
+* xref:../transform.adoc[`transform`] - Transform coordinates by CTM
 * xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
 * xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

@@ -40,7 +40,7 @@ Sets the current path to the current clipping path.
 
 link:clippath.adoc[`clippath`] sets the current path to one that describes the current clipping path. This operator is useful for determining the exact extent of the imaging area on the current output device.
 
-If the current clipping path is the result of application of the xref:clip.adoc[`clip`] or xref:eoclip.adoc[`eoclip`] operator, the path set by link:clippath.adoc[`clippath`] is generally suitable only for filling or clipping. It is not suitable for stroking because it may contain interior segments or disconnected subpaths produced by the clipping process.
+If the current clipping path is the result of application of the xref:../clip.adoc[`clip`] or xref:../eoclip.adoc[`eoclip`] operator, the path set by link:clippath.adoc[`clippath`] is generally suitable only for filling or clipping. It is not suitable for stroking because it may contain interior segments or disconnected subpaths produced by the clipping process.
 
 The path returned by link:clippath.adoc[`clippath`] describes the clipping region as it exists in user space coordinates, transformed through the current transformation matrix (CTM).
 
@@ -160,7 +160,7 @@ showClipBorder
 
 === Common Pitfalls
 
-WARNING: *Result May Not Be Suitable for Stroking* - If the clip was created with xref:clip.adoc[`clip`] or xref:eoclip.adoc[`eoclip`], the path may have interior segments.
+WARNING: *Result May Not Be Suitable for Stroking* - If the clip was created with xref:../clip.adoc[`clip`] or xref:../eoclip.adoc[`eoclip`], the path may have interior segments.
 
 [source,postscript]
 ----
@@ -411,8 +411,8 @@ clippath fill
 
 === See Also
 
-* xref:clip.adoc[`clip`] - Set clipping path (non-zero winding)
-* xref:eoclip.adoc[`eoclip`] - Set clipping path (even-odd rule)
+* xref:../clip.adoc[`clip`] - Set clipping path (non-zero winding)
+* xref:../eoclip.adoc[`eoclip`] - Set clipping path (even-odd rule)
 * `initclip` - Reset to device default
 * `rectclip` - Clip to rectangles (Level 2)
 * `pathbbox` - Get path bounding box

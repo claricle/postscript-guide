@@ -38,7 +38,7 @@ Closes the current subpath by adding a straight line back to its starting point.
 
 === Description
 
-link:closepath.adoc[`closepath`] closes the current subpath by appending a straight line segment connecting the current point to the subpath's starting point—generally, the point most recently specified by xref:moveto.adoc[`moveto`].
+link:closepath.adoc[`closepath`] closes the current subpath by appending a straight line segment connecting the current point to the subpath's starting point—generally, the point most recently specified by xref:../moveto.adoc[`moveto`].
 
 If the current subpath is already closed or the current path is empty, link:closepath.adoc[`closepath`] does nothing.
 
@@ -208,7 +208,7 @@ Note: link:closepath.adoc[`closepath`] does not require a current point and will
 
 === Behavior Details
 
-The behavior differs from simply using xref:lineto.adoc[`lineto`] back to the starting point:
+The behavior differs from simply using xref:../lineto.adoc[`lineto`] back to the starting point:
 
 [source,postscript]
 ----
@@ -240,8 +240,8 @@ closepath               % Back to start, subpath closed
 
 === See Also
 
-* xref:newpath.adoc[`newpath`] - Initialize empty path
-* xref:moveto.adoc[`moveto`] - Start new subpath
-* xref:lineto.adoc[`lineto`] - Add straight line segment
-* xref:arc.adoc[`arc`] - Add circular arc
-* xref:currentpoint.adoc[`currentpoint`] - Get current point
+* xref:../newpath.adoc[`newpath`] - Initialize empty path
+* xref:../moveto.adoc[`moveto`] - Start new subpath
+* xref:../lineto.adoc[`lineto`] - Add straight line segment
+* xref:../arc.adoc[`arc`] - Add circular arc
+* xref:../currentpoint.adoc[`currentpoint`] - Get current point

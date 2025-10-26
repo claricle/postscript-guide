@@ -100,8 +100,8 @@ WARNING: PostScript returns angles in *degrees* (0-360), not radians!
 
 == Related Commands
 
-* xref:sin.adoc[`sin`] - Sine (degrees)
-* xref:cos.adoc[`cos`] - Cosine (degrees)
+* xref:../sin.adoc[`sin`] - Sine (degrees)
+* xref:../cos.adoc[`cos`] - Cosine (degrees)
 
 == PostScript Level
 
@@ -126,8 +126,3 @@ Both num and den are zero.
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

@@ -1,6 +1,6 @@
 title: "PostScript Language Guide"
 description: "Comprehensive documentation for the PostScript programming language, covering operators, syntax, and practical usage examples"
-baseurl: "/postscript-guide"
+# baseurl: "/postscript-guide"
 url: "https://metanorma.github.io"
 
 # Repository
@@ -47,11 +47,11 @@ nav_fold: true
 # External links
 aux_links:
   "Source":
-    - "//github.com/metanorma/postscript-guide"
+    - "https://github.com/metanorma/postscript-guide"
   "Report Issues":
-    - "//github.com/metanorma/postscript-guide/issues"
+    - "https://github.com/metanorma/postscript-guide/issues"
   "Adobe PostScript Language Reference Manual":
-    - "//www.adobe.com/jp/print/postscript/pdfs/PLRM.pdf"
+    - "https://www.adobe.com/jp/print/postscript/pdfs/PLRM.pdf"
 
 aux_links_new_tab: true
 
@@ -78,10 +78,10 @@ defaults:
       type: pages
     values:
       layout: default
-  - scope:
-      path: "docs"
-    values:
-      layout: default
+  # - scope:
+  #     path: "docs"
+  #   values:
+  #     layout: default
 
 # Plugins
 plugins:
@@ -111,4 +111,9 @@ exclude:
 
 # Include
 include:
-  - _pages
+  - .
+  - commands
+  - examples
+  - levels
+
+permalink: pretty

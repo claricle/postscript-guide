@@ -206,7 +206,7 @@ link:forall.adoc[`forall`] is simpler and more efficient.
 
 === See Also
 
-* xref:aload.adoc[`aload`] - Load all elements onto stack
-* xref:get.adoc[`get`] - Get single element
-* xref:length.adoc[`length`] - Get number of elements
+* xref:../aload.adoc[`aload`] - Load all elements onto stack
+* xref:../get.adoc[`get`] - Get single element
+* xref:../length.adoc[`length`] - Get number of elements
 * Control Flow: `for`, `repeat`, `loop` - Other iteration constructs

@@ -165,7 +165,7 @@ Bevel (2):    ╱─╲
 
 === See Also
 
-* xref:setmiterlimit.adoc[`setmiterlimit`] - Control miter join behavior
-* xref:setlinecap.adoc[`setlinecap`] - Set line end style
-* xref:setlinewidth.adoc[`setlinewidth`] - Set line width
-* xref:currentlinejoin.adoc[`currentlinejoin`] - Get current join
+* xref:../setmiterlimit.adoc[`setmiterlimit`] - Control miter join behavior
+* xref:../setlinecap.adoc[`setlinecap`] - Set line end style
+* xref:../setlinewidth.adoc[`setlinewidth`] - Set line width
+* xref:../currentlinejoin.adoc[`currentlinejoin`] - Get current join

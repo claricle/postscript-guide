@@ -89,8 +89,8 @@ num log real
 
 == Related Commands
 
-* xref:ln.adoc[`ln`] - Natural logarithm (base e)
-* xref:exp.adoc[`exp`] - Exponentiation
+* xref:../ln.adoc[`ln`] - Natural logarithm (base e)
+* xref:../exp.adoc[`exp`] - Exponentiation
 
 == PostScript Level
 
@@ -116,8 +116,3 @@ The operand is zero or negative.
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

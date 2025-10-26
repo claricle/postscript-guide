@@ -194,8 +194,8 @@ systemdict
 
 === See Also
 
-* xref:end.adoc[`end`] - Pop dictionary from stack
-* xref:currentdict.adoc[`currentdict`] - Get current dictionary
-* xref:def.adoc[`def`] - Define in current dictionary
-* xref:dictstack.adoc[`dictstack`] - Examine dictionary stack
-* xref:countdictstack.adoc[`countdictstack`] - Count stack depth
+* xref:../end.adoc[`end`] - Pop dictionary from stack
+* xref:../currentdict.adoc[`currentdict`] - Get current dictionary
+* xref:../def.adoc[`def`] - Define in current dictionary
+* xref:../dictstack.adoc[`dictstack`] - Examine dictionary stack
+* xref:../countdictstack.adoc[`countdictstack`] - Count stack depth

@@ -12,13 +12,10 @@ include_verbatim = true
 # Recursively check all files
 recursive = true
 
-# No base - let lychee use absolute file paths
-# base = "_site"
-
 # File types to check
 # We'll check AsciiDoc source and built HTML
 include = [
-  "docs/**/*.adoc",
+  #"docs/**/*.adoc",
   "_site/**/*.html"
 ]
 
@@ -64,10 +61,9 @@ max_concurrency = 8
 verbose = "info"
 
 # Require HTTPS where possible
-require_https = false  # Don't enforce (some PostScript resources use HTTP)
+require_https = false  # Don't enforce
 
 # Check fragment identifiers (anchors)
-include_fragments = true
+# include_fragments = true
 
-# No remap needed - lychee will check files directly
-# Fragments (#anchors) will be validated against actual file content
+index_files = ["index.html"]

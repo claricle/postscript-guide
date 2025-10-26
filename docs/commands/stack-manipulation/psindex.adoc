@@ -13,7 +13,7 @@ Duplicates the nth element from the top of the operand stack, where n is counted
 
 The `index` operator removes a non-negative integer n from the operand stack, counts down to the nth element from the top (where the top is position 0), and pushes a copy of that element onto the stack.
 
-This operator is particularly useful for accessing elements deep in the stack without disturbing the intervening elements. It's essentially a generalized form of xref:dup.adoc[`dup`], where `0 index` is equivalent to `dup`.
+This operator is particularly useful for accessing elements deep in the stack without disturbing the intervening elements. It's essentially a generalized form of xref:../dup.adoc[`dup`], where `0 index` is equivalent to `dup`.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -271,11 +271,11 @@ TIP: Remember that stack positions are counted from 0, where 0 is the topmost el
 
 == Related Commands
 
-* xref:dup.adoc[`dup`] - Equivalent to `0 index`
-* xref:copy.adoc[`copy`] - Copy multiple top elements
-* xref:roll.adoc[`roll`] - Rotate stack elements
-* xref:exch.adoc[`exch`] - Exchange top two elements
-* xref:count.adoc[`count`] - Get stack depth for bounds checking
+* xref:../dup.adoc[`dup`] - Equivalent to `0 index`
+* xref:../copy.adoc[`copy`] - Copy multiple top elements
+* xref:../roll.adoc[`roll`] - Rotate stack elements
+* xref:../exch.adoc[`exch`] - Exchange top two elements
+* xref:../count.adoc[`count`] - Get stack depth for bounds checking
 
 == PostScript Level
 
@@ -326,9 +326,9 @@ However, frequently using large index values may indicate poor stack management.
 
 1. **Use for deep access**: `index` is ideal when you need an element buried in the stack
 2. **Prefer dup for top element**: Use `dup` rather than `0 index` for clarity
-3. **Check bounds**: Use xref:count.adoc[`count`] to verify sufficient stack depth before large indices
+3. **Check bounds**: Use xref:../count.adoc[`count`] to verify sufficient stack depth before large indices
 4. **Document stack layout**: When using `index`, clearly document which stack position contains what
-5. **Consider roll instead**: For repeated access to deep elements, xref:roll.adoc[`roll`] might be more efficient
+5. **Consider roll instead**: For repeated access to deep elements, xref:../roll.adoc[`roll`] might be more efficient
 
 === Clear Documentation
 
@@ -361,9 +361,3 @@ However, frequently using large index values may indicate poor stack management.
 * xref:../../syntax/operators.adoc[Operators Overview] - Understanding PostScript operators
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 471)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

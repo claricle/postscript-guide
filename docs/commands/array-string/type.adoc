@@ -221,8 +221,8 @@ PostScript has no formal inheritance, but types can be categorized:
 
 === See Also
 
-* xref:cvlit.adoc[`cvlit`] - Convert to literal
-* xref:cvx.adoc[`cvx`] - Convert to executable
-* xref:xcheck.adoc[`xcheck`] - Test if executable
-* xref:rcheck.adoc[`rcheck`] - Test if readable
-* xref:wcheck.adoc[`wcheck`] - Test if writable
+* xref:../cvlit.adoc[`cvlit`] - Convert to literal
+* xref:../cvx.adoc[`cvx`] - Convert to executable
+* xref:../xcheck.adoc[`xcheck`] - Test if executable
+* xref:../rcheck.adoc[`rcheck`] - Test if readable
+* xref:../wcheck.adoc[`wcheck`] - Test if writable

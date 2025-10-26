@@ -224,8 +224,8 @@ currentlinewidth                 % Still 1.0
 
 === See Also
 
-* xref:setlinewidth.adoc[`setlinewidth`] - Set line width
-* xref:currentlinecap.adoc[`currentlinecap`] - Get line cap style
-* xref:currentlinejoin.adoc[`currentlinejoin`] - Get line join style
-* xref:currentdash.adoc[`currentdash`] - Get dash pattern
-* xref:currentmiterlimit.adoc[`currentmiterlimit`] - Get miter limit
+* xref:../setlinewidth.adoc[`setlinewidth`] - Set line width
+* xref:../currentlinecap.adoc[`currentlinecap`] - Get line cap style
+* xref:../currentlinejoin.adoc[`currentlinejoin`] - Get line join style
+* xref:../currentdash.adoc[`currentdash`] - Get dash pattern
+* xref:../currentmiterlimit.adoc[`currentmiterlimit`] - Get miter limit

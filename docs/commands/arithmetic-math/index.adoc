@@ -17,54 +17,54 @@ PostScript provides a comprehensive set of arithmetic and mathematical operators
 
 The fundamental arithmetic operations:
 
-* xref:add.adoc[`add`] - Add two numbers
-* xref:sub.adoc[`sub`] - Subtract two numbers
-* xref:mul.adoc[`mul`] - Multiply two numbers
-* xref:div.adoc[`div`] - Divide (real result)
-* xref:idiv.adoc[`idiv`] - Integer division
-* xref:mod.adoc[`mod`] - Modulo (remainder)
+* xref:../add.adoc[`add`] - Add two numbers
+* xref:../sub.adoc[`sub`] - Subtract two numbers
+* xref:../mul.adoc[`mul`] - Multiply two numbers
+* xref:../div.adoc[`div`] - Divide (real result)
+* xref:../idiv.adoc[`idiv`] - Integer division
+* xref:../mod.adoc[`mod`] - Modulo (remainder)
 
 ==== Unary Operations
 
 Operations on a single number:
 
-* xref:abs.adoc[`abs`] - Absolute value
-* xref:neg.adoc[`neg`] - Negate
-* xref:ceiling.adoc[`ceiling`] - Round up to integer
-* xref:floor.adoc[`floor`] - Round down to integer
-* xref:round.adoc[`round`] - Round to nearest integer
-* xref:truncate.adoc[`truncate`] - Truncate to integer
+* xref:../abs.adoc[`abs`] - Absolute value
+* xref:../neg.adoc[`neg`] - Negate
+* xref:../ceiling.adoc[`ceiling`] - Round up to integer
+* xref:../floor.adoc[`floor`] - Round down to integer
+* xref:../round.adoc[`round`] - Round to nearest integer
+* xref:../truncate.adoc[`truncate`] - Truncate to integer
 
 ==== Exponential and Logarithmic
 
 Power and logarithm functions:
 
-* xref:sqrt.adoc[`sqrt`] - Square root
-* xref:exp.adoc[`exp`] - Exponential (base^exponent)
-* xref:ln.adoc[`ln`] - Natural logarithm (base e)
-* xref:log.adoc[`log`] - Common logarithm (base 10)
+* xref:../sqrt.adoc[`sqrt`] - Square root
+* xref:../exp.adoc[`exp`] - Exponential (base^exponent)
+* xref:../ln.adoc[`ln`] - Natural logarithm (base e)
+* xref:../log.adoc[`log`] - Common logarithm (base 10)
 
 ==== Trigonometric
 
 Trigonometric functions (angles in degrees):
 
-* xref:sin.adoc[`sin`] - Sine
-* xref:cos.adoc[`cos`] - Cosine
-* xref:atan.adoc[`atan`] - Arctangent
+* xref:../sin.adoc[`sin`] - Sine
+* xref:../cos.adoc[`cos`] - Cosine
+* xref:../atan.adoc[`atan`] - Arctangent
 
 ==== Bitwise Operations
 
 Operations on integer bit patterns:
 
-* xref:bitshift.adoc[`bitshift`] - Bitwise shift left or right
+* xref:../bitshift.adoc[`bitshift`] - Bitwise shift left or right
 
 ==== Random Numbers
 
 Pseudo-random number generation:
 
-* xref:rand.adoc[`rand`] - Generate random integer
-* xref:srand.adoc[`srand`] - Seed random generator
-* xref:rrand.adoc[`rrand`] - Get/set random seed
+* xref:../rand.adoc[`rand`] - Generate random integer
+* xref:../srand.adoc[`srand`] - Seed random generator
+* xref:../rrand.adoc[`rrand`] - Get/set random seed
 
 === Type Coercion Rules
 

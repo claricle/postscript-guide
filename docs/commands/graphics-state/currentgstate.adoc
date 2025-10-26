@@ -291,8 +291,8 @@ link:currentgstate.adoc[`currentgstate`] captures:
 
 === See Also
 
-* xref:gstate.adoc[`gstate`] - Create new graphics state object
-* xref:setgstate.adoc[`setgstate`] - Replace graphics state from gstate
-* xref:gsave.adoc[`gsave`] - Save state on graphics state stack
-* xref:grestore.adoc[`grestore`] - Restore state from stack
-* xref:grestoreall.adoc[`grestoreall`] - Restore all saved states
+* xref:../gstate.adoc[`gstate`] - Create new graphics state object
+* xref:../setgstate.adoc[`setgstate`] - Replace graphics state from gstate
+* xref:../gsave.adoc[`gsave`] - Save state on graphics state stack
+* xref:../grestore.adoc[`grestore`] - Restore state from stack
+* xref:../grestoreall.adoc[`grestoreall`] - Restore all saved states

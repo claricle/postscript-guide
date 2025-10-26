@@ -11,7 +11,7 @@ Pushes a mark object onto the operand stack to serve as a delimiter or reference
 
 == Description
 
-The `mark` operator pushes a special mark object onto the operand stack. This object has its own unique type (`marktype`) and serves as a stack delimiter that can be detected by operators like xref:counttomark.adoc[`counttomark`] and xref:cleartomark.adoc[`cleartomark`].
+The `mark` operator pushes a special mark object onto the operand stack. This object has its own unique type (`marktype`) and serves as a stack delimiter that can be detected by operators like xref:../counttomark.adoc[`counttomark`] and xref:../cleartomark.adoc[`cleartomark`].
 
 Marks are commonly used to delimit variable-length argument lists, allowing operators to process all stack elements down to the mark. The most familiar use is in array construction, where `[` is a synonym for `mark` and `]` creates an array from all elements up to the mark.
 
@@ -253,7 +253,7 @@ count 0 gt {
 } if
 ----
 
-TIP: Always ensure marks are properly matched with either xref:cleartomark.adoc[`cleartomark`], `]`, or explicit removal. Unmatched marks can interfere with later operations.
+TIP: Always ensure marks are properly matched with either xref:../cleartomark.adoc[`cleartomark`], `]`, or explicit removal. Unmatched marks can interfere with later operations.
 
 === Multiple Marks
 
@@ -269,11 +269,11 @@ cleartomark         % Stack: (empty)
 
 == Related Commands
 
-* xref:cleartomark.adoc[`cleartomark`] - Remove elements up to and including mark
-* xref:counttomark.adoc[`counttomark`] - Count elements to nearest mark
+* xref:../cleartomark.adoc[`cleartomark`] - Remove elements up to and including mark
+* xref:../counttomark.adoc[`counttomark`] - Count elements to nearest mark
 * `[` - Synonym for mark (used with `]`)
 * `]` - Create array from elements after mark
-* xref:pop.adoc[`pop`] - Remove single element (including marks)
+* xref:../pop.adoc[`pop`] - Remove single element (including marks)
 
 == PostScript Level
 
@@ -295,11 +295,11 @@ The operand stack is full and cannot accommodate the mark object.
 
 Pushing a mark is a very fast O(1) operation, identical in cost to pushing any other object.
 
-However, operations that search for marks (like xref:counttomark.adoc[`counttomark`]) must scan the stack, which is O(n) where n is the distance to the mark.
+However, operations that search for marks (like xref:../counttomark.adoc[`counttomark`]) must scan the stack, which is O(n) where n is the distance to the mark.
 
 == Best Practices
 
-1. **Use with paired operations**: Always pair `mark` with xref:cleartomark.adoc[`cleartomark`] or `]`
+1. **Use with paired operations**: Always pair `mark` with xref:../cleartomark.adoc[`cleartomark`] or `]`
 2. **Prefer [ ] for arrays**: Use `[` and `]` for array construction (more readable)
 3. **Use mark for variable args**: Use `mark` when implementing variable-argument procedures
 4. **Document mark usage**: Make it clear when procedures expect marks on the stack
@@ -346,9 +346,3 @@ cleartomark
 * xref:../../usage/basic/stack-operations.adoc[Stack Operations Guide] - Stack manipulation tutorial
 * xref:../../usage/basic/arrays.adoc[Arrays] - Using marks for array construction
 * xref:index.adoc[Stack Manipulation] - All stack operators
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification (page 539)
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

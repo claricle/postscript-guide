@@ -107,8 +107,8 @@ WARNING: Right shift only works correctly for positive integers.
 
 == Related Commands
 
-* xref:mul.adoc[`mul`] - Multiplication
-* xref:idiv.adoc[`idiv`] - Integer division
+* xref:../mul.adoc[`mul`] - Multiplication
+* xref:../idiv.adoc[`idiv`] - Integer division
 
 == PostScript Level
 
@@ -131,8 +131,3 @@ One or both operands are not integers.
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

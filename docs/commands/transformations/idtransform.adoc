@@ -51,7 +51,7 @@ If the `matrix` operand is supplied, link:idtransform.adoc[`idtransform`] transf
 
 A delta transformation is similar to a normal transformation, but the translation components (tx and ty) of the transformation matrix are not used, making the distance vectors position-independent in both user space and device space.
 
-link:idtransform.adoc[`idtransform`] is the inverse of xref:dtransform.adoc[`dtransform`]. It is useful for determining how distances map from device space to user space.
+link:idtransform.adoc[`idtransform`] is the inverse of xref:../dtransform.adoc[`dtransform`]. It is useful for determining how distances map from device space to user space.
 
 === PostScript Level
 
@@ -222,7 +222,7 @@ TIP: *Round-Trip Testing* - Verify inverse relationship:
 
 === Implementation Notes
 
-* More expensive than xref:dtransform.adoc[`dtransform`] (requires inverse computation)
+* More expensive than xref:../dtransform.adoc[`dtransform`] (requires inverse computation)
 * Translation components are explicitly ignored
 * The inverse uses only [a b c d] components
 * Precision depends on matrix condition number
@@ -258,7 +258,7 @@ dy = (2×60 - 0×20) / 6 = 120/6 = 20
 |===
 | Operation | Direction | Translation
 
-| xref:dtransform.adoc[`dtransform`]
+| xref:../dtransform.adoc[`dtransform`]
 | User → Device
 | Ignored
 
@@ -266,11 +266,11 @@ dy = (2×60 - 0×20) / 6 = 120/6 = 20
 | Device → User
 | Ignored
 
-| xref:transform.adoc[`transform`]
+| xref:../transform.adoc[`transform`]
 | User → Device
 | Included
 
-| xref:itransform.adoc[`itransform`]
+| xref:../itransform.adoc[`itransform`]
 | Device → User
 | Included
 |===
@@ -313,7 +313,7 @@ Many graphics parameters are affected by transformations:
 === Performance Considerations
 
 * Requires matrix inversion computation
-* More expensive than xref:dtransform.adoc[`dtransform`]
+* More expensive than xref:../dtransform.adoc[`dtransform`]
 * Still very fast for occasional use
 * Consider caching inverse matrix for repeated use:
 
@@ -336,9 +336,9 @@ matrix currentmatrix matrix invertmatrix
 
 === See Also
 
-* xref:dtransform.adoc[`dtransform`] - Transform distance vector (forward)
-* xref:transform.adoc[`transform`] - Transform coordinates (includes translation)
-* xref:itransform.adoc[`itransform`] - Inverse coordinate transformation
-* xref:invertmatrix.adoc[`invertmatrix`] - Invert transformation matrix
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../dtransform.adoc[`dtransform`] - Transform distance vector (forward)
+* xref:../transform.adoc[`transform`] - Transform coordinates (includes translation)
+* xref:../itransform.adoc[`itransform`] - Inverse coordinate transformation
+* xref:../invertmatrix.adoc[`invertmatrix`] - Invert transformation matrix
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current CTM
 * xref:../graphics-state/setlinewidth.adoc[`setlinewidth`] - Set line width

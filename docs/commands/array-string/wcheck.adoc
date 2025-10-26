@@ -121,7 +121,7 @@ dict wcheck {
 
 === Common Pitfalls
 
-WARNING: *Packed Arrays Always Read-Only* - Packed arrays created with xref:packedarray.adoc[`packedarray`] always return `false` for link:wcheck.adoc[`wcheck`].
+WARNING: *Packed Arrays Always Read-Only* - Packed arrays created with xref:../packedarray.adoc[`packedarray`] always return `false` for link:wcheck.adoc[`wcheck`].
 
 [source,postscript]
 ----
@@ -136,9 +136,9 @@ WARNING: *Readonly is Permanent* - Once an object is made readonly, it cannot be
 % No way to restore unlimited access
 ----
 
-WARNING: *Confusing wcheck with xcheck* - link:wcheck.adoc[`wcheck`] tests write access, xref:xcheck.adoc[`xcheck`] tests executable attribute.
+WARNING: *Confusing wcheck with xcheck* - link:wcheck.adoc[`wcheck`] tests write access, xref:../xcheck.adoc[`xcheck`] tests executable attribute.
 
-TIP: *Check Before Modifying* - Use link:wcheck.adoc[`wcheck`] before operations like xref:put.adoc[`put`] or xref:putinterval.adoc[`putinterval`] on untrusted objects.
+TIP: *Check Before Modifying* - Use link:wcheck.adoc[`wcheck`] before operations like xref:../put.adoc[`put`] or xref:../putinterval.adoc[`putinterval`] on untrusted objects.
 
 === Error Conditions
 
@@ -199,8 +199,8 @@ object wcheck {
 
 === See Also
 
-* xref:rcheck.adoc[`rcheck`] - Test if readable
-* xref:xcheck.adoc[`xcheck`] - Test if executable
+* xref:../rcheck.adoc[`rcheck`] - Test if readable
+* xref:../xcheck.adoc[`xcheck`] - Test if executable
 * Access operators: `readonly`, `executeonly`, `noaccess`
-* xref:put.adoc[`put`] - Modify array/string/dict
-* xref:type.adoc[`type`] - Get object type
+* xref:../put.adoc[`put`] - Modify array/string/dict
+* xref:../type.adoc[`type`] - Get object type

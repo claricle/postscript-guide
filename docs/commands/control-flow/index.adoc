@@ -26,10 +26,10 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| xref:if.adoc[`if`]
+| xref:../if.adoc[`if`]
 | Execute procedure if condition is true
 
-| xref:ifelse.adoc[`ifelse`]
+| xref:../ifelse.adoc[`ifelse`]
 | Execute one of two procedures based on condition
 |===
 
@@ -39,13 +39,13 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| xref:for.adoc[`for`]
+| xref:../for.adoc[`for`]
 | Loop with numeric control variable
 
-| xref:repeat.adoc[`repeat`]
+| xref:../repeat.adoc[`repeat`]
 | Execute procedure a fixed number of times
 
-| xref:loop.adoc[`loop`]
+| xref:../loop.adoc[`loop`]
 | Execute procedure indefinitely until exit
 
 | xref:../array-string/forall.adoc[`forall`]
@@ -58,16 +58,16 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| xref:exit.adoc[`exit`]
+| xref:../exit.adoc[`exit`]
 | Terminate innermost loop early
 
-| xref:stop.adoc[`stop`]
+| xref:../stop.adoc[`stop`]
 | Terminate stopped context
 
-| xref:stopped.adoc[`stopped`]
+| xref:../stopped.adoc[`stopped`]
 | Execute object with error catching
 
-| xref:quit.adoc[`quit`]
+| xref:../quit.adoc[`quit`]
 | Terminate interpreter
 |===
 
@@ -77,7 +77,7 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| xref:exec.adoc[`exec`]
+| xref:../exec.adoc[`exec`]
 | Execute an object
 
 | xref:../array-string/cvx.adoc[`cvx`]

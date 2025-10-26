@@ -38,7 +38,7 @@ userpath ufill → -
 
 === Description
 
-link:ufill.adoc[`ufill`] interprets a user path definition and fills the resulting path as if by xref:fill.adoc[`fill`]. The entire operation is effectively enclosed by xref:../graphics-state/gsave.adoc[`gsave`] and xref:../graphics-state/grestore.adoc[`grestore`], so link:ufill.adoc[`ufill`] has no lasting effect on the graphics state.
+link:ufill.adoc[`ufill`] interprets a user path definition and fills the resulting path as if by xref:../fill.adoc[`fill`]. The entire operation is effectively enclosed by xref:../graphics-state/gsave.adoc[`gsave`] and xref:../graphics-state/grestore.adoc[`grestore`], so link:ufill.adoc[`ufill`] has no lasting effect on the graphics state.
 
 link:ufill.adoc[`ufill`] is equivalent to:
 
@@ -378,9 +378,9 @@ myPath ustroke
 
 === See Also
 
-* xref:fill.adoc[`fill`] - Traditional fill operator
-* xref:ueofill.adoc[`ueofill`] - Even-odd fill user path
-* xref:ustroke.adoc[`ustroke`] - Stroke user path
+* xref:../fill.adoc[`fill`] - Traditional fill operator
+* xref:../ueofill.adoc[`ueofill`] - Even-odd fill user path
+* xref:../ustroke.adoc[`ustroke`] - Stroke user path
 * `setbbox` - Set bounding box
 * `ucache` - Enable user path caching
 * `uappend` - Append user path to current path

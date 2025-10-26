@@ -191,8 +191,8 @@ TIP: *Choose Appropriate Size* - Estimate needed size to avoid expensive expansi
 
 === See Also
 
-* xref:begin.adoc[`begin`] - Push dict onto dict stack
-* xref:end.adoc[`end`] - Pop dict from dict stack
-* xref:def.adoc[`def`] - Define entry in current dict
-* xref:maxlength.adoc[`maxlength`] - Get maximum capacity
+* xref:../begin.adoc[`begin`] - Push dict onto dict stack
+* xref:../end.adoc[`end`] - Pop dict from dict stack
+* xref:../def.adoc[`def`] - Define entry in current dict
+* xref:../maxlength.adoc[`maxlength`] - Get maximum capacity
 * xref:../array-string/length.adoc[`length`] - Get current entry count

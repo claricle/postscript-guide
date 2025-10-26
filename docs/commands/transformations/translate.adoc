@@ -253,10 +253,10 @@ This is because each transformation modifies the CTM by left-multiplication.
 
 === See Also
 
-* xref:scale.adoc[`scale`] - Change unit size
-* xref:rotate.adoc[`rotate`] - Rotate coordinate axes
-* xref:concat.adoc[`concat`] - Concatenate arbitrary matrix
-* xref:setmatrix.adoc[`setmatrix`] - Replace CTM directly
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../scale.adoc[`scale`] - Change unit size
+* xref:../rotate.adoc[`rotate`] - Rotate coordinate axes
+* xref:../concat.adoc[`concat`] - Concatenate arbitrary matrix
+* xref:../setmatrix.adoc[`setmatrix`] - Replace CTM directly
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current CTM
 * xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
 * xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

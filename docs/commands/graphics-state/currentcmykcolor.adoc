@@ -286,7 +286,7 @@ No components     = White (paper)
 
 === See Also
 
-* xref:setcmykcolor.adoc[`setcmykcolor`] - Set CMYK color (Level 2)
-* xref:currentrgbcolor.adoc[`currentrgbcolor`] - Get RGB color
-* xref:currentgray.adoc[`currentgray`] - Get gray value
-* xref:currenthsbcolor.adoc[`currenthsbcolor`] - Get HSB color
+* xref:../setcmykcolor.adoc[`setcmykcolor`] - Set CMYK color (Level 2)
+* xref:../currentrgbcolor.adoc[`currentrgbcolor`] - Get RGB color
+* xref:../currentgray.adoc[`currentgray`] - Get gray value
+* xref:../currenthsbcolor.adoc[`currenthsbcolor`] - Get HSB color

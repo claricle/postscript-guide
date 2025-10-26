@@ -140,7 +140,7 @@ TIP: *Array Literals vs. array Operator* - For known, fixed-size arrays, use the
 
 * Most PostScript implementations support arrays up to at least 65,535 elements
 * Array allocation is typically faster for small arrays
-* Consider using xref:packedarray.adoc[`packedarray`] for read-only data (Level 2)
+* Consider using xref:../packedarray.adoc[`packedarray`] for read-only data (Level 2)
 
 === Performance Considerations
 
@@ -152,8 +152,8 @@ TIP: *Array Literals vs. array Operator* - For known, fixed-size arrays, use the
 
 * xref:left-bracket.adoc[`[`] - Begin array construction
 * xref:right-bracket.adoc[`]`] - End array construction
-* xref:astore.adoc[`astore`] - Store stack elements into array
-* xref:packedarray.adoc[`packedarray`] - Create read-only packed array (Level 2)
-* xref:length.adoc[`length`] - Get array length
-* xref:get.adoc[`get`] - Get array element
-* xref:put.adoc[`put`] - Put value into array
+* xref:../astore.adoc[`astore`] - Store stack elements into array
+* xref:../packedarray.adoc[`packedarray`] - Create read-only packed array (Level 2)
+* xref:../length.adoc[`length`] - Get array length
+* xref:../get.adoc[`get`] - Get array element
+* xref:../put.adoc[`put`] - Put value into array

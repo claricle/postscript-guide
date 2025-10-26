@@ -11,7 +11,7 @@ Divides the first number by the second and returns a real number result.
 
 == Description
 
-The `div` operator pops two numbers from the operand stack, divides num1 by num2, and pushes the result back onto the stack. The result is *always a real number*, even if both operands are integers. For integer division with truncation, use xref:idiv.adoc[`idiv`] instead.
+The `div` operator pops two numbers from the operand stack, divides num1 by num2, and pushes the result back onto the stack. The result is *always a real number*, even if both operands are integers. For integer division with truncation, use xref:../idiv.adoc[`idiv`] instead.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -255,11 +255,11 @@ Both operands must be numeric (integer or real). The divisor (num2) must not be 
 
 == Related Commands
 
-* xref:idiv.adoc[`idiv`] - Integer division (truncated result)
-* xref:mod.adoc[`mod`] - Modulo (remainder of division)
-* xref:add.adoc[`add`] - Add two numbers
-* xref:sub.adoc[`sub`] - Subtract two numbers
-* xref:mul.adoc[`mul`] - Multiply two numbers
+* xref:../idiv.adoc[`idiv`] - Integer division (truncated result)
+* xref:../mod.adoc[`mod`] - Modulo (remainder of division)
+* xref:../add.adoc[`add`] - Add two numbers
+* xref:../sub.adoc[`sub`] - Subtract two numbers
+* xref:../mul.adoc[`mul`] - Multiply two numbers
 
 == PostScript Level
 
@@ -337,9 +337,3 @@ totalItems 3 mod            % How many items left over?
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
 * xref:../../levels/index.adoc[PostScript Language Levels]
-* https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

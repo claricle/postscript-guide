@@ -128,7 +128,7 @@ WARNING: *Not Always Identity* - The default matrix is rarely the identity matri
 [72 0 0 -72 0 792]  % Letter page at 72dpi
 ----
 
-TIP: *Use initmatrix Instead* - For resetting CTM, use xref:initmatrix.adoc[`initmatrix`]:
+TIP: *Use initmatrix Instead* - For resetting CTM, use xref:../initmatrix.adoc[`initmatrix`]:
 
 [source,postscript]
 ----
@@ -230,7 +230,7 @@ matrix defaultmatrix setmatrix
 
 === See Also
 
-* xref:initmatrix.adoc[`initmatrix`] - Reset CTM to default
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current transformation
-* xref:setmatrix.adoc[`setmatrix`] - Set transformation matrix
-* xref:matrix.adoc[`matrix`] - Create identity matrix
+* xref:../initmatrix.adoc[`initmatrix`] - Reset CTM to default
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current transformation
+* xref:../setmatrix.adoc[`setmatrix`] - Set transformation matrix
+* xref:../matrix.adoc[`matrix`] - Create identity matrix

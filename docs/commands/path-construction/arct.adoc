@@ -234,18 +234,18 @@ TIP: *Perfect for UI Corners* - link:arct.adoc[`arct`] is ideal for creating rou
 * Non-uniform scaling produces elliptical results
 * Internally converted to Bézier curves
 * The connecting line from current point is automatic
-* Tangent points are calculated but not returned (use xref:arcto.adoc[`arcto`] for that)
+* Tangent points are calculated but not returned (use xref:../arcto.adoc[`arcto`] for that)
 
 === Performance Considerations
 
-* Slightly more complex than xref:arc.adoc[`arc`] due to tangent calculations
+* Slightly more complex than xref:../arc.adoc[`arc`] due to tangent calculations
 * Very efficient for creating rounded corners
 * Single operation replaces manual tangent point calculation
 
 === See Also
 
-* xref:arcto.adoc[`arcto`] - Like arct but returns tangent points
-* xref:arc.adoc[`arc`] - Counterclockwise circular arc
-* xref:arcn.adoc[`arcn`] - Clockwise circular arc
-* xref:curveto.adoc[`curveto`] - Bézier cubic curve
-* xref:lineto.adoc[`lineto`] - Straight line segment
+* xref:../arcto.adoc[`arcto`] - Like arct but returns tangent points
+* xref:../arc.adoc[`arc`] - Counterclockwise circular arc
+* xref:../arcn.adoc[`arcn`] - Clockwise circular arc
+* xref:../curveto.adoc[`curveto`] - Bézier cubic curve
+* xref:../lineto.adoc[`lineto`] - Straight line segment

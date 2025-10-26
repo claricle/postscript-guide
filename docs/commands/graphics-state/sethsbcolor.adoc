@@ -311,7 +311,7 @@ Green-+-Red
 
 === See Also
 
-* xref:setrgbcolor.adoc[`setrgbcolor`] - Set RGB color
-* xref:setgray.adoc[`setgray`] - Set grayscale
-* xref:setcmykcolor.adoc[`setcmykcolor`] - Set CMYK color (Level 2)
-* xref:currenthsbcolor.adoc[`currenthsbcolor`] - Get HSB color
+* xref:../setrgbcolor.adoc[`setrgbcolor`] - Set RGB color
+* xref:../setgray.adoc[`setgray`] - Set grayscale
+* xref:../setcmykcolor.adoc[`setcmykcolor`] - Set CMYK color (Level 2)
+* xref:../currenthsbcolor.adoc[`currenthsbcolor`] - Get HSB color

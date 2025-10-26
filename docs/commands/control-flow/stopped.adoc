@@ -56,7 +56,7 @@ any stopped → bool
 link:stopped.adoc[`stopped`] executes _any_ (typically a procedure).
 
 * If _any_ runs to completion normally: returns `false`
-* If _any_ terminates via xref:stop.adoc[`stop`]: returns `true`
+* If _any_ terminates via xref:../stop.adoc[`stop`]: returns `true`
 
 Regardless of outcome, execution resumes at the next object after link:stopped.adoc[`stopped`].
 
@@ -232,7 +232,7 @@ The default error handler uses link:stopped.adoc[`stopped`]:
 
 === See Also
 
-* xref:stop.adoc[`stop`] - Terminate stopped context
-* xref:exit.adoc[`exit`] - Exit loop
-* xref:exec.adoc[`exec`] - Execute object
+* xref:../stop.adoc[`stop`] - Terminate stopped context
+* xref:../exit.adoc[`exit`] - Exit loop
+* xref:../exec.adoc[`exec`] - Execute object
 * Error Handling (to be documented)

@@ -867,10 +867,10 @@ rects rectstroke
 
 === See Also
 
-* xref:stroke.adoc[`stroke`] - Stroke arbitrary path
-* xref:rectfill.adoc[`rectfill`] - Fill rectangles (Level 2)
-* xref:rectclip.adoc[`rectclip`] - Clip to rectangles (Level 2)
-* xref:ustroke.adoc[`ustroke`] - Stroke user path (Level 2)
+* xref:../stroke.adoc[`stroke`] - Stroke arbitrary path
+* xref:../rectfill.adoc[`rectfill`] - Fill rectangles (Level 2)
+* xref:../rectclip.adoc[`rectclip`] - Clip to rectangles (Level 2)
+* xref:../ustroke.adoc[`ustroke`] - Stroke user path (Level 2)
 * xref:../graphics-state/setlinewidth.adoc[`setlinewidth`] - Set line width
 * xref:../graphics-state/setlinecap.adoc[`setlinecap`] - Set line cap
 * xref:../graphics-state/setlinejoin.adoc[`setlinejoin`] - Set line join

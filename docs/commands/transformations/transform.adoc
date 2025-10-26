@@ -154,7 +154,7 @@ userY 0 ge userY 100 le and
 
 === Common Pitfalls
 
-WARNING: *Position-Dependent* - link:transform.adoc[`transform`] includes translation. Use xref:dtransform.adoc[`dtransform`] for distances.
+WARNING: *Position-Dependent* - link:transform.adoc[`transform`] includes translation. Use xref:../dtransform.adoc[`dtransform`] for distances.
 
 [source,postscript]
 ----
@@ -213,7 +213,7 @@ TIP: *Use for Debugging* - link:transform.adoc[`transform`] helps understand coo
 * Transformation is a simple matrix multiplication
 * Very fast operation
 * No rounding or approximation (exact computation)
-* The inverse operation is xref:itransform.adoc[`itransform`]
+* The inverse operation is xref:../itransform.adoc[`itransform`]
 
 === Transformation Formula
 
@@ -286,8 +286,8 @@ transform
 
 === See Also
 
-* xref:itransform.adoc[`itransform`] - Inverse coordinate transformation (device to user)
-* xref:dtransform.adoc[`dtransform`] - Distance vector transformation
-* xref:idtransform.adoc[`idtransform`] - Inverse distance transformation
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
-* xref:concat.adoc[`concat`] - Modify CTM
+* xref:../itransform.adoc[`itransform`] - Inverse coordinate transformation (device to user)
+* xref:../dtransform.adoc[`dtransform`] - Distance vector transformation
+* xref:../idtransform.adoc[`idtransform`] - Inverse distance transformation
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../concat.adoc[`concat`] - Modify CTM

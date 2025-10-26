@@ -42,7 +42,7 @@ link:newpath.adoc[`newpath`] initializes the current path to be empty, causing t
 
 This operator is typically used at the beginning of a path construction sequence to ensure that no leftover path segments from previous operations interfere with the new path being constructed.
 
-After link:newpath.adoc[`newpath`], the first path construction operation must be xref:moveto.adoc[`moveto`] (or xref:arc.adoc[`arc`], which can start without a current point) to establish a current point before using operations like xref:lineto.adoc[`lineto`] or xref:curveto.adoc[`curveto`].
+After link:newpath.adoc[`newpath`], the first path construction operation must be xref:../moveto.adoc[`moveto`] (or xref:../arc.adoc[`arc`], which can start without a current point) to establish a current point before using operations like xref:../lineto.adoc[`lineto`] or xref:../curveto.adoc[`curveto`].
 
 === PostScript Level
 
@@ -155,7 +155,7 @@ newpath
 
 === Common Pitfalls
 
-WARNING: *No Current Point After newpath* - After link:newpath.adoc[`newpath`], you must use xref:moveto.adoc[`moveto`] before xref:lineto.adoc[`lineto`], xref:curveto.adoc[`curveto`], etc.
+WARNING: *No Current Point After newpath* - After link:newpath.adoc[`newpath`], you must use xref:../moveto.adoc[`moveto`] before xref:../lineto.adoc[`lineto`], xref:../curveto.adoc[`curveto`], etc.
 
 [source,postscript]
 ----
@@ -268,6 +268,6 @@ newpath                  % Start fresh
 
 === See Also
 
-* xref:moveto.adoc[`moveto`] - Set current point
-* xref:closepath.adoc[`closepath`] - Close current subpath
-* xref:currentpoint.adoc[`currentpoint`] - Get current point
+* xref:../moveto.adoc[`moveto`] - Set current point
+* xref:../closepath.adoc[`closepath`] - Close current subpath
+* xref:../currentpoint.adoc[`currentpoint`] - Get current point

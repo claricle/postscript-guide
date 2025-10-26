@@ -173,7 +173,7 @@ dict key known {
 
 === See Also
 
-* xref:def.adoc[`def`] - Define key-value pair
-* xref:known.adoc[`known`] - Check if key exists
+* xref:../def.adoc[`def`] - Define key-value pair
+* xref:../known.adoc[`known`] - Check if key exists
 * xref:../array-string/put.adoc[`put`] - Add/modify dictionary entry
-* xref:where.adoc[`where`] - Find dictionary containing key
+* xref:../where.adoc[`where`] - Find dictionary containing key

@@ -196,11 +196,11 @@ TIP: *Dictionary Auto-Expands (Level 2)* - In Level 2, dictionaries automaticall
 * Array and string link:put.adoc[`put`] are very fast (direct indexing)
 * Dictionary link:put.adoc[`put`] slightly slower (hash table operation)
 * Repeated dictionary puts in Level 1 may trigger slow rehashing if dictionary grows full
-* For bulk updates, consider xref:putinterval.adoc[`putinterval`]
+* For bulk updates, consider xref:../putinterval.adoc[`putinterval`]
 
 === See Also
 
-* xref:get.adoc[`get`] - Get element from array/string/dictionary
-* xref:putinterval.adoc[`putinterval`] - Put subarray/substring
-* xref:astore.adoc[`astore`] - Store multiple elements into array
-* xref:length.adoc[`length`] - Get length of array/string
+* xref:../get.adoc[`get`] - Get element from array/string/dictionary
+* xref:../putinterval.adoc[`putinterval`] - Put subarray/substring
+* xref:../astore.adoc[`astore`] - Store multiple elements into array
+* xref:../length.adoc[`length`] - Get length of array/string

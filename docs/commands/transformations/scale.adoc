@@ -282,11 +282,11 @@ grestore
 
 === See Also
 
-* xref:translate.adoc[`translate`] - Move origin
-* xref:rotate.adoc[`rotate`] - Rotate axes
-* xref:concat.adoc[`concat`] - Concatenate arbitrary matrix
-* xref:setmatrix.adoc[`setmatrix`] - Replace CTM directly
-* xref:currentmatrix.adoc[`currentmatrix`] - Get current CTM
+* xref:../translate.adoc[`translate`] - Move origin
+* xref:../rotate.adoc[`rotate`] - Rotate axes
+* xref:../concat.adoc[`concat`] - Concatenate arbitrary matrix
+* xref:../setmatrix.adoc[`setmatrix`] - Replace CTM directly
+* xref:../currentmatrix.adoc[`currentmatrix`] - Get current CTM
 * xref:../graphics-state/setlinewidth.adoc[`setlinewidth`] - Set line width
 * xref:../graphics-state/gsave.adoc[`gsave`] - Save graphics state
 * xref:../graphics-state/grestore.adoc[`grestore`] - Restore graphics state

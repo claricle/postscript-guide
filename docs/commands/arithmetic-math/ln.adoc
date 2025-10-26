@@ -69,8 +69,8 @@ num ln real
 
 == Related Commands
 
-* xref:log.adoc[`log`] - Base-10 logarithm
-* xref:exp.adoc[`exp`] - Exponentiation (inverse operation)
+* xref:../log.adoc[`log`] - Base-10 logarithm
+* xref:../exp.adoc[`exp`] - Exponentiation (inverse operation)
 
 == PostScript Level
 
@@ -96,8 +96,3 @@ The operand is zero or negative.
 == See Also
 
 * xref:index.adoc[Arithmetic and Math] - All arithmetic operators
-
----
-
-[.text-small]
-_This page is part of the xref:../index.adoc[PostScript Language Reference Guide]._

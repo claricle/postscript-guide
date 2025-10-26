@@ -307,10 +307,10 @@ fill
 
 === See Also
 
-* xref:eofill.adoc[`eofill`] - Fill using even-odd rule
-* xref:stroke.adoc[`stroke`] - Paint path outline
-* xref:clip.adoc[`clip`] - Clip to path interior
-* xref:ufill.adoc[`ufill`] - Fill user path (Level 2)
+* xref:../eofill.adoc[`eofill`] - Fill using even-odd rule
+* xref:../stroke.adoc[`stroke`] - Paint path outline
+* xref:../clip.adoc[`clip`] - Clip to path interior
+* xref:../ufill.adoc[`ufill`] - Fill user path (Level 2)
 * xref:../path-construction/newpath.adoc[`newpath`] - Clear current path
 * xref:../path-construction/closepath.adoc[`closepath`] - Close current subpath
 * xref:../graphics-state/setgray.adoc[`setgray`] - Set gray color

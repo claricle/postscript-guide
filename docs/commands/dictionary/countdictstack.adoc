@@ -159,8 +159,8 @@ TIP: *Use for Defensive Programming* - Check dictionary stack balance in error h
 
 === See Also
 
-* xref:dictstack.adoc[`dictstack`] - Copy dict stack to array
-* xref:begin.adoc[`begin`] - Push dictionary
-* xref:end.adoc[`end`] - Pop dictionary
-* xref:currentdict.adoc[`currentdict`] - Get current dictionary
+* xref:../dictstack.adoc[`dictstack`] - Copy dict stack to array
+* xref:../begin.adoc[`begin`] - Push dictionary
+* xref:../end.adoc[`end`] - Pop dictionary
+* xref:../currentdict.adoc[`currentdict`] - Get current dictionary
 * xref:../stack-manipulation/count.adoc[`count`] - Count operand stack depth

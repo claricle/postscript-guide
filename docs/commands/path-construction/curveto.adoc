@@ -171,7 +171,7 @@ fill
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - link:curveto.adoc[`curveto`] needs a current point as the curve starting point. Use xref:moveto.adoc[`moveto`] first.
+WARNING: *Requires Current Point* - link:curveto.adoc[`curveto`] needs a current point as the curve starting point. Use xref:../moveto.adoc[`moveto`] first.
 
 [source,postscript]
 ----
@@ -183,7 +183,7 @@ WARNING: *Control Point Order Matters* - The first control point (x1, y1) affect
 
 WARNING: *Six Parameters Required* - link:curveto.adoc[`curveto`] requires all six parameters. Missing any causes [`stackunderflow`].
 
-TIP: *Use for Smooth Curves* - Bézier curves provide smooth, aesthetically pleasing curves. For circles and arcs, consider xref:arc.adoc[`arc`] for mathematical precision.
+TIP: *Use for Smooth Curves* - Bézier curves provide smooth, aesthetically pleasing curves. For circles and arcs, consider xref:../arc.adoc[`arc`] for mathematical precision.
 
 === Mathematical Background
 
@@ -225,15 +225,15 @@ Where t ranges from 0 to 1, and (x0, y0) is the current point.
 
 === Performance Considerations
 
-* More computationally expensive than xref:lineto.adoc[`lineto`]
+* More computationally expensive than xref:../lineto.adoc[`lineto`]
 * Many curves can impact path complexity limits
 * Flatness parameter affects rendering speed
 * Simpler curves (fewer inflection points) render faster
 
 === See Also
 
-* xref:rcurveto.adoc[`rcurveto`] - Relative curveto
-* xref:arc.adoc[`arc`] - Draw circular arc
-* xref:lineto.adoc[`lineto`] - Draw straight line
-* xref:moveto.adoc[`moveto`] - Set current point
-* xref:currentpoint.adoc[`currentpoint`] - Get current point
+* xref:../rcurveto.adoc[`rcurveto`] - Relative curveto
+* xref:../arc.adoc[`arc`] - Draw circular arc
+* xref:../lineto.adoc[`lineto`] - Draw straight line
+* xref:../moveto.adoc[`moveto`] - Set current point
+* xref:../currentpoint.adoc[`currentpoint`] - Get current point
