@@ -42,7 +42,7 @@ name length → int
 
 === Description
 
-[`length`](length.adoc) returns the length of its operand:
+link:length.adoc[`length`] returns the length of its operand:
 
 * For arrays and packed arrays: number of elements
 * For strings: number of characters (bytes)
@@ -119,7 +119,7 @@ text length string  % Allocate string of same length
 
 === Common Pitfalls
 
-WARNING: *Dictionary Length vs. Capacity* - [`length`](length.adoc) returns the current number of entries, not the maximum capacity.
+WARNING: *Dictionary Length vs. Capacity* - link:length.adoc[`length`] returns the current number of entries, not the maximum capacity.
 
 [source,postscript]
 ----
@@ -135,7 +135,7 @@ WARNING: *Name vs. String* - Name length counts characters in the name, not the 
 (abc) length          % Also returns 3
 ----
 
-TIP: *Use with forall* - For iterating over all elements, xref:forall.adoc[`forall`] is often more convenient than using [`length`](length.adoc) with a loop.
+TIP: *Use with forall* - For iterating over all elements, xref:forall.adoc[`forall`] is often more convenient than using link:length.adoc[`length`] with a loop.
 
 === Error Conditions
 
@@ -167,7 +167,7 @@ TIP: *Use with forall* - For iterating over all elements, xref:forall.adoc[`fora
 |===
 | Operator | Returns
 
-| [`length`](length.adoc)
+| link:length.adoc[`length`]
 | Current number of elements/entries
 
 | xref:../dictionary/maxlength.adoc[`maxlength`]

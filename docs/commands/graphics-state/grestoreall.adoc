@@ -38,7 +38,7 @@ Restores graphics state to bottommost saved level.
 
 === Description
 
-[`grestoreall`](grestoreall.adoc) performs the equivalent of executing [`grestore`](grestore.adoc) repeatedly until there are no saved graphics states remaining on the graphics state stack. After executing [`grestoreall`](grestoreall.adoc), the current graphics state is the bottommost one that was saved by the first [`gsave`](gsave.adoc) or by [`save`](../resource-management/save.adoc).
+link:grestoreall.adoc[`grestoreall`] performs the equivalent of executing link:grestore.adoc[`grestore`] repeatedly until there are no saved graphics states remaining on the graphics state stack. After executing link:grestoreall.adoc[`grestoreall`], the current graphics state is the bottommost one that was saved by the first link:gsave.adoc[`gsave`] or by link:../resource-management/save.adoc[`save`].
 
 This operator:
 
@@ -47,7 +47,7 @@ This operator:
 * Resets the current path to empty
 * Does not affect the operand or dictionary stacks
 
-[`grestoreall`](grestoreall.adoc) is particularly useful for error recovery and cleanup, ensuring a known graphics state regardless of how many [`gsave`](gsave.adoc) operations have been performed.
+link:grestoreall.adoc[`grestoreall`] is particularly useful for error recovery and cleanup, ensuring a known graphics state regardless of how many link:gsave.adoc[`gsave`] operations have been performed.
 
 === PostScript Level
 
@@ -177,7 +177,7 @@ grestoreall  % All undone at once
 
 === Common Pitfalls
 
-WARNING: *Clears ALL Saved States* - [`grestoreall`](grestoreall.adoc) removes all graphics states, not just one.
+WARNING: *Clears ALL Saved States* - link:grestoreall.adoc[`grestoreall`] removes all graphics states, not just one.
 
 [source,postscript]
 ----
@@ -199,7 +199,7 @@ grestoreall
 % Stack: 1 2 3 4 5 6 (not 1 2 3)
 ----
 
-WARNING: *Current Path Reset* - Like [`grestore`](grestore.adoc), the current path becomes empty.
+WARNING: *Current Path Reset* - Like link:grestore.adoc[`grestore`], the current path becomes empty.
 
 [source,postscript]
 ----
@@ -213,11 +213,11 @@ TIP: *Use for Error Handling* - Ideal for ensuring clean state after errors.
 
 === Error Conditions
 
-No errors under normal operation. [`grestoreall`](grestoreall.adoc) succeeds even if no graphics states were saved.
+No errors under normal operation. link:grestoreall.adoc[`grestoreall`] succeeds even if no graphics states were saved.
 
 === Implementation Notes
 
-* Equivalent to repeated [`grestore`](grestore.adoc) until no saved states remain
+* Equivalent to repeated link:grestore.adoc[`grestore`] until no saved states remain
 * Very fast operation
 * Safe to call even if no states are saved
 * Does not generate errors
@@ -244,7 +244,7 @@ Saved State 0          ← current (bottommost)
 
 === Interaction with save/restore
 
-[`grestoreall`](grestoreall.adoc) restores graphics state to the bottommost level **within the current save context**. It does not cross [`save`](../resource-management/save.adoc) boundaries:
+link:grestoreall.adoc[`grestoreall`] restores graphics state to the bottommost level **within the current save context**. It does not cross link:../resource-management/save.adoc[`save`] boundaries:
 
 [source,postscript]
 ----

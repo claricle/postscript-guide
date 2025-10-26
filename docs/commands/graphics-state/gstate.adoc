@@ -38,7 +38,7 @@ Creates a graphics state object.
 
 === Description
 
-[`gstate`](gstate.adoc) creates a new gstate (graphics state) object and pushes it on the operand stack. Its initial value is a copy of the current graphics state, including all graphics parameters such as:
+link:gstate.adoc[`gstate`] creates a new gstate (graphics state) object and pushes it on the operand stack. Its initial value is a copy of the current graphics state, including all graphics parameters such as:
 
 * Current transformation matrix (CTM)
 * Color space and color
@@ -50,7 +50,7 @@ Creates a graphics state object.
 
 This operator consumes VM; it is the only graphics state operator that does. The gstate is allocated in either local or global VM according to the current VM allocation mode.
 
-The gstate object can later be used with [`setgstate`](setgstate.adoc) to restore the graphics state to the captured values, or with [`currentgstate`](currentgstate.adoc) to update the saved state.
+The gstate object can later be used with link:setgstate.adoc[`setgstate`] to restore the graphics state to the captured values, or with link:currentgstate.adoc[`currentgstate`] to update the saved state.
 
 === PostScript Level
 
@@ -165,7 +165,7 @@ StateLibrary /NormalState get setgstate
 
 === Common Pitfalls
 
-WARNING: *VM Consumption* - [`gstate`](gstate.adoc) allocates memory; excessive use can exhaust VM.
+WARNING: *VM Consumption* - link:gstate.adoc[`gstate`] allocates memory; excessive use can exhaust VM.
 
 [source,postscript]
 ----
@@ -184,7 +184,7 @@ true setglobal
 gstate  % Error: invalidaccess
 ----
 
-WARNING: *Not a Substitute for gsave* - Use [`gsave`](gsave.adoc)/[`grestore`](grestore.adoc) for simple state save/restore.
+WARNING: *Not a Substitute for gsave* - Use link:gsave.adoc[`gsave`]/link:grestore.adoc[`grestore`] for simple state save/restore.
 
 [source,postscript]
 ----
@@ -199,7 +199,7 @@ drawShape
 grestore
 ----
 
-TIP: *Use for Templates* - [`gstate`](gstate.adoc) is ideal for creating reusable state configurations.
+TIP: *Use for Templates* - link:gstate.adoc[`gstate`] is ideal for creating reusable state configurations.
 
 === Error Conditions
 
@@ -222,8 +222,8 @@ TIP: *Use for Templates* - [`gstate`](gstate.adoc) is ideal for creating reusabl
 * Only graphics state operator that consumes VM
 * Allocated in local or global VM based on current allocation mode
 * Contains complete copy of graphics state
-* Can be used repeatedly with [`setgstate`](setgstate.adoc)
-* More expensive than [`gsave`](gsave.adoc) but more flexible
+* Can be used repeatedly with link:setgstate.adoc[`setgstate`]
+* More expensive than link:gsave.adoc[`gsave`] but more flexible
 * Best used for state templates, not simple save/restore
 
 === Graphics State Components

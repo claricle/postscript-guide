@@ -46,7 +46,7 @@ string1 index string2 putinterval → –
 
 === Description
 
-[`putinterval`](putinterval.adoc) replaces a subsequence of the first operand starting at _index_ with the entire contents of the third operand.
+link:putinterval.adoc[`putinterval`] replaces a subsequence of the first operand starting at _index_ with the entire contents of the third operand.
 
 The objects are copied from the source to the destination as if by a sequence of individual xref:get.adoc[`get`] and xref:put.adoc[`put`] operations. For arrays, if copied elements are composite objects, their values are shared between source and destination.
 
@@ -144,7 +144,7 @@ dest 0 get 0 99 put  % Modifies BOTH arrays!
 
 WARNING: *VM Restrictions* - If destination is in global VM and source contains local VM objects, [`invalidaccess`] error occurs.
 
-TIP: *Efficient Copying* - [`putinterval`](putinterval.adoc) is more efficient than multiple [`put`](put.adoc) operations for bulk copying.
+TIP: *Efficient Copying* - link:putinterval.adoc[`putinterval`] is more efficient than multiple link:put.adoc[`put`] operations for bulk copying.
 
 === Error Conditions
 
@@ -174,7 +174,7 @@ TIP: *Efficient Copying* - [`putinterval`](putinterval.adoc) is more efficient t
 
 === Performance Considerations
 
-* Much faster than individual [`put`](put.adoc) operations
+* Much faster than individual link:put.adoc[`put`] operations
 * Efficient for bulk array/string operations
 * No intermediate objects created
 * Memory bandwidth limited for large copies

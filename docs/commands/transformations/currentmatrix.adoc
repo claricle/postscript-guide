@@ -38,7 +38,7 @@ matrix currentmatrix → matrix
 
 === Description
 
-[`currentmatrix`](currentmatrix.adoc) replaces the value of `matrix` with the current transformation matrix (CTM) from the graphics state and pushes the modified matrix back on the operand stack.
+link:currentmatrix.adoc[`currentmatrix`] replaces the value of `matrix` with the current transformation matrix (CTM) from the graphics state and pushes the modified matrix back on the operand stack.
 
 The CTM defines the transformation from user space coordinates to device space coordinates. It is modified by transformation operators like xref:translate.adoc[`translate`], xref:scale.adoc[`scale`], xref:rotate.adoc[`rotate`], and xref:concat.adoc[`concat`].
 
@@ -126,7 +126,7 @@ concat     % Apply modified matrix
 
 === Common Pitfalls
 
-WARNING: *Modifies Input Array* - [`currentmatrix`](currentmatrix.adoc) modifies the array you provide.
+WARNING: *Modifies Input Array* - link:currentmatrix.adoc[`currentmatrix`] modifies the array you provide.
 
 [source,postscript]
 ----

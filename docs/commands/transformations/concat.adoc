@@ -38,7 +38,7 @@ matrix concat → -
 
 === Description
 
-[`concat`](concat.adoc) concatenates `matrix` with the current transformation matrix (CTM). Precisely, [`concat`](concat.adoc) replaces the CTM by matrix × CTM.
+link:concat.adoc[`concat`] concatenates `matrix` with the current transformation matrix (CTM). Precisely, link:concat.adoc[`concat`] replaces the CTM by matrix × CTM.
 
 The effect is to define a new user space whose coordinates are transformed into the former user space according to `matrix`. This allows arbitrary transformations including combinations of translation, scaling, rotation, and skewing.
 
@@ -184,7 +184,7 @@ WARNING: *Order of Operations* - Matrix multiplication is not commutative. Order
 [2 0 0 2 0 0] concat     % Then scale
 ----
 
-TIP: *Use Helper Operators* - For simple transformations, use xref:translate.adoc[`translate`], xref:scale.adoc[`scale`], and xref:rotate.adoc[`rotate`] instead of [`concat`](concat.adoc).
+TIP: *Use Helper Operators* - For simple transformations, use xref:translate.adoc[`translate`], xref:scale.adoc[`scale`], and xref:rotate.adoc[`rotate`] instead of link:concat.adoc[`concat`].
 
 [source,postscript]
 ----
@@ -225,7 +225,7 @@ myMatrix concat        % Apply it
 
 === Implementation Notes
 
-* The matrix operand is not modified by [`concat`](concat.adoc)
+* The matrix operand is not modified by link:concat.adoc[`concat`]
 * Very large or very small matrix values may cause precision loss
 * Degenerate matrices (determinant = 0) create non-invertible transformations
 * The operation is equivalent to: CTM' = matrix × CTM
@@ -244,7 +244,7 @@ And the current CTM:
 CTM = [a₀  b₀  c₀  d₀  tx₀  ty₀]
 ----
 
-[`concat`](concat.adoc) computes:
+link:concat.adoc[`concat`] computes:
 
 ----
 CTM' = M × CTM
@@ -293,10 +293,10 @@ A general transformation matrix can represent:
 
 === Performance Considerations
 
-* [`concat`](concat.adoc) is a lightweight operation
+* link:concat.adoc[`concat`] is a lightweight operation
 * No path recomputation is required
 * Matrix multiplication is optimized
-* Using [`concat`](concat.adoc) with precomputed matrices can be faster than multiple individual transformations
+* Using link:concat.adoc[`concat`] with precomputed matrices can be faster than multiple individual transformations
 
 === Relationship to Other Operators
 

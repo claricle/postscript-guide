@@ -67,11 +67,11 @@ numstring rectfill → -
 
 === Description
 
-[`rectfill`](rectfill.adoc) fills a path consisting of one or more rectangles the operands describe. In the first form, the operands are four numbers that describe a single rectangle. In the other two forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
+link:rectfill.adoc[`rectfill`] fills a path consisting of one or more rectangles the operands describe. In the first form, the operands are four numbers that describe a single rectangle. In the other two forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
 
-[`rectfill`](rectfill.adoc) neither reads nor alters the current path in the graphics state.
+link:rectfill.adoc[`rectfill`] neither reads nor alters the current path in the graphics state.
 
-In the first form, assuming width and height are positive, [`rectfill`](rectfill.adoc) is equivalent to:
+In the first form, assuming width and height are positive, link:rectfill.adoc[`rectfill`] is equivalent to:
 
 [source,postscript]
 ----
@@ -223,7 +223,7 @@ drawWindows
 
 === Common Pitfalls
 
-WARNING: *Current Path Unaffected* - [`rectfill`](rectfill.adoc) does not modify the current path.
+WARNING: *Current Path Unaffected* - link:rectfill.adoc[`rectfill`] does not modify the current path.
 
 [source,postscript]
 ----
@@ -255,7 +255,7 @@ WARNING: *Array Must Have Quadruples* - Array length must be a multiple of 4.
 [100 100 50 50] rectfill
 ----
 
-TIP: *More Efficient Than Manual Construction* - [`rectfill`](rectfill.adoc) is optimized and faster than constructing paths manually:
+TIP: *More Efficient Than Manual Construction* - link:rectfill.adoc[`rectfill`] is optimized and faster than constructing paths manually:
 
 [source,postscript]
 ----
@@ -292,7 +292,7 @@ grestore
 
 === Implementation Notes
 
-* [`rectfill`](rectfill.adoc) is optimized for efficiency
+* link:rectfill.adoc[`rectfill`] is optimized for efficiency
 * Multiple rectangles are filled as a single operation
 * The operation is enclosed in implicit gsave/grestore
 * Rectangles can overlap without issue
@@ -301,13 +301,13 @@ grestore
 
 === Graphics State Interaction
 
-[`rectfill`](rectfill.adoc) uses these graphics state parameters:
+link:rectfill.adoc[`rectfill`] uses these graphics state parameters:
 
 * Current color and color space
 * Current clipping path
 * Current transformation matrix (CTM)
 
-[`rectfill`](rectfill.adoc) does not affect:
+link:rectfill.adoc[`rectfill`] does not affect:
 
 * Current path - Completely isolated
 * Any graphics state parameters
@@ -392,7 +392,7 @@ rectangles rectfill
 
 === Performance Considerations
 
-* [`rectfill`](rectfill.adoc) is highly optimized for rectangular regions
+* link:rectfill.adoc[`rectfill`] is highly optimized for rectangular regions
 * Significantly faster than equivalent path construction and fill
 * Multiple rectangles in one operation are more efficient than separate operations
 * Encoded number strings provide maximum efficiency
@@ -421,7 +421,7 @@ grestore
 100 100 50 50 rectfill
 ----
 
-Benefits of [`rectfill`](rectfill.adoc):
+Benefits of link:rectfill.adoc[`rectfill`]:
 
 * More concise syntax
 * Faster execution

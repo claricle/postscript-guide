@@ -38,13 +38,13 @@ dict begin → –
 
 === Description
 
-[`begin`](begin.adoc) pushes _dict_ onto the dictionary stack, making it the current dictionary. This dictionary becomes the first one consulted during:
+link:begin.adoc[`begin`] pushes _dict_ onto the dictionary stack, making it the current dictionary. This dictionary becomes the first one consulted during:
 
 * Implicit name lookup by the interpreter
-* [`def`](def.adoc) - defines in current dictionary
-* [`load`](load.adoc) - searches dictionary stack
-* [`store`](store.adoc) - searches dictionary stack
-* [`where`](where.adoc) - searches dictionary stack
+* link:def.adoc[`def`] - defines in current dictionary
+* link:load.adoc[`load`] - searches dictionary stack
+* link:store.adoc[`store`] - searches dictionary stack
+* link:where.adoc[`where`] - searches dictionary stack
 
 === PostScript Level
 
@@ -131,7 +131,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Must Match with end* - Every [`begin`](begin.adoc) must have a corresponding [`end`](end.adoc). Unmatched begins cause [`dictstackoverflow`].
+WARNING: *Must Match with end* - Every link:begin.adoc[`begin`] must have a corresponding link:end.adoc[`end`]. Unmatched begins cause [`dictstackoverflow`].
 
 [source,postscript]
 ----

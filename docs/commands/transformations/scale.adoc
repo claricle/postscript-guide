@@ -51,11 +51,11 @@ sx sy matrix scale → matrix
 
 === Description
 
-With no matrix operand, [`scale`](scale.adoc) builds a temporary transformation matrix S and concatenates it with the current transformation matrix (CTM). Precisely, [`scale`](scale.adoc) replaces the CTM by S × CTM.
+With no matrix operand, link:scale.adoc[`scale`] builds a temporary transformation matrix S and concatenates it with the current transformation matrix (CTM). Precisely, link:scale.adoc[`scale`] replaces the CTM by S × CTM.
 
 The effect is to make the x and y units in the user coordinate system the size of `sx` and `sy` units in the former user coordinate system. The position of the user coordinate origin and the orientation of the axes are unchanged.
 
-If the `matrix` operand is supplied, [`scale`](scale.adoc) replaces the value of `matrix` by S and pushes the modified matrix back on the operand stack. In this case, [`scale`](scale.adoc) does not affect the CTM.
+If the `matrix` operand is supplied, link:scale.adoc[`scale`] replaces the value of `matrix` by S and pushes the modified matrix back on the operand stack. In this case, link:scale.adoc[`scale`] does not affect the CTM.
 
 The scaling matrix S has the form:
 
@@ -233,7 +233,7 @@ TIP: *Preserve Aspect Ratio* - For proportional scaling, use the same value for 
 
 === Matrix Mathematics
 
-The scaling matrix for [`scale`](scale.adoc) by (`sx`, `sy`) is:
+The scaling matrix for link:scale.adoc[`scale`] by (`sx`, `sy`) is:
 
 ----
 S = [sx  0   0   sy  0  0]

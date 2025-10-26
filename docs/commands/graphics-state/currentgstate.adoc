@@ -38,11 +38,11 @@ gstate currentgstate → gstate
 
 === Description
 
-[`currentgstate`](currentgstate.adoc) replaces the value of the gstate object by a copy of the current graphics state and pushes gstate back on the operand stack.
+link:currentgstate.adoc[`currentgstate`] replaces the value of the gstate object by a copy of the current graphics state and pushes gstate back on the operand stack.
 
-This is a **copying operation** that updates an existing gstate object rather than creating a new one. This is more efficient than creating a new gstate with [`gstate`](gstate.adoc) when you already have a gstate object to reuse.
+This is a **copying operation** that updates an existing gstate object rather than creating a new one. This is more efficient than creating a new gstate with link:gstate.adoc[`gstate`] when you already have a gstate object to reuse.
 
-The gstate object must have been previously created by [`gstate`](gstate.adoc). After the operation, the gstate contains a snapshot of:
+The gstate object must have been previously created by link:gstate.adoc[`gstate`]. After the operation, the gstate contains a snapshot of:
 
 * Current transformation matrix (CTM)
 * Color space and color values
@@ -195,7 +195,7 @@ beforeState setgstate  % Restore if needed
 
 === Common Pitfalls
 
-WARNING: *Global VM Restrictions* - If gstate is in global VM, [`currentgstate`](currentgstate.adoc) fails if current state contains local VM objects.
+WARNING: *Global VM Restrictions* - If gstate is in global VM, link:currentgstate.adoc[`currentgstate`] fails if current state contains local VM objects.
 
 [source,postscript]
 ----
@@ -207,7 +207,7 @@ false setglobal
 globalState currentgstate pop  % Error: invalidaccess
 ----
 
-WARNING: *Must Use Existing gstate* - [`currentgstate`](currentgstate.adoc) requires a pre-existing gstate object.
+WARNING: *Must Use Existing gstate* - link:currentgstate.adoc[`currentgstate`] requires a pre-existing gstate object.
 
 [source,postscript]
 ----
@@ -248,7 +248,7 @@ TIP: *Reuse gstate Objects* - More efficient than creating new ones repeatedly.
 === Implementation Notes
 
 * Updates existing gstate object (doesn't create new one)
-* More efficient than [`gstate`](gstate.adoc) when reusing objects
+* More efficient than link:gstate.adoc[`gstate`] when reusing objects
 * Returns same gstate object (for convenience)
 * Captures complete graphics state except current path
 * Fast operation suitable for frequent use
@@ -260,25 +260,25 @@ TIP: *Reuse gstate Objects* - More efficient than creating new ones repeatedly.
 |===
 | Operator | Purpose
 
-| [`gstate`](gstate.adoc)
+| link:gstate.adoc[`gstate`]
 | Creates new gstate object with current state (allocates VM)
 
-| [`currentgstate`](currentgstate.adoc)
+| link:currentgstate.adoc[`currentgstate`]
 | Updates existing gstate with current state (no allocation)
 
-| [`setgstate`](setgstate.adoc)
+| link:setgstate.adoc[`setgstate`]
 | Replaces current state from gstate object
 
-| [`gsave`](gsave.adoc)
+| link:gsave.adoc[`gsave`]
 | Saves current state on graphics state stack
 
-| [`grestore`](grestore.adoc)
+| link:grestore.adoc[`grestore`]
 | Restores state from graphics state stack
 |===
 
 === Graphics State Components
 
-[`currentgstate`](currentgstate.adoc) captures:
+link:currentgstate.adoc[`currentgstate`] captures:
 
 * ✓ Transformation matrix (CTM)
 * ✓ Color space and color

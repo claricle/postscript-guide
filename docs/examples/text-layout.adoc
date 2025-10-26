@@ -71,14 +71,14 @@ textwidth 20 string cvs show           % Convert number to string <6>
 
 showpage
 ----
-<1> Use [`findfont`](../commands/font-text/findfont.adoc), [`scalefont`](../commands/font-text/scalefont.adoc), [`setfont`](../commands/font-text/setfont.adoc) to prepare font
-<2> Use [`moveto`](../commands/path-construction/moveto.adoc) to position text cursor
-<3> Use [`show`](../commands/font-text/show.adoc) to display the text
+<1> Use link:../commands/font-text/findfont.adoc[`findfont`], link:../commands/font-text/scalefont.adoc[`scalefont`], link:../commands/font-text/setfont.adoc[`setfont`] to prepare font
+<2> Use link:../commands/path-construction/moveto.adoc[`moveto`] to position text cursor
+<3> Use link:../commands/font-text/show.adoc[`show`] to display the text
 <4> Use `dup` to duplicate string for width measurement
-<5> Use [`stringwidth`](../commands/font-text/stringwidth.adoc) to measure text dimensions
-<6> Use [`cvs`](../commands/array-string/cvs.adoc) to convert value to string
+<5> Use link:../commands/font-text/stringwidth.adoc[`stringwidth`] to measure text dimensions
+<6> Use link:../commands/array-string/cvs.adoc[`cvs`] to convert value to string
 <7> Define reusable procedure for right alignment
-<8> Use [`rmoveto`](../commands/path-construction/rmoveto.adoc) to move cursor relatively
+<8> Use link:../commands/path-construction/rmoveto.adoc[`rmoveto`] to move cursor relatively
 <9> Divide by 2 for centering calculation
 
 ==== Expected Output
@@ -243,10 +243,10 @@ showpage
 <3> Subtract line height to move down
 <4> Define procedure to advance to next line
 <5> Define procedure to display array of lines
-<6> Use [`forall`](../commands/array-string/forall.adoc) to iterate array
+<6> Use link:../commands/array-string/forall.adoc[`forall`] to iterate array
 <7> Justified text adjusts word spacing to fill line width
 <8> Check if character code is 32 (space character)
-<9> Use [`getinterval`](../commands/array-string/getinterval.adoc) to extract substring
+<9> Use link:../commands/array-string/getinterval.adoc[`getinterval`] to extract substring
 <10> Add extra space after each space character
 
 ==== Expected Output
@@ -617,7 +617,7 @@ showpage
 ----
 <1> Define procedure for text in box with word wrap
 <2> Position each line with offset
-<3> Use [`get`](../commands/array-string/get.adoc) to retrieve array element
+<3> Use link:../commands/array-string/get.adoc[`get`] to retrieve array element
 <4> Define procedure for circular text
 <5> Calculate rotation angle per character
 <6> Rotate coordinate system for each character
@@ -827,7 +827,7 @@ showpage
 <6> Move down 2 points for subscript
 <7> Display large decorative first letter
 <8> Use `currentpoint` to get position after drop cap
-<9> Use [`setrgbcolor`](../commands/graphics-state/setrgbcolor.adoc) for colored text
+<9> Use link:../commands/graphics-state/setrgbcolor.adoc[`setrgbcolor`] for colored text
 <10> Adjust spacing based on font size
 
 ==== Expected Output
@@ -1056,7 +1056,7 @@ grestore
 showpage
 ----
 <1> Define outlined (hollow) text procedure
-<2> Use [`charpath`](../commands/font-text/charpath.adoc) to convert text to path
+<2> Use link:../commands/font-text/charpath.adoc[`charpath`] to convert text to path
 <3> Fill first, then stroke for dual effect
 <4> Define shadow text with offset and gray level
 <5> Shadow offset: (dx, dy), shadow darkness
@@ -1067,7 +1067,7 @@ showpage
 <10> Scale Y-axis to compress text vertically
 <11> Embossed effect with highlight and shadow
 <12> Gradient fill requires clipping to text shape
-<13> Use [`clip`](../commands/painting/clip.adoc) to restrict drawing to text outline
+<13> Use link:../commands/painting/clip.adoc[`clip`] to restrict drawing to text outline
 
 ==== Expected Output
 

@@ -41,9 +41,9 @@ dx dy rlineto → -
 
 === Description
 
-[`rlineto`](rlineto.adoc) (relative lineto) appends a straight line segment to the current path in the same manner as xref:lineto.adoc[`lineto`]. However, the number pair is interpreted as a displacement relative to the current point (x, y) rather than as an absolute coordinate. That is, [`rlineto`](rlineto.adoc) constructs a line from (x, y) to (x + dx, y + dy) and makes (x + dx, y + dy) the new current point.
+link:rlineto.adoc[`rlineto`] (relative lineto) appends a straight line segment to the current path in the same manner as xref:lineto.adoc[`lineto`]. However, the number pair is interpreted as a displacement relative to the current point (x, y) rather than as an absolute coordinate. That is, link:rlineto.adoc[`rlineto`] constructs a line from (x, y) to (x + dx, y + dy) and makes (x + dx, y + dy) the new current point.
 
-If the current point is undefined because the current path is empty, [`rlineto`](rlineto.adoc) executes the [`nocurrentpoint`] error.
+If the current point is undefined because the current path is empty, link:rlineto.adoc[`rlineto`] executes the [`nocurrentpoint`] error.
 
 === PostScript Level
 
@@ -153,7 +153,7 @@ stroke
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - [`rlineto`](rlineto.adoc) requires an established current point. Use xref:moveto.adoc[`moveto`] first.
+WARNING: *Requires Current Point* - link:rlineto.adoc[`rlineto`] requires an established current point. Use xref:moveto.adoc[`moveto`] first.
 
 [source,postscript]
 ----
@@ -170,7 +170,7 @@ WARNING: *Displacements Not Absolute* - The arguments are relative displacements
 -25 0 rlineto           % Moves to (125, 100), not (-25, 100)
 ----
 
-TIP: *Ideal for Regular Patterns* - [`rlineto`](rlineto.adoc) excels at creating regular, repeating patterns where each segment relates to the previous one.
+TIP: *Ideal for Regular Patterns* - link:rlineto.adoc[`rlineto`] excels at creating regular, repeating patterns where each segment relates to the previous one.
 
 === Error Conditions
 
@@ -196,7 +196,7 @@ TIP: *Ideal for Regular Patterns* - [`rlineto`](rlineto.adoc) excels at creating
 * Displacements are in user space, transformed by CTM
 * More convenient than calculating absolute coordinates
 * Equivalent to: `currentpoint transform dx dy add transform lineto`
-* Successive [`rlineto`](rlineto.adoc) calls build polylines efficiently
+* Successive link:rlineto.adoc[`rlineto`] calls build polylines efficiently
 * Negative displacements move backward or downward
 
 === Performance Considerations

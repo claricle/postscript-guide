@@ -38,11 +38,11 @@ Initializes the current path to empty, making the current point undefined.
 
 === Description
 
-[`newpath`](newpath.adoc) initializes the current path to be empty, causing the current point to become undefined.
+link:newpath.adoc[`newpath`] initializes the current path to be empty, causing the current point to become undefined.
 
 This operator is typically used at the beginning of a path construction sequence to ensure that no leftover path segments from previous operations interfere with the new path being constructed.
 
-After [`newpath`](newpath.adoc), the first path construction operation must be xref:moveto.adoc[`moveto`] (or xref:arc.adoc[`arc`], which can start without a current point) to establish a current point before using operations like xref:lineto.adoc[`lineto`] or xref:curveto.adoc[`curveto`].
+After link:newpath.adoc[`newpath`], the first path construction operation must be xref:moveto.adoc[`moveto`] (or xref:arc.adoc[`arc`], which can start without a current point) to establish a current point before using operations like xref:lineto.adoc[`lineto`] or xref:curveto.adoc[`curveto`].
 
 === PostScript Level
 
@@ -155,7 +155,7 @@ newpath
 
 === Common Pitfalls
 
-WARNING: *No Current Point After newpath* - After [`newpath`](newpath.adoc), you must use xref:moveto.adoc[`moveto`] before xref:lineto.adoc[`lineto`], xref:curveto.adoc[`curveto`], etc.
+WARNING: *No Current Point After newpath* - After link:newpath.adoc[`newpath`], you must use xref:moveto.adoc[`moveto`] before xref:lineto.adoc[`lineto`], xref:curveto.adoc[`curveto`], etc.
 
 [source,postscript]
 ----
@@ -163,7 +163,7 @@ newpath
 200 200 lineto           % Error: nocurrentpoint
 ----
 
-WARNING: *Painting Operators Don't Clear Path* - Unlike painting operators in some graphics systems, PostScript's `stroke` and `fill` do not automatically clear the path. Use [`newpath`](newpath.adoc) explicitly.
+WARNING: *Painting Operators Don't Clear Path* - Unlike painting operators in some graphics systems, PostScript's `stroke` and `fill` do not automatically clear the path. Use link:newpath.adoc[`newpath`] explicitly.
 
 [source,postscript]
 ----
@@ -182,11 +182,11 @@ stroke
 newpath                  % Explicitly clear
 ----
 
-TIP: *Use at Start of Path Procedures* - Always begin path construction procedures with [`newpath`](newpath.adoc) to ensure a clean slate.
+TIP: *Use at Start of Path Procedures* - Always begin path construction procedures with link:newpath.adoc[`newpath`] to ensure a clean slate.
 
 === Error Conditions
 
-None. [`newpath`](newpath.adoc) cannot generate errors.
+None. link:newpath.adoc[`newpath`] cannot generate errors.
 
 === Implementation Notes
 
@@ -195,11 +195,11 @@ None. [`newpath`](newpath.adoc) cannot generate errors.
 * Does not affect the graphics state otherwise
 * Very lightweight operation
 * Does not consume or produce any stack values
-* Idempotent: calling [`newpath`](newpath.adoc) multiple times has same effect as calling once
+* Idempotent: calling link:newpath.adoc[`newpath`] multiple times has same effect as calling once
 
 === Interaction with Graphics State
 
-[`newpath`](newpath.adoc) only affects the current path. It does not change:
+link:newpath.adoc[`newpath`] only affects the current path. It does not change:
 
 * Current transformation matrix (CTM)
 * Current color

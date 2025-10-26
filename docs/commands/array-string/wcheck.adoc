@@ -41,7 +41,7 @@ string wcheck → bool
 
 === Description
 
-[`wcheck`](wcheck.adoc) tests whether the operand's access attribute permits its value to be written (modified) by PostScript operators.
+link:wcheck.adoc[`wcheck`] tests whether the operand's access attribute permits its value to be written (modified) by PostScript operators.
 
 Returns:
 * `true` if access is **unlimited**
@@ -121,7 +121,7 @@ dict wcheck {
 
 === Common Pitfalls
 
-WARNING: *Packed Arrays Always Read-Only* - Packed arrays created with xref:packedarray.adoc[`packedarray`] always return `false` for [`wcheck`](wcheck.adoc).
+WARNING: *Packed Arrays Always Read-Only* - Packed arrays created with xref:packedarray.adoc[`packedarray`] always return `false` for link:wcheck.adoc[`wcheck`].
 
 [source,postscript]
 ----
@@ -136,9 +136,9 @@ WARNING: *Readonly is Permanent* - Once an object is made readonly, it cannot be
 % No way to restore unlimited access
 ----
 
-WARNING: *Confusing wcheck with xcheck* - [`wcheck`](wcheck.adoc) tests write access, xref:xcheck.adoc[`xcheck`] tests executable attribute.
+WARNING: *Confusing wcheck with xcheck* - link:wcheck.adoc[`wcheck`] tests write access, xref:xcheck.adoc[`xcheck`] tests executable attribute.
 
-TIP: *Check Before Modifying* - Use [`wcheck`](wcheck.adoc) before operations like xref:put.adoc[`put`] or xref:putinterval.adoc[`putinterval`] on untrusted objects.
+TIP: *Check Before Modifying* - Use link:wcheck.adoc[`wcheck`] before operations like xref:put.adoc[`put`] or xref:putinterval.adoc[`putinterval`] on untrusted objects.
 
 === Error Conditions
 

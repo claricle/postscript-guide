@@ -29,11 +29,11 @@ setfont                 % Make it the current font <3>
 (Hello, World!) show    % Display the text <5>
 showpage                % Output the page <6>
 ----
-<1> Use [`findfont`](../commands/font-text/findfont.adoc) to locate the Courier font
-<2> Use [`scalefont`](../commands/font-text/scalefont.adoc) to set the size to 12 points
-<3> Use [`setfont`](../commands/font-text/setfont.adoc) to activate the font
-<4> Use [`moveto`](../commands/path-construction/moveto.adoc) to position the cursor (72 points = 1 inch)
-<5> Use [`show`](../commands/font-text/show.adoc) to render the text
+<1> Use link:../commands/font-text/findfont.adoc[`findfont`] to locate the Courier font
+<2> Use link:../commands/font-text/scalefont.adoc[`scalefont`] to set the size to 12 points
+<3> Use link:../commands/font-text/setfont.adoc[`setfont`] to activate the font
+<4> Use link:../commands/path-construction/moveto.adoc[`moveto`] to position the cursor (72 points = 1 inch)
+<5> Use link:../commands/font-text/show.adoc[`show`] to render the text
 <6> Use `showpage` to output the page to the device
 
 ==== Expected Output
@@ -176,9 +176,9 @@ Demonstrating different text styles, sizes, and alignments.
 showpage
 ----
 <1> Define a procedure to center text at the current position
-<2> Use [`stringwidth`](../commands/font-text/stringwidth.adoc) to measure text width
-<3> Use [`rmoveto`](../commands/path-construction/rmoveto.adoc) to move back half the width
-<4> Use [`show`](../commands/font-text/show.adoc) to display the centered text
+<2> Use link:../commands/font-text/stringwidth.adoc[`stringwidth`] to measure text width
+<3> Use link:../commands/path-construction/rmoveto.adoc[`rmoveto`] to move back half the width
+<4> Use link:../commands/font-text/show.adoc[`show`] to display the centered text
 <5> Apply centershow to title at horizontal center (4.25 inches = half of 8.5")
 <6> Left alignment is the default behavior of show
 <7> Right-align by moving left by the text width before showing
@@ -335,20 +335,20 @@ grestore
 
 showpage
 ----
-<1> Use [`gsave`](../commands/graphics-state/gsave.adoc) to save current graphics state
-<2> Use [`setlinewidth`](../commands/graphics-state/setlinewidth.adoc) to set line thickness
-<3> Use [`lineto`](../commands/path-construction/lineto.adoc) to draw line segments
-<4> Use [`closepath`](../commands/path-construction/closepath.adoc) to complete the shape
-<5> Use [`stroke`](../commands/painting/stroke.adoc) to draw the outlined path
-<6> Use [`grestore`](../commands/graphics-state/grestore.adoc) to restore previous state
-<7> Use [`setgray`](../commands/graphics-state/setgray.adoc) to set gray level (0=black, 1=white)
-<8> Use [`rlineto`](../commands/path-construction/rlineto.adoc) for relative line drawing
-<9> Use [`fill`](../commands/painting/fill.adoc) to fill the enclosed area
+<1> Use link:../commands/graphics-state/gsave.adoc[`gsave`] to save current graphics state
+<2> Use link:../commands/graphics-state/setlinewidth.adoc[`setlinewidth`] to set line thickness
+<3> Use link:../commands/path-construction/lineto.adoc[`lineto`] to draw line segments
+<4> Use link:../commands/path-construction/closepath.adoc[`closepath`] to complete the shape
+<5> Use link:../commands/painting/stroke.adoc[`stroke`] to draw the outlined path
+<6> Use link:../commands/graphics-state/grestore.adoc[`grestore`] to restore previous state
+<7> Use link:../commands/graphics-state/setgray.adoc[`setgray`] to set gray level (0=black, 1=white)
+<8> Use link:../commands/path-construction/rlineto.adoc[`rlineto`] for relative line drawing
+<9> Use link:../commands/painting/fill.adoc[`fill`] to fill the enclosed area
 <10> Set color back to black (0 gray) for text
 <11> Define reusable procedure for drawing bullets
-<12> Use [`arc`](../commands/path-construction/arc.adoc) to draw circular shape
+<12> Use link:../commands/path-construction/arc.adoc[`arc`] to draw circular shape
 <13> Call the bullet procedure to draw each bullet point
-<14> Use [`translate`](../commands/transformations/translate.adoc) to change coordinate origin
+<14> Use link:../commands/transformations/translate.adoc[`translate`] to change coordinate origin
 
 ==== Expected Output
 

@@ -45,9 +45,9 @@ dx dy matrix dtransform → dx' dy'
 
 === Description
 
-With no matrix operand, [`dtransform`](dtransform.adoc) (delta transform) transforms the distance vector (dx, dy) by the CTM to produce the corresponding distance vector (dx', dy') in device space.
+With no matrix operand, link:dtransform.adoc[`dtransform`] (delta transform) transforms the distance vector (dx, dy) by the CTM to produce the corresponding distance vector (dx', dy') in device space.
 
-If the `matrix` operand is supplied, [`dtransform`](dtransform.adoc) transforms the distance vector by `matrix` rather than by the CTM.
+If the `matrix` operand is supplied, link:dtransform.adoc[`dtransform`] transforms the distance vector by `matrix` rather than by the CTM.
 
 A delta transformation is similar to a normal transformation (xref:transform.adoc[`transform`]), but the translation components (tx and ty) of the transformation matrix are not used. This makes distance vectors position-independent in both user space and device space.
 
@@ -144,7 +144,7 @@ deviceWidth dup mul deviceHeight dup mul add sqrt
 
 === Common Pitfalls
 
-WARNING: *Position-Independent* - [`dtransform`](dtransform.adoc) ignores translation. Use xref:transform.adoc[`transform`] for points.
+WARNING: *Position-Independent* - link:dtransform.adoc[`dtransform`] ignores translation. Use xref:transform.adoc[`transform`] for points.
 
 [source,postscript]
 ----
@@ -248,7 +248,7 @@ dy' = 0×10 + 3×20 = 60
 | Absolute positions, points
 | `100 100 moveto`
 
-| [`dtransform`](dtransform.adoc)
+| link:dtransform.adoc[`dtransform`]
 | Distances, vectors, offsets
 | Line width, dash lengths
 

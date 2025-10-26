@@ -38,9 +38,9 @@ proc loop → –
 
 === Description
 
-[`loop`](loop.adoc) repeatedly executes _proc_ until _proc_ executes xref:exit.adoc[`exit`], at which point interpretation resumes after the loop.
+link:loop.adoc[`loop`] repeatedly executes _proc_ until _proc_ executes xref:exit.adoc[`exit`], at which point interpretation resumes after the loop.
 
-Control also leaves _proc_ if xref:stop.adoc[`stop`] is executed. If _proc_ never executes [`exit`](exit.adoc) or [`stop`](stop.adoc), an infinite loop results.
+Control also leaves _proc_ if xref:stop.adoc[`stop`] is executed. If _proc_ never executes link:exit.adoc[`exit`] or link:stop.adoc[`stop`], an infinite loop results.
 
 === PostScript Level
 

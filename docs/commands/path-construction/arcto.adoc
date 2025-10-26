@@ -59,7 +59,7 @@ x1 y1 x2 y2 r arcto → xt1 yt1 xt2 yt2
 
 === Description
 
-[`arcto`](arcto.adoc) produces the same effect as xref:arct.adoc[`arct`]. It also returns the two tangent point coordinates (xt1, yt1) and (xt2, yt2) in user space.
+link:arcto.adoc[`arcto`] produces the same effect as xref:arct.adoc[`arct`]. It also returns the two tangent point coordinates (xt1, yt1) and (xt2, yt2) in user space.
 
 The arc is defined by:
 1. A tangent line from the current point (x0, y0) to (x1, y1)
@@ -68,7 +68,7 @@ The arc is defined by:
 
 The arc is tangent to both lines, and the tangent points are returned on the stack.
 
-[`arcto`](arcto.adoc) is not allowed as an element of a user path, whereas xref:arct.adoc[`arct`] is allowed.
+link:arcto.adoc[`arcto`] is not allowed as an element of a user path, whereas xref:arct.adoc[`arct`] is allowed.
 
 === PostScript Level
 
@@ -224,9 +224,9 @@ newpath
 
 === Common Pitfalls
 
-WARNING: *Not for User Paths* - Unlike xref:arct.adoc[`arct`], [`arcto`](arcto.adoc) cannot be used in user paths.
+WARNING: *Not for User Paths* - Unlike xref:arct.adoc[`arct`], link:arcto.adoc[`arcto`] cannot be used in user paths.
 
-WARNING: *Stack Management* - [`arcto`](arcto.adoc) leaves four values on the stack. Remember to pop them if not needed.
+WARNING: *Stack Management* - link:arcto.adoc[`arcto`] leaves four values on the stack. Remember to pop them if not needed.
 
 [source,postscript]
 ----

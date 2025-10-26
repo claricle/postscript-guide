@@ -38,11 +38,11 @@ Paints the area enclosed by the current path with the current color.
 
 === Description
 
-[`fill`](fill.adoc) paints the area enclosed by the current path with the current color. Any previous contents of that area on the current page are obscured, so areas may be erased by filling with color set to white.
+link:fill.adoc[`fill`] paints the area enclosed by the current path with the current color. Any previous contents of that area on the current page are obscured, so areas may be erased by filling with color set to white.
 
-Before painting, [`fill`](fill.adoc) implicitly closes any open subpaths of the current path. The inside of the current path is determined by the normal non-zero winding number rule.
+Before painting, link:fill.adoc[`fill`] implicitly closes any open subpaths of the current path. The inside of the current path is determined by the normal non-zero winding number rule.
 
-[`fill`](fill.adoc) implicitly performs a xref:../path-construction/newpath.adoc[`newpath`] after it has finished filling the current path. To preserve the current path across a fill operation, use the sequence:
+link:fill.adoc[`fill`] implicitly performs a xref:../path-construction/newpath.adoc[`newpath`] after it has finished filling the current path. To preserve the current path across a fill operation, use the sequence:
 
 [source,postscript]
 ----
@@ -173,7 +173,7 @@ fill  % Both rectangles filled (non-zero winding rule)
 
 === Common Pitfalls
 
-WARNING: *Path Consumed After Fill* - [`fill`](fill.adoc) clears the current path after execution. Use xref:../graphics-state/gsave.adoc[`gsave`] and xref:../graphics-state/grestore.adoc[`grestore`] to preserve it.
+WARNING: *Path Consumed After Fill* - link:fill.adoc[`fill`] clears the current path after execution. Use xref:../graphics-state/gsave.adoc[`gsave`] and xref:../graphics-state/grestore.adoc[`grestore`] to preserve it.
 
 [source,postscript]
 ----
@@ -224,7 +224,7 @@ stroke
 
 === Implementation Notes
 
-* [`fill`](fill.adoc) uses the non-zero winding number rule to determine which areas are inside the path
+* link:fill.adoc[`fill`] uses the non-zero winding number rule to determine which areas are inside the path
 * Overlapping subpaths may create holes or fills depending on their direction
 * The current color and color space determine the fill color
 * Clipping is applied after the fill area is determined
@@ -232,14 +232,14 @@ stroke
 
 === Interaction with Graphics State
 
-[`fill`](fill.adoc) is affected by:
+link:fill.adoc[`fill`] is affected by:
 
 * Current color and color space
 * Current clipping path
 * Current transformation matrix (CTM)
 * Flatness parameter (for curved paths)
 
-[`fill`](fill.adoc) does not affect:
+link:fill.adoc[`fill`] does not affect:
 
 * Line width or line parameters
 * Current point (path is cleared)

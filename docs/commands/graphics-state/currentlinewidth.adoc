@@ -38,7 +38,7 @@ Returns current line width value.
 
 === Description
 
-[`currentlinewidth`](currentlinewidth.adoc) returns the current line width parameter from the graphics state. This is the value most recently set by [`setlinewidth`](setlinewidth.adoc).
+link:currentlinewidth.adoc[`currentlinewidth`] returns the current line width parameter from the graphics state. This is the value most recently set by link:setlinewidth.adoc[`setlinewidth`].
 
 The returned value is in **user space units**. The actual rendered width in device space depends on the current transformation matrix (CTM) at the time of stroking.
 
@@ -201,7 +201,7 @@ TIP: *Use for State Management* - Good for preserving/restoring line parameters.
 
 * Very fast query operation
 * No modification to graphics state
-* Returns exact value set by [`setlinewidth`](setlinewidth.adoc)
+* Returns exact value set by link:setlinewidth.adoc[`setlinewidth`]
 * Value is in user space coordinates
 * Default value is typically 1.0
 * Widely supported (Level 1)

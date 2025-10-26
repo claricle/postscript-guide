@@ -44,9 +44,9 @@ bool proc1 proc2 ifelse → –
 
 === Description
 
-[`ifelse`](ifelse.adoc) removes all three operands from the stack, then executes _proc1_ if _bool_ is `true`, or _proc2_ if _bool_ is `false`.
+link:ifelse.adoc[`ifelse`] removes all three operands from the stack, then executes _proc1_ if _bool_ is `true`, or _proc2_ if _bool_ is `false`.
 
-The [`ifelse`](ifelse.adoc) operator itself pushes no results, but the executed procedure may push results.
+The link:ifelse.adoc[`ifelse`] operator itself pushes no results, but the executed procedure may push results.
 
 === PostScript Level
 
@@ -173,7 +173,7 @@ TIP: *Use for Single Branch* - If you only need one branch, xref:if.adoc[`if`] i
 
 === Pattern: Multi-Way Branch
 
-For multiple conditions, nest [`ifelse`](ifelse.adoc) or use dictionary dispatch:
+For multiple conditions, nest link:ifelse.adoc[`ifelse`] or use dictionary dispatch:
 
 [source,postscript]
 ----

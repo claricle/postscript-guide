@@ -30,7 +30,7 @@ ax ay string
 
 === Description
 
-[`ashow`](ashow.adoc) paints the characters of `string` in a manner similar to [`show`](show.adoc). But while doing so, [`ashow`](ashow.adoc) adjusts the width of each character shown by adding `ax` to the character's x width and `ay` to its y width, thus modifying the spacing between characters.
+link:ashow.adoc[`ashow`] paints the characters of `string` in a manner similar to link:show.adoc[`show`]. But while doing so, link:ashow.adoc[`ashow`] adjusts the width of each character shown by adding `ax` to the character's x width and `ay` to its y width, thus modifying the spacing between characters.
 
 The numbers `ax` and `ay` are x and y displacements in the user coordinate system, not in the character coordinate system. This operator enables a string of text to be fitted to a specific width by adjusting all the spaces between characters by a uniform amount.
 
@@ -103,7 +103,7 @@ The numbers `ax` and `ay` are x and y displacements in the user coordinate syste
 : Current font is not valid
 
 **nocurrentpoint**
-: Current point is not defined before [`ashow`](ashow.adoc)
+: Current point is not defined before link:ashow.adoc[`ashow`]
 
 **stackunderflow**
 : Fewer than three operands on stack
@@ -182,10 +182,10 @@ grestore
 
 === Performance Notes
 
-- [`ashow`](ashow.adoc) is slightly slower than [`show`](show.adoc) due to spacing calculations
+- link:ashow.adoc[`ashow`] is slightly slower than link:show.adoc[`show`] due to spacing calculations
 - Character caching still applies
-- For uniform spacing of all text, set once and use [`show`](show.adoc)
-- For spacing only specific characters, use [`widthshow`](widthshow.adoc) instead
+- For uniform spacing of all text, set once and use link:show.adoc[`show`]
+- For spacing only specific characters, use link:widthshow.adoc[`widthshow`] instead
 
 === Advanced Usage
 
@@ -209,10 +209,10 @@ grestore
 
 === See Also
 
-- [`show`](show.adoc) - Basic text painting
-- [`widthshow`](widthshow.adoc) - Adjust specific character width
-- [`awidthshow`](awidthshow.adoc) - Combine [`ashow`](ashow.adoc) and [`widthshow`](widthshow.adoc)
-- [`kshow`](kshow.adoc) - Show with kerning procedure
-- [`cshow`](cshow.adoc) - Show with procedure per character
-- [`stringwidth`](stringwidth.adoc) - Calculate text width
+- link:show.adoc[`show`] - Basic text painting
+- link:widthshow.adoc[`widthshow`] - Adjust specific character width
+- link:awidthshow.adoc[`awidthshow`] - Combine link:ashow.adoc[`ashow`] and link:widthshow.adoc[`widthshow`]
+- link:kshow.adoc[`kshow`] - Show with kerning procedure
+- link:cshow.adoc[`cshow`] - Show with procedure per character
+- link:stringwidth.adoc[`stringwidth`] - Calculate text width
 - `moveto` - Set current point

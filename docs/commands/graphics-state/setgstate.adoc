@@ -38,7 +38,7 @@ gstate setgstate → –
 
 === Description
 
-[`setgstate`](setgstate.adoc) replaces the current graphics state by the value of the gstate object. This is a **copying operation**, so subsequent modifications to the value of gstate will not affect the current graphics state or vice versa.
+link:setgstate.adoc[`setgstate`] replaces the current graphics state by the value of the gstate object. This is a **copying operation**, so subsequent modifications to the value of gstate will not affect the current graphics state or vice versa.
 
 This is a **wholesale replacement** of all components of the graphics state. In particular:
 
@@ -211,7 +211,7 @@ items {
 
 === Common Pitfalls
 
-WARNING: *Clipping Path Replaced* - [`setgstate`](setgstate.adoc) replaces the clipping path, not intersects.
+WARNING: *Clipping Path Replaced* - link:setgstate.adoc[`setgstate`] replaces the clipping path, not intersects.
 
 [source,postscript]
 ----
@@ -237,7 +237,7 @@ temp setgstate
 % Path is still empty, not restored
 ----
 
-WARNING: *Not for Simple Save/Restore* - Use [`gsave`](gsave.adoc)/[`grestore`](grestore.adoc) for temporary changes.
+WARNING: *Not for Simple Save/Restore* - Use link:gsave.adoc[`gsave`]/link:grestore.adoc[`grestore`] for temporary changes.
 
 [source,postscript]
 ----
@@ -279,7 +279,7 @@ TIP: *Reusable Templates* - Create gstate objects once, reuse many times.
 
 === Graphics State Replacement
 
-[`setgstate`](setgstate.adoc) replaces:
+link:setgstate.adoc[`setgstate`] replaces:
 
 * ✓ Transformation matrix (CTM)
 * ✓ Color space and color

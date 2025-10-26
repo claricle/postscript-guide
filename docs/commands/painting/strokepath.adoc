@@ -38,11 +38,11 @@ Converts the stroke of the current path to an outline path.
 
 === Description
 
-[`strokepath`](strokepath.adoc) replaces the current path with one enclosing the shape that would result if the xref:stroke.adoc[`stroke`] operator were applied to the current path. The path resulting from [`strokepath`](strokepath.adoc) is suitable as the implicit operand to xref:fill.adoc[`fill`], xref:clip.adoc[`clip`], or `pathbbox`.
+link:strokepath.adoc[`strokepath`] replaces the current path with one enclosing the shape that would result if the xref:stroke.adoc[`stroke`] operator were applied to the current path. The path resulting from link:strokepath.adoc[`strokepath`] is suitable as the implicit operand to xref:fill.adoc[`fill`], xref:clip.adoc[`clip`], or `pathbbox`.
 
-In general, this path is not suitable for xref:stroke.adoc[`stroke`], as it may contain interior segments or disconnected subpaths produced by [`strokepath`](strokepath.adoc)'s stroke-to-outline conversion process.
+In general, this path is not suitable for xref:stroke.adoc[`stroke`], as it may contain interior segments or disconnected subpaths produced by link:strokepath.adoc[`strokepath`]'s stroke-to-outline conversion process.
 
-[`strokepath`](strokepath.adoc) uses the current line width, line cap, line join, miter limit, and dash pattern to determine the outline. Unlike xref:stroke.adoc[`stroke`], [`strokepath`](strokepath.adoc) does not consume the path—it modifies it in place.
+link:strokepath.adoc[`strokepath`] uses the current line width, line cap, line join, miter limit, and dash pattern to determine the outline. Unlike xref:stroke.adoc[`stroke`], link:strokepath.adoc[`strokepath`] does not consume the path—it modifies it in place.
 
 === PostScript Level
 
@@ -184,7 +184,7 @@ stroke  % May show interior segments
 fill    % Correct usage
 ----
 
-WARNING: *Path Not Consumed* - Unlike xref:stroke.adoc[`stroke`], [`strokepath`](strokepath.adoc) modifies the path in place.
+WARNING: *Path Not Consumed* - Unlike xref:stroke.adoc[`stroke`], link:strokepath.adoc[`strokepath`] modifies the path in place.
 
 [source,postscript]
 ----
@@ -215,7 +215,7 @@ newpath
 strokepath  % Outline includes all effects
 ----
 
-TIP: *Use for Path Inspection* - [`strokepath`](strokepath.adoc) makes the stroke boundary explicit:
+TIP: *Use for Path Inspection* - link:strokepath.adoc[`strokepath`] makes the stroke boundary explicit:
 
 [source,postscript]
 ----

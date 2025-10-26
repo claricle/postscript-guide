@@ -38,7 +38,7 @@ int dict → dict
 
 === Description
 
-[`dict`](dict.adoc) creates an empty dictionary with an initial capacity of _int_ elements and pushes it onto the operand stack.
+link:dict.adoc[`dict`] creates an empty dictionary with an initial capacity of _int_ elements and pushes it onto the operand stack.
 
 **Level 1**: The dictionary has a fixed maximum capacity of _int_ elements. Attempting to exceed this causes [`dictfull`] error.
 

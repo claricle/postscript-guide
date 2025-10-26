@@ -51,18 +51,18 @@ userpath matrix ustrokepath → -
 
 === Description
 
-[`ustrokepath`](ustrokepath.adoc) replaces the current path with one enclosing the shape that would result if the xref:ustroke.adoc[`ustroke`] operator were applied to the same operands. The path resulting from [`ustrokepath`](ustrokepath.adoc) is suitable as the implicit operand to a subsequent xref:fill.adoc[`fill`], xref:clip.adoc[`clip`], or `pathbbox`.
+link:ustrokepath.adoc[`ustrokepath`] replaces the current path with one enclosing the shape that would result if the xref:ustroke.adoc[`ustroke`] operator were applied to the same operands. The path resulting from link:ustrokepath.adoc[`ustrokepath`] is suitable as the implicit operand to a subsequent xref:fill.adoc[`fill`], xref:clip.adoc[`clip`], or `pathbbox`.
 
-In general, this path is not suitable for xref:stroke.adoc[`stroke`], as it may contain interior segments or disconnected subpaths produced by [`ustrokepath`](ustrokepath.adoc)'s stroke-to-outline conversion process.
+In general, this path is not suitable for xref:stroke.adoc[`stroke`], as it may contain interior segments or disconnected subpaths produced by link:ustrokepath.adoc[`ustrokepath`]'s stroke-to-outline conversion process.
 
-In the first form, [`ustrokepath`](ustrokepath.adoc) is equivalent to:
+In the first form, link:ustrokepath.adoc[`ustrokepath`] is equivalent to:
 
 [source,postscript]
 ----
 newpath uappend strokepath
 ----
 
-In the second form, [`ustrokepath`](ustrokepath.adoc) is equivalent to:
+In the second form, link:ustrokepath.adoc[`ustrokepath`] is equivalent to:
 
 [source,postscript]
 ----
@@ -263,7 +263,7 @@ WARNING: *Matrix Affects Stroke, Not Path Coordinates* - The optional matrix onl
 ustrokepath      % Only affects line width calculation
 ----
 
-TIP: *Use for Path Analysis* - [`ustrokepath`](ustrokepath.adoc) makes stroke boundaries explicit for analysis:
+TIP: *Use for Path Analysis* - link:ustrokepath.adoc[`ustrokepath`] makes stroke boundaries explicit for analysis:
 
 [source,postscript]
 ----
@@ -312,7 +312,7 @@ pathbbox  % Returns bbox of stroke outline
 
 === Graphics State Parameters
 
-[`ustrokepath`](ustrokepath.adoc) uses these parameters to create the outline:
+link:ustrokepath.adoc[`ustrokepath`] uses these parameters to create the outline:
 
 * Line width - from xref:../graphics-state/setlinewidth.adoc[`setlinewidth`]
 * Line cap - from xref:../graphics-state/setlinecap.adoc[`setlinecap`]

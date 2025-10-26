@@ -38,7 +38,7 @@ Returns current line cap style.
 
 === Description
 
-[`currentlinecap`](currentlinecap.adoc) returns the current line cap parameter from the graphics state. This is the value most recently set by [`setlinecap`](setlinecap.adoc).
+link:currentlinecap.adoc[`currentlinecap`] returns the current line cap parameter from the graphics state. This is the value most recently set by link:setlinecap.adoc[`setlinecap`].
 
 **Cap styles:**
 

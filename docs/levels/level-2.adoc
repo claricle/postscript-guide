@@ -17,7 +17,7 @@ PostScript Level 2 added significant capabilities while maintaining backward com
 
 === Color Support
 
-* **RGB Color**: [`setrgbcolor`](../commands/graphics-state/setrgbcolor.adoc), `currentrgbcolor`
+* **RGB Color**: link:../commands/graphics-state/setrgbcolor.adoc[`setrgbcolor`], `currentrgbcolor`
 * **CMYK Color**: `setcmykcolor`, `currentcmykcolor`
 * **HSB Color**: `sethsbcolor`, `currenthsbcolor`
 * **Color Spaces**: `setcolorspace`, `setcolor`

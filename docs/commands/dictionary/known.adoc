@@ -41,7 +41,7 @@ dict key known → bool
 
 === Description
 
-[`known`](known.adoc) returns `true` if there is an entry in dictionary _dict_ whose key is _key_. Otherwise, it returns `false`.
+link:known.adoc[`known`] returns `true` if there is an entry in dictionary _dict_ whose key is _key_. Otherwise, it returns `false`.
 
 The dictionary does not need to be on the dictionary stack - it can be any dictionary object.
 
@@ -124,7 +124,7 @@ systemdict /setpagedevice known {
 
 === Common Pitfalls
 
-WARNING: *Checks Specific Dictionary Only* - [`known`](known.adoc) does NOT search the dictionary stack, only the specified dictionary.
+WARNING: *Checks Specific Dictionary Only* - link:known.adoc[`known`] does NOT search the dictionary stack, only the specified dictionary.
 
 [source,postscript]
 ----
@@ -134,9 +134,9 @@ WARNING: *Checks Specific Dictionary Only* - [`known`](known.adoc) does NOT sear
 currentdict /x known  % Returns true
 ----
 
-WARNING: *Different from where* - [`known`](known.adoc) checks one dictionary; xref:where.adoc[`where`] searches the entire dictionary stack.
+WARNING: *Different from where* - link:known.adoc[`known`] checks one dictionary; xref:where.adoc[`where`] searches the entire dictionary stack.
 
-TIP: *Use for Validation* - Check before [`get`](../array-string/get.adoc) to avoid [`undefined`] errors.
+TIP: *Use for Validation* - Check before link:../array-string/get.adoc[`get`] to avoid [`undefined`] errors.
 
 === Error Conditions
 

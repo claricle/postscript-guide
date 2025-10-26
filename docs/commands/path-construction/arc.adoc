@@ -50,13 +50,13 @@ x y r ang1 ang2 arc → -
 
 === Description
 
-[`arc`](arc.adoc) appends a counterclockwise arc of a circle to the current path. The arc has (x, y) as center, r as radius, ang1 as the angle from (x, y) to the first endpoint, and ang2 as the angle from (x, y) to the second endpoint.
+link:arc.adoc[`arc`] appends a counterclockwise arc of a circle to the current path. The arc has (x, y) as center, r as radius, ang1 as the angle from (x, y) to the first endpoint, and ang2 as the angle from (x, y) to the second endpoint.
 
 Angles are measured in degrees counterclockwise from the positive x-axis of the current user coordinate system.
 
-If there is a current point, [`arc`](arc.adoc) includes a straight line segment from the current point to the first endpoint of the arc, then adds the arc into the current path. If the current path is empty, [`arc`](arc.adoc) does not produce the initial straight line segment. In any event, the second endpoint of the arc becomes the new current point.
+If there is a current point, link:arc.adoc[`arc`] includes a straight line segment from the current point to the first endpoint of the arc, then adds the arc into the current path. If the current path is empty, link:arc.adoc[`arc`] does not produce the initial straight line segment. In any event, the second endpoint of the arc becomes the new current point.
 
-The curve produced is circular in user space. If user space is scaled non-uniformly (differently in x and y), [`arc`](arc.adoc) will produce elliptical curves in device space.
+The curve produced is circular in user space. If user space is scaled non-uniformly (differently in x and y), link:arc.adoc[`arc`] will produce elliptical curves in device space.
 
 === PostScript Level
 
@@ -190,7 +190,7 @@ WARNING: *Angle Units* - Angles are in **degrees**, not radians. A full circle i
 200 200 50 0 360 arc    % Correct: full circle
 ----
 
-WARNING: *Counterclockwise Direction* - [`arc`](arc.adoc) always draws counterclockwise. For clockwise arcs, use xref:arcn.adoc[`arcn`].
+WARNING: *Counterclockwise Direction* - link:arc.adoc[`arc`] always draws counterclockwise. For clockwise arcs, use xref:arcn.adoc[`arcn`].
 
 [source,postscript]
 ----
@@ -207,7 +207,7 @@ WARNING: *Non-uniform Scaling* - If the CTM has non-uniform scaling, arcs become
 100 100 50 0 360 arc    % Produces an ellipse, not a circle
 ----
 
-TIP: *Connecting Line* - If a current point exists, [`arc`](arc.adoc) adds a connecting line to the arc's start. Use xref:moveto.adoc[`moveto`] to the start point to avoid this.
+TIP: *Connecting Line* - If a current point exists, link:arc.adoc[`arc`] adds a connecting line to the arc's start. Use xref:moveto.adoc[`moveto`] to the start point to avoid this.
 
 === Implementation Notes
 

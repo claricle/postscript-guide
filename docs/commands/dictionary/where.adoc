@@ -51,7 +51,7 @@ key where → dict true (if found)
 
 === Description
 
-[`where`](where.adoc) searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
+link:where.adoc[`where`] searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
 
 * If found: returns the dictionary object and `true`
 * If not found: returns `false`
@@ -142,7 +142,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Returns Dictionary, Not Value* - [`where`](where.adoc) returns the dictionary itself, not the value.
+WARNING: *Returns Dictionary, Not Value* - link:where.adoc[`where`] returns the dictionary itself, not the value.
 
 [source,postscript]
 ----
@@ -198,7 +198,7 @@ TIP: *Idiom for Getting Value* - Common pattern to get value:
 
 [cols="2,3,3"]
 |===
-| Aspect | [`known`](known.adoc) | [`where`](where.adoc)
+| Aspect | link:known.adoc[`known`] | link:where.adoc[`where`]
 
 | Search scope
 | Specific dictionary

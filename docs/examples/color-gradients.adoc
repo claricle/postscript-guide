@@ -192,10 +192,10 @@ Understanding RGB, CMYK, HSB, and grayscale color models.
 showpage
 ----
 <1> Loop to create grayscale spectrum
-<2> Use [`setgray`](../commands/graphics-state/setgray.adoc) for grayscale (0=black, 1=white)
-<3> Use [`setrgbcolor`](../commands/graphics-state/setrgbcolor.adoc) for red, green, blue (0.0-1.0 each)
-<4> Use [`setcmykcolor`](../commands/graphics-state/setcmykcolor.adoc) for cyan, magenta, yellow, black
-<5> Use [`sethsbcolor`](../commands/graphics-state/sethsbcolor.adoc) for hue (0-1 = 0-360°), saturation, brightness
+<2> Use link:../commands/graphics-state/setgray.adoc[`setgray`] for grayscale (0=black, 1=white)
+<3> Use link:../commands/graphics-state/setrgbcolor.adoc[`setrgbcolor`] for red, green, blue (0.0-1.0 each)
+<4> Use link:../commands/graphics-state/setcmykcolor.adoc[`setcmykcolor`] for cyan, magenta, yellow, black
+<5> Use link:../commands/graphics-state/sethsbcolor.adoc[`sethsbcolor`] for hue (0-1 = 0-360°), saturation, brightness
 
 ==== Expected Output
 
@@ -617,8 +617,8 @@ showpage
 <17> ShadingType 6 = Coons patch mesh (Level 3)
 <18> Define patch corner coordinates
 <19> Define colors at each corner
-<20> Use [`clip`](../commands/painting/clip.adoc) to restrict gradient to shape
-<21> Use [`charpath`](../commands/font-text/charpath.adoc) to convert text to path
+<20> Use link:../commands/painting/clip.adoc[`clip`] to restrict gradient to shape
+<21> Use link:../commands/font-text/charpath.adoc[`charpath`] to convert text to path
 
 ==== Expected Output
 

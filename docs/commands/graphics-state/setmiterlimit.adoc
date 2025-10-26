@@ -38,7 +38,7 @@ num setmiterlimit → –
 
 === Description
 
-[`setmiterlimit`](setmiterlimit.adoc) sets the miter limit parameter in the graphics state to _num_. This parameter controls when sharp miter joins are converted to bevel joins during stroking operations.
+link:setmiterlimit.adoc[`setmiterlimit`] sets the miter limit parameter in the graphics state to _num_. This parameter controls when sharp miter joins are converted to bevel joins during stroking operations.
 
 The miter limit is the **maximum ratio** of miter length to line width. When the ratio exceeds this limit (at very sharp angles), a bevel join is used instead of a miter join.
 

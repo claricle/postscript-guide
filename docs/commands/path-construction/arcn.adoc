@@ -50,11 +50,11 @@ x y r ang1 ang2 arcn → -
 
 === Description
 
-[`arcn`](arcn.adoc) (arc negative) behaves like xref:arc.adoc[`arc`], but builds its arc segment in a clockwise direction in user space instead of counterclockwise.
+link:arcn.adoc[`arcn`] (arc negative) behaves like xref:arc.adoc[`arc`], but builds its arc segment in a clockwise direction in user space instead of counterclockwise.
 
 The arc has (x, y) as center, r as radius, ang1 as the angle from (x, y) to the first endpoint, and ang2 as the angle from (x, y) to the second endpoint. Angles are measured in degrees counterclockwise from the positive x-axis.
 
-If there is a current point, [`arcn`](arcn.adoc) includes a straight line segment from the current point to the first endpoint of the arc. The second endpoint of the arc becomes the new current point.
+If there is a current point, link:arcn.adoc[`arcn`] includes a straight line segment from the current point to the first endpoint of the arc. The second endpoint of the arc becomes the new current point.
 
 === PostScript Level
 
@@ -167,7 +167,7 @@ fill
 
 === Common Pitfalls
 
-WARNING: *Clockwise Means Negative Direction* - Even though you specify ang1 to ang2, [`arcn`](arcn.adoc) draws clockwise (decreasing angles).
+WARNING: *Clockwise Means Negative Direction* - Even though you specify ang1 to ang2, link:arcn.adoc[`arcn`] draws clockwise (decreasing angles).
 
 [source,postscript]
 ----
@@ -184,7 +184,7 @@ WARNING: *Angle Order Still Matters* - ang1 is the start angle, ang2 is the end 
 200 200 50 90 0 arcn     % Goes 90° clockwise (90→45→0)
 ----
 
-TIP: *Use for Interior Paths* - [`arcn`](arcn.adoc) is essential for creating holes in shapes when combined with xref:arc.adoc[`arc`], as opposite directions create non-overlapping regions.
+TIP: *Use for Interior Paths* - link:arcn.adoc[`arcn`] is essential for creating holes in shapes when combined with xref:arc.adoc[`arc`], as opposite directions create non-overlapping regions.
 
 === Error Conditions
 

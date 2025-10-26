@@ -45,13 +45,13 @@ dx' dy' matrix idtransform → dx dy
 
 === Description
 
-With no matrix operand, [`idtransform`](idtransform.adoc) (inverse delta transform) transforms the device space distance vector (dx', dy') by the inverse of the CTM to produce the corresponding distance vector (dx, dy) in user space.
+With no matrix operand, link:idtransform.adoc[`idtransform`] (inverse delta transform) transforms the device space distance vector (dx', dy') by the inverse of the CTM to produce the corresponding distance vector (dx, dy) in user space.
 
-If the `matrix` operand is supplied, [`idtransform`](idtransform.adoc) transforms the distance vector by the inverse of `matrix` rather than by the inverse of CTM.
+If the `matrix` operand is supplied, link:idtransform.adoc[`idtransform`] transforms the distance vector by the inverse of `matrix` rather than by the inverse of CTM.
 
 A delta transformation is similar to a normal transformation, but the translation components (tx and ty) of the transformation matrix are not used, making the distance vectors position-independent in both user space and device space.
 
-[`idtransform`](idtransform.adoc) is the inverse of xref:dtransform.adoc[`dtransform`]. It is useful for determining how distances map from device space to user space.
+link:idtransform.adoc[`idtransform`] is the inverse of xref:dtransform.adoc[`dtransform`]. It is useful for determining how distances map from device space to user space.
 
 === PostScript Level
 
@@ -139,7 +139,7 @@ minDeviceWidth lt {
 
 === Common Pitfalls
 
-WARNING: *For Distances Only* - [`idtransform`](idtransform.adoc) is for distance vectors, not positions.
+WARNING: *For Distances Only* - link:idtransform.adoc[`idtransform`] is for distance vectors, not positions.
 
 [source,postscript]
 ----
@@ -154,7 +154,7 @@ WARNING: *For Distances Only* - [`idtransform`](idtransform.adoc) is for distanc
 200 400 idtransform  % → 100 200 (correct distance)
 ----
 
-WARNING: *Singular Matrices* - If CTM or matrix is singular, [`idtransform`](idtransform.adoc) fails.
+WARNING: *Singular Matrices* - If CTM or matrix is singular, link:idtransform.adoc[`idtransform`] fails.
 
 [source,postscript]
 ----
@@ -262,7 +262,7 @@ dy = (2×60 - 0×20) / 6 = 120/6 = 20
 | User → Device
 | Ignored
 
-| [`idtransform`](idtransform.adoc)
+| link:idtransform.adoc[`idtransform`]
 | Device → User
 | Ignored
 

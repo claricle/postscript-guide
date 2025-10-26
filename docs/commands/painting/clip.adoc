@@ -38,13 +38,13 @@ Intersects the current clipping path with the current path using the non-zero wi
 
 === Description
 
-[`clip`](clip.adoc) intersects the inside of the current clipping path with the inside of the current path to produce a new, smaller current clipping path. The inside of the current path is determined by the normal PostScript non-zero winding number rule, while the inside of the current clipping path is determined by whatever rule was used at the time that path was created.
+link:clip.adoc[`clip`] intersects the inside of the current clipping path with the inside of the current path to produce a new, smaller current clipping path. The inside of the current path is determined by the normal PostScript non-zero winding number rule, while the inside of the current clipping path is determined by whatever rule was used at the time that path was created.
 
-In general, [`clip`](clip.adoc) produces a new path whose inside (according to the non-zero winding number rule) consists of all areas that are inside both of the original paths. The way this new path is constructed (the order of its segments, whether it self-intersects, etc.) is not specified.
+In general, link:clip.adoc[`clip`] produces a new path whose inside (according to the non-zero winding number rule) consists of all areas that are inside both of the original paths. The way this new path is constructed (the order of its segments, whether it self-intersects, etc.) is not specified.
 
-[`clip`](clip.adoc) treats an open subpath of the current path as though it were closed; it does not actually alter the path itself. It is permissible for the current path to be empty. The result of executing [`clip`](clip.adoc) is always a non-empty clipping path, though it may enclose zero area.
+link:clip.adoc[`clip`] treats an open subpath of the current path as though it were closed; it does not actually alter the path itself. It is permissible for the current path to be empty. The result of executing link:clip.adoc[`clip`] is always a non-empty clipping path, though it may enclose zero area.
 
-Unlike xref:fill.adoc[`fill`] and xref:stroke.adoc[`stroke`], [`clip`](clip.adoc) does not implicitly perform a xref:../path-construction/newpath.adoc[`newpath`] after it has finished using the current path.
+Unlike xref:fill.adoc[`fill`] and xref:stroke.adoc[`stroke`], link:clip.adoc[`clip`] does not implicitly perform a xref:../path-construction/newpath.adoc[`newpath`] after it has finished using the current path.
 
 === PostScript Level
 
@@ -184,7 +184,7 @@ newpath
 clip  % Still limited to intersection
 ----
 
-WARNING: *Path Not Cleared After clip* - Unlike xref:fill.adoc[`fill`] and xref:stroke.adoc[`stroke`], the path remains after [`clip`](clip.adoc).
+WARNING: *Path Not Cleared After clip* - Unlike xref:fill.adoc[`fill`] and xref:stroke.adoc[`stroke`], the path remains after link:clip.adoc[`clip`].
 
 [source,postscript]
 ----
@@ -263,7 +263,7 @@ The clipping path affects:
 
 === Winding Number Rule
 
-[`clip`](clip.adoc) uses the non-zero winding number rule:
+link:clip.adoc[`clip`] uses the non-zero winding number rule:
 
 . Draw a ray from the point in any direction
 . Count crossings with path segments:

@@ -29,7 +29,7 @@ Terminates the innermost enclosing loop.
 
 === Description
 
-[`exit`](exit.adoc) terminates execution of the innermost, dynamically enclosing looping context, regardless of lexical relationship.
+link:exit.adoc[`exit`] terminates execution of the innermost, dynamically enclosing looping context, regardless of lexical relationship.
 
 Valid looping contexts created by:
 * xref:for.adoc[`for`]
@@ -38,7 +38,7 @@ Valid looping contexts created by:
 * xref:../array-string/forall.adoc[`forall`]
 * `pathforall`, `kshow`, `cshow`, `filenameforall`, `resourceforall`
 
-[`exit`](exit.adoc) pops the execution stack to the level of the loop operator, then resumes execution at the next object after that operator.
+link:exit.adoc[`exit`] pops the execution stack to the level of the loop operator, then resumes execution at the next object after that operator.
 
 === PostScript Level
 
@@ -133,7 +133,7 @@ Valid looping contexts created by:
 
 === Common Pitfalls
 
-WARNING: *Must Be in Loop* - [`exit`](exit.adoc) only works within a looping context.
+WARNING: *Must Be in Loop* - link:exit.adoc[`exit`] only works within a looping context.
 
 [source,postscript]
 ----

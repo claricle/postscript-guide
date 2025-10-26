@@ -44,12 +44,12 @@ stroke                                  % Draw the outline <7>
 showpage
 ----
 <1> Define position and size as variables for easy modification
-<2> Use [`newpath`](../commands/path-construction/newpath.adoc) to start a new path
-<3> Use [`moveto`](../commands/path-construction/moveto.adoc) to position at starting point
-<4> Use [`rlineto`](../commands/path-construction/rlineto.adoc) for relative line drawing
-<5> Use [`closepath`](../commands/path-construction/closepath.adoc) to complete the shape
-<6> Use [`setlinewidth`](../commands/graphics-state/setlinewidth.adoc) to control line thickness
-<7> Use [`stroke`](../commands/painting/stroke.adoc) to draw the outlined path
+<2> Use link:../commands/path-construction/newpath.adoc[`newpath`] to start a new path
+<3> Use link:../commands/path-construction/moveto.adoc[`moveto`] to position at starting point
+<4> Use link:../commands/path-construction/rlineto.adoc[`rlineto`] for relative line drawing
+<5> Use link:../commands/path-construction/closepath.adoc[`closepath`] to complete the shape
+<6> Use link:../commands/graphics-state/setlinewidth.adoc[`setlinewidth`] to control line thickness
+<7> Use link:../commands/painting/stroke.adoc[`stroke`] to draw the outlined path
 
 ==== Expected Output
 
@@ -71,8 +71,8 @@ PostScript provides convenience operators for rectangles:
 
 showpage
 ----
-<1> Use [`rectstroke`](../commands/painting/rectstroke.adoc) to draw rectangle outline
-<2> Use [`rectfill`](../commands/painting/rectfill.adoc) to draw filled rectangle
+<1> Use link:../commands/painting/rectstroke.adoc[`rectstroke`] to draw rectangle outline
+<2> Use link:../commands/painting/rectfill.adoc[`rectfill`] to draw filled rectangle
 
 === Circle and Ellipse
 
@@ -139,11 +139,11 @@ grestore
 
 showpage
 ----
-<1> Use [`arc`](../commands/path-construction/arc.adoc) with center, radius, and angle range (degrees)
-<2> Use [`setgray`](../commands/graphics-state/setgray.adoc) to set fill color (0=black, 1=white)
-<3> Use [`fill`](../commands/painting/fill.adoc) to paint the interior
-<4> Use [`translate`](../commands/transformations/translate.adoc) to move coordinate origin
-<5> Use [`scale`](../commands/transformations/scale.adoc) to create ellipse from circle
+<1> Use link:../commands/path-construction/arc.adoc[`arc`] with center, radius, and angle range (degrees)
+<2> Use link:../commands/graphics-state/setgray.adoc[`setgray`] to set fill color (0=black, 1=white)
+<3> Use link:../commands/painting/fill.adoc[`fill`] to paint the interior
+<4> Use link:../commands/transformations/translate.adoc[`translate`] to move coordinate origin
+<5> Use link:../commands/transformations/scale.adoc[`scale`] to create ellipse from circle
 <6> Partial arc from 45° to 225° (180° arc)
 <7> Line to center point (0,0 after translation) for pie slice
 
@@ -159,7 +159,7 @@ showpage
 ==== Arc Direction
 
 * `arc` draws counter-clockwise from start angle to end angle
-* Use [`arcn`](../commands/path-construction/arcn.adoc) for clockwise arcs
+* Use link:../commands/path-construction/arcn.adoc[`arcn`] for clockwise arcs
 * Angles are measured from the positive X-axis
 
 === Triangles and Polygons
@@ -301,8 +301,8 @@ showpage
 ----
 <1> Use trigonometry: height = base × tan(60°) ≈ base × 0.866
 <2> Start at top point (0, 60) from translated origin
-<3> Use [`for`](../commands/control-flow/for.adoc) loop to repeat vertices
-<4> Use [`rotate`](../commands/transformations/rotate.adoc) to position for next vertex
+<3> Use link:../commands/control-flow/for.adoc[`for`] loop to repeat vertices
+<4> Use link:../commands/transformations/rotate.adoc[`rotate`] to position for next vertex
 <5> Starting at (radius, 0) simplifies the math
 <6> Fill first, then stroke to get outline on top of fill
 <7> 144° rotation creates star points (alternate vertices)
@@ -438,11 +438,11 @@ grestore
 
 showpage
 ----
-<1> Use [`curveto`](../commands/path-construction/curveto.adoc) with two control points and end point
+<1> Use link:../commands/path-construction/curveto.adoc[`curveto`] with two control points and end point
 <2> Chain multiple curves for smooth continuous paths
-<3> Use [`setrgbcolor`](../commands/graphics-state/setrgbcolor.adoc) for red, green, blue colors
+<3> Use link:../commands/graphics-state/setrgbcolor.adoc[`setrgbcolor`] for red, green, blue colors
 <4> RGB values: (0, 0.5, 0) for green
-<5> Use [`arcn`](../commands/path-construction/arcn.adoc) for clockwise arcs
+<5> Use link:../commands/path-construction/arcn.adoc[`arcn`] for clockwise arcs
 
 ==== Expected Output
 
@@ -597,8 +597,8 @@ grestore
 
 showpage
 ----
-<1> [`stroke`](../commands/painting/stroke.adoc) draws only the path outline
-<2> [`fill`](../commands/painting/fill.adoc) paints only the interior
+<1> link:../commands/painting/stroke.adoc[`stroke`] draws only the path outline
+<2> link:../commands/painting/fill.adoc[`fill`] paints only the interior
 <3> Fill first to keep it under the stroke
 <4> Stroke second to draw outline on top
 <5> Both `fill` and `stroke` consume the path
@@ -608,9 +608,9 @@ showpage
 <9> `[5 5]` means 5-point dash, 5-point gap
 <10> `[10 5 2 5]` means 10-point dash, 5-point gap, 2-point dash, 5-point gap
 <11> Loop through each style pattern
-<12> Use [`setdash`](../commands/graphics-state/setdash.adoc) to apply dash pattern
-<13> Use [`setlinecap`](../commands/graphics-state/setlinecap.adoc): 0=butt, 1=round, 2=square
-<14> Use [`setlinejoin`](../commands/graphics-state/setlinejoin.adoc): 0=miter, 1=round, 2=bevel
+<12> Use link:../commands/graphics-state/setdash.adoc[`setdash`] to apply dash pattern
+<13> Use link:../commands/graphics-state/setlinecap.adoc[`setlinecap`]: 0=butt, 1=round, 2=square
+<14> Use link:../commands/graphics-state/setlinejoin.adoc[`setlinejoin`]: 0=miter, 1=round, 2=bevel
 
 ==== Expected Output
 
@@ -1000,9 +1000,9 @@ grestore
 
 showpage
 ----
-<1> [`translate`](../commands/transformations/translate.adoc) moves the origin
-<2> [`rotate`](../commands/transformations/rotate.adoc) rotates subsequent drawings
-<3> [`scale`](../commands/transformations/scale.adoc) changes size (x-scale y-scale)
+<1> link:../commands/transformations/translate.adoc[`translate`] moves the origin
+<2> link:../commands/transformations/rotate.adoc[`rotate`] rotates subsequent drawings
+<3> link:../commands/transformations/scale.adoc[`scale`] changes size (x-scale y-scale)
 <4> Gradual scaling creates spiral effect
 
 ==== Expected Output

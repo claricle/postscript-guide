@@ -50,19 +50,19 @@ x1 y1 x2 y2 r arct → -
 
 === Description
 
-[`arct`](arct.adoc) appends an arc of a circle to the current path, possibly preceded by a straight line segment. The arc is defined by a radius r and two tangent lines.
+link:arct.adoc[`arct`] appends an arc of a circle to the current path, possibly preceded by a straight line segment. The arc is defined by a radius r and two tangent lines.
 
 The tangent lines are:
 1. From the current point (x0, y0) to (x1, y1)
 2. From (x1, y1) to (x2, y2)
 
-If the current point is undefined, [`arct`](arct.adoc) executes the [`nocurrentpoint`] error.
+If the current point is undefined, link:arct.adoc[`arct`] executes the [`nocurrentpoint`] error.
 
 The center of the arc is located at distance r perpendicular to both tangent lines, within the inner angle between them. The arc begins at the first tangent point (xt1, yt1) on the first tangent line, and ends at the second tangent point (xt2, yt2) on the second tangent line.
 
-Before constructing the arc, [`arct`](arct.adoc) adds a straight line from the current point to (xt1, yt1), unless those points are the same. The point (xt2, yt2) becomes the new current point.
+Before constructing the arc, link:arct.adoc[`arct`] adds a straight line from the current point to (xt1, yt1), unless those points are the same. The point (xt2, yt2) becomes the new current point.
 
-If the two tangent lines are collinear, [`arct`](arct.adoc) merely appends a straight line from (x0, y0) to (x1, y1).
+If the two tangent lines are collinear, link:arct.adoc[`arct`] merely appends a straight line from (x0, y0) to (x1, y1).
 
 === PostScript Level
 
@@ -186,7 +186,7 @@ stroke
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - [`arct`](arct.adoc) needs a current point to define the first tangent line.
+WARNING: *Requires Current Point* - link:arct.adoc[`arct`] needs a current point to define the first tangent line.
 
 [source,postscript]
 ----
@@ -204,7 +204,7 @@ WARNING: *Collinear Points* - If the three points are collinear, no arc is creat
 
 WARNING: *Radius Too Large* - Very large radii relative to the angle may produce unexpected results or hit numerical limits.
 
-TIP: *Perfect for UI Corners* - [`arct`](arct.adoc) is ideal for creating rounded corners in user interfaces and technical drawings where corners are defined by intersecting lines.
+TIP: *Perfect for UI Corners* - link:arct.adoc[`arct`] is ideal for creating rounded corners in user interfaces and technical drawings where corners are defined by intersecting lines.
 
 === Error Conditions
 

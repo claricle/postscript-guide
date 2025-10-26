@@ -38,7 +38,7 @@ num setlinewidth → –
 
 === Description
 
-[`setlinewidth`](setlinewidth.adoc) sets the line width parameter in the graphics state to _num_. This controls the thickness of lines rendered by subsequent [`stroke`] operations.
+link:setlinewidth.adoc[`setlinewidth`] sets the line width parameter in the graphics state to _num_. This controls the thickness of lines rendered by subsequent [`stroke`] operations.
 
 The line width is measured in user space units. The actual rendered width in device space depends on the current transformation matrix (CTM).
 

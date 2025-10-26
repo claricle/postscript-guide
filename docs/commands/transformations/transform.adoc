@@ -45,9 +45,9 @@ x y matrix transform → x' y'
 
 === Description
 
-With no matrix operand, [`transform`](transform.adoc) transforms the user space coordinate (x, y) by the current transformation matrix (CTM) to produce the corresponding device space coordinate (x', y').
+With no matrix operand, link:transform.adoc[`transform`] transforms the user space coordinate (x, y) by the current transformation matrix (CTM) to produce the corresponding device space coordinate (x', y').
 
-If the `matrix` operand is supplied, [`transform`](transform.adoc) transforms (x, y) by `matrix` rather than by the CTM.
+If the `matrix` operand is supplied, link:transform.adoc[`transform`] transforms (x, y) by `matrix` rather than by the CTM.
 
 This operator is useful for converting user space coordinates (the ones used in path construction) to device space coordinates (actual pixel positions).
 
@@ -154,7 +154,7 @@ userY 0 ge userY 100 le and
 
 === Common Pitfalls
 
-WARNING: *Position-Dependent* - [`transform`](transform.adoc) includes translation. Use xref:dtransform.adoc[`dtransform`] for distances.
+WARNING: *Position-Dependent* - link:transform.adoc[`transform`] includes translation. Use xref:dtransform.adoc[`dtransform`] for distances.
 
 [source,postscript]
 ----
@@ -176,7 +176,7 @@ WARNING: *CTM Changes* - The result depends on the current CTM at the time of ex
 100 100 transform  % Result B (different from A)
 ----
 
-TIP: *Use for Debugging* - [`transform`](transform.adoc) helps understand coordinate mappings:
+TIP: *Use for Debugging* - link:transform.adoc[`transform`] helps understand coordinate mappings:
 
 [source,postscript]
 ----

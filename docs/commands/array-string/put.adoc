@@ -61,7 +61,7 @@ string index int put → –
 
 === Description
 
-[`put`](put.adoc) replaces a single element in a composite object:
+link:put.adoc[`put`] replaces a single element in a composite object:
 
 * For arrays: stores _any_ at position _index_ (0 to n-1)
 * For strings: stores integer _int_ (0-255) at position _index_
@@ -150,7 +150,7 @@ WARNING: *Index Range* - Array/string index must be 0 to length-1.
 [1 2 3] 3 99 put  % Error: index 3 out of range
 ----
 
-WARNING: *Packed Arrays are Read-Only* - Cannot use [`put`](put.adoc) on packed arrays.
+WARNING: *Packed Arrays are Read-Only* - Cannot use link:put.adoc[`put`] on packed arrays.
 
 [source,postscript]
 ----
@@ -193,8 +193,8 @@ TIP: *Dictionary Auto-Expands (Level 2)* - In Level 2, dictionaries automaticall
 
 === Performance Considerations
 
-* Array and string [`put`](put.adoc) are very fast (direct indexing)
-* Dictionary [`put`](put.adoc) slightly slower (hash table operation)
+* Array and string link:put.adoc[`put`] are very fast (direct indexing)
+* Dictionary link:put.adoc[`put`] slightly slower (hash table operation)
 * Repeated dictionary puts in Level 1 may trigger slow rehashing if dictionary grows full
 * For bulk updates, consider xref:putinterval.adoc[`putinterval`]
 

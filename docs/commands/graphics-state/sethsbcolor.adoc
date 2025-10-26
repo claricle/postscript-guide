@@ -44,7 +44,7 @@ hue saturation brightness sethsbcolor → –
 
 === Description
 
-[`sethsbcolor`](sethsbcolor.adoc) sets the color space to DeviceRGB and sets the current color using hue, saturation, and brightness components.
+link:sethsbcolor.adoc[`sethsbcolor`] sets the color space to DeviceRGB and sets the current color using hue, saturation, and brightness components.
 
 **HSB components:**
 
@@ -55,9 +55,9 @@ hue saturation brightness sethsbcolor → –
 * **Brightness** (0.0 to 1.0): Color intensity
   - 0.0 = black, 1.0 = maximum brightness
 
-NOTE: HSB is **not a color space** in its own right, merely a means for entering RGB color values in a different coordinate system. The color value entered by [`sethsbcolor`](sethsbcolor.adoc) is immediately converted into the RGB model and used with the DeviceRGB color space.
+NOTE: HSB is **not a color space** in its own right, merely a means for entering RGB color values in a different coordinate system. The color value entered by link:sethsbcolor.adoc[`sethsbcolor`] is immediately converted into the RGB model and used with the DeviceRGB color space.
 
-[`sethsbcolor`](sethsbcolor.adoc) does not give a rangecheck error for values outside the range 0 to 1; it substitutes the nearest legal value.
+link:sethsbcolor.adoc[`sethsbcolor`] does not give a rangecheck error for values outside the range 0 to 1; it substitutes the nearest legal value.
 
 === PostScript Level
 

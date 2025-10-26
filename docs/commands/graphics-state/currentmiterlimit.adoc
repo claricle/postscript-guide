@@ -38,7 +38,7 @@ Returns current miter limit value.
 
 === Description
 
-[`currentmiterlimit`](currentmiterlimit.adoc) returns the current miter limit parameter from the graphics state. This is the value most recently set by [`setmiterlimit`](setmiterlimit.adoc).
+link:currentmiterlimit.adoc[`currentmiterlimit`] returns the current miter limit parameter from the graphics state. This is the value most recently set by link:setmiterlimit.adoc[`setmiterlimit`].
 
 The miter limit controls when sharp miter joins are converted to bevel joins. It is the ratio of miter length to line width. When this ratio exceeds the miter limit, a bevel join is used instead.
 

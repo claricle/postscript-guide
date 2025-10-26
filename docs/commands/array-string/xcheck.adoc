@@ -38,7 +38,7 @@ any xcheck → bool
 
 === Description
 
-[`xcheck`](xcheck.adoc) tests whether the operand has the executable or literal attribute:
+link:xcheck.adoc[`xcheck`] tests whether the operand has the executable or literal attribute:
 
 * Returns `true` if the object is executable
 * Returns `false` if the object is literal
@@ -113,7 +113,7 @@ abc xcheck       % true (executable name) - if abc is defined
 
 === Common Pitfalls
 
-WARNING: *Tests Attribute, Not Access* - [`xcheck`](xcheck.adoc) does not test access permissions like execute-only.
+WARNING: *Tests Attribute, Not Access* - link:xcheck.adoc[`xcheck`] does not test access permissions like execute-only.
 
 [source,postscript]
 ----

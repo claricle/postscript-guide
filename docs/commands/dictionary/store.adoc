@@ -41,12 +41,12 @@ key value store → –
 
 === Description
 
-[`store`](store.adoc) searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
+link:store.adoc[`store`] searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
 
 * If found: replaces the value in that dictionary
 * If not found: creates new entry in current dictionary
 
-This differs from [`def`](def.adoc), which always uses the current dictionary.
+This differs from link:def.adoc[`def`], which always uses the current dictionary.
 
 === PostScript Level
 
@@ -106,7 +106,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Searches Dictionary Stack* - [`store`](store.adoc) may modify a dictionary other than the current one!
+WARNING: *Searches Dictionary Stack* - link:store.adoc[`store`] may modify a dictionary other than the current one!
 
 [source,postscript]
 ----
@@ -117,11 +117,11 @@ WARNING: *Searches Dictionary Stack* - [`store`](store.adoc) may modify a dictio
 end
 ----
 
-WARNING: *Global/Local VM Restrictions* - Same VM rules as [`def`](def.adoc) apply.
+WARNING: *Global/Local VM Restrictions* - Same VM rules as link:def.adoc[`def`] apply.
 
-TIP: *Use def for New Definitions* - Use [`def`](def.adoc) when you want to ensure definition goes in current dictionary.
+TIP: *Use def for New Definitions* - Use link:def.adoc[`def`] when you want to ensure definition goes in current dictionary.
 
-TIP: *Use store for Updates* - Use [`store`](store.adoc) when you want to update an existing definition regardless of where it is.
+TIP: *Use store for Updates* - Use link:store.adoc[`store`] when you want to update an existing definition regardless of where it is.
 
 === Error Conditions
 
@@ -153,7 +153,7 @@ TIP: *Use store for Updates* - Use [`store`](store.adoc) when you want to update
 
 [cols="2,3,3"]
 |===
-| Aspect | [`def`](def.adoc) | [`store`](store.adoc)
+| Aspect | link:def.adoc[`def`] | link:store.adoc[`store`]
 
 | Target
 | Always current dictionary

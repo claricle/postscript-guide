@@ -60,7 +60,7 @@ string seek anchorsearch → post match true (if found)
 
 === Description
 
-[`anchorsearch`](anchorsearch.adoc) determines if _string_ begins with _seek_ (i.e., _string_ is at least as long as _seek_ and the initial characters match exactly).
+link:anchorsearch.adoc[`anchorsearch`] determines if _string_ begins with _seek_ (i.e., _string_ is at least as long as _seek_ and the initial characters match exactly).
 
 If it matches:
 * Splits _string_ into _match_ (the matching prefix) and _post_ (the remainder)
@@ -145,7 +145,7 @@ filename (.ps) anchorsearch {
 
 === Common Pitfalls
 
-WARNING: *Must Match At Start* - [`anchorsearch`](anchorsearch.adoc) only finds prefixes, not substrings anywhere in the string.
+WARNING: *Must Match At Start* - link:anchorsearch.adoc[`anchorsearch`] only finds prefixes, not substrings anywhere in the string.
 
 [source,postscript]
 ----

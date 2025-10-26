@@ -38,9 +38,9 @@ Returns the number of dictionaries currently on the dictionary stack.
 
 === Description
 
-[`countdictstack`](countdictstack.adoc) counts the number of dictionaries currently on the dictionary stack and pushes this count onto the operand stack.
+link:countdictstack.adoc[`countdictstack`] counts the number of dictionaries currently on the dictionary stack and pushes this count onto the operand stack.
 
-The count includes all dictionaries: permanent system dictionaries and any pushed by [`begin`](begin.adoc).
+The count includes all dictionaries: permanent system dictionaries and any pushed by link:begin.adoc[`begin`].
 
 === PostScript Level
 

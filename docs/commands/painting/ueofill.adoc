@@ -38,9 +38,9 @@ userpath ueofill → -
 
 === Description
 
-[`ueofill`](ueofill.adoc) is similar to xref:ufill.adoc[`ufill`], but uses the even-odd rule instead of the non-zero winding number rule to determine which areas are inside the path. The entire operation is effectively enclosed by xref:../graphics-state/gsave.adoc[`gsave`] and xref:../graphics-state/grestore.adoc[`grestore`], so [`ueofill`](ueofill.adoc) has no lasting effect on the graphics state.
+link:ueofill.adoc[`ueofill`] is similar to xref:ufill.adoc[`ufill`], but uses the even-odd rule instead of the non-zero winding number rule to determine which areas are inside the path. The entire operation is effectively enclosed by xref:../graphics-state/gsave.adoc[`gsave`] and xref:../graphics-state/grestore.adoc[`grestore`], so link:ueofill.adoc[`ueofill`] has no lasting effect on the graphics state.
 
-[`ueofill`](ueofill.adoc) is equivalent to:
+link:ueofill.adoc[`ueofill`] is equivalent to:
 
 [source,postscript]
 ----
@@ -183,7 +183,7 @@ grestore
 samePath ueofill    % Inner is a hole
 ----
 
-WARNING: *Path Direction Irrelevant* - Unlike xref:ufill.adoc[`ufill`], path direction doesn't affect the result with [`ueofill`](ueofill.adoc).
+WARNING: *Path Direction Irrelevant* - Unlike xref:ufill.adoc[`ufill`], path direction doesn't affect the result with link:ueofill.adoc[`ueofill`].
 
 [source,postscript]
 ----
@@ -195,7 +195,7 @@ WARNING: *Path Direction Irrelevant* - Unlike xref:ufill.adoc[`ufill`], path dir
 ] ueofill  % Always creates hole regardless of arc direction
 ----
 
-TIP: *Ideal for Shapes with Holes* - Use [`ueofill`](ueofill.adoc) when you need predictable holes regardless of path direction:
+TIP: *Ideal for Shapes with Holes* - Use link:ueofill.adoc[`ueofill`] when you need predictable holes regardless of path direction:
 
 [source,postscript]
 ----
@@ -266,7 +266,7 @@ windowFrame ueofill
 * Automatic graphics state save/restore
 * Can be cached
 
-.User path even-odd fill ([`ueofill`](ueofill.adoc))
+.User path even-odd fill (link:ueofill.adoc)[`ueofill`]
 * Uses even-odd rule
 * Efficient user path format
 * Automatic graphics state save/restore

@@ -38,7 +38,7 @@ Returns current line join style.
 
 === Description
 
-[`currentlinejoin`](currentlinejoin.adoc) returns the current line join parameter from the graphics state. This is the value most recently set by [`setlinejoin`](setlinejoin.adoc).
+link:currentlinejoin.adoc[`currentlinejoin`] returns the current line join parameter from the graphics state. This is the value most recently set by link:setlinejoin.adoc[`setlinejoin`].
 
 **Join styles:**
 

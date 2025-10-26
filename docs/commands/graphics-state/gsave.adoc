@@ -29,7 +29,7 @@ Pushes a copy of the current graphics state onto the graphics state stack.
 
 === Description
 
-[`gsave`](gsave.adoc) pushes a copy of the current graphics state onto the graphics state stack. All elements of the graphics state are saved, including:
+link:gsave.adoc[`gsave`] pushes a copy of the current graphics state onto the graphics state stack. All elements of the graphics state are saved, including:
 
 * Current transformation matrix (CTM)
 * Current path
@@ -42,7 +42,7 @@ Pushes a copy of the current graphics state onto the graphics state stack.
 
 Raster memory contents are NOT saved.
 
-The saved state can later be restored by [`grestore`](grestore.adoc).
+The saved state can later be restored by link:grestore.adoc[`grestore`].
 
 === PostScript Level
 
@@ -137,7 +137,7 @@ elements {
 
 === Common Pitfalls
 
-WARNING: *Must Match with grestore* - Every [`gsave`](gsave.adoc) must have matching [`grestore`](grestore.adoc).
+WARNING: *Must Match with grestore* - Every link:gsave.adoc[`gsave`] must have matching link:grestore.adoc[`grestore`].
 
 [source,postscript]
 ----
@@ -154,7 +154,7 @@ WARNING: *Limited Stack Depth* - Graphics state stack has implementation-depende
 { gsave } repeat  % Eventually: limitcheck
 ----
 
-TIP: *Use for All Temporary Changes* - Always bracket temporary state changes with [`gsave`](gsave.adoc)/[`grestore`](grestore.adoc).
+TIP: *Use for All Temporary Changes* - Always bracket temporary state changes with link:gsave.adoc[`gsave`]/link:grestore.adoc[`grestore`].
 
 === Error Conditions
 

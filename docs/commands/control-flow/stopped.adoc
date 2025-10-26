@@ -53,12 +53,12 @@ any stopped → bool
 
 === Description
 
-[`stopped`](stopped.adoc) executes _any_ (typically a procedure).
+link:stopped.adoc[`stopped`] executes _any_ (typically a procedure).
 
 * If _any_ runs to completion normally: returns `false`
 * If _any_ terminates via xref:stop.adoc[`stop`]: returns `true`
 
-Regardless of outcome, execution resumes at the next object after [`stopped`](stopped.adoc).
+Regardless of outcome, execution resumes at the next object after link:stopped.adoc[`stopped`].
 
 This provides PostScript's primary error-catching mechanism.
 
@@ -150,7 +150,7 @@ file closefile  % Always close
 
 === Common Pitfalls
 
-WARNING: *Catches All Errors* - [`stopped`](stopped.adoc) catches ALL errors, including those you might not expect.
+WARNING: *Catches All Errors* - link:stopped.adoc[`stopped`] catches ALL errors, including those you might not expect.
 
 [source,postscript]
 ----
@@ -195,7 +195,7 @@ TIP: *Standard Error Pattern* - Default PostScript error handlers use this patte
 
 === Standard Error Handler
 
-The default error handler uses [`stopped`](stopped.adoc):
+The default error handler uses link:stopped.adoc[`stopped`]:
 
 [source,postscript]
 ----

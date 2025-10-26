@@ -30,15 +30,15 @@ font
 
 === Description
 
-[`findfont`](findfont.adoc) obtains a font dictionary identified by the specified `key` and pushes it on the operand stack. The `key` may be a key previously passed to [`definefont`](definefont.adoc), in which case the font dictionary associated with `key` (in the font directory) is returned.
+link:findfont.adoc[`findfont`] obtains a font dictionary identified by the specified `key` and pushes it on the operand stack. The `key` may be a key previously passed to link:definefont.adoc[`definefont`], in which case the font dictionary associated with `key` (in the font directory) is returned.
 
-If `key` is not registered as a font in VM, [`findfont`](findfont.adoc) takes an action that varies according to the environment in which the PostScript interpreter is operating. In some environments, [`findfont`](findfont.adoc) may attempt to read a font definition from an external source, such as a file. In other environments, [`findfont`](findfont.adoc) substitutes a default font or executes the error `invalidfont`.
+If `key` is not registered as a font in VM, link:findfont.adoc[`findfont`] takes an action that varies according to the environment in which the PostScript interpreter is operating. In some environments, link:findfont.adoc[`findfont`] may attempt to read a font definition from an external source, such as a file. In other environments, link:findfont.adoc[`findfont`] substitutes a default font or executes the error `invalidfont`.
 
-[`findfont`](findfont.adoc) is a special case of `findresource` applied to the Font category.
+link:findfont.adoc[`findfont`] is a special case of `findresource` applied to the Font category.
 
-[`findfont`](findfont.adoc), like `findresource`, normally looks first for fonts defined in local VM, then for fonts defined in global VM. However, if the current VM allocation mode is global, [`findfont`](findfont.adoc) considers only fonts defined in global VM. If [`findfont`](findfont.adoc) needs to load a font into VM, it may use either local or global VM, depending on the font. Generally, Type 1 fonts are loaded into global VM; fonts of other types are loaded into local VM.
+link:findfont.adoc[`findfont`], like `findresource`, normally looks first for fonts defined in local VM, then for fonts defined in global VM. However, if the current VM allocation mode is global, link:findfont.adoc[`findfont`] considers only fonts defined in global VM. If link:findfont.adoc[`findfont`] needs to load a font into VM, it may use either local or global VM, depending on the font. Generally, Type 1 fonts are loaded into global VM; fonts of other types are loaded into local VM.
 
-[`findfont`](findfont.adoc) is not an operator, but rather a built-in procedure. It may be redefined by a PostScript language program that requires different strategies for finding fonts.
+link:findfont.adoc[`findfont`] is not an operator, but rather a built-in procedure. It may be redefined by a PostScript language program that requires different strategies for finding fonts.
 
 === Parameters
 
@@ -93,8 +93,8 @@ setfont                  % Set as current font
 
 The font discovery mechanism varies by implementation:
 
-1. **Local VM fonts** - Defined by [`definefont`](definefont.adoc) in local VM
-2. **Global VM fonts** - Defined by [`definefont`](definefont.adoc) in global VM
+1. **Local VM fonts** - Defined by link:definefont.adoc[`definefont`] in local VM
+2. **Global VM fonts** - Defined by link:definefont.adoc[`definefont`] in global VM
 3. **External fonts** - Loaded from font files or other external sources
 4. **Substitution fonts** - Default fonts substituted when requested font not found
 
@@ -108,8 +108,8 @@ When loading fonts from external sources:
 
 === See Also
 
-- [`scalefont`](scalefont.adoc) - Scale font by uniform factor
-- [`makefont`](makefont.adoc) - Transform font by matrix
-- [`setfont`](setfont.adoc) - Establish current font
-- [`definefont`](definefont.adoc) - Register font in font directory
-- [`currentfont`](currentfont.adoc) - Get current font dictionary
+- link:scalefont.adoc[`scalefont`] - Scale font by uniform factor
+- link:makefont.adoc[`makefont`] - Transform font by matrix
+- link:setfont.adoc[`setfont`] - Establish current font
+- link:definefont.adoc[`definefont`] - Register font in font directory
+- link:currentfont.adoc[`currentfont`] - Get current font dictionary

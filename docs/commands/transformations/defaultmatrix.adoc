@@ -38,7 +38,7 @@ matrix defaultmatrix → matrix
 
 === Description
 
-[`defaultmatrix`](defaultmatrix.adoc) replaces the value of `matrix` with the default transformation matrix for the current output device and pushes the modified matrix back on the operand stack.
+link:defaultmatrix.adoc[`defaultmatrix`] replaces the value of `matrix` with the default transformation matrix for the current output device and pushes the modified matrix back on the operand stack.
 
 The default matrix establishes the standard mapping from the default user coordinate system to device space for the current device. This matrix is device-dependent and defines the initial state before any transformations are applied.
 

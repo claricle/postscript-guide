@@ -53,11 +53,11 @@ dx1 dy1 dx2 dy2 dx3 dy3 rcurveto → -
 
 === Description
 
-[`rcurveto`](rcurveto.adoc) (relative curveto) adds a Bézier cubic section to the current path in the same manner as xref:curveto.adoc[`curveto`]. However, the three number pairs are interpreted as displacements relative to the current point (x0, y0) rather than as absolute coordinates.
+link:rcurveto.adoc[`rcurveto`] (relative curveto) adds a Bézier cubic section to the current path in the same manner as xref:curveto.adoc[`curveto`]. However, the three number pairs are interpreted as displacements relative to the current point (x0, y0) rather than as absolute coordinates.
 
-That is, [`rcurveto`](rcurveto.adoc) constructs a curve from (x0, y0) to (x0+dx3, y0+dy3), using (x0+dx1, y0+dy1) and (x0+dx2, y0+dy2) as Bézier control points.
+That is, link:rcurveto.adoc[`rcurveto`] constructs a curve from (x0, y0) to (x0+dx3, y0+dy3), using (x0+dx1, y0+dy1) and (x0+dx2, y0+dy2) as Bézier control points.
 
-If the current point is undefined because the current path is empty, [`rcurveto`](rcurveto.adoc) executes the [`nocurrentpoint`] error.
+If the current point is undefined because the current path is empty, link:rcurveto.adoc[`rcurveto`] executes the [`nocurrentpoint`] error.
 
 === PostScript Level
 
@@ -171,7 +171,7 @@ fill
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - [`rcurveto`](rcurveto.adoc) needs a current point. Use xref:moveto.adoc[`moveto`] first.
+WARNING: *Requires Current Point* - link:rcurveto.adoc[`rcurveto`] needs a current point. Use xref:moveto.adoc[`moveto`] first.
 
 [source,postscript]
 ----
@@ -188,7 +188,7 @@ WARNING: *All Coordinates Are Relative* - Unlike xref:curveto.adoc[`curveto`], a
 % Actually draws to (250, 250), not (150, 150)
 ----
 
-TIP: *Ideal for Patterns* - [`rcurveto`](rcurveto.adoc) excels at creating repeating curved patterns where each curve relates to the previous position.
+TIP: *Ideal for Patterns* - link:rcurveto.adoc[`rcurveto`] excels at creating repeating curved patterns where each curve relates to the previous position.
 
 === Error Conditions
 

@@ -30,11 +30,11 @@ string
 
 === Description
 
-[`show`](show.adoc) paints the characters identified by the elements of `string` on the current page starting at the current point, using the font face, size, and orientation specified by the most recent [`setfont`](setfont.adoc) or `selectfont`.
+link:show.adoc[`show`] paints the characters identified by the elements of `string` on the current page starting at the current point, using the font face, size, and orientation specified by the most recent link:setfont.adoc[`setfont`] or `selectfont`.
 
-The spacing from each character of the string to the next is determined by the character's width, which is an (x, y) displacement that is part of the character's definition. When it is finished, [`show`](show.adoc) adjusts the current point in the graphics state by the sum of the widths of all the characters shown.
+The spacing from each character of the string to the next is determined by the character's width, which is an (x, y) displacement that is part of the character's definition. When it is finished, link:show.adoc[`show`] adjusts the current point in the graphics state by the sum of the widths of all the characters shown.
 
-[`show`](show.adoc) requires that the current point initially be defined (for example, by `moveto`); otherwise, it executes the error `nocurrentpoint`.
+link:show.adoc[`show`] requires that the current point initially be defined (for example, by `moveto`); otherwise, it executes the error `nocurrentpoint`.
 
 If a character code would index beyond the end of the font's Encoding, or the character mapping algorithm goes out of bounds in other ways, a `rangecheck` error occurs.
 
@@ -199,10 +199,10 @@ grestore
 
 === Performance Considerations
 
-- [`show`](show.adoc) is the fastest text rendering operator
+- link:show.adoc[`show`] is the fastest text rendering operator
 - Characters are cached for efficiency
 - Font cache improves performance for repeated characters
-- Use [`show`](show.adoc) over [`charpath`](charpath.adoc) when possible
+- Use link:show.adoc[`show`] over link:charpath.adoc[`charpath`] when possible
 
 === Comparison with Other Text Operators
 
@@ -210,36 +210,36 @@ grestore
 |===
 | Operator | Purpose
 
-| [`show`](show.adoc)
+| link:show.adoc[`show`]
 | Basic text painting (fastest)
 
-| [`ashow`](ashow.adoc)
+| link:ashow.adoc[`ashow`]
 | Add uniform spacing to all characters
 
-| [`widthshow`](widthshow.adoc)
+| link:widthshow.adoc[`widthshow`]
 | Adjust width of specific character
 
-| [`awidthshow`](awidthshow.adoc)
-| Combine [`ashow`](ashow.adoc) and [`widthshow`](widthshow.adoc)
+| link:awidthshow.adoc[`awidthshow`]
+| Combine link:ashow.adoc[`ashow`] and link:widthshow.adoc[`widthshow`]
 
-| [`kshow`](kshow.adoc)
+| link:kshow.adoc[`kshow`]
 | Execute procedure between characters (kerning)
 
-| [`cshow`](cshow.adoc)
+| link:cshow.adoc[`cshow`]
 | Execute procedure for each character (Level 2)
 
-| [`charpath`](charpath.adoc)
+| link:charpath.adoc[`charpath`]
 | Get character outlines as path
 |===
 
 === See Also
 
-- [`ashow`](ashow.adoc) - Show with character spacing adjustment
-- [`widthshow`](widthshow.adoc) - Show with selective character width adjustment
-- [`awidthshow`](awidthshow.adoc) - Combine ashow and widthshow
-- [`kshow`](kshow.adoc) - Show with kerning procedure
-- [`cshow`](cshow.adoc) - Show with procedure per character (Level 2)
-- [`charpath`](charpath.adoc) - Get character outlines as path
-- [`stringwidth`](stringwidth.adoc) - Calculate text width
-- [`setfont`](setfont.adoc) - Establish current font
+- link:ashow.adoc[`ashow`] - Show with character spacing adjustment
+- link:widthshow.adoc[`widthshow`] - Show with selective character width adjustment
+- link:awidthshow.adoc[`awidthshow`] - Combine ashow and widthshow
+- link:kshow.adoc[`kshow`] - Show with kerning procedure
+- link:cshow.adoc[`cshow`] - Show with procedure per character (Level 2)
+- link:charpath.adoc[`charpath`] - Get character outlines as path
+- link:stringwidth.adoc[`stringwidth`] - Calculate text width
+- link:setfont.adoc[`setfont`] - Establish current font
 - `moveto` - Set current point

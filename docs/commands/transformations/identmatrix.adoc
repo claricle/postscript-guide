@@ -38,7 +38,7 @@ matrix identmatrix → matrix
 
 === Description
 
-[`identmatrix`](identmatrix.adoc) replaces the value of `matrix` with the identity matrix [1.0 0.0 0.0 1.0 0.0 0.0] and pushes the modified matrix back on the operand stack.
+link:identmatrix.adoc[`identmatrix`] replaces the value of `matrix` with the identity matrix [1.0 0.0 0.0 1.0 0.0 0.0] and pushes the modified matrix back on the operand stack.
 
 The identity matrix transforms any coordinate to itself without change.
 
@@ -115,7 +115,7 @@ WARNING: *Array Size* - The array must have at least 6 elements.
 8 array identmatrix  % OK (only first 6 modified)
 ----
 
-WARNING: *Modifies Existing Array* - Unlike xref:matrix.adoc[`matrix`], [`identmatrix`](identmatrix.adoc) modifies an existing array.
+WARNING: *Modifies Existing Array* - Unlike xref:matrix.adoc[`matrix`], link:identmatrix.adoc[`identmatrix`] modifies an existing array.
 
 [source,postscript]
 ----
@@ -123,7 +123,7 @@ matrix               % Creates new array
 6 array identmatrix  % Uses existing array
 ----
 
-TIP: *Use with Preallocated Arrays* - [`identmatrix`](identmatrix.adoc) is useful when you want to reuse arrays:
+TIP: *Use with Preallocated Arrays* - link:identmatrix.adoc[`identmatrix`] is useful when you want to reuse arrays:
 
 [source,postscript]
 ----

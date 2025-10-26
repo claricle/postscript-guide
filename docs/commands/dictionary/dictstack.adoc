@@ -38,7 +38,7 @@ array dictstack → subarray
 
 === Description
 
-[`dictstack`](dictstack.adoc) stores all elements of the dictionary stack into _array_ and returns an object describing the initial n-element subarray, where n is the current depth of the dictionary stack.
+link:dictstack.adoc[`dictstack`] stores all elements of the dictionary stack into _array_ and returns an object describing the initial n-element subarray, where n is the current depth of the dictionary stack.
 
 Dictionaries are copied in order:
 * Element 0 ← bottommost dictionary (systemdict)

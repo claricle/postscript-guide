@@ -30,17 +30,17 @@ font'
 
 === Description
 
-[`makefont`](makefont.adoc) applies `matrix` to `font`, producing a new `font'` whose characters are transformed by `matrix` when they are shown. [`makefont`](makefont.adoc) first creates a copy of `font`. Then it replaces the new font's `FontMatrix` entry with the result of concatenating the existing `FontMatrix` with `matrix`. It inserts two additional entries, `OrigFont` and `ScaleMatrix`, whose purpose is internal to the implementation. Finally, it returns the result as `font'`.
+link:makefont.adoc[`makefont`] applies `matrix` to `font`, producing a new `font'` whose characters are transformed by `matrix` when they are shown. link:makefont.adoc[`makefont`] first creates a copy of `font`. Then it replaces the new font's `FontMatrix` entry with the result of concatenating the existing `FontMatrix` with `matrix`. It inserts two additional entries, `OrigFont` and `ScaleMatrix`, whose purpose is internal to the implementation. Finally, it returns the result as `font'`.
 
-The [`makefont`](makefont.adoc), [`scalefont`](scalefont.adoc), and `selectfont` operators produce a font dictionary derived from an original font dictionary, but with the `FontMatrix` entry altered. The derived font dictionary is allocated in local or global VM according to whether the original font dictionary is in local or global VM. This is independent of the current VM allocation mode.
+The link:makefont.adoc[`makefont`], link:scalefont.adoc[`scalefont`], and `selectfont` operators produce a font dictionary derived from an original font dictionary, but with the `FontMatrix` entry altered. The derived font dictionary is allocated in local or global VM according to whether the original font dictionary is in local or global VM. This is independent of the current VM allocation mode.
 
-Normally, [`makefont`](makefont.adoc) copies only the font dictionary. Subsidiary objects, such as the `CharStrings` and `FontInfo` dictionaries, are shared with the original font. However, if `font` is a composite font, [`makefont`](makefont.adoc) also copies the font dictionaries of any descendant composite fonts. It does not copy descendant base fonts.
+Normally, link:makefont.adoc[`makefont`] copies only the font dictionary. Subsidiary objects, such as the `CharStrings` and `FontInfo` dictionaries, are shared with the original font. However, if `font` is a composite font, link:makefont.adoc[`makefont`] also copies the font dictionaries of any descendant composite fonts. It does not copy descendant base fonts.
 
-Showing characters from the transformed font produces the same results as showing from the original font after having transformed user space by the same matrix. [`makefont`](makefont.adoc) is essentially a convenience operator that permits the desired transformation to be encapsulated in the font description.
+Showing characters from the transformed font produces the same results as showing from the original font after having transformed user space by the same matrix. link:makefont.adoc[`makefont`] is essentially a convenience operator that permits the desired transformation to be encapsulated in the font description.
 
-The most common transformation is to scale a font by a uniform factor in both x and y. [`scalefont`](scalefont.adoc) is a special case of the more general [`makefont`](makefont.adoc) and should be used for such uniform scaling.
+The most common transformation is to scale a font by a uniform factor in both x and y. link:scalefont.adoc[`scalefont`] is a special case of the more general link:makefont.adoc[`makefont`] and should be used for such uniform scaling.
 
-The interpreter keeps track of font dictionaries recently created by [`makefont`](makefont.adoc). Calling [`makefont`](makefont.adoc) multiple times with the same font and matrix will usually return the same `font'` rather than create a new one. However, it is usually more efficient for a PostScript language program to apply [`makefont`](makefont.adoc) only once for each font that it needs and to keep track of the resulting font dictionaries on its own.
+The interpreter keeps track of font dictionaries recently created by link:makefont.adoc[`makefont`]. Calling link:makefont.adoc[`makefont`] multiple times with the same font and matrix will usually return the same `font'` rather than create a new one. However, it is usually more efficient for a PostScript language program to apply link:makefont.adoc[`makefont`] only once for each font that it needs and to keep track of the resulting font dictionaries on its own.
 
 === Parameters
 
@@ -170,7 +170,7 @@ y' = b×x + d×y + ty
 
 === See Also
 
-- [`findfont`](findfont.adoc) - Obtain font dictionary by name
-- [`scalefont`](scalefont.adoc) - Scale font by uniform factor (simpler)
-- [`setfont`](setfont.adoc) - Establish current font
-- [`currentfont`](currentfont.adoc) - Get current font dictionary
+- link:findfont.adoc[`findfont`] - Obtain font dictionary by name
+- link:scalefont.adoc[`scalefont`] - Scale font by uniform factor (simpler)
+- link:setfont.adoc[`setfont`] - Establish current font
+- link:currentfont.adoc[`currentfont`] - Get current font dictionary

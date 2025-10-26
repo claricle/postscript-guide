@@ -45,9 +45,9 @@ x' y' matrix itransform → x y
 
 === Description
 
-With no matrix operand, [`itransform`](itransform.adoc) (inverse transform) transforms the device space coordinate (x', y') by the inverse of the current transformation matrix (CTM) to produce the corresponding user space coordinate (x, y).
+With no matrix operand, link:itransform.adoc[`itransform`] (inverse transform) transforms the device space coordinate (x', y') by the inverse of the current transformation matrix (CTM) to produce the corresponding user space coordinate (x, y).
 
-If the `matrix` operand is supplied, [`itransform`](itransform.adoc) transforms (x', y') by the inverse of `matrix` rather than by the inverse of CTM.
+If the `matrix` operand is supplied, link:itransform.adoc[`itransform`] transforms (x', y') by the inverse of `matrix` rather than by the inverse of CTM.
 
 This is the inverse operation of xref:transform.adoc[`transform`]. It converts device coordinates (pixel positions) back to user coordinates (the coordinate system used for drawing).
 
@@ -158,7 +158,7 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Includes Translation* - [`itransform`](itransform.adoc) uses the full inverse transformation including translation. Use xref:idtransform.adoc[`idtransform`] for distance vectors.
+WARNING: *Includes Translation* - link:itransform.adoc[`itransform`] uses the full inverse transformation including translation. Use xref:idtransform.adoc[`idtransform`] for distance vectors.
 
 [source,postscript]
 ----
@@ -172,7 +172,7 @@ WARNING: *Includes Translation* - [`itransform`](itransform.adoc) uses the full 
 100 100 idtransform % → 100 100 (correct - distance)
 ----
 
-WARNING: *Singular Matrices* - If CTM or matrix is singular (determinant = 0), [`itransform`](itransform.adoc) fails.
+WARNING: *Singular Matrices* - If CTM or matrix is singular (determinant = 0), link:itransform.adoc[`itransform`] fails.
 
 [source,postscript]
 ----

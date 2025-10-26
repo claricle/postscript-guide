@@ -38,7 +38,7 @@ int string → string
 
 === Description
 
-[`string`](string.adoc) creates a string object of length _int_, with each element initialized to the integer 0 (null character). The string is allocated in local or global VM according to the current VM allocation mode.
+link:string.adoc[`string`] creates a string object of length _int_, with each element initialized to the integer 0 (null character). The string is allocated in local or global VM according to the current VM allocation mode.
 
 The _int_ operand must be:
 * A non-negative integer
@@ -111,7 +111,7 @@ WARNING: *All Elements Initialized to Zero* - The string contains null character
 5 string  % Not empty, contains 5 null chars
 ----
 
-WARNING: *String Literals vs. string Operator* - For known text, use string literals `(...)`. Use [`string`](string.adoc) for dynamic buffers.
+WARNING: *String Literals vs. string Operator* - For known text, use string literals `(...)`. Use link:string.adoc[`string`] for dynamic buffers.
 
 [source,postscript]
 ----
@@ -119,7 +119,7 @@ WARNING: *String Literals vs. string Operator* - For known text, use string lite
 5 string    % Dynamic allocation (for buffers)
 ----
 
-TIP: *Calculate Size Dynamically* - Use [`length`](length.adoc) to determine buffer sizes.
+TIP: *Calculate Size Dynamically* - Use link:length.adoc[`length`] to determine buffer sizes.
 
 [source,postscript]
 ----

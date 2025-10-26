@@ -65,7 +65,7 @@ string index get → int
 
 === Description
 
-[`get`](get.adoc) retrieves a single element from a composite object:
+link:get.adoc[`get`] retrieves a single element from a composite object:
 
 * For arrays and packed arrays: returns the element at the specified index
 * For strings: returns the integer character code (0-255) at the specified index
@@ -135,7 +135,7 @@ configdict /PageSize get  % Get page size setting
 
 === Common Pitfalls
 
-WARNING: *String Returns Integer* - [`get`](get.adoc) on a string returns an integer (character code), not a one-character string.
+WARNING: *String Returns Integer* - link:get.adoc[`get`] on a string returns an integer (character code), not a one-character string.
 
 [source,postscript]
 ----
@@ -156,7 +156,7 @@ WARNING: *Dictionary Key Not Found* - If the key doesn't exist in a dictionary, 
 5 dict /nokey get  % Error: key not in dictionary
 ----
 
-TIP: *Use known/where First* - For dictionaries, use `where` or `known` to check if a key exists before using [`get`](get.adoc).
+TIP: *Use known/where First* - For dictionaries, use `where` or `known` to check if a key exists before using link:get.adoc[`get`].
 
 === Error Conditions
 
@@ -192,7 +192,7 @@ TIP: *Use known/where First* - For dictionaries, use `where` or `known` to check
 * Direct array indexing is very fast
 * String character access is equally fast
 * Dictionary lookup slightly slower but still efficient
-* For sequential access, xref:forall.adoc[`forall`] may be more efficient than repeated [`get`](get.adoc) calls
+* For sequential access, xref:forall.adoc[`forall`] may be more efficient than repeated link:get.adoc[`get`] calls
 
 === See Also
 

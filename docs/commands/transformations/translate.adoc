@@ -51,11 +51,11 @@ tx ty matrix translate → matrix
 
 === Description
 
-With no matrix operand, [`translate`](translate.adoc) builds a temporary transformation matrix T and concatenates it with the current transformation matrix (CTM). Precisely, [`translate`](translate.adoc) replaces the CTM by T × CTM.
+With no matrix operand, link:translate.adoc[`translate`] builds a temporary transformation matrix T and concatenates it with the current transformation matrix (CTM). Precisely, link:translate.adoc[`translate`] replaces the CTM by T × CTM.
 
 The effect is to move the origin of the user coordinate system by `tx` units in the x direction and `ty` units in the y direction relative to the former user coordinate system. The sizes of the x and y units and the orientation of the axes are unchanged.
 
-If the `matrix` operand is supplied, [`translate`](translate.adoc) replaces the value of `matrix` by T and pushes the modified matrix back on the operand stack. In this case, [`translate`](translate.adoc) does not affect the CTM.
+If the `matrix` operand is supplied, link:translate.adoc[`translate`] replaces the value of `matrix` by T and pushes the modified matrix back on the operand stack. In this case, link:translate.adoc[`translate`] does not affect the CTM.
 
 The translation matrix T has the form:
 
@@ -152,7 +152,7 @@ matrix              % Get identity matrix
 
 === Common Pitfalls
 
-WARNING: *Coordinate System, Not Content* - [`translate`](translate.adoc) moves the coordinate system, not the content. Drawing at (0, 0) after translation draws at the new origin location.
+WARNING: *Coordinate System, Not Content* - link:translate.adoc[`translate`] moves the coordinate system, not the content. Drawing at (0, 0) after translation draws at the new origin location.
 
 [source,postscript]
 ----
@@ -181,7 +181,7 @@ grestore
 % Original coordinate system restored
 ----
 
-TIP: *Readable Layout Code* - Use [`translate`](translate.adoc) to establish drawing origins, making code more readable:
+TIP: *Readable Layout Code* - Use link:translate.adoc[`translate`] to establish drawing origins, making code more readable:
 
 [source,postscript]
 ----
@@ -218,7 +218,7 @@ TIP: *Readable Layout Code* - Use [`translate`](translate.adoc) to establish dra
 
 === Matrix Mathematics
 
-The translation matrix for [`translate`](translate.adoc) by (`tx`, `ty`) is:
+The translation matrix for link:translate.adoc[`translate`] by (`tx`, `ty`) is:
 
 ----
 T = [1  0  0  1  tx  ty]

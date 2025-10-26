@@ -38,7 +38,7 @@ any cvlit → any
 
 === Description
 
-[`cvlit`](cvlit.adoc) (convert to literal) changes the attribute of the object on top of the operand stack from executable to literal.
+link:cvlit.adoc[`cvlit`] (convert to literal) changes the attribute of the object on top of the operand stack from executable to literal.
 
 The object itself is unchanged - only its executable/literal attribute is modified. This affects how the PostScript interpreter treats the object when it is encountered during execution.
 

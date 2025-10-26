@@ -41,9 +41,9 @@ x y lineto → -
 
 === Description
 
-[`lineto`](lineto.adoc) appends a straight line segment to the current path. The line extends from the current point to the point (x, y) in user space; (x, y) then becomes the new current point.
+link:lineto.adoc[`lineto`] appends a straight line segment to the current path. The line extends from the current point to the point (x, y) in user space; (x, y) then becomes the new current point.
 
-If the current point is undefined because the current path is empty, [`lineto`](lineto.adoc) executes the [`nocurrentpoint`] error.
+If the current point is undefined because the current path is empty, link:lineto.adoc[`lineto`] executes the [`nocurrentpoint`] error.
 
 The coordinates are interpreted as user space coordinates and are transformed by the current transformation matrix (CTM) when the path is constructed.
 
@@ -149,7 +149,7 @@ stroke
 
 === Common Pitfalls
 
-WARNING: *No Current Point* - [`lineto`](lineto.adoc) requires an established current point. Always use xref:moveto.adoc[`moveto`] first.
+WARNING: *No Current Point* - link:lineto.adoc[`lineto`] requires an established current point. Always use xref:moveto.adoc[`moveto`] first.
 
 [source,postscript]
 ----
@@ -191,7 +191,7 @@ TIP: *Use for Straight Segments* - For curved paths, use xref:curveto.adoc[`curv
 * Creates a straight line segment in device space after CTM transformation
 * The endpoint becomes the new current point
 * Lines are not rendered until a painting operator is executed
-* Multiple consecutive [`lineto`](lineto.adoc) operations create a polyline
+* Multiple consecutive link:lineto.adoc[`lineto`] operations create a polyline
 * Line appearance depends on current line width, dash pattern, and line cap settings
 
 === Performance Considerations

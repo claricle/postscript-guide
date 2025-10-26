@@ -44,7 +44,7 @@ matrix1 matrix2 matrix3 concatmatrix → matrix3
 
 === Description
 
-[`concatmatrix`](concatmatrix.adoc) replaces the value of `matrix3` with the result of multiplying matrix1 × matrix2, and pushes the modified `matrix3` back on the operand stack.
+link:concatmatrix.adoc[`concatmatrix`] replaces the value of `matrix3` with the result of multiplying matrix1 × matrix2, and pushes the modified `matrix3` back on the operand stack.
 
 This operator performs matrix multiplication without affecting the current transformation matrix (CTM). It is useful for building complex transformations from simpler ones.
 
@@ -228,7 +228,7 @@ M₁ = [a₁  b₁  c₁  d₁  tx₁  ty₁]
 M₂ = [a₂  b₂  c₂  d₂  tx₂  ty₂]
 ----
 
-[`concatmatrix`](concatmatrix.adoc) computes M₃ = M₁ × M₂:
+link:concatmatrix.adoc[`concatmatrix`] computes M₃ = M₁ × M₂:
 
 ----
 M₃ = [a₁×a₂ + b₁×c₂              a₁×b₂ + b₁×d₂

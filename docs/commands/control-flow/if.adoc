@@ -41,9 +41,9 @@ bool proc if → –
 
 === Description
 
-[`if`](if.adoc) removes both operands from the stack, then executes _proc_ if _bool_ is `true`. If _bool_ is `false`, _proc_ is not executed.
+link:if.adoc[`if`] removes both operands from the stack, then executes _proc_ if _bool_ is `true`. If _bool_ is `false`, _proc_ is not executed.
 
-The [`if`](if.adoc) operator itself pushes no results, but _proc_ may push results onto the stack.
+The link:if.adoc[`if`] operator itself pushes no results, but _proc_ may push results onto the stack.
 
 === PostScript Level
 
@@ -124,7 +124,7 @@ true [code] if       % Error: literal array
 true { code } if     % Correct: executable array
 ----
 
-TIP: *Use ifelse for Two-Way* - For true/false cases, xref:ifelse.adoc[`ifelse`] is more convenient than nested [`if`](if.adoc) statements.
+TIP: *Use ifelse for Two-Way* - For true/false cases, xref:ifelse.adoc[`ifelse`] is more convenient than nested link:if.adoc[`if`] statements.
 
 === Error Conditions
 
