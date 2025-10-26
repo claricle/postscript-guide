@@ -38,7 +38,7 @@ string cvn → name
 
 === Description
 
-link:cvn.adoc[`cvn`] (convert to name) converts the string operand to a name object that is lexically identical to the string.
+xref:../cvn.adoc[`cvn`] (convert to name) converts the string operand to a name object that is lexically identical to the string.
 
 The resulting name:
 * Has the same executable/literal attribute as the string

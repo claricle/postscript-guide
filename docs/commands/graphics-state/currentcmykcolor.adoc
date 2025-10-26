@@ -47,11 +47,11 @@ Returns current color as CMYK values.
 
 === Description
 
-link:currentcmykcolor.adoc[`currentcmykcolor`] returns the current color in the graphics state according to the cyan-magenta-yellow-black color space.
+xref:../currentcmykcolor.adoc[`currentcmykcolor`] returns the current color in the graphics state according to the cyan-magenta-yellow-black color space.
 
-* If the current color space is **DeviceCMYK**, link:currentcmykcolor.adoc[`currentcmykcolor`] returns the color values most recently specified by link:setcmykcolor.adoc[`setcmykcolor`] or [`setcolor`].
-* If the current color space is **DeviceRGB** or **DeviceGray**, link:currentcmykcolor.adoc[`currentcmykcolor`] converts the current color to CMYK.
-* For any other color space, link:currentcmykcolor.adoc[`currentcmykcolor`] returns **0.0 0.0 0.0 1.0** (black).
+* If the current color space is **DeviceCMYK**, xref:../currentcmykcolor.adoc[`currentcmykcolor`] returns the color values most recently specified by xref:../setcmykcolor.adoc[`setcmykcolor`] or [`setcolor`].
+* If the current color space is **DeviceRGB** or **DeviceGray**, xref:../currentcmykcolor.adoc[`currentcmykcolor`] converts the current color to CMYK.
+* For any other color space, xref:../currentcmykcolor.adoc[`currentcmykcolor`] returns **0.0 0.0 0.0 1.0** (black).
 
 Each returned value is in the range 0.0 (no ink) to 1.0 (full ink coverage).
 

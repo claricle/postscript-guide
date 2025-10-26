@@ -39,7 +39,7 @@ string cvi → int
 
 === Description
 
-link:cvi.adoc[`cvi`] (convert to integer) converts an integer, real, or string to an integer result:
+xref:../cvi.adoc[`cvi`] (convert to integer) converts an integer, real, or string to an integer result:
 
 * **Integer operand**: Returns it unchanged
 * **Real operand**: Truncates fractional part (rounds toward 0) and converts to integer
@@ -101,7 +101,7 @@ position cellsize div cvi  % Integer cell index
 
 === Common Pitfalls
 
-WARNING: *Truncation, Not Rounding* - link:cvi.adoc[`cvi`] truncates toward zero, not to nearest integer.
+WARNING: *Truncation, Not Rounding* - xref:../cvi.adoc[`cvi`] truncates toward zero, not to nearest integer.
 
 [source,postscript]
 ----
@@ -124,7 +124,7 @@ WARNING: *String Syntax* - String must contain valid PostScript number syntax.
 (12x) cvi        % Error: syntaxerror
 ----
 
-TIP: *Use round/floor/ceiling* - For other rounding behavior, use xref:../arithmetic-math/round.adoc[`round`], xref:../arithmetic-math/floor.adoc[`floor`], or xref:../arithmetic-math/ceiling.adoc[`ceiling`] before link:cvi.adoc[`cvi`].
+TIP: *Use round/floor/ceiling* - For other rounding behavior, use xref:../arithmetic-math/round.adoc[`round`], xref:../arithmetic-math/floor.adoc[`floor`], or xref:../arithmetic-math/ceiling.adoc[`ceiling`] before xref:../cvi.adoc[`cvi`].
 
 === Error Conditions
 
@@ -164,7 +164,7 @@ TIP: *Use round/floor/ceiling* - For other rounding behavior, use xref:../arithm
 |===
 | Operator | Result
 
-| link:cvi.adoc[`cvi`]
+| xref:../cvi.adoc[`cvi`]
 | Truncate toward 0, convert to integer
 
 | xref:../cvr.adoc[`cvr`]

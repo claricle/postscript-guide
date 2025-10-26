@@ -38,11 +38,11 @@ Returns current color as gray value.
 
 === Description
 
-link:currentgray.adoc[`currentgray`] returns the gray value of the current color parameter in the graphics state.
+xref:../currentgray.adoc[`currentgray`] returns the gray value of the current color parameter in the graphics state.
 
-* If the current color space is **DeviceGray**, link:currentgray.adoc[`currentgray`] returns the color value most recently specified to link:setgray.adoc[`setgray`] or [`setcolor`].
-* If the current color space is **DeviceRGB** or **DeviceCMYK**, link:currentgray.adoc[`currentgray`] converts the current color to a gray value using standard conversion formulas.
-* For any other color space, link:currentgray.adoc[`currentgray`] returns **0.0** (black).
+* If the current color space is **DeviceGray**, xref:../currentgray.adoc[`currentgray`] returns the color value most recently specified to xref:../setgray.adoc[`setgray`] or [`setcolor`].
+* If the current color space is **DeviceRGB** or **DeviceCMYK**, xref:../currentgray.adoc[`currentgray`] converts the current color to a gray value using standard conversion formulas.
+* For any other color space, xref:../currentgray.adoc[`currentgray`] returns **0.0** (black).
 
 The returned value is always in the range 0.0 (black) to 1.0 (white).
 

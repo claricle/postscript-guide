@@ -25,7 +25,7 @@ PostScript maintains a dictionary stack that controls name lookup:
 * Top dictionary is searched first (current dictionary)
 * Search proceeds down the stack until name is found
 * Standard dictionaries: `systemdict`, `globaldict` (Level 2), `userdict`
-* User dictionaries can be pushed/popped with link:begin.adoc[`begin`] / link:end.adoc[`end`]
+* User dictionaries can be pushed/popped with xref:../begin.adoc[`begin`] / xref:../end.adoc[`end`]
 
 == Command Categories
 
@@ -194,7 +194,7 @@ The standard dictionary stack (bottom to top):
 
 == Common Pitfalls
 
-WARNING: *Dictionary Stack Balance* - Every link:begin.adoc[`begin`] must have matching link:end.adoc[`end`]. Unbalanced stacks cause [`dictstackunderflow`] or [`dictstackoverflow`].
+WARNING: *Dictionary Stack Balance* - Every xref:../begin.adoc[`begin`] must have matching xref:../end.adoc[`end`]. Unbalanced stacks cause [`dictstackunderflow`] or [`dictstackoverflow`].
 
 WARNING: *Fixed Capacity (Level 1)* - In Level 1, exceeding dictionary capacity causes [`dictfull`] error. Always allocate sufficient space.
 

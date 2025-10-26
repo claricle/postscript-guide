@@ -29,13 +29,13 @@ Terminates operation of the PostScript interpreter.
 
 === Description
 
-link:quit.adoc[`quit`] terminates operation of the PostScript interpreter. The precise action depends on the environment:
+xref:../quit.adoc[`quit`] terminates operation of the PostScript interpreter. The precise action depends on the environment:
 
 * May return control to operating system
 * May halt or restart the machine
 * In multi-context systems (DPS): terminates current context only
 
-In job server environments, link:quit.adoc[`quit`] in `userdict` is usually redefined to mean xref:../stop.adoc[`stop`] (terminate job, not interpreter).
+In job server environments, xref:../quit.adoc[`quit`] in `userdict` is usually redefined to mean xref:../stop.adoc[`stop`] (terminate job, not interpreter).
 
 === PostScript Level
 
@@ -97,7 +97,7 @@ quit  % Usually stops job, not interpreter
 systemdict /quit get exec  % Actually quits
 ----
 
-WARNING: *Immediate Termination* - link:quit.adoc[`quit`] terminates immediately, no cleanup.
+WARNING: *Immediate Termination* - xref:../quit.adoc[`quit`] terminates immediately, no cleanup.
 
 [source,postscript]
 ----
@@ -109,7 +109,7 @@ WARNING: *Immediate Termination* - link:quit.adoc[`quit`] terminates immediately
 } if
 ----
 
-TIP: *Use stop in Jobs* - In encapsulated jobs, use xref:../stop.adoc[`stop`] instead of link:quit.adoc[`quit`].
+TIP: *Use stop in Jobs* - In encapsulated jobs, use xref:../stop.adoc[`stop`] instead of xref:../quit.adoc[`quit`].
 
 === Error Conditions
 

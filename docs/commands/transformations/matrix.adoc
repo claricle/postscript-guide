@@ -38,7 +38,7 @@ Creates an identity transformation matrix.
 
 === Description
 
-link:matrix.adoc[`matrix`] creates a 6-element array object, fills it with the values of an identity matrix [1.0 0.0 0.0 1.0 0.0 0.0], and pushes this array on the operand stack.
+xref:../matrix.adoc[`matrix`] creates a 6-element array object, fills it with the values of an identity matrix [1.0 0.0 0.0 1.0 0.0 0.0], and pushes this array on the operand stack.
 
 The array is allocated in local or global VM according to the current VM allocation mode.
 
@@ -123,7 +123,7 @@ savedCTM setmatrix   % Restore CTM
 
 === Common Pitfalls
 
-WARNING: *Not Just Array Creation* - link:matrix.adoc[`matrix`] creates an array AND fills it with identity matrix values.
+WARNING: *Not Just Array Creation* - xref:../matrix.adoc[`matrix`] creates an array AND fills it with identity matrix values.
 
 [source,postscript]
 ----
@@ -156,7 +156,7 @@ myMatrix currentmatrix pop
 myMatrix 100 100 translate pop
 ----
 
-TIP: *Equivalent to Array Creation* - This is equivalent to link:matrix.adoc[`matrix`]:
+TIP: *Equivalent to Array Creation* - This is equivalent to xref:../matrix.adoc[`matrix`]:
 
 [source,postscript]
 ----

@@ -38,11 +38,11 @@ Sets the current path to the current clipping path.
 
 === Description
 
-link:clippath.adoc[`clippath`] sets the current path to one that describes the current clipping path. This operator is useful for determining the exact extent of the imaging area on the current output device.
+xref:../clippath.adoc[`clippath`] sets the current path to one that describes the current clipping path. This operator is useful for determining the exact extent of the imaging area on the current output device.
 
-If the current clipping path is the result of application of the xref:../clip.adoc[`clip`] or xref:../eoclip.adoc[`eoclip`] operator, the path set by link:clippath.adoc[`clippath`] is generally suitable only for filling or clipping. It is not suitable for stroking because it may contain interior segments or disconnected subpaths produced by the clipping process.
+If the current clipping path is the result of application of the xref:../clip.adoc[`clip`] or xref:../eoclip.adoc[`eoclip`] operator, the path set by xref:../clippath.adoc[`clippath`] is generally suitable only for filling or clipping. It is not suitable for stroking because it may contain interior segments or disconnected subpaths produced by the clipping process.
 
-The path returned by link:clippath.adoc[`clippath`] describes the clipping region as it exists in user space coordinates, transformed through the current transformation matrix (CTM).
+The path returned by xref:../clippath.adoc[`clippath`] describes the clipping region as it exists in user space coordinates, transformed through the current transformation matrix (CTM).
 
 === PostScript Level
 
@@ -187,7 +187,7 @@ clippath  % Returns coordinates in scaled space
 pathbbox  % Bounds reflect current CTM
 ----
 
-WARNING: *Replaces Current Path* - link:clippath.adoc[`clippath`] replaces any existing current path.
+WARNING: *Replaces Current Path* - xref:../clippath.adoc[`clippath`] replaces any existing current path.
 
 [source,postscript]
 ----
@@ -198,7 +198,7 @@ newpath
 clippath  % Previous path is lost
 ----
 
-TIP: *Use for Bounds Checking* - link:clippath.adoc[`clippath`] with `pathbbox` gives exact drawable area:
+TIP: *Use for Bounds Checking* - xref:../clippath.adoc[`clippath`] with `pathbbox` gives exact drawable area:
 
 [source,postscript]
 ----
@@ -212,11 +212,11 @@ pop pop  % Remove llx lly
 
 === Error Conditions
 
-None. link:clippath.adoc[`clippath`] cannot generate errors.
+None. xref:../clippath.adoc[`clippath`] cannot generate errors.
 
 === Implementation Notes
 
-* The path set by link:clippath.adoc[`clippath`] may be complex if multiple clip operations were performed
+* The path set by xref:../clippath.adoc[`clippath`] may be complex if multiple clip operations were performed
 * The path accurately represents the intersection of all previous clip operations
 * The path is always closed and suitable for filling
 * Device-default clip paths are typically rectangular
@@ -224,12 +224,12 @@ None. link:clippath.adoc[`clippath`] cannot generate errors.
 
 === Interaction with Graphics State
 
-link:clippath.adoc[`clippath`] is affected by:
+xref:../clippath.adoc[`clippath`] is affected by:
 
 * Current clipping path - This is what gets returned
 * Current transformation matrix (CTM) - Path is returned in user space
 
-link:clippath.adoc[`clippath`] affects:
+xref:../clippath.adoc[`clippath`] affects:
 
 * Current path - Replaced with the clip path
 * Nothing else in graphics state
@@ -373,11 +373,11 @@ getDrawingArea
 
 === Performance Considerations
 
-* link:clippath.adoc[`clippath`] is a fast operation
+* xref:../clippath.adoc[`clippath`] is a fast operation
 * The complexity of the returned path depends on clipping history
 * Very complex clipping paths may result in large path structures
-* Using `pathbbox` after link:clippath.adoc[`clippath`] is efficient for bounds checking
-* No rendering is performed by link:clippath.adoc[`clippath`] itself
+* Using `pathbbox` after xref:../clippath.adoc[`clippath`] is efficient for bounds checking
+* No rendering is performed by xref:../clippath.adoc[`clippath`] itself
 
 === Common Patterns
 

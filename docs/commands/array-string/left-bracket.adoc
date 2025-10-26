@@ -38,9 +38,9 @@ Marks the beginning of array construction by pushing a mark on the operand stack
 
 === Description
 
-The link:left-bracket.adoc[`[`] operator pushes a special mark object on the operand stack to indicate the beginning of an array being constructed. It works in conjunction with xref:right-bracket.adoc[`]`], which collects all objects above the mark into an array.
+The xref:../left-bracket.adoc[`[`] operator pushes a special mark object on the operand stack to indicate the beginning of an array being constructed. It works in conjunction with xref:right-bracket.adoc[`]`], which collects all objects above the mark into an array.
 
-This is the most common and convenient way to construct arrays with known contents. The link:left-bracket.adoc[`[`] operator is actually equivalent to the xref:../stack-manipulation/mark.adoc[`mark`] operator, but its use with xref:right-bracket.adoc[`]`] gives it special significance for array construction.
+This is the most common and convenient way to construct arrays with known contents. The xref:../left-bracket.adoc[`[`] operator is actually equivalent to the xref:../stack-manipulation/mark.adoc[`mark`] operator, but its use with xref:right-bracket.adoc[`]`] gives it special significance for array construction.
 
 === PostScript Level
 
@@ -106,14 +106,14 @@ This is the most common and convenient way to construct arrays with known conten
 
 === Common Pitfalls
 
-WARNING: *Unmatched Brackets* - Every link:left-bracket.adoc[`[`] must have a corresponding xref:right-bracket.adoc[`]`]. Unmatched brackets cause a [`syntaxerror`].
+WARNING: *Unmatched Brackets* - Every xref:../left-bracket.adoc[`[`] must have a corresponding xref:right-bracket.adoc[`]`]. Unmatched brackets cause a [`syntaxerror`].
 
 [source,postscript]
 ----
 [ 1 2 3   % Missing ] causes syntaxerror
 ----
 
-WARNING: *Execution vs. Literal* - Objects between link:left-bracket.adoc[`[`] and xref:right-bracket.adoc[`]`] are evaluated before being placed in the array.
+WARNING: *Execution vs. Literal* - Objects between xref:../left-bracket.adoc[`[`] and xref:right-bracket.adoc[`]`] are evaluated before being placed in the array.
 
 [source,postscript]
 ----
@@ -137,13 +137,13 @@ TIP: *Literal Arrays* - The array created by xref:left-bracket.adoc:[`[ ... ]`] 
 
 === Implementation Notes
 
-* The mark object pushed by link:left-bracket.adoc[`[`] is the same as that created by xref:../stack-manipulation/mark.adoc[`mark`]
+* The mark object pushed by xref:../left-bracket.adoc[`[`] is the same as that created by xref:../stack-manipulation/mark.adoc[`mark`]
 * Marks are used for error recovery and can be detected with xref:../stack-manipulation/counttomark.adoc[`counttomark`]
 * The interpreter treats `[` specially during scanning for array literal syntax
 
 === Relationship to mark
 
-The link:left-bracket.adoc[`[`] operator is functionally equivalent to xref:../stack-manipulation/mark.adoc[`mark`]:
+The xref:../left-bracket.adoc[`[`] operator is functionally equivalent to xref:../stack-manipulation/mark.adoc[`mark`]:
 
 [source,postscript]
 ----
@@ -151,7 +151,7 @@ mark 1 2 3 ]     % Same as [ 1 2 3 ]
 [ 1 2 3          % Must be closed with ]
 ----
 
-However, link:left-bracket.adoc[`[`] and xref:right-bracket.adoc[`]`] provide clearer syntax for array construction.
+However, xref:../left-bracket.adoc[`[`] and xref:right-bracket.adoc[`]`] provide clearer syntax for array construction.
 
 === See Also
 

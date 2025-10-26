@@ -30,7 +30,7 @@ cx cy char string
 
 === Description
 
-link:widthshow.adoc[`widthshow`] paints the characters of `string` in a manner similar to link:show.adoc[`show`]. But while doing so, link:widthshow.adoc[`widthshow`] adjusts the width of each occurrence of the character `char` by adding `cx` to its x width and `cy` to its y width, thus modifying the spacing between it and the next character.
+xref:../widthshow.adoc[`widthshow`] paints the characters of `string` in a manner similar to xref:../show.adoc[`show`]. But while doing so, xref:../widthshow.adoc[`widthshow`] adjusts the width of each occurrence of the character `char` by adding `cx` to its x width and `cy` to its y width, thus modifying the spacing between it and the next character.
 
 The `char` parameter is an integer used as a character code. This operator enables fitting a string of text to a specific width by adjusting the width of all occurrences of some specific character, such as the space character.
 
@@ -258,9 +258,9 @@ else:
 
 === Performance Considerations
 
-- Slightly slower than link:show.adoc[`show`] due to conditional width adjustment
+- Slightly slower than xref:../show.adoc[`show`] due to conditional width adjustment
 - Still benefits from font caching
-- More efficient than link:kshow.adoc[`kshow`] for simple spacing needs
+- More efficient than xref:../kshow.adoc[`kshow`] for simple spacing needs
 - Character matching is done by simple integer comparison (fast)
 
 === Comparison with Other Spacing Operators
@@ -269,27 +269,27 @@ else:
 |===
 | Operator | Spacing Adjustment
 
-| link:show.adoc[`show`]
+| xref:../show.adoc[`show`]
 | None (uses character widths as-is)
 
-| link:ashow.adoc[`ashow`]
+| xref:../ashow.adoc[`ashow`]
 | Uniform adjustment to all characters
 
-| link:widthshow.adoc[`widthshow`]
+| xref:../widthshow.adoc[`widthshow`]
 | Adjustment to specific character only
 
-| link:awidthshow.adoc[`awidthshow`]
+| xref:../awidthshow.adoc[`awidthshow`]
 | Both uniform and character-specific
 
-| link:kshow.adoc[`kshow`]
+| xref:../kshow.adoc[`kshow`]
 | Procedural control between each pair
 |===
 
 === See Also
 
-- link:show.adoc[`show`] - Basic text painting
-- link:ashow.adoc[`ashow`] - Show with uniform character spacing
-- link:awidthshow.adoc[`awidthshow`] - Combine ashow and widthshow
-- link:kshow.adoc[`kshow`] - Show with kerning procedure
-- link:cshow.adoc[`cshow`] - Show with procedure per character
-- link:stringwidth.adoc[`stringwidth`] - Calculate text width
+- xref:../show.adoc[`show`] - Basic text painting
+- xref:../ashow.adoc[`ashow`] - Show with uniform character spacing
+- xref:../awidthshow.adoc[`awidthshow`] - Combine ashow and widthshow
+- xref:../kshow.adoc[`kshow`] - Show with kerning procedure
+- xref:../cshow.adoc[`cshow`] - Show with procedure per character
+- xref:../stringwidth.adoc[`stringwidth`] - Calculate text width

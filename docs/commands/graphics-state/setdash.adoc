@@ -41,7 +41,7 @@ array offset setdash → –
 
 === Description
 
-link:setdash.adoc[`setdash`] sets the dash pattern parameter in the graphics state. This controls the pattern of dashes and gaps used by subsequent [`stroke`] operations.
+xref:../setdash.adoc[`setdash`] sets the dash pattern parameter in the graphics state. This controls the pattern of dashes and gaps used by subsequent [`stroke`] operations.
 
 The **array** specifies the pattern:
 
@@ -52,7 +52,7 @@ The **array** specifies the pattern:
 
 The **offset** specifies how far into the pattern to start (in user space units).
 
-The dash pattern is interpreted in user space and is unaffected by transformations applied after link:setdash.adoc[`setdash`] is called.
+The dash pattern is interpreted in user space and is unaffected by transformations applied after xref:../setdash.adoc[`setdash`] is called.
 
 === PostScript Level
 

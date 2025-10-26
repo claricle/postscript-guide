@@ -30,19 +30,19 @@ font'
 
 === Description
 
-link:scalefont.adoc[`scalefont`] applies the scale factor `scale` to `font`, producing a new `font'` whose characters are scaled by `scale` (in both x and y) when they are shown. link:scalefont.adoc[`scalefont`] first creates a copy of `font`, then replaces the new font's `FontMatrix` entry with the result of scaling the existing `FontMatrix` by `scale`.
+xref:../scalefont.adoc[`scalefont`] applies the scale factor `scale` to `font`, producing a new `font'` whose characters are scaled by `scale` (in both x and y) when they are shown. xref:../scalefont.adoc[`scalefont`] first creates a copy of `font`, then replaces the new font's `FontMatrix` entry with the result of scaling the existing `FontMatrix` by `scale`.
 
 It inserts two additional entries, `OrigFont` and `ScaleMatrix`, whose purpose is internal to the implementation. Finally, it returns the result as `font'`.
 
 Showing characters from the transformed font produces the same results as showing from the original font after having scaled user space by the factor `scale` in both x and y by means of the link:../transformations/scale.adoc[`scale`] operator.
 
-link:scalefont.adoc[`scalefont`] is essentially a convenience operator that enables the desired scale factor to be encapsulated in the font description. Another operator, link:makefont.adoc[`makefont`], performs more general transformations than simple scaling.
+xref:../scalefont.adoc[`scalefont`] is essentially a convenience operator that enables the desired scale factor to be encapsulated in the font description. Another operator, xref:../makefont.adoc[`makefont`], performs more general transformations than simple scaling.
 
-The interpreter keeps track of font dictionaries recently created by link:scalefont.adoc[`scalefont`]. Calling link:scalefont.adoc[`scalefont`] multiple times with the same font and scale will usually return the same `font'` rather than create a new one each time. However, it is usually more efficient for a PostScript language program to apply link:scalefont.adoc[`scalefont`] only once for each font that it needs and to keep track of the resulting font dictionaries on its own.
+The interpreter keeps track of font dictionaries recently created by xref:../scalefont.adoc[`scalefont`]. Calling xref:../scalefont.adoc[`scalefont`] multiple times with the same font and scale will usually return the same `font'` rather than create a new one each time. However, it is usually more efficient for a PostScript language program to apply xref:../scalefont.adoc[`scalefont`] only once for each font that it needs and to keep track of the resulting font dictionaries on its own.
 
 === VM Allocation
 
-The link:makefont.adoc[`makefont`], link:scalefont.adoc[`scalefont`], and link:../graphics-state/selectfont.adoc[`selectfont`] operators produce a font dictionary derived from an original font dictionary, but with the `FontMatrix` entry altered. The derived font dictionary is allocated in local or global VM according to whether the original font dictionary is in local or global VM. This is independent of the current VM allocation mode.
+The xref:../makefont.adoc[`makefont`], xref:../scalefont.adoc[`scalefont`], and link:../graphics-state/selectfont.adoc[`selectfont`] operators produce a font dictionary derived from an original font dictionary, but with the `FontMatrix` entry altered. The derived font dictionary is allocated in local or global VM according to whether the original font dictionary is in local or global VM. This is independent of the current VM allocation mode.
 
 === Parameters
 
@@ -117,7 +117,7 @@ FontMatrix' = [scale 0 0 scale 0 0] × FontMatrix
 
 === See Also
 
-- link:findfont.adoc[`findfont`] - Obtain font dictionary by name
-- link:makefont.adoc[`makefont`] - Transform font by matrix (for non-uniform scaling)
-- link:setfont.adoc[`setfont`] - Establish current font
-- link:currentfont.adoc[`currentfont`] - Get current font dictionary
+- xref:../findfont.adoc[`findfont`] - Obtain font dictionary by name
+- xref:../makefont.adoc[`makefont`] - Transform font by matrix (for non-uniform scaling)
+- xref:../setfont.adoc[`setfont`] - Establish current font
+- xref:../currentfont.adoc[`currentfont`] - Get current font dictionary

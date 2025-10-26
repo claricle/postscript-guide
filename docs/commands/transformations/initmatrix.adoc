@@ -38,7 +38,7 @@ Resets the current transformation matrix to the device default.
 
 === Description
 
-link:initmatrix.adoc[`initmatrix`] sets the current transformation matrix (CTM) to the default matrix for the current output device. This matrix transforms the default user coordinate system to device space.
+xref:../initmatrix.adoc[`initmatrix`] sets the current transformation matrix (CTM) to the default matrix for the current output device. This matrix transforms the default user coordinate system to device space.
 
 For page-oriented devices, the default matrix is initially established by the `setpagedevice` operator.
 
@@ -49,7 +49,7 @@ This is equivalent to:
 matrix defaultmatrix setmatrix
 ----
 
-WARNING: There are few situations in which a PostScript program should execute link:initmatrix.adoc[`initmatrix`] explicitly. A page description that executes link:initmatrix.adoc[`initmatrix`] usually produces incorrect results if embedded within another, composite page.
+WARNING: There are few situations in which a PostScript program should execute xref:../initmatrix.adoc[`initmatrix`] explicitly. A page description that executes xref:../initmatrix.adoc[`initmatrix`] usually produces incorrect results if embedded within another, composite page.
 
 === PostScript Level
 
@@ -110,7 +110,7 @@ initgraphics  % Reset other graphics parameters too
 
 === Common Pitfalls
 
-WARNING: *Breaks Nested Transformations* - link:initmatrix.adoc[`initmatrix`] ignores all previous transformations.
+WARNING: *Breaks Nested Transformations* - xref:../initmatrix.adoc[`initmatrix`] ignores all previous transformations.
 
 [source,postscript]
 ----
@@ -125,7 +125,7 @@ initmatrix      % Destroys the translate and scale!
 drawBox         % Box appears at device origin, normal size
 ----
 
-WARNING: *Not for Typical Programs* - Normal PostScript programs should not use link:initmatrix.adoc[`initmatrix`].
+WARNING: *Not for Typical Programs* - Normal PostScript programs should not use xref:../initmatrix.adoc[`initmatrix`].
 
 [source,postscript]
 ----
@@ -150,7 +150,7 @@ grestore
 % Original transformation restored
 ----
 
-TIP: *Part of initgraphics* - link:initmatrix.adoc[`initmatrix`] is one component of `initgraphics`:
+TIP: *Part of initgraphics* - xref:../initmatrix.adoc[`initmatrix`] is one component of `initgraphics`:
 
 [source,postscript]
 ----
@@ -173,7 +173,7 @@ initclip
 | Error | Condition
 
 | (none)
-| link:initmatrix.adoc[`initmatrix`] cannot fail
+| xref:../initmatrix.adoc[`initmatrix`] cannot fail
 |===
 
 === Implementation Notes
@@ -214,7 +214,7 @@ initmatrix
 matrix defaultmatrix setmatrix
 ----
 
-link:initmatrix.adoc[`initmatrix`] is part of:
+xref:../initmatrix.adoc[`initmatrix`] is part of:
 
 [source,postscript]
 ----

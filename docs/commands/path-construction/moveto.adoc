@@ -41,9 +41,9 @@ x y moveto → -
 
 === Description
 
-link:moveto.adoc[`moveto`] starts a new subpath of the current path by setting the current point in the graphics state to the user space coordinate (x, y) without adding any line segments to the current path.
+xref:../moveto.adoc[`moveto`] starts a new subpath of the current path by setting the current point in the graphics state to the user space coordinate (x, y) without adding any line segments to the current path.
 
-If the previous path construction operation was also a link:moveto.adoc[`moveto`] or xref:../rmoveto.adoc[`rmoveto`], that point is deleted from the current path and the new link:moveto.adoc[`moveto`] point replaces it.
+If the previous path construction operation was also a xref:../moveto.adoc[`moveto`] or xref:../rmoveto.adoc[`rmoveto`], that point is deleted from the current path and the new xref:../moveto.adoc[`moveto`] point replaces it.
 
 The coordinates are interpreted as user space coordinates and are transformed by the current transformation matrix (CTM) to device space when the path is constructed.
 
@@ -127,7 +127,7 @@ fill                     % Fill both squares
 
 === Common Pitfalls
 
-WARNING: *No Current Point Initially* - After xref:../newpath.adoc[`newpath`], there is no current point. Always use link:moveto.adoc[`moveto`] to establish one before operations like xref:../lineto.adoc[`lineto`] or xref:../curveto.adoc[`curveto`].
+WARNING: *No Current Point Initially* - After xref:../newpath.adoc[`newpath`], there is no current point. Always use xref:../moveto.adoc[`moveto`] to establish one before operations like xref:../lineto.adoc[`lineto`] or xref:../curveto.adoc[`curveto`].
 
 [source,postscript]
 ----
@@ -135,7 +135,7 @@ newpath
 200 200 lineto           % Error: nocurrentpoint
 ----
 
-WARNING: *Consecutive moveto* - Multiple consecutive link:moveto.adoc[`moveto`] operations cause only the last one to be effective. The previous points are discarded.
+WARNING: *Consecutive moveto* - Multiple consecutive xref:../moveto.adoc[`moveto`] operations cause only the last one to be effective. The previous points are discarded.
 
 [source,postscript]
 ----
@@ -146,7 +146,7 @@ newpath
 40 40 lineto             % Line starts from (30, 30)
 ----
 
-TIP: *Use for Positioning* - link:moveto.adoc[`moveto`] is essential for positioning before drawing or showing text. It doesn't consume the current point—it sets it.
+TIP: *Use for Positioning* - xref:../moveto.adoc[`moveto`] is essential for positioning before drawing or showing text. It doesn't consume the current point—it sets it.
 
 === Error Conditions
 
@@ -166,7 +166,7 @@ TIP: *Use for Positioning* - link:moveto.adoc[`moveto`] is essential for positio
 
 === Implementation Notes
 
-* link:moveto.adoc[`moveto`] does not add any segments to the path
+* xref:../moveto.adoc[`moveto`] does not add any segments to the path
 * Coordinates are immediately transformed by CTM to device space
 * The point becomes the start of a new subpath
 * Subsequent path operations use this as the current point
@@ -177,7 +177,7 @@ TIP: *Use for Positioning* - link:moveto.adoc[`moveto`] is essential for positio
 * Very lightweight operation
 * No path segments are created
 * Transformation happens immediately
-* Multiple consecutive link:moveto.adoc[`moveto`] operations have minimal overhead (only the last is retained)
+* Multiple consecutive xref:../moveto.adoc[`moveto`] operations have minimal overhead (only the last is retained)
 
 === See Also
 

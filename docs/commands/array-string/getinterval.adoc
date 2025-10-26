@@ -46,7 +46,7 @@ string index count getinterval → substring
 
 === Description
 
-link:getinterval.adoc[`getinterval`] creates a new array, packed array, or string object whose value consists of _count_ elements starting at position _index_ in the original object.
+xref:../getinterval.adoc[`getinterval`] creates a new array, packed array, or string object whose value consists of _count_ elements starting at position _index_ in the original object.
 
 The elements in the subsequence are **shared** between the original and new objects - modifying one affects the other.
 

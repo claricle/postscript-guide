@@ -42,7 +42,7 @@ string rcheck → bool
 
 === Description
 
-link:rcheck.adoc[`rcheck`] tests whether the operand's access attribute permits its value to be read explicitly by PostScript operators.
+xref:../rcheck.adoc[`rcheck`] tests whether the operand's access attribute permits its value to be read explicitly by PostScript operators.
 
 Returns:
 * `true` if access is **unlimited** or **readonly**
@@ -125,9 +125,9 @@ dup rcheck         % false (cannot read)
 dup exec           % Works! (can execute)
 ----
 
-WARNING: *Confusing rcheck with xcheck* - link:rcheck.adoc[`rcheck`] tests read access, xref:../xcheck.adoc[`xcheck`] tests executable attribute.
+WARNING: *Confusing rcheck with xcheck* - xref:../rcheck.adoc[`rcheck`] tests read access, xref:../xcheck.adoc[`xcheck`] tests executable attribute.
 
-TIP: *Check Before Reading* - Use link:rcheck.adoc[`rcheck`] before operations that read object values.
+TIP: *Check Before Reading* - Use xref:../rcheck.adoc[`rcheck`] before operations that read object values.
 
 === Error Conditions
 

@@ -41,7 +41,7 @@ key value def → –
 
 === Description
 
-link:def.adoc[`def`] associates _key_ with _value_ in the current dictionary (the one on top of the dictionary stack).
+xref:../def.adoc[`def`] associates _key_ with _value_ in the current dictionary (the one on top of the dictionary stack).
 
 * If _key_ already exists: replaces its value
 * If _key_ doesn't exist: creates new entry
@@ -114,7 +114,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Defines in Current Dictionary* - link:def.adoc[`def`] always uses the current dictionary (top of dict stack), not a specific dictionary.
+WARNING: *Defines in Current Dictionary* - xref:../def.adoc[`def`] always uses the current dictionary (top of dict stack), not a specific dictionary.
 
 [source,postscript]
 ----
@@ -183,7 +183,7 @@ TIP: *Use Literal Names* - Always use literal names (starting with `/`) for keys
 |===
 | Operator | Behavior
 
-| link:def.adoc[`def`]
+| xref:../def.adoc[`def`]
 | Define in **current** dictionary
 
 | xref:../store.adoc[`store`]

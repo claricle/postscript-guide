@@ -48,7 +48,7 @@ packedarray aload → packedarray₀ ... packedarrayₙ₋₁ packedarray
 
 === Description
 
-link:aload.adoc[`aload`] successively pushes all _n_ elements of an array or packed array onto the operand stack (where _n_ is the length of the operand), and finally pushes the array or packed array itself back onto the stack.
+xref:../aload.adoc[`aload`] successively pushes all _n_ elements of an array or packed array onto the operand stack (where _n_ is the length of the operand), and finally pushes the array or packed array itself back onto the stack.
 
 The elements are pushed in index order: element 0 first, element _n_-1 last.
 
@@ -111,7 +111,7 @@ matrix currentmatrix aload pop
 
 === Common Pitfalls
 
-WARNING: *Array Remains on Stack* - link:aload.adoc[`aload`] leaves the original array on the stack. Use link:../stack-manipulation/pop.adoc[`pop`] if you don't need it.
+WARNING: *Array Remains on Stack* - xref:../aload.adoc[`aload`] leaves the original array on the stack. Use link:../stack-manipulation/pop.adoc[`pop`] if you don't need it.
 
 [source,postscript]
 ----
@@ -126,7 +126,7 @@ WARNING: *Stack Overflow* - Loading large arrays can overflow the operand stack.
 1000 array aload  % Might cause stackoverflow
 ----
 
-TIP: *Use with forall* - For processing array elements, xref:../forall.adoc[`forall`] is often more appropriate than link:aload.adoc[`aload`].
+TIP: *Use with forall* - For processing array elements, xref:../forall.adoc[`forall`] is often more appropriate than xref:../aload.adoc[`aload`].
 
 === Error Conditions
 

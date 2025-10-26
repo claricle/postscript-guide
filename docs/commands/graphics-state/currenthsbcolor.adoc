@@ -44,11 +44,11 @@ Returns current color as HSB values.
 
 === Description
 
-link:currenthsbcolor.adoc[`currenthsbcolor`] returns the current color in the graphics state according to the hue-saturation-brightness model.
+xref:../currenthsbcolor.adoc[`currenthsbcolor`] returns the current color in the graphics state according to the hue-saturation-brightness model.
 
-* If the current color space is **DeviceRGB**, link:currenthsbcolor.adoc[`currenthsbcolor`] returns the color values most recently specified by link:sethsbcolor.adoc[`sethsbcolor`], converting them from RGB to HSB coordinates if necessary.
-* If the current color space is **DeviceGray** or **DeviceCMYK**, link:currenthsbcolor.adoc[`currenthsbcolor`] first converts the current color to RGB, then to HSB.
-* For any other color space, link:currenthsbcolor.adoc[`currenthsbcolor`] returns **0.0 0.0 0.0** (black).
+* If the current color space is **DeviceRGB**, xref:../currenthsbcolor.adoc[`currenthsbcolor`] returns the color values most recently specified by xref:../sethsbcolor.adoc[`sethsbcolor`], converting them from RGB to HSB coordinates if necessary.
+* If the current color space is **DeviceGray** or **DeviceCMYK**, xref:../currenthsbcolor.adoc[`currenthsbcolor`] first converts the current color to RGB, then to HSB.
+* For any other color space, xref:../currenthsbcolor.adoc[`currenthsbcolor`] returns **0.0 0.0 0.0** (black).
 
 **HSB components:**
 

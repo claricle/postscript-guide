@@ -38,9 +38,9 @@ Pops the current dictionary from the dictionary stack.
 
 === Description
 
-link:end.adoc[`end`] pops the current dictionary off the dictionary stack, making the dictionary below it the new current dictionary.
+xref:../end.adoc[`end`] pops the current dictionary off the dictionary stack, making the dictionary below it the new current dictionary.
 
-If link:end.adoc[`end`] attempts to pop the bottommost instance of `userdict`, it executes [`dictstackunderflow`] error. The permanent dictionaries (`systemdict`, `globaldict`, `userdict`) cannot be removed.
+If xref:../end.adoc[`end`] attempts to pop the bottommost instance of `userdict`, it executes [`dictstackunderflow`] error. The permanent dictionaries (`systemdict`, `globaldict`, `userdict`) cannot be removed.
 
 === PostScript Level
 
@@ -110,7 +110,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Unmatched end* - Executing link:end.adoc[`end`] without matching link:begin.adoc[`begin`] causes [`dictstackunderflow`].
+WARNING: *Unmatched end* - Executing xref:../end.adoc[`end`] without matching xref:../begin.adoc[`begin`] causes [`dictstackunderflow`].
 
 [source,postscript]
 ----

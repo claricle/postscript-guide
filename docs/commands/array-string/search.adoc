@@ -63,7 +63,7 @@ string seek search → post match pre true (if found)
 
 === Description
 
-link:search.adoc[`search`] looks for the first occurrence of _seek_ within _string_.
+xref:../search.adoc[`search`] looks for the first occurrence of _seek_ within _string_.
 
 If found, it splits _string_ into three segments:
 * _pre_: portion before the match

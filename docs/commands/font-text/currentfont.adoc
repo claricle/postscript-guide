@@ -30,9 +30,9 @@ font
 
 === Description
 
-link:currentfont.adoc[`currentfont`] returns the current font dictionary in the graphics state. Normally, this is the font most recently established by link:setfont.adoc[`setfont`] or `selectfont`.
+xref:../currentfont.adoc[`currentfont`] returns the current font dictionary in the graphics state. Normally, this is the font most recently established by xref:../setfont.adoc[`setfont`] or `selectfont`.
 
-However, when executed inside a font's `BuildGlyph` or `BuildChar` procedure or a procedure invoked by link:cshow.adoc[`cshow`], link:currentfont.adoc[`currentfont`] returns the currently selected base font (descendant of a composite font).
+However, when executed inside a font's `BuildGlyph` or `BuildChar` procedure or a procedure invoked by xref:../cshow.adoc[`cshow`], xref:../currentfont.adoc[`currentfont`] returns the currently selected base font (descendant of a composite font).
 
 === Returns
 
@@ -97,16 +97,16 @@ currentfont /FontName get
 
 === Behavior with Composite Fonts
 
-When link:currentfont.adoc[`currentfont`] is called during font construction:
+When xref:../currentfont.adoc[`currentfont`] is called during font construction:
 
 **In BuildGlyph/BuildChar procedures:**
 : Returns the base font selected by the composite font machinery
 
-**In link:cshow.adoc[`cshow`] procedure:**
+**In xref:../cshow.adoc[`cshow`] procedure:**
 : Returns the base font for the current character
 
 **Normal context:**
-: Returns the top-level font set by link:setfont.adoc[`setfont`]
+: Returns the top-level font set by xref:../setfont.adoc[`setfont`]
 
 To get the top-level composite font from within these procedures, use `rootfont` instead.
 
@@ -168,9 +168,9 @@ The returned font dictionary typically contains:
 
 === See Also
 
-- link:setfont.adoc[`setfont`] - Establish current font
-- link:findfont.adoc[`findfont`] - Obtain font dictionary by name
-- link:scalefont.adoc[`scalefont`] - Scale font by uniform factor
-- link:makefont.adoc[`makefont`] - Transform font by matrix
+- xref:../setfont.adoc[`setfont`] - Establish current font
+- xref:../findfont.adoc[`findfont`] - Obtain font dictionary by name
+- xref:../scalefont.adoc[`scalefont`] - Scale font by uniform factor
+- xref:../makefont.adoc[`makefont`] - Transform font by matrix
 - `rootfont` - Get root font of composite font
-- link:cshow.adoc[`cshow`] - Show with procedure per character
+- xref:../cshow.adoc[`cshow`] - Show with procedure per character

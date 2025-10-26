@@ -41,7 +41,7 @@ any string cvs → substring
 
 === Description
 
-link:cvs.adoc[`cvs`] (convert to string) produces a text representation of an arbitrary object and stores it into the supplied _string_, overwriting an initial portion of its value. It returns a string object designating the substring actually used.
+xref:../cvs.adoc[`cvs`] (convert to string) produces a text representation of an arbitrary object and stores it into the supplied _string_, overwriting an initial portion of its value. It returns a string object designating the substring actually used.
 
 Conversion rules:
 * **Numbers**: Text representation (e.g., `123`, `3.14`)

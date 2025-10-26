@@ -47,7 +47,7 @@ cyan magenta yellow black setcmykcolor → –
 
 === Description
 
-link:setcmykcolor.adoc[`setcmykcolor`] sets the color space to DeviceCMYK and sets the current color using cyan, magenta, yellow, and black components.
+xref:../setcmykcolor.adoc[`setcmykcolor`] sets the color space to DeviceCMYK and sets the current color using cyan, magenta, yellow, and black components.
 
 Each component must be in range 0.0 to 1.0:
 
@@ -57,7 +57,7 @@ Each component must be in range 0.0 to 1.0:
 
 This establishes the color for subsequent painting operations (lines, fills, text). CMYK is a **subtractive** color model primarily used for printing.
 
-**Important:** Color values set by link:setcmykcolor.adoc[`setcmykcolor`] are **not** affected by black generation and undercolor removal operations.
+**Important:** Color values set by xref:../setcmykcolor.adoc[`setcmykcolor`] are **not** affected by black generation and undercolor removal operations.
 
 === PostScript Level
 
@@ -160,7 +160,7 @@ This establishes the color for subsequent painting operations (lines, fills, tex
 
 === Common Pitfalls
 
-WARNING: *Changes Color Space* - link:setcmykcolor.adoc[`setcmykcolor`] changes color space to DeviceCMYK.
+WARNING: *Changes Color Space* - xref:../setcmykcolor.adoc[`setcmykcolor`] changes color space to DeviceCMYK.
 
 [source,postscript]
 ----

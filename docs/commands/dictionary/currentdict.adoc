@@ -38,7 +38,7 @@ Returns the current dictionary (top of dictionary stack).
 
 === Description
 
-link:currentdict.adoc[`currentdict`] pushes the current dictionary (the dictionary on top of the dictionary stack) onto the operand stack.
+xref:../currentdict.adoc[`currentdict`] pushes the current dictionary (the dictionary on top of the dictionary stack) onto the operand stack.
 
 This does NOT pop the dictionary stack - it just pushes a duplicate reference to the top dictionary.
 
@@ -104,7 +104,7 @@ currentdict /setting known not {
 
 === Common Pitfalls
 
-WARNING: *Does Not Pop Dictionary Stack* - link:currentdict.adoc[`currentdict`] leaves dictionary stack unchanged.
+WARNING: *Does Not Pop Dictionary Stack* - xref:../currentdict.adoc[`currentdict`] leaves dictionary stack unchanged.
 
 [source,postscript]
 ----
@@ -143,7 +143,7 @@ currentdict { exch = = } forall  % Print all entries
 
 * Very fast operation
 * Returns reference to actual dictionary (not a copy)
-* Standard use case for link:def.adoc[`def`] is `currentdict key value put`
+* Standard use case for xref:../def.adoc[`def`] is `currentdict key value put`
 
 === Typical Dictionary Stack
 
@@ -156,7 +156,7 @@ Top    → Local dict (via begin)
 Bottom → systemdict
 ----
 
-link:currentdict.adoc[`currentdict`] returns the topmost dictionary.
+xref:../currentdict.adoc[`currentdict`] returns the topmost dictionary.
 
 === See Also
 

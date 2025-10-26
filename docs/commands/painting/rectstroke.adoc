@@ -94,13 +94,13 @@ numstring matrix rectstroke → -
 
 === Description
 
-link:rectstroke.adoc[`rectstroke`] strokes a path consisting of one or more rectangles the operands describe. In the first two forms, the operands are four numbers that describe a single rectangle. In the remaining forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
+xref:../rectstroke.adoc[`rectstroke`] strokes a path consisting of one or more rectangles the operands describe. In the first two forms, the operands are four numbers that describe a single rectangle. In the remaining forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
 
-link:rectstroke.adoc[`rectstroke`] neither reads nor alters the current path in the graphics state.
+xref:../rectstroke.adoc[`rectstroke`] neither reads nor alters the current path in the graphics state.
 
-If the matrix operand is present, link:rectstroke.adoc[`rectstroke`] concatenates matrix to the CTM after defining the path, but before stroking it. The matrix applies to the line width and dash pattern, if any, but not to the path itself.
+If the matrix operand is present, xref:../rectstroke.adoc[`rectstroke`] concatenates matrix to the CTM after defining the path, but before stroking it. The matrix applies to the line width and dash pattern, if any, but not to the path itself.
 
-In the first two forms, assuming width and height are positive, link:rectstroke.adoc[`rectstroke`] is equivalent to:
+In the first two forms, assuming width and height are positive, xref:../rectstroke.adoc[`rectstroke`] is equivalent to:
 
 [source,postscript]
 ----
@@ -244,7 +244,7 @@ drawBorders
 
 === Common Pitfalls
 
-WARNING: *Current Path Unaffected* - link:rectstroke.adoc[`rectstroke`] does not modify the current path.
+WARNING: *Current Path Unaffected* - xref:../rectstroke.adoc[`rectstroke`] does not modify the current path.
 
 [source,postscript]
 ----
@@ -316,7 +316,7 @@ rectstroke  % Uniform 2-point line
 
 === Implementation Notes
 
-* link:rectstroke.adoc[`rectstroke`] is optimized for efficiency
+* xref:../rectstroke.adoc[`rectstroke`] is optimized for efficiency
 * Multiple rectangles are stroked as a single operation
 * The operation is enclosed in implicit gsave/grestore
 * Rectangles can overlap without issue
@@ -325,7 +325,7 @@ rectstroke  % Uniform 2-point line
 
 === Graphics State Parameters
 
-link:rectstroke.adoc[`rectstroke`] uses these parameters:
+xref:../rectstroke.adoc[`rectstroke`] uses these parameters:
 
 * Line width - from xref:../graphics-state/setlinewidth.adoc[`setlinewidth`]
 * Line cap - from xref:../graphics-state/setlinecap.adoc[`setlinecap`]
@@ -336,7 +336,7 @@ link:rectstroke.adoc[`rectstroke`] uses these parameters:
 * Current clipping path
 * Current transformation matrix (CTM)
 
-link:rectstroke.adoc[`rectstroke`] does not affect:
+xref:../rectstroke.adoc[`rectstroke`] does not affect:
 
 * Current path - Completely isolated
 * Any graphics state parameters
@@ -460,7 +460,7 @@ origMatrix setmatrix
 
 === Performance Considerations
 
-* link:rectstroke.adoc[`rectstroke`] is highly optimized
+* xref:../rectstroke.adoc[`rectstroke`] is highly optimized
 * Significantly faster than manual path construction
 * Multiple rectangles in one operation are more efficient
 * Matrix parameter adds minimal overhead
@@ -492,7 +492,7 @@ grestore
 100 100 50 50 rectstroke
 ----
 
-Benefits of link:rectstroke.adoc[`rectstroke`]:
+Benefits of xref:../rectstroke.adoc[`rectstroke`]:
 
 * More concise syntax
 * Faster execution
@@ -609,7 +609,7 @@ Benefits of link:rectstroke.adoc[`rectstroke`]:
 
 === Common Pitfalls
 
-WARNING: *Current Path Unaffected* - link:rectstroke.adoc[`rectstroke`] does not modify the current path.
+WARNING: *Current Path Unaffected* - xref:../rectstroke.adoc[`rectstroke`] does not modify the current path.
 
 [source,postscript]
 ----
@@ -631,7 +631,7 @@ WARNING: *Matrix Parameter Affects Stroke, Not Coordinates* - The matrix affects
 rectstroke       % Rectangle at same position
 ----
 
-WARNING: *Graphics State Must Be Set First* - Set line parameters before calling link:rectstroke.adoc[`rectstroke`].
+WARNING: *Graphics State Must Be Set First* - Set line parameters before calling xref:../rectstroke.adoc[`rectstroke`].
 
 [source,postscript]
 ----
@@ -677,7 +677,7 @@ rectstroke  % Uniform 2-point line
 
 === Implementation Notes
 
-* link:rectstroke.adoc[`rectstroke`] is optimized for efficiency
+* xref:../rectstroke.adoc[`rectstroke`] is optimized for efficiency
 * Multiple rectangles are stroked as a single operation
 * The operation is enclosed in implicit gsave/grestore
 * All current line parameters are applied
@@ -686,7 +686,7 @@ rectstroke  % Uniform 2-point line
 
 === Graphics State Parameters
 
-All stroke-related parameters affect link:rectstroke.adoc[`rectstroke`]:
+All stroke-related parameters affect xref:../rectstroke.adoc[`rectstroke`]:
 
 * **Line width** - Thickness of stroked lines
 * **Line cap** - Appearance of rectangle corners (with line join)
@@ -790,7 +790,7 @@ rects rectstroke
 
 === Performance Considerations
 
-* link:rectstroke.adoc[`rectstroke`] is highly optimized
+* xref:../rectstroke.adoc[`rectstroke`] is highly optimized
 * Much faster than manual path construction
 * Multiple rectangles are more efficient than separate operations
 * Matrix parameter adds minimal overhead

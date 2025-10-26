@@ -38,7 +38,7 @@ int array → array
 
 === Description
 
-link:array.adoc[`array`] creates a new array object of length _int_, with each element initialized to null. The array is allocated in local or global VM according to the current VM allocation mode.
+xref:../array.adoc[`array`] creates a new array object of length _int_, with each element initialized to null. The array is allocated in local or global VM according to the current VM allocation mode.
 
 The _int_ operand must be:
 
@@ -102,7 +102,7 @@ dup 1 200 put  % y coordinate
 
 === Common Pitfalls
 
-WARNING: *Uninitialized Elements* - Remember that link:array.adoc[`array`] initializes all elements to null. You must explicitly populate the array before using its elements.
+WARNING: *Uninitialized Elements* - Remember that xref:../array.adoc[`array`] initializes all elements to null. You must explicitly populate the array before using its elements.
 
 [source,postscript]
 ----
@@ -112,7 +112,7 @@ WARNING: *Uninitialized Elements* - Remember that link:array.adoc[`array`] initi
 
 WARNING: *VM Allocation* - Arrays are allocated in VM. Creating many large arrays can exhaust available memory.
 
-TIP: *Array Literals vs. array Operator* - For known, fixed-size arrays, use the literal syntax `[ ... ]` instead. Use link:array.adoc[`array`] when the size is computed dynamically.
+TIP: *Array Literals vs. array Operator* - For known, fixed-size arrays, use the literal syntax `[ ... ]` instead. Use xref:../array.adoc[`array`] when the size is computed dynamically.
 
 === Error Conditions
 

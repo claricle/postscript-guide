@@ -38,11 +38,11 @@ Closes the current subpath by adding a straight line back to its starting point.
 
 === Description
 
-link:closepath.adoc[`closepath`] closes the current subpath by appending a straight line segment connecting the current point to the subpath's starting point—generally, the point most recently specified by xref:../moveto.adoc[`moveto`].
+xref:../closepath.adoc[`closepath`] closes the current subpath by appending a straight line segment connecting the current point to the subpath's starting point—generally, the point most recently specified by xref:../moveto.adoc[`moveto`].
 
-If the current subpath is already closed or the current path is empty, link:closepath.adoc[`closepath`] does nothing.
+If the current subpath is already closed or the current path is empty, xref:../closepath.adoc[`closepath`] does nothing.
 
-link:closepath.adoc[`closepath`] terminates the current subpath. Appending another segment to the current path will begin a new subpath, even if it is drawn from the endpoint reached by link:closepath.adoc[`closepath`].
+xref:../closepath.adoc[`closepath`] terminates the current subpath. Appending another segment to the current path will begin a new subpath, even if it is drawn from the endpoint reached by xref:../closepath.adoc[`closepath`].
 
 === PostScript Level
 
@@ -160,7 +160,7 @@ stroke                   % Clean miter join at corner
 
 === Common Pitfalls
 
-WARNING: *Line Cap at Close Point* - The line cap setting doesn't affect the join where link:closepath.adoc[`closepath`] connects. The line join setting applies instead.
+WARNING: *Line Cap at Close Point* - The line cap setting doesn't affect the join where xref:../closepath.adoc[`closepath`] connects. The line join setting applies instead.
 
 [source,postscript]
 ----
@@ -174,7 +174,7 @@ closepath
 stroke                   % Join at (100,100) is mitered, not rounded
 ----
 
-WARNING: *Not Needed for All Shapes* - Complete arcs (0 to 360) are automatically closed. Adding link:closepath.adoc[`closepath`] doesn't hurt, but it's redundant.
+WARNING: *Not Needed for All Shapes* - Complete arcs (0 to 360) are automatically closed. Adding xref:../closepath.adoc[`closepath`] doesn't hurt, but it's redundant.
 
 [source,postscript]
 ----
@@ -183,7 +183,7 @@ newpath
 closepath                % Redundant but harmless
 ----
 
-TIP: *Always Close Filled Paths* - For clean fills and strokes, always use link:closepath.adoc[`closepath`] to close shapes, even if the endpoints are very close.
+TIP: *Always Close Filled Paths* - For clean fills and strokes, always use xref:../closepath.adoc[`closepath`] to close shapes, even if the endpoints are very close.
 
 === Error Conditions
 
@@ -195,13 +195,13 @@ TIP: *Always Close Filled Paths* - For clean fills and strokes, always use link:
 | Path becomes too complex for implementation
 |===
 
-Note: link:closepath.adoc[`closepath`] does not require a current point and will not generate a [`nocurrentpoint`] error.
+Note: xref:../closepath.adoc[`closepath`] does not require a current point and will not generate a [`nocurrentpoint`] error.
 
 === Implementation Notes
 
 * Creates an explicit line segment in the path
 * The closing segment participates in line join calculations
-* Current point after link:closepath.adoc[`closepath`] is the subpath start point
+* Current point after xref:../closepath.adoc[`closepath`] is the subpath start point
 * Subsequent path operations start a new subpath
 * Has no effect on empty paths or already-closed subpaths
 * Essential for proper fill and stroke behavior

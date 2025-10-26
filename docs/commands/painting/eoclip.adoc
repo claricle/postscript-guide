@@ -38,9 +38,9 @@ Intersects the current clipping path with the current path using the even-odd ru
 
 === Description
 
-link:eoclip.adoc[`eoclip`] intersects the inside of the current clipping path with the inside of the current path to produce a new, smaller current clipping path. The inside of the current path is determined by the even-odd rule, while the inside of the current clipping path is determined by whatever rule was used at the time that path was created.
+xref:../eoclip.adoc[`eoclip`] intersects the inside of the current clipping path with the inside of the current path to produce a new, smaller current clipping path. The inside of the current path is determined by the even-odd rule, while the inside of the current clipping path is determined by whatever rule was used at the time that path was created.
 
-Except for the choice of insideness rule, the behavior of link:eoclip.adoc[`eoclip`] is identical to that of xref:../clip.adoc[`clip`].
+Except for the choice of insideness rule, the behavior of xref:../eoclip.adoc[`eoclip`] is identical to that of xref:../clip.adoc[`clip`].
 
 The even-odd rule determines whether a point is inside by counting path crossings: an odd number means inside, an even number means outside. This rule is particularly useful for creating clipping regions with holes.
 
@@ -241,7 +241,7 @@ gsave
 grestore
 ----
 
-WARNING: *Path Direction Irrelevant* - Unlike xref:../clip.adoc[`clip`], the direction paths are drawn doesn't matter with link:eoclip.adoc[`eoclip`].
+WARNING: *Path Direction Irrelevant* - Unlike xref:../clip.adoc[`clip`], the direction paths are drawn doesn't matter with xref:../eoclip.adoc[`eoclip`].
 
 [source,postscript]
 ----
@@ -254,7 +254,7 @@ eoclip  % Always creates hole regardless of direction
 newpath
 ----
 
-WARNING: *Path Not Cleared* - Like xref:../clip.adoc[`clip`], link:eoclip.adoc[`eoclip`] does not clear the path.
+WARNING: *Path Not Cleared* - Like xref:../clip.adoc[`clip`], xref:../eoclip.adoc[`eoclip`] does not clear the path.
 
 [source,postscript]
 ----
@@ -266,7 +266,7 @@ eoclip
 newpath
 ----
 
-TIP: *Use for Predictable Holes* - link:eoclip.adoc[`eoclip`] is ideal for creating holes regardless of path direction:
+TIP: *Use for Predictable Holes* - xref:../eoclip.adoc[`eoclip`] is ideal for creating holes regardless of path direction:
 
 [source,postscript]
 ----
@@ -304,7 +304,7 @@ grestore
 
 === Even-Odd Rule Details
 
-The even-odd rule for link:eoclip.adoc[`eoclip`]:
+The even-odd rule for xref:../eoclip.adoc[`eoclip`]:
 
 . Draw a ray from the point in any direction
 . Count the number of path segment crossings
@@ -382,7 +382,7 @@ grestore
 
 === Comparing Even-Odd vs Non-Zero Winding
 
-.Even-Odd Rule (link:eoclip.adoc)[`eoclip`]
+.Even-Odd Rule (xref:../eoclip.adoc[`eoclip`])
 * Counts crossings: odd = inside, even = outside
 * Path direction doesn't matter
 * Simple to understand and predict

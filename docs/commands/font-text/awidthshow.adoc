@@ -30,11 +30,11 @@ cx cy char ax ay string
 
 === Description
 
-link:awidthshow.adoc[`awidthshow`] paints the characters of `string` in a manner similar to link:show.adoc[`show`], but combines the special effects of link:ashow.adoc[`ashow`] and link:widthshow.adoc[`widthshow`].
+xref:../awidthshow.adoc[`awidthshow`] paints the characters of `string` in a manner similar to xref:../show.adoc[`show`], but combines the special effects of xref:../ashow.adoc[`ashow`] and xref:../widthshow.adoc[`widthshow`].
 
-link:awidthshow.adoc[`awidthshow`] adjusts the width of each character shown by adding `ax` to its x width and `ay` to its y width, thus modifying the spacing between characters. Furthermore, link:awidthshow.adoc[`awidthshow`] modifies the width of each occurrence of the character `char` by an additional amount `(cx, cy)`.
+xref:../awidthshow.adoc[`awidthshow`] adjusts the width of each character shown by adding `ax` to its x width and `ay` to its y width, thus modifying the spacing between characters. Furthermore, xref:../awidthshow.adoc[`awidthshow`] modifies the width of each occurrence of the character `char` by an additional amount `(cx, cy)`.
 
-The interpretation of `char` is as described for the link:widthshow.adoc[`widthshow`] operator.
+The interpretation of `char` is as described for the xref:../widthshow.adoc[`widthshow`] operator.
 
 This operator enables fitting a string of text to a specific width by adjusting all of the spaces between characters by a uniform amount, while independently controlling the width of some specific character, such as the space character.
 
@@ -256,16 +256,16 @@ The space character (ASCII 32) is the most common target:
 
 === Performance Notes
 
-- More expensive than link:show.adoc[`show`], link:ashow.adoc[`ashow`], or link:widthshow.adoc[`widthshow`] alone
+- More expensive than xref:../show.adoc[`show`], xref:../ashow.adoc[`ashow`], or xref:../widthshow.adoc[`widthshow`] alone
 - Two conditional checks per character
 - Still benefits from font caching
 - For best performance, prefer simpler operators when possible
 
 === See Also
 
-- link:show.adoc[`show`] - Basic text painting
-- link:ashow.adoc[`ashow`] - Uniform character spacing adjustment
-- link:widthshow.adoc[`widthshow`] - Selective character width adjustment
-- link:kshow.adoc[`kshow`] - Show with kerning procedure
-- link:cshow.adoc[`cshow`] - Show with procedure per character
-- link:stringwidth.adoc[`stringwidth`] - Calculate text width
+- xref:../show.adoc[`show`] - Basic text painting
+- xref:../ashow.adoc[`ashow`] - Uniform character spacing adjustment
+- xref:../widthshow.adoc[`widthshow`] - Selective character width adjustment
+- xref:../kshow.adoc[`kshow`] - Show with kerning procedure
+- xref:../cshow.adoc[`cshow`] - Show with procedure per character
+- xref:../stringwidth.adoc[`stringwidth`] - Calculate text width

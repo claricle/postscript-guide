@@ -38,7 +38,7 @@ any exec → –
 
 === Description
 
-link:exec.adoc[`exec`] pushes the operand on the execution stack, executing it immediately.
+xref:../exec.adoc[`exec`] pushes the operand on the execution stack, executing it immediately.
 
 The effect depends on the object's type and literal/executable attribute:
 

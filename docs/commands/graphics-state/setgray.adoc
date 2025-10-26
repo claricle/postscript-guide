@@ -38,7 +38,7 @@ num setgray → –
 
 === Description
 
-link:setgray.adoc[`setgray`] sets the color space to DeviceGray and sets the current color to a gray shade corresponding to _num_.
+xref:../setgray.adoc[`setgray`] sets the color space to DeviceGray and sets the current color to a gray shade corresponding to _num_.
 
 * **0** = black
 * **1** = white
@@ -127,7 +127,7 @@ Values outside 0-1 are clamped to nearest legal value (no error).
 
 === Common Pitfalls
 
-WARNING: *Changes Color Space* - link:setgray.adoc[`setgray`] changes color space to DeviceGray.
+WARNING: *Changes Color Space* - xref:../setgray.adoc[`setgray`] changes color space to DeviceGray.
 
 [source,postscript]
 ----

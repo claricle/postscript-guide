@@ -30,9 +30,9 @@ font
 
 === Description
 
-link:setfont.adoc[`setfont`] establishes the font dictionary parameter in the graphics state. This specifies the font to be used by subsequent character operators, such as link:show.adoc[`show`] and link:stringwidth.adoc[`stringwidth`]. The `font` must be a valid font dictionary previously returned by link:findfont.adoc[`findfont`], link:scalefont.adoc[`scalefont`], or link:makefont.adoc[`makefont`].
+xref:../setfont.adoc[`setfont`] establishes the font dictionary parameter in the graphics state. This specifies the font to be used by subsequent character operators, such as xref:../show.adoc[`show`] and xref:../stringwidth.adoc[`stringwidth`]. The `font` must be a valid font dictionary previously returned by xref:../findfont.adoc[`findfont`], xref:../scalefont.adoc[`scalefont`], or xref:../makefont.adoc[`makefont`].
 
-The font remains current until changed by another link:setfont.adoc[`setfont`] or `selectfont` operation, or until the graphics state is restored by `grestore` or `grestoreall`.
+The font remains current until changed by another xref:../setfont.adoc[`setfont`] or `selectfont` operation, or until the graphics state is restored by `grestore` or `grestoreall`.
 
 === Parameters
 
@@ -113,7 +113,7 @@ For Type 3 fonts:
 
 === Graphics State Impact
 
-link:setfont.adoc[`setfont`] only modifies the font parameter of the graphics state. It does not affect:
+xref:../setfont.adoc[`setfont`] only modifies the font parameter of the graphics state. It does not affect:
 
 - Current transformation matrix
 - Current path
@@ -141,9 +141,9 @@ newpath
 
 === See Also
 
-- link:currentfont.adoc[`currentfont`] - Get current font dictionary
-- link:findfont.adoc[`findfont`] - Obtain font dictionary by name
-- link:scalefont.adoc[`scalefont`] - Scale font by uniform factor
-- link:makefont.adoc[`makefont`] - Transform font by matrix
-- link:show.adoc[`show`] - Paint text string at current point
-- link:stringwidth.adoc[`stringwidth`] - Calculate text width
+- xref:../currentfont.adoc[`currentfont`] - Get current font dictionary
+- xref:../findfont.adoc[`findfont`] - Obtain font dictionary by name
+- xref:../scalefont.adoc[`scalefont`] - Scale font by uniform factor
+- xref:../makefont.adoc[`makefont`] - Transform font by matrix
+- xref:../show.adoc[`show`] - Paint text string at current point
+- xref:../stringwidth.adoc[`stringwidth`] - Calculate text width

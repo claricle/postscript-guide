@@ -38,7 +38,7 @@ any cvx → any
 
 === Description
 
-link:cvx.adoc[`cvx`] (convert to executable) changes the attribute of the object on top of the operand stack from literal to executable.
+xref:../cvx.adoc[`cvx`] (convert to executable) changes the attribute of the object on top of the operand stack from literal to executable.
 
 The object itself is unchanged - only its executable/literal attribute is modified. This affects how the PostScript interpreter treats the object when it is encountered during execution.
 

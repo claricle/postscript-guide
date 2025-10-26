@@ -38,7 +38,7 @@ int setlinejoin → –
 
 === Description
 
-link:setlinejoin.adoc[`setlinejoin`] sets the line join parameter to _int_, which must be 0, 1, or 2. This controls how corners are rendered when path segments meet at an angle during [`stroke`].
+xref:../setlinejoin.adoc[`setlinejoin`] sets the line join parameter to _int_, which must be 0, 1, or 2. This controls how corners are rendered when path segments meet at an angle during [`stroke`].
 
 **Join styles:**
 * **0** = Miter join: outer edges extended until they meet
@@ -107,7 +107,7 @@ drawMechanicalParts
 
 === Common Pitfalls
 
-WARNING: *Miter Limit* - Very sharp miters may be converted to bevels (see link:setmiterlimit.adoc)[`setmiterlimit`].
+WARNING: *Miter Limit* - Very sharp miters may be converted to bevels (see xref:../setmiterlimit.adoc[`setmiterlimit`]).
 
 [source,postscript]
 ----

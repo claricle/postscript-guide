@@ -14,10 +14,10 @@ Array and string operations provide the foundation for data structure manipulati
 Arrays and strings in PostScript share many operational characteristics:
 
 * Both are indexed collections (0-based indexing)
-* Both support element access via link:get.adoc[`get`] and link:put.adoc[`put`]
-* Both can have subsequences extracted via link:getinterval.adoc[`getinterval`]
-* Both can be iterated over using link:forall.adoc[`forall`]
-* Both have a link:length.adoc[`length`] that can be queried
+* Both support element access via xref:../get.adoc[`get`] and xref:../put.adoc[`put`]
+* Both can have subsequences extracted via xref:../getinterval.adoc[`getinterval`]
+* Both can be iterated over using xref:../forall.adoc[`forall`]
+* Both have a xref:../length.adoc[`length`] that can be queried
 
 However, they differ in important ways:
 

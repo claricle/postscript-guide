@@ -68,7 +68,7 @@ string token → post any true (if token found)
 
 === Description
 
-link:token.adoc[`token`] reads characters from _file_ or _string_, interpreting them according to PostScript syntax rules until a complete object is scanned.
+xref:../token.adoc[`token`] reads characters from _file_ or _string_, interpreting them according to PostScript syntax rules until a complete object is scanned.
 
 **File case:**
 * Returns the scanned object and `true` if successful
@@ -155,7 +155,7 @@ line token {
 
 === Common Pitfalls
 
-WARNING: *Consumes Whitespace* - link:token.adoc[`token`] consumes trailing whitespace after names/numbers.
+WARNING: *Consumes Whitespace* - xref:../token.adoc[`token`] consumes trailing whitespace after names/numbers.
 
 [source,postscript]
 ----
@@ -173,7 +173,7 @@ WARNING: *Evaluates Syntax* - Returns actual objects, not string representations
 
 WARNING: *Special Character Handling* - Different characters consumed differently after tokens.
 
-TIP: *Binary Token Support* - link:token.adoc[`token`] also handles binary tokens and binary object sequences.
+TIP: *Binary Token Support* - xref:../token.adoc[`token`] also handles binary tokens and binary object sequences.
 
 === Error Conditions
 
@@ -211,7 +211,7 @@ TIP: *Binary Token Support* - link:token.adoc[`token`] also handles binary token
 
 === Token Consumption Rules
 
-link:token.adoc[`token`] consumes characters differently based on token type:
+xref:../token.adoc[`token`] consumes characters differently based on token type:
 
 [cols="2,3"]
 |===
@@ -239,7 +239,7 @@ link:token.adoc[`token`] consumes characters differently based on token type:
 === Implementation Notes
 
 * Same parsing logic as the PostScript interpreter
-* Returns literal objects (use link:cvx.adoc) if execution needed[`cvx`]
+* Returns literal objects (use xref:../cvx.adoc[`cvx`]) if execution needed
 * File position updated past consumed characters
 * For strings, _post_ points into original string (shared value)
 

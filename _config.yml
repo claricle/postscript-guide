@@ -69,10 +69,10 @@ footer_content: "Copyright &copy; 2025 Metanorma. PostScript is a trademark of A
 collections:
   commands:
     output: true
-    permalink: /:collection/:path
+    permalink: /commands/:path/
   pages:
     output: true
-    permalink: /:path
+    permalink: /:path/
 
 # Defaults
 defaults:
@@ -112,8 +112,12 @@ exclude:
   - .git
   - .gitignore
 
-# Include
-include:
-  - docs
+# # Include
+# include:
+#   - .
+#   - commands
+#   - examples
+#   - levels
 
 permalink: pretty
+includes_dir: 'docs'

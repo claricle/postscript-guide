@@ -38,9 +38,9 @@ dict maxlength → int
 
 === Description
 
-link:maxlength.adoc[`maxlength`] returns the capacity of _dict_ - the maximum number of key-value pairs it can hold using the VM currently allocated to it.
+xref:../maxlength.adoc[`maxlength`] returns the capacity of _dict_ - the maximum number of key-value pairs it can hold using the VM currently allocated to it.
 
-**Level 1**: Returns the _int_ operand originally passed to link:dict.adoc[`dict`] - the dictionary's fixed maximum capacity.
+**Level 1**: Returns the _int_ operand originally passed to xref:../dict.adoc[`dict`] - the dictionary's fixed maximum capacity.
 
 **Level 2**: Returns the current capacity, which may be larger than the original size if the dictionary has grown.
 
@@ -111,7 +111,7 @@ requiredSlots lt {
 
 === Common Pitfalls
 
-WARNING: *maxlength ≠ length* - link:maxlength.adoc[`maxlength`] is capacity, xref:../array-string/length.adoc[`length`] is current count.
+WARNING: *maxlength ≠ length* - xref:../maxlength.adoc[`maxlength`] is capacity, xref:../array-string/length.adoc[`length`] is current count.
 
 [source,postscript]
 ----
@@ -169,7 +169,7 @@ TIP: *Don't Rely on Exact Values* - In Level 2, maxlength may increase unpredict
 | Number of key-value pairs
 
 | Maximum capacity
-| link:maxlength.adoc[`maxlength`]
+| xref:../maxlength.adoc[`maxlength`]
 | Slots available with current VM allocation
 
 | Available space

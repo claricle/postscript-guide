@@ -30,20 +30,20 @@ string bool
 
 === Description
 
-link:charpath.adoc[`charpath`] obtains the character path outlines that would result if `string` were shown at the current point using link:show.adoc[`show`]. Instead of painting the path, however, link:charpath.adoc[`charpath`] appends the path to the current path. This yields a result suitable for general filling, stroking, or clipping.
+xref:../charpath.adoc[`charpath`] obtains the character path outlines that would result if `string` were shown at the current point using xref:../show.adoc[`show`]. Instead of painting the path, however, xref:../charpath.adoc[`charpath`] appends the path to the current path. This yields a result suitable for general filling, stroking, or clipping.
 
 The `bool` operand determines what happens if the character path is designed to be stroked rather than filled or outlined:
 
-- If `bool` is `false`, link:charpath.adoc[`charpath`] simply appends the character path to the current path; the result is suitable only for stroking.
-- If `bool` is `true`, link:charpath.adoc[`charpath`] applies the `strokepath` operator to the character path; the result is suitable for filling or clipping, but not for stroking.
+- If `bool` is `false`, xref:../charpath.adoc[`charpath`] simply appends the character path to the current path; the result is suitable only for stroking.
+- If `bool` is `true`, xref:../charpath.adoc[`charpath`] applies the `strokepath` operator to the character path; the result is suitable for filling or clipping, but not for stroking.
 
-link:charpath.adoc[`charpath`] does not produce results for portions of a character defined as images or masks rather than as paths.
+xref:../charpath.adoc[`charpath`] does not produce results for portions of a character defined as images or masks rather than as paths.
 
 === Protected Fonts
 
 The outlines of some fonts are protected. (In Level 1 implementations, this applies to all fonts; in Level 2, only to certain special fonts and not to ordinary Type 1 or Type 3 fonts.)
 
-If the current font is protected, using link:charpath.adoc[`charpath`] to obtain its outlines causes the `pathforall` and `upath` operators to be disabled for as long as those outlines remain in the current path.
+If the current font is protected, using xref:../charpath.adoc[`charpath`] to obtain its outlines causes the `pathforall` and `upath` operators to be disabled for as long as those outlines remain in the current path.
 
 === Parameters
 
@@ -336,7 +336,7 @@ textPath 0 setgray 1 setlinewidth stroke
 === Limitations
 
 **Image-based characters:**
-- link:charpath.adoc[`charpath`] does not produce paths for bitmap characters
+- xref:../charpath.adoc[`charpath`] does not produce paths for bitmap characters
 - Some fonts mix paths and bitmaps
 - Only path-based portions are included
 
@@ -355,23 +355,23 @@ textPath 0 setgray 1 setlinewidth stroke
 |===
 | Operator | Output
 
-| link:show.adoc[`show`]
+| xref:../show.adoc[`show`]
 | Paints characters (rasterized)
 
-| link:charpath.adoc[`charpath`]
+| xref:../charpath.adoc[`charpath`]
 | Constructs path outlines
 
-| link:stringwidth.adoc[`stringwidth`]
+| xref:../stringwidth.adoc[`stringwidth`]
 | Returns width vector only
 |===
 
 === See Also
 
-- link:show.adoc[`show`] - Paint text string
-- link:stringwidth.adoc[`stringwidth`] - Calculate text width
+- xref:../show.adoc[`show`] - Paint text string
+- xref:../stringwidth.adoc[`stringwidth`] - Calculate text width
 - `pathbbox` - Get path bounding box
 - `strokepath` - Convert stroke to filled path
 - `clip` - Set clipping path
 - `fill` - Fill path
 - `stroke` - Stroke path
-- link:setfont.adoc[`setfont`] - Establish current font
+- xref:../setfont.adoc[`setfont`] - Establish current font

@@ -41,7 +41,7 @@ dict key undef → –
 
 === Description
 
-link:undef.adoc[`undef`] removes _key_ and its associated value from dictionary _dict_. The dictionary does not need to be on the dictionary stack.
+xref:../undef.adoc[`undef`] removes _key_ and its associated value from dictionary _dict_. The dictionary does not need to be on the dictionary stack.
 
 **No error occurs** if _key_ is not present in _dict_ - the operation is simply ignored.
 
@@ -109,14 +109,14 @@ config /feature known {
 
 === Common Pitfalls
 
-WARNING: *Level 2 Only* - link:undef.adoc[`undef`] is not available in Level 1 implementations.
+WARNING: *Level 2 Only* - xref:../undef.adoc[`undef`] is not available in Level 1 implementations.
 
 [source,postscript]
 ----
 % Level 1 workaround: none (can't remove entries)
 ----
 
-WARNING: *Silent on Missing Keys* - No error if key doesn't exist. Use link:known.adoc[`known`] first if you need to know.
+WARNING: *Silent on Missing Keys* - No error if key doesn't exist. Use xref:../known.adoc[`known`] first if you need to know.
 
 [source,postscript]
 ----

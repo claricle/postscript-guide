@@ -41,9 +41,9 @@ dx dy rmoveto → -
 
 === Description
 
-link:rmoveto.adoc[`rmoveto`] (relative moveto) starts a new subpath of the current path in the same manner as xref:../moveto.adoc[`moveto`]. However, the number pair is interpreted as a displacement relative to the current point (x, y) rather than as an absolute coordinate. That is, link:rmoveto.adoc[`rmoveto`] makes (x + dx, y + dy) the new current point, without connecting it to the previous point.
+xref:../rmoveto.adoc[`rmoveto`] (relative moveto) starts a new subpath of the current path in the same manner as xref:../moveto.adoc[`moveto`]. However, the number pair is interpreted as a displacement relative to the current point (x, y) rather than as an absolute coordinate. That is, xref:../rmoveto.adoc[`rmoveto`] makes (x + dx, y + dy) the new current point, without connecting it to the previous point.
 
-If the current point is undefined because the current path is empty, link:rmoveto.adoc[`rmoveto`] executes the [`nocurrentpoint`] error.
+If the current point is undefined because the current path is empty, xref:../rmoveto.adoc[`rmoveto`] executes the [`nocurrentpoint`] error.
 
 === PostScript Level
 
@@ -138,7 +138,7 @@ newpath
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - link:rmoveto.adoc[`rmoveto`] requires a current point. Use xref:../moveto.adoc[`moveto`] first to establish one.
+WARNING: *Requires Current Point* - xref:../rmoveto.adoc[`rmoveto`] requires a current point. Use xref:../moveto.adoc[`moveto`] first to establish one.
 
 [source,postscript]
 ----
@@ -154,7 +154,7 @@ WARNING: *Displacement Not Position* - The arguments are displacements (dx, dy),
 -50 -50 rmoveto          % Moves to (50, 50), not (-50, -50)
 ----
 
-TIP: *Use for Relative Layouts* - link:rmoveto.adoc[`rmoveto`] is ideal for creating shapes or text layouts where elements are positioned relative to each other.
+TIP: *Use for Relative Layouts* - xref:../rmoveto.adoc[`rmoveto`] is ideal for creating shapes or text layouts where elements are positioned relative to each other.
 
 === Error Conditions
 

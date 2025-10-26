@@ -30,11 +30,11 @@ string
 
 === Description
 
-link:show.adoc[`show`] paints the characters identified by the elements of `string` on the current page starting at the current point, using the font face, size, and orientation specified by the most recent link:setfont.adoc[`setfont`] or `selectfont`.
+xref:../show.adoc[`show`] paints the characters identified by the elements of `string` on the current page starting at the current point, using the font face, size, and orientation specified by the most recent xref:../setfont.adoc[`setfont`] or `selectfont`.
 
-The spacing from each character of the string to the next is determined by the character's width, which is an (x, y) displacement that is part of the character's definition. When it is finished, link:show.adoc[`show`] adjusts the current point in the graphics state by the sum of the widths of all the characters shown.
+The spacing from each character of the string to the next is determined by the character's width, which is an (x, y) displacement that is part of the character's definition. When it is finished, xref:../show.adoc[`show`] adjusts the current point in the graphics state by the sum of the widths of all the characters shown.
 
-link:show.adoc[`show`] requires that the current point initially be defined (for example, by `moveto`); otherwise, it executes the error `nocurrentpoint`.
+xref:../show.adoc[`show`] requires that the current point initially be defined (for example, by `moveto`); otherwise, it executes the error `nocurrentpoint`.
 
 If a character code would index beyond the end of the font's Encoding, or the character mapping algorithm goes out of bounds in other ways, a `rangecheck` error occurs.
 
@@ -199,10 +199,10 @@ grestore
 
 === Performance Considerations
 
-- link:show.adoc[`show`] is the fastest text rendering operator
+- xref:../show.adoc[`show`] is the fastest text rendering operator
 - Characters are cached for efficiency
 - Font cache improves performance for repeated characters
-- Use link:show.adoc[`show`] over link:charpath.adoc[`charpath`] when possible
+- Use xref:../show.adoc[`show`] over xref:../charpath.adoc[`charpath`] when possible
 
 === Comparison with Other Text Operators
 
@@ -210,36 +210,36 @@ grestore
 |===
 | Operator | Purpose
 
-| link:show.adoc[`show`]
+| xref:../show.adoc[`show`]
 | Basic text painting (fastest)
 
-| link:ashow.adoc[`ashow`]
+| xref:../ashow.adoc[`ashow`]
 | Add uniform spacing to all characters
 
-| link:widthshow.adoc[`widthshow`]
+| xref:../widthshow.adoc[`widthshow`]
 | Adjust width of specific character
 
-| link:awidthshow.adoc[`awidthshow`]
-| Combine link:ashow.adoc[`ashow`] and link:widthshow.adoc[`widthshow`]
+| xref:../awidthshow.adoc[`awidthshow`]
+| Combine xref:../ashow.adoc[`ashow`] and xref:../widthshow.adoc[`widthshow`]
 
-| link:kshow.adoc[`kshow`]
+| xref:../kshow.adoc[`kshow`]
 | Execute procedure between characters (kerning)
 
-| link:cshow.adoc[`cshow`]
+| xref:../cshow.adoc[`cshow`]
 | Execute procedure for each character (Level 2)
 
-| link:charpath.adoc[`charpath`]
+| xref:../charpath.adoc[`charpath`]
 | Get character outlines as path
 |===
 
 === See Also
 
-- link:ashow.adoc[`ashow`] - Show with character spacing adjustment
-- link:widthshow.adoc[`widthshow`] - Show with selective character width adjustment
-- link:awidthshow.adoc[`awidthshow`] - Combine ashow and widthshow
-- link:kshow.adoc[`kshow`] - Show with kerning procedure
-- link:cshow.adoc[`cshow`] - Show with procedure per character (Level 2)
-- link:charpath.adoc[`charpath`] - Get character outlines as path
-- link:stringwidth.adoc[`stringwidth`] - Calculate text width
-- link:setfont.adoc[`setfont`] - Establish current font
+- xref:../ashow.adoc[`ashow`] - Show with character spacing adjustment
+- xref:../widthshow.adoc[`widthshow`] - Show with selective character width adjustment
+- xref:../awidthshow.adoc[`awidthshow`] - Combine ashow and widthshow
+- xref:../kshow.adoc[`kshow`] - Show with kerning procedure
+- xref:../cshow.adoc[`cshow`] - Show with procedure per character (Level 2)
+- xref:../charpath.adoc[`charpath`] - Get character outlines as path
+- xref:../stringwidth.adoc[`stringwidth`] - Calculate text width
+- xref:../setfont.adoc[`setfont`] - Establish current font
 - `moveto` - Set current point

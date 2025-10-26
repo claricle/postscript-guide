@@ -154,15 +154,15 @@ x 0 gt {
 |===
 | Loop Type | Use When | Control Variable
 
-| link:for.adoc[`for`]
+| xref:../for.adoc[`for`]
 | Numeric sequence needed
 | Yes
 
-| link:repeat.adoc[`repeat`]
+| xref:../repeat.adoc[`repeat`]
 | Simple fixed repetition
 | No
 
-| link:loop.adoc[`loop`]
+| xref:../loop.adoc[`loop`]
 | Indefinite looping
 | No
 
@@ -195,9 +195,9 @@ Control flow operators require procedures (executable arrays):
 
 === Loop Termination
 
-* link:exit.adoc[`exit`] exits innermost loop only
-* link:stop.adoc[`stop`] exits stopped context
-* Infinite loops possible with link:loop.adoc[`loop`]
+* xref:../exit.adoc[`exit`] exits innermost loop only
+* xref:../stop.adoc[`stop`] exits stopped context
+* Infinite loops possible with xref:../loop.adoc[`loop`]
 
 === Stack Effects
 

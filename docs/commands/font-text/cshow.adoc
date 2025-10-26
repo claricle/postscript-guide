@@ -34,16 +34,16 @@ proc string
 
 === Description
 
-link:cshow.adoc[`cshow`] invokes `proc` once for each operation of the font mapping algorithm. The value of link:currentfont.adoc[`currentfont`] during the execution of `proc` is the base font that the algorithm ultimately selects.
+xref:../cshow.adoc[`cshow`] invokes `proc` once for each operation of the font mapping algorithm. The value of xref:../currentfont.adoc[`currentfont`] during the execution of `proc` is the base font that the algorithm ultimately selects.
 
 When `proc` is invoked, the stack contains three values:
 1. The selected character's code (an integer)
 2. The x component of the width vector for the character in user coordinate system
 3. The y component of the width vector for the character in user coordinate system
 
-link:cshow.adoc[`cshow`] does not paint the character and does not change the current point, although `proc` may do so. When `proc` completes execution, the value of link:currentfont.adoc[`currentfont`] is restored.
+xref:../cshow.adoc[`cshow`] does not paint the character and does not change the current point, although `proc` may do so. When `proc` completes execution, the value of xref:../currentfont.adoc[`currentfont`] is restored.
 
-link:cshow.adoc[`cshow`] can be used to provide careful positioning of individual characters while taking advantage of the composite font mapping machinery of the interpreter. link:cshow.adoc[`cshow`] is intended primarily for use with composite fonts. However, it can also be used with a base font. The mapping algorithm for a base font simply selects consecutive characters from the string.
+xref:../cshow.adoc[`cshow`] can be used to provide careful positioning of individual characters while taking advantage of the composite font mapping machinery of the interpreter. xref:../cshow.adoc[`cshow`] is intended primarily for use with composite fonts. However, it can also be used with a base font. The mapping algorithm for a base font simply selects consecutive characters from the string.
 
 === Parameters
 
@@ -181,7 +181,7 @@ Where:
 
 === Font Mapping with Composite Fonts
 
-For composite fonts, link:cshow.adoc[`cshow`] invokes the font mapping algorithm:
+For composite fonts, xref:../cshow.adoc[`cshow`] invokes the font mapping algorithm:
 
 1. **FMapType** determines how to map string bytes to font selection
 2. Selected base font becomes current during `proc` execution
@@ -295,24 +295,24 @@ end /MyComposite exch definefont pop
 |===
 | Operator | Best For
 
-| link:show.adoc[`show`]
+| xref:../show.adoc[`show`]
 | Simple, fast text rendering
 
-| link:kshow.adoc[`kshow`]
+| xref:../kshow.adoc[`kshow`]
 | Kerning between character pairs (base fonts only)
 
-| link:cshow.adoc[`cshow`]
+| xref:../cshow.adoc[`cshow`]
 | Per-character control with composite fonts
 
-| link:charpath.adoc[`charpath`]
+| xref:../charpath.adoc[`charpath`]
 | Getting character outlines for effects
 |===
 
 === See Also
 
-- link:show.adoc[`show`] - Basic text painting
-- link:ashow.adoc[`ashow`] - Show with uniform spacing
-- link:kshow.adoc[`kshow`] - Show with kerning procedure
-- link:currentfont.adoc[`currentfont`] - Get current font
+- xref:../show.adoc[`show`] - Basic text painting
+- xref:../ashow.adoc[`ashow`] - Show with uniform spacing
+- xref:../kshow.adoc[`kshow`] - Show with kerning procedure
+- xref:../currentfont.adoc[`currentfont`] - Get current font
 - `glyphshow` - Show glyph by name
 - `rootfont` - Get root composite font

@@ -53,9 +53,9 @@ x1 y1 x2 y2 x3 y3 curveto → -
 
 === Description
 
-link:curveto.adoc[`curveto`] adds a Bézier cubic section to the current path between the current point, referred to here as (x0, y0), and the point (x3, y3), using (x1, y1) and (x2, y2) as the Bézier cubic control points. After constructing the curve, link:curveto.adoc[`curveto`] makes (x3, y3) the new current point.
+xref:../curveto.adoc[`curveto`] adds a Bézier cubic section to the current path between the current point, referred to here as (x0, y0), and the point (x3, y3), using (x1, y1) and (x2, y2) as the Bézier cubic control points. After constructing the curve, xref:../curveto.adoc[`curveto`] makes (x3, y3) the new current point.
 
-If the current point is undefined because the current path is empty, link:curveto.adoc[`curveto`] executes the [`nocurrentpoint`] error.
+If the current point is undefined because the current path is empty, xref:../curveto.adoc[`curveto`] executes the [`nocurrentpoint`] error.
 
 The four points define the shape of the curve geometrically:
 
@@ -171,7 +171,7 @@ fill
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - link:curveto.adoc[`curveto`] needs a current point as the curve starting point. Use xref:../moveto.adoc[`moveto`] first.
+WARNING: *Requires Current Point* - xref:../curveto.adoc[`curveto`] needs a current point as the curve starting point. Use xref:../moveto.adoc[`moveto`] first.
 
 [source,postscript]
 ----
@@ -181,7 +181,7 @@ newpath
 
 WARNING: *Control Point Order Matters* - The first control point (x1, y1) affects the curve's start, the second (x2, y2) affects the end. Swapping them changes the curve shape significantly.
 
-WARNING: *Six Parameters Required* - link:curveto.adoc[`curveto`] requires all six parameters. Missing any causes [`stackunderflow`].
+WARNING: *Six Parameters Required* - xref:../curveto.adoc[`curveto`] requires all six parameters. Missing any causes [`stackunderflow`].
 
 TIP: *Use for Smooth Curves* - Bézier curves provide smooth, aesthetically pleasing curves. For circles and arcs, consider xref:../arc.adoc[`arc`] for mathematical precision.
 

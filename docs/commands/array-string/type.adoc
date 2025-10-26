@@ -38,7 +38,7 @@ any type → name
 
 === Description
 
-link:type.adoc[`type`] returns a name object that identifies the type of its operand. The returned name has the **executable** attribute, making it convenient for type-dependent processing via dictionary lookup.
+xref:../type.adoc[`type`] returns a name object that identifies the type of its operand. The returned name has the **executable** attribute, making it convenient for type-dependent processing via dictionary lookup.
 
 === PostScript Level
 

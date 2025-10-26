@@ -30,9 +30,9 @@ proc string
 
 === Description
 
-link:kshow.adoc[`kshow`] paints the characters of `string` in a manner similar to link:show.adoc[`show`], but allowing program intervention between characters.
+xref:../kshow.adoc[`kshow`] paints the characters of `string` in a manner similar to xref:../show.adoc[`show`], but allowing program intervention between characters.
 
-If the character codes in `string` are c₀, c₁, ... cₙ, link:kshow.adoc[`kshow`] proceeds as follows:
+If the character codes in `string` are c₀, c₁, ... cₙ, xref:../kshow.adoc[`kshow`] proceeds as follows:
 
 1. Shows c₀ at the current point, updating the current point by c₀'s width
 2. Pushes character codes c₀ and c₁ on the operand stack (as integers)
@@ -40,11 +40,11 @@ If the character codes in `string` are c₀, c₁, ... cₙ, link:kshow.adoc[`ks
 4. Continues by showing c₁, pushing c₁ and c₂, executing `proc`, and so on
 5. Finishes by pushing cₙ₋₁ and cₙ, executing `proc`, and showing cₙ
 
-When `proc` is called for the first time, the graphics state (in particular, the CTM) is the same as it was at the time link:kshow.adoc[`kshow`] was invoked, except that the current point has been updated by the width of c₀. Execution of `proc` is permitted to have any side effects, including changes to the graphics state. Such changes persist from one call of `proc` to the next and may affect graphical output for the remainder of link:kshow.adoc[`kshow`]'s execution and afterward.
+When `proc` is called for the first time, the graphics state (in particular, the CTM) is the same as it was at the time xref:../kshow.adoc[`kshow`] was invoked, except that the current point has been updated by the width of c₀. Execution of `proc` is permitted to have any side effects, including changes to the graphics state. Such changes persist from one call of `proc` to the next and may affect graphical output for the remainder of xref:../kshow.adoc[`kshow`]'s execution and afterward.
 
-The name link:kshow.adoc[`kshow`] is derived from "kern-show." To kern characters is to adjust the spacing between adjacent pairs of characters in order to achieve a visually pleasing result. The link:kshow.adoc[`kshow`] operator enables user-defined kerning and other manipulations, because arbitrary computations can be performed between each pair of characters.
+The name xref:../kshow.adoc[`kshow`] is derived from "kern-show." To kern characters is to adjust the spacing between adjacent pairs of characters in order to achieve a visually pleasing result. The xref:../kshow.adoc[`kshow`] operator enables user-defined kerning and other manipulations, because arbitrary computations can be performed between each pair of characters.
 
-link:kshow.adoc[`kshow`] can be applied only to base fonts. If the current font is composite, link:kshow.adoc[`kshow`] issues an `invalidfont` error.
+xref:../kshow.adoc[`kshow`] can be applied only to base fonts. If the current font is composite, xref:../kshow.adoc[`kshow`] issues an `invalidfont` error.
 
 === Parameters
 
@@ -286,7 +286,7 @@ kshow          - Slowest (procedure calls)
 === Limitations
 
 **Composite fonts:**
-: link:kshow.adoc[`kshow`] cannot be used with composite fonts; use link:cshow.adoc[`cshow`] instead
+: xref:../kshow.adoc[`kshow`] cannot be used with composite fonts; use xref:../cshow.adoc[`cshow`] instead
 
 **Character boundaries:**
 : Procedure is called between characters, not within character rendering
@@ -296,9 +296,9 @@ kshow          - Slowest (procedure calls)
 
 === See Also
 
-- link:show.adoc[`show`] - Basic text painting
-- link:ashow.adoc[`ashow`] - Uniform character spacing
-- link:widthshow.adoc[`widthshow`] - Selective character width adjustment
-- link:awidthshow.adoc[`awidthshow`] - Combine ashow and widthshow
-- link:cshow.adoc[`cshow`] - Show with procedure per character (Level 2)
-- link:stringwidth.adoc[`stringwidth`] - Calculate text width
+- xref:../show.adoc[`show`] - Basic text painting
+- xref:../ashow.adoc[`ashow`] - Uniform character spacing
+- xref:../widthshow.adoc[`widthshow`] - Selective character width adjustment
+- xref:../awidthshow.adoc[`awidthshow`] - Combine ashow and widthshow
+- xref:../cshow.adoc[`cshow`] - Show with procedure per character (Level 2)
+- xref:../stringwidth.adoc[`stringwidth`] - Calculate text width

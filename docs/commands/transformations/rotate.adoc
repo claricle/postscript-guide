@@ -48,11 +48,11 @@ angle matrix rotate → matrix
 
 === Description
 
-With no matrix operand, link:rotate.adoc[`rotate`] builds a temporary transformation matrix R and concatenates it with the current transformation matrix (CTM). Precisely, link:rotate.adoc[`rotate`] replaces the CTM by R × CTM.
+With no matrix operand, xref:../rotate.adoc[`rotate`] builds a temporary transformation matrix R and concatenates it with the current transformation matrix (CTM). Precisely, xref:../rotate.adoc[`rotate`] replaces the CTM by R × CTM.
 
 The effect is to rotate the user coordinate system axes about their origin by `angle` degrees. Positive angles rotate counterclockwise; negative angles rotate clockwise. The position of the user coordinate origin and the sizes of the x and y units are unchanged.
 
-If the `matrix` operand is supplied, link:rotate.adoc[`rotate`] replaces the value of `matrix` by R and pushes the modified matrix back on the operand stack. In this case, link:rotate.adoc[`rotate`] does not affect the CTM.
+If the `matrix` operand is supplied, xref:../rotate.adoc[`rotate`] replaces the value of `matrix` by R and pushes the modified matrix back on the operand stack. In this case, xref:../rotate.adoc[`rotate`] does not affect the CTM.
 
 The rotation matrix R for angle θ (in degrees) has the form:
 
@@ -176,7 +176,7 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Rotation Center* - link:rotate.adoc[`rotate`] always rotates around the current origin, not around drawn content.
+WARNING: *Rotation Center* - xref:../rotate.adoc[`rotate`] always rotates around the current origin, not around drawn content.
 
 [source,postscript]
 ----
@@ -263,7 +263,7 @@ TIP: *Order Matters* - Rotation before translation is different from translation
 
 === Matrix Mathematics
 
-The rotation matrix for link:rotate.adoc[`rotate`] by angle θ is:
+The rotation matrix for xref:../rotate.adoc[`rotate`] by angle θ is:
 
 ----
 R = [cos(θ)  sin(θ)  -sin(θ)  cos(θ)  0  0]

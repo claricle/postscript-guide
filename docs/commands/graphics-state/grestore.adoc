@@ -29,9 +29,9 @@ Restores the graphics state from the top of the graphics state stack.
 
 === Description
 
-link:grestore.adoc[`grestore`] resets the current graphics state from the one on top of the graphics state stack and pops that stack.
+xref:../grestore.adoc[`grestore`] resets the current graphics state from the one on top of the graphics state stack and pops that stack.
 
-If there is no matching link:gsave.adoc[`gsave`], or if the most recent link:gsave.adoc[`gsave`] preceded the most recent unmatched `save`, link:grestore.adoc[`grestore`] does not pop the stack, but still restores the state from the top.
+If there is no matching xref:../gsave.adoc[`gsave`], or if the most recent xref:../gsave.adoc[`gsave`] preceded the most recent unmatched `save`, xref:../grestore.adoc[`grestore`] does not pop the stack, but still restores the state from the top.
 
 === PostScript Level
 
@@ -110,7 +110,7 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Must Have Matching gsave* - Unmatched link:grestore.adoc[`grestore`] doesn't error but doesn't pop stack.
+WARNING: *Must Have Matching gsave* - Unmatched xref:../grestore.adoc[`grestore`] doesn't error but doesn't pop stack.
 
 [source,postscript]
 ----
@@ -118,7 +118,7 @@ grestore  % No matching gsave
 % State restored from top but stack not popped
 ----
 
-WARNING: *save Intervenes* - link:grestore.adoc[`grestore`] after `save` doesn't pop stack.
+WARNING: *save Intervenes* - xref:../grestore.adoc[`grestore`] after `save` doesn't pop stack.
 
 [source,postscript]
 ----
@@ -128,7 +128,7 @@ grestore  % Doesn't pop due to save
 restore   % Pops graphics state stack
 ----
 
-TIP: *Always Pair with gsave* - Use link:gsave.adoc[`gsave`]/link:grestore.adoc[`grestore`] pairs consistently.
+TIP: *Always Pair with gsave* - Use xref:../gsave.adoc[`gsave`]/xref:../grestore.adoc[`grestore`] pairs consistently.
 
 === Error Conditions
 
@@ -149,7 +149,7 @@ TIP: *Always Pair with gsave* - Use link:gsave.adoc[`gsave`]/link:grestore.adoc[
 
 === What Gets Restored
 
-All parameters saved by link:gsave.adoc[`gsave`]:
+All parameters saved by xref:../gsave.adoc[`gsave`]:
 * CTM, path, current point
 * Clipping path
 * Color space and color

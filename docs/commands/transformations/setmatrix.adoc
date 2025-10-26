@@ -38,11 +38,11 @@ matrix setmatrix → -
 
 === Description
 
-link:setmatrix.adoc[`setmatrix`] replaces the current transformation matrix (CTM) in the graphics state with the value of `matrix`.
+xref:../setmatrix.adoc[`setmatrix`] replaces the current transformation matrix (CTM) in the graphics state with the value of `matrix`.
 
 This establishes an arbitrary transformation from user space to device space without reference to the former CTM. The `matrix` operand must be a 6-element array of numbers representing a transformation matrix.
 
-WARNING: Except in device setup procedures, use of link:setmatrix.adoc[`setmatrix`] should be very rare. PostScript programs should ordinarily modify the CTM using xref:../translate.adoc[`translate`], xref:../scale.adoc[`scale`], xref:../rotate.adoc[`rotate`], and xref:../concat.adoc[`concat`] rather than replace it.
+WARNING: Except in device setup procedures, use of xref:../setmatrix.adoc[`setmatrix`] should be very rare. PostScript programs should ordinarily modify the CTM using xref:../translate.adoc[`translate`], xref:../scale.adoc[`scale`], xref:../rotate.adoc[`rotate`], and xref:../concat.adoc[`concat`] rather than replace it.
 
 === PostScript Level
 
@@ -115,7 +115,7 @@ myDeviceMatrix setmatrix
 
 === Common Pitfalls
 
-WARNING: *Breaks Encapsulation* - link:setmatrix.adoc[`setmatrix`] can break assumptions about coordinate system.
+WARNING: *Breaks Encapsulation* - xref:../setmatrix.adoc[`setmatrix`] can break assumptions about coordinate system.
 
 [source,postscript]
 ----
@@ -154,7 +154,7 @@ grestore
 % Transformation undone - setmatrix changes are saved/restored
 ----
 
-TIP: *Prefer Transform Operators* - Use transformation operators instead of link:setmatrix.adoc[`setmatrix`]:
+TIP: *Prefer Transform Operators* - Use transformation operators instead of xref:../setmatrix.adoc[`setmatrix`]:
 
 [source,postscript]
 ----
@@ -198,7 +198,7 @@ saved setmatrix       % Restore
 * Very large or very small matrix values may cause precision issues
 * Degenerate matrices (determinant = 0) create non-invertible transformations
 * The matrix operand is not modified
-* Unlike xref:../concat.adoc[`concat`], link:setmatrix.adoc[`setmatrix`] completely replaces the CTM
+* Unlike xref:../concat.adoc[`concat`], xref:../setmatrix.adoc[`setmatrix`] completely replaces the CTM
 
 === Matrix Format
 
@@ -222,7 +222,7 @@ In well-structured PostScript programs:
 1. **Initialization**: Device setup uses xref:../initmatrix.adoc[`initmatrix`]
 2. **Modifications**: Use xref:../translate.adoc[`translate`], xref:../scale.adoc[`scale`], xref:../rotate.adoc[`rotate`], xref:../concat.adoc[`concat`]
 3. **State Management**: Use xref:../graphics-state/gsave.adoc[`gsave`]/xref:../graphics-state/grestore.adoc[`grestore`]
-4. **Restoration**: Use xref:../graphics-state/grestore.adoc[`grestore`] or saved matrix with link:setmatrix.adoc[`setmatrix`]
+4. **Restoration**: Use xref:../graphics-state/grestore.adoc[`grestore`] or saved matrix with xref:../setmatrix.adoc[`setmatrix`]
 
 === Comparison with Other Operators
 

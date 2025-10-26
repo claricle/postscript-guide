@@ -41,7 +41,7 @@ int proc repeat → –
 
 === Description
 
-link:repeat.adoc[`repeat`] executes _proc_ exactly _int_ times, where _int_ must be a non-negative integer.
+xref:../repeat.adoc[`repeat`] executes _proc_ exactly _int_ times, where _int_ must be a non-negative integer.
 
 The operator removes both operands before executing _proc_ for the first time. If _int_ is 0, _proc_ is not executed at all.
 
@@ -128,7 +128,7 @@ WARNING: *Stack Accumulation* - If _proc_ pushes values without consuming them, 
 % Stack has 10 copies of 42!
 ----
 
-WARNING: *No Control Variable* - Unlike xref:../for.adoc[`for`], link:repeat.adoc[`repeat`] doesn't provide iteration index.
+WARNING: *No Control Variable* - Unlike xref:../for.adoc[`for`], xref:../repeat.adoc[`repeat`] doesn't provide iteration index.
 
 [source,postscript]
 ----
@@ -176,7 +176,7 @@ TIP: *Use for if Index Needed* - If you need to know the iteration number, use x
 | Provides control variable
 
 | Fixed count, no index
-| link:repeat.adoc[`repeat`]
+| xref:../repeat.adoc[`repeat`]
 | Simpler, faster
 
 | Conditional termination

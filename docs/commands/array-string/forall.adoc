@@ -44,7 +44,7 @@ string proc forall → –
 
 === Description
 
-link:forall.adoc[`forall`] enumerates elements of the first operand, executing _proc_ for each:
+xref:../forall.adoc[`forall`] enumerates elements of the first operand, executing _proc_ for each:
 
 * **Arrays/packed arrays**: Pushes each element and executes _proc_
 * **Strings**: Pushes each character code (0-255) and executes _proc_
@@ -52,7 +52,7 @@ link:forall.adoc[`forall`] enumerates elements of the first operand, executing _
 
 For arrays and strings, elements are processed in index order (0 to n-1). For dictionaries, the order is arbitrary.
 
-If the composite object is empty (length 0), link:forall.adoc[`forall`] does not execute _proc_ at all.
+If the composite object is empty (length 0), xref:../forall.adoc[`forall`] does not execute _proc_ at all.
 
 === PostScript Level
 
@@ -145,7 +145,7 @@ WARNING: *Dictionary Order is Arbitrary* - Dictionaries enumerate in unpredictab
 mydict { } forall  % Order not guaranteed
 ----
 
-WARNING: *Modifying During Iteration* - Adding/removing dictionary entries during link:forall.adoc[`forall`] may or may not affect iteration.
+WARNING: *Modifying During Iteration* - Adding/removing dictionary entries during xref:../forall.adoc[`forall`] may or may not affect iteration.
 
 TIP: *Use exit for Early Termination* - Execute [`exit`] within _proc_ to stop iteration.
 
@@ -202,7 +202,7 @@ TIP: *Use exit for Early Termination* - Execute [`exit`] within _proc_ to stop i
 } for
 ----
 
-link:forall.adoc[`forall`] is simpler and more efficient.
+xref:../forall.adoc[`forall`] is simpler and more efficient.
 
 === See Also
 

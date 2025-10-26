@@ -67,11 +67,11 @@ numstring rectclip → -
 
 === Description
 
-link:rectclip.adoc[`rectclip`] intersects the inside of the current clipping path with a rectangular path the operands describe. In the first form, the operands are four numbers that describe a single rectangle. In the other two forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
+xref:../rectclip.adoc[`rectclip`] intersects the inside of the current clipping path with a rectangular path the operands describe. In the first form, the operands are four numbers that describe a single rectangle. In the other two forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
 
-After computing the new clipping path, link:rectclip.adoc[`rectclip`] resets the current path to empty, as if by xref:../path-construction/newpath.adoc[`newpath`].
+After computing the new clipping path, xref:../rectclip.adoc[`rectclip`] resets the current path to empty, as if by xref:../path-construction/newpath.adoc[`newpath`].
 
-In the first form, assuming width and height are positive, link:rectclip.adoc[`rectclip`] is equivalent to:
+In the first form, assuming width and height are positive, xref:../rectclip.adoc[`rectclip`] is equivalent to:
 
 [source,postscript]
 ----
@@ -260,7 +260,7 @@ WARNING: *Clipping Can Only Shrink* - Like xref:../clip.adoc[`clip`], you cannot
 0 0 300 300 rectclip  % Still limited to intersection
 ----
 
-WARNING: *Path Is Cleared* - Unlike xref:../clip.adoc[`clip`], link:rectclip.adoc[`rectclip`] automatically clears the current path.
+WARNING: *Path Is Cleared* - Unlike xref:../clip.adoc[`clip`], xref:../rectclip.adoc[`rectclip`] automatically clears the current path.
 
 [source,postscript]
 ----
@@ -319,7 +319,7 @@ grestore
 
 === Implementation Notes
 
-* link:rectclip.adoc[`rectclip`] is optimized for rectangular clipping regions
+* xref:../rectclip.adoc[`rectclip`] is optimized for rectangular clipping regions
 * Multiple rectangles create a union clip region
 * Much faster than constructing paths with xref:../clip.adoc[`clip`]
 * The current path is automatically cleared after operation
@@ -328,12 +328,12 @@ grestore
 
 === Graphics State Interaction
 
-link:rectclip.adoc[`rectclip`] affects:
+xref:../rectclip.adoc[`rectclip`] affects:
 
 * Current clipping path - Intersected with rectangles
 * Current path - Cleared to empty
 
-link:rectclip.adoc[`rectclip`] does not affect other graphics state parameters.
+xref:../rectclip.adoc[`rectclip`] does not affect other graphics state parameters.
 
 The new clipping path is part of the graphics state and is affected by:
 
@@ -425,7 +425,7 @@ grestore
 
 === Performance Considerations
 
-* link:rectclip.adoc[`rectclip`] is highly optimized for rectangular regions
+* xref:../rectclip.adoc[`rectclip`] is highly optimized for rectangular regions
 * Much faster than equivalent xref:../clip.adoc[`clip`] with constructed paths
 * Multiple rectangles in one operation are efficient
 * Simple rectangular clips have minimal performance impact
@@ -453,7 +453,7 @@ newpath
 100 100 80 60 rectclip
 ----
 
-Benefits of link:rectclip.adoc[`rectclip`]:
+Benefits of xref:../rectclip.adoc[`rectclip`]:
 
 * More concise syntax
 * Faster execution

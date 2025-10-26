@@ -47,7 +47,7 @@ initial increment limit proc for → –
 
 === Description
 
-link:for.adoc[`for`] executes _proc_ repeatedly, passing it a sequence of values from _initial_ by steps of _increment_ to _limit_.
+xref:../for.adoc[`for`] executes _proc_ repeatedly, passing it a sequence of values from _initial_ by steps of _increment_ to _limit_.
 
 The operator maintains an internal control variable:
 1. Sets control variable to _initial_
@@ -193,7 +193,7 @@ TIP: *Early Exit* - Use xref:../exit.adoc[`exit`] to terminate loop early.
 |===
 | Loop | Best For | Control Variable
 
-| link:for.adoc[`for`]
+| xref:../for.adoc[`for`]
 | Numeric sequences
 | Yes
 

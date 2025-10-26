@@ -47,7 +47,7 @@ any₀ ... anyₙ₋₁ n packedarray → packedarray
 
 === Description
 
-link:packedarray.adoc[`packedarray`] creates a packed array object of length _n_ containing the objects any₀ through anyₙ₋₁ as elements. It:
+xref:../packedarray.adoc[`packedarray`] creates a packed array object of length _n_ containing the objects any₀ through anyₙ₋₁ as elements. It:
 
 1. Removes the integer _n_ from the stack
 2. Removes _n_ objects from the stack
@@ -118,7 +118,7 @@ true setpacking
 
 === Common Pitfalls
 
-WARNING: *Cannot Modify Packed Arrays* - Packed arrays are read-only. Attempting to use link:put.adoc[`put`] or link:putinterval.adoc[`putinterval`] causes [`invalidaccess`] error.
+WARNING: *Cannot Modify Packed Arrays* - Packed arrays are read-only. Attempting to use xref:../put.adoc[`put`] or xref:../putinterval.adoc[`putinterval`] causes [`invalidaccess`] error.
 
 [source,postscript]
 ----
@@ -137,7 +137,7 @@ true setpacking
 false setpacking
 ----
 
-TIP: *Read Operations Work Normally* - Can use link:get.adoc[`get`], link:getinterval.adoc[`getinterval`], link:aload.adoc[`aload`], link:forall.adoc[`forall`], etc.
+TIP: *Read Operations Work Normally* - Can use xref:../get.adoc[`get`], xref:../getinterval.adoc[`getinterval`], xref:../aload.adoc[`aload`], xref:../forall.adoc[`forall`], etc.
 
 === Error Conditions
 

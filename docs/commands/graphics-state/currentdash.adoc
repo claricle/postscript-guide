@@ -41,7 +41,7 @@ Returns current dash pattern and offset.
 
 === Description
 
-link:currentdash.adoc[`currentdash`] returns the current dash pattern array and offset parameter from the graphics state. These are the values most recently set by link:setdash.adoc[`setdash`].
+xref:../currentdash.adoc[`currentdash`] returns the current dash pattern array and offset parameter from the graphics state. These are the values most recently set by xref:../setdash.adoc[`setdash`].
 
 The dash pattern array specifies the pattern of dashes and gaps:
 
@@ -167,7 +167,7 @@ GetDashLength
 
 === Common Pitfalls
 
-WARNING: *Returned Array is Copy* - Modifying returned array requires calling link:setdash.adoc[`setdash`].
+WARNING: *Returned Array is Copy* - Modifying returned array requires calling xref:../setdash.adoc[`setdash`].
 
 [source,postscript]
 ----

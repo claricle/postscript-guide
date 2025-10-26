@@ -44,11 +44,15 @@ Returns current color as RGB values.
 
 === Description
 
-link:currentrgbcolor.adoc[`currentrgbcolor`] returns the current color in the graphics state according to the red-green-blue color model.
+xref:../currentrgbcolor.adoc[`currentrgbcolor`] returns the current color in the graphics state according to the red-green-blue color model.
 
-* If the current color space is **DeviceRGB**, link:currentrgbcolor.adoc[`currentrgbcolor`] returns the color values most recently specified to link:setrgbcolor.adoc[`setrgbcolor`] or [`setcolor`] (or transformed values specified to link:sethsbcolor.adoc)[`sethsbcolor`].
-* If the current color space is **DeviceGray** or **DeviceCMYK**, link:currentrgbcolor.adoc[`currentrgbcolor`] converts the current color to RGB.
-* For any other color space, link:currentrgbcolor.adoc[`currentrgbcolor`] returns **0.0 0.0 0.0** (black).
+* If the current color space is **DeviceRGB**,
+xref:../currentrgbcolor.adoc[`currentrgbcolor`] returns the color values most
+recently specified to xref:../setrgbcolor.adoc[`setrgbcolor`] or [`setcolor`]
+(or transformed values specified to xref:../sethsbcolor.adoc[`sethsbcolor`]) .
+
+* If the current color space is **DeviceGray** or **DeviceCMYK**, xref:../currentrgbcolor.adoc[`currentrgbcolor`] converts the current color to RGB.
+* For any other color space, xref:../currentrgbcolor.adoc[`currentrgbcolor`] returns **0.0 0.0 0.0** (black).
 
 Each returned value is in the range 0.0 (no intensity) to 1.0 (full intensity).
 

@@ -39,7 +39,7 @@ string cvr → real
 
 === Description
 
-link:cvr.adoc[`cvr`] (convert to real) converts an integer, real, or string to a real number:
+xref:../cvr.adoc[`cvr`] (convert to real) converts an integer, real, or string to a real number:
 
 * **Integer operand**: Converts to real
 * **Real operand**: Returns it unchanged

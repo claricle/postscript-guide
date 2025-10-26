@@ -38,13 +38,13 @@ Paints a line following the current path using current line parameters.
 
 === Description
 
-link:stroke.adoc[`stroke`] paints a line following the current path using the current color. This line is centered on the path, has sides parallel to the path segments, and has a width (thickness) given by the current line width parameter in the graphics state.
+xref:../stroke.adoc[`stroke`] paints a line following the current path using the current color. This line is centered on the path, has sides parallel to the path segments, and has a width (thickness) given by the current line width parameter in the graphics state.
 
-link:stroke.adoc[`stroke`] paints the joints between connected path segments with the current line join and the ends of open subpaths with the current line cap. The line is either solid or broken according to the dash pattern established by xref:../graphics-state/setdash.adoc[`setdash`].
+xref:../stroke.adoc[`stroke`] paints the joints between connected path segments with the current line join and the ends of open subpaths with the current line cap. The line is either solid or broken according to the dash pattern established by xref:../graphics-state/setdash.adoc[`setdash`].
 
-The parameters in the graphics state controlling line rendition (line width, line join, line cap, dash pattern, etc.) are consulted at the time link:stroke.adoc[`stroke`] is executed. Their values during path construction are irrelevant.
+The parameters in the graphics state controlling line rendition (line width, line join, line cap, dash pattern, etc.) are consulted at the time xref:../stroke.adoc[`stroke`] is executed. Their values during path construction are irrelevant.
 
-link:stroke.adoc[`stroke`] implicitly performs a xref:../path-construction/newpath.adoc[`newpath`] after it has finished painting the current path.
+xref:../stroke.adoc[`stroke`] implicitly performs a xref:../path-construction/newpath.adoc[`newpath`] after it has finished painting the current path.
 
 === PostScript Level
 
@@ -172,7 +172,7 @@ stroke
 
 === Common Pitfalls
 
-WARNING: *Path Consumed After Stroke* - link:stroke.adoc[`stroke`] clears the current path. Use xref:../graphics-state/gsave.adoc[`gsave`]/xref:../graphics-state/grestore.adoc[`grestore`] to preserve it.
+WARNING: *Path Consumed After Stroke* - xref:../stroke.adoc[`stroke`] clears the current path. Use xref:../graphics-state/gsave.adoc[`gsave`]/xref:../graphics-state/grestore.adoc[`grestore`] to preserve it.
 
 [source,postscript]
 ----
@@ -257,7 +257,7 @@ stroke
 
 === Graphics State Parameters
 
-link:stroke.adoc[`stroke`] is affected by:
+xref:../stroke.adoc[`stroke`] is affected by:
 
 * **Line width** - Set by xref:../graphics-state/setlinewidth.adoc[`setlinewidth`]
 * **Line cap** - Set by xref:../graphics-state/setlinecap.adoc[`setlinecap`] (0=butt, 1=round, 2=square)
