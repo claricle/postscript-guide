@@ -4,13 +4,9 @@ title: counttomark
 parent: Stack Manipulation
 grand_parent: Command Reference
 nav_order: 11
-permalink: /commands/stack-manipulation/counttomark/
 ---
 = counttomark
-:description: Count elements on stack down to the nearest mark
-:keywords: postscript, stack, counttomark, mark, count
 
-[.lead]
 Counts the number of elements on the operand stack from the top down to (but not including) the topmost mark object.
 
 == Description

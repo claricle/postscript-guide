@@ -4,7 +4,6 @@ title: abs
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 7
-permalink: /commands/arithmetic-math/abs/
 ---
 = abs
 

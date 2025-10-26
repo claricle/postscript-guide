@@ -4,13 +4,9 @@ title: clear
 parent: Stack Manipulation
 grand_parent: Command Reference
 nav_order: 8
-permalink: /commands/stack-manipulation/clear/
 ---
 = clear
-:description: Remove all elements from the operand stack
-:keywords: postscript, stack, clear, empty, reset
 
-[.lead]
 Removes all elements from the operand stack, leaving it empty.
 
 == Description

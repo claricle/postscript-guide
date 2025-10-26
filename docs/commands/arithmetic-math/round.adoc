@@ -4,13 +4,9 @@ title: round
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 11
-permalink: /commands/arithmetic-math/round/
 ---
 = round
-:description: Round to nearest integer
-:keywords: postscript, arithmetic, round, rounding, nearest, math
 
-[.lead]
 Returns the integer value nearest to a number.
 
 == Description

@@ -49,3 +49,6 @@ FIXME
 # Cross-reference anchors that are internal to generated HTML
 # These will be validated in the built site, not source
 #.*\.adoc#.*
+
+# PostScript.org site unavailable
+https://www.postscript.org/

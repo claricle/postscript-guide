@@ -4,13 +4,9 @@ title: idiv
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 5
-permalink: /commands/arithmetic-math/idiv/
 ---
 = idiv
-:description: Integer division
-:keywords: postscript, arithmetic, idiv, integer division, quotient, math
 
-[.lead]
 Divides two integers and returns the integer quotient, discarding any fractional part.
 
 == Description

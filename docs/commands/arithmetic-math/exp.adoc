@@ -4,13 +4,9 @@ title: exp
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 14
-permalink: /commands/arithmetic-math/exp/
 ---
 = exp
-:description: Exponential (exponentiation)
-:keywords: postscript, math, exp, exponent, power
 
-[.lead]
 Raises a base to a power (exponentiation).
 
 == Description

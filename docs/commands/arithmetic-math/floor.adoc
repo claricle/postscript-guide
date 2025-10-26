@@ -4,13 +4,9 @@ title: floor
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 10
-permalink: /commands/arithmetic-math/floor/
 ---
 = floor
-:description: Round down to integer
-:keywords: postscript, arithmetic, floor, round down, math
 
-[.lead]
 Returns the greatest integer value less than or equal to a number.
 
 == Description

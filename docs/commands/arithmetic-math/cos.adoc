@@ -4,13 +4,9 @@ title: cos
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 18
-permalink: /commands/arithmetic-math/cos/
 ---
 = cos
-:description: Cosine (degrees)
-:keywords: postscript, math, cos, cosine, trigonometry, degrees
 
-[.lead]
 Returns the cosine of an angle in degrees.
 
 == Description

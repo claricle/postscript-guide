@@ -4,13 +4,9 @@ title: mod
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 6
-permalink: /commands/arithmetic-math/mod/
 ---
 = mod
-:description: Modulo (remainder of division)
-:keywords: postscript, arithmetic, mod, modulo, remainder, math
 
-[.lead]
 Returns the remainder from dividing two integers.
 
 == Description

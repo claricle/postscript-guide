@@ -4,13 +4,9 @@ title: ln
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 15
-permalink: /commands/arithmetic-math/ln/
 ---
 = ln
-:description: Natural logarithm (base e)
-:keywords: postscript, math, ln, logarithm, natural log, e
 
-[.lead]
 Returns the natural logarithm (base e) of a number.
 
 == Description

@@ -4,13 +4,9 @@ title: mark
 parent: Stack Manipulation
 grand_parent: Command Reference
 nav_order: 9
-permalink: /commands/stack-manipulation/mark/
 ---
 = mark
-:description: Push a mark object onto the operand stack
-:keywords: postscript, stack, mark, marker, delimiter
 
-[.lead]
 Pushes a mark object onto the operand stack to serve as a delimiter or reference point.
 
 == Description

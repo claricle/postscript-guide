@@ -4,13 +4,9 @@ title: atan
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 19
-permalink: /commands/arithmetic-math/atan/
 ---
 = atan
-:description: Arctangent (returns degrees)
-:keywords: postscript, math, atan, arctangent, inverse tangent, degrees
 
-[.lead]
 Returns the angle in degrees whose tangent is num/den.
 
 == Description

@@ -4,13 +4,9 @@ title: dup
 parent: Stack Manipulation
 grand_parent: Command Reference
 nav_order: 3
-permalink: /commands/stack-manipulation/dup/
 ---
 = dup
-:description: Duplicate the top element on the operand stack
-:keywords: postscript, stack, dup, duplicate, copy
 
-[.lead]
 Duplicates the top element on the operand stack, creating a second copy.
 
 == Description

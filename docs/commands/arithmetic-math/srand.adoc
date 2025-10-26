@@ -4,13 +4,9 @@ title: srand
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 22
-permalink: /commands/arithmetic-math/srand/
 ---
 = srand
-:description: Seed random number generator
-:keywords: postscript, random, srand, seed, generator
 
-[.lead]
 Seeds the random number generator with a specific value.
 
 == Description

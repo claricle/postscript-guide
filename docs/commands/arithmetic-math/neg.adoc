@@ -4,13 +4,9 @@ title: neg
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 8
-permalink: /commands/arithmetic-math/neg/
 ---
 = neg
-:description: Negate a number
-:keywords: postscript, arithmetic, neg, negate, negative, math
 
-[.lead]
 Returns the negative (opposite sign) of a number.
 
 == Description

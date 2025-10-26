@@ -4,13 +4,9 @@ title: ceiling
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 9
-permalink: /commands/arithmetic-math/ceiling/
 ---
 = ceiling
-:description: Round up to integer
-:keywords: postscript, arithmetic, ceiling, ceil, round up, math
 
-[.lead]
 Returns the least integer value greater than or equal to a number.
 
 == Description

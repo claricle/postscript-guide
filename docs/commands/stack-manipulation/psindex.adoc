@@ -4,13 +4,9 @@ title: index
 parent: Stack Manipulation
 grand_parent: Command Reference
 nav_order: 5
-permalink: /commands/stack-manipulation/index/
 ---
 = index
-:description: Duplicate the nth element from the top of the operand stack
-:keywords: postscript, stack, index, duplicate, access
 
-[.lead]
 Duplicates the nth element from the top of the operand stack, where n is counted from 0.
 
 == Description

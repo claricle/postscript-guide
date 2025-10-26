@@ -476,7 +476,7 @@ Creating clickable links within the document and to external URLs.
  /Border [0 0 1]                            % 1-point border
  /Color [0 0.5 0]                           % Green
  /Action << /Subtype /URI                   % URL link <8>
-            /URI (https://www.postscript.org) >> <9>
+            /URI (https://en.wikipedia.org/wiki/PostScript) >> <9>
  /Subtype /Link
  /ANN
  pdfmark
@@ -582,7 +582,7 @@ showpage
 Two-page PDF with various link types:
 
 * Internal link to Page 2
-* External web link (postscript.org)
+* External web link (Wikipedia PostScript article)
 * Email link (opens mail client)
 * Link to position on same page
 * Navigation links between pages

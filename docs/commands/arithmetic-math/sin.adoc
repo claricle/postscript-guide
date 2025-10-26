@@ -4,13 +4,9 @@ title: sin
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 17
-permalink: /commands/arithmetic-math/sin/
 ---
 = sin
-:description: Sine (degrees)
-:keywords: postscript, math, sin, sine, trigonometry, degrees
 
-[.lead]
 Returns the sine of an angle in degrees.
 
 == Description

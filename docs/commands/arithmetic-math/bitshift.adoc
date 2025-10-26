@@ -4,13 +4,9 @@ title: bitshift
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 20
-permalink: /commands/arithmetic-math/bitshift/
 ---
 = bitshift
-:description: Bitwise shift left or right
-:keywords: postscript, bitwise, bitshift, shift, binary
 
-[.lead]
 Shifts the binary representation of an integer left or right.
 
 == Description

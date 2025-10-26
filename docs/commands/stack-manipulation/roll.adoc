@@ -4,13 +4,9 @@ title: roll
 parent: Stack Manipulation
 grand_parent: Command Reference
 nav_order: 6
-permalink: /commands/stack-manipulation/roll/
 ---
 = roll
-:description: Roll n elements on the stack j times
-:keywords: postscript, stack, roll, rotate, circular shift
 
-[.lead]
 Performs a circular shift of n elements on the operand stack by j positions.
 
 == Description

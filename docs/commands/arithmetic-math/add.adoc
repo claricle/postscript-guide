@@ -4,13 +4,9 @@ title: add
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 1
-permalink: /commands/arithmetic-math/add/
 ---
 = add
-:description: Add two numbers
-:keywords: postscript, arithmetic, add, addition, math
 
-[.lead]
 Adds two numbers and returns their sum.
 
 == Description

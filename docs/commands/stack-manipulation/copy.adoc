@@ -4,13 +4,9 @@ title: copy
 parent: Stack Manipulation
 grand_parent: Command Reference
 nav_order: 4
-permalink: /commands/stack-manipulation/copy/
 ---
 = copy
-:description: Copy stack elements or duplicate composite object values
-:keywords: postscript, stack, copy, duplicate, clone
 
-[.lead]
 Duplicates the top n elements on the operand stack, or copies the value of one composite object into another.
 
 == Description

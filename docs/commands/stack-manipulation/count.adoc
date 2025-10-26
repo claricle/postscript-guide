@@ -4,13 +4,9 @@ title: count
 parent: Stack Manipulation
 grand_parent: Command Reference
 nav_order: 7
-permalink: /commands/stack-manipulation/count/
 ---
 = count
-:description: Count the number of elements on the operand stack
-:keywords: postscript, stack, count, depth, size
 
-[.lead]
 Counts the number of elements on the operand stack and pushes this count onto the stack.
 
 == Description

@@ -4,13 +4,9 @@ title: mul
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 3
-permalink: /commands/arithmetic-math/mul/
 ---
 = mul
-:description: Multiply two numbers
-:keywords: postscript, arithmetic, mul, multiply, multiplication, math
 
-[.lead]
 Multiplies two numbers and returns their product.
 
 == Description

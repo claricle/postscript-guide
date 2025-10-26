@@ -4,13 +4,9 @@ title: pop
 parent: Stack Manipulation
 grand_parent: Command Reference
 nav_order: 1
-permalink: /commands/stack-manipulation/pop/
 ---
 = pop
-:description: Remove the top element from the operand stack
-:keywords: postscript, stack, pop, remove
 
-[.lead]
 Removes the top element from the operand stack and discards it.
 
 == Description

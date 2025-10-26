@@ -4,13 +4,9 @@ title: log
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 16
-permalink: /commands/arithmetic-math/log/
 ---
 = log
-:description: Common logarithm (base 10)
-:keywords: postscript, math, log, logarithm, base 10
 
-[.lead]
 Returns the common logarithm (base 10) of a number.
 
 == Description

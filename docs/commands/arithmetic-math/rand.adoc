@@ -4,13 +4,9 @@ title: rand
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 21
-permalink: /commands/arithmetic-math/rand/
 ---
 = rand
-:description: Generate random integer
-:keywords: postscript, random, rand, random number, generator
 
-[.lead]
 Generates a pseudo-random integer.
 
 == Description

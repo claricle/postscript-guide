@@ -3,13 +3,9 @@ layout: default
 title: Stack Manipulation
 parent: Command Reference
 nav_order: 1
-permalink: /commands/stack-manipulation/
 ---
 = Stack Manipulation
-:description: PostScript stack manipulation operators
-:keywords: postscript, stack, manipulation, operators
 
-[.lead]
 Commands for manipulating the operand stack in PostScript.
 
 == Overview

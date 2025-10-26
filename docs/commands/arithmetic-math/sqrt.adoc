@@ -4,13 +4,9 @@ title: sqrt
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 13
-permalink: /commands/arithmetic-math/sqrt/
 ---
 = sqrt
-:description: Square root
-:keywords: postscript, math, sqrt, square root, radical
 
-[.lead]
 Returns the square root of a number.
 
 == Description

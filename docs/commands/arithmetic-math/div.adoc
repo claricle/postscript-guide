@@ -4,13 +4,9 @@ title: div
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 4
-permalink: /commands/arithmetic-math/div/
 ---
 = div
-:description: Divide two numbers (real result)
-:keywords: postscript, arithmetic, div, divide, division, math
 
-[.lead]
 Divides the first number by the second and returns a real number result.
 
 == Description

@@ -4,13 +4,9 @@ title: sub
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 2
-permalink: /commands/arithmetic-math/sub/
 ---
 = sub
-:description: Subtract two numbers
-:keywords: postscript, arithmetic, sub, subtract, subtraction, math
 
-[.lead]
 Subtracts the second number from the first and returns the difference.
 
 == Description

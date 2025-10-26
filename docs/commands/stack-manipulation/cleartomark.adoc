@@ -4,13 +4,9 @@ title: cleartomark
 parent: Stack Manipulation
 grand_parent: Command Reference
 nav_order: 10
-permalink: /commands/stack-manipulation/cleartomark/
 ---
 = cleartomark
-:description: Pop elements from stack down to and including a mark
-:keywords: postscript, stack, cleartomark, mark, remove
 
-[.lead]
 Removes all elements from the operand stack down to and including the topmost mark object.
 
 == Description

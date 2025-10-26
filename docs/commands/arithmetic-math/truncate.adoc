@@ -4,13 +4,9 @@ title: truncate
 parent: Arithmetic and Math
 grand_parent: Command Reference
 nav_order: 12
-permalink: /commands/arithmetic-math/truncate/
 ---
 = truncate
-:description: Truncate toward zero
-:keywords: postscript, arithmetic, truncate, trunc, round toward zero, math
 
-[.lead]
 Truncates a number toward zero by removing its fractional part.
 
 == Description
