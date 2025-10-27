@@ -10,9 +10,9 @@ repository: metanorma/postscript-guide
 theme: just-the-docs
 color_scheme: light
 
-# Logo and favicon (optional, can be added later)
-# logo: "/assets/images/logo.png"
-# favicon_ico: "/assets/images/favicon.ico"
+# Logo and favicon
+logo: "/docs/assets/images/logo.svg"
+favicon_ico: "/docs/assets/images/favicon.ico"
 
 # AsciiDoc support
 asciidoc: {}
