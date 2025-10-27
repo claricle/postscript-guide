@@ -199,7 +199,7 @@ showpage              % Output the page
 
 == Contributing
 
-This documentation is open source and welcomes contributions. See our https://github.com/metanorma/postscript-guide[GitHub repository] for:
+This documentation is open source and welcomes contributions. See our https://github.com/claricle/postscript-guide[GitHub repository] for:
 
 * Reporting errors or omissions
 * Suggesting improvements
@@ -209,4 +209,4 @@ This documentation is open source and welcomes contributions. See our https://gi
 ---
 
 [.text-center]
-_This reference guide is maintained by the Metanorma community._
+_This reference guide is maintained by the Claricle community._

@@ -38,7 +38,7 @@ file:///path/to/
 
 # GitHub URLs for this repository (will be checked differently)
 # Exclude to avoid checking during development
-# https://github.com/metanorma/postscript-guide
+# https://github.com/claricle/postscript-guide
 
 # Template/placeholder patterns in examples
 PLACEHOLDER

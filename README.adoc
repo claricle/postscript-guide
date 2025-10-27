@@ -1,7 +1,7 @@
 = PostScript Language Guide
 
-image:https://img.shields.io/github/license/metanorma/postscript-guide.svg[License]
-image:https://img.shields.io/github/actions/workflow/status/metanorma/postscript-guide/pages.yml?branch=main[Build Status]
+image:https://img.shields.io/github/license/claricle/postscript-guide.svg[License]
+image:https://img.shields.io/github/actions/workflow/status/claricle/postscript-guide/pages.yml?branch=main[Build Status]
 
 == Purpose
 
@@ -15,7 +15,7 @@ accessible, well-organized resource for developers, designers, and anyone
 working with PostScript.
 
 The documentation is deployed at:
-https://metanorma.github.io/postscript-guide/
+https://claricle.github.io/postscript-guide/
 
 == Features
 
@@ -46,7 +46,7 @@ Clone the repository:
 
 [source,bash]
 ----
-git clone https://github.com/metanorma/postscript-guide.git
+git clone https://github.com/claricle/postscript-guide.git
 cd postscript-guide
 ----
 
@@ -219,7 +219,7 @@ Reference Guide.
 [[reporting-issues]]
 === Reporting issues
 
-* Use the https://github.com/metanorma/postscript-guide/issues[GitHub Issues]
+* Use the https://github.com/claricle/postscript-guide/issues[GitHub Issues]
   page
 * Provide clear descriptions of errors or missing content
 * Include specific examples when possible
@@ -289,8 +289,8 @@ for details.
 [[support]]
 == Support
 
-Documentation:: https://metanorma.github.io/postscript-guide/
+Documentation:: https://claricle.github.io/postscript-guide/
 
-Issues:: https://github.com/metanorma/postscript-guide/issues
+Issues:: https://github.com/claricle/postscript-guide/issues
 
-Discussions:: https://github.com/metanorma/postscript-guide/discussions
+Discussions:: https://github.com/claricle/postscript-guide/discussions
