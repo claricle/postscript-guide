@@ -179,4 +179,4 @@ The `[ ]` syntax is usually more convenient for literal arrays, but link:/docs/c
 * link:/docs/commands/references/array/[`array`] - Create new array
 * link:/docs/commands/references/put/[`put`] - Put single value into array
 * link:/docs/commands/references/putinterval/[`putinterval`] - Put subarray into array
-* link:/docs/commands/references/left-bracket/[`[`] / link:/docs/commands/references/right-bracket/[`]`] - Array literal syntax
+* link:/docs/commands/references/brackets/[`[`] / link:/docs/commands/references/brackets/[`]`] - Array literal syntax

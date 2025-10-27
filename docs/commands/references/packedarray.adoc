@@ -198,7 +198,7 @@ TIP: *Read Operations Work Normally* - Can use link:/docs/commands/references/ge
 === See Also
 
 * link:/docs/commands/references/array/[`array`] - Create regular (modifiable) array
-* link:/docs/commands/references/left-bracket/[`[`] / link:/docs/commands/references/right-bracket/[`]`] - Array literal syntax
+* link:/docs/commands/references/brackets/[`[`] / link:/docs/commands/references/brackets/[`]`] - Array literal syntax
 * link:/docs/commands/references/aload/[`aload`] - Load packed array elements
 * link:/docs/commands/references/get/[`get`] - Get packed array element
 * link:/docs/commands/references/forall/[`forall`] - Iterate over packed array

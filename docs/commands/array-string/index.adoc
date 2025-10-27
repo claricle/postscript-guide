@@ -36,10 +36,10 @@ However, they differ in important ways:
 | link:/docs/commands/references/array/[`array`]
 | Create a new array of specified length
 
-| link:/docs/commands/references/left-bracket/[`[`]
+| link:/docs/commands/references/brackets/[`[`]
 | Begin array construction (mark)
 
-| link:/docs/commands/references/right-bracket/[`]`]
+| link:/docs/commands/references/brackets/[`]`]
 | End array construction
 
 | link:/docs/commands/references/aload/[`aload`]
