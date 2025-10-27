@@ -1,10 +1,10 @@
 title: "PostScript Language Guide"
 description: "Comprehensive documentation for the PostScript programming language, covering operators, syntax, and practical usage examples"
 # baseurl: "/postscript-guide"
-url: "https://metanorma.github.io"
+url: "https://claricle.github.io"
 
 # Repository
-repository: metanorma/postscript-guide
+repository: claricle/postscript-guide
 
 # Theme configuration
 theme: just-the-docs
@@ -47,9 +47,9 @@ nav_fold: true
 # External links
 aux_links:
   "Source":
-    - "https://github.com/metanorma/postscript-guide"
+    - "https://github.com/claricle/postscript-guide"
   "Report Issues":
-    - "https://github.com/metanorma/postscript-guide/issues"
+    - "https://github.com/claricle/postscript-guide/issues"
   "Adobe PostScript Language Reference Manual":
     - "https://www.adobe.com/jp/print/postscript/pdfs/PLRM.pdf"
 
@@ -63,7 +63,7 @@ back_to_top_text: "Back to top"
 heading_anchors: true
 
 # Footer
-footer_content: "Copyright &copy; 2025 Metanorma. PostScript is a trademark of Adobe. Distributed under the <a href=\"https://github.com/metanorma/postscript-guide/blob/main/LICENSE\">MIT License</a>."
+footer_content: "Copyright &copy; 2025 Ribose. PostScript is a trademark of Adobe. Distributed under the <a href=\"https://github.com/claricle/postscript-guide/blob/main/LICENSE\">MIT License</a>."
 
 # Collections
 collections:
