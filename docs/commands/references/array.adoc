@@ -149,8 +149,8 @@ TIP: *Array Literals vs. array Operator* - For known, fixed-size arrays, use the
 
 === See Also
 
-* link:/docs/commands/references/left-bracket/[`[`] - Begin array construction
-* link:/docs/commands/references/right-bracket/[`]`] - End array construction
+* link:/docs/commands/references/brackets/[`[`] - Begin array construction
+* link:/docs/commands/references/brackets/[`]`] - End array construction
 * link:/docs/commands/references/astore/[`astore`] - Store stack elements into array
 * link:/docs/commands/references/packedarray/[`packedarray`] - Create read-only packed array (Level 2)
 * link:/docs/commands/references/length/[`length`] - Get array length
