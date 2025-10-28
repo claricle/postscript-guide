@@ -46,11 +46,11 @@ jobs:
         # Check the built HTML site for rendered links
         # Set base URL to _site directory for Jekyll baseurl resolution
         args: >-
-          --verbose \
-          --no-progress \
-          --config lychee.toml \
-          --root-dir "$(pwd)/_site" \
-          --base-url file://${{ github.workspace }}/docs/_site \
+          --verbose
+          --no-progress
+          --config lychee.toml
+          --root-dir "$(pwd)/_site"
+          --base-url file://${{ github.workspace }}/docs/_site
           '_site/**/*.html'
         fail: true
         output: link-check-results.md
