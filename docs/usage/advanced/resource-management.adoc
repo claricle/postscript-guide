@@ -1016,8 +1016,8 @@ restore
 
 === See Also
 
-* link:/docs/usage/advanced/error-handling/[Error Handling] - Resource errors
-* link:/docs/usage/advanced/file-operations/[File Operations] - File resource management
-* link:/docs/usage/basic/procedures/[Procedures] - Procedure optimization
-* link:/docs/usage/debugging/[Debugging] - Resource debugging
-* link:/docs/usage/advanced/device-control/[Device Control] - Device resources
+* link:/usage/advanced/error-handling/[Error Handling] - Resource errors
+* link:/usage/advanced/file-operations/[File Operations] - File resource management
+* link:/usage/basic/procedures/[Procedures] - Procedure optimization
+* link:/usage/debugging/[Debugging] - Resource debugging
+* link:/usage/advanced/device-control/[Device Control] - Device resources

@@ -10,7 +10,7 @@ Generates a pseudo-random integer.
 
 == Description
 
-The `rand` operator generates and returns a pseudo-random integer in the range 0 to 2³¹ - 1 (2147483647). The sequence is deterministic and can be controlled using link:/docs/commands/references/srand/[`srand`] to set the seed and link:/docs/commands/references/rrand/[`rrand`] to get/restore the generator state.
+The `rand` operator generates and returns a pseudo-random integer in the range 0 to 2³¹ - 1 (2147483647). The sequence is deterministic and can be controlled using link:/commands/references/srand/[`srand`] to set the seed and link:/commands/references/rrand/[`rrand`] to get/restore the generator state.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -134,8 +134,8 @@ rand           % → 1804289383 (same sequence)
 
 == Related Commands
 
-* link:/docs/commands/references/srand/[`srand`] - Seed random generator
-* link:/docs/commands/references/rrand/[`rrand`] - Get/set random seed
+* link:/commands/references/srand/[`srand`] - Seed random generator
+* link:/commands/references/rrand/[`rrand`] - Get/set random seed
 
 == PostScript Level
 
@@ -148,4 +148,4 @@ The operand stack is full (cannot push result).
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators

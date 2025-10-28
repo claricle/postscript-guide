@@ -7,602 +7,304 @@ nav_order: 3
 
 == Tokens
 
-Tokens are the basic lexical elements of the PostScript language. The PostScript scanner recognizes five types of tokens: numbers, names, strings, keywords (operators), and comments.
+Understanding PostScript's lexical structure and token types.
 
 === Overview
 
-PostScript programs consist of sequences of tokens separated by whitespace. The scanner reads characters from the input stream and groups them into tokens according to the syntax rules described in this section.
+A **token** is the basic lexical unit of PostScript syntax. The PostScript scanner recognizes several types of tokens, each with specific syntax rules.
 
-Whitespace characters (space, tab, newline, carriage return, form feed, and null) delimit tokens but are otherwise ignored except within comments and strings.
+=== Token Types
 
-=== Numbers
+==== Numbers
 
-PostScript supports two numeric types: integers and real numbers.
+**Integer Numbers**:
 
-==== Integer Numbers
-
-Integers are whole numbers without a decimal point or exponent.
-
-.Basic integer syntax
 [source,postscript]
 ----
 42          % Decimal integer
 -17         % Negative integer
 0           % Zero
-+123        % Explicit positive sign (optional)
++100        % Positive sign optional
 ----
 
-==== Real Numbers
+**Real (Floating-Point) Numbers**:
 
-Real numbers contain a decimal point, an exponent, or both.
-
-.Real number syntax
 [source,postscript]
 ----
-3.14        % Simple real number
--2.5        % Negative real
-0.5         % Fractional value
-1.0         % Integer value as real
+3.14        % Real with decimal point
+-0.5        % Negative real
+.25         % Leading decimal point optional
 6.02e23     % Scientific notation
--1.6E-19    % Negative exponent
-.5          % Leading decimal point
-5.          % Trailing decimal point
+1.0E-10     % Exponent can be E or e
 ----
 
-==== Radix Notation
+**Radix Numbers** (Base 2-36):
 
-Numbers can be specified in bases other than 10 using radix notation.
-
-.Radix notation syntax
 [source,postscript]
 ----
-8#177       % Octal (base 8): 127 decimal
-16#FF       % Hexadecimal (base 16): 255 decimal
-2#1010      % Binary (base 2): 10 decimal
-36#ZZ       % Base 36: 1295 decimal
+8#177       % Octal: 127 decimal
+16#FF       % Hexadecimal: 255 decimal
+2#1010      % Binary: 10 decimal
 ----
 
-The radix (base) must be between 2 and 36. Digits beyond 9 use letters A-Z (case insensitive).
+==== Names
 
-==== Number Syntax Rules
+Names are identifiers that can be used literally or as executable objects.
+
+**Literal Names** (preceded by `/`):
+
+[source,postscript]
+----
+/Times-Roman   % Font name
+/x             % Variable name
+/myproc        % Procedure name
+----
+
+**Executable Names** (no `/` prefix):
+
+[source,postscript]
+----
+add            % Operator
+moveto         % Command
+myvar          % User-defined name
+----
+
+**Immediately Evaluated Names** (preceded by `//`):
+
+[source,postscript]
+----
+//add          % Bind to current definition
+//gsave        % Level 2+
+----
+
+==== Strings
+
+**Regular Strings** (parentheses):
+
+[source,postscript]
+----
+(Hello, World!)              % Simple string
+(String with (nested) parens)  % Balanced parens
+(Line 1\nLine 2)            % Escape sequences
+(Tab\there)                  % Tab character
+----
+
+**Hexadecimal Strings** (angle brackets):
+
+[source,postscript]
+----
+<48656C6C6F>    % "Hello" in hex
+<4142>          % "AB"
+----
+
+==== Arrays
+
+**Literal Arrays**:
+
+[source,postscript]
+----
+[1 2 3]                    % Integer array
+[/name 42 (text)]          % Mixed types
+[]                         % Empty array
+----
+
+**Procedures** (executable arrays):
+
+[source,postscript]
+----
+{ add }                    % Simple procedure
+{ dup mul }                % Multiple operations
+{                          % Multi-line procedure
+  gsave
+  0.5 setgray
+  fill
+  grestore
+}
+----
+
+==== Dictionaries
+
+**Dictionary Literals**:
+
+[source,postscript]
+----
+<< /key1 value1 /key2 value2 >>   % Dictionary syntax (Level 2+)
+----
+
+**Dictionary Construction** (Level 1):
+
+[source,postscript]
+----
+5 dict begin
+  /key1 value1 def
+  /key2 value2 def
+end
+----
+
+==== Special Tokens
+
+**Marks**:
+
+[source,postscript]
+----
+mark            % Push mark on stack
+[               % Equivalent to mark
+----
+
+**Booleans**:
+
+[source,postscript]
+----
+true            % Boolean true
+false           % Boolean false
+----
+
+**Null**:
+
+[source,postscript]
+----
+null            % Null object
+----
+
+=== Escape Sequences in Strings
 
 [cols="1,3"]
 |===
-| Rule | Description
-
-| Sign
-| Optional `+` or `-` prefix
-
-| Radix prefix
-| Optional `base#` for non-decimal numbers (base 2-36)
-
-| Integer part
-| One or more digits
-
-| Decimal point
-| Optional `.` for real numbers
-
-| Fractional part
-| Zero or more digits after decimal point
-
-| Exponent
-| Optional `E` or `e` followed by optional sign and digits
-|===
-
-=== Names
-
-Names are identifiers used to refer to PostScript objects in dictionaries. There are two forms: literal names and executable names.
-
-==== Literal Names
-
-Literal names begin with a forward slash and are treated as data rather than commands.
-
-.Literal name syntax
-[source,postscript]
-----
-/MyName         % Simple literal name
-/x              % Single character name
-/Total-Value    % Name with hyphen
-/Page_1         % Name with underscore
-/!special       % Name with special character
-----
-
-==== Executable Names
-
-Executable names do not begin with a forward slash. When encountered, the interpreter looks them up in the dictionary stack and executes the associated value.
-
-.Executable name syntax
-[source,postscript]
-----
-moveto          % Built-in operator name
-MyProcedure     % User-defined name
-x               % Variable name
-add             % Arithmetic operator
-----
-
-==== Name Character Set
-
-Names can contain any characters except:
-
-* Whitespace (space, tab, newline, etc.)
-* Delimiters: `( ) < > [ ] { } / %`
-
-Special characters that are allowed:
-
-* Letters: `A-Z`, `a-z`
-* Digits: `0-9`
-* Punctuation: `! " # $ & ' * + , - . : ; = ? @ \ ^ _ ` | ~`
-
-.Valid name examples
-[source,postscript]
-----
-/Name-With-Hyphens
-/name_with_underscores
-/MixedCase123
-/$special
-/@symbol
-/version2.0
-----
-
-==== Name Length
-
-Name length is implementation-dependent but typically:
-
-* Level 1: Up to 128 characters
-* Level 2+: Up to 65,535 characters
-
-=== Strings
-
-Strings represent sequences of characters and can be specified using ASCII or hexadecimal notation.
-
-==== ASCII Strings
-
-ASCII strings are enclosed in parentheses `(` and `)`.
-
-.ASCII string syntax
-[source,postscript]
-----
-(Hello, World!)         % Simple string
-(Line 1\nLine 2)       % String with newline
-(Tab\there)            % String with tab
-(Backslash\\)          % Escaped backslash
-(Parens \( and \))     % Escaped parentheses
-()                     % Empty string
-----
-
-==== Escape Sequences
-
-ASCII strings support the following escape sequences:
-
-[cols="1,2,3"]
-|===
-| Sequence | Name | Description
+| Sequence | Meaning
 
 | `\n`
-| Newline
-| Line feed (ASCII 10)
+| Newline (line feed)
 
 | `\r`
-| Return
-| Carriage return (ASCII 13)
+| Carriage return
 
 | `\t`
-| Tab
-| Horizontal tab (ASCII 9)
+| Horizontal tab
 
 | `\b`
 | Backspace
-| Backspace (ASCII 8)
 
 | `\f`
 | Form feed
-| Form feed (ASCII 12)
 
 | `\\`
 | Backslash
-| Literal backslash
 
 | `\(`
-| Left paren
-| Literal left parenthesis
+| Left parenthesis
 
 | `\)`
-| Right paren
-| Literal right parenthesis
+| Right parenthesis
 
 | `\ddd`
-| Octal
-| Character with octal code (1-3 digits)
-
-| `\<newline>`
-| Line continuation
-| Ignored (continues string on next line)
+| Octal character code (1-3 digits)
 |===
-
-.Escape sequence examples
-[source,postscript]
-----
-(First\nSecond)         % Two lines
-(Value:\t42)           % Tab-separated
-(\101\102\103)         % ABC in octal
-(Long string \
-continued here)        % Line continuation
-----
-
-==== Hexadecimal Strings
-
-Hexadecimal strings are enclosed in angle brackets `<` and `>`.
-
-.Hexadecimal string syntax
-[source,postscript]
-----
-<48656C6C6F>           % "Hello" in hex
-<4142>                 % "AB"
-<>                     % Empty string
-<416>                  % Odd digits: padded with 0 -> "A`"
-<41 42 43>             % Whitespace ignored
-----
-
-Each pair of hex digits represents one byte. Whitespace is ignored. If the string contains an odd number of hex digits, the last digit is followed by an implicit 0.
-
-==== String Nesting
-
-ASCII strings can contain balanced parentheses without escaping:
-
-.Nested parentheses
-[source,postscript]
-----
-(Outer (nested) string)        % Balanced parens OK
-(Multiple (nested (deep)) levels)  % Multiple nesting
-(Unbalanced \) needs escape)   % Unbalanced needs escape
-----
 
 === Comments
 
-Comments are text that the scanner ignores. PostScript supports a single comment syntax.
+**Single-Line Comments**:
 
-==== Comment Syntax
-
-Comments begin with `%` and extend to the end of the line.
-
-.Comment examples
 [source,postscript]
 ----
-% This is a full-line comment
-
-42 % In-line comment after code
-
-/name  % Comments can appear anywhere
-  (value)  % on multiple lines
-
-%% Special comment convention (often for metadata)
+% This is a comment
+42 % Comment after code
 ----
 
-==== Structured Comments
+**Document Structure Comments** (DSC):
 
-By convention, comments beginning with `%%` are used for document structuring:
-
-.Document structuring comments
 [source,postscript]
 ----
-%!PS-Adobe-3.0                 % File type identifier
-%%Title: My Document           % Document title
-%%Creator: MyApp 1.0          % Creating application
-%%Pages: 5                    % Number of pages
-%%EndComments                 % End of header comments
-----
-
-These structured comments follow the Document Structuring Conventions (DSC) and are used by document managers and print spoolers.
-
-=== Special Characters
-
-Certain characters have special meaning in PostScript syntax.
-
-==== Delimiters
-
-These characters delimit tokens and have syntactic meaning:
-
-[cols="1,2,3"]
-|===
-| Character | Name | Usage
-
-| `(`
-| Left parenthesis
-| Begin ASCII string
-
-| `)`
-| Right parenthesis
-| End ASCII string
-
-| `<`
-| Less than
-| Begin hex string or dictionary
-
-| `>`
-| Greater than
-| End hex string or dictionary
-
-| `[`
-| Left bracket
-| Begin array literal
-
-| `]`
-| Right bracket
-| End array literal
-
-| `{`
-| Left brace
-| Begin procedure
-
-| `}`
-| Right brace
-| End procedure
-
-| `/`
-| Slash
-| Introduce literal name
-
-| `%`
-| Percent
-| Begin comment
-|===
-
-==== Composite Delimiters
-
-Some delimiters are recognized as pairs:
-
-.Composite delimiter examples
-[source,postscript]
-----
-<<          % Begin dictionary (Level 2+)
->>          % End dictionary (Level 2+)
+%%Title: My Document
+%%Creator: PostScript Guide
+%%Pages: 10
 ----
 
 === Whitespace
 
-Whitespace separates tokens but is otherwise ignored (except in strings and comments).
+**Whitespace Characters**:
 
-==== Whitespace Characters
+* Space (ASCII 32)
+* Tab (ASCII 9)
+* Newline (ASCII 10)
+* Carriage return (ASCII 13)
+* Form feed (ASCII 12)
+* Null (ASCII 0)
 
-[cols="1,2,2"]
-|===
-| Character | Name | ASCII Code
+Whitespace separates tokens but is otherwise ignored.
 
-| Space
-| Space
-| 32
+=== Token Delimiters
 
-| Tab
-| Horizontal tab
-| 9
+**Delimiter Characters**:
 
-| Newline
-| Line feed
-| 10
+[source]
+----
+( ) < > [ ] { } / %
+----
 
-| Return
-| Carriage return
-| 13
+These characters terminate tokens and have special meaning.
 
-| Form feed
-| Form feed
-| 12
+=== Name Syntax Rules
 
-| Null
-| Null
-| 0
-|===
+**Valid Characters in Names**:
 
-.Whitespace examples
+* Any printable ASCII character except delimiters
+* Special characters: `!` `"` `#` `$` `&` `'` `*` `,` `.` `:` `;` `=` `?` `@` `^` `_` `` ` `` `|` `~`
+
+**Invalid in Names**:
+
+* Whitespace
+* Delimiter characters: `( ) < > [ ] { } / %`
+
+=== Token Parsing
+
+The link:/commands/references/token/[`token`] operator can be used to parse tokens from strings or files:
+
 [source,postscript]
 ----
-% These are equivalent:
-1 2 add
-1    2    add
-1
-2
-add
+(42 /name) token   % Returns: 42 ( /name) true
+(  ) token         % Returns: false (no tokens)
 ----
 
-=== Token Scanning Rules
+=== Common Patterns
 
-The PostScript scanner follows these rules when recognizing tokens:
+==== Parsing Input
 
-. **Whitespace**: Skip all leading whitespace characters
-. **Comments**: If `%` is encountered, skip to end of line
-. **Strings**: If `(` or `<` is encountered, scan until matching `)` or `>`
-. **Names**: If `/` is encountered, scan a literal name
-. **Numbers**: If sign or digit is encountered, try to scan a number
-. **Keywords/Names**: Otherwise, scan an executable name or keyword
-
-==== Scanning Algorithm
-
-[source,pseudocode]
-----
-1. Skip whitespace
-2. If EOF, return end-of-file
-3. If '%', skip comment, goto 1
-4. If '(', scan ASCII string
-5. If '<', scan hex string or dictionary marker
-6. If '[', return array begin marker
-7. If ']', return array end marker
-8. If '{', return procedure begin marker
-9. If '}', return procedure end marker
-10. If '/', scan literal name
-11. If digit or '+' or '-' or '.', try to scan number
-12. Otherwise, scan executable name
-----
-
-=== Immediate Execution
-
-Some tokens cause immediate action during scanning:
-
-.Immediately executed operators
 [source,postscript]
 ----
-{           % Push mark and enter procedure mode
-}           % Exit procedure mode and create array
-[           % Push mark for array
-]           % Create array from mark to top
-<<          % Push mark for dictionary (Level 2+)
->>          % Create dictionary (Level 2+)
+currentfile token {
+  % Process token on stack
+} if
 ----
 
-These tokens are special because they affect the scanner's behavior rather than being treated as ordinary data.
+==== String to Number
 
-=== Token Length Limits
-
-PostScript implementations impose limits on token length:
-
-[cols="2,1,1"]
-|===
-| Token Type | Level 1 | Level 2+
-
-| Names
-| 128 chars
-| 65,535 chars
-
-| Strings
-| 65,535 bytes
-| 65,535 bytes
-
-| Numbers
-| No limit
-| No limit
-
-| Keywords
-| 128 chars
-| 128 chars
-|===
-
-=== Examples
-
-==== Complete Token Examples
-
-.Mixed token types
 [source,postscript]
 ----
-% Tokens on one line
-/x 42 def           % Literal name, integer, executable name
-
-% Real number and string
-3.14 (pi) def       % Real, string, operator
-
-% Array with mixed types
-[1 2.5 /three (4)]  % Integer, real, name, string
-
-% Hex string
-<48656C6C6F> show   % Hex string, operator
-
-% Radix numbers
-16#FF 8#377 eq      % Hex and octal, both 255
+(3.14) cvr     % Convert string to real: 3.14
+(42) cvi       % Convert string to integer: 42
 ----
 
-==== Token Recognition
+==== Building Names Dynamically
 
-.How the scanner parses a line
 [source,postscript]
 ----
-100 200 moveto      % Three tokens:
-                    % 1. Integer: 100
-                    % 2. Integer: 200
-                    % 3. Name: moveto
-
-/Times-Roman findfont  % Three tokens:
-                       % 1. Literal name: /Times-Roman
-                       % 2. Name: findfont
-
-(Hello) show        % Two tokens:
-                    % 1. String: (Hello)
-                    % 2. Name: show
+(myname) cvn   % Convert string to name: /myname
 ----
 
 === Best Practices
 
-==== Naming Conventions
+TIP: *Use Meaningful Names* - Choose descriptive names for procedures and variables.
 
-* Use descriptive names for user-defined procedures
-* Follow convention: `/PascalCase` for procedures, `/lowercase` for variables
-* Prefix private names with underscore: `/_internal`
-* Use hyphens for compound names: `/My-Long-Name`
+TIP: *Comment Complex Code* - Use comments to explain non-obvious logic.
 
-==== Number Usage
+TIP: *Consistent Formatting* - Use consistent indentation and spacing for readability.
 
-* Use integers for exact values (coordinates, counts)
-* Use reals for fractional values (scaling, colors)
-* Avoid unnecessary precision: `0.5` not `0.50000000`
-* Use radix notation for bit flags: `2#11110000`
-
-==== String Guidelines
-
-* Use ASCII strings for text: `(Hello)`
-* Use hex strings for binary data: `<FEFF>`
-* Escape special characters properly
-* Keep strings reasonably short for readability
-
-==== Comment Style
-
-* Comment complex procedures
-* Use `%%` for document structure
-* Place comments above code blocks, not inline (except brief notes)
-* Document stack effects in procedure comments
-
-=== Common Pitfalls
-
-==== Number Ambiguities
-
-.Potential confusion
-[source,postscript]
-----
-% These are DIFFERENT:
-1.0         % Real number
-1 .0        % Integer 1 followed by real 0.0
-
-% These are the SAME:
-+42         % Explicit positive
-42          % Implicit positive
-
-% Radix confusion
-10#10       % Base 10: value is 10
-16#10       % Base 16: value is 16
-----
-
-==== Name vs String
-
-.Important distinction
-[source,postscript]
-----
-/name       % Literal name (used as key)
-name        % Executable name (looked up)
-(name)      % String (different type entirely)
-----
-
-==== String Escaping
-
-.Common mistakes
-[source,postscript]
-----
-% WRONG:
-(Don't)     % Unmatched quote in string
-
-% RIGHT:
-(Don\'t)    % Escape not needed for apostrophe
-(Can't)     % Apostrophe OK (not a delimiter)
-
-% WRONG:
-(Path: C:\temp)    % Backslash starts escape
-
-% RIGHT:
-(Path: C:\\temp)   % Escaped backslash
-----
+WARNING: *Name Length Limits* - While PostScript supports long names, keep them reasonable for maintainability.
 
 === See Also
 
-* link:/docs/syntax/objects/[Objects] - PostScript object model
-* link:/docs/syntax/data-types/[Data Types] - Complete type system
-* link:/docs/syntax/strings/[Strings] - Detailed string documentation
-* link:/docs/syntax/operators/[Operators] - Operator execution
-* link:/docs/commands/references/cvs/[cvs] - Convert to string
-* link:/docs/commands/references/token/[token] - Token scanning
-* link:/docs/syntax/[Language Syntax Overview]
-* link:/docs/commands/[Command Reference]
+* link:/syntax/strings/[Strings]
+* link:/syntax/arrays/[Arrays]
+* link:/syntax/dictionaries/[Dictionaries]
+* link:/syntax/data-types/[Data Types]
+* link:/commands/references/token/[token command]

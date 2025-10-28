@@ -2,748 +2,347 @@
 layout: default
 title: Objects
 parent: Language Syntax
-nav_order: 4
+nav_order: 2
 ---
 
 == Objects
 
-Everything in PostScript is an object. Objects are the fundamental data entities that the PostScript interpreter manipulates. Understanding the object model is essential for effective PostScript programming.
+Understanding PostScript objects and their attributes.
 
 === Overview
 
-PostScript objects have three fundamental attributes:
+In PostScript, everything is an **object**. Objects are the fundamental data entities that the PostScript interpreter manipulates. Each object has a **type** and may have **attributes** that control how it behaves.
 
-* **Type**: What kind of object it is (integer, string, array, etc.)
-* **Value**: The actual data the object represents
-* **Attributes**: Properties that control how the object behaves (literal vs executable, access permissions)
+=== Object Types
 
-=== Object Structure
-
-Every PostScript object consists of these components:
-
-==== Type
-
-The type determines the object's structure and the operations that can be performed on it. PostScript defines several built-in types.
-
-==== Value
-
-The value is the actual data stored in the object. For simple objects (integers, reals, booleans), the value is stored directly. For composite objects (strings, arrays, dictionaries), the value is stored indirectly through a pointer.
-
-==== Attributes
-
-Objects have binary attributes that control their behavior:
-
-* **Literal vs Executable**: Determines whether the object is executed or treated as data
-* **Access Permissions**: Controls read/write/execute access to the object
-
-=== Object Categories
-
-PostScript objects are classified into two main categories based on their structure.
+PostScript defines several fundamental object types:
 
 ==== Simple Objects
 
-Simple objects store their values directly. They are:
-
-[cols="1,3"]
-|===
-| Type | Description
-
-| Integer
-| Whole numbers (-2^31 to 2^31-1 typically)
-
-| Real
-| Floating-point numbers
-
-| Boolean
-| True or false values
-
-| Mark
-| Special stack marker object
-
-| Null
-| Empty object with no value
-
-| Operator
-| Built-in primitive operations
-
-| Name
-| Identifiers (stored internally as integers)
-
-| Save
-| VM snapshot for save/restore operations
-|===
-
-.Simple object examples
+**Integer**:: Whole numbers in the range -2³¹ to 2³¹-1
++
 [source,postscript]
 ----
-42              % Integer object
-3.14            % Real object
-true            % Boolean object
-false           % Boolean object
-null            % Null object
-mark            % Mark object (also written as [)
+42  -17  0  2147483647
+----
+
+**Real**:: Floating-point numbers with approximately 7 significant digits
++
+[source,postscript]
+----
+3.14  -0.5  6.02e23  1.0E-10
+----
+
+**Boolean**:: Logical true or false values
++
+[source,postscript]
+----
+true  false
+----
+
+**Name**:: Identifiers used to reference other objects
++
+[source,postscript]
+----
+/Times-Roman  /x  /myproc
+----
+
+**Null**:: A special object representing no value
++
+[source,postscript]
+----
+null
 ----
 
 ==== Composite Objects
 
-Composite objects store their values indirectly through pointers. They are:
-
-[cols="1,3"]
-|===
-| Type | Description
-
-| String
-| Sequence of 8-bit characters or bytes
-
-| Array
-| Ordered collection of objects
-
-| Dictionary
-| Associative array (key-value pairs)
-
-| File
-| Input/output stream
-
-| Font
-| Font dictionary (special dictionary type)
-
-| Gstate
-| Graphics state (Level 2+)
-
-| Packed Array
-| Space-efficient array (Level 2+)
-|===
-
-.Composite object examples
+**String**:: Sequence of bytes, typically representing text
++
 [source,postscript]
 ----
-(Hello)         % String object
-[1 2 3]         % Array object
-<< /a 1 /b 2 >> % Dictionary object (Level 2+)
+(Hello, World!)
+<48656C6C6F>  % Hexadecimal string
 ----
 
-=== Literal vs Executable
-
-One of the most important object attributes is whether an object is literal or executable.
-
-==== Literal Objects
-
-Literal objects are treated as data and are not executed by the interpreter. They are simply pushed onto the operand stack.
-
-.Creating literal objects
+**Array**:: Ordered collection of objects
++
 [source,postscript]
 ----
-/name           % Literal name (slash prefix)
-42              % Literal integer
-3.14            % Literal real
-(string)        % Literal string
-true            % Literal boolean
-[1 2 3]         % Literal array (created by [ ... ])
-{ /x 5 def }    % Executable array (procedure)
+[1 2 3]
+[/name 42 (text)]
 ----
 
-==== Executable Objects
-
-Executable objects cause the interpreter to perform some action when encountered during execution.
-
-.Executable object types
+**Dictionary**:: Associative array mapping keys to values
++
 [source,postscript]
 ----
-name            % Executable name (looked up and executed)
-{ code }        % Executable array (procedure)
-add             % Operator (always executable)
+<< /FontName /Times-Roman /FontSize 12 >>
 ----
 
-==== Attribute Conversion
-
-Objects can be converted between literal and executable forms.
-
-.Converting between literal and executable
+**Procedure**:: Executable array (code block)
++
 [source,postscript]
 ----
-% Make object executable
-/myname cvx     % Returns executable name myname
-
-% Make object literal
-add cvlit       % Returns literal operator /add
-
-% Check if executable
-{ } xcheck      % Returns true (procedures are executable)
-/name xcheck    % Returns false (literal names are not)
+{ dup mul }  % Square a number
 ----
 
-=== Access Permissions
+==== Special Objects
 
-Composite objects have access permission attributes that control operations on them.
-
-==== Permission Types
-
-[cols="1,3"]
-|===
-| Permission | Description
-
-| Read-only
-| Object can be read but not modified
-
-| Write
-| Object can be read and modified
-
-| Execute-only
-| Object can be executed but not read (arrays/strings only)
-
-| No access
-| Object cannot be accessed (internal system objects)
-|===
-
-==== Checking Permissions
-
-.Permission checking operators
+**Mark**:: Stack delimiter used in array construction
++
 [source,postscript]
 ----
-(string) rcheck     % Check if readable (returns true)
-(string) wcheck     % Check if writable (returns true)
-{ code } xcheck     % Check if executable (returns true)
-
-% Arrays can be execute-only
-/procarray [1 2 3] cvx def
-procarray executeonly  % Make execute-only
-procarray rcheck       % Returns false
-procarray xcheck       % Returns true
+mark  % or equivalently [
 ----
 
-==== Permission Restrictions
-
-.Setting restricted access
+**Operator**:: Built-in PostScript command
++
 [source,postscript]
 ----
-% Make array read-only
-[1 2 3] readonly
-dup 0 99 put        % Causes invalidaccess error
-
-% Make string execute-only
-(code) executeonly
-dup length          % Causes invalidaccess error
+add  sub  moveto  show
 ----
 
-=== Object Comparison
-
-Objects can be compared for equality and identity.
-
-==== Value Equality (eq)
-
-The `eq` operator compares objects for value equality. For simple objects, it compares values. For composite objects, it compares references.
-
-.Equality comparison
+**File**:: Input/output stream
++
 [source,postscript]
 ----
-% Simple objects - compare values
-42 42 eq            % Returns true
-3.14 3.14 eq        % Returns true
-true true eq        % Returns true
-
-% Composite objects - compare references
-(abc) (abc) eq      % Returns false (different objects)
-[1 2] [1 2] eq      % Returns false (different arrays)
-
-% Same object
-/s (abc) def
-s s eq              % Returns true (same reference)
+currentfile
+(myfile.ps) (r) file
 ----
 
-==== Type Equality (type)
-
-The `type` operator returns the type of an object.
-
-.Type checking
+**Save**:: VM snapshot for state restoration
++
 [source,postscript]
 ----
-42 type             % Returns /integertype
-3.14 type           % Returns /realtype
-(abc) type          % Returns /stringtype
-[1 2] type          % Returns /arraytype
-{ } type            % Returns /arraytype (procedures are arrays)
-/name type          % Returns /nametype
-true type           % Returns /booleantype
+save  % Returns save object
 ----
 
-=== Object Lifecycle
-
-Understanding how objects are created, used, and destroyed is important for memory management.
-
-==== Object Creation
-
-Objects are created in various ways:
-
-.Object creation methods
+**Font**:: Character shape collection
++
 [source,postscript]
 ----
-% Literals create objects directly
-42                  % Creates integer
-(string)            % Creates string
-
-% Operators create objects
-3 string            % Creates 3-byte string
-5 array             % Creates 5-element array
-10 dict             % Creates dictionary with capacity 10
-
-% Procedures create objects
-{ 1 2 add }         % Creates executable array
+/Times-Roman findfont  % Returns font dictionary
 ----
 
-==== Object Storage
+=== Object Attributes
 
-Objects are stored in memory areas called VM (Virtual Memory).
+Each object has attributes that control its behavior:
 
-[cols="1,3"]
-|===
-| Memory Type | Description
+==== Literal vs. Executable
 
-| Local VM
-| Temporary storage, discarded after job
-
-| Global VM
-| Persistent storage, survives jobs (Level 2+)
-
-| System VM
-| Read-only storage for built-in objects
-|===
-
-.VM allocation
+**Literal**:: The object represents itself
++
 [source,postscript]
 ----
-% Check current VM mode
-currentglobal       % Returns true if global, false if local
-
-% Set VM allocation mode (Level 2+)
-true setglobal      % Allocate in global VM
-false setglobal     % Allocate in local VM
-
-% Objects allocated in current VM
-10 array            % Created in current VM mode
+/name      % Literal name
+(text)     % Literal string
+[1 2 3]    % Literal array
 ----
 
-==== Object Lifetime
-
-Object lifetime depends on references and garbage collection.
-
-.Object reference example
+**Executable**:: The object is executed when encountered
++
 [source,postscript]
 ----
-% Create object and store reference
-/myarray [1 2 3] def
-
-% Object stays alive while referenced
-myarray 0 get       % Access object (OK)
-
-% Remove reference
-/myarray null def
-
-% Object becomes eligible for garbage collection
-% (automatically reclaimed by interpreter)
+name       % Executable name (looks up and executes)
+{ add }    % Executable array (procedure)
 ----
 
-==== Garbage Collection
+Convert between literal and executable:
 
-The PostScript interpreter automatically reclaims memory from unreferenced objects.
-
-.Garbage collection behavior
 [source,postscript]
 ----
-% Force garbage collection (Level 2+)
-vmreclaim           % Reclaim VM
-
-% Check VM usage
-vmstatus            % Returns VM statistics
-pop pop             % Discard level and maximum
-                    % Leaves used bytes on stack
+/name cvx      % Make name executable
+{ code } cvlit % Make procedure literal
 ----
 
-=== Object Type Hierarchy
+==== Access Attributes
 
-PostScript's type system forms a hierarchy based on object characteristics.
+**No Access**:: Cannot be accessed
+**Read-Only**:: Can be read but not modified
+**Execute-Only**:: Can only be executed (for arrays)
+**Unlimited**:: Can be read, written, and executed
 
-==== Type Classification
+Check and modify access:
 
-[source,text]
-----
-All Objects
-├── Simple Objects
-│   ├── Numeric
-│   │   ├── Integer
-│   │   └── Real
-│   ├── Boolean
-│   ├── Name
-│   ├── Operator
-│   ├── Mark
-│   ├── Null
-│   └── Save
-└── Composite Objects
-    ├── Collections
-    │   ├── String
-    │   ├── Array
-    │   ├── Packed Array (Level 2+)
-    │   └── Dictionary
-    ├── I/O
-    │   └── File
-    └── Graphics
-        ├── Font
-        └── Gstate (Level 2+)
-----
-
-==== Type Conversion
-
-Objects can be converted between compatible types.
-
-.Type conversion operators
 [source,postscript]
 ----
-% Numeric conversions
-3.14 cvi            % Real to integer: 3
-42 cvr              % Integer to real: 42.0
-
-% String conversions
-42 10 string cvs    % Integer to string: (42)
-/name 10 string cvs % Name to string: (name)
-
-% Name conversions
-(myname) cvn        % String to name: /myname
-
-% Literal/executable conversions
-/name cvx           % Make executable: name
-name cvlit          % Make literal: /name
+dict rcheck       % Check if readable
+dict wcheck       % Check if writable
+dict xcheck       % Check if executable
+dict readonly     % Make read-only
+dict executeonly  % Make execute-only (arrays)
 ----
 
-=== Object Attributes in Detail
+=== Type Checking
 
-==== Composite Object Structure
+Get an object's type:
 
-Composite objects have additional internal structure:
-
-.String object structure
-[source,text]
-----
-String Object:
-┌─────────────┬────────────┬─────────────┬──────────────┐
-│ Type: string│ Attributes │ Length: n   │ Value: ptr   │
-└─────────────┴────────────┴─────────────┴──────────────┘
-                                            │
-                                            ▼
-                                        ┌─────────────┐
-                                        │ char[0]     │
-                                        │ char[1]     │
-                                        │ ...         │
-                                        │ char[n-1]   │
-                                        └─────────────┘
-----
-
-.Array object structure
-[source,text]
-----
-Array Object:
-┌─────────────┬────────────┬─────────────┬──────────────┐
-│ Type: array │ Attributes │ Length: n   │ Value: ptr   │
-└─────────────┴────────────┴─────────────┴──────────────┘
-                                            │
-                                            ▼
-                                        ┌─────────────┐
-                                        │ Object[0]   │
-                                        │ Object[1]   │
-                                        │ ...         │
-                                        │ Object[n-1] │
-                                        └─────────────┘
-----
-
-==== Shared Subobjects
-
-Composite objects can share subobjects:
-
-.Shared reference example
 [source,postscript]
 ----
-% Create shared string
-/shared (shared data) def
-
-% Two arrays reference same string
-[shared] /arr1 exch def
-[shared] /arr2 exch def
-
-% Modifying through one affects both
-arr1 0 get 0 88 put     % Change first char to 'X'
-arr2 0 get              % Returns (Xhared data)
+42 type         % Returns: /integertype
+3.14 type       % Returns: /realtype
+(text) type     % Returns: /stringtype
+[1 2 3] type    % Returns: /arraytype
+{ add } type    % Returns: /arraytype (procedures are arrays)
+/name type      % Returns: /nametype
+true type       % Returns: /booleantype
+null type       % Returns: /nulltype
 ----
 
-=== Object Manipulation Patterns
+=== Type Conversion
 
-==== Copying Objects
+Convert between types:
 
-.Shallow vs deep copying
 [source,postscript]
 ----
-% Shallow copy - copies references
-/orig [1 [2 3] 4] def
-orig dup length array copy /shallow exch def
+% String to number
+(42) cvi        % String to integer: 42
+(3.14) cvr      % String to real: 3.14
 
-% Modifying shared subobject affects both
-orig 1 get 0 99 put     % Modify nested array
-shallow 1 get 0 get     % Returns 99 (shared)
+% Number to string
+42 20 string cvs    % Integer to string: (42)
 
-% Deep copy requires explicit recursion
-% (no built-in deep copy in PostScript)
+% String to name
+(myname) cvn    % String to name: /myname
+
+% Name to string
+/myname 20 string cvs  % Name to string: (myname)
+
+% Integer to real
+42 cvr          % Integer to real: 42.0
+
+% Real to integer
+3.14 cvi        % Real to integer: 3 (truncated)
 ----
 
-==== Type-Safe Operations
+=== Object Equality
 
-.Checking types before operations
+PostScript has two notions of equality:
+
+**Value Equality** (link:/commands/references/eq/[`eq`]):: Objects have the same value
++
 [source,postscript]
 ----
-% Type-safe procedure
-/SafeAdd {
-    % Verify both operands are numbers
-    exch dup type /integertype eq
-    1 index type /integertype eq or
-    1 index type /realtype eq
-    2 index type /realtype eq or and
-    { add }
-    { pop pop (Type Error) print }
-    ifelse
+3 3 eq          % true
+(abc) (abc) eq  % false (different string objects)
+----
+
+**Identity Equality** (link:/commands/references/eq/[`eq`] for simple types):: Objects are the same object
++
+[source,postscript]
+----
+/arr [1 2 3] def
+arr arr eq      % true (same array)
+arr [1 2 3] eq  % false (different arrays, same values)
+----
+
+For composite objects, link:/commands/references/eq/[`eq`] tests object identity, not value equality.
+
+=== Object Sharing
+
+Composite objects can be shared:
+
+[source,postscript]
+----
+/arr1 [1 2 3] def
+/arr2 arr1 def      % arr2 and arr1 refer to same array
+arr1 0 99 put       % Modifies both arr1 and arr2
+arr1 ==             % [99 2 3]
+arr2 ==             % [99 2 3] (same object)
+----
+
+Copy to create independent objects:
+
+[source,postscript]
+----
+/arr1 [1 2 3] def
+/arr2 arr1 length array def
+arr1 arr2 copy pop  % Create independent copy
+arr1 0 99 put       % Only modifies arr1
+arr1 ==             % [99 2 3]
+arr2 ==             % [1 2 3] (different object)
+----
+
+=== Object Memory Management
+
+**Local VM**:: Objects allocated here are temporary
++
+[source,postscript]
+----
+save
+  /local [1 2 3] def  % Local allocation
+restore                 % local is discarded
+----
+
+**Global VM**:: Objects persist across save/restore
++
+[source,postscript]
+----
+true setglobal
+/global [1 2 3] def  % Global allocation
+false setglobal
+----
+
+=== Common Patterns
+
+==== Type Testing
+
+[source,postscript]
+----
+/isarray {  % obj => bool
+  type /arraytype eq
 } def
 
-42 10 SafeAdd       % Works: 52
-42 (x) SafeAdd      % Prints: Type Error
+/isstring {  % obj => bool
+  type /stringtype eq
+} def
 ----
 
-=== Special Object Behaviors
+==== Safe Type Conversion
 
-==== Mark Object
-
-The mark object is special - it's used as a stack delimiter.
-
-.Mark usage
 [source,postscript]
 ----
-% Mark delimits array construction
-mark 1 2 3 ]        % Creates [1 2 3]
-[ 1 2 3 ]           % Equivalent ([ is mark)
-
-% Count to mark
-mark 10 20 30 counttomark  % Returns 3
-
-% Clear to mark
-mark 1 2 3 cleartomark     % Removes all including mark
+/safeint {  % obj => int or obj
+  dup type /stringtype eq {
+    cvi
+  } if
+} def
 ----
 
-==== Null Object
+==== Object Copying
 
-The null object represents "no value" - useful for initialization.
-
-.Null object usage
 [source,postscript]
 ----
-% Initialize variable to null
-/myvar null def
-
-% Check for null
-myvar null eq       % Returns true
-
-% Null has no type operations
-null type           % Returns /nulltype
+/copyobject {  % obj => obj_copy
+  dup type dup
+  /arraytype eq {
+    pop dup length array copy
+  } {
+    /stringtype eq {
+      dup length string copy
+    } {
+      % Simple types are values, no copy needed
+    } ifelse
+  } ifelse
+} def
 ----
-
-==== Operator Objects
-
-Operators are special executable objects bound to built-in primitives.
-
-.Operator characteristics
-[source,postscript]
-----
-% Operators are always executable
-/add load type      % Returns /operatortype
-/add load xcheck    % Returns true
-
-% Can't make operator literal
-/add load cvlit type  % Still returns /operatortype
-----
-
-=== Object Table
-
-Complete comparison of object characteristics:
-
-[cols="1,1,1,1,1,1"]
-|===
-| Type | Simple/Composite | Mutable | Literal Form | Executable Form | Default Access
-
-| Integer
-| Simple
-| No
-| `42`
-| N/A
-| N/A
-
-| Real
-| Simple
-| No
-| `3.14`
-| N/A
-| N/A
-
-| Boolean
-| Simple
-| No
-| `true`/`false`
-| N/A
-| N/A
-
-| Name
-| Simple
-| No
-| `/name`
-| `name`
-| N/A
-
-| Operator
-| Simple
-| No
-| N/A
-| `add`
-| N/A
-
-| Mark
-| Simple
-| No
-| `mark`
-| N/A
-| N/A
-
-| Null
-| Simple
-| No
-| `null`
-| N/A
-| N/A
-
-| String
-| Composite
-| Yes
-| `(text)`
-| `(text) cvx`
-| Read/Write
-
-| Array
-| Composite
-| Yes
-| `[1 2 3]`
-| `{ 1 2 3 }`
-| Read/Write
-
-| Dictionary
-| Composite
-| Yes
-| `<< /a 1 >>`
-| N/A
-| Read/Write
-
-| File
-| Composite
-| Yes
-| N/A
-| N/A
-| Varies
-
-| Font
-| Composite
-| Yes
-| N/A
-| N/A
-| Read-only
-|===
 
 === Best Practices
 
-==== Type Safety
+TIP: *Check Types* - Use link:/commands/references/type/[`type`] and comparison to validate object types before operations.
 
-* Always check object types before operations
-* Use type-safe wrapper procedures for critical code
-* Validate composite object lengths before access
+TIP: *Be Aware of Sharing* - Remember that assignment creates references, not copies, for composite objects.
 
-==== Access Control
+TIP: *Use Appropriate Access* - Set proper access attributes to prevent unintended modifications.
 
-* Use `readonly` to protect data structures
-* Use `executeonly` for proprietary code protection
-* Check permissions with `rcheck`, `wcheck`, `xcheck`
-
-==== Memory Management
-
-* Avoid creating unnecessary temporary objects
-* Reuse objects where possible (especially strings and arrays)
-* Be aware of object sharing in composite structures
-* Let garbage collector reclaim unreferenced objects
-
-==== Object Lifecycle
-
-* Don't rely on object destruction timing
-* Use save/restore for temporary allocations
-* Clear large data structures when no longer needed
-
-=== Common Pitfalls
-
-==== Reference vs Value
-
-.Objects are passed by reference
-[source,postscript]
-----
-% WRONG - assumes value copy
-/modify { 0 99 put } def
-[1 2 3] dup modify      % Modifies original!
-
-% RIGHT - explicit copy if needed
-/modify { dup length array copy 0 99 put } def
-[1 2 3] dup modify      % Original unchanged
-----
-
-==== Type Confusion
-
-.Name vs string vs operator
-[source,postscript]
-----
-% These are DIFFERENT types:
-/add            % Name object (literal)
-add             % Operator object (executable)
-(add)           % String object
-
-% Type checking:
-/add type       % Returns /nametype
-add type        % Returns /operatortype
-(add) type      % Returns /stringtype
-----
-
-==== Access Violations
-
-.Modifying read-only objects
-[source,postscript]
-----
-% Create read-only array
-[1 2 3] readonly /arr exch def
-
-% WRONG - causes error:
-arr 0 99 put    % invalidaccess error
-
-% RIGHT - check first:
-arr wcheck {
-    arr 0 99 put
-} {
-    (Array is read-only) print
-} ifelse
-----
+WARNING: *Type Errors* - Operating on wrong types causes [`typecheck`] errors. Always validate types for robustness.
 
 === See Also
 
-* link:/docs/syntax/data-types/[Data Types] - Complete type system
-* link:/docs/syntax/tokens/[Tokens] - Lexical elements
-* link:/docs/syntax/arrays/[Arrays] - Array objects
-* link:/docs/syntax/dictionaries/[Dictionaries] - Dictionary objects
-* link:/docs/syntax/strings/[Strings] - String objects
-* link:/docs/syntax/operators/[Operators] - Object manipulation operators
-* link:/docs/commands/references/type/[type] - Get object type
-* link:/docs/commands/references/cvlit/[cvlit] - Make literal
-* link:/docs/commands/references/cvx/[cvx] - Make executable
-* link:/docs/syntax/[Language Syntax Overview]
+* link:/syntax/data-types/[Data Types]
+* link:/syntax/arrays/[Arrays]
+* link:/syntax/strings/[Strings]
+* link:/syntax/dictionaries/[Dictionaries]
+* link:/commands/references/type/[type command]
+* link:/commands/references/cvx/[cvx command]
+* link:/commands/references/cvlit/[cvlit command]

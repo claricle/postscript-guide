@@ -41,7 +41,7 @@ string rcheck → bool
 
 === Description
 
-link:/docs/commands/references/rcheck/[`rcheck`] tests whether the operand's access attribute permits its value to be read explicitly by PostScript operators.
+link:/commands/references/rcheck/[`rcheck`] tests whether the operand's access attribute permits its value to be read explicitly by PostScript operators.
 
 Returns:
 * `true` if access is **unlimited** or **readonly**
@@ -124,9 +124,9 @@ dup rcheck         % false (cannot read)
 dup exec           % Works! (can execute)
 ----
 
-WARNING: *Confusing rcheck with xcheck* - link:/docs/commands/references/rcheck/[`rcheck`] tests read access, link:/docs/commands/references/xcheck/[`xcheck`] tests executable attribute.
+WARNING: *Confusing rcheck with xcheck* - link:/commands/references/rcheck/[`rcheck`] tests read access, link:/commands/references/xcheck/[`xcheck`] tests executable attribute.
 
-TIP: *Check Before Reading* - Use link:/docs/commands/references/rcheck/[`rcheck`] before operations that read object values.
+TIP: *Check Before Reading* - Use link:/commands/references/rcheck/[`rcheck`] before operations that read object values.
 
 === Error Conditions
 
@@ -177,7 +177,7 @@ TIP: *Check Before Reading* - Use link:/docs/commands/references/rcheck/[`rcheck
 
 === See Also
 
-* link:/docs/commands/references/wcheck/[`wcheck`] - Test if writable
-* link:/docs/commands/references/xcheck/[`xcheck`] - Test if executable
+* link:/commands/references/wcheck/[`wcheck`] - Test if writable
+* link:/commands/references/xcheck/[`xcheck`] - Test if executable
 * Access operators: `readonly`, `executeonly`, `noaccess`
-* link:/docs/commands/references/type/[`type`] - Get object type
+* link:/commands/references/type/[`type`] - Get object type

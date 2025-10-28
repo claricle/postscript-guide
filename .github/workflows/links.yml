@@ -21,6 +21,7 @@ jobs:
       env:
         JEKYLL_ENV: production
       run: bundle exec jekyll build --trace
+      working-directory: docs
 
     - name: Restore lychee cache
       uses: actions/cache@v4
@@ -37,6 +38,7 @@ jobs:
         fi
         echo "Site built successfully"
         ls -la _site/
+      working-directory: docs
 
     - name: Link Checker (Built Site)
       uses: lycheeverse/lychee-action@v2
@@ -53,6 +55,7 @@ jobs:
         fail: true
         output: link-check-results.md
         format: markdown
+        workingDirectory: docs
 
     - name: Upload link check results
       if: always()
@@ -60,7 +63,7 @@ jobs:
       with:
         name: link-check-results
         path: |
-          link-check-results.md
+          docs/link-check-results.md
         retention-days: 30
 
     - name: Comment PR with results
@@ -71,8 +74,8 @@ jobs:
           const fs = require('fs');
           let comment = '## 🔗 Link Check Failed\n\n';
 
-          if (fs.existsSync('link-check-results.md')) {
-            const results = fs.readFileSync('link-check-results.md', 'utf8');
+          if (fs.existsSync('docs/link-check-results.md')) {
+            const results = fs.readFileSync('docs/link-check-results.md', 'utf8');
             comment += '### Built Site Results\n\n' + results + '\n\n';
           }
 

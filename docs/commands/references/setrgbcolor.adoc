@@ -43,7 +43,7 @@ red green blue setrgbcolor → –
 
 === Description
 
-link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] sets the color space to DeviceRGB and sets the current color using red, green, and blue components.
+link:/commands/references/setrgbcolor/[`setrgbcolor`] sets the color space to DeviceRGB and sets the current color using red, green, and blue components.
 
 Each component must be in range 0.0 to 1.0:
 * **0.0** = none of that color
@@ -177,7 +177,7 @@ R + G + B = White
 
 === See Also
 
-* link:/docs/commands/references/setgray/[`setgray`] - Set grayscale
-* link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] - Set CMYK (Level 2)
-* link:/docs/commands/references/sethsbcolor/[`sethsbcolor`] - Set HSB
-* link:/docs/commands/references/currentrgbcolor/[`currentrgbcolor`] - Get RGB color
+* link:/commands/references/setgray/[`setgray`] - Set grayscale
+* link:/commands/references/setcmykcolor/[`setcmykcolor`] - Set CMYK (Level 2)
+* link:/commands/references/sethsbcolor/[`sethsbcolor`] - Set HSB
+* link:/commands/references/currentrgbcolor/[`currentrgbcolor`] - Get RGB color

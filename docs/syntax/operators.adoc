@@ -988,13 +988,13 @@ value dup 0 lt {
 
 === See Also
 
-* link:/docs/syntax/procedures/[Procedures] - User-defined executable arrays
-* link:/docs/syntax/objects/[Objects] - Object execution model
-* link:/docs/syntax/tokens/[Tokens] - Operator name syntax
-* link:/docs/syntax/data-types/[Data Types] - Operand types
-* link:/docs/commands/references/[Control Flow Commands]
-* link:/docs/commands/references/[Stack Manipulation Commands]
-* link:/docs/commands/references/[Arithmetic Commands]
-* link:/docs/commands/references/[Array and String Commands]
-* link:/docs/commands/references/[Dictionary Commands]
-* link:/docs/syntax/[Language Syntax Overview]
+* link:/syntax/procedures/[Procedures] - User-defined executable arrays
+* link:/syntax/objects/[Objects] - Object execution model
+* link:/syntax/tokens/[Tokens] - Operator name syntax
+* link:/syntax/data-types/[Data Types] - Operand types
+* link:/commands/references/[Control Flow Commands]
+* link:/commands/references/[Stack Manipulation Commands]
+* link:/commands/references/[Arithmetic Commands]
+* link:/commands/references/[Array and String Commands]
+* link:/commands/references/[Dictionary Commands]
+* link:/syntax/[Language Syntax Overview]

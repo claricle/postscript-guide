@@ -58,7 +58,7 @@ x1 y1 x2 y2 r arcto → xt1 yt1 xt2 yt2
 
 === Description
 
-link:/docs/commands/references/arcto/[`arcto`] produces the same effect as link:/docs/commands/references/arct/[`arct`]. It also returns the two tangent point coordinates (xt1, yt1) and (xt2, yt2) in user space.
+link:/commands/references/arcto/[`arcto`] produces the same effect as link:/commands/references/arct/[`arct`]. It also returns the two tangent point coordinates (xt1, yt1) and (xt2, yt2) in user space.
 
 The arc is defined by:
 1. A tangent line from the current point (x0, y0) to (x1, y1)
@@ -67,7 +67,7 @@ The arc is defined by:
 
 The arc is tangent to both lines, and the tangent points are returned on the stack.
 
-link:/docs/commands/references/arcto/[`arcto`] is not allowed as an element of a user path, whereas link:/docs/commands/references/arct/[`arct`] is allowed.
+link:/commands/references/arcto/[`arcto`] is not allowed as an element of a user path, whereas link:/commands/references/arct/[`arct`] is allowed.
 
 === PostScript Level
 
@@ -223,9 +223,9 @@ newpath
 
 === Common Pitfalls
 
-WARNING: *Not for User Paths* - Unlike link:/docs/commands/references/arct/[`arct`], link:/docs/commands/references/arcto/[`arcto`] cannot be used in user paths.
+WARNING: *Not for User Paths* - Unlike link:/commands/references/arct/[`arct`], link:/commands/references/arcto/[`arcto`] cannot be used in user paths.
 
-WARNING: *Stack Management* - link:/docs/commands/references/arcto/[`arcto`] leaves four values on the stack. Remember to pop them if not needed.
+WARNING: *Stack Management* - link:/commands/references/arcto/[`arcto`] leaves four values on the stack. Remember to pop them if not needed.
 
 [source,postscript]
 ----
@@ -236,7 +236,7 @@ newpath
 stroke                        % May cause typecheck error
 ----
 
-TIP: *Use When You Need Tangent Points* - If you don't need the tangent points, use link:/docs/commands/references/arct/[`arct`] instead for cleaner stack management.
+TIP: *Use When You Need Tangent Points* - If you don't need the tangent points, use link:/commands/references/arct/[`arct`] instead for cleaner stack management.
 
 === Error Conditions
 
@@ -262,7 +262,7 @@ TIP: *Use When You Need Tangent Points* - If you don't need the tangent points, 
 
 === Implementation Notes
 
-* Identical path construction to link:/docs/commands/references/arct/[`arct`]
+* Identical path construction to link:/commands/references/arct/[`arct`]
 * Returns tangent points in user space coordinates
 * Tangent points are on the original tangent lines, not the arc
 * Useful for geometric calculations and annotations
@@ -270,13 +270,13 @@ TIP: *Use When You Need Tangent Points* - If you don't need the tangent points, 
 
 === Performance Considerations
 
-* Slightly slower than link:/docs/commands/references/arct/[`arct`] due to returning tangent points
+* Slightly slower than link:/commands/references/arct/[`arct`] due to returning tangent points
 * Overhead is minimal for most applications
-* Consider using link:/docs/commands/references/arct/[`arct`] if tangent points aren't needed
+* Consider using link:/commands/references/arct/[`arct`] if tangent points aren't needed
 
 === See Also
 
-* link:/docs/commands/references/arct/[`arct`] - Arc by tangent (no tangent point return)
-* link:/docs/commands/references/arc/[`arc`] - Counterclockwise circular arc
-* link:/docs/commands/references/arcn/[`arcn`] - Clockwise circular arc
-* link:/docs/commands/references/currentpoint/[`currentpoint`] - Get current point
+* link:/commands/references/arct/[`arct`] - Arc by tangent (no tangent point return)
+* link:/commands/references/arc/[`arc`] - Counterclockwise circular arc
+* link:/commands/references/arcn/[`arcn`] - Clockwise circular arc
+* link:/commands/references/currentpoint/[`currentpoint`] - Get current point

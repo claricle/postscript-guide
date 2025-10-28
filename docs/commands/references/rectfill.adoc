@@ -66,11 +66,11 @@ numstring rectfill → -
 
 === Description
 
-link:/docs/commands/references/rectfill/[`rectfill`] fills a path consisting of one or more rectangles the operands describe. In the first form, the operands are four numbers that describe a single rectangle. In the other two forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
+link:/commands/references/rectfill/[`rectfill`] fills a path consisting of one or more rectangles the operands describe. In the first form, the operands are four numbers that describe a single rectangle. In the other two forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
 
-link:/docs/commands/references/rectfill/[`rectfill`] neither reads nor alters the current path in the graphics state.
+link:/commands/references/rectfill/[`rectfill`] neither reads nor alters the current path in the graphics state.
 
-In the first form, assuming width and height are positive, link:/docs/commands/references/rectfill/[`rectfill`] is equivalent to:
+In the first form, assuming width and height are positive, link:/commands/references/rectfill/[`rectfill`] is equivalent to:
 
 [source,postscript]
 ----
@@ -222,7 +222,7 @@ drawWindows
 
 === Common Pitfalls
 
-WARNING: *Current Path Unaffected* - link:/docs/commands/references/rectfill/[`rectfill`] does not modify the current path.
+WARNING: *Current Path Unaffected* - link:/commands/references/rectfill/[`rectfill`] does not modify the current path.
 
 [source,postscript]
 ----
@@ -254,7 +254,7 @@ WARNING: *Array Must Have Quadruples* - Array length must be a multiple of 4.
 [100 100 50 50] rectfill
 ----
 
-TIP: *More Efficient Than Manual Construction* - link:/docs/commands/references/rectfill/[`rectfill`] is optimized and faster than constructing paths manually:
+TIP: *More Efficient Than Manual Construction* - link:/commands/references/rectfill/[`rectfill`] is optimized and faster than constructing paths manually:
 
 [source,postscript]
 ----
@@ -291,7 +291,7 @@ grestore
 
 === Implementation Notes
 
-* link:/docs/commands/references/rectfill/[`rectfill`] is optimized for efficiency
+* link:/commands/references/rectfill/[`rectfill`] is optimized for efficiency
 * Multiple rectangles are filled as a single operation
 * The operation is enclosed in implicit gsave/grestore
 * Rectangles can overlap without issue
@@ -300,13 +300,13 @@ grestore
 
 === Graphics State Interaction
 
-link:/docs/commands/references/rectfill/[`rectfill`] uses these graphics state parameters:
+link:/commands/references/rectfill/[`rectfill`] uses these graphics state parameters:
 
 * Current color and color space
 * Current clipping path
 * Current transformation matrix (CTM)
 
-link:/docs/commands/references/rectfill/[`rectfill`] does not affect:
+link:/commands/references/rectfill/[`rectfill`] does not affect:
 
 * Current path - Completely isolated
 * Any graphics state parameters
@@ -391,7 +391,7 @@ rectangles rectfill
 
 === Performance Considerations
 
-* link:/docs/commands/references/rectfill/[`rectfill`] is highly optimized for rectangular regions
+* link:/commands/references/rectfill/[`rectfill`] is highly optimized for rectangular regions
 * Significantly faster than equivalent path construction and fill
 * Multiple rectangles in one operation are more efficient than separate operations
 * Encoded number strings provide maximum efficiency
@@ -420,7 +420,7 @@ grestore
 100 100 50 50 rectfill
 ----
 
-Benefits of link:/docs/commands/references/rectfill/[`rectfill`]:
+Benefits of link:/commands/references/rectfill/[`rectfill`]:
 
 * More concise syntax
 * Faster execution
@@ -496,12 +496,12 @@ Benefits of link:/docs/commands/references/rectfill/[`rectfill`]:
 
 === See Also
 
-* link:/docs/commands/references/fill/[`fill`] - Fill arbitrary path
-* link:/docs/commands/references/rectstroke/[`rectstroke`] - Stroke rectangles (Level 2)
-* link:/docs/commands/references/rectclip/[`rectclip`] - Clip to rectangles (Level 2)
-* link:/docs/commands/references/stroke/[`stroke`] - Stroke path
-* link:/docs/commands/references/newpath/[`newpath`] - Clear current path
-* link:/docs/commands/references/setgray/[`setgray`] - Set gray color
-* link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/fill/[`fill`] - Fill arbitrary path
+* link:/commands/references/rectstroke/[`rectstroke`] - Stroke rectangles (Level 2)
+* link:/commands/references/rectclip/[`rectclip`] - Clip to rectangles (Level 2)
+* link:/commands/references/stroke/[`stroke`] - Stroke path
+* link:/commands/references/newpath/[`newpath`] - Clear current path
+* link:/commands/references/setgray/[`setgray`] - Set gray color
+* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state

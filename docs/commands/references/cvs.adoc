@@ -40,7 +40,7 @@ any string cvs → substring
 
 === Description
 
-link:/docs/commands/references/cvs/[`cvs`] (convert to string) produces a text representation of an arbitrary object and stores it into the supplied _string_, overwriting an initial portion of its value. It returns a string object designating the substring actually used.
+link:/commands/references/cvs/[`cvs`] (convert to string) produces a text representation of an arbitrary object and stores it into the supplied _string_, overwriting an initial portion of its value. It returns a string object designating the substring actually used.
 
 Conversion rules:
 * **Numbers**: Text representation (e.g., `123`, `3.14`)
@@ -199,8 +199,8 @@ TIP: *Use Ample Buffer Size* - Allocate at least 20-30 characters for number con
 
 === See Also
 
-* link:/docs/commands/references/cvn/[`cvn`] - Convert string to name
-* link:/docs/commands/references/cvi/[`cvi`] - Convert to integer
-* link:/docs/commands/references/cvr/[`cvr`] - Convert to real
-* link:/docs/commands/references/string/[`string`] - Create string buffer
-* link:/docs/commands/references/type/[`type`] - Get object type
+* link:/commands/references/cvn/[`cvn`] - Convert string to name
+* link:/commands/references/cvi/[`cvi`] - Convert to integer
+* link:/commands/references/cvr/[`cvr`] - Convert to real
+* link:/commands/references/string/[`string`] - Create string buffer
+* link:/commands/references/type/[`type`] - Get object type

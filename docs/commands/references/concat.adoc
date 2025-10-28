@@ -37,7 +37,7 @@ matrix concat → -
 
 === Description
 
-link:/docs/commands/references/concat/[`concat`] concatenates `matrix` with the current transformation matrix (CTM). Precisely, link:/docs/commands/references/concat/[`concat`] replaces the CTM by matrix × CTM.
+link:/commands/references/concat/[`concat`] concatenates `matrix` with the current transformation matrix (CTM). Precisely, link:/commands/references/concat/[`concat`] replaces the CTM by matrix × CTM.
 
 The effect is to define a new user space whose coordinates are transformed into the former user space according to `matrix`. This allows arbitrary transformations including combinations of translation, scaling, rotation, and skewing.
 
@@ -183,7 +183,7 @@ WARNING: *Order of Operations* - Matrix multiplication is not commutative. Order
 [2 0 0 2 0 0] concat     % Then scale
 ----
 
-TIP: *Use Helper Operators* - For simple transformations, use link:/docs/commands/references/translate/[`translate`], link:/docs/commands/references/scale/[`scale`], and link:/docs/commands/references/rotate/[`rotate`] instead of link:/docs/commands/references/concat/[`concat`].
+TIP: *Use Helper Operators* - For simple transformations, use link:/commands/references/translate/[`translate`], link:/commands/references/scale/[`scale`], and link:/commands/references/rotate/[`rotate`] instead of link:/commands/references/concat/[`concat`].
 
 [source,postscript]
 ----
@@ -224,7 +224,7 @@ myMatrix concat        % Apply it
 
 === Implementation Notes
 
-* The matrix operand is not modified by link:/docs/commands/references/concat/[`concat`]
+* The matrix operand is not modified by link:/commands/references/concat/[`concat`]
 * Very large or very small matrix values may cause precision loss
 * Degenerate matrices (determinant = 0) create non-invertible transformations
 * The operation is equivalent to: CTM' = matrix × CTM
@@ -243,7 +243,7 @@ And the current CTM:
 CTM = [a₀  b₀  c₀  d₀  tx₀  ty₀]
 ----
 
-link:/docs/commands/references/concat/[`concat`] computes:
+link:/commands/references/concat/[`concat`] computes:
 
 ----
 CTM' = M × CTM
@@ -292,10 +292,10 @@ A general transformation matrix can represent:
 
 === Performance Considerations
 
-* link:/docs/commands/references/concat/[`concat`] is a lightweight operation
+* link:/commands/references/concat/[`concat`] is a lightweight operation
 * No path recomputation is required
 * Matrix multiplication is optimized
-* Using link:/docs/commands/references/concat/[`concat`] with precomputed matrices can be faster than multiple individual transformations
+* Using link:/commands/references/concat/[`concat`] with precomputed matrices can be faster than multiple individual transformations
 
 === Relationship to Other Operators
 
@@ -338,12 +338,12 @@ concat
 
 === See Also
 
-* link:/docs/commands/references/translate/[`translate`] - Move origin
-* link:/docs/commands/references/scale/[`scale`] - Change unit size
-* link:/docs/commands/references/rotate/[`rotate`] - Rotate axes
-* link:/docs/commands/references/concatmatrix/[`concatmatrix`] - Multiply two matrices
-* link:/docs/commands/references/setmatrix/[`setmatrix`] - Replace CTM directly
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
-* link:/docs/commands/references/matrix/[`matrix`] - Create identity matrix
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/translate/[`translate`] - Move origin
+* link:/commands/references/scale/[`scale`] - Change unit size
+* link:/commands/references/rotate/[`rotate`] - Rotate axes
+* link:/commands/references/concatmatrix/[`concatmatrix`] - Multiply two matrices
+* link:/commands/references/setmatrix/[`setmatrix`] - Replace CTM directly
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/commands/references/matrix/[`matrix`] - Create identity matrix
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state

@@ -66,11 +66,11 @@ numstring rectclip → -
 
 === Description
 
-link:/docs/commands/references/rectclip/[`rectclip`] intersects the inside of the current clipping path with a rectangular path the operands describe. In the first form, the operands are four numbers that describe a single rectangle. In the other two forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
+link:/commands/references/rectclip/[`rectclip`] intersects the inside of the current clipping path with a rectangular path the operands describe. In the first form, the operands are four numbers that describe a single rectangle. In the other two forms, the operand is an array or an encoded number string that describes an arbitrary number of rectangles.
 
-After computing the new clipping path, link:/docs/commands/references/rectclip/[`rectclip`] resets the current path to empty, as if by link:/docs/commands/references/newpath/[`newpath`].
+After computing the new clipping path, link:/commands/references/rectclip/[`rectclip`] resets the current path to empty, as if by link:/commands/references/newpath/[`newpath`].
 
-In the first form, assuming width and height are positive, link:/docs/commands/references/rectclip/[`rectclip`] is equivalent to:
+In the first form, assuming width and height are positive, link:/commands/references/rectclip/[`rectclip`] is equivalent to:
 
 [source,postscript]
 ----
@@ -248,7 +248,7 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Clipping Can Only Shrink* - Like link:/docs/commands/references/clip/[`clip`], you cannot enlarge the clipping region.
+WARNING: *Clipping Can Only Shrink* - Like link:/commands/references/clip/[`clip`], you cannot enlarge the clipping region.
 
 [source,postscript]
 ----
@@ -259,7 +259,7 @@ WARNING: *Clipping Can Only Shrink* - Like link:/docs/commands/references/clip/[
 0 0 300 300 rectclip  % Still limited to intersection
 ----
 
-WARNING: *Path Is Cleared* - Unlike link:/docs/commands/references/clip/[`clip`], link:/docs/commands/references/rectclip/[`rectclip`] automatically clears the current path.
+WARNING: *Path Is Cleared* - Unlike link:/commands/references/clip/[`clip`], link:/commands/references/rectclip/[`rectclip`] automatically clears the current path.
 
 [source,postscript]
 ----
@@ -318,26 +318,26 @@ grestore
 
 === Implementation Notes
 
-* link:/docs/commands/references/rectclip/[`rectclip`] is optimized for rectangular clipping regions
+* link:/commands/references/rectclip/[`rectclip`] is optimized for rectangular clipping regions
 * Multiple rectangles create a union clip region
-* Much faster than constructing paths with link:/docs/commands/references/clip/[`clip`]
+* Much faster than constructing paths with link:/commands/references/clip/[`clip`]
 * The current path is automatically cleared after operation
 * All rectangles use non-zero winding number rule
 * Very efficient for simple rectangular masking
 
 === Graphics State Interaction
 
-link:/docs/commands/references/rectclip/[`rectclip`] affects:
+link:/commands/references/rectclip/[`rectclip`] affects:
 
 * Current clipping path - Intersected with rectangles
 * Current path - Cleared to empty
 
-link:/docs/commands/references/rectclip/[`rectclip`] does not affect other graphics state parameters.
+link:/commands/references/rectclip/[`rectclip`] does not affect other graphics state parameters.
 
 The new clipping path is part of the graphics state and is affected by:
 
-* link:/docs/commands/references/gsave/[`gsave`] - Saves clipping path
-* link:/docs/commands/references/grestore/[`grestore`] - Restores saved clipping path
+* link:/commands/references/gsave/[`gsave`] - Saves clipping path
+* link:/commands/references/grestore/[`grestore`] - Restores saved clipping path
 * `save`/`restore` - Saves/restores with VM state
 
 === Best Practices
@@ -424,8 +424,8 @@ grestore
 
 === Performance Considerations
 
-* link:/docs/commands/references/rectclip/[`rectclip`] is highly optimized for rectangular regions
-* Much faster than equivalent link:/docs/commands/references/clip/[`clip`] with constructed paths
+* link:/commands/references/rectclip/[`rectclip`] is highly optimized for rectangular regions
+* Much faster than equivalent link:/commands/references/clip/[`clip`] with constructed paths
 * Multiple rectangles in one operation are efficient
 * Simple rectangular clips have minimal performance impact
 * More efficient than complex path-based clipping
@@ -452,7 +452,7 @@ newpath
 100 100 80 60 rectclip
 ----
 
-Benefits of link:/docs/commands/references/rectclip/[`rectclip`]:
+Benefits of link:/commands/references/rectclip/[`rectclip`]:
 
 * More concise syntax
 * Faster execution
@@ -565,12 +565,12 @@ drawWindows
 
 === See Also
 
-* link:/docs/commands/references/clip/[`clip`] - Clip to arbitrary path (non-zero winding)
-* link:/docs/commands/references/eoclip/[`eoclip`] - Clip to path (even-odd rule)
-* link:/docs/commands/references/clippath/[`clippath`] - Get current clipping path
-* link:/docs/commands/references/rectfill/[`rectfill`] - Fill rectangles (Level 2)
-* link:/docs/commands/references/rectstroke/[`rectstroke`] - Stroke rectangles (Level 2)
+* link:/commands/references/clip/[`clip`] - Clip to arbitrary path (non-zero winding)
+* link:/commands/references/eoclip/[`eoclip`] - Clip to path (even-odd rule)
+* link:/commands/references/clippath/[`clippath`] - Get current clipping path
+* link:/commands/references/rectfill/[`rectfill`] - Fill rectangles (Level 2)
+* link:/commands/references/rectstroke/[`rectstroke`] - Stroke rectangles (Level 2)
 * `initclip` - Reset to device default clip
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
-* link:/docs/commands/references/newpath/[`newpath`] - Clear current path
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/newpath/[`newpath`] - Clear current path

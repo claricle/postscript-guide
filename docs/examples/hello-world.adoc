@@ -29,11 +29,11 @@ setfont                 % Make it the current font <3>
 (Hello, World!) show    % Display the text <5>
 showpage                % Output the page <6>
 ----
-<1> Use link:../commands/font-text/findfont/[`findfont`] to locate the Courier font
-<2> Use link:../commands/font-text/scalefont/[`scalefont`] to set the size to 12 points
-<3> Use link:../commands/font-text/setfont/[`setfont`] to activate the font
-<4> Use link:../commands/path-construction/moveto/[`moveto`] to position the cursor (72 points = 1 inch)
-<5> Use link:../commands/font-text/show/[`show`] to render the text
+<1> Use link:/commands/references/findfont/[`findfont`] to locate the Courier font
+<2> Use link:/commands/references/scalefont/[`scalefont`] to set the size to 12 points
+<3> Use link:/commands/references/setfont/[`setfont`] to activate the font
+<4> Use link:/commands/references/moveto/[`moveto`] to position the cursor (72 points = 1 inch)
+<5> Use link:/commands/references/show/[`show`] to render the text
 <6> Use `showpage` to output the page to the device
 
 ==== Expected Output
@@ -176,9 +176,9 @@ Demonstrating different text styles, sizes, and alignments.
 showpage
 ----
 <1> Define a procedure to center text at the current position
-<2> Use link:../commands/font-text/stringwidth/[`stringwidth`] to measure text width
-<3> Use link:../commands/path-construction/rmoveto/[`rmoveto`] to move back half the width
-<4> Use link:../commands/font-text/show/[`show`] to display the centered text
+<2> Use link:/commands/references/stringwidth/[`stringwidth`] to measure text width
+<3> Use link:/commands/references/rmoveto/[`rmoveto`] to move back half the width
+<4> Use link:/commands/references/show/[`show`] to display the centered text
 <5> Apply centershow to title at horizontal center (4.25 inches = half of 8.5")
 <6> Left alignment is the default behavior of show
 <7> Right-align by moving left by the text width before showing
@@ -335,20 +335,20 @@ grestore
 
 showpage
 ----
-<1> Use link:../commands/graphics-state/gsave/[`gsave`] to save current graphics state
-<2> Use link:../commands/graphics-state/setlinewidth/[`setlinewidth`] to set line thickness
-<3> Use link:../commands/path-construction/lineto/[`lineto`] to draw line segments
-<4> Use link:../commands/path-construction/closepath/[`closepath`] to complete the shape
-<5> Use link:../commands/painting/stroke/[`stroke`] to draw the outlined path
-<6> Use link:../commands/graphics-state/grestore/[`grestore`] to restore previous state
-<7> Use link:../commands/graphics-state/setgray/[`setgray`] to set gray level (0=black, 1=white)
-<8> Use link:../commands/path-construction/rlineto/[`rlineto`] for relative line drawing
-<9> Use link:../commands/painting/fill/[`fill`] to fill the enclosed area
+<1> Use link:/commands/references/gsave/[`gsave`] to save current graphics state
+<2> Use link:/commands/references/setlinewidth/[`setlinewidth`] to set line thickness
+<3> Use link:/commands/references/lineto/[`lineto`] to draw line segments
+<4> Use link:/commands/references/closepath/[`closepath`] to complete the shape
+<5> Use link:/commands/references/stroke/[`stroke`] to draw the outlined path
+<6> Use link:/commands/references/grestore/[`grestore`] to restore previous state
+<7> Use link:/commands/references/setgray/[`setgray`] to set gray level (0=black, 1=white)
+<8> Use link:/commands/references/rlineto/[`rlineto`] for relative line drawing
+<9> Use link:/commands/references/fill/[`fill`] to fill the enclosed area
 <10> Set color back to black (0 gray) for text
 <11> Define reusable procedure for drawing bullets
-<12> Use link:../commands/path-construction/arc/[`arc`] to draw circular shape
+<12> Use link:/commands/references/arc/[`arc`] to draw circular shape
 <13> Call the bullet procedure to draw each bullet point
-<14> Use link:../commands/transformations/translate/[`translate`] to change coordinate origin
+<14> Use link:/commands/references/translate/[`translate`] to change coordinate origin
 
 ==== Expected Output
 
@@ -748,13 +748,13 @@ A complete professional page with:
 
 === See Also
 
-* link:/docs/examples/drawing-shapes/[Drawing Shapes] - Creating geometric graphics
-* link:/docs/examples/text-layout/[Text Layout] - Advanced typography techniques
-* link:/docs/commands/references/show/[show command] - Display text
-* link:/docs/commands/references/findfont/[findfont command] - Locate fonts
-* link:/docs/commands/references/scalefont/[scalefont command] - Size fonts
-* link:/docs/commands/references/gsave/[gsave command] - Save graphics state
-* link:/docs/commands/references/stroke/[stroke command] - Draw paths
-* link:/docs/commands/references/fill/[fill command] - Fill shapes
-* link:/docs/examples/[More Examples]
-* link:/docs/commands/[Command Reference]
+* link:/examples/drawing-shapes/[Drawing Shapes] - Creating geometric graphics
+* link:/examples/text-layout/[Text Layout] - Advanced typography techniques
+* link:/commands/references/show/[show command] - Display text
+* link:/commands/references/findfont/[findfont command] - Locate fonts
+* link:/commands/references/scalefont/[scalefont command] - Size fonts
+* link:/commands/references/gsave/[gsave command] - Save graphics state
+* link:/commands/references/stroke/[stroke command] - Draw paths
+* link:/commands/references/fill/[fill command] - Fill shapes
+* link:/examples/[More Examples]
+* link:/commands/[Command Reference]

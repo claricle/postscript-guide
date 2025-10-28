@@ -37,7 +37,7 @@ matrix identmatrix → matrix
 
 === Description
 
-link:/docs/commands/references/identmatrix/[`identmatrix`] replaces the value of `matrix` with the identity matrix [1.0 0.0 0.0 1.0 0.0 0.0] and pushes the modified matrix back on the operand stack.
+link:/commands/references/identmatrix/[`identmatrix`] replaces the value of `matrix` with the identity matrix [1.0 0.0 0.0 1.0 0.0 0.0] and pushes the modified matrix back on the operand stack.
 
 The identity matrix transforms any coordinate to itself without change.
 
@@ -114,7 +114,7 @@ WARNING: *Array Size* - The array must have at least 6 elements.
 8 array identmatrix  % OK (only first 6 modified)
 ----
 
-WARNING: *Modifies Existing Array* - Unlike link:/docs/commands/references/matrix/[`matrix`], link:/docs/commands/references/identmatrix/[`identmatrix`] modifies an existing array.
+WARNING: *Modifies Existing Array* - Unlike link:/commands/references/matrix/[`matrix`], link:/commands/references/identmatrix/[`identmatrix`] modifies an existing array.
 
 [source,postscript]
 ----
@@ -122,7 +122,7 @@ matrix               % Creates new array
 6 array identmatrix  % Uses existing array
 ----
 
-TIP: *Use with Preallocated Arrays* - link:/docs/commands/references/identmatrix/[`identmatrix`] is useful when you want to reuse arrays:
+TIP: *Use with Preallocated Arrays* - link:/commands/references/identmatrix/[`identmatrix`] is useful when you want to reuse arrays:
 
 [source,postscript]
 ----
@@ -183,7 +183,7 @@ Properties:
 
 === See Also
 
-* link:/docs/commands/references/matrix/[`matrix`] - Create new identity matrix array
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current transformation
-* link:/docs/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
-* link:/docs/commands/references/initmatrix/[`initmatrix`] - Reset CTM to identity
+* link:/commands/references/matrix/[`matrix`] - Create new identity matrix array
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current transformation
+* link:/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
+* link:/commands/references/initmatrix/[`initmatrix`] - Reset CTM to identity

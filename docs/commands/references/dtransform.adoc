@@ -44,11 +44,11 @@ dx dy matrix dtransform → dx' dy'
 
 === Description
 
-With no matrix operand, link:/docs/commands/references/dtransform/[`dtransform`] (delta transform) transforms the distance vector (dx, dy) by the CTM to produce the corresponding distance vector (dx', dy') in device space.
+With no matrix operand, link:/commands/references/dtransform/[`dtransform`] (delta transform) transforms the distance vector (dx, dy) by the CTM to produce the corresponding distance vector (dx', dy') in device space.
 
-If the `matrix` operand is supplied, link:/docs/commands/references/dtransform/[`dtransform`] transforms the distance vector by `matrix` rather than by the CTM.
+If the `matrix` operand is supplied, link:/commands/references/dtransform/[`dtransform`] transforms the distance vector by `matrix` rather than by the CTM.
 
-A delta transformation is similar to a normal transformation (link:/docs/commands/references/transform/[`transform`]), but the translation components (tx and ty) of the transformation matrix are not used. This makes distance vectors position-independent in both user space and device space.
+A delta transformation is similar to a normal transformation (link:/commands/references/transform/[`transform`]), but the translation components (tx and ty) of the transformation matrix are not used. This makes distance vectors position-independent in both user space and device space.
 
 This is useful for determining how distances map from user space to device space, such as for line widths, dash patterns, or measuring transformed lengths.
 
@@ -143,7 +143,7 @@ deviceWidth dup mul deviceHeight dup mul add sqrt
 
 === Common Pitfalls
 
-WARNING: *Position-Independent* - link:/docs/commands/references/dtransform/[`dtransform`] ignores translation. Use link:/docs/commands/references/transform/[`transform`] for points.
+WARNING: *Position-Independent* - link:/commands/references/dtransform/[`dtransform`] ignores translation. Use link:/commands/references/transform/[`transform`] for points.
 
 [source,postscript]
 ----
@@ -213,9 +213,9 @@ TIP: *Direction Vectors* - Use for transforming directions without position:
 
 * Translation components (tx, ty) are ignored
 * Only the linear transformation part [a b c d] is used
-* Very fast operation (simpler than full link:/docs/commands/references/transform/[`transform`])
-* No risk of [`undefinedresult`] error (unlike link:/docs/commands/references/itransform/[`itransform`])
-* The inverse operation is link:/docs/commands/references/idtransform/[`idtransform`]
+* Very fast operation (simpler than full link:/commands/references/transform/[`transform`])
+* No risk of [`undefinedresult`] error (unlike link:/commands/references/itransform/[`itransform`])
+* The inverse operation is link:/commands/references/idtransform/[`idtransform`]
 
 === Transformation Formula
 
@@ -243,19 +243,19 @@ dy' = 0×10 + 3×20 = 60
 |===
 | Operation | Use For | Example
 
-| link:/docs/commands/references/transform/[`transform`]
+| link:/commands/references/transform/[`transform`]
 | Absolute positions, points
 | `100 100 moveto`
 
-| link:/docs/commands/references/dtransform/[`dtransform`]
+| link:/commands/references/dtransform/[`dtransform`]
 | Distances, vectors, offsets
 | Line width, dash lengths
 
-| link:/docs/commands/references/itransform/[`itransform`]
+| link:/commands/references/itransform/[`itransform`]
 | Device to user positions
 | Mouse coordinates
 
-| link:/docs/commands/references/idtransform/[`idtransform`]
+| link:/commands/references/idtransform/[`idtransform`]
 | Device to user distances
 | Device pixel size
 |===
@@ -310,15 +310,15 @@ dy' = 0×10 + 3×20 = 60
 
 === Performance Considerations
 
-* Faster than link:/docs/commands/references/transform/[`transform`] (no translation component)
+* Faster than link:/commands/references/transform/[`transform`] (no translation component)
 * Simple matrix multiplication
 * Can be called frequently
 * No memory allocation
 
 === See Also
 
-* link:/docs/commands/references/idtransform/[`idtransform`] - Inverse distance transformation
-* link:/docs/commands/references/transform/[`transform`] - Transform coordinates (includes translation)
-* link:/docs/commands/references/itransform/[`itransform`] - Inverse coordinate transformation
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
-* link:/docs/commands/references/setlinewidth/[`setlinewidth`] - Set line width
+* link:/commands/references/idtransform/[`idtransform`] - Inverse distance transformation
+* link:/commands/references/transform/[`transform`] - Transform coordinates (includes translation)
+* link:/commands/references/itransform/[`itransform`] - Inverse coordinate transformation
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/commands/references/setlinewidth/[`setlinewidth`] - Set line width

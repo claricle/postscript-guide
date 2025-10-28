@@ -40,7 +40,7 @@ array offset setdash → –
 
 === Description
 
-link:/docs/commands/references/setdash/[`setdash`] sets the dash pattern parameter in the graphics state. This controls the pattern of dashes and gaps used by subsequent [`stroke`] operations.
+link:/commands/references/setdash/[`setdash`] sets the dash pattern parameter in the graphics state. This controls the pattern of dashes and gaps used by subsequent [`stroke`] operations.
 
 The **array** specifies the pattern:
 
@@ -51,7 +51,7 @@ The **array** specifies the pattern:
 
 The **offset** specifies how far into the pattern to start (in user space units).
 
-The dash pattern is interpreted in user space and is unaffected by transformations applied after link:/docs/commands/references/setdash/[`setdash`] is called.
+The dash pattern is interpreted in user space and is unaffected by transformations applied after link:/commands/references/setdash/[`setdash`] is called.
 
 === PostScript Level
 
@@ -285,7 +285,7 @@ stroke
 
 === See Also
 
-* link:/docs/commands/references/currentdash/[`currentdash`] - Get current dash pattern
-* link:/docs/commands/references/setlinecap/[`setlinecap`] - Set line end style
-* link:/docs/commands/references/setlinewidth/[`setlinewidth`] - Set line width
-* link:/docs/commands/references/setlinejoin/[`setlinejoin`] - Set corner style
+* link:/commands/references/currentdash/[`currentdash`] - Get current dash pattern
+* link:/commands/references/setlinecap/[`setlinecap`] - Set line end style
+* link:/commands/references/setlinewidth/[`setlinewidth`] - Set line width
+* link:/commands/references/setlinejoin/[`setlinejoin`] - Set corner style

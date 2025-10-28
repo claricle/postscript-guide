@@ -49,13 +49,13 @@ x y r ang1 ang2 arc → -
 
 === Description
 
-link:/docs/commands/references/arc/[`arc`] appends a counterclockwise arc of a circle to the current path. The arc has (x, y) as center, r as radius, ang1 as the angle from (x, y) to the first endpoint, and ang2 as the angle from (x, y) to the second endpoint.
+link:/commands/references/arc/[`arc`] appends a counterclockwise arc of a circle to the current path. The arc has (x, y) as center, r as radius, ang1 as the angle from (x, y) to the first endpoint, and ang2 as the angle from (x, y) to the second endpoint.
 
 Angles are measured in degrees counterclockwise from the positive x-axis of the current user coordinate system.
 
-If there is a current point, link:/docs/commands/references/arc/[`arc`] includes a straight line segment from the current point to the first endpoint of the arc, then adds the arc into the current path. If the current path is empty, link:/docs/commands/references/arc/[`arc`] does not produce the initial straight line segment. In any event, the second endpoint of the arc becomes the new current point.
+If there is a current point, link:/commands/references/arc/[`arc`] includes a straight line segment from the current point to the first endpoint of the arc, then adds the arc into the current path. If the current path is empty, link:/commands/references/arc/[`arc`] does not produce the initial straight line segment. In any event, the second endpoint of the arc becomes the new current point.
 
-The curve produced is circular in user space. If user space is scaled non-uniformly (differently in x and y), link:/docs/commands/references/arc/[`arc`] will produce elliptical curves in device space.
+The curve produced is circular in user space. If user space is scaled non-uniformly (differently in x and y), link:/commands/references/arc/[`arc`] will produce elliptical curves in device space.
 
 === PostScript Level
 
@@ -189,7 +189,7 @@ WARNING: *Angle Units* - Angles are in **degrees**, not radians. A full circle i
 200 200 50 0 360 arc    % Correct: full circle
 ----
 
-WARNING: *Counterclockwise Direction* - link:/docs/commands/references/arc/[`arc`] always draws counterclockwise. For clockwise arcs, use link:/docs/commands/references/arcn/[`arcn`].
+WARNING: *Counterclockwise Direction* - link:/commands/references/arc/[`arc`] always draws counterclockwise. For clockwise arcs, use link:/commands/references/arcn/[`arcn`].
 
 [source,postscript]
 ----
@@ -206,13 +206,13 @@ WARNING: *Non-uniform Scaling* - If the CTM has non-uniform scaling, arcs become
 100 100 50 0 360 arc    % Produces an ellipse, not a circle
 ----
 
-TIP: *Connecting Line* - If a current point exists, link:/docs/commands/references/arc/[`arc`] adds a connecting line to the arc's start. Use link:/docs/commands/references/moveto/[`moveto`] to the start point to avoid this.
+TIP: *Connecting Line* - If a current point exists, link:/commands/references/arc/[`arc`] adds a connecting line to the arc's start. Use link:/commands/references/moveto/[`moveto`] to the start point to avoid this.
 
 === Implementation Notes
 
 * Arcs are internally represented as one or more Bézier cubic curves
 * The conversion is accurate enough for faithful arc rendering
-* Programs using `pathforall` will see link:/docs/commands/references/curveto/[`curveto`] segments
+* Programs using `pathforall` will see link:/commands/references/curveto/[`curveto`] segments
 * Angles wrap around: 370° is equivalent to 10°
 * Negative angles are valid: -90° equals 270°
 * Zero radius creates a point (degenerate arc)
@@ -242,9 +242,9 @@ TIP: *Connecting Line* - If a current point exists, link:/docs/commands/referenc
 
 === See Also
 
-* link:/docs/commands/references/arcn/[`arcn`] - Clockwise arc
-* link:/docs/commands/references/arct/[`arct`] - Arc defined by tangent lines
-* link:/docs/commands/references/arcto/[`arcto`] - Like arct but returns tangent points
-* link:/docs/commands/references/curveto/[`curveto`] - Bézier cubic curve
-* link:/docs/commands/references/moveto/[`moveto`] - Set current point
-* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/commands/references/arcn/[`arcn`] - Clockwise arc
+* link:/commands/references/arct/[`arct`] - Arc defined by tangent lines
+* link:/commands/references/arcto/[`arcto`] - Like arct but returns tangent points
+* link:/commands/references/curveto/[`curveto`] - Bézier cubic curve
+* link:/commands/references/moveto/[`moveto`] - Set current point
+* link:/commands/references/closepath/[`closepath`] - Close current subpath

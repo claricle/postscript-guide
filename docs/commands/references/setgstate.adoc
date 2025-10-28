@@ -37,7 +37,7 @@ gstate setgstate → –
 
 === Description
 
-link:/docs/commands/references/setgstate/[`setgstate`] replaces the current graphics state by the value of the gstate object. This is a **copying operation**, so subsequent modifications to the value of gstate will not affect the current graphics state or vice versa.
+link:/commands/references/setgstate/[`setgstate`] replaces the current graphics state by the value of the gstate object. This is a **copying operation**, so subsequent modifications to the value of gstate will not affect the current graphics state or vice versa.
 
 This is a **wholesale replacement** of all components of the graphics state. In particular:
 
@@ -210,7 +210,7 @@ items {
 
 === Common Pitfalls
 
-WARNING: *Clipping Path Replaced* - link:/docs/commands/references/setgstate/[`setgstate`] replaces the clipping path, not intersects.
+WARNING: *Clipping Path Replaced* - link:/commands/references/setgstate/[`setgstate`] replaces the clipping path, not intersects.
 
 [source,postscript]
 ----
@@ -236,7 +236,7 @@ temp setgstate
 % Path is still empty, not restored
 ----
 
-WARNING: *Not for Simple Save/Restore* - Use link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`] for temporary changes.
+WARNING: *Not for Simple Save/Restore* - Use link:/commands/references/gsave/[`gsave`]/link:/commands/references/grestore/[`grestore`] for temporary changes.
 
 [source,postscript]
 ----
@@ -278,7 +278,7 @@ TIP: *Reusable Templates* - Create gstate objects once, reuse many times.
 
 === Graphics State Replacement
 
-link:/docs/commands/references/setgstate/[`setgstate`] replaces:
+link:/commands/references/setgstate/[`setgstate`] replaces:
 
 * ✓ Transformation matrix (CTM)
 * ✓ Color space and color
@@ -291,8 +291,8 @@ link:/docs/commands/references/setgstate/[`setgstate`] replaces:
 
 === See Also
 
-* link:/docs/commands/references/gstate/[`gstate`] - Create graphics state object
-* link:/docs/commands/references/currentgstate/[`currentgstate`] - Update gstate with current state
-* link:/docs/commands/references/gsave/[`gsave`] - Save state on graphics state stack
-* link:/docs/commands/references/grestore/[`grestore`] - Restore state from stack
-* link:/docs/commands/references/grestoreall/[`grestoreall`] - Restore all saved states
+* link:/commands/references/gstate/[`gstate`] - Create graphics state object
+* link:/commands/references/currentgstate/[`currentgstate`] - Update gstate with current state
+* link:/commands/references/gsave/[`gsave`] - Save state on graphics state stack
+* link:/commands/references/grestore/[`grestore`] - Restore state from stack
+* link:/commands/references/grestoreall/[`grestoreall`] - Restore all saved states

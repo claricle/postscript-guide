@@ -40,7 +40,7 @@ key value def → –
 
 === Description
 
-link:/docs/commands/references/def/[`def`] associates _key_ with _value_ in the current dictionary (the one on top of the dictionary stack).
+link:/commands/references/def/[`def`] associates _key_ with _value_ in the current dictionary (the one on top of the dictionary stack).
 
 * If _key_ already exists: replaces its value
 * If _key_ doesn't exist: creates new entry
@@ -113,7 +113,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Defines in Current Dictionary* - link:/docs/commands/references/def/[`def`] always uses the current dictionary (top of dict stack), not a specific dictionary.
+WARNING: *Defines in Current Dictionary* - link:/commands/references/def/[`def`] always uses the current dictionary (top of dict stack), not a specific dictionary.
 
 [source,postscript]
 ----
@@ -182,20 +182,20 @@ TIP: *Use Literal Names* - Always use literal names (starting with `/`) for keys
 |===
 | Operator | Behavior
 
-| link:/docs/commands/references/def/[`def`]
+| link:/commands/references/def/[`def`]
 | Define in **current** dictionary
 
-| link:/docs/commands/references/store/[`store`]
+| link:/commands/references/store/[`store`]
 | Define in **first** dictionary containing key, or current if not found
 
-| link:/docs/commands/references/put/[`put`]
+| link:/commands/references/put/[`put`]
 | Put into **specific** dictionary (requires dict on stack)
 |===
 
 === See Also
 
-* link:/docs/commands/references/load/[`load`] - Look up value from dictionary stack
-* link:/docs/commands/references/store/[`store`] - Store with different semantics
-* link:/docs/commands/references/put/[`put`] - Put into specific dictionary
-* link:/docs/commands/references/begin/[`begin`] - Make dictionary current
-* link:/docs/commands/references/where/[`where`] - Find which dictionary contains key
+* link:/commands/references/load/[`load`] - Look up value from dictionary stack
+* link:/commands/references/store/[`store`] - Store with different semantics
+* link:/commands/references/put/[`put`] - Put into specific dictionary
+* link:/commands/references/begin/[`begin`] - Make dictionary current
+* link:/commands/references/where/[`where`] - Find which dictionary contains key

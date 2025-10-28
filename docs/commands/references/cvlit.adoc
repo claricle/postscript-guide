@@ -37,7 +37,7 @@ any cvlit → any
 
 === Description
 
-link:/docs/commands/references/cvlit/[`cvlit`] (convert to literal) changes the attribute of the object on top of the operand stack from executable to literal.
+link:/commands/references/cvlit/[`cvlit`] (convert to literal) changes the attribute of the object on top of the operand stack from executable to literal.
 
 The object itself is unchanged - only its executable/literal attribute is modified. This affects how the PostScript interpreter treats the object when it is encountered during execution.
 
@@ -127,7 +127,7 @@ TIP: *Most Objects Are Literal* - Numbers, strings, arrays created with `[ ]`, e
 * Only changes the executable/literal attribute bit
 * Does not create a new object (modifies in place)
 * Works on any object type
-* Complementary to link:/docs/commands/references/cvx/[`cvx`]
+* Complementary to link:/commands/references/cvx/[`cvx`]
 
 === Executable vs. Literal Comparison
 
@@ -154,6 +154,6 @@ TIP: *Most Objects Are Literal* - Numbers, strings, arrays created with `[ ]`, e
 
 === See Also
 
-* link:/docs/commands/references/cvx/[`cvx`] - Convert to executable
-* link:/docs/commands/references/xcheck/[`xcheck`] - Test if executable
-* link:/docs/commands/references/type/[`type`] - Get object type
+* link:/commands/references/cvx/[`cvx`] - Convert to executable
+* link:/commands/references/xcheck/[`xcheck`] - Test if executable
+* link:/commands/references/type/[`type`] - Get object type

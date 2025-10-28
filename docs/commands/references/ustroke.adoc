@@ -50,16 +50,16 @@ userpath matrix ustroke → -
 
 === Description
 
-link:/docs/commands/references/ustroke/[`ustroke`] interprets a user path definition and strokes the resulting path as if by link:/docs/commands/references/stroke/[`stroke`]. The entire operation is effectively enclosed by link:/docs/commands/references/gsave/[`gsave`] and link:/docs/commands/references/grestore/[`grestore`], so link:/docs/commands/references/ustroke/[`ustroke`] has no lasting effect on the graphics state.
+link:/commands/references/ustroke/[`ustroke`] interprets a user path definition and strokes the resulting path as if by link:/commands/references/stroke/[`stroke`]. The entire operation is effectively enclosed by link:/commands/references/gsave/[`gsave`] and link:/commands/references/grestore/[`grestore`], so link:/commands/references/ustroke/[`ustroke`] has no lasting effect on the graphics state.
 
-In the first form (with no matrix operand), link:/docs/commands/references/ustroke/[`ustroke`] is equivalent to:
+In the first form (with no matrix operand), link:/commands/references/ustroke/[`ustroke`] is equivalent to:
 
 [source,postscript]
 ----
 gsave newpath uappend stroke grestore
 ----
 
-In the second form, link:/docs/commands/references/ustroke/[`ustroke`] concatenates `matrix` to the CTM after interpreting `userpath`, but before executing link:/docs/commands/references/stroke/[`stroke`]. The matrix applies to the line width and the dash pattern, if any, but not to the path itself. This form is equivalent to:
+In the second form, link:/commands/references/ustroke/[`ustroke`] concatenates `matrix` to the CTM after interpreting `userpath`, but before executing link:/commands/references/stroke/[`stroke`]. The matrix applies to the line width and the dash pattern, if any, but not to the path itself. This form is equivalent to:
 
 [source,postscript]
 ----
@@ -193,7 +193,7 @@ ustroke
 
 === Common Pitfalls
 
-WARNING: *Graphics State Not Modified* - link:/docs/commands/references/ustroke/[`ustroke`] automatically saves and restores graphics state.
+WARNING: *Graphics State Not Modified* - link:/commands/references/ustroke/[`ustroke`] automatically saves and restores graphics state.
 
 [source,postscript]
 ----
@@ -292,13 +292,13 @@ myPath 2 1 uniformStroke  % Compensates for scale
 
 === Graphics State Interaction
 
-link:/docs/commands/references/ustroke/[`ustroke`] uses these graphics state parameters:
+link:/commands/references/ustroke/[`ustroke`] uses these graphics state parameters:
 
-* Line width - from link:/docs/commands/references/setlinewidth/[`setlinewidth`]
-* Line cap - from link:/docs/commands/references/setlinecap/[`setlinecap`]
-* Line join - from link:/docs/commands/references/setlinejoin/[`setlinejoin`]
-* Miter limit - from link:/docs/commands/references/setmiterlimit/[`setmiterlimit`]
-* Dash pattern - from link:/docs/commands/references/setdash/[`setdash`]
+* Line width - from link:/commands/references/setlinewidth/[`setlinewidth`]
+* Line cap - from link:/commands/references/setlinecap/[`setlinecap`]
+* Line join - from link:/commands/references/setlinejoin/[`setlinejoin`]
+* Miter limit - from link:/commands/references/setmiterlimit/[`setmiterlimit`]
+* Dash pattern - from link:/commands/references/setdash/[`setdash`]
 * Current color
 * Current clipping path
 * Current transformation matrix (CTM)
@@ -322,7 +322,7 @@ stroke
 grestore
 ----
 
-.User path approach (link:/docs/commands/references/ustroke/[`ustroke`])
+.User path approach (link:/commands/references/ustroke/[`ustroke`])
 [source,postscript]
 ----
 2 setlinewidth
@@ -437,16 +437,16 @@ shapePath ustroke
 
 === See Also
 
-* link:/docs/commands/references/stroke/[`stroke`] - Traditional stroke operator
-* link:/docs/commands/references/ufill/[`ufill`] - Fill user path
-* link:/docs/commands/references/ustrokepath/[`ustrokepath`] - Convert user path stroke to outline
-* link:/docs/commands/references/strokepath/[`strokepath`] - Convert stroke to outline path
+* link:/commands/references/stroke/[`stroke`] - Traditional stroke operator
+* link:/commands/references/ufill/[`ufill`] - Fill user path
+* link:/commands/references/ustrokepath/[`ustrokepath`] - Convert user path stroke to outline
+* link:/commands/references/strokepath/[`strokepath`] - Convert stroke to outline path
 * `setbbox` - Set bounding box
 * `ucache` - Enable user path caching
 * `uappend` - Append user path to current path
-* link:/docs/commands/references/setlinewidth/[`setlinewidth`] - Set line width
-* link:/docs/commands/references/setlinecap/[`setlinecap`] - Set line cap
-* link:/docs/commands/references/setlinejoin/[`setlinejoin`] - Set line join
-* link:/docs/commands/references/setdash/[`setdash`] - Set dash pattern
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/setlinewidth/[`setlinewidth`] - Set line width
+* link:/commands/references/setlinecap/[`setlinecap`] - Set line cap
+* link:/commands/references/setlinejoin/[`setlinejoin`] - Set line join
+* link:/commands/references/setdash/[`setdash`] - Set dash pattern
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state

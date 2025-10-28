@@ -239,10 +239,10 @@ TIP: The actual rotation is j mod n. Rolling by j and j+n produces identical res
 
 == Related Commands
 
-* link:/docs/commands/references/exch/[`exch`] - Equivalent to `2 1 roll` or `2 -1 roll`
-* link:/docs/commands/[`index`] - Access element without reordering
-* link:/docs/commands/references/copy/[`copy`] - Duplicate elements
-* link:/docs/commands/references/pop/[`pop`] - Remove elements
+* link:/commands/references/exch/[`exch`] - Equivalent to `2 1 roll` or `2 -1 roll`
+* link:/commands/[`index`] - Access element without reordering
+* link:/commands/references/copy/[`copy`] - Duplicate elements
+* link:/commands/references/pop/[`pop`] - Remove elements
 
 == PostScript Level
 
@@ -289,9 +289,9 @@ Frequently rotating large numbers of elements may indicate poor stack management
 
 == Best Practices
 
-1. **Use exch for two elements**: `2 1 roll` and `2 -1 roll` both work, but link:/docs/commands/references/exch/[`exch`] is clearer
+1. **Use exch for two elements**: `2 1 roll` and `2 -1 roll` both work, but link:/commands/references/exch/[`exch`] is clearer
 2. **Document rotations**: Always comment what `roll` is doing, as it's not immediately obvious
-3. **Consider index instead**: Sometimes link:/docs/commands/references/psindex/[`psindex`] is clearer than `roll` for accessing buried elements
+3. **Consider index instead**: Sometimes link:/commands/references/psindex/[`psindex`] is clearer than `roll` for accessing buried elements
 4. **Keep n small**: Large rotations suggest stack management issues
 5. **Use standard patterns**: Establish conventions like `3 1 roll` for rotating three elements
 
@@ -332,6 +332,6 @@ Frequently rotating large numbers of elements may indicate poor stack management
 
 == See Also
 
-* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
-* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
-* link:/docs/commands/references/[Stack Manipulation] - All stack operators
+* link:/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/commands/references/[Stack Manipulation] - All stack operators

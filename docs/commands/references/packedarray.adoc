@@ -46,7 +46,7 @@ any₀ ... anyₙ₋₁ n packedarray → packedarray
 
 === Description
 
-link:/docs/commands/references/packedarray/[`packedarray`] creates a packed array object of length _n_ containing the objects any₀ through anyₙ₋₁ as elements. It:
+link:/commands/references/packedarray/[`packedarray`] creates a packed array object of length _n_ containing the objects any₀ through anyₙ₋₁ as elements. It:
 
 1. Removes the integer _n_ from the stack
 2. Removes _n_ objects from the stack
@@ -117,7 +117,7 @@ true setpacking
 
 === Common Pitfalls
 
-WARNING: *Cannot Modify Packed Arrays* - Packed arrays are read-only. Attempting to use link:/docs/commands/references/put/[`put`] or link:/docs/commands/references/putinterval/[`putinterval`] causes [`invalidaccess`] error.
+WARNING: *Cannot Modify Packed Arrays* - Packed arrays are read-only. Attempting to use link:/commands/references/put/[`put`] or link:/commands/references/putinterval/[`putinterval`] causes [`invalidaccess`] error.
 
 [source,postscript]
 ----
@@ -136,7 +136,7 @@ true setpacking
 false setpacking
 ----
 
-TIP: *Read Operations Work Normally* - Can use link:/docs/commands/references/get/[`get`], link:/docs/commands/references/getinterval/[`getinterval`], link:/docs/commands/references/aload/[`aload`], link:/docs/commands/references/forall/[`forall`], etc.
+TIP: *Read Operations Work Normally* - Can use link:/commands/references/get/[`get`], link:/commands/references/getinterval/[`getinterval`], link:/commands/references/aload/[`aload`], link:/commands/references/forall/[`forall`], etc.
 
 === Error Conditions
 
@@ -197,8 +197,8 @@ TIP: *Read Operations Work Normally* - Can use link:/docs/commands/references/ge
 
 === See Also
 
-* link:/docs/commands/references/array/[`array`] - Create regular (modifiable) array
-* link:/docs/commands/references/brackets/[`[`] / link:/docs/commands/references/brackets/[`]`] - Array literal syntax
-* link:/docs/commands/references/aload/[`aload`] - Load packed array elements
-* link:/docs/commands/references/get/[`get`] - Get packed array element
-* link:/docs/commands/references/forall/[`forall`] - Iterate over packed array
+* link:/commands/references/array/[`array`] - Create regular (modifiable) array
+* link:/commands/references/brackets/[`[`] / link:/commands/references/brackets/[`]`] - Array literal syntax
+* link:/commands/references/aload/[`aload`] - Load packed array elements
+* link:/commands/references/get/[`get`] - Get packed array element
+* link:/commands/references/forall/[`forall`] - Iterate over packed array

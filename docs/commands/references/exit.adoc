@@ -28,17 +28,17 @@ Terminates the innermost enclosing loop.
 
 === Description
 
-link:/docs/commands/references/exit/[`exit`] terminates execution of the innermost, dynamically enclosing looping context, regardless of lexical relationship.
+link:/commands/references/exit/[`exit`] terminates execution of the innermost, dynamically enclosing looping context, regardless of lexical relationship.
 
 Valid looping contexts created by:
 
-* link:/docs/commands/references/for/[`for`]
-* link:/docs/commands/references/repeat/[`repeat`]
-* link:/docs/commands/references/loop/[`loop`]
-* link:/docs/commands/references/../array-string/forall/[`forall`]
+* link:/commands/references/for/[`for`]
+* link:/commands/references/repeat/[`repeat`]
+* link:/commands/references/loop/[`loop`]
+* link:/commands/references/forall/[`forall`]
 * `pathforall`, `kshow`, `cshow`, `filenameforall`, `resourceforall`
 
-link:/docs/commands/references/exit/[`exit`] pops the execution stack to the level of the loop operator, then resumes execution at the next object after that operator.
+link:/commands/references/exit/[`exit`] pops the execution stack to the level of the loop operator, then resumes execution at the next object after that operator.
 
 === PostScript Level
 
@@ -133,7 +133,7 @@ link:/docs/commands/references/exit/[`exit`] pops the execution stack to the lev
 
 === Common Pitfalls
 
-WARNING: *Must Be in Loop* - link:/docs/commands/references/exit/[`exit`] only works within a looping context.
+WARNING: *Must Be in Loop* - link:/commands/references/exit/[`exit`] only works within a looping context.
 
 [source,postscript]
 ----
@@ -179,8 +179,8 @@ TIP: *Use Flag for Outer Loop Exit* - Set a flag variable to exit multiple level
 
 === See Also
 
-* link:/docs/commands/references/for/[`for`] - Numeric loop
-* link:/docs/commands/references/repeat/[`repeat`] - Fixed repetition
-* link:/docs/commands/references/loop/[`loop`] - Indefinite loop
-* link:/docs/commands/references/stop/[`stop`] - Exit stopped context
-* link:/docs/commands/references/forall/[`forall`] - Collection iteration
+* link:/commands/references/for/[`for`] - Numeric loop
+* link:/commands/references/repeat/[`repeat`] - Fixed repetition
+* link:/commands/references/loop/[`loop`] - Indefinite loop
+* link:/commands/references/stop/[`stop`] - Exit stopped context
+* link:/commands/references/forall/[`forall`] - Collection iteration

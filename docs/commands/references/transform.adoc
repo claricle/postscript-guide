@@ -44,9 +44,9 @@ x y matrix transform → x' y'
 
 === Description
 
-With no matrix operand, link:/docs/commands/references/transform/[`transform`] transforms the user space coordinate (x, y) by the current transformation matrix (CTM) to produce the corresponding device space coordinate (x', y').
+With no matrix operand, link:/commands/references/transform/[`transform`] transforms the user space coordinate (x, y) by the current transformation matrix (CTM) to produce the corresponding device space coordinate (x', y').
 
-If the `matrix` operand is supplied, link:/docs/commands/references/transform/[`transform`] transforms (x, y) by `matrix` rather than by the CTM.
+If the `matrix` operand is supplied, link:/commands/references/transform/[`transform`] transforms (x, y) by `matrix` rather than by the CTM.
 
 This operator is useful for converting user space coordinates (the ones used in path construction) to device space coordinates (actual pixel positions).
 
@@ -153,7 +153,7 @@ userY 0 ge userY 100 le and
 
 === Common Pitfalls
 
-WARNING: *Position-Dependent* - link:/docs/commands/references/transform/[`transform`] includes translation. Use link:/docs/commands/references/dtransform/[`dtransform`] for distances.
+WARNING: *Position-Dependent* - link:/commands/references/transform/[`transform`] includes translation. Use link:/commands/references/dtransform/[`dtransform`] for distances.
 
 [source,postscript]
 ----
@@ -175,7 +175,7 @@ WARNING: *CTM Changes* - The result depends on the current CTM at the time of ex
 100 100 transform  % Result B (different from A)
 ----
 
-TIP: *Use for Debugging* - link:/docs/commands/references/transform/[`transform`] helps understand coordinate mappings:
+TIP: *Use for Debugging* - link:/commands/references/transform/[`transform`] helps understand coordinate mappings:
 
 [source,postscript]
 ----
@@ -212,7 +212,7 @@ TIP: *Use for Debugging* - link:/docs/commands/references/transform/[`transform`
 * Transformation is a simple matrix multiplication
 * Very fast operation
 * No rounding or approximation (exact computation)
-* The inverse operation is link:/docs/commands/references/itransform/[`itransform`]
+* The inverse operation is link:/commands/references/itransform/[`itransform`]
 
 === Transformation Formula
 
@@ -285,8 +285,8 @@ transform
 
 === See Also
 
-* link:/docs/commands/references/itransform/[`itransform`] - Inverse coordinate transformation (device to user)
-* link:/docs/commands/references/dtransform/[`dtransform`] - Distance vector transformation
-* link:/docs/commands/references/idtransform/[`idtransform`] - Inverse distance transformation
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
-* link:/docs/commands/references/concat/[`concat`] - Modify CTM
+* link:/commands/references/itransform/[`itransform`] - Inverse coordinate transformation (device to user)
+* link:/commands/references/dtransform/[`dtransform`] - Distance vector transformation
+* link:/commands/references/idtransform/[`idtransform`] - Inverse distance transformation
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/commands/references/concat/[`concat`] - Modify CTM

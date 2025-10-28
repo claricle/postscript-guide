@@ -49,11 +49,11 @@ x y r ang1 ang2 arcn → -
 
 === Description
 
-link:/docs/commands/references/arcn/[`arcn`] (arc negative) behaves like link:/docs/commands/references/arc/[`arc`], but builds its arc segment in a clockwise direction in user space instead of counterclockwise.
+link:/commands/references/arcn/[`arcn`] (arc negative) behaves like link:/commands/references/arc/[`arc`], but builds its arc segment in a clockwise direction in user space instead of counterclockwise.
 
 The arc has (x, y) as center, r as radius, ang1 as the angle from (x, y) to the first endpoint, and ang2 as the angle from (x, y) to the second endpoint. Angles are measured in degrees counterclockwise from the positive x-axis.
 
-If there is a current point, link:/docs/commands/references/arcn/[`arcn`] includes a straight line segment from the current point to the first endpoint of the arc. The second endpoint of the arc becomes the new current point.
+If there is a current point, link:/commands/references/arcn/[`arcn`] includes a straight line segment from the current point to the first endpoint of the arc. The second endpoint of the arc becomes the new current point.
 
 === PostScript Level
 
@@ -166,7 +166,7 @@ fill
 
 === Common Pitfalls
 
-WARNING: *Clockwise Means Negative Direction* - Even though you specify ang1 to ang2, link:/docs/commands/references/arcn/[`arcn`] draws clockwise (decreasing angles).
+WARNING: *Clockwise Means Negative Direction* - Even though you specify ang1 to ang2, link:/commands/references/arcn/[`arcn`] draws clockwise (decreasing angles).
 
 [source,postscript]
 ----
@@ -183,7 +183,7 @@ WARNING: *Angle Order Still Matters* - ang1 is the start angle, ang2 is the end 
 200 200 50 90 0 arcn     % Goes 90° clockwise (90→45→0)
 ----
 
-TIP: *Use for Interior Paths* - link:/docs/commands/references/arcn/[`arcn`] is essential for creating holes in shapes when combined with link:/docs/commands/references/arc/[`arc`], as opposite directions create non-overlapping regions.
+TIP: *Use for Interior Paths* - link:/commands/references/arcn/[`arcn`] is essential for creating holes in shapes when combined with link:/commands/references/arc/[`arc`], as opposite directions create non-overlapping regions.
 
 === Error Conditions
 
@@ -206,19 +206,19 @@ TIP: *Use for Interior Paths* - link:/docs/commands/references/arcn/[`arcn`] is 
 * Internally represented as Bézier cubic curves
 * Direction matters for fill rules (non-zero winding number)
 * Clockwise and counterclockwise arcs can create holes in filled shapes
-* Same accuracy considerations as link:/docs/commands/references/arc/[`arc`]
+* Same accuracy considerations as link:/commands/references/arc/[`arc`]
 * Produces elliptical curves if CTM has non-uniform scaling
 
 === Performance Considerations
 
-* Same performance characteristics as link:/docs/commands/references/arc/[`arc`]
+* Same performance characteristics as link:/commands/references/arc/[`arc`]
 * No additional overhead for clockwise direction
 * Useful for efficient hole creation in complex paths
 
 === See Also
 
-* link:/docs/commands/references/arc/[`arc`] - Counterclockwise arc
-* link:/docs/commands/references/arct/[`arct`] - Arc defined by tangent lines
-* link:/docs/commands/references/arcto/[`arcto`] - Like arct but returns tangent points
-* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
-* link:/docs/commands/references/moveto/[`moveto`] - Set current point
+* link:/commands/references/arc/[`arc`] - Counterclockwise arc
+* link:/commands/references/arct/[`arct`] - Arc defined by tangent lines
+* link:/commands/references/arcto/[`arcto`] - Like arct but returns tangent points
+* link:/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/commands/references/moveto/[`moveto`] - Set current point

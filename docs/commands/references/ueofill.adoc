@@ -37,9 +37,9 @@ userpath ueofill → -
 
 === Description
 
-link:/docs/commands/references/ueofill/[`ueofill`] is similar to link:/docs/commands/references/ufill/[`ufill`], but uses the even-odd rule instead of the non-zero winding number rule to determine which areas are inside the path. The entire operation is effectively enclosed by link:/docs/commands/references/gsave/[`gsave`] and link:/docs/commands/references/grestore/[`grestore`], so link:/docs/commands/references/ueofill/[`ueofill`] has no lasting effect on the graphics state.
+link:/commands/references/ueofill/[`ueofill`] is similar to link:/commands/references/ufill/[`ufill`], but uses the even-odd rule instead of the non-zero winding number rule to determine which areas are inside the path. The entire operation is effectively enclosed by link:/commands/references/gsave/[`gsave`] and link:/commands/references/grestore/[`grestore`], so link:/commands/references/ueofill/[`ueofill`] has no lasting effect on the graphics state.
 
-link:/docs/commands/references/ueofill/[`ueofill`] is equivalent to:
+link:/commands/references/ueofill/[`ueofill`] is equivalent to:
 
 [source,postscript]
 ----
@@ -182,7 +182,7 @@ grestore
 samePath ueofill    % Inner is a hole
 ----
 
-WARNING: *Path Direction Irrelevant* - Unlike link:/docs/commands/references/ufill/[`ufill`], path direction doesn't affect the result with link:/docs/commands/references/ueofill/[`ueofill`].
+WARNING: *Path Direction Irrelevant* - Unlike link:/commands/references/ufill/[`ufill`], path direction doesn't affect the result with link:/commands/references/ueofill/[`ueofill`].
 
 [source,postscript]
 ----
@@ -194,7 +194,7 @@ WARNING: *Path Direction Irrelevant* - Unlike link:/docs/commands/references/ufi
 ] ueofill  % Always creates hole regardless of arc direction
 ----
 
-TIP: *Ideal for Shapes with Holes* - Use link:/docs/commands/references/ueofill/[`ueofill`] when you need predictable holes regardless of path direction:
+TIP: *Ideal for Shapes with Holes* - Use link:/commands/references/ueofill/[`ueofill`] when you need predictable holes regardless of path direction:
 
 [source,postscript]
 ----
@@ -249,23 +249,23 @@ windowFrame ueofill
 
 === Comparison with Other Fill Operators
 
-.Standard fill (link:/docs/commands/references/fill/[`fill`])
+.Standard fill (link:/commands/references/fill/[`fill`])
 * Uses non-zero winding number rule
 * Path direction matters
 * No graphics state isolation
 
-.Even-odd fill (link:/docs/commands/references/eofill/[`eofill`])
+.Even-odd fill (link:/commands/references/eofill/[`eofill`])
 * Uses even-odd rule
 * Path direction doesn't matter
 * No graphics state isolation
 
-.User path fill (link:/docs/commands/references/ufill/[`ufill`])
+.User path fill (link:/commands/references/ufill/[`ufill`])
 * Uses non-zero winding number rule
 * Efficient user path format
 * Automatic graphics state save/restore
 * Can be cached
 
-.User path even-odd fill (link:/docs/commands/references/ueofill/[`ueofill`])
+.User path even-odd fill (link:/commands/references/ueofill/[`ueofill`])
 * Uses even-odd rule
 * Efficient user path format
 * Automatic graphics state save/restore
@@ -355,12 +355,12 @@ ringPath ustroke
 
 === See Also
 
-* link:/docs/commands/references/eofill/[`eofill`] - Even-odd fill traditional path
-* link:/docs/commands/references/ufill/[`ufill`] - Fill user path with non-zero winding rule
-* link:/docs/commands/references/ustroke/[`ustroke`] - Stroke user path
-* link:/docs/commands/references/eoclip/[`eoclip`] - Clip using even-odd rule
+* link:/commands/references/eofill/[`eofill`] - Even-odd fill traditional path
+* link:/commands/references/ufill/[`ufill`] - Fill user path with non-zero winding rule
+* link:/commands/references/ustroke/[`ustroke`] - Stroke user path
+* link:/commands/references/eoclip/[`eoclip`] - Clip using even-odd rule
 * `setbbox` - Set bounding box
 * `ucache` - Enable user path caching
 * `uappend` - Append user path to current path
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state

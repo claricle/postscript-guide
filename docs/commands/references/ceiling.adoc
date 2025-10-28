@@ -239,10 +239,10 @@ true ceiling       % ERROR: typecheck
 
 == Related Commands
 
-* link:/docs/commands/references/floor/[`floor`] - Round down to integer
-* link:/docs/commands/references/round/[`round`] - Round to nearest integer
-* link:/docs/commands/references/truncate/[`truncate`] - Truncate toward zero
-* link:/docs/commands/references/abs/[`abs`] - Absolute value
+* link:/commands/references/floor/[`floor`] - Round down to integer
+* link:/commands/references/round/[`round`] - Round to nearest integer
+* link:/commands/references/truncate/[`truncate`] - Truncate toward zero
+* link:/commands/references/abs/[`abs`] - Absolute value
 
 == PostScript Level
 
@@ -317,5 +317,5 @@ The `ceiling` operator is fast:
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
-* link:/docs/levels/[PostScript Language Levels]
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/levels/[PostScript Language Levels]

@@ -47,11 +47,11 @@ angle matrix rotate → matrix
 
 === Description
 
-With no matrix operand, link:/docs/commands/references/rotate/[`rotate`] builds a temporary transformation matrix R and concatenates it with the current transformation matrix (CTM). Precisely, link:/docs/commands/references/rotate/[`rotate`] replaces the CTM by R × CTM.
+With no matrix operand, link:/commands/references/rotate/[`rotate`] builds a temporary transformation matrix R and concatenates it with the current transformation matrix (CTM). Precisely, link:/commands/references/rotate/[`rotate`] replaces the CTM by R × CTM.
 
 The effect is to rotate the user coordinate system axes about their origin by `angle` degrees. Positive angles rotate counterclockwise; negative angles rotate clockwise. The position of the user coordinate origin and the sizes of the x and y units are unchanged.
 
-If the `matrix` operand is supplied, link:/docs/commands/references/rotate/[`rotate`] replaces the value of `matrix` by R and pushes the modified matrix back on the operand stack. In this case, link:/docs/commands/references/rotate/[`rotate`] does not affect the CTM.
+If the `matrix` operand is supplied, link:/commands/references/rotate/[`rotate`] replaces the value of `matrix` by R and pushes the modified matrix back on the operand stack. In this case, link:/commands/references/rotate/[`rotate`] does not affect the CTM.
 
 The rotation matrix R for angle θ (in degrees) has the form:
 
@@ -175,7 +175,7 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Rotation Center* - link:/docs/commands/references/rotate/[`rotate`] always rotates around the current origin, not around drawn content.
+WARNING: *Rotation Center* - link:/commands/references/rotate/[`rotate`] always rotates around the current origin, not around drawn content.
 
 [source,postscript]
 ----
@@ -262,7 +262,7 @@ TIP: *Order Matters* - Rotation before translation is different from translation
 
 === Matrix Mathematics
 
-The rotation matrix for link:/docs/commands/references/rotate/[`rotate`] by angle θ is:
+The rotation matrix for link:/commands/references/rotate/[`rotate`] by angle θ is:
 
 ----
 R = [cos(θ)  sin(θ)  -sin(θ)  cos(θ)  0  0]
@@ -345,10 +345,10 @@ concat
 
 === See Also
 
-* link:/docs/commands/references/translate/[`translate`] - Move origin
-* link:/docs/commands/references/scale/[`scale`] - Change unit size
-* link:/docs/commands/references/concat/[`concat`] - Concatenate arbitrary matrix
-* link:/docs/commands/references/setmatrix/[`setmatrix`] - Replace CTM directly
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/translate/[`translate`] - Move origin
+* link:/commands/references/scale/[`scale`] - Change unit size
+* link:/commands/references/concat/[`concat`] - Concatenate arbitrary matrix
+* link:/commands/references/setmatrix/[`setmatrix`] - Replace CTM directly
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state

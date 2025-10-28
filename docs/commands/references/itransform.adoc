@@ -44,11 +44,11 @@ x' y' matrix itransform → x y
 
 === Description
 
-With no matrix operand, link:/docs/commands/references/itransform/[`itransform`] (inverse transform) transforms the device space coordinate (x', y') by the inverse of the current transformation matrix (CTM) to produce the corresponding user space coordinate (x, y).
+With no matrix operand, link:/commands/references/itransform/[`itransform`] (inverse transform) transforms the device space coordinate (x', y') by the inverse of the current transformation matrix (CTM) to produce the corresponding user space coordinate (x, y).
 
-If the `matrix` operand is supplied, link:/docs/commands/references/itransform/[`itransform`] transforms (x', y') by the inverse of `matrix` rather than by the inverse of CTM.
+If the `matrix` operand is supplied, link:/commands/references/itransform/[`itransform`] transforms (x', y') by the inverse of `matrix` rather than by the inverse of CTM.
 
-This is the inverse operation of link:/docs/commands/references/transform/[`transform`]. It converts device coordinates (pixel positions) back to user coordinates (the coordinate system used for drawing).
+This is the inverse operation of link:/commands/references/transform/[`transform`]. It converts device coordinates (pixel positions) back to user coordinates (the coordinate system used for drawing).
 
 === PostScript Level
 
@@ -157,7 +157,7 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Includes Translation* - link:/docs/commands/references/itransform/[`itransform`] uses the full inverse transformation including translation. Use link:/docs/commands/references/idtransform/[`idtransform`] for distance vectors.
+WARNING: *Includes Translation* - link:/commands/references/itransform/[`itransform`] uses the full inverse transformation including translation. Use link:/commands/references/idtransform/[`idtransform`] for distance vectors.
 
 [source,postscript]
 ----
@@ -171,7 +171,7 @@ WARNING: *Includes Translation* - link:/docs/commands/references/itransform/[`it
 100 100 idtransform % → 100 100 (correct - distance)
 ----
 
-WARNING: *Singular Matrices* - If CTM or matrix is singular (determinant = 0), link:/docs/commands/references/itransform/[`itransform`] fails.
+WARNING: *Singular Matrices* - If CTM or matrix is singular (determinant = 0), link:/commands/references/itransform/[`itransform`] fails.
 
 [source,postscript]
 ----
@@ -250,7 +250,7 @@ TIP: *Verify Round-Trip* - Test that transform/itransform are inverses:
 === Implementation Notes
 
 * Requires computing the matrix inverse
-* More expensive than link:/docs/commands/references/transform/[`transform`] (forward transformation)
+* More expensive than link:/commands/references/transform/[`transform`] (forward transformation)
 * The inverse CTM is not cached; computed each time
 * Precision depends on CTM condition number
 * Used automatically by many interactive operators
@@ -316,7 +316,7 @@ x y transform          % Transform by inverse
 
 === Performance Considerations
 
-* Slightly slower than link:/docs/commands/references/transform/[`transform`] (requires matrix inversion)
+* Slightly slower than link:/commands/references/transform/[`transform`] (requires matrix inversion)
 * Still very fast for occasional use
 * If called frequently with same matrix, consider precomputing inverse:
 
@@ -339,8 +339,8 @@ matrix currentmatrix matrix invertmatrix
 
 === See Also
 
-* link:/docs/commands/references/transform/[`transform`] - Transform user to device coordinates
-* link:/docs/commands/references/dtransform/[`dtransform`] - Transform distance vector
-* link:/docs/commands/references/idtransform/[`idtransform`] - Inverse transform distance vector
-* link:/docs/commands/references/invertmatrix/[`invertmatrix`] - Invert transformation matrix
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/commands/references/transform/[`transform`] - Transform user to device coordinates
+* link:/commands/references/dtransform/[`dtransform`] - Transform distance vector
+* link:/commands/references/idtransform/[`idtransform`] - Inverse transform distance vector
+* link:/commands/references/invertmatrix/[`invertmatrix`] - Invert transformation matrix
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM

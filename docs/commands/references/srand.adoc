@@ -10,7 +10,7 @@ Seeds the random number generator with a specific value.
 
 == Description
 
-The `srand` operator pops an integer from the operand stack and uses it to initialize (seed) the random number generator. Executing `srand` with a particular seed value causes subsequent calls to link:/docs/commands/references/rand/[`rand`] to generate a reproducible, deterministic sequence of pseudo-random numbers.
+The `srand` operator pops an integer from the operand stack and uses it to initialize (seed) the random number generator. Executing `srand` with a particular seed value causes subsequent calls to link:/commands/references/rand/[`rand`] to generate a reproducible, deterministic sequence of pseudo-random numbers.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -91,8 +91,8 @@ rand           % Different each run
 
 == Related Commands
 
-* link:/docs/commands/references/rand/[`rand`] - Generate random integer
-* link:/docs/commands/references/rrand/[`rrand`] - Get/set random seed
+* link:/commands/references/rand/[`rand`] - Generate random integer
+* link:/commands/references/rrand/[`rrand`] - Get/set random seed
 
 == PostScript Level
 
@@ -120,4 +120,4 @@ The operand is not an integer.
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators

@@ -279,11 +279,11 @@ Both operands *must* be integers. Real numbers or other types will cause a `type
 
 == Related Commands
 
-* link:/docs/commands/references/idiv/[`idiv`] - Integer division (quotient)
-* link:/docs/commands/references/div/[`div`] - Division with real result
-* link:/docs/commands/references/add/[`add`] - Add two numbers
-* link:/docs/commands/references/sub/[`sub`] - Subtract two numbers
-* link:/docs/commands/references/mul/[`mul`] - Multiply two numbers
+* link:/commands/references/idiv/[`idiv`] - Integer division (quotient)
+* link:/commands/references/div/[`div`] - Division with real result
+* link:/commands/references/add/[`add`] - Add two numbers
+* link:/commands/references/sub/[`sub`] - Subtract two numbers
+* link:/commands/references/mul/[`mul`] - Multiply two numbers
 
 == PostScript Level
 
@@ -358,5 +358,5 @@ The `mod` operator is fast, typically implemented as a single hardware instructi
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
-* link:/docs/levels/[PostScript Language Levels]
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/levels/[PostScript Language Levels]

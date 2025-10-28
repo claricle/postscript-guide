@@ -40,7 +40,7 @@ Returns current dash pattern and offset.
 
 === Description
 
-link:/docs/commands/references/currentdash/[`currentdash`] returns the current dash pattern array and offset parameter from the graphics state. These are the values most recently set by link:/docs/commands/references/setdash/[`setdash`].
+link:/commands/references/currentdash/[`currentdash`] returns the current dash pattern array and offset parameter from the graphics state. These are the values most recently set by link:/commands/references/setdash/[`setdash`].
 
 The dash pattern array specifies the pattern of dashes and gaps:
 
@@ -166,7 +166,7 @@ GetDashLength
 
 === Common Pitfalls
 
-WARNING: *Returned Array is Copy* - Modifying returned array requires calling link:/docs/commands/references/setdash/[`setdash`].
+WARNING: *Returned Array is Copy* - Modifying returned array requires calling link:/commands/references/setdash/[`setdash`].
 
 [source,postscript]
 ----
@@ -234,7 +234,7 @@ Common patterns:
 
 === See Also
 
-* link:/docs/commands/references/setdash/[`setdash`] - Set dash pattern
-* link:/docs/commands/references/currentlinewidth/[`currentlinewidth`] - Get line width
-* link:/docs/commands/references/currentlinecap/[`currentlinecap`] - Get line cap style
-* link:/docs/commands/references/currentlinejoin/[`currentlinejoin`] - Get line join style
+* link:/commands/references/setdash/[`setdash`] - Set dash pattern
+* link:/commands/references/currentlinewidth/[`currentlinewidth`] - Get line width
+* link:/commands/references/currentlinecap/[`currentlinecap`] - Get line cap style
+* link:/commands/references/currentlinejoin/[`currentlinejoin`] - Get line join style

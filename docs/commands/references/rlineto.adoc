@@ -40,9 +40,9 @@ dx dy rlineto → -
 
 === Description
 
-link:/docs/commands/references/rlineto/[`rlineto`] (relative lineto) appends a straight line segment to the current path in the same manner as link:/docs/commands/references/lineto/[`lineto`]. However, the number pair is interpreted as a displacement relative to the current point (x, y) rather than as an absolute coordinate. That is, link:/docs/commands/references/rlineto/[`rlineto`] constructs a line from (x, y) to (x + dx, y + dy) and makes (x + dx, y + dy) the new current point.
+link:/commands/references/rlineto/[`rlineto`] (relative lineto) appends a straight line segment to the current path in the same manner as link:/commands/references/lineto/[`lineto`]. However, the number pair is interpreted as a displacement relative to the current point (x, y) rather than as an absolute coordinate. That is, link:/commands/references/rlineto/[`rlineto`] constructs a line from (x, y) to (x + dx, y + dy) and makes (x + dx, y + dy) the new current point.
 
-If the current point is undefined because the current path is empty, link:/docs/commands/references/rlineto/[`rlineto`] executes the [`nocurrentpoint`] error.
+If the current point is undefined because the current path is empty, link:/commands/references/rlineto/[`rlineto`] executes the [`nocurrentpoint`] error.
 
 === PostScript Level
 
@@ -152,7 +152,7 @@ stroke
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - link:/docs/commands/references/rlineto/[`rlineto`] requires an established current point. Use link:/docs/commands/references/moveto/[`moveto`] first.
+WARNING: *Requires Current Point* - link:/commands/references/rlineto/[`rlineto`] requires an established current point. Use link:/commands/references/moveto/[`moveto`] first.
 
 [source,postscript]
 ----
@@ -169,7 +169,7 @@ WARNING: *Displacements Not Absolute* - The arguments are relative displacements
 -25 0 rlineto           % Moves to (125, 100), not (-25, 100)
 ----
 
-TIP: *Ideal for Regular Patterns* - link:/docs/commands/references/rlineto/[`rlineto`] excels at creating regular, repeating patterns where each segment relates to the previous one.
+TIP: *Ideal for Regular Patterns* - link:/commands/references/rlineto/[`rlineto`] excels at creating regular, repeating patterns where each segment relates to the previous one.
 
 === Error Conditions
 
@@ -195,20 +195,20 @@ TIP: *Ideal for Regular Patterns* - link:/docs/commands/references/rlineto/[`rli
 * Displacements are in user space, transformed by CTM
 * More convenient than calculating absolute coordinates
 * Equivalent to: `currentpoint transform dx dy add transform lineto`
-* Successive link:/docs/commands/references/rlineto/[`rlineto`] calls build polylines efficiently
+* Successive link:/commands/references/rlineto/[`rlineto`] calls build polylines efficiently
 * Negative displacements move backward or downward
 
 === Performance Considerations
 
-* No performance difference from link:/docs/commands/references/lineto/[`lineto`]
+* No performance difference from link:/commands/references/lineto/[`lineto`]
 * Reduces calculation overhead in code
 * More maintainable for relative patterns
 * Can reduce rounding errors in repetitive patterns
 
 === See Also
 
-* link:/docs/commands/references/lineto/[`lineto`] - Absolute lineto
-* link:/docs/commands/references/rmoveto/[`rmoveto`] - Relative moveto
-* link:/docs/commands/references/rcurveto/[`rcurveto`] - Relative curveto
-* link:/docs/commands/references/currentpoint/[`currentpoint`] - Get current point
-* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/commands/references/lineto/[`lineto`] - Absolute lineto
+* link:/commands/references/rmoveto/[`rmoveto`] - Relative moveto
+* link:/commands/references/rcurveto/[`rcurveto`] - Relative curveto
+* link:/commands/references/currentpoint/[`currentpoint`] - Get current point
+* link:/commands/references/closepath/[`closepath`] - Close current subpath

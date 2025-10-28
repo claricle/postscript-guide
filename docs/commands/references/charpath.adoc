@@ -29,20 +29,20 @@ string bool
 
 === Description
 
-link:/docs/commands/references/charpath/[`charpath`] obtains the character path outlines that would result if `string` were shown at the current point using link:/docs/commands/references/show/[`show`]. Instead of painting the path, however, link:/docs/commands/references/charpath/[`charpath`] appends the path to the current path. This yields a result suitable for general filling, stroking, or clipping.
+link:/commands/references/charpath/[`charpath`] obtains the character path outlines that would result if `string` were shown at the current point using link:/commands/references/show/[`show`]. Instead of painting the path, however, link:/commands/references/charpath/[`charpath`] appends the path to the current path. This yields a result suitable for general filling, stroking, or clipping.
 
 The `bool` operand determines what happens if the character path is designed to be stroked rather than filled or outlined:
 
-- If `bool` is `false`, link:/docs/commands/references/charpath/[`charpath`] simply appends the character path to the current path; the result is suitable only for stroking.
-- If `bool` is `true`, link:/docs/commands/references/charpath/[`charpath`] applies the `strokepath` operator to the character path; the result is suitable for filling or clipping, but not for stroking.
+- If `bool` is `false`, link:/commands/references/charpath/[`charpath`] simply appends the character path to the current path; the result is suitable only for stroking.
+- If `bool` is `true`, link:/commands/references/charpath/[`charpath`] applies the `strokepath` operator to the character path; the result is suitable for filling or clipping, but not for stroking.
 
-link:/docs/commands/references/charpath/[`charpath`] does not produce results for portions of a character defined as images or masks rather than as paths.
+link:/commands/references/charpath/[`charpath`] does not produce results for portions of a character defined as images or masks rather than as paths.
 
 === Protected Fonts
 
 The outlines of some fonts are protected. (In Level 1 implementations, this applies to all fonts; in Level 2, only to certain special fonts and not to ordinary Type 1 or Type 3 fonts.)
 
-If the current font is protected, using link:/docs/commands/references/charpath/[`charpath`] to obtain its outlines causes the `pathforall` and `upath` operators to be disabled for as long as those outlines remain in the current path.
+If the current font is protected, using link:/commands/references/charpath/[`charpath`] to obtain its outlines causes the `pathforall` and `upath` operators to be disabled for as long as those outlines remain in the current path.
 
 === Parameters
 
@@ -335,7 +335,7 @@ textPath 0 setgray 1 setlinewidth stroke
 === Limitations
 
 **Image-based characters:**
-- link:/docs/commands/references/charpath/[`charpath`] does not produce paths for bitmap characters
+- link:/commands/references/charpath/[`charpath`] does not produce paths for bitmap characters
 - Some fonts mix paths and bitmaps
 - Only path-based portions are included
 
@@ -354,23 +354,23 @@ textPath 0 setgray 1 setlinewidth stroke
 |===
 | Operator | Output
 
-| link:/docs/commands/references/show/[`show`]
+| link:/commands/references/show/[`show`]
 | Paints characters (rasterized)
 
-| link:/docs/commands/references/charpath/[`charpath`]
+| link:/commands/references/charpath/[`charpath`]
 | Constructs path outlines
 
-| link:/docs/commands/references/stringwidth/[`stringwidth`]
+| link:/commands/references/stringwidth/[`stringwidth`]
 | Returns width vector only
 |===
 
 === See Also
 
-- link:/docs/commands/references/show/[`show`] - Paint text string
-- link:/docs/commands/references/stringwidth/[`stringwidth`] - Calculate text width
+- link:/commands/references/show/[`show`] - Paint text string
+- link:/commands/references/stringwidth/[`stringwidth`] - Calculate text width
 - `pathbbox` - Get path bounding box
 - `strokepath` - Convert stroke to filled path
 - `clip` - Set clipping path
 - `fill` - Fill path
 - `stroke` - Stroke path
-- link:/docs/commands/references/setfont/[`setfont`] - Establish current font
+- link:/commands/references/setfont/[`setfont`] - Establish current font

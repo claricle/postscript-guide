@@ -87,7 +87,7 @@ mark obj₀ ... objₙ₋₁ ] → array
 
 ==== How Array Construction Works
 
-The `[` operator pushes a special mark object on the operand stack to indicate the beginning of an array being constructed. It is functionally equivalent to the link:/docs/commands/references/mark/[`mark`] operator, but its use with `]` gives it special significance for array construction.
+The `[` operator pushes a special mark object on the operand stack to indicate the beginning of an array being constructed. It is functionally equivalent to the link:/commands/references/mark/[`mark`] operator, but its use with `]` gives it special significance for array construction.
 
 The `]` operator completes array construction by:
 
@@ -207,7 +207,7 @@ WARNING: *Execution vs. Literal* - Objects between `[` and `]` are evaluated bef
                  % NOT [/x 5 def]
 ----
 
-TIP: *Literal vs. Executable Arrays* - Arrays created by `[ ... ]` have the literal attribute by default. To create an array without evaluating its contents, use the procedure syntax `{ ... }`. Use link:/docs/commands/references/cvx/[`cvx`] to make a literal array executable if needed.
+TIP: *Literal vs. Executable Arrays* - Arrays created by `[ ... ]` have the literal attribute by default. To create an array without evaluating its contents, use the procedure syntax `{ ... }`. Use link:/commands/references/cvx/[`cvx`] to make a literal array executable if needed.
 
 [source,postscript]
 ----
@@ -236,9 +236,9 @@ TIP: *Literal vs. Executable Arrays* - Arrays created by `[ ... ]` have the lite
 
 === Implementation Notes
 
-* The `[` operator is functionally equivalent to link:/docs/commands/references/mark/[`mark`]
+* The `[` operator is functionally equivalent to link:/commands/references/mark/[`mark`]
 * The `]` operator is syntactic sugar recognized during parsing
-* Marks are used for error recovery and can be detected with link:/docs/commands/references/counttomark/[`counttomark`]
+* Marks are used for error recovery and can be detected with link:/commands/references/counttomark/[`counttomark`]
 * When scanned, `[ ... ]` creates a literal array object
 * The objects are placed in the array in the order they appeared between brackets
 * Index 0 contains the first object after `[`
@@ -248,7 +248,7 @@ TIP: *Literal vs. Executable Arrays* - Arrays created by `[ ... ]` have the lite
 
 ==== Equivalence with mark
 
-The `[` operator is functionally equivalent to link:/docs/commands/references/mark/[`mark`]:
+The `[` operator is functionally equivalent to link:/commands/references/mark/[`mark`]:
 
 [source,postscript]
 ----
@@ -260,7 +260,7 @@ However, `[` and `]` provide clearer syntax for array construction.
 
 ==== Comparison with astore
 
-The `]` operator is similar to link:/docs/commands/references/astore/[`astore`] but more convenient:
+The `]` operator is similar to link:/commands/references/astore/[`astore`] but more convenient:
 
 [source,postscript]
 ----
@@ -275,9 +275,9 @@ The bracket syntax is clearer and doesn't require knowing the count in advance.
 
 === See Also
 
-* link:/docs/commands/references/mark/[`mark`] - Push mark object
-* link:/docs/commands/references/cleartomark/[`cleartomark`] - Clear to mark
-* link:/docs/commands/references/counttomark/[`counttomark`] - Count objects to mark
-* link:/docs/commands/references/array/[`array`] - Create uninitialized array
-* link:/docs/commands/references/astore/[`astore`] - Store stack into array
-* link:/docs/commands/references/packedarray/[`packedarray`] - Create read-only array
+* link:/commands/references/mark/[`mark`] - Push mark object
+* link:/commands/references/cleartomark/[`cleartomark`] - Clear to mark
+* link:/commands/references/counttomark/[`counttomark`] - Count objects to mark
+* link:/commands/references/array/[`array`] - Create uninitialized array
+* link:/commands/references/astore/[`astore`] - Store stack into array
+* link:/commands/references/packedarray/[`packedarray`] - Create read-only array

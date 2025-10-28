@@ -977,9 +977,9 @@ colorimage
 
 === See Also
 
-* link:/docs/usage/advanced/color-spaces/[Color Spaces] - Image color models
-* link:/docs/usage/advanced/patterns/[Patterns] - Image-based patterns
-* link:/docs/usage/basic/coordinate-systems/[Coordinate Systems] - Image transformations
-* link:/docs/usage/basic/painting/[Painting] - Image rendering
-* link:/docs/usage/advanced/file-operations/[File Operations] - Loading image data
-* link:/docs/usage/advanced/resource-management/[Resource Management] - Image memory management
+* link:/usage/advanced/color-spaces/[Color Spaces] - Image color models
+* link:/usage/advanced/patterns/[Patterns] - Image-based patterns
+* link:/usage/basic/coordinate-systems/[Coordinate Systems] - Image transformations
+* link:/usage/basic/painting/[Painting] - Image rendering
+* link:/usage/advanced/file-operations/[File Operations] - Loading image data
+* link:/usage/advanced/resource-management/[Resource Management] - Image memory management

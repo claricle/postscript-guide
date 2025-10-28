@@ -46,7 +46,7 @@ cyan magenta yellow black setcmykcolor → –
 
 === Description
 
-link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] sets the color space to DeviceCMYK and sets the current color using cyan, magenta, yellow, and black components.
+link:/commands/references/setcmykcolor/[`setcmykcolor`] sets the color space to DeviceCMYK and sets the current color using cyan, magenta, yellow, and black components.
 
 Each component must be in range 0.0 to 1.0:
 
@@ -56,7 +56,7 @@ Each component must be in range 0.0 to 1.0:
 
 This establishes the color for subsequent painting operations (lines, fills, text). CMYK is a **subtractive** color model primarily used for printing.
 
-**Important:** Color values set by link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] are **not** affected by black generation and undercolor removal operations.
+**Important:** Color values set by link:/commands/references/setcmykcolor/[`setcmykcolor`] are **not** affected by black generation and undercolor removal operations.
 
 === PostScript Level
 
@@ -159,7 +159,7 @@ This establishes the color for subsequent painting operations (lines, fills, tex
 
 === Common Pitfalls
 
-WARNING: *Changes Color Space* - link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] changes color space to DeviceCMYK.
+WARNING: *Changes Color Space* - link:/commands/references/setcmykcolor/[`setcmykcolor`] changes color space to DeviceCMYK.
 
 [source,postscript]
 ----
@@ -287,7 +287,7 @@ Manually implement UCR:
 
 === See Also
 
-* link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
-* link:/docs/commands/references/setgray/[`setgray`] - Set grayscale
-* link:/docs/commands/references/sethsbcolor/[`sethsbcolor`] - Set HSB color
-* link:/docs/commands/references/currentcmykcolor/[`currentcmykcolor`] - Get CMYK color (Level 2)
+* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
+* link:/commands/references/setgray/[`setgray`] - Set grayscale
+* link:/commands/references/sethsbcolor/[`sethsbcolor`] - Set HSB color
+* link:/commands/references/currentcmykcolor/[`currentcmykcolor`] - Get CMYK color (Level 2)

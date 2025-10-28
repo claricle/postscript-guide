@@ -52,9 +52,9 @@ x1 y1 x2 y2 x3 y3 curveto → -
 
 === Description
 
-link:/docs/commands/references/curveto/[`curveto`] adds a Bézier cubic section to the current path between the current point, referred to here as (x0, y0), and the point (x3, y3), using (x1, y1) and (x2, y2) as the Bézier cubic control points. After constructing the curve, link:/docs/commands/references/curveto/[`curveto`] makes (x3, y3) the new current point.
+link:/commands/references/curveto/[`curveto`] adds a Bézier cubic section to the current path between the current point, referred to here as (x0, y0), and the point (x3, y3), using (x1, y1) and (x2, y2) as the Bézier cubic control points. After constructing the curve, link:/commands/references/curveto/[`curveto`] makes (x3, y3) the new current point.
 
-If the current point is undefined because the current path is empty, link:/docs/commands/references/curveto/[`curveto`] executes the [`nocurrentpoint`] error.
+If the current point is undefined because the current path is empty, link:/commands/references/curveto/[`curveto`] executes the [`nocurrentpoint`] error.
 
 The four points define the shape of the curve geometrically:
 
@@ -170,7 +170,7 @@ fill
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - link:/docs/commands/references/curveto/[`curveto`] needs a current point as the curve starting point. Use link:/docs/commands/references/moveto/[`moveto`] first.
+WARNING: *Requires Current Point* - link:/commands/references/curveto/[`curveto`] needs a current point as the curve starting point. Use link:/commands/references/moveto/[`moveto`] first.
 
 [source,postscript]
 ----
@@ -180,9 +180,9 @@ newpath
 
 WARNING: *Control Point Order Matters* - The first control point (x1, y1) affects the curve's start, the second (x2, y2) affects the end. Swapping them changes the curve shape significantly.
 
-WARNING: *Six Parameters Required* - link:/docs/commands/references/curveto/[`curveto`] requires all six parameters. Missing any causes [`stackunderflow`].
+WARNING: *Six Parameters Required* - link:/commands/references/curveto/[`curveto`] requires all six parameters. Missing any causes [`stackunderflow`].
 
-TIP: *Use for Smooth Curves* - Bézier curves provide smooth, aesthetically pleasing curves. For circles and arcs, consider link:/docs/commands/references/arc/[`arc`] for mathematical precision.
+TIP: *Use for Smooth Curves* - Bézier curves provide smooth, aesthetically pleasing curves. For circles and arcs, consider link:/commands/references/arc/[`arc`] for mathematical precision.
 
 === Mathematical Background
 
@@ -224,15 +224,15 @@ Where t ranges from 0 to 1, and (x0, y0) is the current point.
 
 === Performance Considerations
 
-* More computationally expensive than link:/docs/commands/references/lineto/[`lineto`]
+* More computationally expensive than link:/commands/references/lineto/[`lineto`]
 * Many curves can impact path complexity limits
 * Flatness parameter affects rendering speed
 * Simpler curves (fewer inflection points) render faster
 
 === See Also
 
-* link:/docs/commands/references/rcurveto/[`rcurveto`] - Relative curveto
-* link:/docs/commands/references/arc/[`arc`] - Draw circular arc
-* link:/docs/commands/references/lineto/[`lineto`] - Draw straight line
-* link:/docs/commands/references/moveto/[`moveto`] - Set current point
-* link:/docs/commands/references/currentpoint/[`currentpoint`] - Get current point
+* link:/commands/references/rcurveto/[`rcurveto`] - Relative curveto
+* link:/commands/references/arc/[`arc`] - Draw circular arc
+* link:/commands/references/lineto/[`lineto`] - Draw straight line
+* link:/commands/references/moveto/[`moveto`] - Set current point
+* link:/commands/references/currentpoint/[`currentpoint`] - Get current point

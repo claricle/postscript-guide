@@ -229,7 +229,7 @@ end
 mydict /value get   % Stack: 42 (dictionary unaffected)
 ----
 
-TIP: Consider using link:/docs/commands/references/cleartomark/[`cleartomark`] instead of `clear` when you want to preserve elements below a certain point on the stack.
+TIP: Consider using link:/commands/references/cleartomark/[`cleartomark`] instead of `clear` when you want to preserve elements below a certain point on the stack.
 
 === No Error on Empty Stack
 
@@ -244,10 +244,10 @@ count               % Stack: 0
 
 == Related Commands
 
-* link:/docs/commands/references/pop/[`pop`] - Remove single element
-* link:/docs/commands/references/cleartomark/[`cleartomark`] - Remove elements up to a mark
-* link:/docs/commands/references/count/[`count`] - Check if stack is empty
-* link:/docs/commands/references/mark/[`mark`] - Place marker for selective clearing
+* link:/commands/references/pop/[`pop`] - Remove single element
+* link:/commands/references/cleartomark/[`cleartomark`] - Remove elements up to a mark
+* link:/commands/references/count/[`count`] - Check if stack is empty
+* link:/commands/references/mark/[`mark`] - Place marker for selective clearing
 
 == PostScript Level
 
@@ -268,7 +268,7 @@ Clearing is faster than individually popping each element.
 == Best Practices
 
 1. **Use sparingly**: Only clear when you truly need to discard all stack contents
-2. **Consider alternatives**: Use link:/docs/commands/references/pop/[`pop`] for selective removal or link:/docs/commands/references/cleartomark/[`cleartomark`] for bounded clearing
+2. **Consider alternatives**: Use link:/commands/references/pop/[`pop`] for selective removal or link:/commands/references/cleartomark/[`cleartomark`] for bounded clearing
 3. **Error recovery**: Excellent for recovering from errors and resetting to known state
 4. **Document intent**: Always comment why you're clearing the stack
 5. **Test carefully**: Ensure you're not accidentally discarding needed data
@@ -319,7 +319,7 @@ add                 % Use the values
 
 == See Also
 
-* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
-* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
-* link:/docs/usage/error-handling/[Error Handling] - Using clear for error recovery
-* link:/docs/commands/references/[Stack Manipulation] - All stack operators
+* link:/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/usage/error-handling/[Error Handling] - Using clear for error recovery
+* link:/commands/references/[Stack Manipulation] - All stack operators

@@ -25,19 +25,19 @@ PostScript provides three primary painting operations:
 |===
 | Command | Description
 
-| link:/docs/commands/references/fill/[`fill`]
+| link:/commands/references/fill/[`fill`]
 | Fill path interior (non-zero winding rule)
 
-| link:/docs/commands/references/eofill/[`eofill`]
+| link:/commands/references/eofill/[`eofill`]
 | Fill path interior (even-odd rule)
 
-| link:/docs/commands/references/ufill/[`ufill`]
+| link:/commands/references/ufill/[`ufill`]
 | Fill user path (Level 2)
 
-| link:/docs/commands/references/ueofill/[`ueofill`]
+| link:/commands/references/ueofill/[`ueofill`]
 | Even-odd fill user path (Level 2)
 
-| link:/docs/commands/references/rectfill/[`rectfill`]
+| link:/commands/references/rectfill/[`rectfill`]
 | Fill rectangles (Level 2)
 |===
 
@@ -47,19 +47,19 @@ PostScript provides three primary painting operations:
 |===
 | Command | Description
 
-| link:/docs/commands/references/stroke/[`stroke`]
+| link:/commands/references/stroke/[`stroke`]
 | Paint along path
 
-| link:/docs/commands/references/strokepath/[`strokepath`]
+| link:/commands/references/strokepath/[`strokepath`]
 | Convert stroke to outline path
 
-| link:/docs/commands/references/ustroke/[`ustroke`]
+| link:/commands/references/ustroke/[`ustroke`]
 | Stroke user path (Level 2)
 
-| link:/docs/commands/references/ustrokepath/[`ustrokepath`]
+| link:/commands/references/ustrokepath/[`ustrokepath`]
 | Convert user path stroke to outline (Level 2)
 
-| link:/docs/commands/references/rectstroke/[`rectstroke`]
+| link:/commands/references/rectstroke/[`rectstroke`]
 | Stroke rectangles (Level 2)
 |===
 
@@ -69,20 +69,20 @@ PostScript provides three primary painting operations:
 |===
 | Command | Description
 
-| link:/docs/commands/references/clip/[`clip`]
+| link:/commands/references/clip/[`clip`]
 | Intersect clipping path (non-zero winding)
 
-| link:/docs/commands/references/eoclip/[`eoclip`]
+| link:/commands/references/eoclip/[`eoclip`]
 | Intersect clipping path (even-odd rule)
 
-| link:/docs/commands/references/clippath/[`clippath`]
+| link:/commands/references/clippath/[`clippath`]
 | Set current path to clipping path
 
-| link:/docs/commands/references/rectclip/[`rectclip`]
+| link:/commands/references/rectclip/[`rectclip`]
 | Clip to rectangles (Level 2)
 |===
 
 == See Also
 
-* link:/docs/commands/references/[Path Construction]
-* link:/docs/commands/references/[Graphics State]
+* link:/commands/references/[Path Construction]
+* link:/commands/references/[Graphics State]

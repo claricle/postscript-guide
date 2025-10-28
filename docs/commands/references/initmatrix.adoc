@@ -37,7 +37,7 @@ Resets the current transformation matrix to the device default.
 
 === Description
 
-link:/docs/commands/references/initmatrix/[`initmatrix`] sets the current transformation matrix (CTM) to the default matrix for the current output device. This matrix transforms the default user coordinate system to device space.
+link:/commands/references/initmatrix/[`initmatrix`] sets the current transformation matrix (CTM) to the default matrix for the current output device. This matrix transforms the default user coordinate system to device space.
 
 For page-oriented devices, the default matrix is initially established by the `setpagedevice` operator.
 
@@ -48,7 +48,7 @@ This is equivalent to:
 matrix defaultmatrix setmatrix
 ----
 
-WARNING: There are few situations in which a PostScript program should execute link:/docs/commands/references/initmatrix/[`initmatrix`] explicitly. A page description that executes link:/docs/commands/references/initmatrix/[`initmatrix`] usually produces incorrect results if embedded within another, composite page.
+WARNING: There are few situations in which a PostScript program should execute link:/commands/references/initmatrix/[`initmatrix`] explicitly. A page description that executes link:/commands/references/initmatrix/[`initmatrix`] usually produces incorrect results if embedded within another, composite page.
 
 === PostScript Level
 
@@ -109,7 +109,7 @@ initgraphics  % Reset other graphics parameters too
 
 === Common Pitfalls
 
-WARNING: *Breaks Nested Transformations* - link:/docs/commands/references/initmatrix/[`initmatrix`] ignores all previous transformations.
+WARNING: *Breaks Nested Transformations* - link:/commands/references/initmatrix/[`initmatrix`] ignores all previous transformations.
 
 [source,postscript]
 ----
@@ -124,7 +124,7 @@ initmatrix      % Destroys the translate and scale!
 drawBox         % Box appears at device origin, normal size
 ----
 
-WARNING: *Not for Typical Programs* - Normal PostScript programs should not use link:/docs/commands/references/initmatrix/[`initmatrix`].
+WARNING: *Not for Typical Programs* - Normal PostScript programs should not use link:/commands/references/initmatrix/[`initmatrix`].
 
 [source,postscript]
 ----
@@ -137,7 +137,7 @@ gsave
 grestore
 ----
 
-TIP: *Use gsave/grestore* - For temporary transformations, use link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`]:
+TIP: *Use gsave/grestore* - For temporary transformations, use link:/commands/references/gsave/[`gsave`]/link:/commands/references/grestore/[`grestore`]:
 
 [source,postscript]
 ----
@@ -149,7 +149,7 @@ grestore
 % Original transformation restored
 ----
 
-TIP: *Part of initgraphics* - link:/docs/commands/references/initmatrix/[`initmatrix`] is one component of `initgraphics`:
+TIP: *Part of initgraphics* - link:/commands/references/initmatrix/[`initmatrix`] is one component of `initgraphics`:
 
 [source,postscript]
 ----
@@ -172,7 +172,7 @@ initclip
 | Error | Condition
 
 | (none)
-| link:/docs/commands/references/initmatrix/[`initmatrix`] cannot fail
+| link:/commands/references/initmatrix/[`initmatrix`] cannot fail
 |===
 
 === Implementation Notes
@@ -180,7 +180,7 @@ initclip
 * The default matrix is device-dependent
 * For page devices, it's established during page setup
 * The transformation is instantaneous
-* No previous CTM state is preserved (unlike link:/docs/commands/references/grestore/[`grestore`])
+* No previous CTM state is preserved (unlike link:/commands/references/grestore/[`grestore`])
 
 === Default Matrix Characteristics
 
@@ -213,7 +213,7 @@ initmatrix
 matrix defaultmatrix setmatrix
 ----
 
-link:/docs/commands/references/initmatrix/[`initmatrix`] is part of:
+link:/commands/references/initmatrix/[`initmatrix`] is part of:
 
 [source,postscript]
 ----
@@ -230,8 +230,8 @@ Valid use cases (rare):
 
 Invalid use cases (common mistakes):
 
-1. **Normal Drawing**: Use link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`] instead
-2. **Resetting After Transform**: Use link:/docs/commands/references/grestore/[`grestore`] instead
+1. **Normal Drawing**: Use link:/commands/references/gsave/[`gsave`]/link:/commands/references/grestore/[`grestore`] instead
+2. **Resetting After Transform**: Use link:/commands/references/grestore/[`grestore`] instead
 3. **Embedded Pages**: Will break composition
 
 === Example of Proper Use
@@ -252,8 +252,8 @@ Invalid use cases (common mistakes):
 
 === See Also
 
-* link:/docs/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
-* link:/docs/commands/references/setmatrix/[`setmatrix`] - Set CTM explicitly
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/commands/references/setmatrix/[`setmatrix`] - Set CTM explicitly
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state

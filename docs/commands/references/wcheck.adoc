@@ -40,7 +40,7 @@ string wcheck → bool
 
 === Description
 
-link:/docs/commands/references/wcheck/[`wcheck`] tests whether the operand's access attribute permits its value to be written (modified) by PostScript operators.
+link:/commands/references/wcheck/[`wcheck`] tests whether the operand's access attribute permits its value to be written (modified) by PostScript operators.
 
 Returns:
 * `true` if access is **unlimited**
@@ -120,7 +120,7 @@ dict wcheck {
 
 === Common Pitfalls
 
-WARNING: *Packed Arrays Always Read-Only* - Packed arrays created with link:/docs/commands/references/packedarray/[`packedarray`] always return `false` for link:/docs/commands/references/wcheck/[`wcheck`].
+WARNING: *Packed Arrays Always Read-Only* - Packed arrays created with link:/commands/references/packedarray/[`packedarray`] always return `false` for link:/commands/references/wcheck/[`wcheck`].
 
 [source,postscript]
 ----
@@ -135,9 +135,9 @@ WARNING: *Readonly is Permanent* - Once an object is made readonly, it cannot be
 % No way to restore unlimited access
 ----
 
-WARNING: *Confusing wcheck with xcheck* - link:/docs/commands/references/wcheck/[`wcheck`] tests write access, link:/docs/commands/references/xcheck/[`xcheck`] tests executable attribute.
+WARNING: *Confusing wcheck with xcheck* - link:/commands/references/wcheck/[`wcheck`] tests write access, link:/commands/references/xcheck/[`xcheck`] tests executable attribute.
 
-TIP: *Check Before Modifying* - Use link:/docs/commands/references/wcheck/[`wcheck`] before operations like link:/docs/commands/references/put/[`put`] or link:/docs/commands/references/putinterval/[`putinterval`] on untrusted objects.
+TIP: *Check Before Modifying* - Use link:/commands/references/wcheck/[`wcheck`] before operations like link:/commands/references/put/[`put`] or link:/commands/references/putinterval/[`putinterval`] on untrusted objects.
 
 === Error Conditions
 
@@ -198,8 +198,8 @@ object wcheck {
 
 === See Also
 
-* link:/docs/commands/references/rcheck/[`rcheck`] - Test if readable
-* link:/docs/commands/references/xcheck/[`xcheck`] - Test if executable
+* link:/commands/references/rcheck/[`rcheck`] - Test if readable
+* link:/commands/references/xcheck/[`xcheck`] - Test if executable
 * Access operators: `readonly`, `executeonly`, `noaccess`
-* link:/docs/commands/references/put/[`put`] - Modify array/string/dict
-* link:/docs/commands/references/type/[`type`] - Get object type
+* link:/commands/references/put/[`put`] - Modify array/string/dict
+* link:/commands/references/type/[`type`] - Get object type

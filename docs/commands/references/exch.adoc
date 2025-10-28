@@ -185,11 +185,11 @@ add             % ERROR: typecheck (can't add string and number)
 
 == Related Commands
 
-* link:/docs/commands/references/dup/[`dup`] - Duplicate top element before exchanging
-* link:/docs/commands/references/roll/[`roll`] - General stack rotation for multiple elements
-* link:/docs/commands/[`index`] - Access elements deeper in the stack
-* link:/docs/commands/references/pop/[`pop`] - Remove top element
-* link:/docs/commands/references/copy/[`copy`] - Copy multiple stack elements
+* link:/commands/references/dup/[`dup`] - Duplicate top element before exchanging
+* link:/commands/references/roll/[`roll`] - General stack rotation for multiple elements
+* link:/commands/[`index`] - Access elements deeper in the stack
+* link:/commands/references/pop/[`pop`] - Remove top element
+* link:/commands/references/copy/[`copy`] - Copy multiple stack elements
 
 == PostScript Level
 
@@ -236,6 +236,6 @@ The `exch` operator is extremely fast and has negligible performance impact. It'
 
 == See Also
 
-* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
-* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
-* link:/docs/commands/references/[Stack Manipulation] - All stack operators
+* link:/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/commands/references/[Stack Manipulation] - All stack operators

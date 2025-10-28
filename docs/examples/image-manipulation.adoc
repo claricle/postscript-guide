@@ -99,8 +99,8 @@ grestore
 showpage
 ----
 <1> Image data in hexadecimal format (00=black, FF=white)
-<2> Use link:../commands/transformations/translate/[`translate`] to position image
-<3> Use link:../commands/transformations/scale/[`scale`] to size image in points
+<2> Use link:/commands/references/transformations/translate/[`translate`] to position image
+<3> Use link:/commands/references/transformations/scale/[`scale`] to size image in points
 <4> Image dimensions in pixels (width height)
 <5> Bits per color component (typically 8 for 256 levels)
 <6> Image transformation matrix [a b c d tx ty]
@@ -257,7 +257,7 @@ showpage
 <1> Larger scale increases image size
 <2> Different X and Y scales change aspect ratio
 <3> Rotate coordinate system before scaling
-<4> Use link:../commands/transformations/concat/[`concat`] to apply custom matrix
+<4> Use link:/commands/references/transformations/concat/[`concat`] to apply custom matrix
 <5> Negative scale values flip/mirror the image
 <6> Shear matrix creates pseudo-perspective
 
@@ -495,7 +495,7 @@ grestore
 
 showpage
 ----
-<1> Use link:../commands/painting/clip/[`clip`] to restrict image to shape
+<1> Use link:/commands/references/painting/clip/[`clip`] to restrict image to shape
 <2> Decode specifies how to interpret pixel values
 <3> Use `imagemask` to render 1-bit images as masks
 <4> `.setshapealpha` applies soft mask (Level 3)
@@ -1280,10 +1280,10 @@ showpage
 
 === See Also
 
-* link:/docs/examples/drawing-shapes/[Drawing Shapes] - Clipping paths for images
-* link:/docs/examples/color-gradients/[Color Gradients] - Color manipulation
-* link:/docs/examples/pdf-generation/[PDF Generation] - Images in PDF
-* link:/docs/levels/level-2/[Level 2] - Advanced image features
-* link:/docs/levels/level-3/[Level 3] - Transparency and soft masks
-* link:/docs/examples/[More Examples]
-* link:/docs/commands/[Command Reference]
+* link:/examples/drawing-shapes/[Drawing Shapes] - Clipping paths for images
+* link:/examples/color-gradients/[Color Gradients] - Color manipulation
+* link:/examples/pdf-generation/[PDF Generation] - Images in PDF
+* link:/levels/level-2/[Level 2] - Advanced image features
+* link:/levels/level-3/[Level 3] - Transparency and soft masks
+* link:/examples/[More Examples]
+* link:/commands/[Command Reference]

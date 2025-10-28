@@ -37,7 +37,7 @@ any exec → –
 
 === Description
 
-link:/docs/commands/references/exec/[`exec`] pushes the operand on the execution stack, executing it immediately.
+link:/commands/references/exec/[`exec`] pushes the operand on the execution stack, executing it immediately.
 
 The effect depends on the object's type and literal/executable attribute:
 
@@ -132,7 +132,7 @@ WARNING: *Security Risk* - Executing arbitrary strings can be dangerous.
 userInput cvx exec  % Dangerous if userInput malicious!
 ----
 
-TIP: *Check Executable Attribute* - Use link:/docs/commands/references/xcheck/[`xcheck`] to verify before execution.
+TIP: *Check Executable Attribute* - Use link:/commands/references/xcheck/[`xcheck`] to verify before execution.
 
 === Error Conditions
 
@@ -191,8 +191,8 @@ TIP: *Check Executable Attribute* - Use link:/docs/commands/references/xcheck/[`
 
 === See Also
 
-* link:/docs/commands/references/cvx/[`cvx`] - Convert to executable
-* link:/docs/commands/references/cvlit/[`cvlit`] - Convert to literal
-* link:/docs/commands/references/xcheck/[`xcheck`] - Check if executable
-* link:/docs/commands/references/stopped/[`stopped`] - Execute with error catching
-* link:/docs/commands/references/if/[`if`] / link:/docs/commands/references/ifelse/[`ifelse`] - Conditional execution
+* link:/commands/references/cvx/[`cvx`] - Convert to executable
+* link:/commands/references/cvlit/[`cvlit`] - Convert to literal
+* link:/commands/references/xcheck/[`xcheck`] - Check if executable
+* link:/commands/references/stopped/[`stopped`] - Execute with error catching
+* link:/commands/references/if/[`if`] / link:/commands/references/ifelse/[`ifelse`] - Conditional execution

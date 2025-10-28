@@ -10,7 +10,7 @@ Divides the first number by the second and returns a real number result.
 
 == Description
 
-The `div` operator pops two numbers from the operand stack, divides num1 by num2, and pushes the result back onto the stack. The result is *always a real number*, even if both operands are integers. For integer division with truncation, use link:/docs/commands/references/idiv/[`idiv`] instead.
+The `div` operator pops two numbers from the operand stack, divides num1 by num2, and pushes the result back onto the stack. The result is *always a real number*, even if both operands are integers. For integer division with truncation, use link:/commands/references/idiv/[`idiv`] instead.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -254,11 +254,11 @@ Both operands must be numeric (integer or real). The divisor (num2) must not be 
 
 == Related Commands
 
-* link:/docs/commands/references/idiv/[`idiv`] - Integer division (truncated result)
-* link:/docs/commands/references/mod/[`mod`] - Modulo (remainder of division)
-* link:/docs/commands/references/add/[`add`] - Add two numbers
-* link:/docs/commands/references/sub/[`sub`] - Subtract two numbers
-* link:/docs/commands/references/mul/[`mul`] - Multiply two numbers
+* link:/commands/references/idiv/[`idiv`] - Integer division (truncated result)
+* link:/commands/references/mod/[`mod`] - Modulo (remainder of division)
+* link:/commands/references/add/[`add`] - Add two numbers
+* link:/commands/references/sub/[`sub`] - Subtract two numbers
+* link:/commands/references/mul/[`mul`] - Multiply two numbers
 
 == PostScript Level
 
@@ -334,5 +334,5 @@ totalItems 3 mod            % How many items left over?
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
-* link:/docs/levels/[PostScript Language Levels]
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/levels/[PostScript Language Levels]

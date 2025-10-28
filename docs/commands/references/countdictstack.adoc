@@ -37,9 +37,9 @@ Returns the number of dictionaries currently on the dictionary stack.
 
 === Description
 
-link:/docs/commands/references/countdictstack/[`countdictstack`] counts the number of dictionaries currently on the dictionary stack and pushes this count onto the operand stack.
+link:/commands/references/countdictstack/[`countdictstack`] counts the number of dictionaries currently on the dictionary stack and pushes this count onto the operand stack.
 
-The count includes all dictionaries: permanent system dictionaries and any pushed by link:/docs/commands/references/begin/[`begin`].
+The count includes all dictionaries: permanent system dictionaries and any pushed by link:/commands/references/begin/[`begin`].
 
 === PostScript Level
 
@@ -158,8 +158,8 @@ TIP: *Use for Defensive Programming* - Check dictionary stack balance in error h
 
 === See Also
 
-* link:/docs/commands/references/dictstack/[`dictstack`] - Copy dict stack to array
-* link:/docs/commands/references/begin/[`begin`] - Push dictionary
-* link:/docs/commands/references/end/[`end`] - Pop dictionary
-* link:/docs/commands/references/currentdict/[`currentdict`] - Get current dictionary
-* link:/docs/commands/references/count/[`count`] - Count operand stack depth
+* link:/commands/references/dictstack/[`dictstack`] - Copy dict stack to array
+* link:/commands/references/begin/[`begin`] - Push dictionary
+* link:/commands/references/end/[`end`] - Pop dictionary
+* link:/commands/references/currentdict/[`currentdict`] - Get current dictionary
+* link:/commands/references/count/[`count`] - Count operand stack depth

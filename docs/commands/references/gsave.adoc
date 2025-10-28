@@ -28,7 +28,7 @@ Pushes a copy of the current graphics state onto the graphics state stack.
 
 === Description
 
-link:/docs/commands/references/gsave/[`gsave`] pushes a copy of the current graphics state onto the graphics state stack. All elements of the graphics state are saved, including:
+link:/commands/references/gsave/[`gsave`] pushes a copy of the current graphics state onto the graphics state stack. All elements of the graphics state are saved, including:
 
 * Current transformation matrix (CTM)
 * Current path
@@ -41,7 +41,7 @@ link:/docs/commands/references/gsave/[`gsave`] pushes a copy of the current grap
 
 Raster memory contents are NOT saved.
 
-The saved state can later be restored by link:/docs/commands/references/grestore/[`grestore`].
+The saved state can later be restored by link:/commands/references/grestore/[`grestore`].
 
 === PostScript Level
 
@@ -136,7 +136,7 @@ elements {
 
 === Common Pitfalls
 
-WARNING: *Must Match with grestore* - Every link:/docs/commands/references/gsave/[`gsave`] must have matching link:/docs/commands/references/grestore/[`grestore`].
+WARNING: *Must Match with grestore* - Every link:/commands/references/gsave/[`gsave`] must have matching link:/commands/references/grestore/[`grestore`].
 
 [source,postscript]
 ----
@@ -153,7 +153,7 @@ WARNING: *Limited Stack Depth* - Graphics state stack has implementation-depende
 { gsave } repeat  % Eventually: limitcheck
 ----
 
-TIP: *Use for All Temporary Changes* - Always bracket temporary state changes with link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`].
+TIP: *Use for All Temporary Changes* - Always bracket temporary state changes with link:/commands/references/gsave/[`gsave`]/link:/commands/references/grestore/[`grestore`].
 
 === Error Conditions
 
@@ -193,8 +193,8 @@ TIP: *Use for All Temporary Changes* - Always bracket temporary state changes wi
 
 === See Also
 
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
-* link:/docs/commands/references/grestoreall/[`grestoreall`] - Restore all levels
-* link:/docs/commands/references/gstate/[`gstate`] - Create gstate object (Level 2)
-* link:/docs/commands/references/setgstate/[`setgstate`] - Set from gstate (Level 2)
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/grestoreall/[`grestoreall`] - Restore all levels
+* link:/commands/references/gstate/[`gstate`] - Create gstate object (Level 2)
+* link:/commands/references/setgstate/[`setgstate`] - Set from gstate (Level 2)
 * VM operations: `save`, `restore` - Also save graphics state

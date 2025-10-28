@@ -17,12 +17,12 @@ This category contains PostScript operators for color.
 This category is ready for command documentation to be added. Commands in this category include operators from the PostScript Language Reference Manual.
 
 See other completed categories for documentation examples:
-* link:/docs/commands/references/[Path Construction]
-* link:/docs/commands/references/[Painting]
-* link:/docs/commands/references/[Transformations]
-* link:/docs/commands/references/[Font & Text]
+* link:/commands/references/[Path Construction]
+* link:/commands/references/[Painting]
+* link:/commands/references/[Transformations]
+* link:/commands/references/[Font & Text]
 
 == See Also
 
-* link:/docs/commands/[Command Reference Overview]
-* link:/docs/syntax/[Language Syntax]
+* link:/commands/[Command Reference Overview]
+* link:/syntax/[Language Syntax]

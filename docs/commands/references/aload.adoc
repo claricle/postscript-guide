@@ -47,7 +47,7 @@ packedarray aload → packedarray₀ ... packedarrayₙ₋₁ packedarray
 
 === Description
 
-link:/docs/commands/references/aload/[`aload`] successively pushes all _n_ elements of an array or packed array onto the operand stack (where _n_ is the length of the operand), and finally pushes the array or packed array itself back onto the stack.
+link:/commands/references/aload/[`aload`] successively pushes all _n_ elements of an array or packed array onto the operand stack (where _n_ is the length of the operand), and finally pushes the array or packed array itself back onto the stack.
 
 The elements are pushed in index order: element 0 first, element _n_-1 last.
 
@@ -110,7 +110,7 @@ matrix currentmatrix aload pop
 
 === Common Pitfalls
 
-WARNING: *Array Remains on Stack* - link:/docs/commands/references/aload/[`aload`] leaves the original array on the stack. Use link:../stack-manipulation/pop/[`pop`] if you don't need it.
+WARNING: *Array Remains on Stack* - link:/commands/references/aload/[`aload`] leaves the original array on the stack. Use link:/commands/references/pop/[`pop`] if you don't need it.
 
 [source,postscript]
 ----
@@ -125,7 +125,7 @@ WARNING: *Stack Overflow* - Loading large arrays can overflow the operand stack.
 1000 array aload  % Might cause stackoverflow
 ----
 
-TIP: *Use with forall* - For processing array elements, link:/docs/commands/references/forall/[`forall`] is often more appropriate than link:/docs/commands/references/aload/[`aload`].
+TIP: *Use with forall* - For processing array elements, link:/commands/references/forall/[`forall`] is often more appropriate than link:/commands/references/aload/[`aload`].
 
 === Error Conditions
 
@@ -151,19 +151,19 @@ TIP: *Use with forall* - For processing array elements, link:/docs/commands/refe
 * Elements are shared between the array and stack (not copied)
 * Modifying a composite element affects both the array and the stack value
 * Works identically for arrays and packed arrays
-* The array reference on top of stack can be used to restore values with link:/docs/commands/references/astore/[`astore`]
+* The array reference on top of stack can be used to restore values with link:/commands/references/astore/[`astore`]
 
 === Performance Considerations
 
 * Loading small arrays is efficient
-* For large arrays, consider using link:/docs/commands/references/get/[`get`] to access specific elements
-* For iteration, link:/docs/commands/references/forall/[`forall`] is more memory-efficient
+* For large arrays, consider using link:/commands/references/get/[`get`] to access specific elements
+* For iteration, link:/commands/references/forall/[`forall`] is more memory-efficient
 
 === See Also
 
-* link:/docs/commands/references/astore/[`astore`] - Store stack into array
-* link:/docs/commands/references/get/[`get`] - Get single array element
-* link:/docs/commands/references/getinterval/[`getinterval`] - Get subarray
-* link:/docs/commands/references/forall/[`forall`] - Iterate over array elements
-* link:/docs/commands/references/length/[`length`] - Get array length
-* link:/docs/commands/references/pop/[`pop`] - Remove top stack element
+* link:/commands/references/astore/[`astore`] - Store stack into array
+* link:/commands/references/get/[`get`] - Get single array element
+* link:/commands/references/getinterval/[`getinterval`] - Get subarray
+* link:/commands/references/forall/[`forall`] - Iterate over array elements
+* link:/commands/references/length/[`length`] - Get array length
+* link:/commands/references/pop/[`pop`] - Remove top stack element

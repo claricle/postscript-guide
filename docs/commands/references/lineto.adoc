@@ -40,9 +40,9 @@ x y lineto → -
 
 === Description
 
-link:/docs/commands/references/lineto/[`lineto`] appends a straight line segment to the current path. The line extends from the current point to the point (x, y) in user space; (x, y) then becomes the new current point.
+link:/commands/references/lineto/[`lineto`] appends a straight line segment to the current path. The line extends from the current point to the point (x, y) in user space; (x, y) then becomes the new current point.
 
-If the current point is undefined because the current path is empty, link:/docs/commands/references/lineto/[`lineto`] executes the [`nocurrentpoint`] error.
+If the current point is undefined because the current path is empty, link:/commands/references/lineto/[`lineto`] executes the [`nocurrentpoint`] error.
 
 The coordinates are interpreted as user space coordinates and are transformed by the current transformation matrix (CTM) when the path is constructed.
 
@@ -148,7 +148,7 @@ stroke
 
 === Common Pitfalls
 
-WARNING: *No Current Point* - link:/docs/commands/references/lineto/[`lineto`] requires an established current point. Always use link:/docs/commands/references/moveto/[`moveto`] first.
+WARNING: *No Current Point* - link:/commands/references/lineto/[`lineto`] requires an established current point. Always use link:/commands/references/moveto/[`moveto`] first.
 
 [source,postscript]
 ----
@@ -156,7 +156,7 @@ newpath
 200 200 lineto           % Error: nocurrentpoint
 ----
 
-WARNING: *Coordinates Not Cumulative* - Unlike link:/docs/commands/references/rlineto/[`rlineto`], coordinates are absolute positions, not offsets.
+WARNING: *Coordinates Not Cumulative* - Unlike link:/commands/references/rlineto/[`rlineto`], coordinates are absolute positions, not offsets.
 
 [source,postscript]
 ----
@@ -164,7 +164,7 @@ WARNING: *Coordinates Not Cumulative* - Unlike link:/docs/commands/references/rl
 50 50 lineto             % Goes to (50, 50), not (150, 150)
 ----
 
-TIP: *Use for Straight Segments* - For curved paths, use link:/docs/commands/references/curveto/[`curveto`] or link:/docs/commands/references/arc/[`arc`] instead of approximating with many short line segments.
+TIP: *Use for Straight Segments* - For curved paths, use link:/commands/references/curveto/[`curveto`] or link:/commands/references/arc/[`arc`] instead of approximating with many short line segments.
 
 === Error Conditions
 
@@ -190,7 +190,7 @@ TIP: *Use for Straight Segments* - For curved paths, use link:/docs/commands/ref
 * Creates a straight line segment in device space after CTM transformation
 * The endpoint becomes the new current point
 * Lines are not rendered until a painting operator is executed
-* Multiple consecutive link:/docs/commands/references/lineto/[`lineto`] operations create a polyline
+* Multiple consecutive link:/commands/references/lineto/[`lineto`] operations create a polyline
 * Line appearance depends on current line width, dash pattern, and line cap settings
 
 === Performance Considerations
@@ -202,9 +202,9 @@ TIP: *Use for Straight Segments* - For curved paths, use link:/docs/commands/ref
 
 === See Also
 
-* link:/docs/commands/references/rlineto/[`rlineto`] - Relative lineto
-* link:/docs/commands/references/moveto/[`moveto`] - Move to point without drawing
-* link:/docs/commands/references/curveto/[`curveto`] - Draw curved segment
-* link:/docs/commands/references/arc/[`arc`] - Draw circular arc
-* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
-* link:/docs/commands/references/currentpoint/[`currentpoint`] - Get current point
+* link:/commands/references/rlineto/[`rlineto`] - Relative lineto
+* link:/commands/references/moveto/[`moveto`] - Move to point without drawing
+* link:/commands/references/curveto/[`curveto`] - Draw curved segment
+* link:/commands/references/arc/[`arc`] - Draw circular arc
+* link:/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/commands/references/currentpoint/[`currentpoint`] - Get current point

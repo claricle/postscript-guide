@@ -43,15 +43,15 @@ Returns current color as RGB values.
 
 === Description
 
-link:/docs/commands/references/currentrgbcolor/[`currentrgbcolor`] returns the current color in the graphics state according to the red-green-blue color model.
+link:/commands/references/currentrgbcolor/[`currentrgbcolor`] returns the current color in the graphics state according to the red-green-blue color model.
 
 * If the current color space is **DeviceRGB**,
-link:/docs/commands/references/currentrgbcolor/[`currentrgbcolor`] returns the color values most
-recently specified to link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] or [`setcolor`]
-(or transformed values specified to link:/docs/commands/references/sethsbcolor/[`sethsbcolor`]) .
+link:/commands/references/currentrgbcolor/[`currentrgbcolor`] returns the color values most
+recently specified to link:/commands/references/setrgbcolor/[`setrgbcolor`] or [`setcolor`]
+(or transformed values specified to link:/commands/references/sethsbcolor/[`sethsbcolor`]) .
 
-* If the current color space is **DeviceGray** or **DeviceCMYK**, link:/docs/commands/references/currentrgbcolor/[`currentrgbcolor`] converts the current color to RGB.
-* For any other color space, link:/docs/commands/references/currentrgbcolor/[`currentrgbcolor`] returns **0.0 0.0 0.0** (black).
+* If the current color space is **DeviceGray** or **DeviceCMYK**, link:/commands/references/currentrgbcolor/[`currentrgbcolor`] converts the current color to RGB.
+* For any other color space, link:/commands/references/currentrgbcolor/[`currentrgbcolor`] returns **0.0 0.0 0.0** (black).
 
 Each returned value is in the range 0.0 (no intensity) to 1.0 (full intensity).
 
@@ -257,7 +257,7 @@ No components = Black
 
 === See Also
 
-* link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
-* link:/docs/commands/references/currentgray/[`currentgray`] - Get gray value
-* link:/docs/commands/references/currentcmykcolor/[`currentcmykcolor`] - Get CMYK color (Level 2)
-* link:/docs/commands/references/currenthsbcolor/[`currenthsbcolor`] - Get HSB color
+* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
+* link:/commands/references/currentgray/[`currentgray`] - Get gray value
+* link:/commands/references/currentcmykcolor/[`currentcmykcolor`] - Get CMYK color (Level 2)
+* link:/commands/references/currenthsbcolor/[`currenthsbcolor`] - Get HSB color

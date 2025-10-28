@@ -29,15 +29,15 @@ font
 
 === Description
 
-link:/docs/commands/references/definefont/[`definefont`] registers `font` as a font dictionary associated with `key` (usually a name). link:/docs/commands/references/definefont/[`definefont`] first checks that `font` is a well-formed font dictionary—in other words, contains all required key-value pairs. It inserts an additional entry whose key is `FID` and whose value is an object of type `fontID`. The dictionary must be large enough to accommodate this additional entry. It makes the dictionary's access read-only. Finally, it associates `key` with `font` in the font directory.
+link:/commands/references/definefont/[`definefont`] registers `font` as a font dictionary associated with `key` (usually a name). link:/commands/references/definefont/[`definefont`] first checks that `font` is a well-formed font dictionary—in other words, contains all required key-value pairs. It inserts an additional entry whose key is `FID` and whose value is an object of type `fontID`. The dictionary must be large enough to accommodate this additional entry. It makes the dictionary's access read-only. Finally, it associates `key` with `font` in the font directory.
 
-In Level 2, it is permissible to associate a font dictionary with more than one key. If `font` has already been registered, link:/docs/commands/references/definefont/[`definefont`] does not alter it in any way.
+In Level 2, it is permissible to associate a font dictionary with more than one key. If `font` has already been registered, link:/commands/references/definefont/[`definefont`] does not alter it in any way.
 
-If `font` is a composite font, link:/docs/commands/references/definefont/[`definefont`] also inserts the entries `MIDVector` and `CurMID`, and adds entries `PrefEnc`, `EscChar`, `ShiftIn`, and `ShiftOut` if they are required and are not already present. All the descendant fonts must have been registered by link:/docs/commands/references/definefont/[`definefont`] previously.
+If `font` is a composite font, link:/commands/references/definefont/[`definefont`] also inserts the entries `MIDVector` and `CurMID`, and adds entries `PrefEnc`, `EscChar`, `ShiftIn`, and `ShiftOut` if they are required and are not already present. All the descendant fonts must have been registered by link:/commands/references/definefont/[`definefont`] previously.
 
-Subsequent invocation of link:/docs/commands/references/findfont/[`findfont`] with `key` will return `font`. Font registration is subject to the normal semantics of VM. In particular, the lifetime of the definition depends on the VM allocation mode at the time link:/docs/commands/references/definefont/[`definefont`] is executed. A local definition can be undone by a subsequent `restore`.
+Subsequent invocation of link:/commands/references/findfont/[`findfont`] with `key` will return `font`. Font registration is subject to the normal semantics of VM. In particular, the lifetime of the definition depends on the VM allocation mode at the time link:/commands/references/definefont/[`definefont`] is executed. A local definition can be undone by a subsequent `restore`.
 
-link:/docs/commands/references/definefont/[`definefont`] is actually a special case of `defineresource` operating on the Font category.
+link:/commands/references/definefont/[`definefont`] is actually a special case of `defineresource` operating on the Font category.
 
 === Parameters
 
@@ -191,7 +191,7 @@ GlobalFontDirectory /MyFont known {
 
 === Font Registration Process
 
-link:/docs/commands/references/definefont/[`definefont`] performs these steps:
+link:/commands/references/definefont/[`definefont`] performs these steps:
 
 1. Validates font dictionary structure
 2. Checks required entries exist and are correct type
@@ -202,8 +202,8 @@ link:/docs/commands/references/definefont/[`definefont`] performs these steps:
 
 === See Also
 
-- link:/docs/commands/references/findfont/[`findfont`] - Obtain font dictionary by name
-- link:/docs/commands/references/undefinefont/[`undefinefont`] - Remove font from font directory
-- link:/docs/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor
-- link:/docs/commands/references/makefont/[`makefont`] - Transform font by matrix
-- link:/docs/commands/references/setfont/[`setfont`] - Establish current font
+- link:/commands/references/findfont/[`findfont`] - Obtain font dictionary by name
+- link:/commands/references/undefinefont/[`undefinefont`] - Remove font from font directory
+- link:/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor
+- link:/commands/references/makefont/[`makefont`] - Transform font by matrix
+- link:/commands/references/setfont/[`setfont`] - Establish current font

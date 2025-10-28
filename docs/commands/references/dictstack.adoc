@@ -37,7 +37,7 @@ array dictstack → subarray
 
 === Description
 
-link:/docs/commands/references/dictstack/[`dictstack`] stores all elements of the dictionary stack into _array_ and returns an object describing the initial n-element subarray, where n is the current depth of the dictionary stack.
+link:/commands/references/dictstack/[`dictstack`] stores all elements of the dictionary stack into _array_ and returns an object describing the initial n-element subarray, where n is the current depth of the dictionary stack.
 
 Dictionaries are copied in order:
 * Element 0 ← bottommost dictionary (systemdict)
@@ -159,7 +159,7 @@ countdictstack array dictstack  % Always correct size
 
 === See Also
 
-* link:/docs/commands/references/countdictstack/[`countdictstack`] - Get stack depth
-* link:/docs/commands/references/begin/[`begin`] - Push dictionary
-* link:/docs/commands/references/end/[`end`] - Pop dictionary
-* link:/docs/commands/references/currentdict/[`currentdict`] - Get current dictionary
+* link:/commands/references/countdictstack/[`countdictstack`] - Get stack depth
+* link:/commands/references/begin/[`begin`] - Push dictionary
+* link:/commands/references/end/[`end`] - Pop dictionary
+* link:/commands/references/currentdict/[`currentdict`] - Get current dictionary

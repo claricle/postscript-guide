@@ -37,9 +37,9 @@ Pops the current dictionary from the dictionary stack.
 
 === Description
 
-link:/docs/commands/references/end/[`end`] pops the current dictionary off the dictionary stack, making the dictionary below it the new current dictionary.
+link:/commands/references/end/[`end`] pops the current dictionary off the dictionary stack, making the dictionary below it the new current dictionary.
 
-If link:/docs/commands/references/end/[`end`] attempts to pop the bottommost instance of `userdict`, it executes [`dictstackunderflow`] error. The permanent dictionaries (`systemdict`, `globaldict`, `userdict`) cannot be removed.
+If link:/commands/references/end/[`end`] attempts to pop the bottommost instance of `userdict`, it executes [`dictstackunderflow`] error. The permanent dictionaries (`systemdict`, `globaldict`, `userdict`) cannot be removed.
 
 === PostScript Level
 
@@ -109,7 +109,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Unmatched end* - Executing link:/docs/commands/references/end/[`end`] without matching link:/docs/commands/references/begin/[`begin`] causes [`dictstackunderflow`].
+WARNING: *Unmatched end* - Executing link:/commands/references/end/[`end`] without matching link:/commands/references/begin/[`begin`] causes [`dictstackunderflow`].
 
 [source,postscript]
 ----
@@ -165,7 +165,7 @@ end  % Always match
 
 === See Also
 
-* link:/docs/commands/references/begin/[`begin`] - Push dictionary onto stack
-* link:/docs/commands/references/currentdict/[`currentdict`] - Get current dictionary
-* link:/docs/commands/references/countdictstack/[`countdictstack`] - Count stack depth
-* link:/docs/commands/references/dictstack/[`dictstack`] - Examine dictionary stack
+* link:/commands/references/begin/[`begin`] - Push dictionary onto stack
+* link:/commands/references/currentdict/[`currentdict`] - Get current dictionary
+* link:/commands/references/countdictstack/[`countdictstack`] - Count stack depth
+* link:/commands/references/dictstack/[`dictstack`] - Examine dictionary stack

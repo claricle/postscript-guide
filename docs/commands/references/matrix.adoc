@@ -37,7 +37,7 @@ Creates an identity transformation matrix.
 
 === Description
 
-link:/docs/commands/references/matrix/[`matrix`] creates a 6-element array object, fills it with the values of an identity matrix [1.0 0.0 0.0 1.0 0.0 0.0], and pushes this array on the operand stack.
+link:/commands/references/matrix/[`matrix`] creates a 6-element array object, fills it with the values of an identity matrix [1.0 0.0 0.0 1.0 0.0 0.0], and pushes this array on the operand stack.
 
 The array is allocated in local or global VM according to the current VM allocation mode.
 
@@ -122,7 +122,7 @@ savedCTM setmatrix   % Restore CTM
 
 === Common Pitfalls
 
-WARNING: *Not Just Array Creation* - link:/docs/commands/references/matrix/[`matrix`] creates an array AND fills it with identity matrix values.
+WARNING: *Not Just Array Creation* - link:/commands/references/matrix/[`matrix`] creates an array AND fills it with identity matrix values.
 
 [source,postscript]
 ----
@@ -155,7 +155,7 @@ myMatrix currentmatrix pop
 myMatrix 100 100 translate pop
 ----
 
-TIP: *Equivalent to Array Creation* - This is equivalent to link:/docs/commands/references/matrix/[`matrix`]:
+TIP: *Equivalent to Array Creation* - This is equivalent to link:/commands/references/matrix/[`matrix`]:
 
 [source,postscript]
 ----
@@ -253,10 +253,10 @@ matrix currentmatrix  % Get CTM into new matrix
 
 === See Also
 
-* link:/docs/commands/references/identmatrix/[`identmatrix`] - Initialize array as identity matrix
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current transformation matrix
-* link:/docs/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
-* link:/docs/commands/references/setmatrix/[`setmatrix`] - Set transformation matrix
-* link:/docs/commands/references/concat/[`concat`] - Concatenate matrix with CTM
-* link:/docs/commands/references/concatmatrix/[`concatmatrix`] - Multiply two matrices
-* link:/docs/commands/references/array/[`array`] - Create array
+* link:/commands/references/identmatrix/[`identmatrix`] - Initialize array as identity matrix
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current transformation matrix
+* link:/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
+* link:/commands/references/setmatrix/[`setmatrix`] - Set transformation matrix
+* link:/commands/references/concat/[`concat`] - Concatenate matrix with CTM
+* link:/commands/references/concatmatrix/[`concatmatrix`] - Multiply two matrices
+* link:/commands/references/array/[`array`] - Create array

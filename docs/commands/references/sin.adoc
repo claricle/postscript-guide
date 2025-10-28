@@ -67,8 +67,8 @@ WARNING: PostScript uses *degrees*, not radians!
 
 == Related Commands
 
-* link:/docs/commands/references/cos/[`cos`] - Cosine (degrees)
-* link:/docs/commands/references/atan/[`atan`] - Arctangent (returns degrees)
+* link:/commands/references/cos/[`cos`] - Cosine (degrees)
+* link:/commands/references/atan/[`atan`] - Arctangent (returns degrees)
 
 == PostScript Level
 
@@ -84,4 +84,4 @@ The operand is not a number.
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators

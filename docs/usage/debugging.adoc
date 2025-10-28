@@ -903,8 +903,8 @@ someValue debugType
 
 === See Also
 
-* link:/docs/usage/error-handling/[Error Handling] - Error management
-* link:/docs/usage/advanced/error-handling/[Advanced Error Handling] - Complex error scenarios
-* link:/docs/usage/advanced/resource-management/[Resource Management] - Memory debugging
-* link:/docs/usage/basic/stack-operations/[Stack Operations] - Stack manipulation
-* link:/docs/usage/basic/procedures/[Procedures] - Procedure debugging
+* link:/usage/error-handling/[Error Handling] - Error management
+* link:/usage/advanced/error-handling/[Advanced Error Handling] - Complex error scenarios
+* link:/usage/advanced/resource-management/[Resource Management] - Memory debugging
+* link:/usage/basic/stack-operations/[Stack Operations] - Stack manipulation
+* link:/usage/basic/procedures/[Procedures] - Procedure debugging

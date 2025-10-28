@@ -37,11 +37,11 @@ Converts the stroke of the current path to an outline path.
 
 === Description
 
-link:/docs/commands/references/strokepath/[`strokepath`] replaces the current path with one enclosing the shape that would result if the link:/docs/commands/references/stroke/[`stroke`] operator were applied to the current path. The path resulting from link:/docs/commands/references/strokepath/[`strokepath`] is suitable as the implicit operand to link:/docs/commands/references/fill/[`fill`], link:/docs/commands/references/clip/[`clip`], or `pathbbox`.
+link:/commands/references/strokepath/[`strokepath`] replaces the current path with one enclosing the shape that would result if the link:/commands/references/stroke/[`stroke`] operator were applied to the current path. The path resulting from link:/commands/references/strokepath/[`strokepath`] is suitable as the implicit operand to link:/commands/references/fill/[`fill`], link:/commands/references/clip/[`clip`], or `pathbbox`.
 
-In general, this path is not suitable for link:/docs/commands/references/stroke/[`stroke`], as it may contain interior segments or disconnected subpaths produced by link:/docs/commands/references/strokepath/[`strokepath`]'s stroke-to-outline conversion process.
+In general, this path is not suitable for link:/commands/references/stroke/[`stroke`], as it may contain interior segments or disconnected subpaths produced by link:/commands/references/strokepath/[`strokepath`]'s stroke-to-outline conversion process.
 
-link:/docs/commands/references/strokepath/[`strokepath`] uses the current line width, line cap, line join, miter limit, and dash pattern to determine the outline. Unlike link:/docs/commands/references/stroke/[`stroke`], link:/docs/commands/references/strokepath/[`strokepath`] does not consume the path—it modifies it in place.
+link:/commands/references/strokepath/[`strokepath`] uses the current line width, line cap, line join, miter limit, and dash pattern to determine the outline. Unlike link:/commands/references/stroke/[`stroke`], link:/commands/references/strokepath/[`strokepath`] does not consume the path—it modifies it in place.
 
 === PostScript Level
 
@@ -183,7 +183,7 @@ stroke  % May show interior segments
 fill    % Correct usage
 ----
 
-WARNING: *Path Not Consumed* - Unlike link:/docs/commands/references/stroke/[`stroke`], link:/docs/commands/references/strokepath/[`strokepath`] modifies the path in place.
+WARNING: *Path Not Consumed* - Unlike link:/commands/references/stroke/[`stroke`], link:/commands/references/strokepath/[`strokepath`] modifies the path in place.
 
 [source,postscript]
 ----
@@ -214,7 +214,7 @@ newpath
 strokepath  % Outline includes all effects
 ----
 
-TIP: *Use for Path Inspection* - link:/docs/commands/references/strokepath/[`strokepath`] makes the stroke boundary explicit:
+TIP: *Use for Path Inspection* - link:/commands/references/strokepath/[`strokepath`] makes the stroke boundary explicit:
 
 [source,postscript]
 ----
@@ -352,7 +352,7 @@ newpath
 
 === Performance Considerations
 
-* More complex than simple link:/docs/commands/references/stroke/[`stroke`]
+* More complex than simple link:/commands/references/stroke/[`stroke`]
 * Dash patterns significantly increase complexity
 * Round caps/joins create more path segments than butt/miter
 * Very wide lines create large outlines
@@ -403,14 +403,14 @@ fill
 
 === See Also
 
-* link:/docs/commands/references/stroke/[`stroke`] - Paint stroke directly
-* link:/docs/commands/references/fill/[`fill`] - Fill path interior
-* link:/docs/commands/references/clip/[`clip`] - Use path for clipping
-* link:/docs/commands/references/ustrokepath/[`ustrokepath`] - Stroke path for user path (Level 2)
+* link:/commands/references/stroke/[`stroke`] - Paint stroke directly
+* link:/commands/references/fill/[`fill`] - Fill path interior
+* link:/commands/references/clip/[`clip`] - Use path for clipping
+* link:/commands/references/ustrokepath/[`ustrokepath`] - Stroke path for user path (Level 2)
 * `pathbbox` - Get path bounding box
 * `flattenpath` - Convert curves to lines
-* link:/docs/commands/references/setlinewidth/[`setlinewidth`] - Set line width
-* link:/docs/commands/references/setlinecap/[`setlinecap`] - Set line cap style
-* link:/docs/commands/references/setlinejoin/[`setlinejoin`] - Set line join style
-* link:/docs/commands/references/setmiterlimit/[`setmiterlimit`] - Set miter limit
-* link:/docs/commands/references/setdash/[`setdash`] - Set dash pattern
+* link:/commands/references/setlinewidth/[`setlinewidth`] - Set line width
+* link:/commands/references/setlinecap/[`setlinecap`] - Set line cap style
+* link:/commands/references/setlinejoin/[`setlinejoin`] - Set line join style
+* link:/commands/references/setmiterlimit/[`setmiterlimit`] - Set miter limit
+* link:/commands/references/setdash/[`setdash`] - Set dash pattern
