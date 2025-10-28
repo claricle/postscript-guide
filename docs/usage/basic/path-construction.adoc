@@ -983,10 +983,10 @@ newpath
 
 === See Also
 
-* link:/docs/usage/basic/painting/[Painting] - Rendering paths
-* link:/docs/usage/basic/coordinate-systems/[Coordinate Systems] - User space coordinates
-* link:/docs/commands/references/[Path Construction Commands] - Complete command reference
-* link:/docs/commands/references/moveto/[moveto] - Move to point
-* link:/docs/commands/references/lineto/[lineto] - Draw line
-* link:/docs/commands/references/arc/[arc] - Draw arc
-* link:/docs/commands/references/curveto/[curveto] - Draw curve
+* link:/usage/basic/painting/[Painting] - Rendering paths
+* link:/usage/basic/coordinate-systems/[Coordinate Systems] - User space coordinates
+* link:/commands/references/[Path Construction Commands] - Complete command reference
+* link:/commands/references/moveto/[moveto] - Move to point
+* link:/commands/references/lineto/[lineto] - Draw line
+* link:/commands/references/arc/[arc] - Draw arc
+* link:/commands/references/curveto/[curveto] - Draw curve

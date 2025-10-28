@@ -37,13 +37,13 @@ Intersects the current clipping path with the current path using the non-zero wi
 
 === Description
 
-link:/docs/commands/references/clip/[`clip`] intersects the inside of the current clipping path with the inside of the current path to produce a new, smaller current clipping path. The inside of the current path is determined by the normal PostScript non-zero winding number rule, while the inside of the current clipping path is determined by whatever rule was used at the time that path was created.
+link:/commands/references/clip/[`clip`] intersects the inside of the current clipping path with the inside of the current path to produce a new, smaller current clipping path. The inside of the current path is determined by the normal PostScript non-zero winding number rule, while the inside of the current clipping path is determined by whatever rule was used at the time that path was created.
 
-In general, link:/docs/commands/references/clip/[`clip`] produces a new path whose inside (according to the non-zero winding number rule) consists of all areas that are inside both of the original paths. The way this new path is constructed (the order of its segments, whether it self-intersects, etc.) is not specified.
+In general, link:/commands/references/clip/[`clip`] produces a new path whose inside (according to the non-zero winding number rule) consists of all areas that are inside both of the original paths. The way this new path is constructed (the order of its segments, whether it self-intersects, etc.) is not specified.
 
-link:/docs/commands/references/clip/[`clip`] treats an open subpath of the current path as though it were closed; it does not actually alter the path itself. It is permissible for the current path to be empty. The result of executing link:/docs/commands/references/clip/[`clip`] is always a non-empty clipping path, though it may enclose zero area.
+link:/commands/references/clip/[`clip`] treats an open subpath of the current path as though it were closed; it does not actually alter the path itself. It is permissible for the current path to be empty. The result of executing link:/commands/references/clip/[`clip`] is always a non-empty clipping path, though it may enclose zero area.
 
-Unlike link:/docs/commands/references/fill/[`fill`] and link:/docs/commands/references/stroke/[`stroke`], link:/docs/commands/references/clip/[`clip`] does not implicitly perform a link:/docs/commands/references/newpath/[`newpath`] after it has finished using the current path.
+Unlike link:/commands/references/fill/[`fill`] and link:/commands/references/stroke/[`stroke`], link:/commands/references/clip/[`clip`] does not implicitly perform a link:/commands/references/newpath/[`newpath`] after it has finished using the current path.
 
 === PostScript Level
 
@@ -116,7 +116,7 @@ newpath
 gsave
   % Create mask
   newpath
-  100 100 80 60 link:/docs/commands/references/arc/[`arc`]
+  100 100 80 60 link:/commands/references/arc/[`arc`]
   closepath
   clip
   newpath
@@ -168,22 +168,22 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Clipping Can Only Shrink* - There is no way to enlarge the current clipping path except by link:/docs/commands/references/grestore/[`grestore`] or `initclip`.
+WARNING: *Clipping Can Only Shrink* - There is no way to enlarge the current clipping path except by link:/commands/references/grestore/[`grestore`] or `initclip`.
 
 [source,postscript]
 ----
 % First clip
 newpath
-50 50 100 100 link:/docs/commands/references/arc/[`arc`]
+50 50 100 100 link:/commands/references/arc/[`arc`]
 clip
 
 % Can't expand beyond this
 newpath
-0 0 200 200 link:/docs/commands/references/arc/[`arc`]
+0 0 200 200 link:/commands/references/arc/[`arc`]
 clip  % Still limited to intersection
 ----
 
-WARNING: *Path Not Cleared After clip* - Unlike link:/docs/commands/references/fill/[`fill`] and link:/docs/commands/references/stroke/[`stroke`], the path remains after link:/docs/commands/references/clip/[`clip`].
+WARNING: *Path Not Cleared After clip* - Unlike link:/commands/references/fill/[`fill`] and link:/commands/references/stroke/[`stroke`], the path remains after link:/commands/references/clip/[`clip`].
 
 [source,postscript]
 ----
@@ -238,7 +238,7 @@ grestore
 === Implementation Notes
 
 * The clipping path is maintained separately from the current path
-* Clipping is applied during rendering of link:/docs/commands/references/fill/[`fill`], link:/docs/commands/references/stroke/[`stroke`], `show`, etc.
+* Clipping is applied during rendering of link:/commands/references/fill/[`fill`], link:/commands/references/stroke/[`stroke`], `show`, etc.
 * Complex clipping paths may degrade rendering performance
 * The clipping path can become arbitrarily complex through repeated clips
 * Some implementations may have limits on clipping path complexity
@@ -247,22 +247,22 @@ grestore
 
 The clipping path is part of the graphics state and is affected by:
 
-* link:/docs/commands/references/gsave/[`gsave`] - Saves current clipping path
-* link:/docs/commands/references/grestore/[`grestore`] - Restores saved clipping path
+* link:/commands/references/gsave/[`gsave`] - Saves current clipping path
+* link:/commands/references/grestore/[`grestore`] - Restores saved clipping path
 * `initclip` - Resets to device default
 * `save`/`restore` - Saves/restores with VM state
 
 The clipping path affects:
 
-* link:/docs/commands/references/fill/[`fill`] and link:/docs/commands/references/eofill/[`eofill`] - Clip filled area
-* link:/docs/commands/references/stroke/[`stroke`] - Clip stroked lines
+* link:/commands/references/fill/[`fill`] and link:/commands/references/eofill/[`eofill`] - Clip filled area
+* link:/commands/references/stroke/[`stroke`] - Clip stroked lines
 * `show` and text operators - Clip character outlines
 * `image` and `imagemask` - Clip images
 * All painting operations
 
 === Winding Number Rule
 
-link:/docs/commands/references/clip/[`clip`] uses the non-zero winding number rule:
+link:/commands/references/clip/[`clip`] uses the non-zero winding number rule:
 
 . Draw a ray from the point in any direction
 . Count crossings with path segments:
@@ -281,7 +281,7 @@ This means path direction matters and can create solid fills from complex paths.
 % Good practice
 gsave
   newpath
-  100 100 80 60 link:/docs/commands/references/arc/[`arc`]
+  100 100 80 60 link:/commands/references/arc/[`arc`]
   closepath
   clip
   newpath
@@ -381,14 +381,14 @@ grestore
 gsave
   % Outer clip
   newpath
-  50 50 200 200 link:/docs/commands/references/arc/[`arc`]
+  50 50 200 200 link:/commands/references/arc/[`arc`]
   clip
   newpath
 
   gsave
     % Inner clip (intersection)
     newpath
-    100 100 100 100 link:/docs/commands/references/arc/[`arc`]
+    100 100 100 100 link:/commands/references/arc/[`arc`]
     clip
     newpath
 
@@ -404,13 +404,13 @@ grestore
 
 === See Also
 
-* link:/docs/commands/references/eoclip/[`eoclip`] - Clip using even-odd rule
-* link:/docs/commands/references/clippath/[`clippath`] - Get current clipping path
+* link:/commands/references/eoclip/[`eoclip`] - Clip using even-odd rule
+* link:/commands/references/clippath/[`clippath`] - Get current clipping path
 * `rectclip` - Clip to rectangles (Level 2)
 * `initclip` - Reset to device default
-* link:/docs/commands/references/fill/[`fill`] - Fill path
-* link:/docs/commands/references/stroke/[`stroke`] - Stroke path
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
-* link:/docs/commands/references/newpath/[`newpath`] - Clear current path
-* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/commands/references/fill/[`fill`] - Fill path
+* link:/commands/references/stroke/[`stroke`] - Stroke path
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/newpath/[`newpath`] - Clear current path
+* link:/commands/references/closepath/[`closepath`] - Close current subpath

@@ -25,25 +25,25 @@ Each command page includes:
 
 == Navigation
 
-Use the sidebar navigation to browse commands alphabetically, or visit the link:/docs/commands/by-category/[Commands by Category] page to find operators organized by functional area.
+Use the sidebar navigation to browse commands alphabetically, or visit the link:/commands/by-category/[Commands by Category] page to find operators organized by functional area.
 
 == Command Categories
 
 For commands organized by functional area, see:
 
-* link:/docs/commands/arithmetic-math/[Arithmetic and Math]
-* link:/docs/commands/array-string/[Array and String Operations]
-* link:/docs/commands/control-flow/[Control Flow]
-* link:/docs/commands/dictionary/[Dictionary Operations]
-* link:/docs/commands/font-text/[Font and Text]
-* link:/docs/commands/graphics-state/[Graphics State]
-* link:/docs/commands/painting/[Painting]
-* link:/docs/commands/path-construction/[Path Construction]
-* link:/docs/commands/stack-manipulation/[Stack Manipulation]
-* link:/docs/commands/transformations/[Coordinate Transformations]
-* link:/docs/commands/color/[Color]
-* link:/docs/commands/image/[Image]
-* link:/docs/commands/device-output/[Device and Output]
-* link:/docs/commands/file-io/[File and I/O]
-* link:/docs/commands/error-handling/[Error Handling]
-* link:/docs/commands/resource-management/[Resource Management]
+* link:/commands/arithmetic-math/[Arithmetic and Math]
+* link:/commands/array-string/[Array and String Operations]
+* link:/commands/control-flow/[Control Flow]
+* link:/commands/dictionary/[Dictionary Operations]
+* link:/commands/font-text/[Font and Text]
+* link:/commands/graphics-state/[Graphics State]
+* link:/commands/painting/[Painting]
+* link:/commands/path-construction/[Path Construction]
+* link:/commands/stack-manipulation/[Stack Manipulation]
+* link:/commands/transformations/[Coordinate Transformations]
+* link:/commands/color/[Color]
+* link:/commands/image/[Image]
+* link:/commands/device-output/[Device and Output]
+* link:/commands/file-io/[File and I/O]
+* link:/commands/error-handling/[Error Handling]
+* link:/commands/resource-management/[Resource Management]

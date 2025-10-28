@@ -37,7 +37,7 @@ Restores graphics state to bottommost saved level.
 
 === Description
 
-link:/docs/commands/references/grestoreall/[`grestoreall`] performs the equivalent of executing link:/docs/commands/references/grestore/[`grestore`] repeatedly until there are no saved graphics states remaining on the graphics state stack. After executing link:/docs/commands/references/grestoreall/[`grestoreall`], the current graphics state is the bottommost one that was saved by the first link:/docs/commands/references/gsave/[`gsave`] or by link:../resource-management/save/[`save`].
+link:/commands/references/grestoreall/[`grestoreall`] performs the equivalent of executing link:/commands/references/grestore/[`grestore`] repeatedly until there are no saved graphics states remaining on the graphics state stack. After executing link:/commands/references/grestoreall/[`grestoreall`], the current graphics state is the bottommost one that was saved by the first link:/commands/references/gsave/[`gsave`] or by link:/commands/references/save/[`save`].
 
 This operator:
 
@@ -46,7 +46,7 @@ This operator:
 * Resets the current path to empty
 * Does not affect the operand or dictionary stacks
 
-link:/docs/commands/references/grestoreall/[`grestoreall`] is particularly useful for error recovery and cleanup, ensuring a known graphics state regardless of how many link:/docs/commands/references/gsave/[`gsave`] operations have been performed.
+link:/commands/references/grestoreall/[`grestoreall`] is particularly useful for error recovery and cleanup, ensuring a known graphics state regardless of how many link:/commands/references/gsave/[`gsave`] operations have been performed.
 
 === PostScript Level
 
@@ -176,7 +176,7 @@ grestoreall  % All undone at once
 
 === Common Pitfalls
 
-WARNING: *Clears ALL Saved States* - link:/docs/commands/references/grestoreall/[`grestoreall`] removes all graphics states, not just one.
+WARNING: *Clears ALL Saved States* - link:/commands/references/grestoreall/[`grestoreall`] removes all graphics states, not just one.
 
 [source,postscript]
 ----
@@ -198,7 +198,7 @@ grestoreall
 % Stack: 1 2 3 4 5 6 (not 1 2 3)
 ----
 
-WARNING: *Current Path Reset* - Like link:/docs/commands/references/grestore/[`grestore`], the current path becomes empty.
+WARNING: *Current Path Reset* - Like link:/commands/references/grestore/[`grestore`], the current path becomes empty.
 
 [source,postscript]
 ----
@@ -212,11 +212,11 @@ TIP: *Use for Error Handling* - Ideal for ensuring clean state after errors.
 
 === Error Conditions
 
-No errors under normal operation. link:/docs/commands/references/grestoreall/[`grestoreall`] succeeds even if no graphics states were saved.
+No errors under normal operation. link:/commands/references/grestoreall/[`grestoreall`] succeeds even if no graphics states were saved.
 
 === Implementation Notes
 
-* Equivalent to repeated link:/docs/commands/references/grestore/[`grestore`] until no saved states remain
+* Equivalent to repeated link:/commands/references/grestore/[`grestore`] until no saved states remain
 * Very fast operation
 * Safe to call even if no states are saved
 * Does not generate errors
@@ -243,7 +243,7 @@ Saved State 0          ← current (bottommost)
 
 === Interaction with save/restore
 
-link:/docs/commands/references/grestoreall/[`grestoreall`] restores graphics state to the bottommost level **within the current save context**. It does not cross link:../resource-management/save/[`save`] boundaries:
+link:/commands/references/grestoreall/[`grestoreall`] restores graphics state to the bottommost level **within the current save context**. It does not cross link:/commands/references/save/[`save`] boundaries:
 
 [source,postscript]
 ----
@@ -258,8 +258,8 @@ restore            % Returns to before save
 
 === See Also
 
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore one graphics state
-* link:/docs/commands/references/gstate/[`gstate`] - Create graphics state object
-* link:/docs/commands/references/setgstate/[`setgstate`] - Set graphics state from object
-* link:/docs/commands/references/stopped/[`stopped`] - Error handling
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore one graphics state
+* link:/commands/references/gstate/[`gstate`] - Create graphics state object
+* link:/commands/references/setgstate/[`setgstate`] - Set graphics state from object
+* link:/commands/references/stopped/[`stopped`] - Error handling

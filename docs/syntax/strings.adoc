@@ -929,14 +929,14 @@ Interpolate                % Returns (Hello, World!)
 
 === See Also
 
-* link:/docs/syntax/tokens/[Tokens] - String token syntax
-* link:/docs/syntax/arrays/[Arrays] - Similar indexed structure
-* link:/docs/syntax/objects/[Objects] - String object model
-* link:/docs/syntax/data-types/[Data Types] - String type details
-* link:/docs/commands/references/string/[string] - Create strings
-* link:/docs/commands/references/get/[get] - Access bytes
-* link:/docs/commands/references/put/[put] - Modify bytes
-* link:/docs/commands/references/search/[search] - Find substrings
-* link:/docs/commands/references/anchorsearch/[anchorsearch] - Prefix search
-* link:/docs/commands/references/cvs/[cvs] - Convert to string
-* link:/docs/syntax/[Language Syntax Overview]
+* link:/syntax/tokens/[Tokens] - String token syntax
+* link:/syntax/arrays/[Arrays] - Similar indexed structure
+* link:/syntax/objects/[Objects] - String object model
+* link:/syntax/data-types/[Data Types] - String type details
+* link:/commands/references/string/[string] - Create strings
+* link:/commands/references/get/[get] - Access bytes
+* link:/commands/references/put/[put] - Modify bytes
+* link:/commands/references/search/[search] - Find substrings
+* link:/commands/references/anchorsearch/[anchorsearch] - Prefix search
+* link:/commands/references/cvs/[cvs] - Convert to string
+* link:/syntax/[Language Syntax Overview]

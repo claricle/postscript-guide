@@ -10,7 +10,7 @@ Returns the current state of the random number generator.
 
 == Description
 
-The `rrand` operator returns an integer representing the current state of the random number generator used by link:/docs/commands/references/rand/[`rand`]. This state value can later be passed to link:/docs/commands/references/srand/[`srand`] to restore the generator to this exact position in its sequence, allowing you to reproduce or continue a specific random sequence.
+The `rrand` operator returns an integer representing the current state of the random number generator used by link:/commands/references/rand/[`rand`]. This state value can later be passed to link:/commands/references/srand/[`srand`] to restore the generator to this exact position in its sequence, allowing you to reproduce or continue a specific random sequence.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -89,8 +89,8 @@ rand           % Same sequence as after saved state
 
 == Related Commands
 
-* link:/docs/commands/references/rand/[`rand`] - Generate random integer
-* link:/docs/commands/references/srand/[`srand`] - Seed random generator
+* link:/commands/references/rand/[`rand`] - Generate random integer
+* link:/commands/references/srand/[`srand`] - Seed random generator
 
 == PostScript Level
 
@@ -109,4 +109,4 @@ The operand stack is full (cannot push result).
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators

@@ -37,9 +37,9 @@ Intersects the current clipping path with the current path using the even-odd ru
 
 === Description
 
-link:/docs/commands/references/eoclip/[`eoclip`] intersects the inside of the current clipping path with the inside of the current path to produce a new, smaller current clipping path. The inside of the current path is determined by the even-odd rule, while the inside of the current clipping path is determined by whatever rule was used at the time that path was created.
+link:/commands/references/eoclip/[`eoclip`] intersects the inside of the current clipping path with the inside of the current path to produce a new, smaller current clipping path. The inside of the current path is determined by the even-odd rule, while the inside of the current clipping path is determined by whatever rule was used at the time that path was created.
 
-Except for the choice of insideness rule, the behavior of link:/docs/commands/references/eoclip/[`eoclip`] is identical to that of link:/docs/commands/references/clip/[`clip`].
+Except for the choice of insideness rule, the behavior of link:/commands/references/eoclip/[`eoclip`] is identical to that of link:/commands/references/clip/[`clip`].
 
 The even-odd rule determines whether a point is inside by counting path crossings: an odd number means inside, an even number means outside. This rule is particularly useful for creating clipping regions with holes.
 
@@ -209,7 +209,7 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Different Results from clip* - The even-odd rule produces different results than the non-zero winding number rule used by link:/docs/commands/references/clip/[`clip`].
+WARNING: *Different Results from clip* - The even-odd rule produces different results than the non-zero winding number rule used by link:/commands/references/clip/[`clip`].
 
 [source,postscript]
 ----
@@ -240,7 +240,7 @@ gsave
 grestore
 ----
 
-WARNING: *Path Direction Irrelevant* - Unlike link:/docs/commands/references/clip/[`clip`], the direction paths are drawn doesn't matter with link:/docs/commands/references/eoclip/[`eoclip`].
+WARNING: *Path Direction Irrelevant* - Unlike link:/commands/references/clip/[`clip`], the direction paths are drawn doesn't matter with link:/commands/references/eoclip/[`eoclip`].
 
 [source,postscript]
 ----
@@ -253,7 +253,7 @@ eoclip  % Always creates hole regardless of direction
 newpath
 ----
 
-WARNING: *Path Not Cleared* - Like link:/docs/commands/references/clip/[`clip`], link:/docs/commands/references/eoclip/[`eoclip`] does not clear the path.
+WARNING: *Path Not Cleared* - Like link:/commands/references/clip/[`clip`], link:/commands/references/eoclip/[`eoclip`] does not clear the path.
 
 [source,postscript]
 ----
@@ -265,7 +265,7 @@ eoclip
 newpath
 ----
 
-TIP: *Use for Predictable Holes* - link:/docs/commands/references/eoclip/[`eoclip`] is ideal for creating holes regardless of path direction:
+TIP: *Use for Predictable Holes* - link:/commands/references/eoclip/[`eoclip`] is ideal for creating holes regardless of path direction:
 
 [source,postscript]
 ----
@@ -303,7 +303,7 @@ grestore
 
 === Even-Odd Rule Details
 
-The even-odd rule for link:/docs/commands/references/eoclip/[`eoclip`]:
+The even-odd rule for link:/commands/references/eoclip/[`eoclip`]:
 
 . Draw a ray from the point in any direction
 . Count the number of path segment crossings
@@ -364,12 +364,12 @@ newpath  % Important!
 gsave
   newpath
   % Border
-  0 0 200 200 link:/docs/commands/references/arc/[`arc`] closepath
+  0 0 200 200 link:/commands/references/arc/[`arc`] closepath
   % Holes (any direction works)
-  50 50 30 30 link:/docs/commands/references/arc/[`arc`] closepath
-  150 50 30 30 link:/docs/commands/references/arc/[`arc`] closepath
-  50 150 30 30 link:/docs/commands/references/arc/[`arc`] closepath
-  150 150 30 30 link:/docs/commands/references/arc/[`arc`] closepath
+  50 50 30 30 link:/commands/references/arc/[`arc`] closepath
+  150 50 30 30 link:/commands/references/arc/[`arc`] closepath
+  50 150 30 30 link:/commands/references/arc/[`arc`] closepath
+  150 150 30 30 link:/commands/references/arc/[`arc`] closepath
 
   eoclip
   newpath
@@ -381,14 +381,14 @@ grestore
 
 === Comparing Even-Odd vs Non-Zero Winding
 
-.Even-Odd Rule (link:/docs/commands/references/eoclip/[`eoclip`])
+.Even-Odd Rule (link:/commands/references/eoclip/[`eoclip`])
 * Counts crossings: odd = inside, even = outside
 * Path direction doesn't matter
 * Simple to understand and predict
 * Natural for regions with holes
 * Alternating pattern for overlapping paths
 
-.Non-Zero Winding Rule (link:/docs/commands/references/clip/[`clip`])
+.Non-Zero Winding Rule (link:/commands/references/clip/[`clip`])
 * Counts direction of crossings
 * Path direction matters
 * More complex but more flexible
@@ -462,12 +462,12 @@ grestore
 
 === See Also
 
-* link:/docs/commands/references/clip/[`clip`] - Clip using non-zero winding rule
-* link:/docs/commands/references/clippath/[`clippath`] - Get current clipping path
-* link:/docs/commands/references/eofill/[`eofill`] - Fill using even-odd rule
+* link:/commands/references/clip/[`clip`] - Clip using non-zero winding rule
+* link:/commands/references/clippath/[`clippath`] - Get current clipping path
+* link:/commands/references/eofill/[`eofill`] - Fill using even-odd rule
 * `rectclip` - Clip to rectangles (Level 2)
 * `initclip` - Reset to device default
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
-* link:/docs/commands/references/newpath/[`newpath`] - Clear current path
-* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/newpath/[`newpath`] - Clear current path
+* link:/commands/references/closepath/[`closepath`] - Close current subpath

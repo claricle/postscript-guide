@@ -245,10 +245,10 @@ The operand must be numeric (integer or real). Other types will cause a `typeche
 
 == Related Commands
 
-* link:/docs/commands/references/ceiling/[`ceiling`] - Round up to integer
-* link:/docs/commands/references/round/[`round`] - Round to nearest integer
-* link:/docs/commands/references/truncate/[`truncate`] - Truncate toward zero
-* link:/docs/commands/references/div/[`div`] - Division (returns real)
+* link:/commands/references/ceiling/[`ceiling`] - Round up to integer
+* link:/commands/references/round/[`round`] - Round to nearest integer
+* link:/commands/references/truncate/[`truncate`] - Truncate toward zero
+* link:/commands/references/div/[`div`] - Division (returns real)
 
 == PostScript Level
 
@@ -331,5 +331,5 @@ The `floor` operator is fast:
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
-* link:/docs/levels/[PostScript Language Levels]
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/levels/[PostScript Language Levels]

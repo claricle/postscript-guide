@@ -1175,7 +1175,7 @@ file string readline {
 
 === See Also
 
-* link:/docs/usage/advanced/error-handling/[Error Handling] - File operation errors
-* link:/docs/usage/advanced/resource-management/[Resource Management] - Managing file resources
-* link:/docs/usage/basic/procedures/[Procedures] - File processing procedures
-* link:/docs/commands/[Command Reference] - File operators
+* link:/usage/advanced/error-handling/[Error Handling] - File operation errors
+* link:/usage/advanced/resource-management/[Resource Management] - Managing file resources
+* link:/usage/basic/procedures/[Procedures] - File processing procedures
+* link:/commands/[Command Reference] - File operators

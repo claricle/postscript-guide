@@ -40,13 +40,13 @@ matrix1 matrix2 invertmatrix → matrix2
 
 === Description
 
-link:/docs/commands/references/invertmatrix/[`invertmatrix`] replaces the value of `matrix2` with the inverse of `matrix1` and pushes the modified `matrix2` back on the operand stack.
+link:/commands/references/invertmatrix/[`invertmatrix`] replaces the value of `matrix2` with the inverse of `matrix1` and pushes the modified `matrix2` back on the operand stack.
 
 The inverse matrix has the property that if `matrix1` transforms a coordinate (x, y) to (x', y'), then `matrix2` transforms (x', y') back to (x, y).
 
 Mathematically: M₁ × M₂ = M₂ × M₁ = I (identity matrix)
 
-If `matrix1` is singular (determinant = 0), link:/docs/commands/references/invertmatrix/[`invertmatrix`] executes an [`undefinedresult`] error because the inverse does not exist.
+If `matrix1` is singular (determinant = 0), link:/commands/references/invertmatrix/[`invertmatrix`] executes an [`undefinedresult`] error because the inverse does not exist.
 
 === PostScript Level
 
@@ -182,7 +182,7 @@ myMatrix checkMatrix {
 } if
 ----
 
-TIP: *Use for Coordinate Conversion* - Primary use is with link:/docs/commands/references/itransform/[`itransform`] and link:/docs/commands/references/idtransform/[`idtransform`]:
+TIP: *Use for Coordinate Conversion* - Primary use is with link:/commands/references/itransform/[`itransform`] and link:/commands/references/idtransform/[`idtransform`]:
 
 [source,postscript]
 ----
@@ -308,7 +308,7 @@ myMatrix determinant 0 eq {
 
 === Relationship to Transform Operators
 
-link:/docs/commands/references/invertmatrix/[`invertmatrix`] is used with inverse transformation operators:
+link:/commands/references/invertmatrix/[`invertmatrix`] is used with inverse transformation operators:
 
 [source,postscript]
 ----
@@ -324,8 +324,8 @@ fwd inv invertmatrix
 
 === See Also
 
-* link:/docs/commands/references/concatmatrix/[`concatmatrix`] - Multiply two matrices
-* link:/docs/commands/references/itransform/[`itransform`] - Inverse coordinate transformation
-* link:/docs/commands/references/idtransform/[`idtransform`] - Inverse distance transformation
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
-* link:/docs/commands/references/matrix/[`matrix`] - Create identity matrix
+* link:/commands/references/concatmatrix/[`concatmatrix`] - Multiply two matrices
+* link:/commands/references/itransform/[`itransform`] - Inverse coordinate transformation
+* link:/commands/references/idtransform/[`idtransform`] - Inverse distance transformation
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/commands/references/matrix/[`matrix`] - Create identity matrix

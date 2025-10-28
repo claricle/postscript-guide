@@ -46,11 +46,11 @@ Returns current color as CMYK values.
 
 === Description
 
-link:/docs/commands/references/currentcmykcolor/[`currentcmykcolor`] returns the current color in the graphics state according to the cyan-magenta-yellow-black color space.
+link:/commands/references/currentcmykcolor/[`currentcmykcolor`] returns the current color in the graphics state according to the cyan-magenta-yellow-black color space.
 
-* If the current color space is **DeviceCMYK**, link:/docs/commands/references/currentcmykcolor/[`currentcmykcolor`] returns the color values most recently specified by link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] or [`setcolor`].
-* If the current color space is **DeviceRGB** or **DeviceGray**, link:/docs/commands/references/currentcmykcolor/[`currentcmykcolor`] converts the current color to CMYK.
-* For any other color space, link:/docs/commands/references/currentcmykcolor/[`currentcmykcolor`] returns **0.0 0.0 0.0 1.0** (black).
+* If the current color space is **DeviceCMYK**, link:/commands/references/currentcmykcolor/[`currentcmykcolor`] returns the color values most recently specified by link:/commands/references/setcmykcolor/[`setcmykcolor`] or [`setcolor`].
+* If the current color space is **DeviceRGB** or **DeviceGray**, link:/commands/references/currentcmykcolor/[`currentcmykcolor`] converts the current color to CMYK.
+* For any other color space, link:/commands/references/currentcmykcolor/[`currentcmykcolor`] returns **0.0 0.0 0.0 1.0** (black).
 
 Each returned value is in the range 0.0 (no ink) to 1.0 (full ink coverage).
 
@@ -285,7 +285,7 @@ No components     = White (paper)
 
 === See Also
 
-* link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] - Set CMYK color (Level 2)
-* link:/docs/commands/references/currentrgbcolor/[`currentrgbcolor`] - Get RGB color
-* link:/docs/commands/references/currentgray/[`currentgray`] - Get gray value
-* link:/docs/commands/references/currenthsbcolor/[`currenthsbcolor`] - Get HSB color
+* link:/commands/references/setcmykcolor/[`setcmykcolor`] - Set CMYK color (Level 2)
+* link:/commands/references/currentrgbcolor/[`currentrgbcolor`] - Get RGB color
+* link:/commands/references/currentgray/[`currentgray`] - Get gray value
+* link:/commands/references/currenthsbcolor/[`currenthsbcolor`] - Get HSB color

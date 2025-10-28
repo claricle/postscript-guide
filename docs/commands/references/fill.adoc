@@ -37,11 +37,11 @@ Paints the area enclosed by the current path with the current color.
 
 === Description
 
-link:/docs/commands/references/fill/[`fill`] paints the area enclosed by the current path with the current color. Any previous contents of that area on the current page are obscured, so areas may be erased by filling with color set to white.
+link:/commands/references/fill/[`fill`] paints the area enclosed by the current path with the current color. Any previous contents of that area on the current page are obscured, so areas may be erased by filling with color set to white.
 
-Before painting, link:/docs/commands/references/fill/[`fill`] implicitly closes any open subpaths of the current path. The inside of the current path is determined by the normal non-zero winding number rule.
+Before painting, link:/commands/references/fill/[`fill`] implicitly closes any open subpaths of the current path. The inside of the current path is determined by the normal non-zero winding number rule.
 
-link:/docs/commands/references/fill/[`fill`] implicitly performs a link:/docs/commands/references/newpath/[`newpath`] after it has finished filling the current path. To preserve the current path across a fill operation, use the sequence:
+link:/commands/references/fill/[`fill`] implicitly performs a link:/commands/references/newpath/[`newpath`] after it has finished filling the current path. To preserve the current path across a fill operation, use the sequence:
 
 [source,postscript]
 ----
@@ -172,7 +172,7 @@ fill  % Both rectangles filled (non-zero winding rule)
 
 === Common Pitfalls
 
-WARNING: *Path Consumed After Fill* - link:/docs/commands/references/fill/[`fill`] clears the current path after execution. Use link:/docs/commands/references/gsave/[`gsave`] and link:/docs/commands/references/grestore/[`grestore`] to preserve it.
+WARNING: *Path Consumed After Fill* - link:/commands/references/fill/[`fill`] clears the current path after execution. Use link:/commands/references/gsave/[`gsave`] and link:/commands/references/grestore/[`grestore`] to preserve it.
 
 [source,postscript]
 ----
@@ -223,7 +223,7 @@ stroke
 
 === Implementation Notes
 
-* link:/docs/commands/references/fill/[`fill`] uses the non-zero winding number rule to determine which areas are inside the path
+* link:/commands/references/fill/[`fill`] uses the non-zero winding number rule to determine which areas are inside the path
 * Overlapping subpaths may create holes or fills depending on their direction
 * The current color and color space determine the fill color
 * Clipping is applied after the fill area is determined
@@ -231,14 +231,14 @@ stroke
 
 === Interaction with Graphics State
 
-link:/docs/commands/references/fill/[`fill`] is affected by:
+link:/commands/references/fill/[`fill`] is affected by:
 
 * Current color and color space
 * Current clipping path
 * Current transformation matrix (CTM)
 * Flatness parameter (for curved paths)
 
-link:/docs/commands/references/fill/[`fill`] does not affect:
+link:/commands/references/fill/[`fill`] does not affect:
 
 * Line width or line parameters
 * Current point (path is cleared)
@@ -306,11 +306,11 @@ fill
 
 === See Also
 
-* link:/docs/commands/references/eofill/[`eofill`] - Fill using even-odd rule
-* link:/docs/commands/references/stroke/[`stroke`] - Paint path outline
-* link:/docs/commands/references/clip/[`clip`] - Clip to path interior
-* link:/docs/commands/references/ufill/[`ufill`] - Fill user path (Level 2)
-* link:/docs/commands/references/newpath/[`newpath`] - Clear current path
-* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
-* link:/docs/commands/references/setgray/[`setgray`] - Set gray color
-* link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
+* link:/commands/references/eofill/[`eofill`] - Fill using even-odd rule
+* link:/commands/references/stroke/[`stroke`] - Paint path outline
+* link:/commands/references/clip/[`clip`] - Clip to path interior
+* link:/commands/references/ufill/[`ufill`] - Fill user path (Level 2)
+* link:/commands/references/newpath/[`newpath`] - Clear current path
+* link:/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/commands/references/setgray/[`setgray`] - Set gray color
+* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color

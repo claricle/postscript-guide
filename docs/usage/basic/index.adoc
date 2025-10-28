@@ -30,7 +30,7 @@ exch           % Stack: 10 20 30 30
 pop            % Stack: 10 20 30
 ----
 
-See link:/docs/commands/references/[Stack Manipulation Commands] for complete reference.
+See link:/commands/references/[Stack Manipulation Commands] for complete reference.
 
 === Coordinate Systems
 
@@ -63,7 +63,7 @@ gsave                % Save state
 grestore             % Restore state
 ----
 
-See link:/docs/commands/references/[Graphics State Commands].
+See link:/commands/references/[Graphics State Commands].
 
 === Path Construction
 
@@ -138,6 +138,6 @@ newpath
 
 == See Also
 
-* link:/docs/commands/[Command Reference] - All operators
-* link:/docs/usage/advanced/[Advanced Usage] - Advanced techniques
-* link:/docs/examples/[Examples] - Code samples
+* link:/commands/[Command Reference] - All operators
+* link:/usage/advanced/[Advanced Usage] - Advanced techniques
+* link:/examples/[Examples] - Code samples

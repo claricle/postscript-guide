@@ -7,53 +7,152 @@ nav_order: 3
 
 == PostScript Level 3
 
-The latest major PostScript specification, released in 1996, adding advanced imaging features and better PDF integration.
+Advanced features and optimizations released in 1997, adding better color management, improved imaging, and enhanced performance.
 
 == Overview
 
-PostScript Level 3 (also called PostScript 3) builds on Level 2 with enhanced imaging capabilities, better performance, and improved integration with PDF.
+PostScript Level 3 builds on Level 2 with enhanced color management, smoother shading, improved font handling, and better performance. It maintains full backward compatibility with Levels 1 and 2.
 
 == Key Enhancements
 
-=== Advanced Imaging
+=== Color Management
 
-* **Smooth Shading**: Gradient fills without banding
-* **DeviceN Color Spaces**: Support for spot colors and high-fidelity color
-* **Improved Halftoning**: Better quality screening
-* **In-RIP Trapping**: Automatic trapping for prepress
+* **ICC-Based Color**: Industry-standard color profiles
+* **Device-Independent Color**: Accurate color across devices
+* **CIE-Based Color Spaces**: Lab, XYZ color specifications
+* **Rendering Intents**: Perceptual, colorimetric, saturation
+* **Color Conversion**: Automatic color space conversion
 
-=== PDF Integration
+=== Advanced Graphics
 
-* Better compatibility with PDF features
-* Improved transparency handling
-* Enhanced color management
-* Streamlined PDF generation
+* **Smooth Shading**: Gradient fills with smooth transitions
+* **Shading Patterns**: Type 2 and Type 3 patterns
+* **Improved Transparency**: Better blending modes
+* **Anti-aliasing**: Smoother rendering of shapes and text
+* **Clipping**: Enhanced clipping operations
 
-=== Performance
+=== Font Improvements
 
-* Faster execution
-* Better memory management
-* Optimized font handling
-* Improved caching
+* **CID-Keyed Fonts**: Better Asian language support
+* **Font Subsetting**: Embed only used characters
+* **Font Downloading**: Improved incremental downloading
+* **OpenType Support**: Enhanced font format compatibility
+
+=== Performance Enhancements
+
+* **In-RIP Separations**: Device-side color separation
+* **Page Independence**: Parallel page processing
+* **Improved Caching**: Better resource utilization
+* **Binary Object Sequences**: Faster data transmission
+* **Optimized Operators**: Performance-tuned operations
 
 === New Features
 
-* Additional color spaces
-* Better Unicode support
-* Enhanced device control
-* Improved error handling
+* **Masked Images**: Alpha channel support
+* **Image Interpolation**: Smoother image scaling
+* **In-line Images**: Embedded image data
+* **DeviceN Color**: Multi-channel spot colors
+* **Trapping**: Automatic color trapping
+
+== New Operators
+
+Level 3 added numerous operators, including:
+
+* `shfill` - Smooth shading fills
+* `setsmoothness` - Control rendering quality
+* `setblackgeneration`, `setundercolorremoval` - Color control
+* `sethalftone` improvements - Better screening
+* Image masking operators
+* DeviceN color operators
+* Trapping operators
+* And many more...
+
+== Device Features
+
+=== Page Device Enhancements
+
+* **Duplex Printing**: Two-sided output control
+* **Collation**: Automatic page ordering
+* **Media Selection**: Paper size and type
+* **Output Management**: Advanced job control
+* **Device-Specific Features**: Manufacturer extensions
+
+=== Imaging Features
+
+* **Resolution Independence**: Scale without quality loss
+* **Spot Color Support**: Multiple ink channels
+* **Overprint Control**: Precise ink layering
+* **Halftone Screens**: Improved screening algorithms
 
 == Backward Compatibility
 
-Level 3 maintains full compatibility with Level 1 and Level 2:
+Level 3 maintains complete compatibility:
 
-* All Level 1 operators work unchanged
-* All Level 2 operators work unchanged
+* All Level 1 and 2 operators work unchanged
 * Existing programs run without modification
+* New features gracefully degrade on older interpreters
+* Optional feature detection available
+
+== Common Use Cases
+
+=== High-Quality Color Printing
+
+[source,postscript]
+----
+% ICC-based color workflow
+[/ICCBased currentdict /IccProfile get] setcolorspace
+0.5 0.3 0.8 setcolor
+----
+
+=== Smooth Gradients
+
+[source,postscript]
+----
+% Smooth shading from blue to red
+<< /ShadingType 2
+   /ColorSpace /DeviceRGB
+   /Coords [0 0 100 0]
+   /Function << /FunctionType 2
+                /Domain [0 1]
+                /C0 [0 0 1]  % Blue
+                /C1 [1 0 0]  % Red
+                /N 1 >>
+>> shfill
+----
+
+=== Image Masking
+
+[source,postscript]
+----
+% Use one image to mask another
+/MaskedImage <<
+  /ImageType 3
+  /InterLeave 1
+  /DataSource imagedata
+  /MaskDict maskdict
+>> def
+----
+
+== Performance Tips
+
+TIP: *Use Smooth Shading* - Replace gradient fills with `shfill` for better performance and quality.
+
+TIP: *Enable In-RIP Separations* - Let the RIP handle color separation for faster processing.
+
+TIP: *Use Binary Encoding* - Binary object sequences are faster than ASCII.
+
+== Best Practices
+
+* Use ICC color profiles for consistent color output
+* Leverage smooth shading for gradients
+* Take advantage of font subsetting for smaller files
+* Use image interpolation for better scaling quality
+* Enable anti-aliasing for professional output
 
 == See Also
 
-* link:/docs/levels/level-1/[PostScript Level 1] - Original specification
-* link:/docs/levels/level-2/[PostScript Level 2] - Color and fonts
-* link:/docs/levels/comparison/[Version Comparison] - Feature comparison
-* link:/docs/levels/[PostScript Levels Overview]
+* link:/levels/level-1/[PostScript Level 1] - Original specification
+* link:/levels/level-2/[PostScript Level 2] - Color and composite fonts
+* link:/levels/comparison/[Version Comparison] - Detailed feature comparison
+* link:/levels/[PostScript Levels Overview]
+* link:/commands/[Command Reference]

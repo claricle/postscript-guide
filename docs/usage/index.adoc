@@ -10,7 +10,7 @@ Practical guides and tutorials for PostScript programming, from basic concepts t
 
 == Sections
 
-=== link:/docs/usage/basic/[Basic Usage]
+=== link:/usage/basic/[Basic Usage]
 
 Essential concepts every PostScript programmer should know:
 
@@ -20,7 +20,7 @@ Essential concepts every PostScript programmer should know:
 * Path construction fundamentals
 * Basic painting operations
 
-=== link:/docs/usage/advanced/[Advanced Usage]
+=== link:/usage/advanced/[Advanced Usage]
 
 Advanced features and professional techniques:
 
@@ -36,12 +36,12 @@ Advanced features and professional techniques:
 
 == Learning Path
 
-**Start Here** → link:/docs/usage/basic/[Basic Usage]
+**Start Here** → link:/usage/basic/[Basic Usage]
 
 Master the fundamentals before moving to advanced topics.
 
 == See Also
 
-* link:/docs/commands/[Command Reference] - Detailed operator documentation
-* link:/docs/examples/[Examples] - Working code samples
-* link:/docs/syntax/[Syntax] - Language grammar
+* link:/commands/[Command Reference] - Detailed operator documentation
+* link:/examples/[Examples] - Working code samples
+* link:/syntax/[Syntax] - Language grammar

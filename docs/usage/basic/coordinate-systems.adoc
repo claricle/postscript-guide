@@ -807,9 +807,9 @@ moveto              % But moveto expects user coordinates!
 
 === See Also
 
-* link:/docs/usage/basic/graphics-state/[Graphics State] - Saving and restoring state
-* link:/docs/commands/references/[Transformation Commands] - Complete transformation reference
-* link:/docs/commands/references/translate/[translate] - Translation details
-* link:/docs/commands/references/scale/[scale] - Scaling details
-* link:/docs/commands/references/rotate/[rotate] - Rotation details
-* link:/docs/usage/basic/path-construction/[Path Construction] - Building paths in user space
+* link:/usage/basic/graphics-state/[Graphics State] - Saving and restoring state
+* link:/commands/references/[Transformation Commands] - Complete transformation reference
+* link:/commands/references/translate/[translate] - Translation details
+* link:/commands/references/scale/[scale] - Scaling details
+* link:/commands/references/rotate/[rotate] - Rotation details
+* link:/usage/basic/path-construction/[Path Construction] - Building paths in user space

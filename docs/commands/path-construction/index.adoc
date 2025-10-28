@@ -25,22 +25,22 @@ Path construction in PostScript follows a three-step process:
 |===
 | Command | Description
 
-| link:/docs/commands/references/newpath/[`newpath`]
+| link:/commands/references/newpath/[`newpath`]
 | Initialize path to empty
 
-| link:/docs/commands/references/moveto/[`moveto`]
+| link:/commands/references/moveto/[`moveto`]
 | Set current point (start new subpath)
 
-| link:/docs/commands/references/lineto/[`lineto`]
+| link:/commands/references/lineto/[`lineto`]
 | Add straight line to current point
 
-| link:/docs/commands/references/curveto/[`curveto`]
+| link:/commands/references/curveto/[`curveto`]
 | Add Bézier curve to path
 
-| link:/docs/commands/references/closepath/[`closepath`]
+| link:/commands/references/closepath/[`closepath`]
 | Close current subpath
 
-| link:/docs/commands/references/currentpoint/[`currentpoint`]
+| link:/commands/references/currentpoint/[`currentpoint`]
 | Get coordinates of current point
 |===
 
@@ -50,13 +50,13 @@ Path construction in PostScript follows a three-step process:
 |===
 | Command | Description
 
-| link:/docs/commands/references/rmoveto/[`rmoveto`]
+| link:/commands/references/rmoveto/[`rmoveto`]
 | Relative moveto
 
-| link:/docs/commands/references/rlineto/[`rlineto`]
+| link:/commands/references/rlineto/[`rlineto`]
 | Relative lineto
 
-| link:/docs/commands/references/rcurveto/[`rcurveto`]
+| link:/commands/references/rcurveto/[`rcurveto`]
 | Relative curveto
 |===
 
@@ -66,16 +66,16 @@ Path construction in PostScript follows a three-step process:
 |===
 | Command | Description
 
-| link:/docs/commands/references/arc/[`arc`]
+| link:/commands/references/arc/[`arc`]
 | Add counterclockwise circular arc
 
-| link:/docs/commands/references/arcn/[`arcn`]
+| link:/commands/references/arcn/[`arcn`]
 | Add clockwise circular arc
 
-| link:/docs/commands/references/arct/[`arct`]
+| link:/commands/references/arct/[`arct`]
 | Add arc defined by tangent lines
 
-| link:/docs/commands/references/arcto/[`arcto`]
+| link:/commands/references/arcto/[`arcto`]
 | Like arct but returns tangent points
 |===
 
@@ -127,6 +127,6 @@ closepath
 
 == See Also
 
-* link:/docs/commands/references/[Painting] - Fill and stroke paths
-* link:/docs/commands/references/[Graphics State] - Line parameters
-* link:/docs/commands/references/[Transformations] - Coordinate systems
+* link:/commands/references/[Painting] - Fill and stroke paths
+* link:/commands/references/[Graphics State] - Line parameters
+* link:/commands/references/[Transformations] - Coordinate systems

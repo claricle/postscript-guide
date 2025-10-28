@@ -59,7 +59,7 @@ string seek anchorsearch → post match true (if found)
 
 === Description
 
-link:/docs/commands/references/anchorsearch/[`anchorsearch`] determines if _string_ begins with _seek_ (i.e., _string_ is at least as long as _seek_ and the initial characters match exactly).
+link:/commands/references/anchorsearch/[`anchorsearch`] determines if _string_ begins with _seek_ (i.e., _string_ is at least as long as _seek_ and the initial characters match exactly).
 
 If it matches:
 * Splits _string_ into _match_ (the matching prefix) and _post_ (the remainder)
@@ -144,7 +144,7 @@ filename (.ps) anchorsearch {
 
 === Common Pitfalls
 
-WARNING: *Must Match At Start* - link:/docs/commands/references/anchorsearch/[`anchorsearch`] only finds prefixes, not substrings anywhere in the string.
+WARNING: *Must Match At Start* - link:/commands/references/anchorsearch/[`anchorsearch`] only finds prefixes, not substrings anywhere in the string.
 
 [source,postscript]
 ----
@@ -158,7 +158,7 @@ WARNING: *Case Sensitive* - Matching is exact, including case.
 (PostScript) (post) anchorsearch  % false
 ----
 
-TIP: *Use search for Anywhere* - For substring search anywhere in string, use link:/docs/commands/references/search/[`search`] instead.
+TIP: *Use search for Anywhere* - For substring search anywhere in string, use link:/commands/references/search/[`search`] instead.
 
 === Error Conditions
 
@@ -187,6 +187,6 @@ TIP: *Use search for Anywhere* - For substring search anywhere in string, use li
 
 === See Also
 
-* link:/docs/commands/references/search/[`search`] - Search for substring anywhere
-* link:/docs/commands/references/token/[`token`] - Parse token from string
-* link:/docs/commands/references/getinterval/[`getinterval`] - Extract substring
+* link:/commands/references/search/[`search`] - Search for substring anywhere
+* link:/commands/references/token/[`token`] - Parse token from string
+* link:/commands/references/getinterval/[`getinterval`] - Extract substring

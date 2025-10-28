@@ -37,7 +37,7 @@ int array → array
 
 === Description
 
-link:/docs/commands/references/array/[`array`] creates a new array object of length _int_, with each element initialized to null. The array is allocated in local or global VM according to the current VM allocation mode.
+link:/commands/references/array/[`array`] creates a new array object of length _int_, with each element initialized to null. The array is allocated in local or global VM according to the current VM allocation mode.
 
 The _int_ operand must be:
 
@@ -101,7 +101,7 @@ dup 1 200 put  % y coordinate
 
 === Common Pitfalls
 
-WARNING: *Uninitialized Elements* - Remember that link:/docs/commands/references/array/[`array`] initializes all elements to null. You must explicitly populate the array before using its elements.
+WARNING: *Uninitialized Elements* - Remember that link:/commands/references/array/[`array`] initializes all elements to null. You must explicitly populate the array before using its elements.
 
 [source,postscript]
 ----
@@ -111,7 +111,7 @@ WARNING: *Uninitialized Elements* - Remember that link:/docs/commands/references
 
 WARNING: *VM Allocation* - Arrays are allocated in VM. Creating many large arrays can exhaust available memory.
 
-TIP: *Array Literals vs. array Operator* - For known, fixed-size arrays, use the literal syntax `[ ... ]` instead. Use link:/docs/commands/references/array/[`array`] when the size is computed dynamically.
+TIP: *Array Literals vs. array Operator* - For known, fixed-size arrays, use the literal syntax `[ ... ]` instead. Use link:/commands/references/array/[`array`] when the size is computed dynamically.
 
 === Error Conditions
 
@@ -139,7 +139,7 @@ TIP: *Array Literals vs. array Operator* - For known, fixed-size arrays, use the
 
 * Most PostScript implementations support arrays up to at least 65,535 elements
 * Array allocation is typically faster for small arrays
-* Consider using link:/docs/commands/references/packedarray/[`packedarray`] for read-only data (Level 2)
+* Consider using link:/commands/references/packedarray/[`packedarray`] for read-only data (Level 2)
 
 === Performance Considerations
 
@@ -149,10 +149,10 @@ TIP: *Array Literals vs. array Operator* - For known, fixed-size arrays, use the
 
 === See Also
 
-* link:/docs/commands/references/brackets/[`[`] - Begin array construction
-* link:/docs/commands/references/brackets/[`]`] - End array construction
-* link:/docs/commands/references/astore/[`astore`] - Store stack elements into array
-* link:/docs/commands/references/packedarray/[`packedarray`] - Create read-only packed array (Level 2)
-* link:/docs/commands/references/length/[`length`] - Get array length
-* link:/docs/commands/references/get/[`get`] - Get array element
-* link:/docs/commands/references/put/[`put`] - Put value into array
+* link:/commands/references/brackets/[`[`] - Begin array construction
+* link:/commands/references/brackets/[`]`] - End array construction
+* link:/commands/references/astore/[`astore`] - Store stack elements into array
+* link:/commands/references/packedarray/[`packedarray`] - Create read-only packed array (Level 2)
+* link:/commands/references/length/[`length`] - Get array length
+* link:/commands/references/get/[`get`] - Get array element
+* link:/commands/references/put/[`put`] - Put value into array

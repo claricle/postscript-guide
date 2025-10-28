@@ -37,7 +37,7 @@ any cvx → any
 
 === Description
 
-link:/docs/commands/references/cvx/[`cvx`] (convert to executable) changes the attribute of the object on top of the operand stack from literal to executable.
+link:/commands/references/cvx/[`cvx`] (convert to executable) changes the attribute of the object on top of the operand stack from literal to executable.
 
 The object itself is unchanged - only its executable/literal attribute is modified. This affects how the PostScript interpreter treats the object when it is encountered during execution.
 
@@ -121,10 +121,10 @@ TIP: *Most Procedures Already Executable* - Procedures created with `{ }` are al
 * Only changes the executable/literal attribute bit
 * Does not create a new object
 * Works on any object type
-* Complementary to link:/docs/commands/references/cvlit/[`cvlit`]
+* Complementary to link:/commands/references/cvlit/[`cvlit`]
 
 === See Also
 
-* link:/docs/commands/references/cvlit/[`cvlit`] - Convert to literal
-* link:/docs/commands/references/xcheck/[`xcheck`] - Test if executable
-* link:/docs/commands/references/type/[`type`] - Get object type
+* link:/commands/references/cvlit/[`cvlit`] - Convert to literal
+* link:/commands/references/xcheck/[`xcheck`] - Test if executable
+* link:/commands/references/type/[`type`] - Get object type

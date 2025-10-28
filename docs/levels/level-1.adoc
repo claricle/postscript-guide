@@ -63,7 +63,7 @@ Level 1 implementations provide approximately 250 operators covering:
 
 == See Also
 
-* link:/docs/levels/level-2/[PostScript Level 2] - Enhanced version
-* link:/docs/levels/level-3/[PostScript Level 3] - Latest specification
-* link:/docs/levels/comparison/[Version Comparison] - Feature comparison
-* link:/docs/levels/[PostScript Levels Overview]
+* link:/levels/level-2/[PostScript Level 2] - Enhanced version
+* link:/levels/level-3/[PostScript Level 3] - Latest specification
+* link:/levels/comparison/[Version Comparison] - Feature comparison
+* link:/levels/[PostScript Levels Overview]

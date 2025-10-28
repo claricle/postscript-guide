@@ -37,7 +37,7 @@ num setmiterlimit → –
 
 === Description
 
-link:/docs/commands/references/setmiterlimit/[`setmiterlimit`] sets the miter limit parameter in the graphics state to _num_. This parameter controls when sharp miter joins are converted to bevel joins during stroking operations.
+link:/commands/references/setmiterlimit/[`setmiterlimit`] sets the miter limit parameter in the graphics state to _num_. This parameter controls when sharp miter joins are converted to bevel joins during stroking operations.
 
 The miter limit is the **maximum ratio** of miter length to line width. When the ratio exceeds this limit (at very sharp angles), a bevel join is used instead of a miter join.
 
@@ -276,7 +276,7 @@ Else:
 
 === See Also
 
-* link:/docs/commands/references/setlinejoin/[`setlinejoin`] - Set line join style
-* link:/docs/commands/references/currentmiterlimit/[`currentmiterlimit`] - Get current miter limit
-* link:/docs/commands/references/setlinewidth/[`setlinewidth`] - Set line width
-* link:/docs/commands/references/setlinecap/[`setlinecap`] - Set line cap style
+* link:/commands/references/setlinejoin/[`setlinejoin`] - Set line join style
+* link:/commands/references/currentmiterlimit/[`currentmiterlimit`] - Get current miter limit
+* link:/commands/references/setlinewidth/[`setlinewidth`] - Set line width
+* link:/commands/references/setlinecap/[`setlinecap`] - Set line cap style

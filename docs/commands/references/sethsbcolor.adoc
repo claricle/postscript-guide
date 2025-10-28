@@ -43,7 +43,7 @@ hue saturation brightness sethsbcolor → –
 
 === Description
 
-link:/docs/commands/references/sethsbcolor/[`sethsbcolor`] sets the color space to DeviceRGB and sets the current color using hue, saturation, and brightness components.
+link:/commands/references/sethsbcolor/[`sethsbcolor`] sets the color space to DeviceRGB and sets the current color using hue, saturation, and brightness components.
 
 **HSB components:**
 
@@ -54,9 +54,9 @@ link:/docs/commands/references/sethsbcolor/[`sethsbcolor`] sets the color space 
 * **Brightness** (0.0 to 1.0): Color intensity
   - 0.0 = black, 1.0 = maximum brightness
 
-NOTE: HSB is **not a color space** in its own right, merely a means for entering RGB color values in a different coordinate system. The color value entered by link:/docs/commands/references/sethsbcolor/[`sethsbcolor`] is immediately converted into the RGB model and used with the DeviceRGB color space.
+NOTE: HSB is **not a color space** in its own right, merely a means for entering RGB color values in a different coordinate system. The color value entered by link:/commands/references/sethsbcolor/[`sethsbcolor`] is immediately converted into the RGB model and used with the DeviceRGB color space.
 
-link:/docs/commands/references/sethsbcolor/[`sethsbcolor`] does not give a rangecheck error for values outside the range 0 to 1; it substitutes the nearest legal value.
+link:/commands/references/sethsbcolor/[`sethsbcolor`] does not give a rangecheck error for values outside the range 0 to 1; it substitutes the nearest legal value.
 
 === PostScript Level
 
@@ -310,7 +310,7 @@ Green-+-Red
 
 === See Also
 
-* link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
-* link:/docs/commands/references/setgray/[`setgray`] - Set grayscale
-* link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] - Set CMYK color (Level 2)
-* link:/docs/commands/references/currenthsbcolor/[`currenthsbcolor`] - Get HSB color
+* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
+* link:/commands/references/setgray/[`setgray`] - Set grayscale
+* link:/commands/references/setcmykcolor/[`setcmykcolor`] - Set CMYK color (Level 2)
+* link:/commands/references/currenthsbcolor/[`currenthsbcolor`] - Get HSB color

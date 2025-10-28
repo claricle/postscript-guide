@@ -71,14 +71,14 @@ textwidth 20 string cvs show           % Convert number to string <6>
 
 showpage
 ----
-<1> Use link:../commands/font-text/findfont/[`findfont`], link:../commands/font-text/scalefont/[`scalefont`], link:../commands/font-text/setfont/[`setfont`] to prepare font
-<2> Use link:../commands/path-construction/moveto/[`moveto`] to position text cursor
-<3> Use link:../commands/font-text/show/[`show`] to display the text
+<1> Use link:/commands/references/font-text/findfont/[`findfont`], link:/commands/references/font-text/scalefont/[`scalefont`], link:/commands/references/font-text/setfont/[`setfont`] to prepare font
+<2> Use link:/commands/references/path-construction/moveto/[`moveto`] to position text cursor
+<3> Use link:/commands/references/font-text/show/[`show`] to display the text
 <4> Use `dup` to duplicate string for width measurement
-<5> Use link:../commands/font-text/stringwidth/[`stringwidth`] to measure text dimensions
-<6> Use link:../commands/array-string/cvs/[`cvs`] to convert value to string
+<5> Use link:/commands/references/font-text/stringwidth/[`stringwidth`] to measure text dimensions
+<6> Use link:/commands/references/array-string/cvs/[`cvs`] to convert value to string
 <7> Define reusable procedure for right alignment
-<8> Use link:../commands/path-construction/rmoveto/[`rmoveto`] to move cursor relatively
+<8> Use link:/commands/references/path-construction/rmoveto/[`rmoveto`] to move cursor relatively
 <9> Divide by 2 for centering calculation
 
 ==== Expected Output
@@ -243,10 +243,10 @@ showpage
 <3> Subtract line height to move down
 <4> Define procedure to advance to next line
 <5> Define procedure to display array of lines
-<6> Use link:../commands/array-string/forall/[`forall`] to iterate array
+<6> Use link:/commands/references/array-string/forall/[`forall`] to iterate array
 <7> Justified text adjusts word spacing to fill line width
 <8> Check if character code is 32 (space character)
-<9> Use link:../commands/array-string/getinterval/[`getinterval`] to extract substring
+<9> Use link:/commands/references/array-string/getinterval/[`getinterval`] to extract substring
 <10> Add extra space after each space character
 
 ==== Expected Output
@@ -617,7 +617,7 @@ showpage
 ----
 <1> Define procedure for text in box with word wrap
 <2> Position each line with offset
-<3> Use link:../commands/array-string/get/[`get`] to retrieve array element
+<3> Use link:/commands/references/array-string/get/[`get`] to retrieve array element
 <4> Define procedure for circular text
 <5> Calculate rotation angle per character
 <6> Rotate coordinate system for each character
@@ -827,7 +827,7 @@ showpage
 <6> Move down 2 points for subscript
 <7> Display large decorative first letter
 <8> Use `currentpoint` to get position after drop cap
-<9> Use link:../commands/graphics-state/setrgbcolor/[`setrgbcolor`] for colored text
+<9> Use link:/commands/references/graphics-state/setrgbcolor/[`setrgbcolor`] for colored text
 <10> Adjust spacing based on font size
 
 ==== Expected Output
@@ -1056,7 +1056,7 @@ grestore
 showpage
 ----
 <1> Define outlined (hollow) text procedure
-<2> Use link:../commands/font-text/charpath/[`charpath`] to convert text to path
+<2> Use link:/commands/references/font-text/charpath/[`charpath`] to convert text to path
 <3> Fill first, then stroke for dual effect
 <4> Define shadow text with offset and gray level
 <5> Shadow offset: (dx, dy), shadow darkness
@@ -1067,7 +1067,7 @@ showpage
 <10> Scale Y-axis to compress text vertically
 <11> Embossed effect with highlight and shadow
 <12> Gradient fill requires clipping to text shape
-<13> Use link:../commands/painting/clip/[`clip`] to restrict drawing to text outline
+<13> Use link:/commands/references/painting/clip/[`clip`] to restrict drawing to text outline
 
 ==== Expected Output
 
@@ -1148,12 +1148,12 @@ Various text effects:
 
 === See Also
 
-* link:/docs/examples/hello-world/[Hello World] - Basic text display
-* link:/docs/examples/drawing-shapes/[Drawing Shapes] - Paths for text effects
-* link:/docs/examples/color-gradients/[Color Gradients] - Advanced coloring
-* link:/docs/commands/references/show/[show command] - Display text
-* link:/docs/commands/references/charpath/[charpath command] - Text to path
-* link:/docs/commands/references/stringwidth/[stringwidth command] - Measure text
-* link:/docs/commands/references/clip/[clip command] - Clipping paths
-* link:/docs/examples/[More Examples]
-* link:/docs/commands/[Command Reference]
+* link:/examples/hello-world/[Hello World] - Basic text display
+* link:/examples/drawing-shapes/[Drawing Shapes] - Paths for text effects
+* link:/examples/color-gradients/[Color Gradients] - Advanced coloring
+* link:/commands/references/show/[show command] - Display text
+* link:/commands/references/charpath/[charpath command] - Text to path
+* link:/commands/references/stringwidth/[stringwidth command] - Measure text
+* link:/commands/references/clip/[clip command] - Clipping paths
+* link:/examples/[More Examples]
+* link:/commands/[Command Reference]

@@ -52,12 +52,12 @@ any stopped → bool
 
 === Description
 
-link:/docs/commands/references/stopped/[`stopped`] executes _any_ (typically a procedure).
+link:/commands/references/stopped/[`stopped`] executes _any_ (typically a procedure).
 
 * If _any_ runs to completion normally: returns `false`
-* If _any_ terminates via link:/docs/commands/references/stop/[`stop`]: returns `true`
+* If _any_ terminates via link:/commands/references/stop/[`stop`]: returns `true`
 
-Regardless of outcome, execution resumes at the next object after link:/docs/commands/references/stopped/[`stopped`].
+Regardless of outcome, execution resumes at the next object after link:/commands/references/stopped/[`stopped`].
 
 This provides PostScript's primary error-catching mechanism.
 
@@ -149,7 +149,7 @@ file closefile  % Always close
 
 === Common Pitfalls
 
-WARNING: *Catches All Errors* - link:/docs/commands/references/stopped/[`stopped`] catches ALL errors, including those you might not expect.
+WARNING: *Catches All Errors* - link:/commands/references/stopped/[`stopped`] catches ALL errors, including those you might not expect.
 
 [source,postscript]
 ----
@@ -194,7 +194,7 @@ TIP: *Standard Error Pattern* - Default PostScript error handlers use this patte
 
 === Standard Error Handler
 
-The default error handler uses link:/docs/commands/references/stopped/[`stopped`]:
+The default error handler uses link:/commands/references/stopped/[`stopped`]:
 
 [source,postscript]
 ----
@@ -231,7 +231,7 @@ The default error handler uses link:/docs/commands/references/stopped/[`stopped`
 
 === See Also
 
-* link:/docs/commands/references/stop/[`stop`] - Terminate stopped context
-* link:/docs/commands/references/exit/[`exit`] - Exit loop
-* link:/docs/commands/references/exec/[`exec`] - Execute object
+* link:/commands/references/stop/[`stop`] - Terminate stopped context
+* link:/commands/references/exit/[`exit`] - Exit loop
+* link:/commands/references/exec/[`exec`] - Execute object
 * Error Handling (to be documented)

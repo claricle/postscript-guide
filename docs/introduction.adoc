@@ -130,12 +130,12 @@ showpage
 
 === Learning Path
 
-1. **Start with basics** - link:/docs/commands/references/[Stack Operations]
-2. **Learn arithmetic** - link:/docs/commands/references/[Math Commands]
-3. **Understand data** - link:/docs/commands/references/[Arrays and Strings]
-4. **Master dictionaries** - link:/docs/commands/references/[Dictionary Operations]
-5. **Control flow** - link:/docs/commands/references/[Conditionals and Loops]
-6. **Graphics** - link:/docs/commands/references/[Graphics State] and Path Construction
+1. **Start with basics** - link:/commands/references/[Stack Operations]
+2. **Learn arithmetic** - link:/commands/references/[Math Commands]
+3. **Understand data** - link:/commands/references/[Arrays and Strings]
+4. **Master dictionaries** - link:/commands/references/[Dictionary Operations]
+5. **Control flow** - link:/commands/references/[Conditionals and Loops]
+6. **Graphics** - link:/commands/references/[Graphics State] and Path Construction
 
 == About This Guide
 
@@ -156,7 +156,7 @@ This reference provides:
 
 == See Also
 
-* link:/docs/levels/[PostScript Levels] - Version history and features
-* link:/docs/commands/[Command Reference] - Complete operator reference
-* link:/docs/syntax/[Language Syntax] - Grammar and structure
-* link:/docs/examples/[Examples] - Practical code samples
+* link:/levels/[PostScript Levels] - Version history and features
+* link:/commands/[Command Reference] - Complete operator reference
+* link:/syntax/[Language Syntax] - Grammar and structure
+* link:/examples/[Examples] - Practical code samples

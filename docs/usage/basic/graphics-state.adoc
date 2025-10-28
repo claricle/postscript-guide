@@ -964,10 +964,10 @@ drawSomething  % Rotated 90° total!
 
 === See Also
 
-* link:/docs/usage/basic/coordinate-systems/[Coordinate Systems] - Transformation matrix details
-* link:/docs/usage/basic/painting/[Painting] - Using graphics state for rendering
-* link:/docs/commands/references/[Graphics State Commands] - Complete command reference
-* link:/docs/commands/references/gsave/[gsave] - Save graphics state
-* link:/docs/commands/references/grestore/[grestore] - Restore graphics state
-* link:/docs/commands/references/setlinewidth/[setlinewidth] - Set line width
-* link:/docs/commands/references/setrgbcolor/[setrgbcolor] - Set RGB color
+* link:/usage/basic/coordinate-systems/[Coordinate Systems] - Transformation matrix details
+* link:/usage/basic/painting/[Painting] - Using graphics state for rendering
+* link:/commands/references/[Graphics State Commands] - Complete command reference
+* link:/commands/references/gsave/[gsave] - Save graphics state
+* link:/commands/references/grestore/[grestore] - Restore graphics state
+* link:/commands/references/setlinewidth/[setlinewidth] - Set line width
+* link:/commands/references/setrgbcolor/[setrgbcolor] - Set RGB color

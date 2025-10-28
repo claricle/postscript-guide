@@ -37,13 +37,13 @@ dict begin → –
 
 === Description
 
-link:/docs/commands/references/begin/[`begin`] pushes _dict_ onto the dictionary stack, making it the current dictionary. This dictionary becomes the first one consulted during:
+link:/commands/references/begin/[`begin`] pushes _dict_ onto the dictionary stack, making it the current dictionary. This dictionary becomes the first one consulted during:
 
 * Implicit name lookup by the interpreter
-* link:/docs/commands/references/def/[`def`] - defines in current dictionary
-* link:/docs/commands/references/load/[`load`] - searches dictionary stack
-* link:/docs/commands/references/store/[`store`] - searches dictionary stack
-* link:/docs/commands/references/where/[`where`] - searches dictionary stack
+* link:/commands/references/def/[`def`] - defines in current dictionary
+* link:/commands/references/load/[`load`] - searches dictionary stack
+* link:/commands/references/store/[`store`] - searches dictionary stack
+* link:/commands/references/where/[`where`] - searches dictionary stack
 
 === PostScript Level
 
@@ -130,7 +130,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Must Match with end* - Every link:/docs/commands/references/begin/[`begin`] must have a corresponding link:/docs/commands/references/end/[`end`]. Unmatched begins cause [`dictstackoverflow`].
+WARNING: *Must Match with end* - Every link:/commands/references/begin/[`begin`] must have a corresponding link:/commands/references/end/[`end`]. Unmatched begins cause [`dictstackoverflow`].
 
 [source,postscript]
 ----
@@ -193,8 +193,8 @@ systemdict
 
 === See Also
 
-* link:/docs/commands/references/end/[`end`] - Pop dictionary from stack
-* link:/docs/commands/references/currentdict/[`currentdict`] - Get current dictionary
-* link:/docs/commands/references/def/[`def`] - Define in current dictionary
-* link:/docs/commands/references/dictstack/[`dictstack`] - Examine dictionary stack
-* link:/docs/commands/references/countdictstack/[`countdictstack`] - Count stack depth
+* link:/commands/references/end/[`end`] - Pop dictionary from stack
+* link:/commands/references/currentdict/[`currentdict`] - Get current dictionary
+* link:/commands/references/def/[`def`] - Define in current dictionary
+* link:/commands/references/dictstack/[`dictstack`] - Examine dictionary stack
+* link:/commands/references/countdictstack/[`countdictstack`] - Count stack depth

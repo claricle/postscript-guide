@@ -43,11 +43,11 @@ Returns current color as HSB values.
 
 === Description
 
-link:/docs/commands/references/currenthsbcolor/[`currenthsbcolor`] returns the current color in the graphics state according to the hue-saturation-brightness model.
+link:/commands/references/currenthsbcolor/[`currenthsbcolor`] returns the current color in the graphics state according to the hue-saturation-brightness model.
 
-* If the current color space is **DeviceRGB**, link:/docs/commands/references/currenthsbcolor/[`currenthsbcolor`] returns the color values most recently specified by link:/docs/commands/references/sethsbcolor/[`sethsbcolor`], converting them from RGB to HSB coordinates if necessary.
-* If the current color space is **DeviceGray** or **DeviceCMYK**, link:/docs/commands/references/currenthsbcolor/[`currenthsbcolor`] first converts the current color to RGB, then to HSB.
-* For any other color space, link:/docs/commands/references/currenthsbcolor/[`currenthsbcolor`] returns **0.0 0.0 0.0** (black).
+* If the current color space is **DeviceRGB**, link:/commands/references/currenthsbcolor/[`currenthsbcolor`] returns the color values most recently specified by link:/commands/references/sethsbcolor/[`sethsbcolor`], converting them from RGB to HSB coordinates if necessary.
+* If the current color space is **DeviceGray** or **DeviceCMYK**, link:/commands/references/currenthsbcolor/[`currenthsbcolor`] first converts the current color to RGB, then to HSB.
+* For any other color space, link:/commands/references/currenthsbcolor/[`currenthsbcolor`] returns **0.0 0.0 0.0** (black).
 
 **HSB components:**
 
@@ -297,8 +297,8 @@ brightness dup dup setrgbcolor
 
 === See Also
 
-* link:/docs/commands/references/sethsbcolor/[`sethsbcolor`] - Set HSB color
-* link:/docs/commands/references/currentrgbcolor/[`currentrgbcolor`] - Get RGB color
-* link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
-* link:/docs/commands/references/currentgray/[`currentgray`] - Get gray value
-* link:/docs/commands/references/currentcmykcolor/[`currentcmykcolor`] - Get CMYK color
+* link:/commands/references/sethsbcolor/[`sethsbcolor`] - Set HSB color
+* link:/commands/references/currentrgbcolor/[`currentrgbcolor`] - Get RGB color
+* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
+* link:/commands/references/currentgray/[`currentgray`] - Get gray value
+* link:/commands/references/currentcmykcolor/[`currentcmykcolor`] - Get CMYK color

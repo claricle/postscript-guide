@@ -29,9 +29,9 @@ font
 
 === Description
 
-link:/docs/commands/references/setfont/[`setfont`] establishes the font dictionary parameter in the graphics state. This specifies the font to be used by subsequent character operators, such as link:/docs/commands/references/show/[`show`] and link:/docs/commands/references/stringwidth/[`stringwidth`]. The `font` must be a valid font dictionary previously returned by link:/docs/commands/references/findfont/[`findfont`], link:/docs/commands/references/scalefont/[`scalefont`], or link:/docs/commands/references/makefont/[`makefont`].
+link:/commands/references/setfont/[`setfont`] establishes the font dictionary parameter in the graphics state. This specifies the font to be used by subsequent character operators, such as link:/commands/references/show/[`show`] and link:/commands/references/stringwidth/[`stringwidth`]. The `font` must be a valid font dictionary previously returned by link:/commands/references/findfont/[`findfont`], link:/commands/references/scalefont/[`scalefont`], or link:/commands/references/makefont/[`makefont`].
 
-The font remains current until changed by another link:/docs/commands/references/setfont/[`setfont`] or `selectfont` operation, or until the graphics state is restored by `grestore` or `grestoreall`.
+The font remains current until changed by another link:/commands/references/setfont/[`setfont`] or `selectfont` operation, or until the graphics state is restored by `grestore` or `grestoreall`.
 
 === Parameters
 
@@ -112,7 +112,7 @@ For Type 3 fonts:
 
 === Graphics State Impact
 
-link:/docs/commands/references/setfont/[`setfont`] only modifies the font parameter of the graphics state. It does not affect:
+link:/commands/references/setfont/[`setfont`] only modifies the font parameter of the graphics state. It does not affect:
 
 - Current transformation matrix
 - Current path
@@ -140,9 +140,9 @@ newpath
 
 === See Also
 
-- link:/docs/commands/references/currentfont/[`currentfont`] - Get current font dictionary
-- link:/docs/commands/references/findfont/[`findfont`] - Obtain font dictionary by name
-- link:/docs/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor
-- link:/docs/commands/references/makefont/[`makefont`] - Transform font by matrix
-- link:/docs/commands/references/show/[`show`] - Paint text string at current point
-- link:/docs/commands/references/stringwidth/[`stringwidth`] - Calculate text width
+- link:/commands/references/currentfont/[`currentfont`] - Get current font dictionary
+- link:/commands/references/findfont/[`findfont`] - Obtain font dictionary by name
+- link:/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor
+- link:/commands/references/makefont/[`makefont`] - Transform font by matrix
+- link:/commands/references/show/[`show`] - Paint text string at current point
+- link:/commands/references/stringwidth/[`stringwidth`] - Calculate text width

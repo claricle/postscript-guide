@@ -37,7 +37,7 @@ string cvn → name
 
 === Description
 
-link:/docs/commands/references/cvn/[`cvn`] (convert to name) converts the string operand to a name object that is lexically identical to the string.
+link:/commands/references/cvn/[`cvn`] (convert to name) converts the string operand to a name object that is lexically identical to the string.
 
 The resulting name:
 * Has the same executable/literal attribute as the string
@@ -166,7 +166,7 @@ TIP: *Names vs. Strings as Keys* - Names are more efficient as dictionary keys t
 
 === See Also
 
-* link:/docs/commands/references/cvs/[`cvs`] - Convert to string
-* link:/docs/commands/references/type/[`type`] - Get object type
-* link:/docs/commands/references/cvlit/[`cvlit`] - Make literal
-* link:/docs/commands/references/cvx/[`cvx`] - Make executable
+* link:/commands/references/cvs/[`cvs`] - Convert to string
+* link:/commands/references/type/[`type`] - Get object type
+* link:/commands/references/cvlit/[`cvlit`] - Make literal
+* link:/commands/references/cvx/[`cvx`] - Make executable

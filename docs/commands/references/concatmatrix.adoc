@@ -43,7 +43,7 @@ matrix1 matrix2 matrix3 concatmatrix → matrix3
 
 === Description
 
-link:/docs/commands/references/concatmatrix/[`concatmatrix`] replaces the value of `matrix3` with the result of multiplying matrix1 × matrix2, and pushes the modified `matrix3` back on the operand stack.
+link:/commands/references/concatmatrix/[`concatmatrix`] replaces the value of `matrix3` with the result of multiplying matrix1 × matrix2, and pushes the modified `matrix3` back on the operand stack.
 
 This operator performs matrix multiplication without affecting the current transformation matrix (CTM). It is useful for building complex transformations from simpler ones.
 
@@ -227,7 +227,7 @@ M₁ = [a₁  b₁  c₁  d₁  tx₁  ty₁]
 M₂ = [a₂  b₂  c₂  d₂  tx₂  ty₂]
 ----
 
-link:/docs/commands/references/concatmatrix/[`concatmatrix`] computes M₃ = M₁ × M₂:
+link:/commands/references/concatmatrix/[`concatmatrix`] computes M₃ = M₁ × M₂:
 
 ----
 M₃ = [a₁×a₂ + b₁×c₂              a₁×b₂ + b₁×d₂
@@ -308,9 +308,9 @@ m1 temp2 result concatmatrix
 
 === See Also
 
-* link:/docs/commands/references/concat/[`concat`] - Concatenate matrix with CTM
-* link:/docs/commands/references/matrix/[`matrix`] - Create identity matrix
-* link:/docs/commands/references/invertmatrix/[`invertmatrix`] - Invert a matrix
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
-* link:/docs/commands/references/setmatrix/[`setmatrix`] - Set the CTM
-* link:/docs/commands/references/transform/[`transform`] - Transform coordinates by matrix
+* link:/commands/references/concat/[`concat`] - Concatenate matrix with CTM
+* link:/commands/references/matrix/[`matrix`] - Create identity matrix
+* link:/commands/references/invertmatrix/[`invertmatrix`] - Invert a matrix
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/commands/references/setmatrix/[`setmatrix`] - Set the CTM
+* link:/commands/references/transform/[`transform`] - Transform coordinates by matrix

@@ -37,11 +37,11 @@ Initializes the current path to empty, making the current point undefined.
 
 === Description
 
-link:/docs/commands/references/newpath/[`newpath`] initializes the current path to be empty, causing the current point to become undefined.
+link:/commands/references/newpath/[`newpath`] initializes the current path to be empty, causing the current point to become undefined.
 
 This operator is typically used at the beginning of a path construction sequence to ensure that no leftover path segments from previous operations interfere with the new path being constructed.
 
-After link:/docs/commands/references/newpath/[`newpath`], the first path construction operation must be link:/docs/commands/references/moveto/[`moveto`] (or link:/docs/commands/references/arc/[`arc`], which can start without a current point) to establish a current point before using operations like link:/docs/commands/references/lineto/[`lineto`] or link:/docs/commands/references/curveto/[`curveto`].
+After link:/commands/references/newpath/[`newpath`], the first path construction operation must be link:/commands/references/moveto/[`moveto`] (or link:/commands/references/arc/[`arc`], which can start without a current point) to establish a current point before using operations like link:/commands/references/lineto/[`lineto`] or link:/commands/references/curveto/[`curveto`].
 
 === PostScript Level
 
@@ -154,7 +154,7 @@ newpath
 
 === Common Pitfalls
 
-WARNING: *No Current Point After newpath* - After link:/docs/commands/references/newpath/[`newpath`], you must use link:/docs/commands/references/moveto/[`moveto`] before link:/docs/commands/references/lineto/[`lineto`], link:/docs/commands/references/curveto/[`curveto`], etc.
+WARNING: *No Current Point After newpath* - After link:/commands/references/newpath/[`newpath`], you must use link:/commands/references/moveto/[`moveto`] before link:/commands/references/lineto/[`lineto`], link:/commands/references/curveto/[`curveto`], etc.
 
 [source,postscript]
 ----
@@ -162,7 +162,7 @@ newpath
 200 200 lineto           % Error: nocurrentpoint
 ----
 
-WARNING: *Painting Operators Don't Clear Path* - Unlike painting operators in some graphics systems, PostScript's `stroke` and `fill` do not automatically clear the path. Use link:/docs/commands/references/newpath/[`newpath`] explicitly.
+WARNING: *Painting Operators Don't Clear Path* - Unlike painting operators in some graphics systems, PostScript's `stroke` and `fill` do not automatically clear the path. Use link:/commands/references/newpath/[`newpath`] explicitly.
 
 [source,postscript]
 ----
@@ -181,11 +181,11 @@ stroke
 newpath                  % Explicitly clear
 ----
 
-TIP: *Use at Start of Path Procedures* - Always begin path construction procedures with link:/docs/commands/references/newpath/[`newpath`] to ensure a clean slate.
+TIP: *Use at Start of Path Procedures* - Always begin path construction procedures with link:/commands/references/newpath/[`newpath`] to ensure a clean slate.
 
 === Error Conditions
 
-None. link:/docs/commands/references/newpath/[`newpath`] cannot generate errors.
+None. link:/commands/references/newpath/[`newpath`] cannot generate errors.
 
 === Implementation Notes
 
@@ -194,11 +194,11 @@ None. link:/docs/commands/references/newpath/[`newpath`] cannot generate errors.
 * Does not affect the graphics state otherwise
 * Very lightweight operation
 * Does not consume or produce any stack values
-* Idempotent: calling link:/docs/commands/references/newpath/[`newpath`] multiple times has same effect as calling once
+* Idempotent: calling link:/commands/references/newpath/[`newpath`] multiple times has same effect as calling once
 
 === Interaction with Graphics State
 
-link:/docs/commands/references/newpath/[`newpath`] only affects the current path. It does not change:
+link:/commands/references/newpath/[`newpath`] only affects the current path. It does not change:
 
 * Current transformation matrix (CTM)
 * Current color
@@ -267,6 +267,6 @@ newpath                  % Start fresh
 
 === See Also
 
-* link:/docs/commands/references/moveto/[`moveto`] - Set current point
-* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
-* link:/docs/commands/references/currentpoint/[`currentpoint`] - Get current point
+* link:/commands/references/moveto/[`moveto`] - Set current point
+* link:/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/commands/references/currentpoint/[`currentpoint`] - Get current point

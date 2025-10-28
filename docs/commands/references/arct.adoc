@@ -49,19 +49,19 @@ x1 y1 x2 y2 r arct → -
 
 === Description
 
-link:/docs/commands/references/arct/[`arct`] appends an arc of a circle to the current path, possibly preceded by a straight line segment. The arc is defined by a radius r and two tangent lines.
+link:/commands/references/arct/[`arct`] appends an arc of a circle to the current path, possibly preceded by a straight line segment. The arc is defined by a radius r and two tangent lines.
 
 The tangent lines are:
 1. From the current point (x0, y0) to (x1, y1)
 2. From (x1, y1) to (x2, y2)
 
-If the current point is undefined, link:/docs/commands/references/arct/[`arct`] executes the [`nocurrentpoint`] error.
+If the current point is undefined, link:/commands/references/arct/[`arct`] executes the [`nocurrentpoint`] error.
 
 The center of the arc is located at distance r perpendicular to both tangent lines, within the inner angle between them. The arc begins at the first tangent point (xt1, yt1) on the first tangent line, and ends at the second tangent point (xt2, yt2) on the second tangent line.
 
-Before constructing the arc, link:/docs/commands/references/arct/[`arct`] adds a straight line from the current point to (xt1, yt1), unless those points are the same. The point (xt2, yt2) becomes the new current point.
+Before constructing the arc, link:/commands/references/arct/[`arct`] adds a straight line from the current point to (xt1, yt1), unless those points are the same. The point (xt2, yt2) becomes the new current point.
 
-If the two tangent lines are collinear, link:/docs/commands/references/arct/[`arct`] merely appends a straight line from (x0, y0) to (x1, y1).
+If the two tangent lines are collinear, link:/commands/references/arct/[`arct`] merely appends a straight line from (x0, y0) to (x1, y1).
 
 === PostScript Level
 
@@ -185,7 +185,7 @@ stroke
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - link:/docs/commands/references/arct/[`arct`] needs a current point to define the first tangent line.
+WARNING: *Requires Current Point* - link:/commands/references/arct/[`arct`] needs a current point to define the first tangent line.
 
 [source,postscript]
 ----
@@ -203,7 +203,7 @@ WARNING: *Collinear Points* - If the three points are collinear, no arc is creat
 
 WARNING: *Radius Too Large* - Very large radii relative to the angle may produce unexpected results or hit numerical limits.
 
-TIP: *Perfect for UI Corners* - link:/docs/commands/references/arct/[`arct`] is ideal for creating rounded corners in user interfaces and technical drawings where corners are defined by intersecting lines.
+TIP: *Perfect for UI Corners* - link:/commands/references/arct/[`arct`] is ideal for creating rounded corners in user interfaces and technical drawings where corners are defined by intersecting lines.
 
 === Error Conditions
 
@@ -233,18 +233,18 @@ TIP: *Perfect for UI Corners* - link:/docs/commands/references/arct/[`arct`] is 
 * Non-uniform scaling produces elliptical results
 * Internally converted to Bézier curves
 * The connecting line from current point is automatic
-* Tangent points are calculated but not returned (use link:/docs/commands/references/arcto/[`arcto`] for that)
+* Tangent points are calculated but not returned (use link:/commands/references/arcto/[`arcto`] for that)
 
 === Performance Considerations
 
-* Slightly more complex than link:/docs/commands/references/arc/[`arc`] due to tangent calculations
+* Slightly more complex than link:/commands/references/arc/[`arc`] due to tangent calculations
 * Very efficient for creating rounded corners
 * Single operation replaces manual tangent point calculation
 
 === See Also
 
-* link:/docs/commands/references/arcto/[`arcto`] - Like arct but returns tangent points
-* link:/docs/commands/references/arc/[`arc`] - Counterclockwise circular arc
-* link:/docs/commands/references/arcn/[`arcn`] - Clockwise circular arc
-* link:/docs/commands/references/curveto/[`curveto`] - Bézier cubic curve
-* link:/docs/commands/references/lineto/[`lineto`] - Straight line segment
+* link:/commands/references/arcto/[`arcto`] - Like arct but returns tangent points
+* link:/commands/references/arc/[`arc`] - Counterclockwise circular arc
+* link:/commands/references/arcn/[`arcn`] - Clockwise circular arc
+* link:/commands/references/curveto/[`curveto`] - Bézier cubic curve
+* link:/commands/references/lineto/[`lineto`] - Straight line segment

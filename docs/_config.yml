@@ -1,4 +1,4 @@
-title: "PostScript Language Guide"
+title: "Claricle PostScript Language Guide"
 description: "Comprehensive documentation for the PostScript programming language, covering operators, syntax, and practical usage examples"
 # baseurl: "/postscript-guide"
 url: "https://claricle.github.io"
@@ -11,8 +11,8 @@ theme: just-the-docs
 color_scheme: light
 
 # Logo and favicon
-logo: "/docs/assets/images/logo.svg"
-favicon_ico: "/docs/assets/images/favicon.ico"
+logo: "/assets/images/logo.svg"
+favicon_ico: "/assets/images/favicon.ico"
 
 # AsciiDoc support
 asciidoc: {}
@@ -120,4 +120,4 @@ exclude:
 #   - levels
 
 permalink: pretty
-includes_dir: 'docs'
+# includes_dir: 'docs'

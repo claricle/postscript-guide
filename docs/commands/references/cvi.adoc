@@ -38,7 +38,7 @@ string cvi → int
 
 === Description
 
-link:/docs/commands/references/cvi/[`cvi`] (convert to integer) converts an integer, real, or string to an integer result:
+link:/commands/references/cvi/[`cvi`] (convert to integer) converts an integer, real, or string to an integer result:
 
 * **Integer operand**: Returns it unchanged
 * **Real operand**: Truncates fractional part (rounds toward 0) and converts to integer
@@ -100,7 +100,7 @@ position cellsize div cvi  % Integer cell index
 
 === Common Pitfalls
 
-WARNING: *Truncation, Not Rounding* - link:/docs/commands/references/cvi/[`cvi`] truncates toward zero, not to nearest integer.
+WARNING: *Truncation, Not Rounding* - link:/commands/references/cvi/[`cvi`] truncates toward zero, not to nearest integer.
 
 [source,postscript]
 ----
@@ -123,7 +123,7 @@ WARNING: *String Syntax* - String must contain valid PostScript number syntax.
 (12x) cvi        % Error: syntaxerror
 ----
 
-TIP: *Use round/floor/ceiling* - For other rounding behavior, use link:/docs/commands/references/round/[`round`], link:/docs/commands/references/floor/[`floor`], or link:/docs/commands/references/ceiling/[`ceiling`] before link:/docs/commands/references/cvi/[`cvi`].
+TIP: *Use round/floor/ceiling* - For other rounding behavior, use link:/commands/references/round/[`round`], link:/commands/references/floor/[`floor`], or link:/commands/references/ceiling/[`ceiling`] before link:/commands/references/cvi/[`cvi`].
 
 === Error Conditions
 
@@ -163,30 +163,30 @@ TIP: *Use round/floor/ceiling* - For other rounding behavior, use link:/docs/com
 |===
 | Operator | Result
 
-| link:/docs/commands/references/cvi/[`cvi`]
+| link:/commands/references/cvi/[`cvi`]
 | Truncate toward 0, convert to integer
 
-| link:/docs/commands/references/cvr/[`cvr`]
+| link:/commands/references/cvr/[`cvr`]
 | Convert to real
 
-| link:/docs/commands/references/round/[`round`]
+| link:/commands/references/round/[`round`]
 | Round to nearest, keep type
 
-| link:/docs/commands/references/floor/[`floor`]
+| link:/commands/references/floor/[`floor`]
 | Round down, keep type
 
-| link:/docs/commands/references/ceiling/[`ceiling`]
+| link:/commands/references/ceiling/[`ceiling`]
 | Round up, keep type
 
-| link:/docs/commands/references/truncate/[`truncate`]
+| link:/commands/references/truncate/[`truncate`]
 | Round toward 0, keep type
 |===
 
 === See Also
 
-* link:/docs/commands/references/cvr/[`cvr`] - Convert to real
-* link:/docs/commands/references/cvs/[`cvs`] - Convert to string
-* link:/docs/commands/references/round/[`round`] - Round to nearest
-* link:/docs/commands/references/floor/[`floor`] - Round down
-* link:/docs/commands/references/ceiling/[`ceiling`] - Round up
-* link:/docs/commands/references/truncate/[`truncate`] - Round toward zero
+* link:/commands/references/cvr/[`cvr`] - Convert to real
+* link:/commands/references/cvs/[`cvs`] - Convert to string
+* link:/commands/references/round/[`round`] - Round to nearest
+* link:/commands/references/floor/[`floor`] - Round down
+* link:/commands/references/ceiling/[`ceiling`] - Round up
+* link:/commands/references/truncate/[`truncate`] - Round toward zero

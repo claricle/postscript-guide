@@ -37,7 +37,7 @@ int string → string
 
 === Description
 
-link:/docs/commands/references/string/[`string`] creates a string object of length _int_, with each element initialized to the integer 0 (null character). The string is allocated in local or global VM according to the current VM allocation mode.
+link:/commands/references/string/[`string`] creates a string object of length _int_, with each element initialized to the integer 0 (null character). The string is allocated in local or global VM according to the current VM allocation mode.
 
 The _int_ operand must be:
 * A non-negative integer
@@ -110,7 +110,7 @@ WARNING: *All Elements Initialized to Zero* - The string contains null character
 5 string  % Not empty, contains 5 null chars
 ----
 
-WARNING: *String Literals vs. string Operator* - For known text, use string literals `(...)`. Use link:/docs/commands/references/string/[`string`] for dynamic buffers.
+WARNING: *String Literals vs. string Operator* - For known text, use string literals `(...)`. Use link:/commands/references/string/[`string`] for dynamic buffers.
 
 [source,postscript]
 ----
@@ -118,7 +118,7 @@ WARNING: *String Literals vs. string Operator* - For known text, use string lite
 5 string    % Dynamic allocation (for buffers)
 ----
 
-TIP: *Calculate Size Dynamically* - Use link:/docs/commands/references/length/[`length`] to determine buffer sizes.
+TIP: *Calculate Size Dynamically* - Use link:/commands/references/length/[`length`] to determine buffer sizes.
 
 [source,postscript]
 ----
@@ -163,9 +163,9 @@ original length string  % Same size as original
 
 === See Also
 
-* link:/docs/commands/references/length/[`length`] - Get string length
-* link:/docs/commands/references/get/[`get`] - Get character code
-* link:/docs/commands/references/put/[`put`] - Put character code
-* link:/docs/commands/references/getinterval/[`getinterval`] - Get substring
-* link:/docs/commands/references/putinterval/[`putinterval`] - Put substring
-* link:/docs/commands/references/cvs/[`cvs`] - Convert object to string
+* link:/commands/references/length/[`length`] - Get string length
+* link:/commands/references/get/[`get`] - Get character code
+* link:/commands/references/put/[`put`] - Put character code
+* link:/commands/references/getinterval/[`getinterval`] - Get substring
+* link:/commands/references/putinterval/[`putinterval`] - Put substring
+* link:/commands/references/cvs/[`cvs`] - Convert object to string

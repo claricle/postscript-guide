@@ -1010,10 +1010,10 @@ stroke
 
 === See Also
 
-* link:/docs/usage/basic/path-construction/[Path Construction] - Building paths
-* link:/docs/usage/basic/graphics-state/[Graphics State] - Controlling appearance
-* link:/docs/commands/references/[Painting Commands] - Complete command reference
-* link:/docs/commands/references/fill/[fill] - Fill path
-* link:/docs/commands/references/stroke/[stroke] - Stroke path
-* link:/docs/commands/references/clip/[clip] - Set clipping path
-* link:/docs/usage/advanced/patterns/[Patterns] - Advanced pattern fills
+* link:/usage/basic/path-construction/[Path Construction] - Building paths
+* link:/usage/basic/graphics-state/[Graphics State] - Controlling appearance
+* link:/commands/references/[Painting Commands] - Complete command reference
+* link:/commands/references/fill/[fill] - Fill path
+* link:/commands/references/stroke/[stroke] - Stroke path
+* link:/commands/references/clip/[clip] - Set clipping path
+* link:/usage/advanced/patterns/[Patterns] - Advanced pattern fills

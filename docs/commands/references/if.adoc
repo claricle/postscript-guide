@@ -123,7 +123,7 @@ true [code] if       % Error: literal array
 true { code } if     % Correct: executable array
 ----
 
-TIP: *Use ifelse for Two-Way* - For true/false cases, link:/docs/commands/references/ifelse/[`ifelse`] is more convenient than nested `if` statements.
+TIP: *Use ifelse for Two-Way* - For true/false cases, link:/commands/references/ifelse/[`ifelse`] is more convenient than nested `if` statements.
 
 === Error Conditions
 
@@ -146,8 +146,8 @@ TIP: *Use ifelse for Two-Way* - For true/false cases, link:/docs/commands/refere
 
 === See Also
 
-* link:/docs/commands/references/ifelse/[`ifelse`] - Two-way conditional
-* link:/docs/commands/references/loop/[`loop`] - Indefinite repetition
-* link:/docs/commands/references/stopped/[`stopped`] - Error catching
+* link:/commands/references/ifelse/[`ifelse`] - Two-way conditional
+* link:/commands/references/loop/[`loop`] - Indefinite repetition
+* link:/commands/references/stopped/[`stopped`] - Error catching
 * Comparison operators: `eq`, `ne`, `lt`, `le`, `gt`, `ge`
 * Boolean operators: `and`, `or`, `not`

@@ -37,7 +37,7 @@ int dict → dict
 
 === Description
 
-link:/docs/commands/references/dict/[`dict`] creates an empty dictionary with an initial capacity of _int_ elements and pushes it onto the operand stack.
+link:/commands/references/dict/[`dict`] creates an empty dictionary with an initial capacity of _int_ elements and pushes it onto the operand stack.
 
 **Level 1**: The dictionary has a fixed maximum capacity of _int_ elements. Attempting to exceed this causes [`dictfull`] error.
 
@@ -190,8 +190,8 @@ TIP: *Choose Appropriate Size* - Estimate needed size to avoid expensive expansi
 
 === See Also
 
-* link:/docs/commands/references/begin/[`begin`] - Push dict onto dict stack
-* link:/docs/commands/references/end/[`end`] - Pop dict from dict stack
-* link:/docs/commands/references/def/[`def`] - Define entry in current dict
-* link:/docs/commands/references/maxlength/[`maxlength`] - Get maximum capacity
-* link:/docs/commands/references/length/[`length`] - Get current entry count
+* link:/commands/references/begin/[`begin`] - Push dict onto dict stack
+* link:/commands/references/end/[`end`] - Pop dict from dict stack
+* link:/commands/references/def/[`def`] - Define entry in current dict
+* link:/commands/references/maxlength/[`maxlength`] - Get maximum capacity
+* link:/commands/references/length/[`length`] - Get current entry count

@@ -1209,18 +1209,18 @@ obj cvx                    % To executable
 
 === See Also
 
-* link:/docs/syntax/objects/[Objects] - Object model and attributes
-* link:/docs/syntax/tokens/[Tokens] - Type literal syntax
-* link:/docs/syntax/operators/[Operators] - Type-specific operations
-* link:/docs/syntax/strings/[Strings] - String type details
-* link:/docs/syntax/arrays/[Arrays] - Array type details
-* link:/docs/syntax/dictionaries/[Dictionaries] - Dictionary type details
-* link:/docs/syntax/procedures/[Procedures] - Array type as procedures
-* link:/docs/commands/references/type/[type] - Get object type
-* link:/docs/commands/references/cvi/[cvi] - Convert to integer
-* link:/docs/commands/references/cvr/[cvr] - Convert to real
-* link:/docs/commands/references/cvs/[cvs] - Convert to string
-* link:/docs/commands/references/cvn/[cvn] - Convert to name
-* link:/docs/commands/references/cvlit/[cvlit] - Make literal
-* link:/docs/commands/references/cvx/[cvx] - Make executable
-* link:/docs/syntax/[Language Syntax Overview]
+* link:/syntax/objects/[Objects] - Object model and attributes
+* link:/syntax/tokens/[Tokens] - Type literal syntax
+* link:/syntax/operators/[Operators] - Type-specific operations
+* link:/syntax/strings/[Strings] - String type details
+* link:/syntax/arrays/[Arrays] - Array type details
+* link:/syntax/dictionaries/[Dictionaries] - Dictionary type details
+* link:/syntax/procedures/[Procedures] - Array type as procedures
+* link:/commands/references/type/[type] - Get object type
+* link:/commands/references/cvi/[cvi] - Convert to integer
+* link:/commands/references/cvr/[cvr] - Convert to real
+* link:/commands/references/cvs/[cvs] - Convert to string
+* link:/commands/references/cvn/[cvn] - Convert to name
+* link:/commands/references/cvlit/[cvlit] - Make literal
+* link:/commands/references/cvx/[cvx] - Make executable
+* link:/syntax/[Language Syntax Overview]

@@ -29,9 +29,9 @@ proc string
 
 === Description
 
-link:/docs/commands/references/kshow/[`kshow`] paints the characters of `string` in a manner similar to link:/docs/commands/references/show/[`show`], but allowing program intervention between characters.
+link:/commands/references/kshow/[`kshow`] paints the characters of `string` in a manner similar to link:/commands/references/show/[`show`], but allowing program intervention between characters.
 
-If the character codes in `string` are c₀, c₁, ... cₙ, link:/docs/commands/references/kshow/[`kshow`] proceeds as follows:
+If the character codes in `string` are c₀, c₁, ... cₙ, link:/commands/references/kshow/[`kshow`] proceeds as follows:
 
 1. Shows c₀ at the current point, updating the current point by c₀'s width
 2. Pushes character codes c₀ and c₁ on the operand stack (as integers)
@@ -39,11 +39,11 @@ If the character codes in `string` are c₀, c₁, ... cₙ, link:/docs/commands
 4. Continues by showing c₁, pushing c₁ and c₂, executing `proc`, and so on
 5. Finishes by pushing cₙ₋₁ and cₙ, executing `proc`, and showing cₙ
 
-When `proc` is called for the first time, the graphics state (in particular, the CTM) is the same as it was at the time link:/docs/commands/references/kshow/[`kshow`] was invoked, except that the current point has been updated by the width of c₀. Execution of `proc` is permitted to have any side effects, including changes to the graphics state. Such changes persist from one call of `proc` to the next and may affect graphical output for the remainder of link:/docs/commands/references/kshow/[`kshow`]'s execution and afterward.
+When `proc` is called for the first time, the graphics state (in particular, the CTM) is the same as it was at the time link:/commands/references/kshow/[`kshow`] was invoked, except that the current point has been updated by the width of c₀. Execution of `proc` is permitted to have any side effects, including changes to the graphics state. Such changes persist from one call of `proc` to the next and may affect graphical output for the remainder of link:/commands/references/kshow/[`kshow`]'s execution and afterward.
 
-The name link:/docs/commands/references/kshow/[`kshow`] is derived from "kern-show." To kern characters is to adjust the spacing between adjacent pairs of characters in order to achieve a visually pleasing result. The link:/docs/commands/references/kshow/[`kshow`] operator enables user-defined kerning and other manipulations, because arbitrary computations can be performed between each pair of characters.
+The name link:/commands/references/kshow/[`kshow`] is derived from "kern-show." To kern characters is to adjust the spacing between adjacent pairs of characters in order to achieve a visually pleasing result. The link:/commands/references/kshow/[`kshow`] operator enables user-defined kerning and other manipulations, because arbitrary computations can be performed between each pair of characters.
 
-link:/docs/commands/references/kshow/[`kshow`] can be applied only to base fonts. If the current font is composite, link:/docs/commands/references/kshow/[`kshow`] issues an `invalidfont` error.
+link:/commands/references/kshow/[`kshow`] can be applied only to base fonts. If the current font is composite, link:/commands/references/kshow/[`kshow`] issues an `invalidfont` error.
 
 === Parameters
 
@@ -285,7 +285,7 @@ kshow          - Slowest (procedure calls)
 === Limitations
 
 **Composite fonts:**
-: link:/docs/commands/references/kshow/[`kshow`] cannot be used with composite fonts; use link:/docs/commands/references/cshow/[`cshow`] instead
+: link:/commands/references/kshow/[`kshow`] cannot be used with composite fonts; use link:/commands/references/cshow/[`cshow`] instead
 
 **Character boundaries:**
 : Procedure is called between characters, not within character rendering
@@ -295,9 +295,9 @@ kshow          - Slowest (procedure calls)
 
 === See Also
 
-- link:/docs/commands/references/show/[`show`] - Basic text painting
-- link:/docs/commands/references/ashow/[`ashow`] - Uniform character spacing
-- link:/docs/commands/references/widthshow/[`widthshow`] - Selective character width adjustment
-- link:/docs/commands/references/awidthshow/[`awidthshow`] - Combine ashow and widthshow
-- link:/docs/commands/references/cshow/[`cshow`] - Show with procedure per character (Level 2)
-- link:/docs/commands/references/stringwidth/[`stringwidth`] - Calculate text width
+- link:/commands/references/show/[`show`] - Basic text painting
+- link:/commands/references/ashow/[`ashow`] - Uniform character spacing
+- link:/commands/references/widthshow/[`widthshow`] - Selective character width adjustment
+- link:/commands/references/awidthshow/[`awidthshow`] - Combine ashow and widthshow
+- link:/commands/references/cshow/[`cshow`] - Show with procedure per character (Level 2)
+- link:/commands/references/stringwidth/[`stringwidth`] - Calculate text width

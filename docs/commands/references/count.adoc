@@ -232,11 +232,11 @@ TIP: Use `count` immediately before the operation that needs to know stack depth
 
 == Related Commands
 
-* link:/docs/commands/references/counttomark/[`counttomark`] - Count elements until a mark
-* link:/docs/commands/references/clear/[`clear`] - Remove all elements from stack
-* link:/docs/commands/references/pop/[`pop`] - Remove single element
-* link:/docs/commands/references/copy/[`copy`] - Copy n elements
-* link:/docs/commands/references/roll/[`roll`] - Rotate n elements
+* link:/commands/references/counttomark/[`counttomark`] - Count elements until a mark
+* link:/commands/references/clear/[`clear`] - Remove all elements from stack
+* link:/commands/references/pop/[`pop`] - Remove single element
+* link:/commands/references/copy/[`copy`] - Copy n elements
+* link:/commands/references/roll/[`roll`] - Rotate n elements
 
 == PostScript Level
 
@@ -310,7 +310,7 @@ Use `count` freely for debugging and stack management without performance concer
 
 == See Also
 
-* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
-* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
-* link:/docs/usage/debugging/[Debugging Guide] - Using count for debugging
-* link:/docs/commands/references/[Stack Manipulation] - All stack operators
+* link:/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/usage/debugging/[Debugging Guide] - Using count for debugging
+* link:/commands/references/[Stack Manipulation] - All stack operators

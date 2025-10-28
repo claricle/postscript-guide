@@ -37,7 +37,7 @@ Creates a graphics state object.
 
 === Description
 
-link:/docs/commands/references/gstate/[`gstate`] creates a new gstate (graphics state) object and pushes it on the operand stack. Its initial value is a copy of the current graphics state, including all graphics parameters such as:
+link:/commands/references/gstate/[`gstate`] creates a new gstate (graphics state) object and pushes it on the operand stack. Its initial value is a copy of the current graphics state, including all graphics parameters such as:
 
 * Current transformation matrix (CTM)
 * Color space and color
@@ -49,7 +49,7 @@ link:/docs/commands/references/gstate/[`gstate`] creates a new gstate (graphics 
 
 This operator consumes VM; it is the only graphics state operator that does. The gstate is allocated in either local or global VM according to the current VM allocation mode.
 
-The gstate object can later be used with link:/docs/commands/references/setgstate/[`setgstate`] to restore the graphics state to the captured values, or with link:/docs/commands/references/currentgstate/[`currentgstate`] to update the saved state.
+The gstate object can later be used with link:/commands/references/setgstate/[`setgstate`] to restore the graphics state to the captured values, or with link:/commands/references/currentgstate/[`currentgstate`] to update the saved state.
 
 === PostScript Level
 
@@ -164,7 +164,7 @@ StateLibrary /NormalState get setgstate
 
 === Common Pitfalls
 
-WARNING: *VM Consumption* - link:/docs/commands/references/gstate/[`gstate`] allocates memory; excessive use can exhaust VM.
+WARNING: *VM Consumption* - link:/commands/references/gstate/[`gstate`] allocates memory; excessive use can exhaust VM.
 
 [source,postscript]
 ----
@@ -183,7 +183,7 @@ true setglobal
 gstate  % Error: invalidaccess
 ----
 
-WARNING: *Not a Substitute for gsave* - Use link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`] for simple state save/restore.
+WARNING: *Not a Substitute for gsave* - Use link:/commands/references/gsave/[`gsave`]/link:/commands/references/grestore/[`grestore`] for simple state save/restore.
 
 [source,postscript]
 ----
@@ -198,7 +198,7 @@ drawShape
 grestore
 ----
 
-TIP: *Use for Templates* - link:/docs/commands/references/gstate/[`gstate`] is ideal for creating reusable state configurations.
+TIP: *Use for Templates* - link:/commands/references/gstate/[`gstate`] is ideal for creating reusable state configurations.
 
 === Error Conditions
 
@@ -221,8 +221,8 @@ TIP: *Use for Templates* - link:/docs/commands/references/gstate/[`gstate`] is i
 * Only graphics state operator that consumes VM
 * Allocated in local or global VM based on current allocation mode
 * Contains complete copy of graphics state
-* Can be used repeatedly with link:/docs/commands/references/setgstate/[`setgstate`]
-* More expensive than link:/docs/commands/references/gsave/[`gsave`] but more flexible
+* Can be used repeatedly with link:/commands/references/setgstate/[`setgstate`]
+* More expensive than link:/commands/references/gsave/[`gsave`] but more flexible
 * Best used for state templates, not simple save/restore
 
 === Graphics State Components
@@ -242,8 +242,8 @@ The gstate object captures all of the following:
 
 === See Also
 
-* link:/docs/commands/references/setgstate/[`setgstate`] - Replace graphics state from gstate
-* link:/docs/commands/references/currentgstate/[`currentgstate`] - Update gstate with current state
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state on stack
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state from stack
-* link:/docs/commands/references/grestoreall/[`grestoreall`] - Restore all saved states
+* link:/commands/references/setgstate/[`setgstate`] - Replace graphics state from gstate
+* link:/commands/references/currentgstate/[`currentgstate`] - Update gstate with current state
+* link:/commands/references/gsave/[`gsave`] - Save graphics state on stack
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state from stack
+* link:/commands/references/grestoreall/[`grestoreall`] - Restore all saved states

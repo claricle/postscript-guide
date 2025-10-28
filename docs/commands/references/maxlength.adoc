@@ -37,9 +37,9 @@ dict maxlength → int
 
 === Description
 
-link:/docs/commands/references/maxlength/[`maxlength`] returns the capacity of _dict_ - the maximum number of key-value pairs it can hold using the VM currently allocated to it.
+link:/commands/references/maxlength/[`maxlength`] returns the capacity of _dict_ - the maximum number of key-value pairs it can hold using the VM currently allocated to it.
 
-**Level 1**: Returns the _int_ operand originally passed to link:/docs/commands/references/dict/[`dict`] - the dictionary's fixed maximum capacity.
+**Level 1**: Returns the _int_ operand originally passed to link:/commands/references/dict/[`dict`] - the dictionary's fixed maximum capacity.
 
 **Level 2**: Returns the current capacity, which may be larger than the original size if the dictionary has grown.
 
@@ -110,7 +110,7 @@ requiredSlots lt {
 
 === Common Pitfalls
 
-WARNING: *maxlength ≠ length* - link:/docs/commands/references/maxlength/[`maxlength`] is capacity, link:/docs/commands/references/length/[`length`] is current count.
+WARNING: *maxlength ≠ length* - link:/commands/references/maxlength/[`maxlength`] is capacity, link:/commands/references/length/[`length`] is current count.
 
 [source,postscript]
 ----
@@ -164,11 +164,11 @@ TIP: *Don't Rely on Exact Values* - In Level 2, maxlength may increase unpredict
 | Measurement | Operator | Meaning
 
 | Current entries
-| link:/docs/commands/references/length/[`length`]
+| link:/commands/references/length/[`length`]
 | Number of key-value pairs
 
 | Maximum capacity
-| link:/docs/commands/references/maxlength/[`maxlength`]
+| link:/commands/references/maxlength/[`maxlength`]
 | Slots available with current VM allocation
 
 | Available space
@@ -178,7 +178,7 @@ TIP: *Don't Rely on Exact Values* - In Level 2, maxlength may increase unpredict
 
 === See Also
 
-* link:/docs/commands/references/length/[`length`] - Get current entry count
-* link:/docs/commands/references/dict/[`dict`] - Create dictionary with initial capacity
-* link:/docs/commands/references/def/[`def`] - Add entry to dictionary
-* link:/docs/commands/references/known/[`known`] - Check if key exists
+* link:/commands/references/length/[`length`] - Get current entry count
+* link:/commands/references/dict/[`dict`] - Create dictionary with initial capacity
+* link:/commands/references/def/[`def`] - Add entry to dictionary
+* link:/commands/references/known/[`known`] - Check if key exists

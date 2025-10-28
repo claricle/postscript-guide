@@ -857,9 +857,9 @@ matrix currentmatrix dtransform moveto  % Wrong!
 
 === See Also
 
-* link:/docs/usage/basic/coordinate-systems/[Coordinate Systems] - Device vs user space
-* link:/docs/usage/basic/graphics-state/[Graphics State] - State management
-* link:/docs/usage/advanced/file-operations/[File Operations] - Output control
-* link:/docs/usage/advanced/resource-management/[Resource Management] - Device resources
-* link:/docs/usage/advanced/error-handling/[Error Handling] - Device errors
-* link:/docs/commands/references/[Device Output Commands] - Output operators
+* link:/usage/basic/coordinate-systems/[Coordinate Systems] - Device vs user space
+* link:/usage/basic/graphics-state/[Graphics State] - State management
+* link:/usage/advanced/file-operations/[File Operations] - Output control
+* link:/usage/advanced/resource-management/[Resource Management] - Device resources
+* link:/usage/advanced/error-handling/[Error Handling] - Device errors
+* link:/commands/references/[Device Output Commands] - Output operators

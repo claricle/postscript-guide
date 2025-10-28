@@ -37,11 +37,11 @@ Returns current color as gray value.
 
 === Description
 
-link:/docs/commands/references/currentgray/[`currentgray`] returns the gray value of the current color parameter in the graphics state.
+link:/commands/references/currentgray/[`currentgray`] returns the gray value of the current color parameter in the graphics state.
 
-* If the current color space is **DeviceGray**, link:/docs/commands/references/currentgray/[`currentgray`] returns the color value most recently specified to link:/docs/commands/references/setgray/[`setgray`] or [`setcolor`].
-* If the current color space is **DeviceRGB** or **DeviceCMYK**, link:/docs/commands/references/currentgray/[`currentgray`] converts the current color to a gray value using standard conversion formulas.
-* For any other color space, link:/docs/commands/references/currentgray/[`currentgray`] returns **0.0** (black).
+* If the current color space is **DeviceGray**, link:/commands/references/currentgray/[`currentgray`] returns the color value most recently specified to link:/commands/references/setgray/[`setgray`] or [`setcolor`].
+* If the current color space is **DeviceRGB** or **DeviceCMYK**, link:/commands/references/currentgray/[`currentgray`] converts the current color to a gray value using standard conversion formulas.
+* For any other color space, link:/commands/references/currentgray/[`currentgray`] returns **0.0** (black).
 
 The returned value is always in the range 0.0 (black) to 1.0 (white).
 
@@ -221,7 +221,7 @@ gray = 0.0
 
 === See Also
 
-* link:/docs/commands/references/setgray/[`setgray`] - Set gray color
-* link:/docs/commands/references/currentrgbcolor/[`currentrgbcolor`] - Get RGB color
-* link:/docs/commands/references/currentcmykcolor/[`currentcmykcolor`] - Get CMYK color (Level 2)
-* link:/docs/commands/references/currenthsbcolor/[`currenthsbcolor`] - Get HSB color
+* link:/commands/references/setgray/[`setgray`] - Set gray color
+* link:/commands/references/currentrgbcolor/[`currentrgbcolor`] - Get RGB color
+* link:/commands/references/currentcmykcolor/[`currentcmykcolor`] - Get CMYK color (Level 2)
+* link:/commands/references/currenthsbcolor/[`currenthsbcolor`] - Get HSB color

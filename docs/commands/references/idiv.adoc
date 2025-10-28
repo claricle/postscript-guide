@@ -12,7 +12,7 @@ Divides two integers and returns the integer quotient, discarding any fractional
 
 The `idiv` operator pops two integers from the operand stack, divides int1 by int2, and pushes the integer part of the quotient back onto the stack. Any fractional part is discarded (truncated toward zero). Both operands *must be integers*, and the result is always an integer.
 
-For division that preserves fractional parts, use link:/docs/commands/references/div/[`div`]. For the remainder of integer division, use link:/docs/commands/references/mod/[`mod`].
+For division that preserves fractional parts, use link:/commands/references/div/[`div`]. For the remainder of integer division, use link:/commands/references/mod/[`mod`].
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -239,13 +239,13 @@ Both operands *must* be integers. Real numbers will cause a `typecheck` error:
 
 == Related Commands
 
-* link:/docs/commands/references/div/[`div`] - Division with real result
-* link:/docs/commands/references/mod/[`mod`] - Modulo (remainder)
-* link:/docs/commands/references/add/[`add`] - Add two numbers
-* link:/docs/commands/references/sub/[`sub`] - Subtract two numbers
-* link:/docs/commands/references/mul/[`mul`] - Multiply two numbers
-* link:/docs/commands/references/truncate/[`truncate`] - Truncate real to integer
-* link:/docs/commands/references/floor/[`floor`] - Round down to integer
+* link:/commands/references/div/[`div`] - Division with real result
+* link:/commands/references/mod/[`mod`] - Modulo (remainder)
+* link:/commands/references/add/[`add`] - Add two numbers
+* link:/commands/references/sub/[`sub`] - Subtract two numbers
+* link:/commands/references/mul/[`mul`] - Multiply two numbers
+* link:/commands/references/truncate/[`truncate`] - Truncate real to integer
+* link:/commands/references/floor/[`floor`] - Round down to integer
 
 == PostScript Level
 
@@ -290,5 +290,5 @@ currentIndex arraySize idiv  % Which page of array?
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
-* link:/docs/levels/[PostScript Language Levels]
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/levels/[PostScript Language Levels]

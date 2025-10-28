@@ -37,7 +37,7 @@ num setgray → –
 
 === Description
 
-link:/docs/commands/references/setgray/[`setgray`] sets the color space to DeviceGray and sets the current color to a gray shade corresponding to _num_.
+link:/commands/references/setgray/[`setgray`] sets the color space to DeviceGray and sets the current color to a gray shade corresponding to _num_.
 
 * **0** = black
 * **1** = white
@@ -126,7 +126,7 @@ Values outside 0-1 are clamped to nearest legal value (no error).
 
 === Common Pitfalls
 
-WARNING: *Changes Color Space* - link:/docs/commands/references/setgray/[`setgray`] changes color space to DeviceGray.
+WARNING: *Changes Color Space* - link:/commands/references/setgray/[`setgray`] changes color space to DeviceGray.
 
 [source,postscript]
 ----
@@ -169,8 +169,8 @@ TIP: *Use for Monochrome* - Most efficient color operation for monochrome output
 
 === See Also
 
-* link:/docs/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
-* link:/docs/commands/references/setcmykcolor/[`setcmykcolor`] - Set CMYK color (Level 2)
-* link:/docs/commands/references/sethsbcolor/[`sethsbcolor`] - Set HSB color
-* link:/docs/commands/references/currentgray/[`currentgray`] - Get current gray value
+* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Set RGB color
+* link:/commands/references/setcmykcolor/[`setcmykcolor`] - Set CMYK color (Level 2)
+* link:/commands/references/sethsbcolor/[`sethsbcolor`] - Set HSB color
+* link:/commands/references/currentgray/[`currentgray`] - Get current gray value
 * Color operations (to be documented) - Advanced color spaces

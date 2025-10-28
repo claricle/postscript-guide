@@ -37,7 +37,7 @@ Returns current line cap style.
 
 === Description
 
-link:/docs/commands/references/currentlinecap/[`currentlinecap`] returns the current line cap parameter from the graphics state. This is the value most recently set by link:/docs/commands/references/setlinecap/[`setlinecap`].
+link:/commands/references/currentlinecap/[`currentlinecap`] returns the current line cap parameter from the graphics state. This is the value most recently set by link:/commands/references/setlinecap/[`setlinecap`].
 
 **Cap styles:**
 
@@ -177,7 +177,7 @@ Square (2):   [─────]
 
 === See Also
 
-* link:/docs/commands/references/setlinecap/[`setlinecap`] - Set line cap style
-* link:/docs/commands/references/currentlinejoin/[`currentlinejoin`] - Get line join style
-* link:/docs/commands/references/currentlinewidth/[`currentlinewidth`] - Get line width
-* link:/docs/commands/references/currentdash/[`currentdash`] - Get dash pattern
+* link:/commands/references/setlinecap/[`setlinecap`] - Set line cap style
+* link:/commands/references/currentlinejoin/[`currentlinejoin`] - Get line join style
+* link:/commands/references/currentlinewidth/[`currentlinewidth`] - Get line width
+* link:/commands/references/currentdash/[`currentdash`] - Get dash pattern

@@ -28,9 +28,9 @@ Restores the graphics state from the top of the graphics state stack.
 
 === Description
 
-link:/docs/commands/references/grestore/[`grestore`] resets the current graphics state from the one on top of the graphics state stack and pops that stack.
+link:/commands/references/grestore/[`grestore`] resets the current graphics state from the one on top of the graphics state stack and pops that stack.
 
-If there is no matching link:/docs/commands/references/gsave/[`gsave`], or if the most recent link:/docs/commands/references/gsave/[`gsave`] preceded the most recent unmatched `save`, link:/docs/commands/references/grestore/[`grestore`] does not pop the stack, but still restores the state from the top.
+If there is no matching link:/commands/references/gsave/[`gsave`], or if the most recent link:/commands/references/gsave/[`gsave`] preceded the most recent unmatched `save`, link:/commands/references/grestore/[`grestore`] does not pop the stack, but still restores the state from the top.
 
 === PostScript Level
 
@@ -109,7 +109,7 @@ grestore
 
 === Common Pitfalls
 
-WARNING: *Must Have Matching gsave* - Unmatched link:/docs/commands/references/grestore/[`grestore`] doesn't error but doesn't pop stack.
+WARNING: *Must Have Matching gsave* - Unmatched link:/commands/references/grestore/[`grestore`] doesn't error but doesn't pop stack.
 
 [source,postscript]
 ----
@@ -117,7 +117,7 @@ grestore  % No matching gsave
 % State restored from top but stack not popped
 ----
 
-WARNING: *save Intervenes* - link:/docs/commands/references/grestore/[`grestore`] after `save` doesn't pop stack.
+WARNING: *save Intervenes* - link:/commands/references/grestore/[`grestore`] after `save` doesn't pop stack.
 
 [source,postscript]
 ----
@@ -127,7 +127,7 @@ grestore  % Doesn't pop due to save
 restore   % Pops graphics state stack
 ----
 
-TIP: *Always Pair with gsave* - Use link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`] pairs consistently.
+TIP: *Always Pair with gsave* - Use link:/commands/references/gsave/[`gsave`]/link:/commands/references/grestore/[`grestore`] pairs consistently.
 
 === Error Conditions
 
@@ -148,7 +148,7 @@ TIP: *Always Pair with gsave* - Use link:/docs/commands/references/gsave/[`gsave
 
 === What Gets Restored
 
-All parameters saved by link:/docs/commands/references/gsave/[`gsave`]:
+All parameters saved by link:/commands/references/gsave/[`gsave`]:
 * CTM, path, current point
 * Clipping path
 * Color space and color
@@ -158,7 +158,7 @@ All parameters saved by link:/docs/commands/references/gsave/[`gsave`]:
 
 === See Also
 
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestoreall/[`grestoreall`] - Restore all levels
-* link:/docs/commands/references/setgstate/[`setgstate`] - Set from gstate object
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestoreall/[`grestoreall`] - Restore all levels
+* link:/commands/references/setgstate/[`setgstate`] - Set from gstate object
 * `save`, `restore` - VM and graphics state

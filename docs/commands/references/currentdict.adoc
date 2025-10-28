@@ -37,7 +37,7 @@ Returns the current dictionary (top of dictionary stack).
 
 === Description
 
-link:/docs/commands/references/currentdict/[`currentdict`] pushes the current dictionary (the dictionary on top of the dictionary stack) onto the operand stack.
+link:/commands/references/currentdict/[`currentdict`] pushes the current dictionary (the dictionary on top of the dictionary stack) onto the operand stack.
 
 This does NOT pop the dictionary stack - it just pushes a duplicate reference to the top dictionary.
 
@@ -103,7 +103,7 @@ currentdict /setting known not {
 
 === Common Pitfalls
 
-WARNING: *Does Not Pop Dictionary Stack* - link:/docs/commands/references/currentdict/[`currentdict`] leaves dictionary stack unchanged.
+WARNING: *Does Not Pop Dictionary Stack* - link:/commands/references/currentdict/[`currentdict`] leaves dictionary stack unchanged.
 
 [source,postscript]
 ----
@@ -142,7 +142,7 @@ currentdict { exch = = } forall  % Print all entries
 
 * Very fast operation
 * Returns reference to actual dictionary (not a copy)
-* Standard use case for link:/docs/commands/references/def/[`def`] is `currentdict key value put`
+* Standard use case for link:/commands/references/def/[`def`] is `currentdict key value put`
 
 === Typical Dictionary Stack
 
@@ -155,12 +155,12 @@ Top    → Local dict (via begin)
 Bottom → systemdict
 ----
 
-link:/docs/commands/references/currentdict/[`currentdict`] returns the topmost dictionary.
+link:/commands/references/currentdict/[`currentdict`] returns the topmost dictionary.
 
 === See Also
 
-* link:/docs/commands/references/begin/[`begin`] - Push dictionary onto stack
-* link:/docs/commands/references/end/[`end`] - Pop dictionary from stack
-* link:/docs/commands/references/dictstack/[`dictstack`] - Copy entire dict stack to array
-* link:/docs/commands/references/countdictstack/[`countdictstack`] - Count dictionaries on stack
-* link:/docs/commands/references/def/[`def`] - Define in current dictionary
+* link:/commands/references/begin/[`begin`] - Push dictionary onto stack
+* link:/commands/references/end/[`end`] - Pop dictionary from stack
+* link:/commands/references/dictstack/[`dictstack`] - Copy entire dict stack to array
+* link:/commands/references/countdictstack/[`countdictstack`] - Count dictionaries on stack
+* link:/commands/references/def/[`def`] - Define in current dictionary

@@ -40,9 +40,9 @@ x y moveto → -
 
 === Description
 
-link:/docs/commands/references/moveto/[`moveto`] starts a new subpath of the current path by setting the current point in the graphics state to the user space coordinate (x, y) without adding any line segments to the current path.
+link:/commands/references/moveto/[`moveto`] starts a new subpath of the current path by setting the current point in the graphics state to the user space coordinate (x, y) without adding any line segments to the current path.
 
-If the previous path construction operation was also a link:/docs/commands/references/moveto/[`moveto`] or link:/docs/commands/references/rmoveto/[`rmoveto`], that point is deleted from the current path and the new link:/docs/commands/references/moveto/[`moveto`] point replaces it.
+If the previous path construction operation was also a link:/commands/references/moveto/[`moveto`] or link:/commands/references/rmoveto/[`rmoveto`], that point is deleted from the current path and the new link:/commands/references/moveto/[`moveto`] point replaces it.
 
 The coordinates are interpreted as user space coordinates and are transformed by the current transformation matrix (CTM) to device space when the path is constructed.
 
@@ -126,7 +126,7 @@ fill                     % Fill both squares
 
 === Common Pitfalls
 
-WARNING: *No Current Point Initially* - After link:/docs/commands/references/newpath/[`newpath`], there is no current point. Always use link:/docs/commands/references/moveto/[`moveto`] to establish one before operations like link:/docs/commands/references/lineto/[`lineto`] or link:/docs/commands/references/curveto/[`curveto`].
+WARNING: *No Current Point Initially* - After link:/commands/references/newpath/[`newpath`], there is no current point. Always use link:/commands/references/moveto/[`moveto`] to establish one before operations like link:/commands/references/lineto/[`lineto`] or link:/commands/references/curveto/[`curveto`].
 
 [source,postscript]
 ----
@@ -134,7 +134,7 @@ newpath
 200 200 lineto           % Error: nocurrentpoint
 ----
 
-WARNING: *Consecutive moveto* - Multiple consecutive link:/docs/commands/references/moveto/[`moveto`] operations cause only the last one to be effective. The previous points are discarded.
+WARNING: *Consecutive moveto* - Multiple consecutive link:/commands/references/moveto/[`moveto`] operations cause only the last one to be effective. The previous points are discarded.
 
 [source,postscript]
 ----
@@ -145,7 +145,7 @@ newpath
 40 40 lineto             % Line starts from (30, 30)
 ----
 
-TIP: *Use for Positioning* - link:/docs/commands/references/moveto/[`moveto`] is essential for positioning before drawing or showing text. It doesn't consume the current point—it sets it.
+TIP: *Use for Positioning* - link:/commands/references/moveto/[`moveto`] is essential for positioning before drawing or showing text. It doesn't consume the current point—it sets it.
 
 === Error Conditions
 
@@ -165,7 +165,7 @@ TIP: *Use for Positioning* - link:/docs/commands/references/moveto/[`moveto`] is
 
 === Implementation Notes
 
-* link:/docs/commands/references/moveto/[`moveto`] does not add any segments to the path
+* link:/commands/references/moveto/[`moveto`] does not add any segments to the path
 * Coordinates are immediately transformed by CTM to device space
 * The point becomes the start of a new subpath
 * Subsequent path operations use this as the current point
@@ -176,14 +176,14 @@ TIP: *Use for Positioning* - link:/docs/commands/references/moveto/[`moveto`] is
 * Very lightweight operation
 * No path segments are created
 * Transformation happens immediately
-* Multiple consecutive link:/docs/commands/references/moveto/[`moveto`] operations have minimal overhead (only the last is retained)
+* Multiple consecutive link:/commands/references/moveto/[`moveto`] operations have minimal overhead (only the last is retained)
 
 === See Also
 
-* link:/docs/commands/references/rmoveto/[`rmoveto`] - Relative moveto
-* link:/docs/commands/references/lineto/[`lineto`] - Draw line to point
-* link:/docs/commands/references/curveto/[`curveto`] - Draw curve to point
-* link:/docs/commands/references/arc/[`arc`] - Draw circular arc
-* link:/docs/commands/references/closepath/[`closepath`] - Close current subpath
-* link:/docs/commands/references/newpath/[`newpath`] - Initialize empty path
-* link:/docs/commands/references/currentpoint/[`currentpoint`] - Get current point coordinates
+* link:/commands/references/rmoveto/[`rmoveto`] - Relative moveto
+* link:/commands/references/lineto/[`lineto`] - Draw line to point
+* link:/commands/references/curveto/[`curveto`] - Draw curve to point
+* link:/commands/references/arc/[`arc`] - Draw circular arc
+* link:/commands/references/closepath/[`closepath`] - Close current subpath
+* link:/commands/references/newpath/[`newpath`] - Initialize empty path
+* link:/commands/references/currentpoint/[`currentpoint`] - Get current point coordinates

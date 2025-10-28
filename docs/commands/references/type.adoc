@@ -37,7 +37,7 @@ any type → name
 
 === Description
 
-link:/docs/commands/references/type/[`type`] returns a name object that identifies the type of its operand. The returned name has the **executable** attribute, making it convenient for type-dependent processing via dictionary lookup.
+link:/commands/references/type/[`type`] returns a name object that identifies the type of its operand. The returned name has the **executable** attribute, making it convenient for type-dependent processing via dictionary lookup.
 
 === PostScript Level
 
@@ -220,8 +220,8 @@ PostScript has no formal inheritance, but types can be categorized:
 
 === See Also
 
-* link:/docs/commands/references/cvlit/[`cvlit`] - Convert to literal
-* link:/docs/commands/references/cvx/[`cvx`] - Convert to executable
-* link:/docs/commands/references/xcheck/[`xcheck`] - Test if executable
-* link:/docs/commands/references/rcheck/[`rcheck`] - Test if readable
-* link:/docs/commands/references/wcheck/[`wcheck`] - Test if writable
+* link:/commands/references/cvlit/[`cvlit`] - Convert to literal
+* link:/commands/references/cvx/[`cvx`] - Convert to executable
+* link:/commands/references/xcheck/[`xcheck`] - Test if executable
+* link:/commands/references/rcheck/[`rcheck`] - Test if readable
+* link:/commands/references/wcheck/[`wcheck`] - Test if writable

@@ -46,14 +46,14 @@ any₀ ... anyₙ₋₁ array astore → array
 
 === Description
 
-link:/docs/commands/references/astore/[`astore`] stores objects from the operand stack into an array:
+link:/commands/references/astore/[`astore`] stores objects from the operand stack into an array:
 
 1. Removes the array from the stack and determines its length _n_
 2. Removes _n_ objects from the stack
 3. Stores them into the array (topmost stack element → array[n-1], bottommost → array[0])
 4. Pushes the array back onto the stack
 
-The array must have been previously created with the correct length. link:/docs/commands/references/astore/[`astore`] cannot be performed on packed arrays (they are read-only).
+The array must have been previously created with the correct length. link:/commands/references/astore/[`astore`] cannot be performed on packed arrays (they are read-only).
 
 === PostScript Level
 
@@ -135,7 +135,7 @@ WARNING: *Stack Order* - Objects are stored in reverse stack order: topmost stac
 
 WARNING: *Global/Local VM Restrictions* - If the array is in global VM and any stored object is in local VM, [`invalidaccess`] error occurs.
 
-TIP: *Pre-create Array* - Always create the array first with the correct size using link:/docs/commands/references/array/[`array`].
+TIP: *Pre-create Array* - Always create the array first with the correct size using link:/commands/references/array/[`array`].
 
 === Error Conditions
 
@@ -171,12 +171,12 @@ TIP: *Pre-create Array* - Always create the array first with the correct size us
 [ 1 2 3 ]             % [1 2 3] (more convenient)
 ----
 
-The `[ ]` syntax is usually more convenient for literal arrays, but link:/docs/commands/references/astore/[`astore`] is useful when the array size is computed dynamically.
+The `[ ]` syntax is usually more convenient for literal arrays, but link:/commands/references/astore/[`astore`] is useful when the array size is computed dynamically.
 
 === See Also
 
-* link:/docs/commands/references/aload/[`aload`] - Load array elements onto stack
-* link:/docs/commands/references/array/[`array`] - Create new array
-* link:/docs/commands/references/put/[`put`] - Put single value into array
-* link:/docs/commands/references/putinterval/[`putinterval`] - Put subarray into array
-* link:/docs/commands/references/brackets/[`[`] / link:/docs/commands/references/brackets/[`]`] - Array literal syntax
+* link:/commands/references/aload/[`aload`] - Load array elements onto stack
+* link:/commands/references/array/[`array`] - Create new array
+* link:/commands/references/put/[`put`] - Put single value into array
+* link:/commands/references/putinterval/[`putinterval`] - Put subarray into array
+* link:/commands/references/brackets/[`[`] / link:/commands/references/brackets/[`]`] - Array literal syntax

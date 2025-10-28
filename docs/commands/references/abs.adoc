@@ -249,10 +249,10 @@ The operand must be numeric (integer or real). Other types will cause a `typeche
 
 == Related Commands
 
-* link:/docs/commands/references/neg/[`neg`] - Negate a number
-* link:/docs/commands/references/add/[`add`] - Add two numbers
-* link:/docs/commands/references/sub/[`sub`] - Subtract two numbers
-* link:/docs/commands/references/sqrt/[`sqrt`] - Square root
+* link:/commands/references/neg/[`neg`] - Negate a number
+* link:/commands/references/add/[`add`] - Add two numbers
+* link:/commands/references/sub/[`sub`] - Subtract two numbers
+* link:/commands/references/sqrt/[`sqrt`] - Square root
 
 == PostScript Level
 
@@ -338,5 +338,5 @@ The `abs` operator is extremely fast:
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
-* link:/docs/levels/[PostScript Language Levels]
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/levels/[PostScript Language Levels]

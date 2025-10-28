@@ -37,9 +37,9 @@ userpath ufill → -
 
 === Description
 
-link:/docs/commands/references/ufill/[`ufill`] interprets a user path definition and fills the resulting path as if by link:/docs/commands/references/fill/[`fill`]. The entire operation is effectively enclosed by link:/docs/commands/references/gsave/[`gsave`] and link:/docs/commands/references/grestore/[`grestore`], so link:/docs/commands/references/ufill/[`ufill`] has no lasting effect on the graphics state.
+link:/commands/references/ufill/[`ufill`] interprets a user path definition and fills the resulting path as if by link:/commands/references/fill/[`fill`]. The entire operation is effectively enclosed by link:/commands/references/gsave/[`gsave`] and link:/commands/references/grestore/[`grestore`], so link:/commands/references/ufill/[`ufill`] has no lasting effect on the graphics state.
 
-link:/docs/commands/references/ufill/[`ufill`] is equivalent to:
+link:/commands/references/ufill/[`ufill`] is equivalent to:
 
 [source,postscript]
 ----
@@ -188,7 +188,7 @@ WARNING: *Must Include setbbox* - User paths must begin with `setbbox` (optional
 ] ufill
 ----
 
-WARNING: *Graphics State Not Modified* - link:/docs/commands/references/ufill/[`ufill`] automatically saves and restores the graphics state.
+WARNING: *Graphics State Not Modified* - link:/commands/references/ufill/[`ufill`] automatically saves and restores the graphics state.
 
 [source,postscript]
 ----
@@ -282,7 +282,7 @@ fill
 grestore
 ----
 
-.User path approach (link:/docs/commands/references/ufill/[`ufill`])
+.User path approach (link:/commands/references/ufill/[`ufill`])
 [source,postscript]
 ----
 [
@@ -377,11 +377,11 @@ myPath ustroke
 
 === See Also
 
-* link:/docs/commands/references/fill/[`fill`] - Traditional fill operator
-* link:/docs/commands/references/ueofill/[`ueofill`] - Even-odd fill user path
-* link:/docs/commands/references/ustroke/[`ustroke`] - Stroke user path
+* link:/commands/references/fill/[`fill`] - Traditional fill operator
+* link:/commands/references/ueofill/[`ueofill`] - Even-odd fill user path
+* link:/commands/references/ustroke/[`ustroke`] - Stroke user path
 * `setbbox` - Set bounding box
 * `ucache` - Enable user path caching
 * `uappend` - Append user path to current path
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state

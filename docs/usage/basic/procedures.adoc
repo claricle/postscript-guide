@@ -1115,10 +1115,10 @@ x 5 add
 
 === See Also
 
-* link:/docs/syntax/procedures/[Procedure Syntax] - Syntax details
-* link:/docs/usage/basic/arrays/[Arrays] - Array operations
-* link:/docs/usage/basic/composite-objects/[Composite Objects] - Complex data structures
-* link:/docs/commands/references/[Control Flow Commands] - Control structures
-* link:/docs/commands/references/exec/[exec] - Execute procedure
-* link:/docs/commands/references/def/[def] - Define procedure
-* link:/docs/usage/debugging/[Debugging] - Debugging procedures
+* link:/syntax/procedures/[Procedure Syntax] - Syntax details
+* link:/usage/basic/arrays/[Arrays] - Array operations
+* link:/usage/basic/composite-objects/[Composite Objects] - Complex data structures
+* link:/commands/references/[Control Flow Commands] - Control structures
+* link:/commands/references/exec/[exec] - Execute procedure
+* link:/commands/references/def/[def] - Define procedure
+* link:/usage/debugging/[Debugging] - Debugging procedures

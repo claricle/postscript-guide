@@ -29,9 +29,9 @@ font
 
 === Description
 
-link:/docs/commands/references/currentfont/[`currentfont`] returns the current font dictionary in the graphics state. Normally, this is the font most recently established by link:/docs/commands/references/setfont/[`setfont`] or `selectfont`.
+link:/commands/references/currentfont/[`currentfont`] returns the current font dictionary in the graphics state. Normally, this is the font most recently established by link:/commands/references/setfont/[`setfont`] or `selectfont`.
 
-However, when executed inside a font's `BuildGlyph` or `BuildChar` procedure or a procedure invoked by link:/docs/commands/references/cshow/[`cshow`], link:/docs/commands/references/currentfont/[`currentfont`] returns the currently selected base font (descendant of a composite font).
+However, when executed inside a font's `BuildGlyph` or `BuildChar` procedure or a procedure invoked by link:/commands/references/cshow/[`cshow`], link:/commands/references/currentfont/[`currentfont`] returns the currently selected base font (descendant of a composite font).
 
 === Returns
 
@@ -96,16 +96,16 @@ currentfont /FontName get
 
 === Behavior with Composite Fonts
 
-When link:/docs/commands/references/currentfont/[`currentfont`] is called during font construction:
+When link:/commands/references/currentfont/[`currentfont`] is called during font construction:
 
 **In BuildGlyph/BuildChar procedures:**
 : Returns the base font selected by the composite font machinery
 
-**In link:/docs/commands/references/cshow/[`cshow`] procedure:**
+**In link:/commands/references/cshow/[`cshow`] procedure:**
 : Returns the base font for the current character
 
 **Normal context:**
-: Returns the top-level font set by link:/docs/commands/references/setfont/[`setfont`]
+: Returns the top-level font set by link:/commands/references/setfont/[`setfont`]
 
 To get the top-level composite font from within these procedures, use `rootfont` instead.
 
@@ -167,9 +167,9 @@ The returned font dictionary typically contains:
 
 === See Also
 
-- link:/docs/commands/references/setfont/[`setfont`] - Establish current font
-- link:/docs/commands/references/findfont/[`findfont`] - Obtain font dictionary by name
-- link:/docs/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor
-- link:/docs/commands/references/makefont/[`makefont`] - Transform font by matrix
+- link:/commands/references/setfont/[`setfont`] - Establish current font
+- link:/commands/references/findfont/[`findfont`] - Obtain font dictionary by name
+- link:/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor
+- link:/commands/references/makefont/[`makefont`] - Transform font by matrix
 - `rootfont` - Get root font of composite font
-- link:/docs/commands/references/cshow/[`cshow`] - Show with procedure per character
+- link:/commands/references/cshow/[`cshow`] - Show with procedure per character

@@ -43,9 +43,9 @@ bool proc1 proc2 ifelse → –
 
 === Description
 
-link:/docs/commands/references/ifelse/[`ifelse`] removes all three operands from the stack, then executes _proc1_ if _bool_ is `true`, or _proc2_ if _bool_ is `false`.
+link:/commands/references/ifelse/[`ifelse`] removes all three operands from the stack, then executes _proc1_ if _bool_ is `true`, or _proc2_ if _bool_ is `false`.
 
-The link:/docs/commands/references/ifelse/[`ifelse`] operator itself pushes no results, but the executed procedure may push results.
+The link:/commands/references/ifelse/[`ifelse`] operator itself pushes no results, but the executed procedure may push results.
 
 === PostScript Level
 
@@ -148,7 +148,7 @@ x 0 gt { x x mul } { } ifelse  % Unbalanced
 x 0 gt { x x mul } { 0 } ifelse
 ----
 
-TIP: *Use for Single Branch* - If you only need one branch, link:/docs/commands/references/if/[`if`] is simpler.
+TIP: *Use for Single Branch* - If you only need one branch, link:/commands/references/if/[`if`] is simpler.
 
 === Error Conditions
 
@@ -172,7 +172,7 @@ TIP: *Use for Single Branch* - If you only need one branch, link:/docs/commands/
 
 === Pattern: Multi-Way Branch
 
-For multiple conditions, nest link:/docs/commands/references/ifelse/[`ifelse`] or use dictionary dispatch:
+For multiple conditions, nest link:/commands/references/ifelse/[`ifelse`] or use dictionary dispatch:
 
 [source,postscript]
 ----
@@ -202,8 +202,8 @@ end
 
 === See Also
 
-* link:/docs/commands/references/if/[`if`] - Single-branch conditional
-* link:/docs/commands/references/loop/[`loop`] - Indefinite repetition
-* link:/docs/commands/references/repeat/[`repeat`] - Fixed repetition
+* link:/commands/references/if/[`if`] - Single-branch conditional
+* link:/commands/references/loop/[`loop`] - Indefinite repetition
+* link:/commands/references/repeat/[`repeat`] - Fixed repetition
 * Comparison operators: `eq`, `ne`, `lt`, `le`, `gt`, `ge`
 * Boolean operators: `and`, `or`, `not`

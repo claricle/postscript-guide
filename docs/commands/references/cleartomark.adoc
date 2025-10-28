@@ -12,7 +12,7 @@ Removes all elements from the operand stack down to and including the topmost ma
 
 The `cleartomark` operator pops the operand stack repeatedly until it encounters a mark object, which it also pops and discards. All objects between the top of the stack and the mark (exclusive of the mark itself) are discarded along with the mark.
 
-This operator is commonly used to clean up after variable-argument operations or to discard intermediate results that were accumulated after placing a mark. It's the complement to link:/docs/commands/references/mark/[`mark`] for managing stack segments.
+This operator is commonly used to clean up after variable-argument operations or to discard intermediate results that were accumulated after placing a mark. It's the complement to link:/commands/references/mark/[`mark`] for managing stack segments.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -252,7 +252,7 @@ cleartomark
 % Stack: 10 20 30 (top elements and mark removed)
 ----
 
-TIP: Always pair link:/docs/commands/references/mark/[`mark`] with `cleartomark` to avoid accumulating marks on the stack. Verify mark existence before calling `cleartomark` in defensive code.
+TIP: Always pair link:/commands/references/mark/[`mark`] with `cleartomark` to avoid accumulating marks on the stack. Verify mark existence before calling `cleartomark` in defensive code.
 
 === Clearing Empty Segment
 
@@ -268,10 +268,10 @@ mark pop            % Stack: (empty)
 
 == Related Commands
 
-* link:/docs/commands/references/mark/[`mark`] - Push a mark object onto stack
-* link:/docs/commands/references/counttomark/[`counttomark`] - Count elements to nearest mark
-* link:/docs/commands/references/clear/[`clear`] - Remove all elements from stack
-* link:/docs/commands/references/pop/[`pop`] - Remove single element
+* link:/commands/references/mark/[`mark`] - Push a mark object onto stack
+* link:/commands/references/counttomark/[`counttomark`] - Count elements to nearest mark
+* link:/commands/references/clear/[`clear`] - Remove all elements from stack
+* link:/commands/references/pop/[`pop`] - Remove single element
 * `]` - Create array and remove mark (essentially cleartomark + array construction)
 
 == PostScript Level
@@ -300,7 +300,7 @@ The operator must scan the stack to find the mark, so very deep marks are slight
 
 == Best Practices
 
-1. **Always pair with mark**: Every link:/docs/commands/references/mark/[`mark`] should have a matching `cleartomark` or `]`
+1. **Always pair with mark**: Every link:/commands/references/mark/[`mark`] should have a matching `cleartomark` or `]`
 2. **Use for cleanup**: Excellent for cleaning up intermediate results
 3. **Check for mark**: In defensive code, verify mark exists before calling
 4. **Document mark usage**: Make it clear when procedures use marked segments
@@ -352,7 +352,7 @@ The operator must scan the stack to find the mark, so very deep marks are slight
 
 == See Also
 
-* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
-* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
-* link:/docs/usage/error-handling/[Error Handling] - Using marks for cleanup
-* link:/docs/commands/references/[Stack Manipulation] - All stack operators
+* link:/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/usage/error-handling/[Error Handling] - Using marks for cleanup
+* link:/commands/references/[Stack Manipulation] - All stack operators

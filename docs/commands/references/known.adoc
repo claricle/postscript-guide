@@ -40,7 +40,7 @@ dict key known → bool
 
 === Description
 
-link:/docs/commands/references/known/[`known`] returns `true` if there is an entry in dictionary _dict_ whose key is _key_. Otherwise, it returns `false`.
+link:/commands/references/known/[`known`] returns `true` if there is an entry in dictionary _dict_ whose key is _key_. Otherwise, it returns `false`.
 
 The dictionary does not need to be on the dictionary stack - it can be any dictionary object.
 
@@ -123,7 +123,7 @@ systemdict /setpagedevice known {
 
 === Common Pitfalls
 
-WARNING: *Checks Specific Dictionary Only* - link:/docs/commands/references/known/[`known`] does NOT search the dictionary stack, only the specified dictionary.
+WARNING: *Checks Specific Dictionary Only* - link:/commands/references/known/[`known`] does NOT search the dictionary stack, only the specified dictionary.
 
 [source,postscript]
 ----
@@ -133,9 +133,9 @@ WARNING: *Checks Specific Dictionary Only* - link:/docs/commands/references/know
 currentdict /x known  % Returns true
 ----
 
-WARNING: *Different from where* - link:/docs/commands/references/known/[`known`] checks one dictionary; link:/docs/commands/references/where/[`where`] searches the entire dictionary stack.
+WARNING: *Different from where* - link:/commands/references/known/[`known`] checks one dictionary; link:/commands/references/where/[`where`] searches the entire dictionary stack.
 
-TIP: *Use for Validation* - Check before link:../array-string/get/[`get`] to avoid [`undefined`] errors.
+TIP: *Use for Validation* - Check before link:/commands/references/get/[`get`] to avoid [`undefined`] errors.
 
 === Error Conditions
 
@@ -162,7 +162,7 @@ TIP: *Use for Validation* - Check before link:../array-string/get/[`get`] to avo
 
 === See Also
 
-* link:/docs/commands/references/where/[`where`] - Search dictionary stack for key
-* link:/docs/commands/references/load/[`load`] - Get value from dictionary stack
-* link:/docs/commands/references/get/[`get`] - Get value from specific dictionary
-* link:/docs/commands/references/def/[`def`] - Define key-value pair
+* link:/commands/references/where/[`where`] - Search dictionary stack for key
+* link:/commands/references/load/[`load`] - Get value from dictionary stack
+* link:/commands/references/get/[`get`] - Get value from specific dictionary
+* link:/commands/references/def/[`def`] - Define key-value pair

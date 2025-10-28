@@ -52,11 +52,11 @@ dx1 dy1 dx2 dy2 dx3 dy3 rcurveto → -
 
 === Description
 
-link:/docs/commands/references/rcurveto/[`rcurveto`] (relative curveto) adds a Bézier cubic section to the current path in the same manner as link:/docs/commands/references/curveto/[`curveto`]. However, the three number pairs are interpreted as displacements relative to the current point (x0, y0) rather than as absolute coordinates.
+link:/commands/references/rcurveto/[`rcurveto`] (relative curveto) adds a Bézier cubic section to the current path in the same manner as link:/commands/references/curveto/[`curveto`]. However, the three number pairs are interpreted as displacements relative to the current point (x0, y0) rather than as absolute coordinates.
 
-That is, link:/docs/commands/references/rcurveto/[`rcurveto`] constructs a curve from (x0, y0) to (x0+dx3, y0+dy3), using (x0+dx1, y0+dy1) and (x0+dx2, y0+dy2) as Bézier control points.
+That is, link:/commands/references/rcurveto/[`rcurveto`] constructs a curve from (x0, y0) to (x0+dx3, y0+dy3), using (x0+dx1, y0+dy1) and (x0+dx2, y0+dy2) as Bézier control points.
 
-If the current point is undefined because the current path is empty, link:/docs/commands/references/rcurveto/[`rcurveto`] executes the [`nocurrentpoint`] error.
+If the current point is undefined because the current path is empty, link:/commands/references/rcurveto/[`rcurveto`] executes the [`nocurrentpoint`] error.
 
 === PostScript Level
 
@@ -170,7 +170,7 @@ fill
 
 === Common Pitfalls
 
-WARNING: *Requires Current Point* - link:/docs/commands/references/rcurveto/[`rcurveto`] needs a current point. Use link:/docs/commands/references/moveto/[`moveto`] first.
+WARNING: *Requires Current Point* - link:/commands/references/rcurveto/[`rcurveto`] needs a current point. Use link:/commands/references/moveto/[`moveto`] first.
 
 [source,postscript]
 ----
@@ -178,7 +178,7 @@ newpath
 50 50 100 50 150 0 rcurveto      % Error: nocurrentpoint
 ----
 
-WARNING: *All Coordinates Are Relative* - Unlike link:/docs/commands/references/curveto/[`curveto`], all six parameters are displacements from the current point, not absolute positions.
+WARNING: *All Coordinates Are Relative* - Unlike link:/commands/references/curveto/[`curveto`], all six parameters are displacements from the current point, not absolute positions.
 
 [source,postscript]
 ----
@@ -187,7 +187,7 @@ WARNING: *All Coordinates Are Relative* - Unlike link:/docs/commands/references/
 % Actually draws to (250, 250), not (150, 150)
 ----
 
-TIP: *Ideal for Patterns* - link:/docs/commands/references/rcurveto/[`rcurveto`] excels at creating repeating curved patterns where each curve relates to the previous position.
+TIP: *Ideal for Patterns* - link:/commands/references/rcurveto/[`rcurveto`] excels at creating repeating curved patterns where each curve relates to the previous position.
 
 === Error Conditions
 
@@ -221,15 +221,15 @@ TIP: *Ideal for Patterns* - link:/docs/commands/references/rcurveto/[`rcurveto`]
 
 === Performance Considerations
 
-* No performance difference from link:/docs/commands/references/curveto/[`curveto`]
+* No performance difference from link:/commands/references/curveto/[`curveto`]
 * Reduces coordinate calculation in code
 * More maintainable for relative patterns
 * Can accumulate rounding errors in long sequences
 
 === See Also
 
-* link:/docs/commands/references/curveto/[`curveto`] - Absolute curveto
-* link:/docs/commands/references/rlineto/[`rlineto`] - Relative lineto
-* link:/docs/commands/references/rmoveto/[`rmoveto`] - Relative moveto
-* link:/docs/commands/references/arc/[`arc`] - Draw circular arc
-* link:/docs/commands/references/currentpoint/[`currentpoint`] - Get current point
+* link:/commands/references/curveto/[`curveto`] - Absolute curveto
+* link:/commands/references/rlineto/[`rlineto`] - Relative lineto
+* link:/commands/references/rmoveto/[`rmoveto`] - Relative moveto
+* link:/commands/references/arc/[`arc`] - Draw circular arc
+* link:/commands/references/currentpoint/[`currentpoint`] - Get current point

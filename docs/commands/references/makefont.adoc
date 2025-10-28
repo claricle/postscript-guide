@@ -29,17 +29,17 @@ font'
 
 === Description
 
-link:/docs/commands/references/makefont/[`makefont`] applies `matrix` to `font`, producing a new `font'` whose characters are transformed by `matrix` when they are shown. link:/docs/commands/references/makefont/[`makefont`] first creates a copy of `font`. Then it replaces the new font's `FontMatrix` entry with the result of concatenating the existing `FontMatrix` with `matrix`. It inserts two additional entries, `OrigFont` and `ScaleMatrix`, whose purpose is internal to the implementation. Finally, it returns the result as `font'`.
+link:/commands/references/makefont/[`makefont`] applies `matrix` to `font`, producing a new `font'` whose characters are transformed by `matrix` when they are shown. link:/commands/references/makefont/[`makefont`] first creates a copy of `font`. Then it replaces the new font's `FontMatrix` entry with the result of concatenating the existing `FontMatrix` with `matrix`. It inserts two additional entries, `OrigFont` and `ScaleMatrix`, whose purpose is internal to the implementation. Finally, it returns the result as `font'`.
 
-The link:/docs/commands/references/makefont/[`makefont`], link:/docs/commands/references/scalefont/[`scalefont`], and `selectfont` operators produce a font dictionary derived from an original font dictionary, but with the `FontMatrix` entry altered. The derived font dictionary is allocated in local or global VM according to whether the original font dictionary is in local or global VM. This is independent of the current VM allocation mode.
+The link:/commands/references/makefont/[`makefont`], link:/commands/references/scalefont/[`scalefont`], and `selectfont` operators produce a font dictionary derived from an original font dictionary, but with the `FontMatrix` entry altered. The derived font dictionary is allocated in local or global VM according to whether the original font dictionary is in local or global VM. This is independent of the current VM allocation mode.
 
-Normally, link:/docs/commands/references/makefont/[`makefont`] copies only the font dictionary. Subsidiary objects, such as the `CharStrings` and `FontInfo` dictionaries, are shared with the original font. However, if `font` is a composite font, link:/docs/commands/references/makefont/[`makefont`] also copies the font dictionaries of any descendant composite fonts. It does not copy descendant base fonts.
+Normally, link:/commands/references/makefont/[`makefont`] copies only the font dictionary. Subsidiary objects, such as the `CharStrings` and `FontInfo` dictionaries, are shared with the original font. However, if `font` is a composite font, link:/commands/references/makefont/[`makefont`] also copies the font dictionaries of any descendant composite fonts. It does not copy descendant base fonts.
 
-Showing characters from the transformed font produces the same results as showing from the original font after having transformed user space by the same matrix. link:/docs/commands/references/makefont/[`makefont`] is essentially a convenience operator that permits the desired transformation to be encapsulated in the font description.
+Showing characters from the transformed font produces the same results as showing from the original font after having transformed user space by the same matrix. link:/commands/references/makefont/[`makefont`] is essentially a convenience operator that permits the desired transformation to be encapsulated in the font description.
 
-The most common transformation is to scale a font by a uniform factor in both x and y. link:/docs/commands/references/scalefont/[`scalefont`] is a special case of the more general link:/docs/commands/references/makefont/[`makefont`] and should be used for such uniform scaling.
+The most common transformation is to scale a font by a uniform factor in both x and y. link:/commands/references/scalefont/[`scalefont`] is a special case of the more general link:/commands/references/makefont/[`makefont`] and should be used for such uniform scaling.
 
-The interpreter keeps track of font dictionaries recently created by link:/docs/commands/references/makefont/[`makefont`]. Calling link:/docs/commands/references/makefont/[`makefont`] multiple times with the same font and matrix will usually return the same `font'` rather than create a new one. However, it is usually more efficient for a PostScript language program to apply link:/docs/commands/references/makefont/[`makefont`] only once for each font that it needs and to keep track of the resulting font dictionaries on its own.
+The interpreter keeps track of font dictionaries recently created by link:/commands/references/makefont/[`makefont`]. Calling link:/commands/references/makefont/[`makefont`] multiple times with the same font and matrix will usually return the same `font'` rather than create a new one. However, it is usually more efficient for a PostScript language program to apply link:/commands/references/makefont/[`makefont`] only once for each font that it needs and to keep track of the resulting font dictionaries on its own.
 
 === Parameters
 
@@ -169,7 +169,7 @@ y' = b×x + d×y + ty
 
 === See Also
 
-- link:/docs/commands/references/findfont/[`findfont`] - Obtain font dictionary by name
-- link:/docs/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor (simpler)
-- link:/docs/commands/references/setfont/[`setfont`] - Establish current font
-- link:/docs/commands/references/currentfont/[`currentfont`] - Get current font dictionary
+- link:/commands/references/findfont/[`findfont`] - Obtain font dictionary by name
+- link:/commands/references/scalefont/[`scalefont`] - Scale font by uniform factor (simpler)
+- link:/commands/references/setfont/[`setfont`] - Establish current font
+- link:/commands/references/currentfont/[`currentfont`] - Get current font dictionary

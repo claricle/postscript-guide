@@ -99,8 +99,8 @@ WARNING: PostScript returns angles in *degrees* (0-360), not radians!
 
 == Related Commands
 
-* link:/docs/commands/references/sin/[`sin`] - Sine (degrees)
-* link:/docs/commands/references/cos/[`cos`] - Cosine (degrees)
+* link:/commands/references/sin/[`sin`] - Sine (degrees)
+* link:/commands/references/cos/[`cos`] - Cosine (degrees)
 
 == PostScript Level
 
@@ -124,4 +124,4 @@ Both num and den are zero.
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators

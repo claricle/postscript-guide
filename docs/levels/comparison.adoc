@@ -73,7 +73,7 @@ Comprehensive comparison of features across PostScript Levels 1, 2, and 3.
 
 == See Also
 
-* link:/docs/levels/level-1/[PostScript Level 1]
-* link:/docs/levels/level-2/[PostScript Level 2]
-* link:/docs/levels/level-3/[PostScript Level 3]
-* link:/docs/levels/[PostScript Levels Overview]
+* link:/levels/level-1/[PostScript Level 1]
+* link:/levels/level-2/[PostScript Level 2]
+* link:/levels/level-3/[PostScript Level 3]
+* link:/levels/[PostScript Levels Overview]

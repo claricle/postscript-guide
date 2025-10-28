@@ -1181,10 +1181,10 @@ grestore
 
 === See Also
 
-* link:/docs/usage/advanced/color-spaces/[Color Spaces] - Pattern colors
-* link:/docs/usage/basic/painting/[Painting] - Filling with patterns
-* link:/docs/usage/basic/graphics-state/[Graphics State] - Pattern state
-* link:/docs/usage/advanced/forms/[Forms] - Cached patterns
-* link:/docs/usage/advanced/images/[Images] - Bitmap patterns
-* link:/docs/commands/references/fill/[fill] - Fill with pattern
-* link:/docs/commands/references/clip/[clip] - Pattern clipping
+* link:/usage/advanced/color-spaces/[Color Spaces] - Pattern colors
+* link:/usage/basic/painting/[Painting] - Filling with patterns
+* link:/usage/basic/graphics-state/[Graphics State] - Pattern state
+* link:/usage/advanced/forms/[Forms] - Cached patterns
+* link:/usage/advanced/images/[Images] - Bitmap patterns
+* link:/commands/references/fill/[fill] - Fill with pattern
+* link:/commands/references/clip/[clip] - Pattern clipping

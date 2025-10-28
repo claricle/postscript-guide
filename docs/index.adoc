@@ -51,89 +51,89 @@ PostScript is a stack-based, interpreted programming language created by Adobe S
 
 == Documentation Sections
 
-=== link:/docs/levels/[PostScript Levels]
+=== link:/levels/[PostScript Levels]
 
 Learn about the evolution of PostScript through its three major versions:
 
-* link:/docs/levels/level-1/[PostScript Level 1] - The original specification
-* link:/docs/levels/level-2/[PostScript Level 2] - Color and composite fonts
-* link:/docs/levels/level-3/[PostScript Level 3] - Advanced imaging features
-* link:/docs/levels/comparison/[Version Comparison] - Feature comparison across levels
+* link:/levels/level-1/[PostScript Level 1] - The original specification
+* link:/levels/level-2/[PostScript Level 2] - Color and composite fonts
+* link:/levels/level-3/[PostScript Level 3] - Advanced imaging features
+* link:/levels/comparison/[Version Comparison] - Feature comparison across levels
 
-=== link:/docs/syntax/[Language Syntax]
+=== link:/syntax/[Language Syntax]
 
 Understanding PostScript's unique syntax and data structures:
 
-* link:/docs/syntax/tokens/[Tokens] - Basic lexical elements
-* link:/docs/syntax/objects/[Objects] - Data types and object model
-* link:/docs/syntax/operators/[Operators] - Built-in operations
-* link:/docs/syntax/procedures/[Procedures] - Executable arrays and user-defined functions
-* link:/docs/syntax/arrays/[Arrays] - Ordered collections
-* link:/docs/syntax/dictionaries/[Dictionaries] - Key-value associations
-* link:/docs/syntax/strings/[Strings] - Text and binary data
-* link:/docs/syntax/data-types/[Data Types] - Complete type system
+* link:/syntax/tokens/[Tokens] - Basic lexical elements
+* link:/syntax/objects/[Objects] - Data types and object model
+* link:/syntax/operators/[Operators] - Built-in operations
+* link:/syntax/procedures/[Procedures] - Executable arrays and user-defined functions
+* link:/syntax/arrays/[Arrays] - Ordered collections
+* link:/syntax/dictionaries/[Dictionaries] - Key-value associations
+* link:/syntax/strings/[Strings] - Text and binary data
+* link:/syntax/data-types/[Data Types] - Complete type system
 
-=== link:/docs/usage/[Usage Guides]
+=== link:/usage/[Usage Guides]
 
-==== link:/docs/usage/basic/[Basic Usage]
+==== link:/usage/basic/[Basic Usage]
 
 Essential concepts for PostScript programming:
 
-* link:/docs/usage/basic/stack-operations/[Stack Operations] - Working with the operand stack
-* link:/docs/usage/basic/coordinate-systems/[Coordinate Systems] - User space and device space
-* link:/docs/usage/basic/graphics-state/[Graphics State] - Managing rendering parameters
-* link:/docs/usage/basic/path-construction/[Path Construction] - Building vector shapes
-* link:/docs/usage/basic/painting/[Painting Operations] - Filling and stroking paths
+* link:/usage/basic/stack-operations/[Stack Operations] - Working with the operand stack
+* link:/usage/basic/coordinate-systems/[Coordinate Systems] - User space and device space
+* link:/usage/basic/graphics-state/[Graphics State] - Managing rendering parameters
+* link:/usage/basic/path-construction/[Path Construction] - Building vector shapes
+* link:/usage/basic/painting/[Painting Operations] - Filling and stroking paths
 
-==== link:/docs/usage/advanced/[Advanced Usage]
+==== link:/usage/advanced/[Advanced Usage]
 
 Advanced features and techniques:
 
-* link:/docs/usage/advanced/fonts-text/[Fonts and Text] - Typography and text rendering
-* link:/docs/usage/advanced/color-spaces/[Color Spaces] - Color models and management
-* link:/docs/usage/advanced/patterns/[Patterns] - Tiling patterns and textures
-* link:/docs/usage/advanced/forms/[Forms] - Cached graphical objects
-* link:/docs/usage/advanced/images/[Images] - Raster image handling
-* link:/docs/usage/advanced/device-control/[Device Control] - Output device management
-* link:/docs/usage/advanced/file-operations/[File Operations] - File I/O and streams
-* link:/docs/usage/advanced/error-handling/[Error Handling] - Exception management
-* link:/docs/usage/advanced/resource-management/[Resource Management] - Memory and resources
+* link:/usage/advanced/fonts-text/[Fonts and Text] - Typography and text rendering
+* link:/usage/advanced/color-spaces/[Color Spaces] - Color models and management
+* link:/usage/advanced/patterns/[Patterns] - Tiling patterns and textures
+* link:/usage/advanced/forms/[Forms] - Cached graphical objects
+* link:/usage/advanced/images/[Images] - Raster image handling
+* link:/usage/advanced/device-control/[Device Control] - Output device management
+* link:/usage/advanced/file-operations/[File Operations] - File I/O and streams
+* link:/usage/advanced/error-handling/[Error Handling] - Exception management
+* link:/usage/advanced/resource-management/[Resource Management] - Memory and resources
 
-=== link:/docs/commands/[Command Reference]
+=== link:/commands/[Command Reference]
 
 Complete reference for all PostScript operators, organized by category:
 
-* link:/docs/commands/references/[Stack Manipulation] - Stack operations
-* link:/docs/commands/references/[Arithmetic and Math] - Mathematical operations
-* link:/docs/commands/references/[Array and String Operations] - Collection manipulation
-* link:/docs/commands/references/[Dictionary Operations] - Key-value store operations
-* link:/docs/commands/references/[Graphics State] - Graphics parameters
-* link:/docs/commands/references/[Path Construction] - Path building
-* link:/docs/commands/references/[Painting] - Rendering operations
-* link:/docs/commands/references/[Coordinate Transformations] - CTM operations
-* link:/docs/commands/references/[Font and Text] - Typography operators
-* link:/docs/commands/references/[Color] - Color operations
-* link:/docs/commands/references/[Image] - Image rendering
-* link:/docs/commands/references/[Device and Output] - Device control
-* link:/docs/commands/references/[File and I/O] - File operations
-* link:/docs/commands/references/[Control Flow] - Program flow control
-* link:/docs/commands/references/[Resource Management] - VM and resources
-* link:/docs/commands/references/[Error Handling] - Error management
+* link:/commands/references/[Stack Manipulation] - Stack operations
+* link:/commands/references/[Arithmetic and Math] - Mathematical operations
+* link:/commands/references/[Array and String Operations] - Collection manipulation
+* link:/commands/references/[Dictionary Operations] - Key-value store operations
+* link:/commands/references/[Graphics State] - Graphics parameters
+* link:/commands/references/[Path Construction] - Path building
+* link:/commands/references/[Painting] - Rendering operations
+* link:/commands/references/[Coordinate Transformations] - CTM operations
+* link:/commands/references/[Font and Text] - Typography operators
+* link:/commands/references/[Color] - Color operations
+* link:/commands/references/[Image] - Image rendering
+* link:/commands/references/[Device and Output] - Device control
+* link:/commands/references/[File and I/O] - File operations
+* link:/commands/references/[Control Flow] - Program flow control
+* link:/commands/references/[Resource Management] - VM and resources
+* link:/commands/references/[Error Handling] - Error management
 
-Or browse link:/docs/commands/by-category/[by category] or link:/docs/commands/[alphabetically].
+Or browse link:/commands/by-category/[by category] or link:/commands/[alphabetically].
 
-=== link:/docs/examples/[Practical Examples]
+=== link:/examples/[Practical Examples]
 
 Real-world code examples and use cases:
 
-* link:/docs/examples/hello-world/[Hello World] - Your first PostScript program
-* link:/docs/examples/drawing-shapes/[Drawing Shapes] - Creating vector graphics
-* link:/docs/examples/text-layout/[Text Layout] - Working with fonts and text
-* link:/docs/examples/color-gradients/[Color and Gradients] - Advanced color techniques
-* link:/docs/examples/image-manipulation/[Image Manipulation] - Working with raster images
-* link:/docs/examples/pdf-generation/[PDF Generation] - Creating PDF documents
+* link:/examples/hello-world/[Hello World] - Your first PostScript program
+* link:/examples/drawing-shapes/[Drawing Shapes] - Creating vector graphics
+* link:/examples/text-layout/[Text Layout] - Working with fonts and text
+* link:/examples/color-gradients/[Color and Gradients] - Advanced color techniques
+* link:/examples/image-manipulation/[Image Manipulation] - Working with raster images
+* link:/examples/pdf-generation/[PDF Generation] - Creating PDF documents
 
-=== link:/docs/glossary/[Glossary]
+=== link:/glossary/[Glossary]
 
 Definitions of PostScript-specific terminology and concepts.
 

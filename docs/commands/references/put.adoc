@@ -60,7 +60,7 @@ string index int put → –
 
 === Description
 
-link:/docs/commands/references/put/[`put`] replaces a single element in a composite object:
+link:/commands/references/put/[`put`] replaces a single element in a composite object:
 
 * For arrays: stores _any_ at position _index_ (0 to n-1)
 * For strings: stores integer _int_ (0-255) at position _index_
@@ -149,7 +149,7 @@ WARNING: *Index Range* - Array/string index must be 0 to length-1.
 [1 2 3] 3 99 put  % Error: index 3 out of range
 ----
 
-WARNING: *Packed Arrays are Read-Only* - Cannot use link:/docs/commands/references/put/[`put`] on packed arrays.
+WARNING: *Packed Arrays are Read-Only* - Cannot use link:/commands/references/put/[`put`] on packed arrays.
 
 [source,postscript]
 ----
@@ -192,14 +192,14 @@ TIP: *Dictionary Auto-Expands (Level 2)* - In Level 2, dictionaries automaticall
 
 === Performance Considerations
 
-* Array and string link:/docs/commands/references/put/[`put`] are very fast (direct indexing)
-* Dictionary link:/docs/commands/references/put/[`put`] slightly slower (hash table operation)
+* Array and string link:/commands/references/put/[`put`] are very fast (direct indexing)
+* Dictionary link:/commands/references/put/[`put`] slightly slower (hash table operation)
 * Repeated dictionary puts in Level 1 may trigger slow rehashing if dictionary grows full
-* For bulk updates, consider link:/docs/commands/references/putinterval/[`putinterval`]
+* For bulk updates, consider link:/commands/references/putinterval/[`putinterval`]
 
 === See Also
 
-* link:/docs/commands/references/get/[`get`] - Get element from array/string/dictionary
-* link:/docs/commands/references/putinterval/[`putinterval`] - Put subarray/substring
-* link:/docs/commands/references/astore/[`astore`] - Store multiple elements into array
-* link:/docs/commands/references/length/[`length`] - Get length of array/string
+* link:/commands/references/get/[`get`] - Get element from array/string/dictionary
+* link:/commands/references/putinterval/[`putinterval`] - Put subarray/substring
+* link:/commands/references/astore/[`astore`] - Store multiple elements into array
+* link:/commands/references/length/[`length`] - Get length of array/string

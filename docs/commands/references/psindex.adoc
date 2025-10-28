@@ -12,7 +12,7 @@ Duplicates the nth element from the top of the operand stack, where n is counted
 
 The `index` operator removes a non-negative integer n from the operand stack, counts down to the nth element from the top (where the top is position 0), and pushes a copy of that element onto the stack.
 
-This operator is particularly useful for accessing elements deep in the stack without disturbing the intervening elements. It's essentially a generalized form of link:/docs/commands/references/dup/[`dup`], where `0 index` is equivalent to `dup`.
+This operator is particularly useful for accessing elements deep in the stack without disturbing the intervening elements. It's essentially a generalized form of link:/commands/references/dup/[`dup`], where `0 index` is equivalent to `dup`.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -270,11 +270,11 @@ TIP: Remember that stack positions are counted from 0, where 0 is the topmost el
 
 == Related Commands
 
-* link:/docs/commands/references/dup/[`dup`] - Equivalent to `0 index`
-* link:/docs/commands/references/copy/[`copy`] - Copy multiple top elements
-* link:/docs/commands/references/roll/[`roll`] - Rotate stack elements
-* link:/docs/commands/references/exch/[`exch`] - Exchange top two elements
-* link:/docs/commands/references/count/[`count`] - Get stack depth for bounds checking
+* link:/commands/references/dup/[`dup`] - Equivalent to `0 index`
+* link:/commands/references/copy/[`copy`] - Copy multiple top elements
+* link:/commands/references/roll/[`roll`] - Rotate stack elements
+* link:/commands/references/exch/[`exch`] - Exchange top two elements
+* link:/commands/references/count/[`count`] - Get stack depth for bounds checking
 
 == PostScript Level
 
@@ -325,9 +325,9 @@ However, frequently using large index values may indicate poor stack management.
 
 1. **Use for deep access**: `index` is ideal when you need an element buried in the stack
 2. **Prefer dup for top element**: Use `dup` rather than `0 index` for clarity
-3. **Check bounds**: Use link:/docs/commands/references/count/[`count`] to verify sufficient stack depth before large indices
+3. **Check bounds**: Use link:/commands/references/count/[`count`] to verify sufficient stack depth before large indices
 4. **Document stack layout**: When using `index`, clearly document which stack position contains what
-5. **Consider roll instead**: For repeated access to deep elements, link:/docs/commands/references/roll/[`roll`] might be more efficient
+5. **Consider roll instead**: For repeated access to deep elements, link:/commands/references/roll/[`roll`] might be more efficient
 
 === Clear Documentation
 
@@ -357,6 +357,6 @@ However, frequently using large index values may indicate poor stack management.
 
 == See Also
 
-* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
-* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
-* link:/docs/commands/references/[Stack Manipulation] - All stack operators
+* link:/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/commands/references/[Stack Manipulation] - All stack operators

@@ -18,37 +18,37 @@ The operand stack is fundamental to PostScript execution. These operators provid
 |===
 |Command |Description
 
-|link:/docs/commands/references/pop/[`pop`]
+|link:/commands/references/pop/[`pop`]
 |Remove the top element from the stack
 
-|link:/docs/commands/references/exch/[`exch`]
+|link:/commands/references/exch/[`exch`]
 |Exchange the top two stack elements
 
-|link:/docs/commands/references/dup/[`dup`]
+|link:/commands/references/dup/[`dup`]
 |Duplicate the top element
 
-|link:/docs/commands/references/copy/[`copy`]
+|link:/commands/references/copy/[`copy`]
 |Copy top n elements or duplicate composite object values
 
-|link:/docs/commands/references/psindex/[`psindex`]
+|link:/commands/references/psindex/[`psindex`]
 |Duplicate the nth element from the top
 
-|link:/docs/commands/references/roll/[`roll`]
+|link:/commands/references/roll/[`roll`]
 |Roll n elements j times
 
-|link:/docs/commands/references/count/[`count`]
+|link:/commands/references/count/[`count`]
 |Count elements on the stack
 
-|link:/docs/commands/references/clear/[`clear`]
+|link:/commands/references/clear/[`clear`]
 |Remove all elements from the stack
 
-|link:/docs/commands/references/mark/[`mark`]
+|link:/commands/references/mark/[`mark`]
 |Push a mark object onto the stack
 
-|link:/docs/commands/references/cleartomark/[`cleartomark`]
+|link:/commands/references/cleartomark/[`cleartomark`]
 |Pop elements down to and including a mark
 
-|link:/docs/commands/references/counttomark/[`counttomark`]
+|link:/commands/references/counttomark/[`counttomark`]
 |Count elements down to a mark
 |===
 
@@ -70,6 +70,6 @@ a b c d 3 index     % Copy element 3 positions down
 
 == See Also
 
-* link:/docs/commands/[Command Reference] - All PostScript commands
-* link:/docs/syntax/operators/[Operators Overview]
-* link:/docs/usage/basic/stack-operations/[Stack Operations Guide]
+* link:/commands/[Command Reference] - All PostScript commands
+* link:/syntax/operators/[Operators Overview]
+* link:/usage/basic/stack-operations/[Stack Operations Guide]

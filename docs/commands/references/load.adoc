@@ -37,12 +37,12 @@ key load → value
 
 === Description
 
-link:/docs/commands/references/load/[`load`] searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
+link:/commands/references/load/[`load`] searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
 
 * If found: pushes the associated value
 * If not found: executes [`undefined`] error
 
-link:/docs/commands/references/load/[`load`] looks up keys the same way the interpreter looks up executable names, but always pushes the value (never executes it).
+link:/commands/references/load/[`load`] looks up keys the same way the interpreter looks up executable names, but always pushes the value (never executes it).
 
 === PostScript Level
 
@@ -102,7 +102,7 @@ add        % Executes add operator
 
 === Common Pitfalls
 
-WARNING: *Always Pushes Value* - link:/docs/commands/references/load/[`load`] never executes values, even executable ones.
+WARNING: *Always Pushes Value* - link:/commands/references/load/[`load`] never executes values, even executable ones.
 
 [source,postscript]
 ----
@@ -159,7 +159,7 @@ TIP: *Use where First* - Check if key exists before loading:
 
 [cols="2,3,3"]
 |===
-| Operation | link:/docs/commands/references/load/[`load`] | link:/docs/commands/references/get/[`get`]
+| Operation | link:/commands/references/load/[`load`] | link:/commands/references/get/[`get`]
 
 | Search scope
 | Entire dictionary stack
@@ -176,8 +176,8 @@ TIP: *Use where First* - Check if key exists before loading:
 
 === See Also
 
-* link:/docs/commands/references/store/[`store`] - Store value in dictionary stack
-* link:/docs/commands/references/def/[`def`] - Define in current dictionary
-* link:/docs/commands/references/where/[`where`] - Find which dictionary contains key
-* link:/docs/commands/references/get/[`get`] - Get from specific dictionary
-* link:/docs/commands/references/known/[`known`] - Check if key exists
+* link:/commands/references/store/[`store`] - Store value in dictionary stack
+* link:/commands/references/def/[`def`] - Define in current dictionary
+* link:/commands/references/where/[`where`] - Find which dictionary contains key
+* link:/commands/references/get/[`get`] - Get from specific dictionary
+* link:/commands/references/known/[`known`] - Check if key exists

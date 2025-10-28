@@ -1,64 +1,121 @@
 ---
 layout: default
 title: Glossary
-nav_order: 9
+nav_order: 10
 ---
 
 == Glossary
 
-Definitions of PostScript-specific terminology.
+Common PostScript terminology and concepts.
 
 === A
 
-**Array**:: Ordered collection of PostScript objects
+**Array**:: An ordered collection of PostScript objects. Arrays can contain any type of object and are created using `[` and `]` brackets or the link:/commands/references/array/[`array`] operator.
 
-**Attribute**:: Property of an object (literal/executable, access permissions)
+**ASCII**:: American Standard Code for Information Interchange. PostScript files are typically encoded in ASCII for portability.
+
+=== B
+
+**Bézier Curve**:: A smooth curve defined by control points, created with the link:/commands/references/curveto/[`curveto`] operator.
+
+**BoundingBox**:: The rectangular area that encloses all marks on a page, specified in the document's header comments.
 
 === C
 
-**CTM**:: Current Transformation Matrix - transforms user space to device space
+**Clipping Path**:: A path that restricts where subsequent painting operations can mark the page. Set with link:/commands/references/clip/[`clip`] or link:/commands/references/eoclip/[`eoclip`].
 
-**Composite Object**:: Object with complex structure (array, string, dictionary)
+**Current Point**:: The position in user space where the next path construction operator will begin. Set by link:/commands/references/moveto/[`moveto`] and updated by path construction operators.
+
+**CTM (Current Transformation Matrix)**:: The matrix that transforms from user space to device space. Modified by link:/commands/references/translate/[`translate`], link:/commands/references/rotate/[`rotate`], and link:/commands/references/scale/[`scale`].
 
 === D
 
-**Device Space**:: Physical coordinate system of output device
+**Device Space**:: The coordinate system of the output device, measured in device pixels.
 
-**Dictionary**:: Key-value data structure for name lookup
+**Dictionary**:: A PostScript data structure that associates keys with values. Created with link:/commands/references/dict/[`dict`].
 
-**Dictionary Stack**:: Stack of dictionaries used for name resolution
+**DSC (Document Structuring Conventions)**:: Comments in PostScript files that provide document structure information, starting with `%%`.
+
+=== E
+
+**Executable**:: An attribute of PostScript objects indicating they should be executed when encountered. Procedures are executable arrays.
+
+**Execution Stack**:: The stack that controls the flow of program execution.
+
+=== F
+
+**Fill**:: The operation of painting the interior of a path with the current color, using link:/commands/references/fill/[`fill`] or link:/commands/references/eofill/[`eofill`].
+
+**Font**:: A collection of character shapes (glyphs) with associated metrics. Accessed with link:/commands/references/findfont/[`findfont`] and activated with link:/commands/references/setfont/[`setfont`].
 
 === G
 
-**Graphics State**:: Collection of parameters affecting graphics operations
+**Graphics State**:: The collection of parameters that control how graphics operations affect the page, including current path, color, line width, transformation matrix, etc.
+
+**Glyph**:: A visual representation of a character in a font.
+
+=== I
+
+**Imaging Model**:: PostScript's page description model, consisting of paths, painting, and text operations.
+
+=== L
+
+**Literal**:: An attribute of PostScript objects indicating they represent themselves rather than being executed.
+
+=== M
+
+**Mark**:: A special object used to delimit arrays and mark positions on the operand stack. Created with link:/commands/references/mark/[`mark`] or `[`.
+
+=== N
+
+**Name**:: A PostScript object that serves as an identifier. Names begin with `/` when used literally.
 
 === O
 
-**Operand Stack**:: Main data stack for PostScript operations
+**Operand Stack**:: The stack where data values are stored and manipulated during PostScript execution.
 
-**Operator**:: Built-in PostScript command
+**Operator**:: A built-in PostScript command that performs an operation.
 
 === P
 
-**Path**:: Sequence of lines and curves defining a shape
+**Packed Array**:: A more memory-efficient, read-only form of array introduced in PostScript Level 2. Created with link:/commands/references/packedarray/[`packedarray`].
 
-**Procedure**:: Executable array containing PostScript code
+**Path**:: A sequence of connected and disconnected subpaths that describe shapes. Constructed with operators like link:/commands/references/moveto/[`moveto`] and link:/commands/references/lineto/[`lineto`].
+
+**Point**:: A unit of measurement equal to 1/72 of an inch.
+
+**Procedure**:: An executable array, typically delimited by `{` and `}`.
+
+=== R
+
+**Raster**:: The rectangular array of pixels that forms an image.
+
+**Resource**:: A named PostScript object such as a font, form, or pattern.
 
 === S
 
-**Stack-Based**:: Programming model using LIFO stacks
+**Stack**:: A last-in, first-out (LIFO) data structure. PostScript uses multiple stacks including the operand stack, dictionary stack, and execution stack.
 
-**Simple Object**:: Object with atomic value (integer, real, boolean)
+**Stroke**:: The operation of painting along a path with the current line width and color, using link:/commands/references/stroke/[`stroke`].
+
+**String**:: A sequence of bytes, typically representing text. Created with parentheses `()` or the link:/commands/references/string/[`string`] operator.
+
+=== T
+
+**Token**:: The basic lexical element of PostScript syntax - a name, number, string, or special character sequence.
+
+**Type**:: The classification of a PostScript object (integer, real, boolean, string, name, array, etc.).
 
 === U
 
-**User Space**:: Application's coordinate system
+**User Space**:: The coordinate system in which PostScript programs operate, independent of the output device. The default has origin at bottom-left with units in points.
 
 === V
 
-**VM**:: Virtual Memory - PostScript's memory management system
+**VM (Virtual Memory)**:: PostScript's memory management system, supporting both local and global allocation.
 
 === See Also
 
-* link:/docs/syntax/[Language Syntax]
-* link:/docs/commands/[Command Reference]
+* link:/syntax/[Language Syntax]
+* link:/commands/[Command Reference]
+* link:/levels/[PostScript Levels]

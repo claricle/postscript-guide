@@ -11,28 +11,28 @@ All PostScript operators organized by functional category.
 
 === Stack Manipulation
 
-link:/docs/commands/references/[View all stack commands →]
+link:/commands/references/[View all stack commands →]
 
 === Arithmetic and Math
 
-link:/docs/commands/references/[View all math commands →]
+link:/commands/references/[View all math commands →]
 
 === Array and String Operations
 
-link:/docs/commands/references/[View all array/string commands →]
+link:/commands/references/[View all array/string commands →]
 
 === Dictionary Operations
 
-link:/docs/commands/references/[View all dictionary commands →]
+link:/commands/references/[View all dictionary commands →]
 
 === Control Flow
 
-link:/docs/commands/references/[View all control flow commands →]
+link:/commands/references/[View all control flow commands →]
 
 === Graphics State
 
-link:/docs/commands/references/[View all graphics state commands →]
+link:/commands/references/[View all graphics state commands →]
 
 === See Also
 
-* link:/docs/commands/[Alphabetical Index]
+* link:/commands/[Alphabetical Index]

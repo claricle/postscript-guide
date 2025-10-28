@@ -46,7 +46,7 @@ initial increment limit proc for → –
 
 === Description
 
-link:/docs/commands/references/for/[`for`] executes _proc_ repeatedly, passing it a sequence of values from _initial_ by steps of _increment_ to _limit_.
+link:/commands/references/for/[`for`] executes _proc_ repeatedly, passing it a sequence of values from _initial_ by steps of _increment_ to _limit_.
 
 The operator maintains an internal control variable:
 1. Sets control variable to _initial_
@@ -161,7 +161,7 @@ WARNING: *Increment Sign Matters* - Positive increment counts up, negative count
 5 -1 1 { } for % Executes: 5, 4, 3, 2, 1
 ----
 
-TIP: *Early Exit* - Use link:/docs/commands/references/exit/[`exit`] to terminate loop early.
+TIP: *Early Exit* - Use link:/commands/references/exit/[`exit`] to terminate loop early.
 
 === Error Conditions
 
@@ -192,19 +192,19 @@ TIP: *Early Exit* - Use link:/docs/commands/references/exit/[`exit`] to terminat
 |===
 | Loop | Best For | Control Variable
 
-| link:/docs/commands/references/for/[`for`]
+| link:/commands/references/for/[`for`]
 | Numeric sequences
 | Yes
 
-| link:/docs/commands/references/repeat/[`repeat`]
+| link:/commands/references/repeat/[`repeat`]
 | Fixed count, no variable needed
 | No
 
-| link:/docs/commands/references/loop/[`loop`]
+| link:/commands/references/loop/[`loop`]
 | Indefinite/conditional termination
 | No
 
-| link:/docs/commands/references/forall/[`forall`]
+| link:/commands/references/forall/[`forall`]
 | Collection iteration
 | Yes (element)
 |===
@@ -227,8 +227,8 @@ TIP: *Early Exit* - Use link:/docs/commands/references/exit/[`exit`] to terminat
 
 === See Also
 
-* link:/docs/commands/references/repeat/[`repeat`] - Fixed repetition
-* link:/docs/commands/references/loop/[`loop`] - Indefinite loop
-* link:/docs/commands/references/exit/[`exit`] - Exit loop early
-* link:/docs/commands/references/forall/[`forall`] - Iterate collections
-* link:/docs/commands/references/if/[`if`] / link:/docs/commands/references/ifelse/[`ifelse`] - Conditionals
+* link:/commands/references/repeat/[`repeat`] - Fixed repetition
+* link:/commands/references/loop/[`loop`] - Indefinite loop
+* link:/commands/references/exit/[`exit`] - Exit loop early
+* link:/commands/references/forall/[`forall`] - Iterate collections
+* link:/commands/references/if/[`if`] / link:/commands/references/ifelse/[`ifelse`] - Conditionals

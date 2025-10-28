@@ -50,11 +50,11 @@ tx ty matrix translate → matrix
 
 === Description
 
-With no matrix operand, link:/docs/commands/references/translate/[`translate`] builds a temporary transformation matrix T and concatenates it with the current transformation matrix (CTM). Precisely, link:/docs/commands/references/translate/[`translate`] replaces the CTM by T × CTM.
+With no matrix operand, link:/commands/references/translate/[`translate`] builds a temporary transformation matrix T and concatenates it with the current transformation matrix (CTM). Precisely, link:/commands/references/translate/[`translate`] replaces the CTM by T × CTM.
 
 The effect is to move the origin of the user coordinate system by `tx` units in the x direction and `ty` units in the y direction relative to the former user coordinate system. The sizes of the x and y units and the orientation of the axes are unchanged.
 
-If the `matrix` operand is supplied, link:/docs/commands/references/translate/[`translate`] replaces the value of `matrix` by T and pushes the modified matrix back on the operand stack. In this case, link:/docs/commands/references/translate/[`translate`] does not affect the CTM.
+If the `matrix` operand is supplied, link:/commands/references/translate/[`translate`] replaces the value of `matrix` by T and pushes the modified matrix back on the operand stack. In this case, link:/commands/references/translate/[`translate`] does not affect the CTM.
 
 The translation matrix T has the form:
 
@@ -151,7 +151,7 @@ matrix              % Get identity matrix
 
 === Common Pitfalls
 
-WARNING: *Coordinate System, Not Content* - link:/docs/commands/references/translate/[`translate`] moves the coordinate system, not the content. Drawing at (0, 0) after translation draws at the new origin location.
+WARNING: *Coordinate System, Not Content* - link:/commands/references/translate/[`translate`] moves the coordinate system, not the content. Drawing at (0, 0) after translation draws at the new origin location.
 
 [source,postscript]
 ----
@@ -165,7 +165,7 @@ stroke
 stroke
 ----
 
-WARNING: *Transformations Accumulate* - Multiple translations add together. Use link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`] to isolate transformations.
+WARNING: *Transformations Accumulate* - Multiple translations add together. Use link:/commands/references/gsave/[`gsave`]/link:/commands/references/grestore/[`grestore`] to isolate transformations.
 
 [source,postscript]
 ----
@@ -180,7 +180,7 @@ grestore
 % Original coordinate system restored
 ----
 
-TIP: *Readable Layout Code* - Use link:/docs/commands/references/translate/[`translate`] to establish drawing origins, making code more readable:
+TIP: *Readable Layout Code* - Use link:/commands/references/translate/[`translate`] to establish drawing origins, making code more readable:
 
 [source,postscript]
 ----
@@ -217,7 +217,7 @@ TIP: *Readable Layout Code* - Use link:/docs/commands/references/translate/[`tra
 
 === Matrix Mathematics
 
-The translation matrix for link:/docs/commands/references/translate/[`translate`] by (`tx`, `ty`) is:
+The translation matrix for link:/commands/references/translate/[`translate`] by (`tx`, `ty`) is:
 
 ----
 T = [1  0  0  1  tx  ty]
@@ -252,10 +252,10 @@ This is because each transformation modifies the CTM by left-multiplication.
 
 === See Also
 
-* link:/docs/commands/references/scale/[`scale`] - Change unit size
-* link:/docs/commands/references/rotate/[`rotate`] - Rotate coordinate axes
-* link:/docs/commands/references/concat/[`concat`] - Concatenate arbitrary matrix
-* link:/docs/commands/references/setmatrix/[`setmatrix`] - Replace CTM directly
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/scale/[`scale`] - Change unit size
+* link:/commands/references/rotate/[`rotate`] - Rotate coordinate axes
+* link:/commands/references/concat/[`concat`] - Concatenate arbitrary matrix
+* link:/commands/references/setmatrix/[`setmatrix`] - Replace CTM directly
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state

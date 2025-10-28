@@ -37,7 +37,7 @@ any xcheck → bool
 
 === Description
 
-link:/docs/commands/references/xcheck/[`xcheck`] tests whether the operand has the executable or literal attribute:
+link:/commands/references/xcheck/[`xcheck`] tests whether the operand has the executable or literal attribute:
 
 * Returns `true` if the object is executable
 * Returns `false` if the object is literal
@@ -112,7 +112,7 @@ abc xcheck       % true (executable name) - if abc is defined
 
 === Common Pitfalls
 
-WARNING: *Tests Attribute, Not Access* - link:/docs/commands/references/xcheck/[`xcheck`] does not test access permissions like execute-only.
+WARNING: *Tests Attribute, Not Access* - link:/commands/references/xcheck/[`xcheck`] does not test access permissions like execute-only.
 
 [source,postscript]
 ----
@@ -122,7 +122,7 @@ proc executeonly xcheck  % true
 
 WARNING: *Most Objects Are Literal* - Numbers, strings, and array literals are all literal by default.
 
-TIP: *Combine with type* - Use link:/docs/commands/references/type/[`type`] to check object type along with executability.
+TIP: *Combine with type* - Use link:/commands/references/type/[`type`] to check object type along with executability.
 
 === Error Conditions
 
@@ -190,8 +190,8 @@ TIP: *Combine with type* - Use link:/docs/commands/references/type/[`type`] to c
 
 === See Also
 
-* link:/docs/commands/references/cvlit/[`cvlit`] - Convert to literal attribute
-* link:/docs/commands/references/cvx/[`cvx`] - Convert to executable attribute
-* link:/docs/commands/references/rcheck/[`rcheck`] - Test if readable
-* link:/docs/commands/references/wcheck/[`wcheck`] - Test if writable
-* link:/docs/commands/references/type/[`type`] - Get object type
+* link:/commands/references/cvlit/[`cvlit`] - Convert to literal attribute
+* link:/commands/references/cvx/[`cvx`] - Convert to executable attribute
+* link:/commands/references/rcheck/[`rcheck`] - Test if readable
+* link:/commands/references/wcheck/[`wcheck`] - Test if writable
+* link:/commands/references/type/[`type`] - Get object type

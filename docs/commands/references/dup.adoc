@@ -200,7 +200,7 @@ dup length array copy   % True independent copy
 0 99 put        % Only one array modified
 ----
 
-TIP: Remember that `dup` creates a shallow copy. For composite objects (arrays, dictionaries, strings), use the link:/docs/commands/references/copy/[`copy`] operator when you need an independent copy of the value.
+TIP: Remember that `dup` creates a shallow copy. For composite objects (arrays, dictionaries, strings), use the link:/commands/references/copy/[`copy`] operator when you need an independent copy of the value.
 
 === Dictionary Sharing
 
@@ -214,11 +214,11 @@ TIP: Remember that `dup` creates a shallow copy. For composite objects (arrays, 
 
 == Related Commands
 
-* link:/docs/commands/references/exch/[`exch`] - Exchange top two elements
-* link:/docs/commands/references/copy/[`copy`] - Copy multiple elements or create independent copies
-* link:/docs/commands/[`index`] - Duplicate nth element from top
-* link:/docs/commands/references/roll/[`roll`] - Rotate stack elements
-* link:/docs/commands/references/pop/[`pop`] - Remove top element
+* link:/commands/references/exch/[`exch`] - Exchange top two elements
+* link:/commands/references/copy/[`copy`] - Copy multiple elements or create independent copies
+* link:/commands/[`index`] - Duplicate nth element from top
+* link:/commands/references/roll/[`roll`] - Rotate stack elements
+* link:/commands/references/pop/[`pop`] - Remove top element
 
 == PostScript Level
 
@@ -257,7 +257,7 @@ For composite objects, `dup` only copies the reference, not the entire value, ma
 1. **Use for calculations**: `dup` is essential when you need the same value multiple times in a calculation
 2. **Understand object vs. value**: Remember that `dup` copies the object (reference), not the value for composite types
 3. **Document stack effects**: Clearly document when procedures use `dup` to duplicate values
-4. **Consider copy for independence**: Use link:/docs/commands/references/copy/[`copy`] when you need an independent copy of a composite object
+4. **Consider copy for independence**: Use link:/commands/references/copy/[`copy`] when you need an independent copy of a composite object
 5. **Combine with conditionals**: The pattern `dup ... { ... } { ... } ifelse` is very common
 
 === Good Stack Management
@@ -284,7 +284,7 @@ For composite objects, `dup` only copies the reference, not the entire value, ma
 
 == See Also
 
-* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
-* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
-* link:/docs/usage/basic/composite-objects/[Composite Objects] - Understanding object vs. value copying
-* link:/docs/commands/references/[Stack Manipulation] - All stack operators
+* link:/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/usage/basic/composite-objects/[Composite Objects] - Understanding object vs. value copying
+* link:/commands/references/[Stack Manipulation] - All stack operators

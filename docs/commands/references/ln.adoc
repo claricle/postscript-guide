@@ -68,8 +68,8 @@ num ln real
 
 == Related Commands
 
-* link:/docs/commands/references/log/[`log`] - Base-10 logarithm
-* link:/docs/commands/references/exp/[`exp`] - Exponentiation (inverse operation)
+* link:/commands/references/log/[`log`] - Base-10 logarithm
+* link:/commands/references/exp/[`exp`] - Exponentiation (inverse operation)
 
 == PostScript Level
 
@@ -94,4 +94,4 @@ The operand is zero or negative.
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators

@@ -287,10 +287,10 @@ TIP: The composite form of `copy` performs only one level of copying. Nested com
 
 == Related Commands
 
-* link:/docs/commands/references/dup/[`dup`] - Duplicate single element (reference only)
-* link:/docs/commands/[`index`] - Duplicate nth element
-* link:/docs/commands/references/roll/[`roll`] - Rotate stack elements
-* link:/docs/commands/references/pop/[`pop`] - Remove elements
+* link:/commands/references/dup/[`dup`] - Duplicate single element (reference only)
+* link:/commands/[`index`] - Duplicate nth element
+* link:/commands/references/roll/[`roll`] - Rotate stack elements
+* link:/commands/references/pop/[`pop`] - Remove elements
 * `get` - Retrieve individual elements
 * `put` - Store individual elements
 * `putinterval` - Store subsequence
@@ -384,7 +384,7 @@ Attempting to copy into a read-only object, or copying local VM objects into glo
 
 == See Also
 
-* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
-* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
-* link:/docs/usage/basic/composite-objects/[Composite Objects] - Understanding object copying
-* link:/docs/commands/references/[Stack Manipulation] - All stack operators
+* link:/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/usage/basic/composite-objects/[Composite Objects] - Understanding object copying
+* link:/commands/references/[Stack Manipulation] - All stack operators

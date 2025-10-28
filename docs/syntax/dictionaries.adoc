@@ -1015,15 +1015,15 @@ Instance /sharedMethod Lookup exec
 
 === See Also
 
-* link:/docs/syntax/objects/[Objects] - Dictionary object model
-* link:/docs/syntax/arrays/[Arrays] - Similar composite structure
-* link:/docs/syntax/procedures/[Procedures] - Local variables with dictionaries
-* link:/docs/syntax/operators/[Operators] - Dictionary operators
-* link:/docs/syntax/tokens/[Tokens] - Name syntax for keys
-* link:/docs/commands/references/dict/[dict] - Create dictionaries
-* link:/docs/commands/references/begin/[begin] - Push onto dict stack
-* link:/docs/commands/references/end/[end] - Pop from dict stack
-* link:/docs/commands/references/def/[def] - Define entries
-* link:/docs/commands/references/load/[load] - Look up values
-* link:/docs/commands/references/where/[where] - Find definitions
-* link:/docs/syntax/[Language Syntax Overview]
+* link:/syntax/objects/[Objects] - Dictionary object model
+* link:/syntax/arrays/[Arrays] - Similar composite structure
+* link:/syntax/procedures/[Procedures] - Local variables with dictionaries
+* link:/syntax/operators/[Operators] - Dictionary operators
+* link:/syntax/tokens/[Tokens] - Name syntax for keys
+* link:/commands/references/dict/[dict] - Create dictionaries
+* link:/commands/references/begin/[begin] - Push onto dict stack
+* link:/commands/references/end/[end] - Pop from dict stack
+* link:/commands/references/def/[def] - Define entries
+* link:/commands/references/load/[load] - Look up values
+* link:/commands/references/where/[where] - Find definitions
+* link:/syntax/[Language Syntax Overview]

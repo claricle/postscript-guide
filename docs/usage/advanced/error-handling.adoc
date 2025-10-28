@@ -1003,8 +1003,8 @@ ErrorHandlingTests {
 
 === See Also
 
-* link:/docs/usage/debugging/[Debugging] - Debugging techniques
-* link:/docs/usage/advanced/file-operations/[File Operations] - File error handling
-* link:/docs/usage/advanced/resource-management/[Resource Management] - Resource errors
-* link:/docs/commands/references/[Error Handling Commands] - Error operators
-* link:/docs/commands/references/stopped/[stopped] - Error catching
+* link:/usage/debugging/[Debugging] - Debugging techniques
+* link:/usage/advanced/file-operations/[File Operations] - File error handling
+* link:/usage/advanced/resource-management/[Resource Management] - Resource errors
+* link:/commands/references/[Error Handling Commands] - Error operators
+* link:/commands/references/stopped/[stopped] - Error catching

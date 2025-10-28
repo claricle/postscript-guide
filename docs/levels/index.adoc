@@ -21,22 +21,22 @@ PostScript was developed by Adobe Systems and released in three major levels, ea
 |===
 |Level |Release Year |Key Features
 
-|link:/docs/levels/level-1/[Level 1]
+|link:/levels/level-1/[Level 1]
 |1984
 |Original specification with basic imaging model, stack-based execution, vector graphics, and font handling
 
-|link:/docs/levels/level-2/[Level 2]
+|link:/levels/level-2/[Level 2]
 |1990
 |Added color extensions, composite fonts, filters, forms, patterns, file system, and performance improvements
 
-|link:/docs/levels/level-3/[Level 3]
+|link:/levels/level-3/[Level 3]
 |1996
 |Introduced smooth shading, better color management, improved PDF integration, and additional imaging features
 |===
 
 == Version Documentation
 
-=== link:/docs/levels/level-1/[PostScript Level 1]
+=== link:/levels/level-1/[PostScript Level 1]
 
 The original PostScript specification introduced:
 
@@ -47,9 +47,9 @@ The original PostScript specification introduced:
 * Device independence
 * Coordinate transformations
 
-link:/docs/levels/level-1/[Read more about Level 1 →]
+link:/levels/level-1/[Read more about Level 1 →]
 
-=== link:/docs/levels/level-2/[PostScript Level 2]
+=== link:/levels/level-2/[PostScript Level 2]
 
 Level 2 extended PostScript with:
 
@@ -63,9 +63,9 @@ Level 2 extended PostScript with:
 * File system and named resources
 * Better memory management
 
-link:/docs/levels/level-2/[Read more about Level 2 →]
+link:/levels/level-2/[Read more about Level 2 →]
 
-=== link:/docs/levels/level-3/[PostScript Level 3]
+=== link:/levels/level-3/[PostScript Level 3]
 
 Level 3 added advanced features:
 
@@ -77,11 +77,11 @@ Level 3 added advanced features:
 * Better device control
 * Enhanced font support
 
-link:/docs/levels/level-3/[Read more about Level 3 →]
+link:/levels/level-3/[Read more about Level 3 →]
 
-== link:/docs/levels/comparison/[Feature Comparison]
+== link:/levels/comparison/[Feature Comparison]
 
-For a detailed comparison of features across all three levels, see the link:/docs/levels/comparison/[version comparison table].
+For a detailed comparison of features across all three levels, see the link:/levels/comparison/[version comparison table].
 
 == Compatibility
 
@@ -136,6 +136,6 @@ Declare the PostScript level in your document header:
 
 == See Also
 
-* link:/docs/commands/[Command Reference] - Lists which commands are available in each level
-* link:/docs/syntax/[Language Syntax] - Core syntax applicable to all levels
+* link:/commands/[Command Reference] - Lists which commands are available in each level
+* link:/syntax/[Language Syntax] - Core syntax applicable to all levels
 * https://www.adobe.com/content/dam/acom/en/devnet/actionscript/articles/PLRM.pdf[PostScript Language Reference Manual] - Official specification

@@ -37,11 +37,11 @@ matrix setmatrix → -
 
 === Description
 
-link:/docs/commands/references/setmatrix/[`setmatrix`] replaces the current transformation matrix (CTM) in the graphics state with the value of `matrix`.
+link:/commands/references/setmatrix/[`setmatrix`] replaces the current transformation matrix (CTM) in the graphics state with the value of `matrix`.
 
 This establishes an arbitrary transformation from user space to device space without reference to the former CTM. The `matrix` operand must be a 6-element array of numbers representing a transformation matrix.
 
-WARNING: Except in device setup procedures, use of link:/docs/commands/references/setmatrix/[`setmatrix`] should be very rare. PostScript programs should ordinarily modify the CTM using link:/docs/commands/references/translate/[`translate`], link:/docs/commands/references/scale/[`scale`], link:/docs/commands/references/rotate/[`rotate`], and link:/docs/commands/references/concat/[`concat`] rather than replace it.
+WARNING: Except in device setup procedures, use of link:/commands/references/setmatrix/[`setmatrix`] should be very rare. PostScript programs should ordinarily modify the CTM using link:/commands/references/translate/[`translate`], link:/commands/references/scale/[`scale`], link:/commands/references/rotate/[`rotate`], and link:/commands/references/concat/[`concat`] rather than replace it.
 
 === PostScript Level
 
@@ -114,7 +114,7 @@ myDeviceMatrix setmatrix
 
 === Common Pitfalls
 
-WARNING: *Breaks Encapsulation* - link:/docs/commands/references/setmatrix/[`setmatrix`] can break assumptions about coordinate system.
+WARNING: *Breaks Encapsulation* - link:/commands/references/setmatrix/[`setmatrix`] can break assumptions about coordinate system.
 
 [source,postscript]
 ----
@@ -153,7 +153,7 @@ grestore
 % Transformation undone - setmatrix changes are saved/restored
 ----
 
-TIP: *Prefer Transform Operators* - Use transformation operators instead of link:/docs/commands/references/setmatrix/[`setmatrix`]:
+TIP: *Prefer Transform Operators* - Use transformation operators instead of link:/commands/references/setmatrix/[`setmatrix`]:
 
 [source,postscript]
 ----
@@ -197,7 +197,7 @@ saved setmatrix       % Restore
 * Very large or very small matrix values may cause precision issues
 * Degenerate matrices (determinant = 0) create non-invertible transformations
 * The matrix operand is not modified
-* Unlike link:/docs/commands/references/concat/[`concat`], link:/docs/commands/references/setmatrix/[`setmatrix`] completely replaces the CTM
+* Unlike link:/commands/references/concat/[`concat`], link:/commands/references/setmatrix/[`setmatrix`] completely replaces the CTM
 
 === Matrix Format
 
@@ -218,10 +218,10 @@ Where:
 
 In well-structured PostScript programs:
 
-1. **Initialization**: Device setup uses link:/docs/commands/references/initmatrix/[`initmatrix`]
-2. **Modifications**: Use link:/docs/commands/references/translate/[`translate`], link:/docs/commands/references/scale/[`scale`], link:/docs/commands/references/rotate/[`rotate`], link:/docs/commands/references/concat/[`concat`]
-3. **State Management**: Use link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`]
-4. **Restoration**: Use link:/docs/commands/references/grestore/[`grestore`] or saved matrix with link:/docs/commands/references/setmatrix/[`setmatrix`]
+1. **Initialization**: Device setup uses link:/commands/references/initmatrix/[`initmatrix`]
+2. **Modifications**: Use link:/commands/references/translate/[`translate`], link:/commands/references/scale/[`scale`], link:/commands/references/rotate/[`rotate`], link:/commands/references/concat/[`concat`]
+3. **State Management**: Use link:/commands/references/gsave/[`gsave`]/link:/commands/references/grestore/[`grestore`]
+4. **Restoration**: Use link:/commands/references/grestore/[`grestore`] or saved matrix with link:/commands/references/setmatrix/[`setmatrix`]
 
 === Comparison with Other Operators
 
@@ -245,16 +245,16 @@ matrix currentmatrix  % Assume [1 0 0 1 0 0]
 * Very fast operation
 * No matrix computation required
 * Just replaces 6 values in graphics state
-* No different in performance from link:/docs/commands/references/concat/[`concat`]
+* No different in performance from link:/commands/references/concat/[`concat`]
 
 === See Also
 
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
-* link:/docs/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
-* link:/docs/commands/references/initmatrix/[`initmatrix`] - Reset CTM to default
-* link:/docs/commands/references/concat/[`concat`] - Concatenate matrix with CTM
-* link:/docs/commands/references/translate/[`translate`] - Move origin
-* link:/docs/commands/references/scale/[`scale`] - Change unit size
-* link:/docs/commands/references/rotate/[`rotate`] - Rotate axes
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current CTM
+* link:/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
+* link:/commands/references/initmatrix/[`initmatrix`] - Reset CTM to default
+* link:/commands/references/concat/[`concat`] - Concatenate matrix with CTM
+* link:/commands/references/translate/[`translate`] - Move origin
+* link:/commands/references/scale/[`scale`] - Change unit size
+* link:/commands/references/rotate/[`rotate`] - Rotate axes
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state

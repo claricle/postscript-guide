@@ -567,14 +567,14 @@ $error /newerror get   % Is new error?
 
 For more detailed error handling:
 
-* **Debugging** - See link:/docs/usage/debugging/[Debugging Guide] for debugging techniques
-* **Advanced Error Handling** - See link:/docs/usage/advanced/error-handling/[Advanced Error Handling] for complex scenarios
-* **Resource Management** - See link:/docs/usage/advanced/resource-management/[Resource Management] for resource-related errors
+* **Debugging** - See link:/usage/debugging/[Debugging Guide] for debugging techniques
+* **Advanced Error Handling** - See link:/usage/advanced/error-handling/[Advanced Error Handling] for complex scenarios
+* **Resource Management** - See link:/usage/advanced/resource-management/[Resource Management] for resource-related errors
 
 === See Also
 
-* link:/docs/usage/debugging/[Debugging] - Debugging techniques
-* link:/docs/usage/advanced/error-handling/[Advanced Error Handling] - Detailed error handling
-* link:/docs/usage/advanced/file-operations/[File Operations] - File error handling
-* link:/docs/usage/basic/stack-operations/[Stack Operations] - Stack error prevention
-* link:/docs/commands/references/stopped/[stopped command] - Error catching operator
+* link:/usage/debugging/[Debugging] - Debugging techniques
+* link:/usage/advanced/error-handling/[Advanced Error Handling] - Detailed error handling
+* link:/usage/advanced/file-operations/[File Operations] - File error handling
+* link:/usage/basic/stack-operations/[Stack Operations] - Stack error prevention
+* link:/commands/references/stopped/[stopped command] - Error catching operator

@@ -29,11 +29,11 @@ cx cy char ax ay string
 
 === Description
 
-link:/docs/commands/references/awidthshow/[`awidthshow`] paints the characters of `string` in a manner similar to link:/docs/commands/references/show/[`show`], but combines the special effects of link:/docs/commands/references/ashow/[`ashow`] and link:/docs/commands/references/widthshow/[`widthshow`].
+link:/commands/references/awidthshow/[`awidthshow`] paints the characters of `string` in a manner similar to link:/commands/references/show/[`show`], but combines the special effects of link:/commands/references/ashow/[`ashow`] and link:/commands/references/widthshow/[`widthshow`].
 
-link:/docs/commands/references/awidthshow/[`awidthshow`] adjusts the width of each character shown by adding `ax` to its x width and `ay` to its y width, thus modifying the spacing between characters. Furthermore, link:/docs/commands/references/awidthshow/[`awidthshow`] modifies the width of each occurrence of the character `char` by an additional amount `(cx, cy)`.
+link:/commands/references/awidthshow/[`awidthshow`] adjusts the width of each character shown by adding `ax` to its x width and `ay` to its y width, thus modifying the spacing between characters. Furthermore, link:/commands/references/awidthshow/[`awidthshow`] modifies the width of each occurrence of the character `char` by an additional amount `(cx, cy)`.
 
-The interpretation of `char` is as described for the link:/docs/commands/references/widthshow/[`widthshow`] operator.
+The interpretation of `char` is as described for the link:/commands/references/widthshow/[`widthshow`] operator.
 
 This operator enables fitting a string of text to a specific width by adjusting all of the spaces between characters by a uniform amount, while independently controlling the width of some specific character, such as the space character.
 
@@ -255,16 +255,16 @@ The space character (ASCII 32) is the most common target:
 
 === Performance Notes
 
-- More expensive than link:/docs/commands/references/show/[`show`], link:/docs/commands/references/ashow/[`ashow`], or link:/docs/commands/references/widthshow/[`widthshow`] alone
+- More expensive than link:/commands/references/show/[`show`], link:/commands/references/ashow/[`ashow`], or link:/commands/references/widthshow/[`widthshow`] alone
 - Two conditional checks per character
 - Still benefits from font caching
 - For best performance, prefer simpler operators when possible
 
 === See Also
 
-- link:/docs/commands/references/show/[`show`] - Basic text painting
-- link:/docs/commands/references/ashow/[`ashow`] - Uniform character spacing adjustment
-- link:/docs/commands/references/widthshow/[`widthshow`] - Selective character width adjustment
-- link:/docs/commands/references/kshow/[`kshow`] - Show with kerning procedure
-- link:/docs/commands/references/cshow/[`cshow`] - Show with procedure per character
-- link:/docs/commands/references/stringwidth/[`stringwidth`] - Calculate text width
+- link:/commands/references/show/[`show`] - Basic text painting
+- link:/commands/references/ashow/[`ashow`] - Uniform character spacing adjustment
+- link:/commands/references/widthshow/[`widthshow`] - Selective character width adjustment
+- link:/commands/references/kshow/[`kshow`] - Show with kerning procedure
+- link:/commands/references/cshow/[`cshow`] - Show with procedure per character
+- link:/commands/references/stringwidth/[`stringwidth`] - Calculate text width

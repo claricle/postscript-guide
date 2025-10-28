@@ -28,12 +28,12 @@ Terminates execution of the innermost stopped context.
 
 === Description
 
-link:/docs/commands/references/stop/[`stop`] terminates execution of the innermost, dynamically enclosing instance of a link:/docs/commands/references/stopped/[`stopped`] context, without regard to lexical relationship.
+link:/commands/references/stop/[`stop`] terminates execution of the innermost, dynamically enclosing instance of a link:/commands/references/stopped/[`stopped`] context, without regard to lexical relationship.
 
-When link:/docs/commands/references/stop/[`stop`] executes:
-1. Pops execution stack down to the link:/docs/commands/references/stopped/[`stopped`] operator level
+When link:/commands/references/stop/[`stop`] executes:
+1. Pops execution stack down to the link:/commands/references/stopped/[`stopped`] operator level
 2. Pushes `true` on the operand stack
-3. Resumes execution after the link:/docs/commands/references/stopped/[`stopped`] operator
+3. Resumes execution after the link:/commands/references/stopped/[`stopped`] operator
 
 The operand and dictionary stacks are not affected - any objects pushed during stopped context execution remain.
 
@@ -132,7 +132,7 @@ The operand and dictionary stacks are not affected - any objects pushed during s
 
 === Common Pitfalls
 
-WARNING: *Requires stopped Context* - Without enclosing link:/docs/commands/references/stopped/[`stopped`], prints error and calls link:/docs/commands/references/quit/[`quit`].
+WARNING: *Requires stopped Context* - Without enclosing link:/commands/references/stopped/[`stopped`], prints error and calls link:/commands/references/quit/[`quit`].
 
 [source,postscript]
 ----
@@ -193,7 +193,7 @@ TIP: *Use for Error Signaling* - Preferred way to signal errors in custom operat
 
 === See Also
 
-* link:/docs/commands/references/stopped/[`stopped`] - Create stopped context
-* link:/docs/commands/references/exit/[`exit`] - Exit loop
-* link:/docs/commands/references/quit/[`quit`] - Terminate interpreter
+* link:/commands/references/stopped/[`stopped`] - Create stopped context
+* link:/commands/references/exit/[`exit`] - Exit loop
+* link:/commands/references/quit/[`quit`] - Terminate interpreter
 * Error Handling (to be documented)

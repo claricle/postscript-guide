@@ -41,14 +41,14 @@ name length → int
 
 === Description
 
-link:/docs/commands/references/length/[`length`] returns the length of its operand:
+link:/commands/references/length/[`length`] returns the length of its operand:
 
 * For arrays and packed arrays: number of elements
 * For strings: number of characters (bytes)
 * For dictionaries: current number of key-value pairs (not maximum capacity)
 * For names: number of characters in the name
 
-For dictionaries, use link:/docs/commands/references/maxlength/[`maxlength`] to get the maximum capacity.
+For dictionaries, use link:/commands/references/maxlength/[`maxlength`] to get the maximum capacity.
 
 === PostScript Level
 
@@ -118,7 +118,7 @@ text length string  % Allocate string of same length
 
 === Common Pitfalls
 
-WARNING: *Dictionary Length vs. Capacity* - link:/docs/commands/references/length/[`length`] returns the current number of entries, not the maximum capacity.
+WARNING: *Dictionary Length vs. Capacity* - link:/commands/references/length/[`length`] returns the current number of entries, not the maximum capacity.
 
 [source,postscript]
 ----
@@ -134,7 +134,7 @@ WARNING: *Name vs. String* - Name length counts characters in the name, not the 
 (abc) length          % Also returns 3
 ----
 
-TIP: *Use with forall* - For iterating over all elements, link:/docs/commands/references/forall/[`forall`] is often more convenient than using link:/docs/commands/references/length/[`length`] with a loop.
+TIP: *Use with forall* - For iterating over all elements, link:/commands/references/forall/[`forall`] is often more convenient than using link:/commands/references/length/[`length`] with a loop.
 
 === Error Conditions
 
@@ -166,20 +166,20 @@ TIP: *Use with forall* - For iterating over all elements, link:/docs/commands/re
 |===
 | Operator | Returns
 
-| link:/docs/commands/references/length/[`length`]
+| link:/commands/references/length/[`length`]
 | Current number of elements/entries
 
-| link:/docs/commands/references/maxlength/[`maxlength`]
+| link:/commands/references/maxlength/[`maxlength`]
 | Maximum capacity (dictionaries only)
 
-| link:/docs/commands/references/count/[`count`]
+| link:/commands/references/count/[`count`]
 | Number of objects on operand stack
 |===
 
 === See Also
 
-* link:/docs/commands/references/get/[`get`] - Get element at index
-* link:/docs/commands/references/getinterval/[`getinterval`] - Get subarray/substring
-* link:/docs/commands/references/forall/[`forall`] - Iterate over all elements
-* link:/docs/commands/references/array/[`array`] - Create array with specific length
-* link:/docs/commands/references/string/[`string`] - Create string with specific length
+* link:/commands/references/get/[`get`] - Get element at index
+* link:/commands/references/getinterval/[`getinterval`] - Get subarray/substring
+* link:/commands/references/forall/[`forall`] - Iterate over all elements
+* link:/commands/references/array/[`array`] - Create array with specific length
+* link:/commands/references/string/[`string`] - Create string with specific length

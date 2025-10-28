@@ -14,10 +14,10 @@ Array and string operations provide the foundation for data structure manipulati
 Arrays and strings in PostScript share many operational characteristics:
 
 * Both are indexed collections (0-based indexing)
-* Both support element access via link:/docs/commands/references/get/[`get`] and link:/docs/commands/references/put/[`put`]
-* Both can have subsequences extracted via link:/docs/commands/references/getinterval/[`getinterval`]
-* Both can be iterated over using link:/docs/commands/references/forall/[`forall`]
-* Both have a link:/docs/commands/references/length/[`length`] that can be queried
+* Both support element access via link:/commands/references/get/[`get`] and link:/commands/references/put/[`put`]
+* Both can have subsequences extracted via link:/commands/references/getinterval/[`getinterval`]
+* Both can be iterated over using link:/commands/references/forall/[`forall`]
+* Both have a link:/commands/references/length/[`length`] that can be queried
 
 However, they differ in important ways:
 
@@ -33,22 +33,22 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| link:/docs/commands/references/array/[`array`]
+| link:/commands/references/array/[`array`]
 | Create a new array of specified length
 
-| link:/docs/commands/references/brackets/[`[`]
+| link:/commands/references/brackets/[`[`]
 | Begin array construction (mark)
 
-| link:/docs/commands/references/brackets/[`]`]
+| link:/commands/references/brackets/[`]`]
 | End array construction
 
-| link:/docs/commands/references/aload/[`aload`]
+| link:/commands/references/aload/[`aload`]
 | Load all array elements onto stack
 
-| link:/docs/commands/references/astore/[`astore`]
+| link:/commands/references/astore/[`astore`]
 | Store stack elements into array
 
-| link:/docs/commands/references/packedarray/[`packedarray`]
+| link:/commands/references/packedarray/[`packedarray`]
 | Create read-only packed array (Level 2)
 |===
 
@@ -58,19 +58,19 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| link:/docs/commands/references/get/[`get`]
+| link:/commands/references/get/[`get`]
 | Get single element from array/string
 
-| link:/docs/commands/references/put/[`put`]
+| link:/commands/references/put/[`put`]
 | Put value into array/string element
 
-| link:/docs/commands/references/getinterval/[`getinterval`]
+| link:/commands/references/getinterval/[`getinterval`]
 | Extract subarray or substring
 
-| link:/docs/commands/references/putinterval/[`putinterval`]
+| link:/commands/references/putinterval/[`putinterval`]
 | Insert array/string into another
 
-| link:/docs/commands/references/length/[`length`]
+| link:/commands/references/length/[`length`]
 | Get length of array/string
 |===
 
@@ -80,7 +80,7 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| link:/docs/commands/references/forall/[`forall`]
+| link:/commands/references/forall/[`forall`]
 | Execute procedure for each element
 |===
 
@@ -92,16 +92,16 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| link:/docs/commands/references/string/[`string`]
+| link:/commands/references/string/[`string`]
 | Create new string of specified length
 
-| link:/docs/commands/references/anchorsearch/[`anchorsearch`]
+| link:/commands/references/anchorsearch/[`anchorsearch`]
 | Search for prefix in string
 
-| link:/docs/commands/references/search/[`search`]
+| link:/commands/references/search/[`search`]
 | Search for substring
 
-| link:/docs/commands/references/token/[`token`]
+| link:/commands/references/token/[`token`]
 | Parse next token from string/file
 |===
 
@@ -111,25 +111,25 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| link:/docs/commands/references/cvs/[`cvs`]
+| link:/commands/references/cvs/[`cvs`]
 | Convert any object to string representation
 
-| link:/docs/commands/references/cvn/[`cvn`]
+| link:/commands/references/cvn/[`cvn`]
 | Convert string to name
 
-| link:/docs/commands/references/cvr/[`cvr`]
+| link:/commands/references/cvr/[`cvr`]
 | Convert to real number
 
-| link:/docs/commands/references/cvi/[`cvi`]
+| link:/commands/references/cvi/[`cvi`]
 | Convert to integer
 
-| link:/docs/commands/references/cvlit/[`cvlit`]
+| link:/commands/references/cvlit/[`cvlit`]
 | Convert to literal attribute
 
-| link:/docs/commands/references/cvx/[`cvx`]
+| link:/commands/references/cvx/[`cvx`]
 | Convert to executable attribute
 
-| link:/docs/commands/references/type/[`type`]
+| link:/commands/references/type/[`type`]
 | Get object type as name
 |===
 
@@ -139,13 +139,13 @@ However, they differ in important ways:
 |===
 | Command | Description
 
-| link:/docs/commands/references/xcheck/[`xcheck`]
+| link:/commands/references/xcheck/[`xcheck`]
 | Check if object is executable
 
-| link:/docs/commands/references/rcheck/[`rcheck`]
+| link:/commands/references/rcheck/[`rcheck`]
 | Check if object is readable
 
-| link:/docs/commands/references/wcheck/[`wcheck`]
+| link:/commands/references/wcheck/[`wcheck`]
 | Check if object is writable
 |===
 
@@ -220,6 +220,6 @@ Process all elements in a collection:
 
 == See Also
 
-* link:/docs/commands/references/[Stack Manipulation Commands] - For basic data movement
-* link:/docs/commands/references/[Arithmetic and Math Commands] - For numeric operations
+* link:/commands/references/[Stack Manipulation Commands] - For basic data movement
+* link:/commands/references/[Arithmetic and Math Commands] - For numeric operations
 * Control Flow Commands - For conditional and loop constructs (to be documented)

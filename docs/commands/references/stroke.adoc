@@ -37,13 +37,13 @@ Paints a line following the current path using current line parameters.
 
 === Description
 
-link:/docs/commands/references/stroke/[`stroke`] paints a line following the current path using the current color. This line is centered on the path, has sides parallel to the path segments, and has a width (thickness) given by the current line width parameter in the graphics state.
+link:/commands/references/stroke/[`stroke`] paints a line following the current path using the current color. This line is centered on the path, has sides parallel to the path segments, and has a width (thickness) given by the current line width parameter in the graphics state.
 
-link:/docs/commands/references/stroke/[`stroke`] paints the joints between connected path segments with the current line join and the ends of open subpaths with the current line cap. The line is either solid or broken according to the dash pattern established by link:/docs/commands/references/setdash/[`setdash`].
+link:/commands/references/stroke/[`stroke`] paints the joints between connected path segments with the current line join and the ends of open subpaths with the current line cap. The line is either solid or broken according to the dash pattern established by link:/commands/references/setdash/[`setdash`].
 
-The parameters in the graphics state controlling line rendition (line width, line join, line cap, dash pattern, etc.) are consulted at the time link:/docs/commands/references/stroke/[`stroke`] is executed. Their values during path construction are irrelevant.
+The parameters in the graphics state controlling line rendition (line width, line join, line cap, dash pattern, etc.) are consulted at the time link:/commands/references/stroke/[`stroke`] is executed. Their values during path construction are irrelevant.
 
-link:/docs/commands/references/stroke/[`stroke`] implicitly performs a link:/docs/commands/references/newpath/[`newpath`] after it has finished painting the current path.
+link:/commands/references/stroke/[`stroke`] implicitly performs a link:/commands/references/newpath/[`newpath`] after it has finished painting the current path.
 
 === PostScript Level
 
@@ -171,7 +171,7 @@ stroke
 
 === Common Pitfalls
 
-WARNING: *Path Consumed After Stroke* - link:/docs/commands/references/stroke/[`stroke`] clears the current path. Use link:/docs/commands/references/gsave/[`gsave`]/link:/docs/commands/references/grestore/[`grestore`] to preserve it.
+WARNING: *Path Consumed After Stroke* - link:/commands/references/stroke/[`stroke`] clears the current path. Use link:/commands/references/gsave/[`gsave`]/link:/commands/references/grestore/[`grestore`] to preserve it.
 
 [source,postscript]
 ----
@@ -256,13 +256,13 @@ stroke
 
 === Graphics State Parameters
 
-link:/docs/commands/references/stroke/[`stroke`] is affected by:
+link:/commands/references/stroke/[`stroke`] is affected by:
 
-* **Line width** - Set by link:/docs/commands/references/setlinewidth/[`setlinewidth`]
-* **Line cap** - Set by link:/docs/commands/references/setlinecap/[`setlinecap`] (0=butt, 1=round, 2=square)
-* **Line join** - Set by link:/docs/commands/references/setlinejoin/[`setlinejoin`] (0=miter, 1=round, 2=bevel)
-* **Miter limit** - Set by link:/docs/commands/references/setmiterlimit/[`setmiterlimit`]
-* **Dash pattern** - Set by link:/docs/commands/references/setdash/[`setdash`]
+* **Line width** - Set by link:/commands/references/setlinewidth/[`setlinewidth`]
+* **Line cap** - Set by link:/commands/references/setlinecap/[`setlinecap`] (0=butt, 1=round, 2=square)
+* **Line join** - Set by link:/commands/references/setlinejoin/[`setlinejoin`] (0=miter, 1=round, 2=bevel)
+* **Miter limit** - Set by link:/commands/references/setmiterlimit/[`setmiterlimit`]
+* **Dash pattern** - Set by link:/commands/references/setdash/[`setdash`]
 * **Stroke adjustment** - Set by `setstrokeadjust` (Level 2)
 * **Current color** - Set by color operators
 * **Current transformation matrix (CTM)** - Affects line width and dash pattern
@@ -403,15 +403,15 @@ stroke
 
 === See Also
 
-* link:/docs/commands/references/fill/[`fill`] - Fill path interior
-* link:/docs/commands/references/strokepath/[`strokepath`] - Convert stroke to outline path
-* link:/docs/commands/references/ustroke/[`ustroke`] - Stroke user path (Level 2)
-* link:/docs/commands/references/setlinewidth/[`setlinewidth`] - Set line width
-* link:/docs/commands/references/setlinecap/[`setlinecap`] - Set line cap style
-* link:/docs/commands/references/setlinejoin/[`setlinejoin`] - Set line join style
-* link:/docs/commands/references/setmiterlimit/[`setmiterlimit`] - Set miter limit
-* link:/docs/commands/references/setdash/[`setdash`] - Set dash pattern
+* link:/commands/references/fill/[`fill`] - Fill path interior
+* link:/commands/references/strokepath/[`strokepath`] - Convert stroke to outline path
+* link:/commands/references/ustroke/[`ustroke`] - Stroke user path (Level 2)
+* link:/commands/references/setlinewidth/[`setlinewidth`] - Set line width
+* link:/commands/references/setlinecap/[`setlinecap`] - Set line cap style
+* link:/commands/references/setlinejoin/[`setlinejoin`] - Set line join style
+* link:/commands/references/setmiterlimit/[`setmiterlimit`] - Set miter limit
+* link:/commands/references/setdash/[`setdash`] - Set dash pattern
 * `setstrokeadjust` - Enable stroke adjustment (Level 2)
-* link:/docs/commands/references/newpath/[`newpath`] - Clear current path
-* link:/docs/commands/references/gsave/[`gsave`] - Save graphics state
-* link:/docs/commands/references/grestore/[`grestore`] - Restore graphics state
+* link:/commands/references/newpath/[`newpath`] - Clear current path
+* link:/commands/references/gsave/[`gsave`] - Save graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore graphics state

@@ -240,9 +240,9 @@ true neg       % ERROR: typecheck
 
 == Related Commands
 
-* link:/docs/commands/references/abs/[`abs`] - Absolute value
-* link:/docs/commands/references/sub/[`sub`] - Subtract two numbers
-* link:/docs/commands/references/add/[`add`] - Add two numbers
+* link:/commands/references/abs/[`abs`] - Absolute value
+* link:/commands/references/sub/[`sub`] - Subtract two numbers
+* link:/commands/references/add/[`add`] - Add two numbers
 
 == PostScript Level
 
@@ -323,5 +323,5 @@ value neg neg  % Same as abs for negative, but keeps positive positive
 
 == See Also
 
-* link:/docs/commands/references/[Arithmetic and Math] - All arithmetic operators
-* link:/docs/levels/[PostScript Language Levels]
+* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:/levels/[PostScript Language Levels]

@@ -37,11 +37,11 @@ gstate currentgstate → gstate
 
 === Description
 
-link:/docs/commands/references/currentgstate/[`currentgstate`] replaces the value of the gstate object by a copy of the current graphics state and pushes gstate back on the operand stack.
+link:/commands/references/currentgstate/[`currentgstate`] replaces the value of the gstate object by a copy of the current graphics state and pushes gstate back on the operand stack.
 
-This is a **copying operation** that updates an existing gstate object rather than creating a new one. This is more efficient than creating a new gstate with link:/docs/commands/references/gstate/[`gstate`] when you already have a gstate object to reuse.
+This is a **copying operation** that updates an existing gstate object rather than creating a new one. This is more efficient than creating a new gstate with link:/commands/references/gstate/[`gstate`] when you already have a gstate object to reuse.
 
-The gstate object must have been previously created by link:/docs/commands/references/gstate/[`gstate`]. After the operation, the gstate contains a snapshot of:
+The gstate object must have been previously created by link:/commands/references/gstate/[`gstate`]. After the operation, the gstate contains a snapshot of:
 
 * Current transformation matrix (CTM)
 * Color space and color values
@@ -194,7 +194,7 @@ beforeState setgstate  % Restore if needed
 
 === Common Pitfalls
 
-WARNING: *Global VM Restrictions* - If gstate is in global VM, link:/docs/commands/references/currentgstate/[`currentgstate`] fails if current state contains local VM objects.
+WARNING: *Global VM Restrictions* - If gstate is in global VM, link:/commands/references/currentgstate/[`currentgstate`] fails if current state contains local VM objects.
 
 [source,postscript]
 ----
@@ -206,7 +206,7 @@ false setglobal
 globalState currentgstate pop  % Error: invalidaccess
 ----
 
-WARNING: *Must Use Existing gstate* - link:/docs/commands/references/currentgstate/[`currentgstate`] requires a pre-existing gstate object.
+WARNING: *Must Use Existing gstate* - link:/commands/references/currentgstate/[`currentgstate`] requires a pre-existing gstate object.
 
 [source,postscript]
 ----
@@ -247,7 +247,7 @@ TIP: *Reuse gstate Objects* - More efficient than creating new ones repeatedly.
 === Implementation Notes
 
 * Updates existing gstate object (doesn't create new one)
-* More efficient than link:/docs/commands/references/gstate/[`gstate`] when reusing objects
+* More efficient than link:/commands/references/gstate/[`gstate`] when reusing objects
 * Returns same gstate object (for convenience)
 * Captures complete graphics state except current path
 * Fast operation suitable for frequent use
@@ -259,25 +259,25 @@ TIP: *Reuse gstate Objects* - More efficient than creating new ones repeatedly.
 |===
 | Operator | Purpose
 
-| link:/docs/commands/references/gstate/[`gstate`]
+| link:/commands/references/gstate/[`gstate`]
 | Creates new gstate object with current state (allocates VM)
 
-| link:/docs/commands/references/currentgstate/[`currentgstate`]
+| link:/commands/references/currentgstate/[`currentgstate`]
 | Updates existing gstate with current state (no allocation)
 
-| link:/docs/commands/references/setgstate/[`setgstate`]
+| link:/commands/references/setgstate/[`setgstate`]
 | Replaces current state from gstate object
 
-| link:/docs/commands/references/gsave/[`gsave`]
+| link:/commands/references/gsave/[`gsave`]
 | Saves current state on graphics state stack
 
-| link:/docs/commands/references/grestore/[`grestore`]
+| link:/commands/references/grestore/[`grestore`]
 | Restores state from graphics state stack
 |===
 
 === Graphics State Components
 
-link:/docs/commands/references/currentgstate/[`currentgstate`] captures:
+link:/commands/references/currentgstate/[`currentgstate`] captures:
 
 * ✓ Transformation matrix (CTM)
 * ✓ Color space and color
@@ -290,8 +290,8 @@ link:/docs/commands/references/currentgstate/[`currentgstate`] captures:
 
 === See Also
 
-* link:/docs/commands/references/gstate/[`gstate`] - Create new graphics state object
-* link:/docs/commands/references/setgstate/[`setgstate`] - Replace graphics state from gstate
-* link:/docs/commands/references/gsave/[`gsave`] - Save state on graphics state stack
-* link:/docs/commands/references/grestore/[`grestore`] - Restore state from stack
-* link:/docs/commands/references/grestoreall/[`grestoreall`] - Restore all saved states
+* link:/commands/references/gstate/[`gstate`] - Create new graphics state object
+* link:/commands/references/setgstate/[`setgstate`] - Replace graphics state from gstate
+* link:/commands/references/gsave/[`gsave`] - Save state on graphics state stack
+* link:/commands/references/grestore/[`grestore`] - Restore state from stack
+* link:/commands/references/grestoreall/[`grestoreall`] - Restore all saved states

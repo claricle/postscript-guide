@@ -37,7 +37,7 @@ matrix defaultmatrix → matrix
 
 === Description
 
-link:/docs/commands/references/defaultmatrix/[`defaultmatrix`] replaces the value of `matrix` with the default transformation matrix for the current output device and pushes the modified matrix back on the operand stack.
+link:/commands/references/defaultmatrix/[`defaultmatrix`] replaces the value of `matrix` with the default transformation matrix for the current output device and pushes the modified matrix back on the operand stack.
 
 The default matrix establishes the standard mapping from the default user coordinate system to device space for the current device. This matrix is device-dependent and defines the initial state before any transformations are applied.
 
@@ -127,7 +127,7 @@ WARNING: *Not Always Identity* - The default matrix is rarely the identity matri
 [72 0 0 -72 0 792]  % Letter page at 72dpi
 ----
 
-TIP: *Use initmatrix Instead* - For resetting CTM, use link:/docs/commands/references/initmatrix/[`initmatrix`]:
+TIP: *Use initmatrix Instead* - For resetting CTM, use link:/commands/references/initmatrix/[`initmatrix`]:
 
 [source,postscript]
 ----
@@ -229,7 +229,7 @@ matrix defaultmatrix setmatrix
 
 === See Also
 
-* link:/docs/commands/references/initmatrix/[`initmatrix`] - Reset CTM to default
-* link:/docs/commands/references/currentmatrix/[`currentmatrix`] - Get current transformation
-* link:/docs/commands/references/setmatrix/[`setmatrix`] - Set transformation matrix
-* link:/docs/commands/references/matrix/[`matrix`] - Create identity matrix
+* link:/commands/references/initmatrix/[`initmatrix`] - Reset CTM to default
+* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current transformation
+* link:/commands/references/setmatrix/[`setmatrix`] - Set transformation matrix
+* link:/commands/references/matrix/[`matrix`] - Create identity matrix

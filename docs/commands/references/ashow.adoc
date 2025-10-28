@@ -29,7 +29,7 @@ ax ay string
 
 === Description
 
-link:/docs/commands/references/ashow/[`ashow`] paints the characters of `string` in a manner similar to link:/docs/commands/references/show/[`show`]. But while doing so, link:/docs/commands/references/ashow/[`ashow`] adjusts the width of each character shown by adding `ax` to the character's x width and `ay` to its y width, thus modifying the spacing between characters.
+link:/commands/references/ashow/[`ashow`] paints the characters of `string` in a manner similar to link:/commands/references/show/[`show`]. But while doing so, link:/commands/references/ashow/[`ashow`] adjusts the width of each character shown by adding `ax` to the character's x width and `ay` to its y width, thus modifying the spacing between characters.
 
 The numbers `ax` and `ay` are x and y displacements in the user coordinate system, not in the character coordinate system. This operator enables a string of text to be fitted to a specific width by adjusting all the spaces between characters by a uniform amount.
 
@@ -102,7 +102,7 @@ The numbers `ax` and `ay` are x and y displacements in the user coordinate syste
 : Current font is not valid
 
 **nocurrentpoint**
-: Current point is not defined before link:/docs/commands/references/ashow/[`ashow`]
+: Current point is not defined before link:/commands/references/ashow/[`ashow`]
 
 **stackunderflow**
 : Fewer than three operands on stack
@@ -181,10 +181,10 @@ grestore
 
 === Performance Notes
 
-- link:/docs/commands/references/ashow/[`ashow`] is slightly slower than link:/docs/commands/references/show/[`show`] due to spacing calculations
+- link:/commands/references/ashow/[`ashow`] is slightly slower than link:/commands/references/show/[`show`] due to spacing calculations
 - Character caching still applies
-- For uniform spacing of all text, set once and use link:/docs/commands/references/show/[`show`]
-- For spacing only specific characters, use link:/docs/commands/references/widthshow/[`widthshow`] instead
+- For uniform spacing of all text, set once and use link:/commands/references/show/[`show`]
+- For spacing only specific characters, use link:/commands/references/widthshow/[`widthshow`] instead
 
 === Advanced Usage
 
@@ -208,10 +208,10 @@ grestore
 
 === See Also
 
-- link:/docs/commands/references/show/[`show`] - Basic text painting
-- link:/docs/commands/references/widthshow/[`widthshow`] - Adjust specific character width
-- link:/docs/commands/references/awidthshow/[`awidthshow`] - Combine link:/docs/commands/references/ashow/[`ashow`] and link:/docs/commands/references/widthshow/[`widthshow`]
-- link:/docs/commands/references/kshow/[`kshow`] - Show with kerning procedure
-- link:/docs/commands/references/cshow/[`cshow`] - Show with procedure per character
-- link:/docs/commands/references/stringwidth/[`stringwidth`] - Calculate text width
+- link:/commands/references/show/[`show`] - Basic text painting
+- link:/commands/references/widthshow/[`widthshow`] - Adjust specific character width
+- link:/commands/references/awidthshow/[`awidthshow`] - Combine link:/commands/references/ashow/[`ashow`] and link:/commands/references/widthshow/[`widthshow`]
+- link:/commands/references/kshow/[`kshow`] - Show with kerning procedure
+- link:/commands/references/cshow/[`cshow`] - Show with procedure per character
+- link:/commands/references/stringwidth/[`stringwidth`] - Calculate text width
 - `moveto` - Set current point

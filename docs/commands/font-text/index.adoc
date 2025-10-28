@@ -21,25 +21,25 @@ PostScript provides comprehensive font and text capabilities including font sele
 |===
 | Command | Description
 
-| link:/docs/commands/references/findfont/[`findfont`]
+| link:/commands/references/findfont/[`findfont`]
 | Obtain font dictionary by name
 
-| link:/docs/commands/references/scalefont/[`scalefont`]
+| link:/commands/references/scalefont/[`scalefont`]
 | Scale font uniformly
 
-| link:/docs/commands/references/makefont/[`makefont`]
+| link:/commands/references/makefont/[`makefont`]
 | Transform font by matrix
 
-| link:/docs/commands/references/setfont/[`setfont`]
+| link:/commands/references/setfont/[`setfont`]
 | Establish current font
 
-| link:/docs/commands/references/currentfont/[`currentfont`]
+| link:/commands/references/currentfont/[`currentfont`]
 | Get current font
 
-| link:/docs/commands/references/definefont/[`definefont`]
+| link:/commands/references/definefont/[`definefont`]
 | Register font
 
-| link:/docs/commands/references/undefinefont/[`undefinefont`]
+| link:/commands/references/undefinefont/[`undefinefont`]
 | Remove font (Level 2)
 |===
 
@@ -49,22 +49,22 @@ PostScript provides comprehensive font and text capabilities including font sele
 |===
 | Command | Description
 
-| link:/docs/commands/references/show/[`show`]
+| link:/commands/references/show/[`show`]
 | Paint text string
 
-| link:/docs/commands/references/ashow/[`ashow`]
+| link:/commands/references/ashow/[`ashow`]
 | Show with spacing adjustment
 
-| link:/docs/commands/references/widthshow/[`widthshow`]
+| link:/commands/references/widthshow/[`widthshow`]
 | Show with selective width adjustment
 
-| link:/docs/commands/references/awidthshow/[`awidthshow`]
+| link:/commands/references/awidthshow/[`awidthshow`]
 | Combined spacing adjustment
 
-| link:/docs/commands/references/kshow/[`kshow`]
+| link:/commands/references/kshow/[`kshow`]
 | Show with kerning
 
-| link:/docs/commands/references/cshow/[`cshow`]
+| link:/commands/references/cshow/[`cshow`]
 | Show with per-character control (Level 2)
 |===
 
@@ -74,14 +74,14 @@ PostScript provides comprehensive font and text capabilities including font sele
 |===
 | Command | Description
 
-| link:/docs/commands/references/stringwidth/[`stringwidth`]
+| link:/commands/references/stringwidth/[`stringwidth`]
 | Calculate text width
 
-| link:/docs/commands/references/charpath/[`charpath`]
+| link:/commands/references/charpath/[`charpath`]
 | Get character outlines
 |===
 
 == See Also
 
-* link:/docs/usage/advanced/fonts-text/[Font & Text Guide]
-* link:/docs/commands/references/[Graphics State]
+* link:/usage/advanced/fonts-text/[Font & Text Guide]
+* link:/commands/references/[Graphics State]

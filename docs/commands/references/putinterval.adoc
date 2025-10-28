@@ -45,9 +45,9 @@ string1 index string2 putinterval → –
 
 === Description
 
-link:/docs/commands/references/putinterval/[`putinterval`] replaces a subsequence of the first operand starting at _index_ with the entire contents of the third operand.
+link:/commands/references/putinterval/[`putinterval`] replaces a subsequence of the first operand starting at _index_ with the entire contents of the third operand.
 
-The objects are copied from the source to the destination as if by a sequence of individual link:/docs/commands/references/get/[`get`] and link:/docs/commands/references/put/[`put`] operations. For arrays, if copied elements are composite objects, their values are shared between source and destination.
+The objects are copied from the source to the destination as if by a sequence of individual link:/commands/references/get/[`get`] and link:/commands/references/put/[`put`] operations. For arrays, if copied elements are composite objects, their values are shared between source and destination.
 
 Requirements:
 * _index_ must be valid (0 to length-1)
@@ -143,7 +143,7 @@ dest 0 get 0 99 put  % Modifies BOTH arrays!
 
 WARNING: *VM Restrictions* - If destination is in global VM and source contains local VM objects, [`invalidaccess`] error occurs.
 
-TIP: *Efficient Copying* - link:/docs/commands/references/putinterval/[`putinterval`] is more efficient than multiple link:/docs/commands/references/put/[`put`] operations for bulk copying.
+TIP: *Efficient Copying* - link:/commands/references/putinterval/[`putinterval`] is more efficient than multiple link:/commands/references/put/[`put`] operations for bulk copying.
 
 === Error Conditions
 
@@ -173,14 +173,14 @@ TIP: *Efficient Copying* - link:/docs/commands/references/putinterval/[`putinter
 
 === Performance Considerations
 
-* Much faster than individual link:/docs/commands/references/put/[`put`] operations
+* Much faster than individual link:/commands/references/put/[`put`] operations
 * Efficient for bulk array/string operations
 * No intermediate objects created
 * Memory bandwidth limited for large copies
 
 === See Also
 
-* link:/docs/commands/references/getinterval/[`getinterval`] - Extract subarray/substring
-* link:/docs/commands/references/put/[`put`] - Store single element
-* link:/docs/commands/references/get/[`get`] - Get single element
-* link:/docs/commands/references/astore/[`astore`] - Store stack into array
+* link:/commands/references/getinterval/[`getinterval`] - Extract subarray/substring
+* link:/commands/references/put/[`put`] - Store single element
+* link:/commands/references/get/[`get`] - Get single element
+* link:/commands/references/astore/[`astore`] - Store stack into array

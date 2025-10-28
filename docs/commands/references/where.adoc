@@ -50,7 +50,7 @@ key where → dict true (if found)
 
 === Description
 
-link:/docs/commands/references/where/[`where`] searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
+link:/commands/references/where/[`where`] searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
 
 * If found: returns the dictionary object and `true`
 * If not found: returns `false`
@@ -141,7 +141,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Returns Dictionary, Not Value* - link:/docs/commands/references/where/[`where`] returns the dictionary itself, not the value.
+WARNING: *Returns Dictionary, Not Value* - link:/commands/references/where/[`where`] returns the dictionary itself, not the value.
 
 [source,postscript]
 ----
@@ -197,7 +197,7 @@ TIP: *Idiom for Getting Value* - Common pattern to get value:
 
 [cols="2,3,3"]
 |===
-| Aspect | link:/docs/commands/references/known/[`known`] | link:/docs/commands/references/where/[`where`]
+| Aspect | link:/commands/references/known/[`known`] | link:/commands/references/where/[`where`]
 
 | Search scope
 | Specific dictionary
@@ -218,8 +218,8 @@ TIP: *Idiom for Getting Value* - Common pattern to get value:
 
 === See Also
 
-* link:/docs/commands/references/known/[`known`] - Check specific dictionary
-* link:/docs/commands/references/load/[`load`] - Get value from dictionary stack
-* link:/docs/commands/references/def/[`def`] - Define in current dictionary
-* link:/docs/commands/references/store/[`store`] - Store in dictionary stack
-* link:/docs/commands/references/get/[`get`] - Get from specific dictionary
+* link:/commands/references/known/[`known`] - Check specific dictionary
+* link:/commands/references/load/[`load`] - Get value from dictionary stack
+* link:/commands/references/def/[`def`] - Define in current dictionary
+* link:/commands/references/store/[`store`] - Store in dictionary stack
+* link:/commands/references/get/[`get`] - Get from specific dictionary

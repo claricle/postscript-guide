@@ -1153,12 +1153,12 @@ grestore
 
 === See Also
 
-* link:/docs/commands/references/[Font & Text Commands] - Complete command reference
-* link:/docs/commands/references/show/[show] - Display text
-* link:/docs/commands/references/findfont/[findfont] - Find font
-* link:/docs/commands/references/scalefont/[scalefont] - Scale font
-* link:/docs/commands/references/setfont/[setfont] - Set current font
-* link:/docs/commands/references/stringwidth/[stringwidth] - Measure text
-* link:/docs/commands/references/charpath/[charpath] - Text to path
-* link:/docs/usage/advanced/color-spaces/[Color Spaces] - Text colors
-* link:/docs/usage/basic/graphics-state/[Graphics State] - Text rendering state
+* link:/commands/references/[Font & Text Commands] - Complete command reference
+* link:/commands/references/show/[show] - Display text
+* link:/commands/references/findfont/[findfont] - Find font
+* link:/commands/references/scalefont/[scalefont] - Scale font
+* link:/commands/references/setfont/[setfont] - Set current font
+* link:/commands/references/stringwidth/[stringwidth] - Measure text
+* link:/commands/references/charpath/[charpath] - Text to path
+* link:/usage/advanced/color-spaces/[Color Spaces] - Text colors
+* link:/usage/basic/graphics-state/[Graphics State] - Text rendering state

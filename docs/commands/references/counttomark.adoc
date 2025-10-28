@@ -12,7 +12,7 @@ Counts the number of elements on the operand stack from the top down to (but not
 
 The `counttomark` operator counts how many elements are on the operand stack between the top and the nearest mark object (searching from top to bottom). The mark itself is not counted, and the stack is left unchanged except for the count value being pushed.
 
-This operator is essential for implementing variable-argument procedures where the number of arguments is not known in advance. It's commonly used with link:/docs/commands/references/mark/[`mark`] to process all elements in a marked segment.
+This operator is essential for implementing variable-argument procedures where the number of arguments is not known in advance. It's commonly used with link:/commands/references/mark/[`mark`] to process all elements in a marked segment.
 
 This is a Level 1 operator, available in all PostScript implementations.
 
@@ -288,11 +288,11 @@ counttomark         % Stack: mark 0
 
 == Related Commands
 
-* link:/docs/commands/references/mark/[`mark`] - Push a mark object onto stack
-* link:/docs/commands/references/cleartomark/[`cleartomark`] - Remove elements down to and including mark
-* link:/docs/commands/references/count/[`count`] - Count total stack depth
+* link:/commands/references/mark/[`mark`] - Push a mark object onto stack
+* link:/commands/references/cleartomark/[`cleartomark`] - Remove elements down to and including mark
+* link:/commands/references/count/[`count`] - Count total stack depth
 * `]` - Create array from marked elements
-* link:/docs/commands/references/pop/[`pop`] - Remove single element
+* link:/commands/references/pop/[`pop`] - Remove single element
 
 == PostScript Level
 
@@ -328,7 +328,7 @@ For very deep marks, this can be slightly expensive, but in practice marked segm
 
 == Best Practices
 
-1. **Use with mark**: Always ensure a link:/docs/commands/references/mark/[`mark`] exists before calling `counttomark`
+1. **Use with mark**: Always ensure a link:/commands/references/mark/[`mark`] exists before calling `counttomark`
 2. **Immediate use**: Use the count value immediately; don't store it for later
 3. **Variable arguments**: Ideal for implementing procedures with variable-length argument lists
 4. **Document expectations**: Clearly document when procedures expect marked arguments
@@ -400,7 +400,7 @@ For very deep marks, this can be slightly expensive, but in practice marked segm
 
 == See Also
 
-* link:/docs/syntax/operators/[Operators Overview] - Understanding PostScript operators
-* link:/docs/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
-* link:/docs/usage/basic/procedures/[Procedures] - Implementing variable-argument functions
-* link:/docs/commands/references/[Stack Manipulation] - All stack operators
+* link:/syntax/operators/[Operators Overview] - Understanding PostScript operators
+* link:/usage/basic/stack-operations/[Stack Operations Guide] - Stack manipulation tutorial
+* link:/usage/basic/procedures/[Procedures] - Implementing variable-argument functions
+* link:/commands/references/[Stack Manipulation] - All stack operators

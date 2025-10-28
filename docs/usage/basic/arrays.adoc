@@ -974,12 +974,12 @@ idx arr length lt {
 
 === See Also
 
-* link:/docs/syntax/arrays/[Array Syntax] - Array syntax details
-* link:/docs/usage/basic/procedures/[Procedures] - Using arrays in procedures
-* link:/docs/usage/basic/composite-objects/[Composite Objects] - Complex data structures
-* link:/docs/commands/references/array/[array] - Create array
-* link:/docs/commands/references/aload/[aload] - Unpack array
-* link:/docs/commands/references/astore/[astore] - Pack array
-* link:/docs/commands/references/get/[get] - Get element
-* link:/docs/commands/references/put/[put] - Set element
-* link:/docs/commands/references/forall/[forall] - Iterate array
+* link:/syntax/arrays/[Array Syntax] - Array syntax details
+* link:/usage/basic/procedures/[Procedures] - Using arrays in procedures
+* link:/usage/basic/composite-objects/[Composite Objects] - Complex data structures
+* link:/commands/references/array/[array] - Create array
+* link:/commands/references/aload/[aload] - Unpack array
+* link:/commands/references/astore/[astore] - Pack array
+* link:/commands/references/get/[get] - Get element
+* link:/commands/references/put/[put] - Set element
+* link:/commands/references/forall/[forall] - Iterate array
