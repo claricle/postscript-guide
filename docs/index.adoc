@@ -103,24 +103,8 @@ Advanced features and techniques:
 
 Complete reference for all PostScript operators, organized by category:
 
-* link:/commands/references/[Stack Manipulation] - Stack operations
-* link:/commands/references/[Arithmetic and Math] - Mathematical operations
-* link:/commands/references/[Array and String Operations] - Collection manipulation
-* link:/commands/references/[Dictionary Operations] - Key-value store operations
-* link:/commands/references/[Graphics State] - Graphics parameters
-* link:/commands/references/[Path Construction] - Path building
-* link:/commands/references/[Painting] - Rendering operations
-* link:/commands/references/[Coordinate Transformations] - CTM operations
-* link:/commands/references/[Font and Text] - Typography operators
-* link:/commands/references/[Color] - Color operations
-* link:/commands/references/[Image] - Image rendering
-* link:/commands/references/[Device and Output] - Device control
-* link:/commands/references/[File and I/O] - File operations
-* link:/commands/references/[Control Flow] - Program flow control
-* link:/commands/references/[Resource Management] - VM and resources
-* link:/commands/references/[Error Handling] - Error management
+* link:/commands/by-category/[by category]
 
-Or browse link:/commands/by-category/[by category] or link:/commands/[alphabetically].
 
 === link:/examples/[Practical Examples]
 

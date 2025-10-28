@@ -4,42 +4,37 @@ title: Commands
 nav_order: 6
 has_children: true
 ---
-
-== Command Reference
+== Commands Overview
 :description: Complete reference for all PostScript operators
 :keywords: postscript, commands, operators, reference
 
 [.lead]
 Complete reference documentation for all PostScript operators, organized alphabetically and by functional category.
 
-=== Browse Commands
+== Commands by Category
 
-==== link:/commands/references/[Alphabetical Reference]
+All PostScript operators organized by functional category.
 
-Browse all commands in alphabetical order in the Command Reference section.
+=== Stack Manipulation
 
-==== By Category
+link:/commands/references/[View all stack commands →]
 
-Commands are organized into functional categories for easier discovery:
+=== Arithmetic and Math
 
-* link:/commands/stack-manipulation/[Stack Manipulation] - Operations on the operand stack
-* link:/commands/arithmetic-math/[Arithmetic and Math] - Mathematical operations and functions
-* link:/commands/array-string/[Array and String Operations] - Collection and text manipulation
-* link:/commands/dictionary/[Dictionary Operations] - Key-value store operations
-* link:/commands/graphics-state/[Graphics State] - Graphics parameter management
-* link:/commands/path-construction/[Path Construction] - Vector path building
-* link:/commands/painting/[Painting] - Rendering and output operations
-* link:/commands/transformations/[Coordinate Transformations] - CTM and coordinate operations
-* link:/commands/font-text/[Font and Text] - Typography and text rendering
-* link:/commands/color/[Color] - Color space and color operations
-* link:/commands/image/[Image] - Raster image handling
-* link:/commands/device-output/[Device and Output] - Device control and output
-* link:/commands/file-io/[File and I/O] - File operations and streams
-* link:/commands/control-flow/[Control Flow] - Program flow control
-* link:/commands/resource-management/[Resource Management] - VM and resource handling
-* link:/commands/error-handling/[Error Handling] - Error management and recovery
+link:/commands/references/[View all math commands →]
 
-==== link:/commands/by-category/[Categorical Index]
+=== Array and String Operations
 
-View all commands grouped by their functional categories with descriptions.
+link:/commands/references/[View all array/string commands →]
 
+=== Dictionary Operations
+
+link:/commands/references/[View all dictionary commands →]
+
+=== Control Flow
+
+link:/commands/references/[View all control flow commands →]
+
+=== Graphics State
+
+link:/commands/references/[View all graphics state commands →]
