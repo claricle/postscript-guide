@@ -1,0 +1,64 @@
+---
+layout: default
+title: showpage
+parent: Command Reference
+nav_order: 1
+---
+= showpage
+
+Output the current page and prepare the next page.
+
+== Description
+
+With the normal page-device procedures, `showpage` sends the accumulated marks to the output device, clears the page, and reinitializes the graphics state. Establish the font, current point, and other graphics settings again for the next page. It does not clear the operand or dictionary stacks.
+
+In Level 2 and higher, the page device's `EndPage` procedure controls whether the page is output and erased. Graphics initialization and `BeginPage` then prepare the next page. Device configuration controls such details as copies and media.
+
+== Syntax
+
+[source,postscript]
+----
+- showpage -
+----
+
+=== Stack Effect
+
+Stack entries are shown from bottom to top; earlier operands are unchanged.
+
+[cols="1,3"]
+|===
+|State |Operand stack
+
+|Before
+|No operands required
+
+|After
+|Unchanged
+|===
+
+== Examples
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+72 720 moveto (First page) show
+showpage
+
+/Helvetica findfont 12 scalefont setfont
+72 720 moveto (Second page) show
+showpage
+----
+
+== Related Commands
+
+* link:/commands/references/copypage/[`copypage`] - Output without reinitializing the graphics state
+* link:/commands/references/nulldevice/[`nulldevice`] - Discard graphical output
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher (LanguageLevel 1).
+
+== Error Conditions
+
+`undefined`::
+In Level 2 and higher, showpage was called from a BeginPage or EndPage procedure. Errors from page-device procedures can also propagate.

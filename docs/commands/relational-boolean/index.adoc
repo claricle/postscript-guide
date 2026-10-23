@@ -1,0 +1,61 @@
+---
+layout: default
+title: Relational and Boolean
+parent: Commands
+nav_order: 4.5
+---
+
+== Relational and Boolean
+
+Commands for comparing objects and performing logical and bitwise operations.
+
+== Overview
+
+Equality operators compare objects, ordered comparisons accept numbers or strings, and logical operators also support bitwise operations on integers. All commands in this category are available in PostScript Level 1 and higher.
+
+== Commands
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| link:/commands/references/eq/[`eq`]
+| Test two objects for equality.
+
+| link:/commands/references/ne/[`ne`]
+| Test two objects for inequality.
+
+| link:/commands/references/ge/[`ge`]
+| Test whether the first operand is greater than or equal to the second.
+
+| link:/commands/references/gt/[`gt`]
+| Test whether the first operand is greater than the second.
+
+| link:/commands/references/le/[`le`]
+| Test whether the first operand is less than or equal to the second.
+
+| link:/commands/references/lt/[`lt`]
+| Test whether the first operand is less than the second.
+
+| link:/commands/references/and/[`and`]
+| Compute logical or bitwise AND.
+
+| link:/commands/references/or/[`or`]
+| Compute logical or bitwise inclusive OR.
+
+| link:/commands/references/xor/[`xor`]
+| Compute logical or bitwise exclusive OR.
+
+| link:/commands/references/not/[`not`]
+| Negate a boolean or complement the bits of an integer.
+
+| link:/commands/references/true/[`true`]
+| Push the boolean value `true`.
+
+| link:/commands/references/false/[`false`]
+| Push the boolean value `false`.
+|===
+
+== See Also
+
+* link:/commands/[Command Reference Overview]

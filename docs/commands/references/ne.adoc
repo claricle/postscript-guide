@@ -1,0 +1,69 @@
+---
+layout: default
+title: ne
+parent: Command Reference
+nav_order: 2
+---
+= ne
+
+Test two objects for inequality.
+
+== Description
+
+Returns `true` when the two operands are unequal, and `false` otherwise.
+
+Integers and reals compare by numeric value. Strings compare by their bytes, and names compare by their spelling; a name and a string with the same characters are equal. Other differing types are unequal, rather than causing `typecheck`.
+
+Arrays and dictionaries compare by shared object identity, not by matching contents. Literal/executable attributes do not affect equality. String contents must be readable.
+
+== Syntax
+
+[source,postscript]
+----
+any1 any2 ne bool
+----
+
+=== Stack Effect
+
+Stack entries are shown from bottom to top; earlier operands are unchanged.
+
+[cols="1,3"]
+|===
+|State |Operand stack
+
+|Before
+|`any1 any2`
+
+|After
+|`bool`
+|===
+
+== Examples
+
+[source,postscript]
+----
+7 7.0 ne  % false
+(cat) (cat) ne  % false
+/cat /cat ne  % false
+/cat (cat) ne  % false
+7 (7) ne  % true
+[1 2] dup ne  % false
+[1 2] [1 2] ne  % true
+----
+
+== Related Commands
+
+* link:/commands/references/eq/[`eq`] - Complementary equality test
+* link:/commands/references/lt/[`lt`] - Ordered comparison
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher (LanguageLevel 1).
+
+== Error Conditions
+
+`invalidaccess`::
+A string needed for comparison does not permit reading.
+
+`stackunderflow`::
+The operand stack contains fewer than two operands.

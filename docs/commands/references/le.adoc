@@ -1,0 +1,70 @@
+---
+layout: default
+title: le
+parent: Command Reference
+nav_order: 5
+---
+= le
+
+Test whether the first operand is less than or equal to the second.
+
+== Description
+
+Returns a boolean indicating whether the first operand is less than or equal to the second. Both operands must be numbers or both must be strings. Integers and reals may be mixed.
+
+Strings are ordered lexicographically by unsigned byte values, with the first differing byte deciding the order. If one string is a prefix of the other, the shorter string comes first. This is case-sensitive byte ordering, not locale-aware sorting. Names are not accepted, even though names can be compared with strings by `eq` and `ne`.
+
+== Syntax
+
+[source,postscript]
+----
+num1 num2 le bool
+string1 string2 le bool
+----
+
+=== Stack Effect
+
+Stack entries are shown from bottom to top; earlier operands are unchanged.
+
+[cols="1,3"]
+|===
+|State |Operand stack
+
+|Before
+|`num1 num2` or `string1 string2`
+
+|After
+|`bool`
+|===
+
+== Examples
+
+[source,postscript]
+----
+5 5.0 le       % true
+(car) (cat) le % true
+3 2 le         % false
+----
+
+== Related Commands
+
+* link:/commands/references/eq/[`eq`] - Compare values
+* link:/commands/references/ne/[`ne`] - Compare values
+* link:/commands/references/ge/[`ge`] - Compare values
+* link:/commands/references/gt/[`gt`] - Compare values
+* link:/commands/references/lt/[`lt`] - Compare values
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher (LanguageLevel 1).
+
+== Error Conditions
+
+`invalidaccess`::
+A string needed for comparison does not permit reading.
+
+`stackunderflow`::
+The operand stack contains fewer than two operands.
+
+`typecheck`::
+Operands are neither two numbers nor two strings.

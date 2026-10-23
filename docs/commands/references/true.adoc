@@ -1,0 +1,61 @@
+---
+layout: default
+title: "true"
+parent: Command Reference
+nav_order: 11
+---
+= true
+
+Push the boolean value `true`.
+
+== Description
+
+Executing the name `true` pushes the boolean value `true` onto the operand stack. It takes no operands. Strictly speaking, this is a name in `systemdict` associated with a boolean object, rather than an operator.
+
+Booleans are distinct from integers: `true` is not the number 1, and `false` is not the number 0. Use booleans as conditions for `if` and `ifelse`.
+
+== Syntax
+
+[source,postscript]
+----
+- true true
+----
+
+=== Stack Effect
+
+Stack entries are shown from bottom to top; earlier operands are unchanged.
+
+[cols="1,3"]
+|===
+|State |Operand stack
+
+|Before
+|No operands required
+
+|After
+|`true`
+|===
+
+== Examples
+
+[source,postscript]
+----
+true type     % booleantype
+true not      % false
+true { (yes) } { (no) } ifelse % (yes)
+----
+
+== Related Commands
+
+* link:/commands/references/false/[`false`] - The other boolean value
+* link:/commands/references/not/[`not`] - Negate a boolean
+* link:/commands/references/ifelse/[`ifelse`] - Select a branch
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher (LanguageLevel 1).
+
+== Error Conditions
+
+`stackoverflow`::
+The operand stack has no room for another object.

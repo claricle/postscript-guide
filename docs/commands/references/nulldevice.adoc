@@ -1,0 +1,64 @@
+---
+layout: default
+title: nulldevice
+parent: Command Reference
+nav_order: 3
+---
+= nulldevice
+
+Install an output device that discards graphical marks.
+
+== Description
+
+`nulldevice` selects a device with no physical output or raster storage. Drawing and font operations still execute, but their marks are discarded; `showpage` and `copypage` produce no output.
+
+The null device has an identity default transformation matrix and a degenerate clipping path at the origin. Bracket its use with `gsave` and `grestore` to restore the previous device and graphics state. It is useful for exercising graphics or font operations without producing a page.
+
+== Syntax
+
+[source,postscript]
+----
+- nulldevice -
+----
+
+=== Stack Effect
+
+Stack entries are shown from bottom to top; earlier operands are unchanged.
+
+[cols="1,3"]
+|===
+|State |Operand stack
+
+|Before
+|No operands required
+
+|After
+|Unchanged
+|===
+
+== Examples
+
+[source,postscript]
+----
+gsave
+  nulldevice
+  /Helvetica findfont 12 scalefont setfont
+  0 0 moveto (Measure without output) show
+  currentpoint % Leaves the final x and y coordinates
+grestore
+----
+
+== Related Commands
+
+* link:/commands/references/showpage/[`showpage`] - Output a page
+* link:/commands/references/copypage/[`copypage`] - Copy a page
+* link:/commands/references/gsave/[`gsave`] - Save the graphics state
+* link:/commands/references/grestore/[`grestore`] - Restore the previous graphics state
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher (LanguageLevel 1).
+
+== Error Conditions
+
+None specified for this operator.

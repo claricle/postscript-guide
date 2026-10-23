@@ -1,0 +1,64 @@
+---
+layout: default
+title: not
+parent: Command Reference
+nav_order: 10
+---
+= not
+
+Negate a boolean or complement the bits of an integer.
+
+== Description
+
+For a boolean, `not` exchanges `true` and `false`. For an integer, it inverts every bit, including the sign bit, rather than performing arithmetic negation. In two's-complement representation the result is `-int1 - 1`. Reals are not accepted.
+
+== Syntax
+
+[source,postscript]
+----
+bool1 not bool2
+int1 not int2
+----
+
+=== Stack Effect
+
+Stack entries are shown from bottom to top; earlier operands are unchanged.
+
+[cols="1,3"]
+|===
+|State |Operand stack
+
+|Before
+|`bool1` or `int1`
+
+|After
+|`bool2` or `int2`
+|===
+
+== Examples
+
+[source,postscript]
+----
+true not  % false
+false not % true
+0 not     % -1
+5 not     % -6
+----
+
+== Related Commands
+
+* link:/commands/references/and/[`and`] - Logical and bitwise operation
+* link:/commands/references/or/[`or`] - Logical and bitwise operation
+* link:/commands/references/xor/[`xor`] - Logical and bitwise operation
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher (LanguageLevel 1).
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack is empty.
+
+`typecheck`::
+The operand is neither a boolean nor an integer.

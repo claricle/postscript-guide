@@ -12,15 +12,21 @@ Commands for device output operations in PostScript.
 
 This category contains PostScript operators for device output.
 
-== Status
+== Commands
 
-This category is ready for command documentation to be added. Commands in this category include operators from the PostScript Language Reference Manual.
+[cols="1,3"]
+|===
+| Command | Description
 
-See other completed categories for documentation examples:
-* link:/commands/references/[Path Construction]
-* link:/commands/references/[Painting]
-* link:/commands/references/[Transformations]
-* link:/commands/references/[Font & Text]
+| link:/commands/references/showpage/[`showpage`]
+| Output the page and reinitialize graphics state (Level 1)
+
+| link:/commands/references/copypage/[`copypage`]
+| Output the page without reinitializing graphics state (Level 1; page retention changes in Level 3)
+
+| link:/commands/references/nulldevice/[`nulldevice`]
+| Discard graphical output (Level 1)
+|===
 
 == See Also
 

@@ -1,0 +1,65 @@
+---
+layout: default
+title: and
+parent: Command Reference
+nav_order: 7
+---
+= and
+
+Compute logical or bitwise AND.
+
+== Description
+
+With two booleans, `and` returns true only when both operands are true. With two integers, it applies bitwise AND to their binary representations and returns an integer.
+
+Both operands must have the same type: boolean or integer. Reals and mixed boolean/integer operands cause `typecheck`. This consumes two already evaluated operands; it does not short-circuit execution.
+
+== Syntax
+
+[source,postscript]
+----
+bool1 bool2 and bool3
+int1 int2 and int3
+----
+
+=== Stack Effect
+
+Stack entries are shown from bottom to top; earlier operands are unchanged.
+
+[cols="1,3"]
+|===
+|State |Operand stack
+
+|Before
+|`bool1 bool2` or `int1 int2`
+
+|After
+|`bool3` or `int3`
+|===
+
+== Examples
+
+[source,postscript]
+----
+true false and % false
+true true and  % true
+12 10 and      % 8 (1100 AND 1010 = 1000)
+----
+
+== Related Commands
+
+* link:/commands/references/or/[`or`] - Logical and bitwise operation
+* link:/commands/references/xor/[`xor`] - Logical and bitwise operation
+* link:/commands/references/not/[`not`] - Logical and bitwise operation
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher (LanguageLevel 1).
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack contains fewer than two operands.
+
+`typecheck`::
+Operands are neither two booleans nor two integers.
