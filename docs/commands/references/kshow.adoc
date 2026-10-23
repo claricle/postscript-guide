@@ -27,6 +27,10 @@ proc string
 (empty)
 ```
 
+=== PostScript Level
+
+*Level 1* and later
+
 === Description
 
 link:/commands/references/kshow/[`kshow`] paints the characters of `string` in a manner similar to link:/commands/references/show/[`show`], but allowing program intervention between characters.

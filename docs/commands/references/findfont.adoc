@@ -27,6 +27,10 @@ key
 font
 ```
 
+=== PostScript Level
+
+*Level 1* and later
+
 === Description
 
 link:/commands/references/findfont/[`findfont`] obtains a font dictionary identified by the specified `key` and pushes it on the operand stack. The `key` may be a key previously passed to link:/commands/references/definefont/[`definefont`], in which case the font dictionary associated with `key` (in the font directory) is returned.

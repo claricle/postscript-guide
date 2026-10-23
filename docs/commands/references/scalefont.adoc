@@ -27,6 +27,10 @@ font scale
 font'
 ```
 
+=== PostScript Level
+
+*Level 1* and later
+
 === Description
 
 link:/commands/references/scalefont/[`scalefont`] applies the scale factor `scale` to `font`, producing a new `font'` whose characters are scaled by `scale` (in both x and y) when they are shown. link:/commands/references/scalefont/[`scalefont`] first creates a copy of `font`, then replaces the new font's `FontMatrix` entry with the result of scaling the existing `FontMatrix` by `scale`.

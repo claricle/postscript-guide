@@ -27,6 +27,10 @@ string
 (empty)
 ```
 
+=== PostScript Level
+
+*Level 1* and later
+
 === Description
 
 link:/commands/references/show/[`show`] paints the characters identified by the elements of `string` on the current page starting at the current point, using the font face, size, and orientation specified by the most recent link:/commands/references/setfont/[`setfont`] or `selectfont`.
