@@ -27,6 +27,10 @@ cx cy char ax ay string
 (empty)
 ```
 
+=== PostScript Level
+
+*Level 1* and later
+
 === Description
 
 link:/commands/references/awidthshow/[`awidthshow`] paints the characters of `string` in a manner similar to link:/commands/references/show/[`show`], but combines the special effects of link:/commands/references/ashow/[`ashow`] and link:/commands/references/widthshow/[`widthshow`].

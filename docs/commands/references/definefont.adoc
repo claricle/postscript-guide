@@ -27,6 +27,10 @@ key font
 font
 ```
 
+=== PostScript Level
+
+*Level 1* and later
+
 === Description
 
 link:/commands/references/definefont/[`definefont`] registers `font` as a font dictionary associated with `key` (usually a name). link:/commands/references/definefont/[`definefont`] first checks that `font` is a well-formed font dictionary—in other words, contains all required key-value pairs. It inserts an additional entry whose key is `FID` and whose value is an object of type `fontID`. The dictionary must be large enough to accommodate this additional entry. It makes the dictionary's access read-only. Finally, it associates `key` with `font` in the font directory.

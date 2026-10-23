@@ -27,6 +27,10 @@ string
 wx wy
 ```
 
+=== PostScript Level
+
+*Level 1* and later
+
 === Description
 
 link:/commands/references/stringwidth/[`stringwidth`] calculates the change in the current point that would occur if `string` were given as the operand to link:/commands/references/show/[`show`] with the current font. `wx` and `wy` are computed by adding together the width vectors of all the individual characters in `string` and converting the result to user space.

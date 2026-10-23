@@ -27,6 +27,10 @@ string bool
 (empty)
 ```
 
+=== PostScript Level
+
+*Level 1* and later
+
 === Description
 
 link:/commands/references/charpath/[`charpath`] obtains the character path outlines that would result if `string` were shown at the current point using link:/commands/references/show/[`show`]. Instead of painting the path, however, link:/commands/references/charpath/[`charpath`] appends the path to the current path. This yields a result suitable for general filling, stroking, or clipping.
