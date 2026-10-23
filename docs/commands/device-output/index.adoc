@@ -26,6 +26,12 @@ This category contains PostScript operators for device output.
 
 | link:/commands/references/nulldevice/[`nulldevice`]
 | Discard graphical output (Level 1)
+
+| link:/commands/references/setpagedevice/[`setpagedevice`]
+| Request page device configuration changes (Level 2)
+
+| link:/commands/references/currentpagedevice/[`currentpagedevice`]
+| Read the current page device dictionary (Level 2)
 |===
 
 == See Also

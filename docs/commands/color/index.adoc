@@ -12,15 +12,30 @@ Commands for color operations in PostScript.
 
 This category contains PostScript operators for color.
 
-== Status
+== Commands
 
-This category is ready for command documentation to be added. Commands in this category include operators from the PostScript Language Reference Manual.
+[cols="1,3"]
+|===
+| Command | Description
 
-See other completed categories for documentation examples:
-* link:/commands/references/[Path Construction]
-* link:/commands/references/[Painting]
-* link:/commands/references/[Transformations]
-* link:/commands/references/[Font & Text]
+| link:/commands/references/setcolorspace/[`setcolorspace`]
+| Select the current color space (Level 2)
+
+| link:/commands/references/setcolor/[`setcolor`]
+| Set the color in the current color space (Level 2)
+
+| link:/commands/references/makepattern/[`makepattern`]
+| Create a pattern instance from a dictionary and matrix (Level 2)
+
+| link:/commands/references/setpattern/[`setpattern`]
+| Select a pattern as the current painting color (Level 2)
+
+| link:/commands/references/setblackgeneration/[`setblackgeneration`]
+| Set black generation for RGB-to-CMYK conversion (Level 2)
+
+| link:/commands/references/setundercolorremoval/[`setundercolorremoval`]
+| Set undercolor removal for RGB-to-CMYK conversion (Level 2)
+|===
 
 == See Also
 

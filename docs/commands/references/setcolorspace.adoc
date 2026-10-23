@@ -1,0 +1,102 @@
+---
+layout: default
+title: setcolorspace
+parent: Command Reference
+nav_order: 46
+---
+
+== setcolorspace
+
+Selects the color space used to interpret subsequent colors.
+
+=== Syntax
+
+----
+name setcolorspace → –
+array setcolorspace → –
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `name` or `array` (color space specification)
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| Color space selected; current color initialized
+
+|===
+
+=== Description
+
+`setcolorspace` installs a color space in the graphics state and initializes its current color. Follow it with `setcolor` to choose a specific color in that space.
+
+Device spaces can be named directly: `/DeviceGray`, `/DeviceRGB`, or `/DeviceCMYK`. Parameterized spaces use arrays, such as `[/Indexed /DeviceRGB 1 <000000FFFFFF>]`. `/Pattern` selects a colored pattern space; an uncolored pattern also needs an underlying color space.
+
+The selected space determines how many operands `setcolor` consumes and what they mean. Color space and color changes are saved and restored by `gsave` and `grestore`.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Selecting RGB
+[source,postscript]
+----
+gsave
+  /DeviceRGB setcolorspace
+  0.2 0.5 0.8 setcolor
+  20 20 80 40 rectfill
+grestore
+----
+
+.Using an indexed palette
+[source,postscript]
+----
+gsave
+  [/Indexed /DeviceRGB 1 <000000FFFFFF>] setcolorspace
+  1 setcolor          % Palette entry 1: white
+  20 20 40 40 rectfill
+grestore
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `stackunderflow`
+| The color space operand is missing.
+
+| `typecheck`
+| The color space or one of its parameters has the wrong type.
+
+| `rangecheck`
+| The color space specification has invalid contents.
+
+| `undefined`
+| Color changes are forbidden in the current painting context.
+|===
+
+=== See Also
+
+* link:/commands/references/setcolor/[`setcolor`] - Set components in the current space
+* link:/commands/references/setpattern/[`setpattern`] - Select a pattern
+* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Select DeviceRGB and set its components

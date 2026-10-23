@@ -12,15 +12,15 @@ Commands for file io operations in PostScript.
 
 This category contains PostScript operators for file io.
 
-== Status
+== Commands
 
-This category is ready for command documentation to be added. Commands in this category include operators from the PostScript Language Reference Manual.
+[cols="1,3"]
+|===
+| Command | Description
 
-See other completed categories for documentation examples:
-* link:/commands/references/[Path Construction]
-* link:/commands/references/[Painting]
-* link:/commands/references/[Transformations]
-* link:/commands/references/[Font & Text]
+| link:/commands/references/filter/[`filter`]
+| Create a file that encodes or decodes data as it is written or read (Level 2)
+|===
 
 == See Also
 

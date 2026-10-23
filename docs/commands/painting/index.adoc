@@ -39,6 +39,9 @@ PostScript provides three primary painting operations:
 
 | link:/commands/references/rectfill/[`rectfill`]
 | Fill rectangles (Level 2)
+
+| link:/commands/references/shfill/[`shfill`]
+| Paint a smooth shading within the current clipping path (Level 3)
 |===
 
 === Stroke Operations

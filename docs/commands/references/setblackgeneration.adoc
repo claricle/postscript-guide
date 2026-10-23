@@ -1,0 +1,98 @@
+---
+layout: default
+title: setblackgeneration
+parent: Command Reference
+nav_order: 44
+---
+
+== setblackgeneration
+
+Sets the black-generation procedure used in RGB-to-CMYK conversion.
+
+=== Syntax
+
+----
+proc setblackgeneration → –
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `proc` (black-generation procedure)
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| Procedure installed in the graphics state
+
+|===
+
+=== Description
+
+`setblackgeneration` installs a procedure that determines the black component when DeviceRGB colors are converted to DeviceCMYK. The procedure consumes one number between 0 and 1 and returns one number in that range.
+
+The procedure may be sampled when installed, so it should calculate its result from its operand without side effects. It is not a callback that can be assumed to run once per painted object.
+
+This setting is device-dependent. It does not alter colors supplied directly in DeviceCMYK. Use `gsave` and `grestore` to contain a temporary change.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Using the full candidate black component
+[source,postscript]
+----
+gsave
+  {} setblackgeneration  % Identity function: input remains on stack
+  0.3 0.3 0.3 setrgbcolor
+  20 20 60 30 rectfill
+grestore
+----
+
+.Reducing the generated black component
+[source,postscript]
+----
+gsave
+  { 0.5 mul } setblackgeneration
+  0.3 0.3 0.3 setrgbcolor
+  20 60 60 30 rectfill
+grestore
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `stackunderflow`
+| The procedure operand is missing, or the procedure consumes too many operands.
+
+| `typecheck`
+| The operand is not a procedure, or the procedure does not return a number.
+
+| `undefined`
+| The operator is forbidden in the current painting context.
+|===
+
+=== See Also
+
+* link:/commands/references/setundercolorremoval/[`setundercolorremoval`] - Control removal of CMY during conversion
+* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Specify an RGB color
+* link:/commands/references/setcmykcolor/[`setcmykcolor`] - Specify CMYK components directly

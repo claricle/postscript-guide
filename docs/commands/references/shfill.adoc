@@ -1,0 +1,96 @@
+---
+layout: default
+title: shfill
+parent: Command Reference
+nav_order: 54
+---
+
+== shfill
+
+Paints a smooth shading described by a dictionary.
+
+=== Syntax
+
+----
+dict shfill → –
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `dict` (shading definition)
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| Shading painted; current path retained
+
+|===
+
+=== Description
+
+`shfill` paints a shading directly using the dictionary's `ShadingType`, `ColorSpace`, and type-specific entries. Axial shading uses type 2; radial shading uses type 3.
+
+The shading supplies its own colors and is limited by the current clipping path. It does not fill or consume the current path. Use `clip` or `rectclip` first when the shading should occupy a particular region.
+
+The current transformation places the shading in user space. `setsmoothness` controls the permitted color approximation; the dictionary's function determines how colors vary across the shading.
+
+=== PostScript Level
+
+*Level 3* and later
+
+=== Examples
+
+.Painting an axial red-to-blue gradient
+[source,postscript]
+----
+gsave
+  20 20 200 60 rectclip
+  << /ShadingType 2
+     /ColorSpace /DeviceRGB
+     /Coords [20 20 220 20]
+     /Function << /FunctionType 2 /Domain [0 1]
+                  /C0 [1 0 0] /C1 [0 0 1] /N 1 >>
+     /Extend [true true]
+  >> shfill
+grestore
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `stackunderflow`
+| The shading dictionary is missing.
+
+| `typecheck`
+| The operand or a shading entry has the wrong type.
+
+| `rangecheck`
+| A shading parameter has an invalid value.
+
+| `undefined`
+| A required shading entry is missing or the painting context forbids shading.
+|===
+
+=== See Also
+
+* link:/commands/references/setsmoothness/[`setsmoothness`] - Set shading color tolerance
+* link:/commands/references/rectclip/[`rectclip`] - Restrict painting to a rectangle
+* link:/commands/references/makepattern/[`makepattern`] - Create a reusable shading pattern

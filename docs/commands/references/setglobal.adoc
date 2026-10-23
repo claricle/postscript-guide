@@ -1,0 +1,96 @@
+---
+layout: default
+title: setglobal
+parent: Command Reference
+nav_order: 47
+---
+
+== setglobal
+
+Selects local or global VM for subsequent allocations.
+
+=== Syntax
+
+----
+bool setglobal → –
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `bool` (`true` for global, `false` for local)
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| Operand consumed; allocation mode changed
+
+|===
+
+=== Description
+
+`setglobal` chooses the VM space used when creating composite objects such as arrays, strings, and dictionaries. `true` selects global VM; `false` selects local VM.
+
+Existing objects keep their original VM space. Global composite objects cannot contain references to local composite objects; attempts to store such references raise `invalidaccess` in the storing operator.
+
+The allocation mode is independent of the graphics state. Preserve it explicitly with `currentglobal` when a routine changes it, rather than relying on `gsave` and `grestore`.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Creating a global array
+[source,postscript]
+----
+currentglobal
+true setglobal
+3 array dup 0 42 put
+exch setglobal
+dup 0 get ==         % 42
+pop
+----
+
+.Creating a local string
+[source,postscript]
+----
+currentglobal
+false setglobal
+20 string
+exch setglobal
+pop
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `stackunderflow`
+| The boolean operand is missing.
+
+| `typecheck`
+| The operand is not a boolean.
+|===
+
+=== See Also
+
+* link:/commands/references/currentglobal/[`currentglobal`] - Read the allocation mode
+* link:/commands/references/array/[`array`] - Create an array
+* link:/commands/references/string/[`string`] - Create a string

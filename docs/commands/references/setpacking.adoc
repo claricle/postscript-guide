@@ -1,0 +1,96 @@
+---
+layout: default
+title: setpacking
+parent: Command Reference
+nav_order: 49
+---
+
+== setpacking
+
+Controls whether the scanner creates packed procedure arrays.
+
+=== Syntax
+
+----
+bool setpacking → –
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `bool` (`true` enables array packing)
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| Operand consumed; scanner packing mode changed
+
+|===
+
+=== Description
+
+`setpacking` controls the representation of procedures subsequently read by the PostScript scanner. With `true`, procedures written using braces are created as packed arrays; with `false`, they are ordinary arrays.
+
+Packed arrays save memory and support execution and reading, but their elements cannot be replaced with `put`. This setting does not repack existing procedures or change arrays created by `array` or square brackets.
+
+The setting takes effect when text is scanned. A procedure containing `setpacking` has already been read before it executes, so use separate input tokens or a string with `cvx exec` when demonstrating the change. Restore the previous mode with `currentpacking`.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Reading a packed procedure
+[source,postscript]
+----
+currentpacking
+true setpacking
+({ 2 3 add }) cvx exec
+dup type ==           % packedarraytype
+exec ==               % 5
+setpacking
+----
+
+.Reading an ordinary procedure
+[source,postscript]
+----
+currentpacking
+false setpacking
+({ 2 3 add }) cvx exec
+type ==               % arraytype
+setpacking
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `stackunderflow`
+| The boolean operand is missing.
+
+| `typecheck`
+| The operand is not a boolean.
+|===
+
+=== See Also
+
+* link:/commands/references/packedarray/[`packedarray`] - Create a packed array explicitly
+* link:/commands/references/array/[`array`] - Create a writable array
+* link:/commands/references/cvx/[`cvx`] - Make a string executable
