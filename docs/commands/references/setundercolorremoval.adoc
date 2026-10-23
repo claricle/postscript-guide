@@ -1,0 +1,98 @@
+---
+layout: default
+title: setundercolorremoval
+parent: Command Reference
+nav_order: 53
+---
+
+== setundercolorremoval
+
+Sets the undercolor-removal procedure used in RGB-to-CMYK conversion.
+
+=== Syntax
+
+----
+proc setundercolorremoval → –
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `proc` (undercolor-removal procedure)
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| Procedure installed in the graphics state
+
+|===
+
+=== Description
+
+`setundercolorremoval` installs a procedure that determines the amount subtracted from cyan, magenta, and yellow when converting DeviceRGB to DeviceCMYK. It consumes a number between 0 and 1 and returns a number between -1 and 1.
+
+Positive results remove CMY; zero leaves those components unchanged; negative results add CMY. Black generation is controlled separately by `setblackgeneration`.
+
+The procedure may be sampled when installed and should have no side effects. The result is device-dependent and does not affect colors specified directly in DeviceCMYK.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Removing the full candidate undercolor
+[source,postscript]
+----
+gsave
+  {} setundercolorremoval
+  0.3 0.3 0.3 setrgbcolor
+  20 20 60 30 rectfill
+grestore
+----
+
+.Disabling undercolor removal temporarily
+[source,postscript]
+----
+gsave
+  { pop 0 } setundercolorremoval
+  0.3 0.3 0.3 setrgbcolor
+  20 60 60 30 rectfill
+grestore
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `stackunderflow`
+| The procedure is missing, or it consumes too many operands.
+
+| `typecheck`
+| The operand is not a procedure, or the procedure does not return a number.
+
+| `undefined`
+| The operator is forbidden in the current painting context.
+|===
+
+=== See Also
+
+* link:/commands/references/setblackgeneration/[`setblackgeneration`] - Control the generated black component
+* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Specify an RGB color
+* link:/commands/references/setcmykcolor/[`setcmykcolor`] - Specify CMYK components directly

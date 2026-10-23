@@ -1,0 +1,89 @@
+---
+layout: default
+title: currentpagedevice
+parent: Command Reference
+nav_order: 41
+---
+
+== currentpagedevice
+
+Returns the current page device dictionary.
+
+=== Syntax
+
+----
+– currentpagedevice → dict
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| No operands required
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `dict` (read-only page device dictionary)
+
+|===
+
+=== Description
+
+`currentpagedevice` returns a read-only dictionary describing the current page device. Entries can include `PageSize`, `HWResolution`, and device-specific output options.
+
+Read entries to inspect the active configuration. To request changes, pass a separate dictionary to `setpagedevice`; do not try to modify the returned dictionary with `put`.
+
+When the current output device is not a page device, the result is an empty dictionary. Test for a key with `known` before assuming that a particular parameter is available.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Reading the page size when available
+[source,postscript]
+----
+currentpagedevice dup /PageSize known
+  { /PageSize get == }
+  { pop (No page size available) = }
+ifelse
+----
+
+.Checking for duplex support
+[source,postscript]
+----
+currentpagedevice /Duplex known ==
+% true means the dictionary has a Duplex entry;
+% it does not mean duplex printing is enabled.
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `stackoverflow`
+| There is no room on the operand stack for the dictionary.
+|===
+
+=== See Also
+
+* link:/commands/references/setpagedevice/[`setpagedevice`] - Request page device changes
+* link:/commands/references/known/[`known`] - Test for a dictionary entry
+* link:/commands/references/get/[`get`] - Read a dictionary value

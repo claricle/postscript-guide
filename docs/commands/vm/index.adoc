@@ -1,0 +1,34 @@
+---
+layout: default
+title: Virtual Memory
+parent: Commands
+nav_order: 5.5
+---
+
+== Virtual Memory
+
+Commands for selecting the virtual memory (VM) space used by new composite objects.
+
+== Overview
+
+PostScript Level 2 provides local and global VM. The allocation mode determines where new arrays, strings, and dictionaries are created; changing the mode does not relocate existing objects.
+
+Preserve and restore the caller's allocation mode when temporarily changing it. Global composite objects cannot contain references to local composite objects.
+
+== Commands
+
+[cols="1,3"]
+|===
+| Command | Description
+
+| link:/commands/references/setglobal/[`setglobal`]
+| Select global or local VM for subsequent allocations (Level 2)
+
+| link:/commands/references/currentglobal/[`currentglobal`]
+| Report whether global allocation is selected (Level 2)
+|===
+
+== See Also
+
+* link:/commands/[Command Reference Overview]
+* link:/syntax/[Language Syntax]

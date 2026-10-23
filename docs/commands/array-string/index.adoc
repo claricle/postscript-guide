@@ -50,6 +50,9 @@ However, they differ in important ways:
 
 | link:/commands/references/packedarray/[`packedarray`]
 | Create read-only packed array (Level 2)
+
+| link:/commands/references/setpacking/[`setpacking`]
+| Select packed or ordinary arrays for subsequently scanned procedures (Level 2)
 |===
 
 === Element Access

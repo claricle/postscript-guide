@@ -1,0 +1,110 @@
+---
+layout: default
+title: filter
+parent: Command Reference
+nav_order: 42
+---
+
+== filter
+
+Creates a file that transforms data as it is read or written.
+
+=== Syntax
+
+----
+source /filtername filter → file
+source params /filtername filter → file
+target /filtername filter → file
+target params /filtername filter → file
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 2 (if present)
+| `source` or `target` when a parameter dictionary is supplied
+
+| 1
+| `params` dictionary, or `source` / `target` when omitted
+
+| 0
+| `/filtername` (literal name)
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `file` (new filter file)
+
+|===
+
+=== Description
+
+`filter` wraps a data source or destination in a file object. Decoding filters produce readable files; encoding filters produce writable files. The source or target can be a file, string, or procedure as permitted by the filter.
+
+The filter name selects the transformation, such as `ASCIIHexDecode` or `ASCII85Encode`. Some filters accept additional operands or a parameter dictionary; consult the selected filter's definition.
+
+Use ordinary file operators on the returned object. Close an encoding filter to finish its output, including any end marker; flushing alone may not finalize the encoded stream.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Decoding hexadecimal text
+[source,postscript]
+----
+(48656c6c6f>) /ASCIIHexDecode filter
+dup 5 string readstring pop ==  % (Hello)
+closefile
+----
+
+.Encoding into a string
+[source,postscript]
+----
+/buffer 32 string def
+buffer /ASCIIHexEncode filter
+dup (Hi) writestring
+closefile
+buffer 0 5 getinterval ==       % (4869>)
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `stackunderflow`
+| A required operand is missing.
+
+| `typecheck`
+| An operand has the wrong type for the selected filter.
+
+| `undefined`
+| The filter name is not recognized.
+
+| `rangecheck`
+| A filter parameter has an invalid value.
+
+| `invalidaccess`
+| The source or target lacks the required access permissions.
+|===
+
+=== See Also
+
+* link:/commands/references/string/[`string`] - Allocate an output buffer
+* link:/commands/references/getinterval/[`getinterval`] - Select part of a string

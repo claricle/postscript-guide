@@ -1,0 +1,106 @@
+---
+layout: default
+title: setcolor
+parent: Command Reference
+nav_order: 45
+---
+
+== setcolor
+
+Sets the painting color in the current color space.
+
+=== Syntax
+
+----
+comp1 … compn setcolor → –
+pattern setcolor → –
+comp1 … compn pattern setcolor → –
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| n-1 … 0 (without pattern)
+| `comp1 … compn` (components in the current color space)
+
+| n … 1 (with pattern)
+| `comp1 … compn` (components for an uncolored pattern)
+
+| 0 (with pattern)
+| `pattern` (instance for a Pattern color space)
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| Color operands consumed; current color changed
+
+|===
+
+=== Description
+
+`setcolor` interprets its operands using the color space selected by `setcolorspace`. DeviceGray needs one component, DeviceRGB three, and DeviceCMYK four. Indexed spaces take a palette index.
+
+In a Pattern space, pass a pattern created by `makepattern`. Colored patterns need only that dictionary; uncolored patterns also need the underlying color components before the dictionary.
+
+This operator does not select a different color space. Its color affects subsequent painting operations and is preserved by `gsave` and `grestore`.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Painting in RGB
+[source,postscript]
+----
+gsave
+  /DeviceRGB setcolorspace
+  0.8 0.2 0.1 setcolor
+  20 20 60 30 rectfill
+grestore
+----
+
+.Painting in CMYK
+[source,postscript]
+----
+gsave
+  /DeviceCMYK setcolorspace
+  1 0 0 0 setcolor     % Cyan
+  20 60 60 30 rectfill
+grestore
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `stackunderflow`
+| There are too few operands for the current color space.
+
+| `typecheck`
+| A required component is not numeric or a required pattern is not a dictionary.
+
+| `undefined`
+| Color changes are forbidden in the current painting context.
+|===
+
+=== See Also
+
+* link:/commands/references/setcolorspace/[`setcolorspace`] - Select the color space
+* link:/commands/references/makepattern/[`makepattern`] - Create a pattern instance
+* link:/commands/references/setpattern/[`setpattern`] - Select a Pattern space and color together

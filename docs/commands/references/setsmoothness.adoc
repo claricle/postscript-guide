@@ -1,0 +1,97 @@
+---
+layout: default
+title: setsmoothness
+parent: Command Reference
+nav_order: 52
+---
+
+== setsmoothness
+
+Sets the color tolerance for smooth shading.
+
+=== Syntax
+
+----
+num setsmoothness → –
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `num` (requested tolerance from 0 to 1)
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| Smoothness parameter changed
+
+|===
+
+=== Description
+
+`setsmoothness` sets the graphics state's tolerance for color approximation during smooth shading. Smaller values request greater precision, which can require more rendering work.
+
+Values below 0 or above 1 are clamped to the nearest endpoint. Actual precision is limited by the output device, so a value of 0 does not promise exact rendering.
+
+This parameter affects shading color approximation, not the geometric flatness of curves. Use the device's default unless the job needs a specific quality and performance trade-off.
+
+=== PostScript Level
+
+*Level 3* and later
+
+=== Examples
+
+.Requesting a tighter tolerance
+[source,postscript]
+----
+gsave
+  0.02 setsmoothness
+  currentsmoothness ==  % 0.02
+  % Paint a shading here with shfill.
+grestore
+----
+
+.Clamping to the allowed interval
+[source,postscript]
+----
+gsave
+  2 setsmoothness
+  currentsmoothness ==  % 1.0
+  -1 setsmoothness
+  currentsmoothness ==  % 0.0
+grestore
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `stackunderflow`
+| The numeric operand is missing.
+
+| `typecheck`
+| The operand is not a number.
+|===
+
+=== See Also
+
+* link:/commands/references/shfill/[`shfill`] - Paint a smooth shading
+* link:/commands/references/gsave/[`gsave`] - Save the current tolerance
+* link:/commands/references/grestore/[`grestore`] - Restore the previous tolerance
+* https://pdfa.org/norm-refs/PLRM.pdf#page=696[PostScript Language Reference, Third Edition, pp. 682–683] - Tolerance and clamping

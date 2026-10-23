@@ -1,0 +1,99 @@
+---
+layout: default
+title: setpagedevice
+parent: Command Reference
+nav_order: 50
+---
+
+== setpagedevice
+
+Requests changes to page device parameters.
+
+=== Syntax
+
+----
+dict setpagedevice → –
+----
+
+=== Stack Effects
+
+Earlier operands remain unchanged. Stack level 0 is the top of the stack.
+
+.Before
+[cols="1,3"]
+|===
+| Level | Object
+
+| 0
+| `dict` (requested page device parameters)
+
+|===
+
+.After
+[cols="1,3"]
+|===
+| Level | Object
+
+| (none)
+| Request consumed; page device configured
+
+|===
+
+=== Description
+
+`setpagedevice` applies a dictionary of requested settings to the current page device. Common keys include `PageSize`, `Duplex`, and `NumCopies`; available settings depend on the device.
+
+Supply only the parameters to change. Device policies determine how unsupported requests are handled, so query `currentpagedevice` afterward to inspect the effective configuration.
+
+Set up the device before drawing. This operation can erase the page and reinitialize graphics state parameters; it is not merely an update to an ordinary dictionary.
+
+=== PostScript Level
+
+*Level 2* and later
+
+=== Examples
+
+.Requesting a page size
+[source,postscript]
+----
+<< /PageSize [612 792] >> setpagedevice
+currentpagedevice /PageSize get ==
+% Dimensions are in default user-space units (1/72 inch).
+----
+
+.Requesting a single copy
+[source,postscript]
+----
+<< /NumCopies 1 >> setpagedevice
+% Apply output settings before painting the page.
+----
+
+=== Error Conditions
+
+Common errors include the following; procedures and device operations can raise additional errors.
+
+[cols="1,3"]
+|===
+| Error | Condition
+
+| `configurationerror`
+| A device request cannot be satisfied under the active policies.
+
+| `rangecheck`
+| A parameter value is outside its permitted range.
+
+| `typecheck`
+| The operand or a parameter has the wrong type.
+
+| `stackunderflow`
+| The request dictionary is missing.
+
+| `invalidaccess`
+| A required object cannot be accessed with the necessary permissions.
+|===
+
+=== See Also
+
+* link:/commands/references/currentpagedevice/[`currentpagedevice`] - Inspect the effective device settings
+* link:/commands/references/showpage/[`showpage`] - Output a page
+* link:/commands/references/nulldevice/[`nulldevice`] - Select a device that discards painting
