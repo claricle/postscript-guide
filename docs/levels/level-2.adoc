@@ -62,6 +62,7 @@ Level 2 added approximately 120 new operators, including:
 * `makepattern`, `setpattern`
 * `filter` with multiple encoding types
 * `setpagedevice`, `currentpagedevice`
+* `sethalftone`, `setblackgeneration`, `setundercolorremoval` - Halftone and color-rendering control
 * Resource management operators
 * And many more...
 
