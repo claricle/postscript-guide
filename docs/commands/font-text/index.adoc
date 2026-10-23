@@ -66,6 +66,9 @@ PostScript provides comprehensive font and text capabilities including font sele
 
 | link:/commands/references/cshow/[`cshow`]
 | Show with per-character control (Level 2)
+
+| link:/commands/references/xyshow/[`xyshow`]
+| Show with explicit x/y displacements (Level 2)
 |===
 
 === Text Measurement

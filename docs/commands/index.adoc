@@ -31,6 +31,10 @@ link:/commands/references/[View all array/string commands →]
 
 link:/commands/references/[View all dictionary commands →]
 
+=== Relational and Boolean
+
+link:/commands/relational-boolean/[View all relational and boolean commands →]
+
 === Control Flow
 
 link:/commands/references/[View all control flow commands →]

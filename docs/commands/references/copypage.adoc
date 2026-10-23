@@ -1,0 +1,64 @@
+---
+layout: default
+title: copypage
+parent: Command Reference
+nav_order: 2
+---
+= copypage
+
+Output the current page without reinitializing the graphics state.
+
+== Description
+
+In Levels 1 and 2, `copypage` outputs the current page while retaining its marks and graphics state, so further drawing can be added to the same image.
+
+In Level 3, it behaves like `showpage` except that it does not reinitialize the graphics state: under normal page-device behavior, the page is output and erased. Do not rely on earlier marks remaining when running in Level 3. Page-device procedures can customize output behavior.
+
+== Syntax
+
+[source,postscript]
+----
+- copypage -
+----
+
+=== Stack Effect
+
+Stack entries are shown from bottom to top; earlier operands are unchanged.
+
+[cols="1,3"]
+|===
+|State |Operand stack
+
+|Before
+|No operands required
+
+|After
+|Unchanged
+|===
+
+== Examples
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+72 720 moveto (Original) show
+copypage
+72 700 moveto (Additional line) show
+showpage
+% Levels 1/2: the second output contains both lines.
+% Level 3: the second output contains only the additional line.
+----
+
+== Related Commands
+
+* link:/commands/references/showpage/[`showpage`] - Output and reinitialize the graphics state
+* link:/commands/references/nulldevice/[`nulldevice`] - Discard graphical output
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher (LanguageLevel 1).
+
+== Error Conditions
+
+`undefined`::
+In Level 2 and higher, copypage was called from a BeginPage or EndPage procedure. Errors from page-device procedures can also propagate.

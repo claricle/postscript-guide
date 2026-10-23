@@ -1,0 +1,65 @@
+---
+layout: default
+title: xor
+parent: Command Reference
+nav_order: 9
+---
+= xor
+
+Compute logical or bitwise exclusive OR.
+
+== Description
+
+With two booleans, `xor` returns true when exactly one operand is true. With two integers, it applies bitwise exclusive OR to their binary representations and returns an integer.
+
+Both operands must have the same type: boolean or integer. Reals and mixed boolean/integer operands cause `typecheck`. This consumes two already evaluated operands; it does not short-circuit execution.
+
+== Syntax
+
+[source,postscript]
+----
+bool1 bool2 xor bool3
+int1 int2 xor int3
+----
+
+=== Stack Effect
+
+Stack entries are shown from bottom to top; earlier operands are unchanged.
+
+[cols="1,3"]
+|===
+|State |Operand stack
+
+|Before
+|`bool1 bool2` or `int1 int2`
+
+|After
+|`bool3` or `int3`
+|===
+
+== Examples
+
+[source,postscript]
+----
+true false xor % true
+true true xor  % false
+12 10 xor      % 6 (1100 XOR 1010 = 0110)
+----
+
+== Related Commands
+
+* link:/commands/references/and/[`and`] - Logical and bitwise operation
+* link:/commands/references/or/[`or`] - Logical and bitwise operation
+* link:/commands/references/not/[`not`] - Logical and bitwise operation
+
+== PostScript Level
+
+*Available in*: PostScript Level 1 and higher (LanguageLevel 1).
+
+== Error Conditions
+
+`stackunderflow`::
+The operand stack contains fewer than two operands.
+
+`typecheck`::
+Operands are neither two booleans nor two integers.

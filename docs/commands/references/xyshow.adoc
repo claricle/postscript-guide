@@ -1,0 +1,80 @@
+---
+layout: default
+title: xyshow
+parent: Command Reference
+nav_order: 14
+---
+= xyshow
+
+Paint text using explicit horizontal and vertical displacements.
+
+== Description
+
+`xyshow` paints the string using the current font and current point. For each character rendered, it consumes an x/y pair from a numeric array or an encoded number string. The pair specifies the displacement in user space from that character's origin to the next origin, replacing the normal character width rather than adding to it.
+
+Supply a pair for every character, including the last: the last pair sets the final current point. With composite fonts, count characters selected by font mapping, which need not equal the number of bytes in the string. Extra displacement values are ignored. A numeric array must contain numbers; an encoded number string uses the binary numeric representation described under Encoded Number Strings in the PLRM, not ordinary text such as `(12 0)`.
+
+== Syntax
+
+[source,postscript]
+----
+string numarray xyshow -
+string numstring xyshow -
+----
+
+=== Stack Effect
+
+Stack entries are shown from bottom to top; earlier operands are unchanged.
+
+[cols="1,3"]
+|===
+|State |Operand stack
+
+|Before
+|`string numarray` or `string numstring`
+
+|After
+|Both operands removed; no result
+|===
+
+== Examples
+
+[source,postscript]
+----
+/Helvetica findfont 12 scalefont setfont
+100 700 moveto
+(ABC) [14 2 14 -2 14 0] xyshow
+currentpoint % 142 700: includes the displacement after C
+----
+
+== Related Commands
+
+* link:/commands/references/show/[`show`] - Paint text using normal character widths
+* link:/commands/references/ashow/[`ashow`] - Add a uniform displacement to character widths
+* link:/commands/references/stringwidth/[`stringwidth`] - Measure normal text displacement
+
+== PostScript Level
+
+*Available in*: PostScript Level 2 and higher (LanguageLevel 2).
+
+Introduced in Level 2; see the PostScript Language Reference Manual, third edition, Appendix A.
+
+== Error Conditions
+
+`invalidaccess`::
+The text or displacement data does not permit reading.
+
+`invalidfont`::
+The current font is invalid.
+
+`nocurrentpoint`::
+No current point has been established.
+
+`rangecheck`::
+There are too few displacement values, an encoded number string is malformed, or character mapping exceeds its bounds.
+
+`stackunderflow`::
+The operand stack contains fewer than two operands.
+
+`typecheck`::
+The first operand is not a string, the second is not a numeric array or encoded number string, or an array entry is not a number.
