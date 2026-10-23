@@ -60,8 +60,6 @@ Level 3 added numerous operators, including:
 
 * `shfill` - Smooth shading fills
 * `setsmoothness` - Control rendering quality
-* `setblackgeneration`, `setundercolorremoval` - Color control
-* `sethalftone` improvements - Better screening
 * Image masking operators
 * DeviceN color operators
 * Trapping operators
