@@ -106,5 +106,5 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/string/[`string`] - Allocate an output buffer
-* link:/commands/references/getinterval/[`getinterval`] - Select part of a string
+* link:{site-baseurl}/commands/references/string/[`string`] - Allocate an output buffer
+* link:{site-baseurl}/commands/references/getinterval/[`getinterval`] - Select part of a string

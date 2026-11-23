@@ -21,14 +21,14 @@ Preserve and restore the caller's allocation mode when temporarily changing it. 
 |===
 | Command | Description
 
-| link:/commands/references/setglobal/[`setglobal`]
+| link:{site-baseurl}/commands/references/setglobal/[`setglobal`]
 | Select global or local VM for subsequent allocations (Level 2)
 
-| link:/commands/references/currentglobal/[`currentglobal`]
+| link:{site-baseurl}/commands/references/currentglobal/[`currentglobal`]
 | Report whether global allocation is selected (Level 2)
 |===
 
 == See Also
 
-* link:/commands/[Command Reference Overview]
-* link:/syntax/[Language Syntax]
+* link:{site-baseurl}/commands/[Command Reference Overview]
+* link:{site-baseurl}/syntax/[Language Syntax]

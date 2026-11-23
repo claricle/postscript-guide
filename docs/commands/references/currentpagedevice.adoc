@@ -84,6 +84,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/setpagedevice/[`setpagedevice`] - Request page device changes
-* link:/commands/references/known/[`known`] - Test for a dictionary entry
-* link:/commands/references/get/[`get`] - Read a dictionary value
+* link:{site-baseurl}/commands/references/setpagedevice/[`setpagedevice`] - Request page device changes
+* link:{site-baseurl}/commands/references/known/[`known`] - Test for a dictionary entry
+* link:{site-baseurl}/commands/references/get/[`get`] - Read a dictionary value

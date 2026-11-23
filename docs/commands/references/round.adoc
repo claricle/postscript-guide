@@ -93,9 +93,9 @@ WARNING: Ties (0.5) always round toward the greater value.
 
 == Related Commands
 
-* link:/commands/references/ceiling/[`ceiling`] - Round up
-* link:/commands/references/floor/[`floor`] - Round down
-* link:/commands/references/truncate/[`truncate`] - Truncate toward zero
+* link:{site-baseurl}/commands/references/ceiling/[`ceiling`] - Round up
+* link:{site-baseurl}/commands/references/floor/[`floor`] - Round down
+* link:{site-baseurl}/commands/references/truncate/[`truncate`] - Truncate toward zero
 
 == PostScript Level
 
@@ -111,4 +111,4 @@ The operand is not a number.
 
 == See Also
 
-* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:{site-baseurl}/commands/references/[Arithmetic and Math] - All arithmetic operators

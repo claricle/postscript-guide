@@ -40,12 +40,12 @@ key value store → –
 
 === Description
 
-link:/commands/references/store/[`store`] searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
+link:{site-baseurl}/commands/references/store/[`store`] searches for _key_ in each dictionary on the dictionary stack, starting with the topmost (current) dictionary.
 
 * If found: replaces the value in that dictionary
 * If not found: creates new entry in current dictionary
 
-This differs from link:/commands/references/def/[`def`], which always uses the current dictionary.
+This differs from link:{site-baseurl}/commands/references/def/[`def`], which always uses the current dictionary.
 
 === PostScript Level
 
@@ -105,7 +105,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Searches Dictionary Stack* - link:/commands/references/store/[`store`] may modify a dictionary other than the current one!
+WARNING: *Searches Dictionary Stack* - link:{site-baseurl}/commands/references/store/[`store`] may modify a dictionary other than the current one!
 
 [source,postscript]
 ----
@@ -116,11 +116,11 @@ WARNING: *Searches Dictionary Stack* - link:/commands/references/store/[`store`]
 end
 ----
 
-WARNING: *Global/Local VM Restrictions* - Same VM rules as link:/commands/references/def/[`def`] apply.
+WARNING: *Global/Local VM Restrictions* - Same VM rules as link:{site-baseurl}/commands/references/def/[`def`] apply.
 
-TIP: *Use def for New Definitions* - Use link:/commands/references/def/[`def`] when you want to ensure definition goes in current dictionary.
+TIP: *Use def for New Definitions* - Use link:{site-baseurl}/commands/references/def/[`def`] when you want to ensure definition goes in current dictionary.
 
-TIP: *Use store for Updates* - Use link:/commands/references/store/[`store`] when you want to update an existing definition regardless of where it is.
+TIP: *Use store for Updates* - Use link:{site-baseurl}/commands/references/store/[`store`] when you want to update an existing definition regardless of where it is.
 
 === Error Conditions
 
@@ -152,7 +152,7 @@ TIP: *Use store for Updates* - Use link:/commands/references/store/[`store`] whe
 
 [cols="2,3,3"]
 |===
-| Aspect | link:/commands/references/def/[`def`] | link:/commands/references/store/[`store`]
+| Aspect | link:{site-baseurl}/commands/references/def/[`def`] | link:{site-baseurl}/commands/references/store/[`store`]
 
 | Target
 | Always current dictionary
@@ -173,7 +173,7 @@ TIP: *Use store for Updates* - Use link:/commands/references/store/[`store`] whe
 
 === See Also
 
-* link:/commands/references/def/[`def`] - Define in current dictionary
-* link:/commands/references/load/[`load`] - Load from dictionary stack
-* link:/commands/references/where/[`where`] - Find which dictionary contains key
-* link:/commands/references/put/[`put`] - Put into specific dictionary
+* link:{site-baseurl}/commands/references/def/[`def`] - Define in current dictionary
+* link:{site-baseurl}/commands/references/load/[`load`] - Load from dictionary stack
+* link:{site-baseurl}/commands/references/where/[`where`] - Find which dictionary contains key
+* link:{site-baseurl}/commands/references/put/[`put`] - Put into specific dictionary

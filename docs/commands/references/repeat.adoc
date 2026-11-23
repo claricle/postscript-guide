@@ -40,11 +40,11 @@ int proc repeat → –
 
 === Description
 
-link:/commands/references/repeat/[`repeat`] executes _proc_ exactly _int_ times, where _int_ must be a non-negative integer.
+link:{site-baseurl}/commands/references/repeat/[`repeat`] executes _proc_ exactly _int_ times, where _int_ must be a non-negative integer.
 
 The operator removes both operands before executing _proc_ for the first time. If _int_ is 0, _proc_ is not executed at all.
 
-If _proc_ executes link:/commands/references/exit/[`exit`], the loop terminates prematurely.
+If _proc_ executes link:{site-baseurl}/commands/references/exit/[`exit`], the loop terminates prematurely.
 
 === PostScript Level
 
@@ -127,14 +127,14 @@ WARNING: *Stack Accumulation* - If _proc_ pushes values without consuming them, 
 % Stack has 10 copies of 42!
 ----
 
-WARNING: *No Control Variable* - Unlike link:/commands/references/for/[`for`], link:/commands/references/repeat/[`repeat`] doesn't provide iteration index.
+WARNING: *No Control Variable* - Unlike link:{site-baseurl}/commands/references/for/[`for`], link:{site-baseurl}/commands/references/repeat/[`repeat`] doesn't provide iteration index.
 
 [source,postscript]
 ----
 5 { % No way to know which iteration } repeat
 ----
 
-TIP: *Use for if Index Needed* - If you need to know the iteration number, use link:/commands/references/for/[`for`] instead:
+TIP: *Use for if Index Needed* - If you need to know the iteration number, use link:{site-baseurl}/commands/references/for/[`for`] instead:
 
 [source,postscript]
 ----
@@ -171,25 +171,25 @@ TIP: *Use for if Index Needed* - If you need to know the iteration number, use l
 | Use Case | Operator | Reason
 
 | Need iteration index
-| link:/commands/references/for/[`for`]
+| link:{site-baseurl}/commands/references/for/[`for`]
 | Provides control variable
 
 | Fixed count, no index
-| link:/commands/references/repeat/[`repeat`]
+| link:{site-baseurl}/commands/references/repeat/[`repeat`]
 | Simpler, faster
 
 | Conditional termination
-| link:/commands/references/loop/[`loop`]
+| link:{site-baseurl}/commands/references/loop/[`loop`]
 | Exit when condition met
 
 | Iterate collection
-| link:/commands/references/forall/[`forall`]
+| link:{site-baseurl}/commands/references/forall/[`forall`]
 | Works with arrays/strings
 |===
 
 === See Also
 
-* link:/commands/references/for/[`for`] - Loop with control variable
-* link:/commands/references/loop/[`loop`] - Indefinite loop
-* link:/commands/references/exit/[`exit`] - Exit loop early
-* link:/commands/references/forall/[`forall`] - Iterate collections
+* link:{site-baseurl}/commands/references/for/[`for`] - Loop with control variable
+* link:{site-baseurl}/commands/references/loop/[`loop`] - Indefinite loop
+* link:{site-baseurl}/commands/references/exit/[`exit`] - Exit loop early
+* link:{site-baseurl}/commands/references/forall/[`forall`] - Iterate collections

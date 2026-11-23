@@ -1209,18 +1209,18 @@ obj cvx                    % To executable
 
 === See Also
 
-* link:/syntax/objects/[Objects] - Object model and attributes
-* link:/syntax/tokens/[Tokens] - Type literal syntax
-* link:/syntax/operators/[Operators] - Type-specific operations
-* link:/syntax/strings/[Strings] - String type details
-* link:/syntax/arrays/[Arrays] - Array type details
-* link:/syntax/dictionaries/[Dictionaries] - Dictionary type details
-* link:/syntax/procedures/[Procedures] - Array type as procedures
-* link:/commands/references/type/[type] - Get object type
-* link:/commands/references/cvi/[cvi] - Convert to integer
-* link:/commands/references/cvr/[cvr] - Convert to real
-* link:/commands/references/cvs/[cvs] - Convert to string
-* link:/commands/references/cvn/[cvn] - Convert to name
-* link:/commands/references/cvlit/[cvlit] - Make literal
-* link:/commands/references/cvx/[cvx] - Make executable
-* link:/syntax/[Language Syntax Overview]
+* link:{site-baseurl}/syntax/objects/[Objects] - Object model and attributes
+* link:{site-baseurl}/syntax/tokens/[Tokens] - Type literal syntax
+* link:{site-baseurl}/syntax/operators/[Operators] - Type-specific operations
+* link:{site-baseurl}/syntax/strings/[Strings] - String type details
+* link:{site-baseurl}/syntax/arrays/[Arrays] - Array type details
+* link:{site-baseurl}/syntax/dictionaries/[Dictionaries] - Dictionary type details
+* link:{site-baseurl}/syntax/procedures/[Procedures] - Array type as procedures
+* link:{site-baseurl}/commands/references/type/[type] - Get object type
+* link:{site-baseurl}/commands/references/cvi/[cvi] - Convert to integer
+* link:{site-baseurl}/commands/references/cvr/[cvr] - Convert to real
+* link:{site-baseurl}/commands/references/cvs/[cvs] - Convert to string
+* link:{site-baseurl}/commands/references/cvn/[cvn] - Convert to name
+* link:{site-baseurl}/commands/references/cvlit/[cvlit] - Make literal
+* link:{site-baseurl}/commands/references/cvx/[cvx] - Make executable
+* link:{site-baseurl}/syntax/[Language Syntax Overview]

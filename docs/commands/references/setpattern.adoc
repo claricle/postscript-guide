@@ -95,7 +95,7 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/makepattern/[`makepattern`] - Instantiate a pattern
-* link:/commands/references/setcolorspace/[`setcolorspace`] - Select an underlying color space
-* link:/commands/references/setcolor/[`setcolor`] - Set a color without changing color space
+* link:{site-baseurl}/commands/references/makepattern/[`makepattern`] - Instantiate a pattern
+* link:{site-baseurl}/commands/references/setcolorspace/[`setcolorspace`] - Select an underlying color space
+* link:{site-baseurl}/commands/references/setcolor/[`setcolor`] - Set a color without changing color space
 * https://pdfa.org/norm-refs/PLRM.pdf#page=694[PostScript Language Reference, Third Edition, p. 680] - Pattern color space selection

@@ -53,8 +53,8 @@ Stack entries are shown from bottom to top; earlier operands are unchanged.
 
 == Related Commands
 
-* link:/commands/references/ne/[`ne`] - Complementary equality test
-* link:/commands/references/lt/[`lt`] - Ordered comparison
+* link:{site-baseurl}/commands/references/ne/[`ne`] - Complementary equality test
+* link:{site-baseurl}/commands/references/lt/[`lt`] - Ordered comparison
 
 == PostScript Level
 

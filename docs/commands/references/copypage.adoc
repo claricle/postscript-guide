@@ -51,8 +51,8 @@ showpage
 
 == Related Commands
 
-* link:/commands/references/showpage/[`showpage`] - Output and reinitialize the graphics state
-* link:/commands/references/nulldevice/[`nulldevice`] - Discard graphical output
+* link:{site-baseurl}/commands/references/showpage/[`showpage`] - Output and reinitialize the graphics state
+* link:{site-baseurl}/commands/references/nulldevice/[`nulldevice`] - Discard graphical output
 
 == PostScript Level
 

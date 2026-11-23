@@ -84,6 +84,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/setglobal/[`setglobal`] - Select local or global allocation
-* link:/commands/references/array/[`array`] - Allocate an array
-* link:/commands/references/dict/[`dict`] - Allocate a dictionary
+* link:{site-baseurl}/commands/references/setglobal/[`setglobal`] - Select local or global allocation
+* link:{site-baseurl}/commands/references/array/[`array`] - Allocate an array
+* link:{site-baseurl}/commands/references/dict/[`dict`] - Allocate a dictionary

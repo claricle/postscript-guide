@@ -18,23 +18,23 @@ This category contains PostScript operators for device output.
 |===
 | Command | Description
 
-| link:/commands/references/showpage/[`showpage`]
+| link:{site-baseurl}/commands/references/showpage/[`showpage`]
 | Output the page and reinitialize graphics state (Level 1)
 
-| link:/commands/references/copypage/[`copypage`]
+| link:{site-baseurl}/commands/references/copypage/[`copypage`]
 | Output the page without reinitializing graphics state (Level 1; page retention changes in Level 3)
 
-| link:/commands/references/nulldevice/[`nulldevice`]
+| link:{site-baseurl}/commands/references/nulldevice/[`nulldevice`]
 | Discard graphical output (Level 1)
 
-| link:/commands/references/setpagedevice/[`setpagedevice`]
+| link:{site-baseurl}/commands/references/setpagedevice/[`setpagedevice`]
 | Request page device configuration changes (Level 2)
 
-| link:/commands/references/currentpagedevice/[`currentpagedevice`]
+| link:{site-baseurl}/commands/references/currentpagedevice/[`currentpagedevice`]
 | Read the current page device dictionary (Level 2)
 |===
 
 == See Also
 
-* link:/commands/[Command Reference Overview]
-* link:/syntax/[Language Syntax]
+* link:{site-baseurl}/commands/[Command Reference Overview]
+* link:{site-baseurl}/syntax/[Language Syntax]

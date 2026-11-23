@@ -219,7 +219,7 @@ Convert between types:
 
 PostScript has two notions of equality:
 
-**Value Equality** (link:/commands/references/eq/[`eq`]):: Objects have the same value
+**Value Equality** (link:{site-baseurl}/commands/references/eq/[`eq`]):: Objects have the same value
 +
 [source,postscript]
 ----
@@ -227,7 +227,7 @@ PostScript has two notions of equality:
 (abc) (abc) eq  % false (different string objects)
 ----
 
-**Identity Equality** (link:/commands/references/eq/[`eq`] for simple types):: Objects are the same object
+**Identity Equality** (link:{site-baseurl}/commands/references/eq/[`eq`] for simple types):: Objects are the same object
 +
 [source,postscript]
 ----
@@ -236,7 +236,7 @@ arr arr eq      % true (same array)
 arr [1 2 3] eq  % false (different arrays, same values)
 ----
 
-For composite objects, link:/commands/references/eq/[`eq`] tests object identity, not value equality.
+For composite objects, link:{site-baseurl}/commands/references/eq/[`eq`] tests object identity, not value equality.
 
 === Object Sharing
 
@@ -329,7 +329,7 @@ false setglobal
 
 === Best Practices
 
-TIP: *Check Types* - Use link:/commands/references/type/[`type`] and comparison to validate object types before operations.
+TIP: *Check Types* - Use link:{site-baseurl}/commands/references/type/[`type`] and comparison to validate object types before operations.
 
 TIP: *Be Aware of Sharing* - Remember that assignment creates references, not copies, for composite objects.
 
@@ -339,10 +339,10 @@ WARNING: *Type Errors* - Operating on wrong types causes [`typecheck`] errors. A
 
 === See Also
 
-* link:/syntax/data-types/[Data Types]
-* link:/syntax/arrays/[Arrays]
-* link:/syntax/strings/[Strings]
-* link:/syntax/dictionaries/[Dictionaries]
-* link:/commands/references/type/[type command]
-* link:/commands/references/cvx/[cvx command]
-* link:/commands/references/cvlit/[cvlit command]
+* link:{site-baseurl}/syntax/data-types/[Data Types]
+* link:{site-baseurl}/syntax/arrays/[Arrays]
+* link:{site-baseurl}/syntax/strings/[Strings]
+* link:{site-baseurl}/syntax/dictionaries/[Dictionaries]
+* link:{site-baseurl}/commands/references/type/[type command]
+* link:{site-baseurl}/commands/references/cvx/[cvx command]
+* link:{site-baseurl}/commands/references/cvlit/[cvlit command]

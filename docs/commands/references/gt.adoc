@@ -48,11 +48,11 @@ Stack entries are shown from bottom to top; earlier operands are unchanged.
 
 == Related Commands
 
-* link:/commands/references/eq/[`eq`] - Compare values
-* link:/commands/references/ne/[`ne`] - Compare values
-* link:/commands/references/ge/[`ge`] - Compare values
-* link:/commands/references/le/[`le`] - Compare values
-* link:/commands/references/lt/[`lt`] - Compare values
+* link:{site-baseurl}/commands/references/eq/[`eq`] - Compare values
+* link:{site-baseurl}/commands/references/ne/[`ne`] - Compare values
+* link:{site-baseurl}/commands/references/ge/[`ge`] - Compare values
+* link:{site-baseurl}/commands/references/le/[`le`] - Compare values
+* link:{site-baseurl}/commands/references/lt/[`lt`] - Compare values
 
 == PostScript Level
 

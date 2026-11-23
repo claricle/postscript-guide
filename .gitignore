@@ -4,6 +4,9 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 
+# Link check scratch layout (built site nested under its base path)
+.linkcheck/
+
 # Bundler
 .bundle/
 vendor/

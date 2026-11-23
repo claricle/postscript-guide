@@ -929,14 +929,14 @@ Interpolate                % Returns (Hello, World!)
 
 === See Also
 
-* link:/syntax/tokens/[Tokens] - String token syntax
-* link:/syntax/arrays/[Arrays] - Similar indexed structure
-* link:/syntax/objects/[Objects] - String object model
-* link:/syntax/data-types/[Data Types] - String type details
-* link:/commands/references/string/[string] - Create strings
-* link:/commands/references/get/[get] - Access bytes
-* link:/commands/references/put/[put] - Modify bytes
-* link:/commands/references/search/[search] - Find substrings
-* link:/commands/references/anchorsearch/[anchorsearch] - Prefix search
-* link:/commands/references/cvs/[cvs] - Convert to string
-* link:/syntax/[Language Syntax Overview]
+* link:{site-baseurl}/syntax/tokens/[Tokens] - String token syntax
+* link:{site-baseurl}/syntax/arrays/[Arrays] - Similar indexed structure
+* link:{site-baseurl}/syntax/objects/[Objects] - String object model
+* link:{site-baseurl}/syntax/data-types/[Data Types] - String type details
+* link:{site-baseurl}/commands/references/string/[string] - Create strings
+* link:{site-baseurl}/commands/references/get/[get] - Access bytes
+* link:{site-baseurl}/commands/references/put/[put] - Modify bytes
+* link:{site-baseurl}/commands/references/search/[search] - Find substrings
+* link:{site-baseurl}/commands/references/anchorsearch/[anchorsearch] - Prefix search
+* link:{site-baseurl}/commands/references/cvs/[cvs] - Convert to string
+* link:{site-baseurl}/syntax/[Language Syntax Overview]

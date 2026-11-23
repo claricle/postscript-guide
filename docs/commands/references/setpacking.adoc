@@ -91,6 +91,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/packedarray/[`packedarray`] - Create a packed array explicitly
-* link:/commands/references/array/[`array`] - Create a writable array
-* link:/commands/references/cvx/[`cvx`] - Make a string executable
+* link:{site-baseurl}/commands/references/packedarray/[`packedarray`] - Create a packed array explicitly
+* link:{site-baseurl}/commands/references/array/[`array`] - Create a writable array
+* link:{site-baseurl}/commands/references/cvx/[`cvx`] - Make a string executable

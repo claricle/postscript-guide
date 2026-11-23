@@ -33,11 +33,11 @@ string
 
 === Description
 
-link:/commands/references/show/[`show`] paints the characters identified by the elements of `string` on the current page starting at the current point, using the font face, size, and orientation specified by the most recent link:/commands/references/setfont/[`setfont`] or `selectfont`.
+link:{site-baseurl}/commands/references/show/[`show`] paints the characters identified by the elements of `string` on the current page starting at the current point, using the font face, size, and orientation specified by the most recent link:{site-baseurl}/commands/references/setfont/[`setfont`] or `selectfont`.
 
-The spacing from each character of the string to the next is determined by the character's width, which is an (x, y) displacement that is part of the character's definition. When it is finished, link:/commands/references/show/[`show`] adjusts the current point in the graphics state by the sum of the widths of all the characters shown.
+The spacing from each character of the string to the next is determined by the character's width, which is an (x, y) displacement that is part of the character's definition. When it is finished, link:{site-baseurl}/commands/references/show/[`show`] adjusts the current point in the graphics state by the sum of the widths of all the characters shown.
 
-link:/commands/references/show/[`show`] requires that the current point initially be defined (for example, by `moveto`); otherwise, it executes the error `nocurrentpoint`.
+link:{site-baseurl}/commands/references/show/[`show`] requires that the current point initially be defined (for example, by `moveto`); otherwise, it executes the error `nocurrentpoint`.
 
 If a character code would index beyond the end of the font's Encoding, or the character mapping algorithm goes out of bounds in other ways, a `rangecheck` error occurs.
 
@@ -202,10 +202,10 @@ grestore
 
 === Performance Considerations
 
-- link:/commands/references/show/[`show`] is the fastest text rendering operator
+- link:{site-baseurl}/commands/references/show/[`show`] is the fastest text rendering operator
 - Characters are cached for efficiency
 - Font cache improves performance for repeated characters
-- Use link:/commands/references/show/[`show`] over link:/commands/references/charpath/[`charpath`] when possible
+- Use link:{site-baseurl}/commands/references/show/[`show`] over link:{site-baseurl}/commands/references/charpath/[`charpath`] when possible
 
 === Comparison with Other Text Operators
 
@@ -213,36 +213,36 @@ grestore
 |===
 | Operator | Purpose
 
-| link:/commands/references/show/[`show`]
+| link:{site-baseurl}/commands/references/show/[`show`]
 | Basic text painting (fastest)
 
-| link:/commands/references/ashow/[`ashow`]
+| link:{site-baseurl}/commands/references/ashow/[`ashow`]
 | Add uniform spacing to all characters
 
-| link:/commands/references/widthshow/[`widthshow`]
+| link:{site-baseurl}/commands/references/widthshow/[`widthshow`]
 | Adjust width of specific character
 
-| link:/commands/references/awidthshow/[`awidthshow`]
-| Combine link:/commands/references/ashow/[`ashow`] and link:/commands/references/widthshow/[`widthshow`]
+| link:{site-baseurl}/commands/references/awidthshow/[`awidthshow`]
+| Combine link:{site-baseurl}/commands/references/ashow/[`ashow`] and link:{site-baseurl}/commands/references/widthshow/[`widthshow`]
 
-| link:/commands/references/kshow/[`kshow`]
+| link:{site-baseurl}/commands/references/kshow/[`kshow`]
 | Execute procedure between characters (kerning)
 
-| link:/commands/references/cshow/[`cshow`]
+| link:{site-baseurl}/commands/references/cshow/[`cshow`]
 | Execute procedure for each character (Level 2)
 
-| link:/commands/references/charpath/[`charpath`]
+| link:{site-baseurl}/commands/references/charpath/[`charpath`]
 | Get character outlines as path
 |===
 
 === See Also
 
-- link:/commands/references/ashow/[`ashow`] - Show with character spacing adjustment
-- link:/commands/references/widthshow/[`widthshow`] - Show with selective character width adjustment
-- link:/commands/references/awidthshow/[`awidthshow`] - Combine ashow and widthshow
-- link:/commands/references/kshow/[`kshow`] - Show with kerning procedure
-- link:/commands/references/cshow/[`cshow`] - Show with procedure per character (Level 2)
-- link:/commands/references/charpath/[`charpath`] - Get character outlines as path
-- link:/commands/references/stringwidth/[`stringwidth`] - Calculate text width
-- link:/commands/references/setfont/[`setfont`] - Establish current font
+- link:{site-baseurl}/commands/references/ashow/[`ashow`] - Show with character spacing adjustment
+- link:{site-baseurl}/commands/references/widthshow/[`widthshow`] - Show with selective character width adjustment
+- link:{site-baseurl}/commands/references/awidthshow/[`awidthshow`] - Combine ashow and widthshow
+- link:{site-baseurl}/commands/references/kshow/[`kshow`] - Show with kerning procedure
+- link:{site-baseurl}/commands/references/cshow/[`cshow`] - Show with procedure per character (Level 2)
+- link:{site-baseurl}/commands/references/charpath/[`charpath`] - Get character outlines as path
+- link:{site-baseurl}/commands/references/stringwidth/[`stringwidth`] - Calculate text width
+- link:{site-baseurl}/commands/references/setfont/[`setfont`] - Establish current font
 - `moveto` - Set current point

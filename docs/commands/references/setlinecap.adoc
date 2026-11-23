@@ -37,7 +37,7 @@ int setlinecap → –
 
 === Description
 
-link:/commands/references/setlinecap/[`setlinecap`] sets the line cap parameter to _int_, which must be 0, 1, or 2. This controls the shape of line ends for open subpaths painted by [`stroke`].
+link:{site-baseurl}/commands/references/setlinecap/[`setlinecap`] sets the line cap parameter to _int_, which must be 0, 1, or 2. This controls the shape of line ends for open subpaths painted by [`stroke`].
 
 **Cap styles:**
 * **0** = Butt cap: squared off at endpoint (no projection)
@@ -163,7 +163,7 @@ Square (2):   [──────────]
 
 === See Also
 
-* link:/commands/references/setlinejoin/[`setlinejoin`] - Set corner style
-* link:/commands/references/setlinewidth/[`setlinewidth`] - Set line width
-* link:/commands/references/currentlinecap/[`currentlinecap`] - Get current cap
+* link:{site-baseurl}/commands/references/setlinejoin/[`setlinejoin`] - Set corner style
+* link:{site-baseurl}/commands/references/setlinewidth/[`setlinewidth`] - Set line width
+* link:{site-baseurl}/commands/references/currentlinecap/[`currentlinecap`] - Get current cap
 * Stroke operations (to be documented)

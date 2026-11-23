@@ -45,7 +45,7 @@ string index count getinterval → substring
 
 === Description
 
-link:/commands/references/getinterval/[`getinterval`] creates a new array, packed array, or string object whose value consists of _count_ elements starting at position _index_ in the original object.
+link:{site-baseurl}/commands/references/getinterval/[`getinterval`] creates a new array, packed array, or string object whose value consists of _count_ elements starting at position _index_ in the original object.
 
 The elements in the subsequence are **shared** between the original and new objects - modifying one affects the other.
 
@@ -169,7 +169,7 @@ TIP: *Empty Intervals* - _count_ can be 0, which returns an empty array/string.
 
 === See Also
 
-* link:/commands/references/putinterval/[`putinterval`] - Insert array/string into another
-* link:/commands/references/get/[`get`] - Get single element
-* link:/commands/references/length/[`length`] - Get length
-* link:/commands/references/aload/[`aload`] - Load all elements onto stack
+* link:{site-baseurl}/commands/references/putinterval/[`putinterval`] - Insert array/string into another
+* link:{site-baseurl}/commands/references/get/[`get`] - Get single element
+* link:{site-baseurl}/commands/references/length/[`length`] - Get length
+* link:{site-baseurl}/commands/references/aload/[`aload`] - Load all elements onto stack

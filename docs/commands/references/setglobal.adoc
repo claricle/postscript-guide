@@ -91,6 +91,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/currentglobal/[`currentglobal`] - Read the allocation mode
-* link:/commands/references/array/[`array`] - Create an array
-* link:/commands/references/string/[`string`] - Create a string
+* link:{site-baseurl}/commands/references/currentglobal/[`currentglobal`] - Read the allocation mode
+* link:{site-baseurl}/commands/references/array/[`array`] - Create an array
+* link:{site-baseurl}/commands/references/string/[`string`] - Create a string

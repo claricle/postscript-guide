@@ -154,6 +154,6 @@ grestore
 
 == See Also
 
-* link:/commands/[Command Reference] - Complete operator documentation
-* link:/usage/basic/[Basic Usage] - Fundamental concepts
-* link:/usage/advanced/[Advanced Usage] - Advanced techniques
+* link:{site-baseurl}/commands/[Command Reference] - Complete operator documentation
+* link:{site-baseurl}/usage/basic/[Basic Usage] - Fundamental concepts
+* link:{site-baseurl}/usage/advanced/[Advanced Usage] - Advanced techniques

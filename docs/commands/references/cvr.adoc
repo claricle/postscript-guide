@@ -38,7 +38,7 @@ string cvr → real
 
 === Description
 
-link:/commands/references/cvr/[`cvr`] (convert to real) converts an integer, real, or string to a real number:
+link:{site-baseurl}/commands/references/cvr/[`cvr`] (convert to real) converts an integer, real, or string to a real number:
 
 * **Integer operand**: Converts to real
 * **Real operand**: Returns it unchanged
@@ -127,6 +127,6 @@ TIP: *Use for Precision* - Convert integers to reals before division to avoid in
 
 === See Also
 
-* link:/commands/references/cvi/[`cvi`] - Convert to integer
-* link:/commands/references/cvs/[`cvs`] - Convert to string
-* link:/commands/references/type/[`type`] - Get object type
+* link:{site-baseurl}/commands/references/cvi/[`cvi`] - Convert to integer
+* link:{site-baseurl}/commands/references/cvs/[`cvs`] - Convert to string
+* link:{site-baseurl}/commands/references/type/[`type`] - Get object type

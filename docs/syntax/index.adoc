@@ -269,7 +269,7 @@ exec               % Execute: pushes 9
 
 == See Also
 
-* link:/commands/[Command Reference] - All operators
-* link:/levels/[PostScript Levels] - Version features
-* link:/usage/basic/[Basic Usage] - Getting started
-* link:/examples/[Examples] - Code samples
+* link:{site-baseurl}/commands/[Command Reference] - All operators
+* link:{site-baseurl}/levels/[PostScript Levels] - Version features
+* link:{site-baseurl}/usage/basic/[Basic Usage] - Getting started
+* link:{site-baseurl}/examples/[Examples] - Code samples

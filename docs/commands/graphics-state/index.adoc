@@ -26,8 +26,8 @@ Each parameter has a current value that affects subsequent graphics operations.
 
 PostScript provides a stack for saving and restoring graphics state:
 
-* link:/commands/references/gsave/[`gsave`] saves current state
-* link:/commands/references/grestore/[`grestore`] restores saved state
+* link:{site-baseurl}/commands/references/gsave/[`gsave`] saves current state
+* link:{site-baseurl}/commands/references/grestore/[`grestore`] restores saved state
 * State changes are isolated between save/restore pairs
 * Enables temporary modifications without losing previous state
 
@@ -39,22 +39,22 @@ PostScript provides a stack for saving and restoring graphics state:
 |===
 | Command | Description
 
-| link:/commands/references/gsave/[`gsave`]
+| link:{site-baseurl}/commands/references/gsave/[`gsave`]
 | Push copy of graphics state onto graphics state stack
 
-| link:/commands/references/grestore/[`grestore`]
+| link:{site-baseurl}/commands/references/grestore/[`grestore`]
 | Restore graphics state from top of stack
 
-| link:/commands/references/grestoreall/[`grestoreall`]
+| link:{site-baseurl}/commands/references/grestoreall/[`grestoreall`]
 | Restore to bottommost save level
 
-| link:/commands/references/gstate/[`gstate`]
+| link:{site-baseurl}/commands/references/gstate/[`gstate`]
 | Create gstate object (Level 2)
 
-| link:/commands/references/setgstate/[`setgstate`]
+| link:{site-baseurl}/commands/references/setgstate/[`setgstate`]
 | Set graphics state from gstate object (Level 2)
 
-| link:/commands/references/currentgstate/[`currentgstate`]
+| link:{site-baseurl}/commands/references/currentgstate/[`currentgstate`]
 | Copy current state to gstate object (Level 2)
 |===
 
@@ -64,34 +64,34 @@ PostScript provides a stack for saving and restoring graphics state:
 |===
 | Command | Description
 
-| link:/commands/references/setlinewidth/[`setlinewidth`]
+| link:{site-baseurl}/commands/references/setlinewidth/[`setlinewidth`]
 | Set line width for stroking
 
-| link:/commands/references/setlinecap/[`setlinecap`]
+| link:{site-baseurl}/commands/references/setlinecap/[`setlinecap`]
 | Set line cap style (butt, round, square)
 
-| link:/commands/references/setlinejoin/[`setlinejoin`]
+| link:{site-baseurl}/commands/references/setlinejoin/[`setlinejoin`]
 | Set line join style (miter, round, bevel)
 
-| link:/commands/references/setmiterlimit/[`setmiterlimit`]
+| link:{site-baseurl}/commands/references/setmiterlimit/[`setmiterlimit`]
 | Set miter limit for sharp corners
 
-| link:/commands/references/setdash/[`setdash`]
+| link:{site-baseurl}/commands/references/setdash/[`setdash`]
 | Set dash pattern for lines
 
-| link:/commands/references/currentlinewidth/[`currentlinewidth`]
+| link:{site-baseurl}/commands/references/currentlinewidth/[`currentlinewidth`]
 | Get current line width
 
-| link:/commands/references/currentlinecap/[`currentlinecap`]
+| link:{site-baseurl}/commands/references/currentlinecap/[`currentlinecap`]
 | Get current line cap
 
-| link:/commands/references/currentlinejoin/[`currentlinejoin`]
+| link:{site-baseurl}/commands/references/currentlinejoin/[`currentlinejoin`]
 | Get current line join
 
-| link:/commands/references/currentmiterlimit/[`currentmiterlimit`]
+| link:{site-baseurl}/commands/references/currentmiterlimit/[`currentmiterlimit`]
 | Get current miter limit
 
-| link:/commands/references/currentdash/[`currentdash`]
+| link:{site-baseurl}/commands/references/currentdash/[`currentdash`]
 | Get current dash pattern
 |===
 
@@ -101,28 +101,28 @@ PostScript provides a stack for saving and restoring graphics state:
 |===
 | Command | Description
 
-| link:/commands/references/setgray/[`setgray`]
+| link:{site-baseurl}/commands/references/setgray/[`setgray`]
 | Set gray level (0=black, 1=white)
 
-| link:/commands/references/setrgbcolor/[`setrgbcolor`]
+| link:{site-baseurl}/commands/references/setrgbcolor/[`setrgbcolor`]
 | Set RGB color
 
-| link:/commands/references/setcmykcolor/[`setcmykcolor`]
+| link:{site-baseurl}/commands/references/setcmykcolor/[`setcmykcolor`]
 | Set CMYK color (Level 2)
 
-| link:/commands/references/sethsbcolor/[`sethsbcolor`]
+| link:{site-baseurl}/commands/references/sethsbcolor/[`sethsbcolor`]
 | Set HSB color
 
-| link:/commands/references/currentgray/[`currentgray`]
+| link:{site-baseurl}/commands/references/currentgray/[`currentgray`]
 | Get current gray value
 
-| link:/commands/references/currentrgbcolor/[`currentrgbcolor`]
+| link:{site-baseurl}/commands/references/currentrgbcolor/[`currentrgbcolor`]
 | Get current RGB color
 
-| link:/commands/references/currentcmykcolor/[`currentcmykcolor`]
+| link:{site-baseurl}/commands/references/currentcmykcolor/[`currentcmykcolor`]
 | Get current CMYK color (Level 2)
 
-| link:/commands/references/currenthsbcolor/[`currenthsbcolor`]
+| link:{site-baseurl}/commands/references/currenthsbcolor/[`currenthsbcolor`]
 | Get current HSB color
 |===
 
@@ -132,10 +132,10 @@ PostScript provides a stack for saving and restoring graphics state:
 |===
 | Command | Description
 
-| link:/commands/references/sethalftone/[`sethalftone`]
+| link:{site-baseurl}/commands/references/sethalftone/[`sethalftone`]
 | Install a halftone dictionary for subsequent rendering (Level 2)
 
-| link:/commands/references/setsmoothness/[`setsmoothness`]
+| link:{site-baseurl}/commands/references/setsmoothness/[`setsmoothness`]
 | Set the color tolerance for smooth shading (Level 3)
 |===
 
@@ -185,8 +185,8 @@ grestore
 Graphics state changes affect all subsequent operations until:
 
 * Another state change occurs
-* link:/commands/references/grestore/[`grestore`] restores previous state
-* link:/commands/initgraphics/[`initgraphics`] resets to defaults
+* link:{site-baseurl}/commands/references/grestore/[`grestore`] restores previous state
+* [`initgraphics`] resets to defaults
 * Page is complete (showpage)
 
 === save vs. gsave
@@ -195,13 +195,13 @@ Graphics state changes affect all subsequent operations until:
 |===
 | Operator | Saves | Restores
 
-| link:/commands/references/begin/[`save`]
+| link:{site-baseurl}/commands/references/begin/[`save`]
 | VM + graphics state
 | [`restore`]
 
-| link:/commands/references/gsave/[`gsave`]
+| link:{site-baseurl}/commands/references/gsave/[`gsave`]
 | Graphics state only
-| link:/commands/references/grestore/[`grestore`]
+| link:{site-baseurl}/commands/references/grestore/[`grestore`]
 |===
 
 === Device Dependence
@@ -215,9 +215,9 @@ Some parameters are device-dependent:
 
 == Common Pitfalls
 
-WARNING: *Unbalanced gsave/grestore* - Every link:/commands/references/gsave/[`gsave`] must have matching link:/commands/references/grestore/[`grestore`].
+WARNING: *Unbalanced gsave/grestore* - Every link:{site-baseurl}/commands/references/gsave/[`gsave`] must have matching link:{site-baseurl}/commands/references/grestore/[`grestore`].
 
-WARNING: *Color Space* - Color operators may switch color space (e.g., link:/commands/references/setgray/[`setgray`]) → DeviceGray.
+WARNING: *Color Space* - Color operators may switch color space (e.g., link:{site-baseurl}/commands/references/setgray/[`setgray`]) → DeviceGray.
 
 WARNING: *Dash Pattern Reset* - Empty dash array `[]` resets to solid lines.
 

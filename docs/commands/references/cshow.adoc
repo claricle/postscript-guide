@@ -33,16 +33,16 @@ proc string
 
 === Description
 
-link:/commands/references/cshow/[`cshow`] invokes `proc` once for each operation of the font mapping algorithm. The value of link:/commands/references/currentfont/[`currentfont`] during the execution of `proc` is the base font that the algorithm ultimately selects.
+link:{site-baseurl}/commands/references/cshow/[`cshow`] invokes `proc` once for each operation of the font mapping algorithm. The value of link:{site-baseurl}/commands/references/currentfont/[`currentfont`] during the execution of `proc` is the base font that the algorithm ultimately selects.
 
 When `proc` is invoked, the stack contains three values:
 1. The selected character's code (an integer)
 2. The x component of the width vector for the character in user coordinate system
 3. The y component of the width vector for the character in user coordinate system
 
-link:/commands/references/cshow/[`cshow`] does not paint the character and does not change the current point, although `proc` may do so. When `proc` completes execution, the value of link:/commands/references/currentfont/[`currentfont`] is restored.
+link:{site-baseurl}/commands/references/cshow/[`cshow`] does not paint the character and does not change the current point, although `proc` may do so. When `proc` completes execution, the value of link:{site-baseurl}/commands/references/currentfont/[`currentfont`] is restored.
 
-link:/commands/references/cshow/[`cshow`] can be used to provide careful positioning of individual characters while taking advantage of the composite font mapping machinery of the interpreter. link:/commands/references/cshow/[`cshow`] is intended primarily for use with composite fonts. However, it can also be used with a base font. The mapping algorithm for a base font simply selects consecutive characters from the string.
+link:{site-baseurl}/commands/references/cshow/[`cshow`] can be used to provide careful positioning of individual characters while taking advantage of the composite font mapping machinery of the interpreter. link:{site-baseurl}/commands/references/cshow/[`cshow`] is intended primarily for use with composite fonts. However, it can also be used with a base font. The mapping algorithm for a base font simply selects consecutive characters from the string.
 
 === Parameters
 
@@ -180,7 +180,7 @@ Where:
 
 === Font Mapping with Composite Fonts
 
-For composite fonts, link:/commands/references/cshow/[`cshow`] invokes the font mapping algorithm:
+For composite fonts, link:{site-baseurl}/commands/references/cshow/[`cshow`] invokes the font mapping algorithm:
 
 1. **FMapType** determines how to map string bytes to font selection
 2. Selected base font becomes current during `proc` execution
@@ -294,24 +294,24 @@ end /MyComposite exch definefont pop
 |===
 | Operator | Best For
 
-| link:/commands/references/show/[`show`]
+| link:{site-baseurl}/commands/references/show/[`show`]
 | Simple, fast text rendering
 
-| link:/commands/references/kshow/[`kshow`]
+| link:{site-baseurl}/commands/references/kshow/[`kshow`]
 | Kerning between character pairs (base fonts only)
 
-| link:/commands/references/cshow/[`cshow`]
+| link:{site-baseurl}/commands/references/cshow/[`cshow`]
 | Per-character control with composite fonts
 
-| link:/commands/references/charpath/[`charpath`]
+| link:{site-baseurl}/commands/references/charpath/[`charpath`]
 | Getting character outlines for effects
 |===
 
 === See Also
 
-- link:/commands/references/show/[`show`] - Basic text painting
-- link:/commands/references/ashow/[`ashow`] - Show with uniform spacing
-- link:/commands/references/kshow/[`kshow`] - Show with kerning procedure
-- link:/commands/references/currentfont/[`currentfont`] - Get current font
+- link:{site-baseurl}/commands/references/show/[`show`] - Basic text painting
+- link:{site-baseurl}/commands/references/ashow/[`ashow`] - Show with uniform spacing
+- link:{site-baseurl}/commands/references/kshow/[`kshow`] - Show with kerning procedure
+- link:{site-baseurl}/commands/references/currentfont/[`currentfont`] - Get current font
 - `glyphshow` - Show glyph by name
 - `rootfont` - Get root composite font

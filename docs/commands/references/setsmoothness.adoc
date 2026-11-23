@@ -91,7 +91,7 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/shfill/[`shfill`] - Paint a smooth shading
-* link:/commands/references/gsave/[`gsave`] - Save the current tolerance
-* link:/commands/references/grestore/[`grestore`] - Restore the previous tolerance
+* link:{site-baseurl}/commands/references/shfill/[`shfill`] - Paint a smooth shading
+* link:{site-baseurl}/commands/references/gsave/[`gsave`] - Save the current tolerance
+* link:{site-baseurl}/commands/references/grestore/[`grestore`] - Restore the previous tolerance
 * https://pdfa.org/norm-refs/PLRM.pdf#page=696[PostScript Language Reference, Third Edition, pp. 682–683] - Tolerance and clamping

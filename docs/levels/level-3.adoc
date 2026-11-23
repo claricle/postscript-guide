@@ -149,8 +149,8 @@ TIP: *Use Binary Encoding* - Binary object sequences are faster than ASCII.
 
 == See Also
 
-* link:/levels/level-1/[PostScript Level 1] - Original specification
-* link:/levels/level-2/[PostScript Level 2] - Color and composite fonts
-* link:/levels/comparison/[Version Comparison] - Detailed feature comparison
-* link:/levels/[PostScript Levels Overview]
-* link:/commands/[Command Reference]
+* link:{site-baseurl}/levels/level-1/[PostScript Level 1] - Original specification
+* link:{site-baseurl}/levels/level-2/[PostScript Level 2] - Color and composite fonts
+* link:{site-baseurl}/levels/comparison/[Version Comparison] - Detailed feature comparison
+* link:{site-baseurl}/levels/[PostScript Levels Overview]
+* link:{site-baseurl}/commands/[Command Reference]

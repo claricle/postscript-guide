@@ -40,7 +40,7 @@ key value def → –
 
 === Description
 
-link:/commands/references/def/[`def`] associates _key_ with _value_ in the current dictionary (the one on top of the dictionary stack).
+link:{site-baseurl}/commands/references/def/[`def`] associates _key_ with _value_ in the current dictionary (the one on top of the dictionary stack).
 
 * If _key_ already exists: replaces its value
 * If _key_ doesn't exist: creates new entry
@@ -113,7 +113,7 @@ end
 
 === Common Pitfalls
 
-WARNING: *Defines in Current Dictionary* - link:/commands/references/def/[`def`] always uses the current dictionary (top of dict stack), not a specific dictionary.
+WARNING: *Defines in Current Dictionary* - link:{site-baseurl}/commands/references/def/[`def`] always uses the current dictionary (top of dict stack), not a specific dictionary.
 
 [source,postscript]
 ----
@@ -182,20 +182,20 @@ TIP: *Use Literal Names* - Always use literal names (starting with `/`) for keys
 |===
 | Operator | Behavior
 
-| link:/commands/references/def/[`def`]
+| link:{site-baseurl}/commands/references/def/[`def`]
 | Define in **current** dictionary
 
-| link:/commands/references/store/[`store`]
+| link:{site-baseurl}/commands/references/store/[`store`]
 | Define in **first** dictionary containing key, or current if not found
 
-| link:/commands/references/put/[`put`]
+| link:{site-baseurl}/commands/references/put/[`put`]
 | Put into **specific** dictionary (requires dict on stack)
 |===
 
 === See Also
 
-* link:/commands/references/load/[`load`] - Look up value from dictionary stack
-* link:/commands/references/store/[`store`] - Store with different semantics
-* link:/commands/references/put/[`put`] - Put into specific dictionary
-* link:/commands/references/begin/[`begin`] - Make dictionary current
-* link:/commands/references/where/[`where`] - Find which dictionary contains key
+* link:{site-baseurl}/commands/references/load/[`load`] - Look up value from dictionary stack
+* link:{site-baseurl}/commands/references/store/[`store`] - Store with different semantics
+* link:{site-baseurl}/commands/references/put/[`put`] - Put into specific dictionary
+* link:{site-baseurl}/commands/references/begin/[`begin`] - Make dictionary current
+* link:{site-baseurl}/commands/references/where/[`where`] - Find which dictionary contains key

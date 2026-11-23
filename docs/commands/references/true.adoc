@@ -47,9 +47,9 @@ true { (yes) } { (no) } ifelse % (yes)
 
 == Related Commands
 
-* link:/commands/references/false/[`false`] - The other boolean value
-* link:/commands/references/not/[`not`] - Negate a boolean
-* link:/commands/references/ifelse/[`ifelse`] - Select a branch
+* link:{site-baseurl}/commands/references/false/[`false`] - The other boolean value
+* link:{site-baseurl}/commands/references/not/[`not`] - Negate a boolean
+* link:{site-baseurl}/commands/references/ifelse/[`ifelse`] - Select a branch
 
 == PostScript Level
 

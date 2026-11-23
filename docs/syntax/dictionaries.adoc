@@ -1015,15 +1015,15 @@ Instance /sharedMethod Lookup exec
 
 === See Also
 
-* link:/syntax/objects/[Objects] - Dictionary object model
-* link:/syntax/arrays/[Arrays] - Similar composite structure
-* link:/syntax/procedures/[Procedures] - Local variables with dictionaries
-* link:/syntax/operators/[Operators] - Dictionary operators
-* link:/syntax/tokens/[Tokens] - Name syntax for keys
-* link:/commands/references/dict/[dict] - Create dictionaries
-* link:/commands/references/begin/[begin] - Push onto dict stack
-* link:/commands/references/end/[end] - Pop from dict stack
-* link:/commands/references/def/[def] - Define entries
-* link:/commands/references/load/[load] - Look up values
-* link:/commands/references/where/[where] - Find definitions
-* link:/syntax/[Language Syntax Overview]
+* link:{site-baseurl}/syntax/objects/[Objects] - Dictionary object model
+* link:{site-baseurl}/syntax/arrays/[Arrays] - Similar composite structure
+* link:{site-baseurl}/syntax/procedures/[Procedures] - Local variables with dictionaries
+* link:{site-baseurl}/syntax/operators/[Operators] - Dictionary operators
+* link:{site-baseurl}/syntax/tokens/[Tokens] - Name syntax for keys
+* link:{site-baseurl}/commands/references/dict/[dict] - Create dictionaries
+* link:{site-baseurl}/commands/references/begin/[begin] - Push onto dict stack
+* link:{site-baseurl}/commands/references/end/[end] - Pop from dict stack
+* link:{site-baseurl}/commands/references/def/[def] - Define entries
+* link:{site-baseurl}/commands/references/load/[load] - Look up values
+* link:{site-baseurl}/commands/references/where/[where] - Find definitions
+* link:{site-baseurl}/syntax/[Language Syntax Overview]

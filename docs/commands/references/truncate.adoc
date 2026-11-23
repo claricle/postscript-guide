@@ -84,9 +84,9 @@ num1 truncate num2
 
 == Related Commands
 
-* link:/commands/references/ceiling/[`ceiling`] - Round up
-* link:/commands/references/floor/[`floor`] - Round down
-* link:/commands/references/round/[`round`] - Round to nearest
+* link:{site-baseurl}/commands/references/ceiling/[`ceiling`] - Round up
+* link:{site-baseurl}/commands/references/floor/[`floor`] - Round down
+* link:{site-baseurl}/commands/references/round/[`round`] - Round to nearest
 
 == PostScript Level
 
@@ -102,4 +102,4 @@ The operand is not a number.
 
 == See Also
 
-* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:{site-baseurl}/commands/references/[Arithmetic and Math] - All arithmetic operators

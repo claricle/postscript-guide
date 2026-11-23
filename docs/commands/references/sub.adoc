@@ -227,11 +227,11 @@ Both operands must be numeric (integer or real). Other types will cause a `typec
 
 == Related Commands
 
-* link:/commands/references/add/[`add`] - Add two numbers
-* link:/commands/references/mul/[`mul`] - Multiply two numbers
-* link:/commands/references/div/[`div`] - Divide two numbers (real result)
-* link:/commands/references/neg/[`neg`] - Negate a number
-* link:/commands/references/abs/[`abs`] - Absolute value
+* link:{site-baseurl}/commands/references/add/[`add`] - Add two numbers
+* link:{site-baseurl}/commands/references/mul/[`mul`] - Multiply two numbers
+* link:{site-baseurl}/commands/references/div/[`div`] - Divide two numbers (real result)
+* link:{site-baseurl}/commands/references/neg/[`neg`] - Negate a number
+* link:{site-baseurl}/commands/references/abs/[`abs`] - Absolute value
 
 == PostScript Level
 
@@ -291,5 +291,5 @@ The `sub` operator is a primitive operation with O(1) constant time complexity. 
 
 == See Also
 
-* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
-* link:/levels/[PostScript Language Levels]
+* link:{site-baseurl}/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:{site-baseurl}/levels/[PostScript Language Levels]

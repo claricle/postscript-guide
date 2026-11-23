@@ -93,6 +93,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/setgray/[`setgray`] - Choose a gray value to render
-* link:/commands/references/gsave/[`gsave`] - Save the current graphics state
-* link:/commands/references/grestore/[`grestore`] - Restore the previous screen and other state
+* link:{site-baseurl}/commands/references/setgray/[`setgray`] - Choose a gray value to render
+* link:{site-baseurl}/commands/references/gsave/[`gsave`] - Save the current graphics state
+* link:{site-baseurl}/commands/references/grestore/[`grestore`] - Restore the previous screen and other state

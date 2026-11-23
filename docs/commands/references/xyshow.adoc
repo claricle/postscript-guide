@@ -49,9 +49,9 @@ currentpoint % 142 700: includes the displacement after C
 
 == Related Commands
 
-* link:/commands/references/show/[`show`] - Paint text using normal character widths
-* link:/commands/references/ashow/[`ashow`] - Add a uniform displacement to character widths
-* link:/commands/references/stringwidth/[`stringwidth`] - Measure normal text displacement
+* link:{site-baseurl}/commands/references/show/[`show`] - Paint text using normal character widths
+* link:{site-baseurl}/commands/references/ashow/[`ashow`] - Add a uniform displacement to character widths
+* link:{site-baseurl}/commands/references/stringwidth/[`stringwidth`] - Measure normal text displacement
 
 == PostScript Level
 

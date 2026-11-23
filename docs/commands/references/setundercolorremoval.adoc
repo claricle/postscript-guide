@@ -93,6 +93,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/setblackgeneration/[`setblackgeneration`] - Control the generated black component
-* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Specify an RGB color
-* link:/commands/references/setcmykcolor/[`setcmykcolor`] - Specify CMYK components directly
+* link:{site-baseurl}/commands/references/setblackgeneration/[`setblackgeneration`] - Control the generated black component
+* link:{site-baseurl}/commands/references/setrgbcolor/[`setrgbcolor`] - Specify an RGB color
+* link:{site-baseurl}/commands/references/setcmykcolor/[`setcmykcolor`] - Specify CMYK components directly

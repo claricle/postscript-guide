@@ -184,6 +184,6 @@ end
 
 == See Also
 
-* link:/usage/basic/[Basic Usage] - Start here first
-* link:/commands/[Command Reference] - All operators
-* link:/examples/[Examples] - Practical code
+* link:{site-baseurl}/usage/basic/[Basic Usage] - Start here first
+* link:{site-baseurl}/commands/[Command Reference] - All operators
+* link:{site-baseurl}/examples/[Examples] - Practical code

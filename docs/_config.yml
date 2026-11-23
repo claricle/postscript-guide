@@ -1,7 +1,10 @@
 title: "Claricle PostScript Language Guide"
 description: "Comprehensive documentation for the PostScript programming language, covering operators, syntax, and practical usage examples"
-# baseurl: "/postscript-guide"
-url: "https://claricle.github.io"
+# Site is served from https://www.claricle.org/postscript-guide/ (GitHub Pages
+# project site). All internal links in the AsciiDoc sources are written as
+# link:{site-baseurl}/... so they resolve under this base path.
+baseurl: "/postscript-guide"
+url: "https://www.claricle.org"
 
 # Repository
 repository: claricle/postscript-guide

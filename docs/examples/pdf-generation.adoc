@@ -990,10 +990,10 @@ PDF with comprehensive metadata:
 
 === See Also
 
-* link:/examples/hello-world/[Hello World] - Basic PostScript structure
-* link:/examples/image-manipulation/[Image Manipulation] - Working with images
-* link:/examples/text-layout/[Text Layout] - Document formatting
-* link:/levels/level-2/[Level 2] - Advanced features
-* link:/levels/level-3/[Level 3] - Latest capabilities
-* link:/examples/[More Examples]
-* link:/commands/[Command Reference]
+* link:{site-baseurl}/examples/hello-world/[Hello World] - Basic PostScript structure
+* link:{site-baseurl}/examples/image-manipulation/[Image Manipulation] - Working with images
+* link:{site-baseurl}/examples/text-layout/[Text Layout] - Document formatting
+* link:{site-baseurl}/levels/level-2/[Level 2] - Advanced features
+* link:{site-baseurl}/levels/level-3/[Level 3] - Latest capabilities
+* link:{site-baseurl}/examples/[More Examples]
+* link:{site-baseurl}/commands/[Command Reference]

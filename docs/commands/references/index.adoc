@@ -1,0 +1,274 @@
+---
+layout: default
+title: Command Reference
+parent: Commands
+nav_order: 20
+---
+:description: Alphabetical reference for all PostScript operators
+:keywords: postscript, operators, command reference, alphabetical
+
+== Command Reference
+
+[.lead]
+Complete alphabetical reference for all 195 PostScript operators.
+
+Operators are also organized by functional category under link:{site-baseurl}/commands/[Commands].
+
+=== A
+
+* link:{site-baseurl}/commands/references/abs/[`abs`]
+* link:{site-baseurl}/commands/references/add/[`add`]
+* link:{site-baseurl}/commands/references/aload/[`aload`]
+* link:{site-baseurl}/commands/references/anchorsearch/[`anchorsearch`]
+* link:{site-baseurl}/commands/references/and/[`and`]
+* link:{site-baseurl}/commands/references/arc/[`arc`]
+* link:{site-baseurl}/commands/references/arcn/[`arcn`]
+* link:{site-baseurl}/commands/references/arct/[`arct`]
+* link:{site-baseurl}/commands/references/arcto/[`arcto`]
+* link:{site-baseurl}/commands/references/array/[`array`]
+* link:{site-baseurl}/commands/references/ashow/[`ashow`]
+* link:{site-baseurl}/commands/references/astore/[`astore`]
+* link:{site-baseurl}/commands/references/atan/[`atan`]
+* link:{site-baseurl}/commands/references/awidthshow/[`awidthshow`]
+
+=== B
+
+* link:{site-baseurl}/commands/references/begin/[`begin`]
+* link:{site-baseurl}/commands/references/bitshift/[`bitshift`]
+* link:{site-baseurl}/commands/references/brackets/[`"`[` ... `]` (Array Brackets)"`]
+
+=== C
+
+* link:{site-baseurl}/commands/references/ceiling/[`ceiling`]
+* link:{site-baseurl}/commands/references/charpath/[`charpath`]
+* link:{site-baseurl}/commands/references/clear/[`clear`]
+* link:{site-baseurl}/commands/references/cleartomark/[`cleartomark`]
+* link:{site-baseurl}/commands/references/clip/[`clip`]
+* link:{site-baseurl}/commands/references/clippath/[`clippath`]
+* link:{site-baseurl}/commands/references/closepath/[`closepath`]
+* link:{site-baseurl}/commands/references/concat/[`concat`]
+* link:{site-baseurl}/commands/references/concatmatrix/[`concatmatrix`]
+* link:{site-baseurl}/commands/references/copy/[`copy`]
+* link:{site-baseurl}/commands/references/copypage/[`copypage`]
+* link:{site-baseurl}/commands/references/cos/[`cos`]
+* link:{site-baseurl}/commands/references/count/[`count`]
+* link:{site-baseurl}/commands/references/countdictstack/[`countdictstack`]
+* link:{site-baseurl}/commands/references/counttomark/[`counttomark`]
+* link:{site-baseurl}/commands/references/cshow/[`cshow`]
+* link:{site-baseurl}/commands/references/currentcmykcolor/[`currentcmykcolor`]
+* link:{site-baseurl}/commands/references/currentdash/[`currentdash`]
+* link:{site-baseurl}/commands/references/currentdict/[`currentdict`]
+* link:{site-baseurl}/commands/references/currentfont/[`currentfont`]
+* link:{site-baseurl}/commands/references/currentglobal/[`currentglobal`]
+* link:{site-baseurl}/commands/references/currentgray/[`currentgray`]
+* link:{site-baseurl}/commands/references/currentgstate/[`currentgstate`]
+* link:{site-baseurl}/commands/references/currenthsbcolor/[`currenthsbcolor`]
+* link:{site-baseurl}/commands/references/currentlinecap/[`currentlinecap`]
+* link:{site-baseurl}/commands/references/currentlinejoin/[`currentlinejoin`]
+* link:{site-baseurl}/commands/references/currentlinewidth/[`currentlinewidth`]
+* link:{site-baseurl}/commands/references/currentmatrix/[`currentmatrix`]
+* link:{site-baseurl}/commands/references/currentmiterlimit/[`currentmiterlimit`]
+* link:{site-baseurl}/commands/references/currentpagedevice/[`currentpagedevice`]
+* link:{site-baseurl}/commands/references/currentpoint/[`currentpoint`]
+* link:{site-baseurl}/commands/references/currentrgbcolor/[`currentrgbcolor`]
+* link:{site-baseurl}/commands/references/curveto/[`curveto`]
+* link:{site-baseurl}/commands/references/cvi/[`cvi`]
+* link:{site-baseurl}/commands/references/cvlit/[`cvlit`]
+* link:{site-baseurl}/commands/references/cvn/[`cvn`]
+* link:{site-baseurl}/commands/references/cvr/[`cvr`]
+* link:{site-baseurl}/commands/references/cvs/[`cvs`]
+* link:{site-baseurl}/commands/references/cvx/[`cvx`]
+
+=== D
+
+* link:{site-baseurl}/commands/references/def/[`def`]
+* link:{site-baseurl}/commands/references/defaultmatrix/[`defaultmatrix`]
+* link:{site-baseurl}/commands/references/definefont/[`definefont`]
+* link:{site-baseurl}/commands/references/dict/[`dict`]
+* link:{site-baseurl}/commands/references/dictstack/[`dictstack`]
+* link:{site-baseurl}/commands/references/div/[`div`]
+* link:{site-baseurl}/commands/references/dtransform/[`dtransform`]
+* link:{site-baseurl}/commands/references/dup/[`dup`]
+
+=== E
+
+* link:{site-baseurl}/commands/references/end/[`end`]
+* link:{site-baseurl}/commands/references/eoclip/[`eoclip`]
+* link:{site-baseurl}/commands/references/eofill/[`eofill`]
+* link:{site-baseurl}/commands/references/eq/[`eq`]
+* link:{site-baseurl}/commands/references/exch/[`exch`]
+* link:{site-baseurl}/commands/references/exec/[`exec`]
+* link:{site-baseurl}/commands/references/exit/[`exit`]
+* link:{site-baseurl}/commands/references/exp/[`exp`]
+
+=== F
+
+* link:{site-baseurl}/commands/references/false/[`"false"`]
+* link:{site-baseurl}/commands/references/fill/[`fill`]
+* link:{site-baseurl}/commands/references/filter/[`filter`]
+* link:{site-baseurl}/commands/references/findfont/[`findfont`]
+* link:{site-baseurl}/commands/references/floor/[`floor`]
+* link:{site-baseurl}/commands/references/for/[`for`]
+* link:{site-baseurl}/commands/references/forall/[`forall`]
+
+=== G
+
+* link:{site-baseurl}/commands/references/ge/[`ge`]
+* link:{site-baseurl}/commands/references/get/[`get`]
+* link:{site-baseurl}/commands/references/getinterval/[`getinterval`]
+* link:{site-baseurl}/commands/references/grestore/[`grestore`]
+* link:{site-baseurl}/commands/references/grestoreall/[`grestoreall`]
+* link:{site-baseurl}/commands/references/gsave/[`gsave`]
+* link:{site-baseurl}/commands/references/gstate/[`gstate`]
+* link:{site-baseurl}/commands/references/gt/[`gt`]
+
+=== I
+
+* link:{site-baseurl}/commands/references/identmatrix/[`identmatrix`]
+* link:{site-baseurl}/commands/references/idiv/[`idiv`]
+* link:{site-baseurl}/commands/references/idtransform/[`idtransform`]
+* link:{site-baseurl}/commands/references/if/[`if`]
+* link:{site-baseurl}/commands/references/ifelse/[`ifelse`]
+* link:{site-baseurl}/commands/references/initmatrix/[`initmatrix`]
+* link:{site-baseurl}/commands/references/invertmatrix/[`invertmatrix`]
+* link:{site-baseurl}/commands/references/itransform/[`itransform`]
+
+=== K
+
+* link:{site-baseurl}/commands/references/known/[`known`]
+* link:{site-baseurl}/commands/references/kshow/[`kshow`]
+
+=== L
+
+* link:{site-baseurl}/commands/references/le/[`le`]
+* link:{site-baseurl}/commands/references/length/[`length`]
+* link:{site-baseurl}/commands/references/lineto/[`lineto`]
+* link:{site-baseurl}/commands/references/ln/[`ln`]
+* link:{site-baseurl}/commands/references/load/[`load`]
+* link:{site-baseurl}/commands/references/log/[`log`]
+* link:{site-baseurl}/commands/references/loop/[`loop`]
+* link:{site-baseurl}/commands/references/lt/[`lt`]
+
+=== M
+
+* link:{site-baseurl}/commands/references/makefont/[`makefont`]
+* link:{site-baseurl}/commands/references/makepattern/[`makepattern`]
+* link:{site-baseurl}/commands/references/mark/[`mark`]
+* link:{site-baseurl}/commands/references/matrix/[`matrix`]
+* link:{site-baseurl}/commands/references/maxlength/[`maxlength`]
+* link:{site-baseurl}/commands/references/mod/[`mod`]
+* link:{site-baseurl}/commands/references/moveto/[`moveto`]
+* link:{site-baseurl}/commands/references/mul/[`mul`]
+
+=== N
+
+* link:{site-baseurl}/commands/references/ne/[`ne`]
+* link:{site-baseurl}/commands/references/neg/[`neg`]
+* link:{site-baseurl}/commands/references/newpath/[`newpath`]
+* link:{site-baseurl}/commands/references/not/[`not`]
+* link:{site-baseurl}/commands/references/nulldevice/[`nulldevice`]
+
+=== O
+
+* link:{site-baseurl}/commands/references/or/[`or`]
+
+=== P
+
+* link:{site-baseurl}/commands/references/packedarray/[`packedarray`]
+* link:{site-baseurl}/commands/references/pop/[`pop`]
+* link:{site-baseurl}/commands/references/psindex/[`index`]
+* link:{site-baseurl}/commands/references/put/[`put`]
+* link:{site-baseurl}/commands/references/putinterval/[`putinterval`]
+
+=== Q
+
+* link:{site-baseurl}/commands/references/quit/[`quit`]
+
+=== R
+
+* link:{site-baseurl}/commands/references/rand/[`rand`]
+* link:{site-baseurl}/commands/references/rcheck/[`rcheck`]
+* link:{site-baseurl}/commands/references/rcurveto/[`rcurveto`]
+* link:{site-baseurl}/commands/references/rectclip/[`rectclip`]
+* link:{site-baseurl}/commands/references/rectfill/[`rectfill`]
+* link:{site-baseurl}/commands/references/rectstroke/[`rectstroke`]
+* link:{site-baseurl}/commands/references/repeat/[`repeat`]
+* link:{site-baseurl}/commands/references/rlineto/[`rlineto`]
+* link:{site-baseurl}/commands/references/rmoveto/[`rmoveto`]
+* link:{site-baseurl}/commands/references/roll/[`roll`]
+* link:{site-baseurl}/commands/references/rotate/[`rotate`]
+* link:{site-baseurl}/commands/references/round/[`round`]
+* link:{site-baseurl}/commands/references/rrand/[`rrand`]
+
+=== S
+
+* link:{site-baseurl}/commands/references/scale/[`scale`]
+* link:{site-baseurl}/commands/references/scalefont/[`scalefont`]
+* link:{site-baseurl}/commands/references/search/[`search`]
+* link:{site-baseurl}/commands/references/setblackgeneration/[`setblackgeneration`]
+* link:{site-baseurl}/commands/references/setcmykcolor/[`setcmykcolor`]
+* link:{site-baseurl}/commands/references/setcolor/[`setcolor`]
+* link:{site-baseurl}/commands/references/setcolorspace/[`setcolorspace`]
+* link:{site-baseurl}/commands/references/setdash/[`setdash`]
+* link:{site-baseurl}/commands/references/setfont/[`setfont`]
+* link:{site-baseurl}/commands/references/setglobal/[`setglobal`]
+* link:{site-baseurl}/commands/references/setgray/[`setgray`]
+* link:{site-baseurl}/commands/references/setgstate/[`setgstate`]
+* link:{site-baseurl}/commands/references/sethalftone/[`sethalftone`]
+* link:{site-baseurl}/commands/references/sethsbcolor/[`sethsbcolor`]
+* link:{site-baseurl}/commands/references/setlinecap/[`setlinecap`]
+* link:{site-baseurl}/commands/references/setlinejoin/[`setlinejoin`]
+* link:{site-baseurl}/commands/references/setlinewidth/[`setlinewidth`]
+* link:{site-baseurl}/commands/references/setmatrix/[`setmatrix`]
+* link:{site-baseurl}/commands/references/setmiterlimit/[`setmiterlimit`]
+* link:{site-baseurl}/commands/references/setpacking/[`setpacking`]
+* link:{site-baseurl}/commands/references/setpagedevice/[`setpagedevice`]
+* link:{site-baseurl}/commands/references/setpattern/[`setpattern`]
+* link:{site-baseurl}/commands/references/setrgbcolor/[`setrgbcolor`]
+* link:{site-baseurl}/commands/references/setsmoothness/[`setsmoothness`]
+* link:{site-baseurl}/commands/references/setundercolorremoval/[`setundercolorremoval`]
+* link:{site-baseurl}/commands/references/shfill/[`shfill`]
+* link:{site-baseurl}/commands/references/show/[`show`]
+* link:{site-baseurl}/commands/references/showpage/[`showpage`]
+* link:{site-baseurl}/commands/references/sin/[`sin`]
+* link:{site-baseurl}/commands/references/sqrt/[`sqrt`]
+* link:{site-baseurl}/commands/references/srand/[`srand`]
+* link:{site-baseurl}/commands/references/stop/[`stop`]
+* link:{site-baseurl}/commands/references/stopped/[`stopped`]
+* link:{site-baseurl}/commands/references/store/[`store`]
+* link:{site-baseurl}/commands/references/string/[`string`]
+* link:{site-baseurl}/commands/references/stringwidth/[`stringwidth`]
+* link:{site-baseurl}/commands/references/stroke/[`stroke`]
+* link:{site-baseurl}/commands/references/strokepath/[`strokepath`]
+* link:{site-baseurl}/commands/references/sub/[`sub`]
+
+=== T
+
+* link:{site-baseurl}/commands/references/token/[`token`]
+* link:{site-baseurl}/commands/references/transform/[`transform`]
+* link:{site-baseurl}/commands/references/translate/[`translate`]
+* link:{site-baseurl}/commands/references/true/[`"true"`]
+* link:{site-baseurl}/commands/references/truncate/[`truncate`]
+* link:{site-baseurl}/commands/references/type/[`type`]
+
+=== U
+
+* link:{site-baseurl}/commands/references/ueofill/[`ueofill`]
+* link:{site-baseurl}/commands/references/ufill/[`ufill`]
+* link:{site-baseurl}/commands/references/undef/[`undef`]
+* link:{site-baseurl}/commands/references/undefinefont/[`undefinefont`]
+* link:{site-baseurl}/commands/references/ustroke/[`ustroke`]
+* link:{site-baseurl}/commands/references/ustrokepath/[`ustrokepath`]
+
+=== W
+
+* link:{site-baseurl}/commands/references/wcheck/[`wcheck`]
+* link:{site-baseurl}/commands/references/where/[`where`]
+* link:{site-baseurl}/commands/references/widthshow/[`widthshow`]
+
+=== X
+
+* link:{site-baseurl}/commands/references/xcheck/[`xcheck`]
+* link:{site-baseurl}/commands/references/xor/[`xor`]
+* link:{site-baseurl}/commands/references/xyshow/[`xyshow`]
+
