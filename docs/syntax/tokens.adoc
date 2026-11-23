@@ -257,7 +257,7 @@ These characters terminate tokens and have special meaning.
 
 === Token Parsing
 
-The link:/commands/references/token/[`token`] operator can be used to parse tokens from strings or files:
+The link:{site-baseurl}/commands/references/token/[`token`] operator can be used to parse tokens from strings or files:
 
 [source,postscript]
 ----
@@ -303,8 +303,8 @@ WARNING: *Name Length Limits* - While PostScript supports long names, keep them 
 
 === See Also
 
-* link:/syntax/strings/[Strings]
-* link:/syntax/arrays/[Arrays]
-* link:/syntax/dictionaries/[Dictionaries]
-* link:/syntax/data-types/[Data Types]
-* link:/commands/references/token/[token command]
+* link:{site-baseurl}/syntax/strings/[Strings]
+* link:{site-baseurl}/syntax/arrays/[Arrays]
+* link:{site-baseurl}/syntax/dictionaries/[Dictionaries]
+* link:{site-baseurl}/syntax/data-types/[Data Types]
+* link:{site-baseurl}/commands/references/token/[token command]

@@ -1048,9 +1048,9 @@ cache /key1 get  % Fast O(1) lookup
 
 === See Also
 
-* link:/usage/basic/arrays/[Arrays] - Array operations
-* link:/usage/basic/procedures/[Procedures] - Executable arrays
-* link:/syntax/dictionaries/[Dictionaries] - Dictionary syntax
-* link:/syntax/arrays/[Array Syntax] - Array syntax
-* link:/commands/references/[Dictionary Commands] - Dictionary operations
-* link:/commands/references/[Array Commands] - Array operations
+* link:{site-baseurl}/usage/basic/arrays/[Arrays] - Array operations
+* link:{site-baseurl}/usage/basic/procedures/[Procedures] - Executable arrays
+* link:{site-baseurl}/syntax/dictionaries/[Dictionaries] - Dictionary syntax
+* link:{site-baseurl}/syntax/arrays/[Array Syntax] - Array syntax
+* link:{site-baseurl}/commands/references/[Dictionary Commands] - Dictionary operations
+* link:{site-baseurl}/commands/references/[Array Commands] - Array operations

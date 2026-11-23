@@ -97,6 +97,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/setcolor/[`setcolor`] - Set components in the current space
-* link:/commands/references/setpattern/[`setpattern`] - Select a pattern
-* link:/commands/references/setrgbcolor/[`setrgbcolor`] - Select DeviceRGB and set its components
+* link:{site-baseurl}/commands/references/setcolor/[`setcolor`] - Set components in the current space
+* link:{site-baseurl}/commands/references/setpattern/[`setpattern`] - Select a pattern
+* link:{site-baseurl}/commands/references/setrgbcolor/[`setrgbcolor`] - Select DeviceRGB and set its components

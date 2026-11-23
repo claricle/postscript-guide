@@ -106,8 +106,8 @@ WARNING: Right shift only works correctly for positive integers.
 
 == Related Commands
 
-* link:/commands/references/mul/[`mul`] - Multiplication
-* link:/commands/references/idiv/[`idiv`] - Integer division
+* link:{site-baseurl}/commands/references/mul/[`mul`] - Multiplication
+* link:{site-baseurl}/commands/references/idiv/[`idiv`] - Integer division
 
 == PostScript Level
 
@@ -129,4 +129,4 @@ One or both operands are not integers.
 
 == See Also
 
-* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:{site-baseurl}/commands/references/[Arithmetic and Math] - All arithmetic operators

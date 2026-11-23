@@ -10,29 +10,29 @@ Common PostScript terminology and concepts.
 
 === A
 
-**Array**:: An ordered collection of PostScript objects. Arrays can contain any type of object and are created using `[` and `]` brackets or the link:/commands/references/array/[`array`] operator.
+**Array**:: An ordered collection of PostScript objects. Arrays can contain any type of object and are created using `[` and `]` brackets or the link:{site-baseurl}/commands/references/array/[`array`] operator.
 
 **ASCII**:: American Standard Code for Information Interchange. PostScript files are typically encoded in ASCII for portability.
 
 === B
 
-**Bézier Curve**:: A smooth curve defined by control points, created with the link:/commands/references/curveto/[`curveto`] operator.
+**Bézier Curve**:: A smooth curve defined by control points, created with the link:{site-baseurl}/commands/references/curveto/[`curveto`] operator.
 
 **BoundingBox**:: The rectangular area that encloses all marks on a page, specified in the document's header comments.
 
 === C
 
-**Clipping Path**:: A path that restricts where subsequent painting operations can mark the page. Set with link:/commands/references/clip/[`clip`] or link:/commands/references/eoclip/[`eoclip`].
+**Clipping Path**:: A path that restricts where subsequent painting operations can mark the page. Set with link:{site-baseurl}/commands/references/clip/[`clip`] or link:{site-baseurl}/commands/references/eoclip/[`eoclip`].
 
-**Current Point**:: The position in user space where the next path construction operator will begin. Set by link:/commands/references/moveto/[`moveto`] and updated by path construction operators.
+**Current Point**:: The position in user space where the next path construction operator will begin. Set by link:{site-baseurl}/commands/references/moveto/[`moveto`] and updated by path construction operators.
 
-**CTM (Current Transformation Matrix)**:: The matrix that transforms from user space to device space. Modified by link:/commands/references/translate/[`translate`], link:/commands/references/rotate/[`rotate`], and link:/commands/references/scale/[`scale`].
+**CTM (Current Transformation Matrix)**:: The matrix that transforms from user space to device space. Modified by link:{site-baseurl}/commands/references/translate/[`translate`], link:{site-baseurl}/commands/references/rotate/[`rotate`], and link:{site-baseurl}/commands/references/scale/[`scale`].
 
 === D
 
 **Device Space**:: The coordinate system of the output device, measured in device pixels.
 
-**Dictionary**:: A PostScript data structure that associates keys with values. Created with link:/commands/references/dict/[`dict`].
+**Dictionary**:: A PostScript data structure that associates keys with values. Created with link:{site-baseurl}/commands/references/dict/[`dict`].
 
 **DSC (Document Structuring Conventions)**:: Comments in PostScript files that provide document structure information, starting with `%%`.
 
@@ -44,9 +44,9 @@ Common PostScript terminology and concepts.
 
 === F
 
-**Fill**:: The operation of painting the interior of a path with the current color, using link:/commands/references/fill/[`fill`] or link:/commands/references/eofill/[`eofill`].
+**Fill**:: The operation of painting the interior of a path with the current color, using link:{site-baseurl}/commands/references/fill/[`fill`] or link:{site-baseurl}/commands/references/eofill/[`eofill`].
 
-**Font**:: A collection of character shapes (glyphs) with associated metrics. Accessed with link:/commands/references/findfont/[`findfont`] and activated with link:/commands/references/setfont/[`setfont`].
+**Font**:: A collection of character shapes (glyphs) with associated metrics. Accessed with link:{site-baseurl}/commands/references/findfont/[`findfont`] and activated with link:{site-baseurl}/commands/references/setfont/[`setfont`].
 
 === G
 
@@ -64,7 +64,7 @@ Common PostScript terminology and concepts.
 
 === M
 
-**Mark**:: A special object used to delimit arrays and mark positions on the operand stack. Created with link:/commands/references/mark/[`mark`] or `[`.
+**Mark**:: A special object used to delimit arrays and mark positions on the operand stack. Created with link:{site-baseurl}/commands/references/mark/[`mark`] or `[`.
 
 === N
 
@@ -78,9 +78,9 @@ Common PostScript terminology and concepts.
 
 === P
 
-**Packed Array**:: A more memory-efficient, read-only form of array introduced in PostScript Level 2. Created with link:/commands/references/packedarray/[`packedarray`].
+**Packed Array**:: A more memory-efficient, read-only form of array introduced in PostScript Level 2. Created with link:{site-baseurl}/commands/references/packedarray/[`packedarray`].
 
-**Path**:: A sequence of connected and disconnected subpaths that describe shapes. Constructed with operators like link:/commands/references/moveto/[`moveto`] and link:/commands/references/lineto/[`lineto`].
+**Path**:: A sequence of connected and disconnected subpaths that describe shapes. Constructed with operators like link:{site-baseurl}/commands/references/moveto/[`moveto`] and link:{site-baseurl}/commands/references/lineto/[`lineto`].
 
 **Point**:: A unit of measurement equal to 1/72 of an inch.
 
@@ -96,9 +96,9 @@ Common PostScript terminology and concepts.
 
 **Stack**:: A last-in, first-out (LIFO) data structure. PostScript uses multiple stacks including the operand stack, dictionary stack, and execution stack.
 
-**Stroke**:: The operation of painting along a path with the current line width and color, using link:/commands/references/stroke/[`stroke`].
+**Stroke**:: The operation of painting along a path with the current line width and color, using link:{site-baseurl}/commands/references/stroke/[`stroke`].
 
-**String**:: A sequence of bytes, typically representing text. Created with parentheses `()` or the link:/commands/references/string/[`string`] operator.
+**String**:: A sequence of bytes, typically representing text. Created with parentheses `()` or the link:{site-baseurl}/commands/references/string/[`string`] operator.
 
 === T
 
@@ -116,6 +116,6 @@ Common PostScript terminology and concepts.
 
 === See Also
 
-* link:/syntax/[Language Syntax]
-* link:/commands/[Command Reference]
-* link:/levels/[PostScript Levels]
+* link:{site-baseurl}/syntax/[Language Syntax]
+* link:{site-baseurl}/commands/[Command Reference]
+* link:{site-baseurl}/levels/[PostScript Levels]

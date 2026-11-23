@@ -88,8 +88,8 @@ num log real
 
 == Related Commands
 
-* link:/commands/references/ln/[`ln`] - Natural logarithm (base e)
-* link:/commands/references/exp/[`exp`] - Exponentiation
+* link:{site-baseurl}/commands/references/ln/[`ln`] - Natural logarithm (base e)
+* link:{site-baseurl}/commands/references/exp/[`exp`] - Exponentiation
 
 == PostScript Level
 
@@ -114,4 +114,4 @@ The operand is zero or negative.
 
 == See Also
 
-* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:{site-baseurl}/commands/references/[Arithmetic and Math] - All arithmetic operators

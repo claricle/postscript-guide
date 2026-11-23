@@ -18,26 +18,26 @@ This category contains PostScript operators for color.
 |===
 | Command | Description
 
-| link:/commands/references/setcolorspace/[`setcolorspace`]
+| link:{site-baseurl}/commands/references/setcolorspace/[`setcolorspace`]
 | Select the current color space (Level 2)
 
-| link:/commands/references/setcolor/[`setcolor`]
+| link:{site-baseurl}/commands/references/setcolor/[`setcolor`]
 | Set the color in the current color space (Level 2)
 
-| link:/commands/references/makepattern/[`makepattern`]
+| link:{site-baseurl}/commands/references/makepattern/[`makepattern`]
 | Create a pattern instance from a dictionary and matrix (Level 2)
 
-| link:/commands/references/setpattern/[`setpattern`]
+| link:{site-baseurl}/commands/references/setpattern/[`setpattern`]
 | Select a pattern as the current painting color (Level 2)
 
-| link:/commands/references/setblackgeneration/[`setblackgeneration`]
+| link:{site-baseurl}/commands/references/setblackgeneration/[`setblackgeneration`]
 | Set black generation for RGB-to-CMYK conversion (Level 2)
 
-| link:/commands/references/setundercolorremoval/[`setundercolorremoval`]
+| link:{site-baseurl}/commands/references/setundercolorremoval/[`setundercolorremoval`]
 | Set undercolor removal for RGB-to-CMYK conversion (Level 2)
 |===
 
 == See Also
 
-* link:/commands/[Command Reference Overview]
-* link:/syntax/[Language Syntax]
+* link:{site-baseurl}/commands/[Command Reference Overview]
+* link:{site-baseurl}/syntax/[Language Syntax]

@@ -48,9 +48,9 @@ true true xor  % false
 
 == Related Commands
 
-* link:/commands/references/and/[`and`] - Logical and bitwise operation
-* link:/commands/references/or/[`or`] - Logical and bitwise operation
-* link:/commands/references/not/[`not`] - Logical and bitwise operation
+* link:{site-baseurl}/commands/references/and/[`and`] - Logical and bitwise operation
+* link:{site-baseurl}/commands/references/or/[`or`] - Logical and bitwise operation
+* link:{site-baseurl}/commands/references/not/[`not`] - Logical and bitwise operation
 
 == PostScript Level
 

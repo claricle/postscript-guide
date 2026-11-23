@@ -101,6 +101,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/setcolorspace/[`setcolorspace`] - Select the color space
-* link:/commands/references/makepattern/[`makepattern`] - Create a pattern instance
-* link:/commands/references/setpattern/[`setpattern`] - Select a Pattern space and color together
+* link:{site-baseurl}/commands/references/setcolorspace/[`setcolorspace`] - Select the color space
+* link:{site-baseurl}/commands/references/makepattern/[`makepattern`] - Create a pattern instance
+* link:{site-baseurl}/commands/references/setpattern/[`setpattern`] - Select a Pattern space and color together

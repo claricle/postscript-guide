@@ -565,8 +565,8 @@ rgb2bgr      % Now: 0.0 0.5 1.0 (BGR)
 
 === See Also
 
-* link:/usage/basic/procedures/[Procedures] - Creating reusable code blocks
-* link:/usage/basic/arrays/[Arrays] - Working with array objects
-* link:/commands/[Command Reference] - Complete operator reference
-* link:/syntax/operators/[Operators] - Operator syntax details
-* link:/usage/debugging/[Debugging] - Debugging techniques
+* link:{site-baseurl}/usage/basic/procedures/[Procedures] - Creating reusable code blocks
+* link:{site-baseurl}/usage/basic/arrays/[Arrays] - Working with array objects
+* link:{site-baseurl}/commands/[Command Reference] - Complete operator reference
+* link:{site-baseurl}/syntax/operators/[Operators] - Operator syntax details
+* link:{site-baseurl}/usage/debugging/[Debugging] - Debugging techniques

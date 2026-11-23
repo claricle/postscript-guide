@@ -28,13 +28,13 @@ Terminates operation of the PostScript interpreter.
 
 === Description
 
-link:/commands/references/quit/[`quit`] terminates operation of the PostScript interpreter. The precise action depends on the environment:
+link:{site-baseurl}/commands/references/quit/[`quit`] terminates operation of the PostScript interpreter. The precise action depends on the environment:
 
 * May return control to operating system
 * May halt or restart the machine
 * In multi-context systems (DPS): terminates current context only
 
-In job server environments, link:/commands/references/quit/[`quit`] in `userdict` is usually redefined to mean link:/commands/references/stop/[`stop`] (terminate job, not interpreter).
+In job server environments, link:{site-baseurl}/commands/references/quit/[`quit`] in `userdict` is usually redefined to mean link:{site-baseurl}/commands/references/stop/[`stop`] (terminate job, not interpreter).
 
 === PostScript Level
 
@@ -96,7 +96,7 @@ quit  % Usually stops job, not interpreter
 systemdict /quit get exec  % Actually quits
 ----
 
-WARNING: *Immediate Termination* - link:/commands/references/quit/[`quit`] terminates immediately, no cleanup.
+WARNING: *Immediate Termination* - link:{site-baseurl}/commands/references/quit/[`quit`] terminates immediately, no cleanup.
 
 [source,postscript]
 ----
@@ -108,7 +108,7 @@ WARNING: *Immediate Termination* - link:/commands/references/quit/[`quit`] termi
 } if
 ----
 
-TIP: *Use stop in Jobs* - In encapsulated jobs, use link:/commands/references/stop/[`stop`] instead of link:/commands/references/quit/[`quit`].
+TIP: *Use stop in Jobs* - In encapsulated jobs, use link:{site-baseurl}/commands/references/stop/[`stop`] instead of link:{site-baseurl}/commands/references/quit/[`quit`].
 
 === Error Conditions
 
@@ -145,6 +145,6 @@ end
 
 === See Also
 
-* link:/commands/references/stop/[`stop`] - Terminate stopped context
-* link:/commands/references/exit/[`exit`] - Exit loop
-* link:/commands/references/stopped/[`stopped`] - Error catching
+* link:{site-baseurl}/commands/references/stop/[`stop`] - Terminate stopped context
+* link:{site-baseurl}/commands/references/exit/[`exit`] - Exit loop
+* link:{site-baseurl}/commands/references/stopped/[`stopped`] - Error catching

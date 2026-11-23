@@ -891,15 +891,15 @@ idx 0 ge idx arr length lt and {
 
 === See Also
 
-* link:/syntax/procedures/[Procedures] - Executable arrays
-* link:/syntax/objects/[Objects] - Composite object model
-* link:/syntax/strings/[Strings] - Similar indexed structure
-* link:/syntax/data-types/[Data Types] - Array type details
-* link:/commands/references/array/[array] - Create arrays
-* link:/commands/references/aload/[aload] - Unpack arrays
-* link:/commands/references/astore/[astore] - Pack arrays
-* link:/commands/references/get/[get] - Access elements
-* link:/commands/references/put/[put] - Modify elements
-* link:/commands/references/forall/[forall] - Iterate arrays
-* link:/usage/basic/arrays/[Arrays Usage Guide]
-* link:/syntax/[Language Syntax Overview]
+* link:{site-baseurl}/syntax/procedures/[Procedures] - Executable arrays
+* link:{site-baseurl}/syntax/objects/[Objects] - Composite object model
+* link:{site-baseurl}/syntax/strings/[Strings] - Similar indexed structure
+* link:{site-baseurl}/syntax/data-types/[Data Types] - Array type details
+* link:{site-baseurl}/commands/references/array/[array] - Create arrays
+* link:{site-baseurl}/commands/references/aload/[aload] - Unpack arrays
+* link:{site-baseurl}/commands/references/astore/[astore] - Pack arrays
+* link:{site-baseurl}/commands/references/get/[get] - Access elements
+* link:{site-baseurl}/commands/references/put/[put] - Modify elements
+* link:{site-baseurl}/commands/references/forall/[forall] - Iterate arrays
+* link:{site-baseurl}/usage/basic/arrays/[Arrays Usage Guide]
+* link:{site-baseurl}/syntax/[Language Syntax Overview]

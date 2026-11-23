@@ -50,10 +50,10 @@ grestore
 
 == Related Commands
 
-* link:/commands/references/showpage/[`showpage`] - Output a page
-* link:/commands/references/copypage/[`copypage`] - Copy a page
-* link:/commands/references/gsave/[`gsave`] - Save the graphics state
-* link:/commands/references/grestore/[`grestore`] - Restore the previous graphics state
+* link:{site-baseurl}/commands/references/showpage/[`showpage`] - Output a page
+* link:{site-baseurl}/commands/references/copypage/[`copypage`] - Copy a page
+* link:{site-baseurl}/commands/references/gsave/[`gsave`] - Save the graphics state
+* link:{site-baseurl}/commands/references/grestore/[`grestore`] - Restore the previous graphics state
 
 == PostScript Level
 

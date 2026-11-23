@@ -37,7 +37,7 @@ Returns current line join style.
 
 === Description
 
-link:/commands/references/currentlinejoin/[`currentlinejoin`] returns the current line join parameter from the graphics state. This is the value most recently set by link:/commands/references/setlinejoin/[`setlinejoin`].
+link:{site-baseurl}/commands/references/currentlinejoin/[`currentlinejoin`] returns the current line join parameter from the graphics state. This is the value most recently set by link:{site-baseurl}/commands/references/setlinejoin/[`setlinejoin`].
 
 **Join styles:**
 
@@ -180,8 +180,8 @@ Bevel (2):    ╱─╲
 
 === See Also
 
-* link:/commands/references/setlinejoin/[`setlinejoin`] - Set line join style
-* link:/commands/references/currentlinecap/[`currentlinecap`] - Get line cap style
-* link:/commands/references/currentlinewidth/[`currentlinewidth`] - Get line width
-* link:/commands/references/currentmiterlimit/[`currentmiterlimit`] - Get miter limit
-* link:/commands/references/setmiterlimit/[`setmiterlimit`] - Set miter limit
+* link:{site-baseurl}/commands/references/setlinejoin/[`setlinejoin`] - Set line join style
+* link:{site-baseurl}/commands/references/currentlinecap/[`currentlinecap`] - Get line cap style
+* link:{site-baseurl}/commands/references/currentlinewidth/[`currentlinewidth`] - Get line width
+* link:{site-baseurl}/commands/references/currentmiterlimit/[`currentmiterlimit`] - Get miter limit
+* link:{site-baseurl}/commands/references/setmiterlimit/[`setmiterlimit`] - Set miter limit

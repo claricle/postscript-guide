@@ -18,9 +18,11 @@ jobs:
         bundler-cache: true
 
     - name: Build site
+      # Mirror the production deployment shape:
+      # https://www.claricle.org/postscript-guide/ (baseurl in docs/_config.yml)
       env:
         JEKYLL_ENV: production
-      run: bundle exec jekyll build --trace
+      run: bundle exec jekyll build --trace --baseurl /postscript-guide
       working-directory: docs
 
     - name: Restore lychee cache
@@ -30,28 +32,35 @@ jobs:
         key: cache-lychee-${{ github.sha }}
         restore-keys: cache-lychee-
 
-    - name: Check if site was built
+    - name: Lay out site under its production base path
+      # The built site nests under a directory named after the base path so
+      # that absolute hrefs (/postscript-guide/...) resolve on the filesystem,
+      # exactly as they do on the live site.
       run: |
         if [ ! -d "_site" ]; then
           echo "Error: _site directory not created"
           exit 1
         fi
         echo "Site built successfully"
-        ls -la _site/
+        mkdir -p .linkcheck
+        mv _site .linkcheck/postscript-guide
+        ls -la .linkcheck/postscript-guide/ | head
       working-directory: docs
 
     - name: Link Checker (Built Site)
       uses: lycheeverse/lychee-action@v2
       with:
         # Check the built HTML site for rendered links
-        # Set base URL to _site directory for Jekyll baseurl resolution
+        # Absolute local hrefs (/postscript-guide/...) resolve against
+        # --root-dir; in-page fragment hrefs resolve against the checked file
+        # itself. (--base-url is deliberately not set: it would make lychee
+        # resolve fragment-only hrefs against the base instead of the page.)
         args: >-
           --verbose
           --no-progress
           --config lychee.toml
-          --root-dir "$(pwd)/_site"
-          --base-url file://${{ github.workspace }}/docs/_site
-          '_site/**/*.html'
+          --root-dir "$(pwd)/.linkcheck"
+          '.linkcheck/postscript-guide/**/*.html'
         fail: true
         output: link-check-results.md
         format: markdown

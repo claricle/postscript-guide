@@ -46,7 +46,7 @@ initial increment limit proc for → –
 
 === Description
 
-link:/commands/references/for/[`for`] executes _proc_ repeatedly, passing it a sequence of values from _initial_ by steps of _increment_ to _limit_.
+link:{site-baseurl}/commands/references/for/[`for`] executes _proc_ repeatedly, passing it a sequence of values from _initial_ by steps of _increment_ to _limit_.
 
 The operator maintains an internal control variable:
 1. Sets control variable to _initial_
@@ -161,7 +161,7 @@ WARNING: *Increment Sign Matters* - Positive increment counts up, negative count
 5 -1 1 { } for % Executes: 5, 4, 3, 2, 1
 ----
 
-TIP: *Early Exit* - Use link:/commands/references/exit/[`exit`] to terminate loop early.
+TIP: *Early Exit* - Use link:{site-baseurl}/commands/references/exit/[`exit`] to terminate loop early.
 
 === Error Conditions
 
@@ -192,19 +192,19 @@ TIP: *Early Exit* - Use link:/commands/references/exit/[`exit`] to terminate loo
 |===
 | Loop | Best For | Control Variable
 
-| link:/commands/references/for/[`for`]
+| link:{site-baseurl}/commands/references/for/[`for`]
 | Numeric sequences
 | Yes
 
-| link:/commands/references/repeat/[`repeat`]
+| link:{site-baseurl}/commands/references/repeat/[`repeat`]
 | Fixed count, no variable needed
 | No
 
-| link:/commands/references/loop/[`loop`]
+| link:{site-baseurl}/commands/references/loop/[`loop`]
 | Indefinite/conditional termination
 | No
 
-| link:/commands/references/forall/[`forall`]
+| link:{site-baseurl}/commands/references/forall/[`forall`]
 | Collection iteration
 | Yes (element)
 |===
@@ -227,8 +227,8 @@ TIP: *Early Exit* - Use link:/commands/references/exit/[`exit`] to terminate loo
 
 === See Also
 
-* link:/commands/references/repeat/[`repeat`] - Fixed repetition
-* link:/commands/references/loop/[`loop`] - Indefinite loop
-* link:/commands/references/exit/[`exit`] - Exit loop early
-* link:/commands/references/forall/[`forall`] - Iterate collections
-* link:/commands/references/if/[`if`] / link:/commands/references/ifelse/[`ifelse`] - Conditionals
+* link:{site-baseurl}/commands/references/repeat/[`repeat`] - Fixed repetition
+* link:{site-baseurl}/commands/references/loop/[`loop`] - Indefinite loop
+* link:{site-baseurl}/commands/references/exit/[`exit`] - Exit loop early
+* link:{site-baseurl}/commands/references/forall/[`forall`] - Iterate collections
+* link:{site-baseurl}/commands/references/if/[`if`] / link:{site-baseurl}/commands/references/ifelse/[`ifelse`] - Conditionals

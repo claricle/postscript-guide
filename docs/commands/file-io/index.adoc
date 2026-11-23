@@ -18,11 +18,11 @@ This category contains PostScript operators for file io.
 |===
 | Command | Description
 
-| link:/commands/references/filter/[`filter`]
+| link:{site-baseurl}/commands/references/filter/[`filter`]
 | Create a file that encodes or decodes data as it is written or read (Level 2)
 |===
 
 == See Also
 
-* link:/commands/[Command Reference Overview]
-* link:/syntax/[Language Syntax]
+* link:{site-baseurl}/commands/[Command Reference Overview]
+* link:{site-baseurl}/syntax/[Language Syntax]

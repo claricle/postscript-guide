@@ -91,6 +91,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/setsmoothness/[`setsmoothness`] - Set shading color tolerance
-* link:/commands/references/rectclip/[`rectclip`] - Restrict painting to a rectangle
-* link:/commands/references/makepattern/[`makepattern`] - Create a reusable shading pattern
+* link:{site-baseurl}/commands/references/setsmoothness/[`setsmoothness`] - Set shading color tolerance
+* link:{site-baseurl}/commands/references/rectclip/[`rectclip`] - Restrict painting to a rectangle
+* link:{site-baseurl}/commands/references/makepattern/[`makepattern`] - Create a reusable shading pattern

@@ -17,32 +17,32 @@ All PostScript operators organized by functional category.
 
 === Stack Manipulation
 
-link:/commands/references/[View all stack commands →]
+link:{site-baseurl}/commands/references/[View all stack commands →]
 
 === Arithmetic and Math
 
-link:/commands/references/[View all math commands →]
+link:{site-baseurl}/commands/references/[View all math commands →]
 
 === Array and String Operations
 
-link:/commands/references/[View all array/string commands →]
+link:{site-baseurl}/commands/references/[View all array/string commands →]
 
 === Dictionary Operations
 
-link:/commands/references/[View all dictionary commands →]
+link:{site-baseurl}/commands/references/[View all dictionary commands →]
 
 === Relational and Boolean
 
-link:/commands/relational-boolean/[View all relational and boolean commands →]
+link:{site-baseurl}/commands/relational-boolean/[View all relational and boolean commands →]
 
 === Control Flow
 
-link:/commands/references/[View all control flow commands →]
+link:{site-baseurl}/commands/references/[View all control flow commands →]
 
 === Virtual Memory
 
-link:/commands/vm/[View all virtual memory commands →]
+link:{site-baseurl}/commands/vm/[View all virtual memory commands →]
 
 === Graphics State
 
-link:/commands/references/[View all graphics state commands →]
+link:{site-baseurl}/commands/references/[View all graphics state commands →]

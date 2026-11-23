@@ -87,10 +87,10 @@ base exponent exp real
 
 == Related Commands
 
-* link:/commands/references/sqrt/[`sqrt`] - Square root
-* link:/commands/references/ln/[`ln`] - Natural logarithm
-* link:/commands/references/log/[`log`] - Base-10 logarithm
-* link:/commands/references/mul/[`mul`] - Multiplication
+* link:{site-baseurl}/commands/references/sqrt/[`sqrt`] - Square root
+* link:{site-baseurl}/commands/references/ln/[`ln`] - Natural logarithm
+* link:{site-baseurl}/commands/references/log/[`log`] - Base-10 logarithm
+* link:{site-baseurl}/commands/references/mul/[`mul`] - Multiplication
 
 == PostScript Level
 
@@ -114,4 +114,4 @@ Negative base with fractional exponent, or result out of range.
 
 == See Also
 
-* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:{site-baseurl}/commands/references/[Arithmetic and Math] - All arithmetic operators

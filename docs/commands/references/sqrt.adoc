@@ -178,8 +178,8 @@ WARNING: Negative arguments cause `rangecheck` error.
 
 == Related Commands
 
-* link:/commands/references/exp/[`exp`] - Exponentiation
-* link:/commands/references/mul/[`mul`] - Multiplication
+* link:{site-baseurl}/commands/references/exp/[`exp`] - Exponentiation
+* link:{site-baseurl}/commands/references/mul/[`mul`] - Multiplication
 
 == PostScript Level
 
@@ -203,4 +203,4 @@ The operand is negative.
 
 == See Also
 
-* link:/commands/references/[Arithmetic and Math] - All arithmetic operators
+* link:{site-baseurl}/commands/references/[Arithmetic and Math] - All arithmetic operators

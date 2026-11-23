@@ -94,6 +94,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/currentpagedevice/[`currentpagedevice`] - Inspect the effective device settings
-* link:/commands/references/showpage/[`showpage`] - Output a page
-* link:/commands/references/nulldevice/[`nulldevice`] - Select a device that discards painting
+* link:{site-baseurl}/commands/references/currentpagedevice/[`currentpagedevice`] - Inspect the effective device settings
+* link:{site-baseurl}/commands/references/showpage/[`showpage`] - Output a page
+* link:{site-baseurl}/commands/references/nulldevice/[`nulldevice`] - Select a device that discards painting

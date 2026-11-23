@@ -26,10 +26,10 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| link:/commands/references/if/[`if`]
+| link:{site-baseurl}/commands/references/if/[`if`]
 | Execute procedure if condition is true
 
-| link:/commands/references/ifelse/[`ifelse`]
+| link:{site-baseurl}/commands/references/ifelse/[`ifelse`]
 | Execute one of two procedures based on condition
 |===
 
@@ -39,16 +39,16 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| link:/commands/references/for/[`for`]
+| link:{site-baseurl}/commands/references/for/[`for`]
 | Loop with numeric control variable
 
-| link:/commands/references/repeat/[`repeat`]
+| link:{site-baseurl}/commands/references/repeat/[`repeat`]
 | Execute procedure a fixed number of times
 
-| link:/commands/references/loop/[`loop`]
+| link:{site-baseurl}/commands/references/loop/[`loop`]
 | Execute procedure indefinitely until exit
 
-| link:/commands/references/forall/[`forall`]
+| link:{site-baseurl}/commands/references/forall/[`forall`]
 | Iterate over array, string, or dictionary elements
 |===
 
@@ -58,16 +58,16 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| link:/commands/references/exit/[`exit`]
+| link:{site-baseurl}/commands/references/exit/[`exit`]
 | Terminate innermost loop early
 
-| link:/commands/references/stop/[`stop`]
+| link:{site-baseurl}/commands/references/stop/[`stop`]
 | Terminate stopped context
 
-| link:/commands/references/stopped/[`stopped`]
+| link:{site-baseurl}/commands/references/stopped/[`stopped`]
 | Execute object with error catching
 
-| link:/commands/references/quit/[`quit`]
+| link:{site-baseurl}/commands/references/quit/[`quit`]
 | Terminate interpreter
 |===
 
@@ -77,10 +77,10 @@ PostScript control flow operates through:
 |===
 | Command | Description
 
-| link:/commands/references/exec/[`exec`]
+| link:{site-baseurl}/commands/references/exec/[`exec`]
 | Execute an object
 
-| link:/commands/references/cvx/[`cvx`]
+| link:{site-baseurl}/commands/references/cvx/[`cvx`]
 | Convert to executable attribute
 |===
 
@@ -154,19 +154,19 @@ x 0 gt {
 |===
 | Loop Type | Use When | Control Variable
 
-| link:/commands/references/for/[`for`]
+| link:{site-baseurl}/commands/references/for/[`for`]
 | Numeric sequence needed
 | Yes
 
-| link:/commands/references/repeat/[`repeat`]
+| link:{site-baseurl}/commands/references/repeat/[`repeat`]
 | Simple fixed repetition
 | No
 
-| link:/commands/references/loop/[`loop`]
+| link:{site-baseurl}/commands/references/loop/[`loop`]
 | Indefinite looping
 | No
 
-| link:/commands/references/forall/[`forall`]
+| link:{site-baseurl}/commands/references/forall/[`forall`]
 | Iterating collections
 | Yes (element)
 |===
@@ -195,9 +195,9 @@ Control flow operators require procedures (executable arrays):
 
 === Loop Termination
 
-* link:/commands/references/exit/[`exit`] exits innermost loop only
-* link:/commands/references/stop/[`stop`] exits stopped context
-* Infinite loops possible with link:/commands/references/loop/[`loop`]
+* link:{site-baseurl}/commands/references/exit/[`exit`] exits innermost loop only
+* link:{site-baseurl}/commands/references/stop/[`stop`] exits stopped context
+* Infinite loops possible with link:{site-baseurl}/commands/references/loop/[`loop`]
 
 === Stack Effects
 
@@ -221,6 +221,6 @@ TIP: *Use exit Carefully* - Only works within loop contexts (for, repeat, loop, 
 
 == See Also
 
-* link:/commands/references/[Dictionary Operations] - For scoping with begin/end
-* link:/commands/array-string/[Array Operations] - For forall iteration
+* link:{site-baseurl}/commands/references/[Dictionary Operations] - For scoping with begin/end
+* link:{site-baseurl}/commands/array-string/[Array Operations] - For forall iteration
 * Error Handling (to be documented) - For comprehensive error management

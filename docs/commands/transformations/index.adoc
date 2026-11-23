@@ -14,28 +14,28 @@ The PostScript coordinate transformation system provides powerful tools for mani
 
 ==== Basic Transformations
 
-* link:/commands/references/translate/[`translate`] - Move the origin
-* link:/commands/references/scale/[`scale`] - Change unit size
-* link:/commands/references/rotate/[`rotate`] - Rotate axes
-* link:/commands/references/concat/[`concat`] - Concatenate matrix with CTM
+* link:{site-baseurl}/commands/references/translate/[`translate`] - Move the origin
+* link:{site-baseurl}/commands/references/scale/[`scale`] - Change unit size
+* link:{site-baseurl}/commands/references/rotate/[`rotate`] - Rotate axes
+* link:{site-baseurl}/commands/references/concat/[`concat`] - Concatenate matrix with CTM
 
 ==== Matrix Operations
 
-* link:/commands/references/matrix/[`matrix`] - Create identity matrix
-* link:/commands/references/identmatrix/[`identmatrix`] - Replace matrix with identity
-* link:/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
-* link:/commands/references/currentmatrix/[`currentmatrix`] - Get current transformation matrix
-* link:/commands/references/setmatrix/[`setmatrix`] - Replace CTM with matrix
-* link:/commands/references/initmatrix/[`initmatrix`] - Reset CTM to default
-* link:/commands/references/concatmatrix/[`concatmatrix`] - Multiply two matrices
-* link:/commands/references/invertmatrix/[`invertmatrix`] - Invert a matrix
+* link:{site-baseurl}/commands/references/matrix/[`matrix`] - Create identity matrix
+* link:{site-baseurl}/commands/references/identmatrix/[`identmatrix`] - Replace matrix with identity
+* link:{site-baseurl}/commands/references/defaultmatrix/[`defaultmatrix`] - Get device default matrix
+* link:{site-baseurl}/commands/references/currentmatrix/[`currentmatrix`] - Get current transformation matrix
+* link:{site-baseurl}/commands/references/setmatrix/[`setmatrix`] - Replace CTM with matrix
+* link:{site-baseurl}/commands/references/initmatrix/[`initmatrix`] - Reset CTM to default
+* link:{site-baseurl}/commands/references/concatmatrix/[`concatmatrix`] - Multiply two matrices
+* link:{site-baseurl}/commands/references/invertmatrix/[`invertmatrix`] - Invert a matrix
 
 ==== Coordinate Transformations
 
-* link:/commands/references/transform/[`transform`] - Transform user→device coordinates
-* link:/commands/references/itransform/[`itransform`] - Transform device→user coordinates
-* link:/commands/references/dtransform/[`dtransform`] - Transform distance vector
-* link:/commands/references/idtransform/[`idtransform`] - Inverse transform distance vector
+* link:{site-baseurl}/commands/references/transform/[`transform`] - Transform user→device coordinates
+* link:{site-baseurl}/commands/references/itransform/[`itransform`] - Transform device→user coordinates
+* link:{site-baseurl}/commands/references/dtransform/[`dtransform`] - Transform distance vector
+* link:{site-baseurl}/commands/references/idtransform/[`idtransform`] - Inverse transform distance vector
 
 === Transformation Matrix
 
@@ -64,9 +64,9 @@ The identity matrix is `[1 0 0 1 0 0]`.
 
 The CTM maps user space coordinates to device space coordinates. It is part of the graphics state and is affected by:
 
-* link:/commands/references/gsave/[`gsave`] and link:/commands/references/grestore/[`grestore`]
+* link:{site-baseurl}/commands/references/gsave/[`gsave`] and link:{site-baseurl}/commands/references/grestore/[`grestore`]
 * Basic transformation commands
-* link:/commands/references/setmatrix/[`setmatrix`]
+* link:{site-baseurl}/commands/references/setmatrix/[`setmatrix`]
 
 === Common Operations
 

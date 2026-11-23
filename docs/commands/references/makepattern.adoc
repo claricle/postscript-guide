@@ -99,6 +99,6 @@ Common errors include the following; procedures and device operations can raise 
 
 === See Also
 
-* link:/commands/references/setpattern/[`setpattern`] - Select a pattern for painting
-* link:/commands/references/setcolor/[`setcolor`] - Use a pattern in a Pattern color space
-* link:/commands/references/matrix/[`matrix`] - Create an identity matrix
+* link:{site-baseurl}/commands/references/setpattern/[`setpattern`] - Select a pattern for painting
+* link:{site-baseurl}/commands/references/setcolor/[`setcolor`] - Use a pattern in a Pattern color space
+* link:{site-baseurl}/commands/references/matrix/[`matrix`] - Create an identity matrix
