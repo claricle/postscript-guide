@@ -9,6 +9,11 @@ on:
 jobs:
   link_checker:
     runs-on: ubuntu-latest
+    # issues: write lets the "Comment PR with results" step post its report
+    # (the default token is read-only and that step fails without it)
+    permissions:
+      contents: read
+      issues: write
     steps:
     - uses: actions/checkout@v4
 
